@@ -1,240 +1,239 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40953314DF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 12:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB2D337BBA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Nov 2025 14:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763640763; cv=none; b=OeQ/g3FjtdbQvIKmKuJ+0yzh184scKbDdBgQurJbcE1KN3+A72X7YkfW3FUeAmuGsljKuRB/Opv8UxwnVwmEfWHSLyFCTogkl7d0cylYBhT4LPVA7CtI7+9v/bWo2ZwMuUurH2DkJGZu/g+35eLSu5CJkA8gsLNoNM7YFu2QWn0=
+	t=1763648142; cv=none; b=PV28N+XUh54ahpGOkPzvH1Bg/fTTT2eB6IBW1XEFEPpvwLC8Q4UJgf0yB3jPov6a5MvNH4DW56Jcef4w0fRGHxjDwqhoGMgT2J7RSzKIclTequHuDtE+hFCw+SnRf5QhP9IzoX2y7EO017ls5kTR+T8j1ey+scEUmXNzuLSF4AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763640763; c=relaxed/simple;
-	bh=BRyQWGJjMOz8YXDkOmuCC5ztvh9GiLQSmG54+91Ic0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lR7YktSrymqSdXwO4fBuwu2a29cA+7xomGj8joqwk1Z0SXjUfWOpEp0lPkH8stSl4kuU7IktQ1V4RcKgqHUDg2/ht4AHSjOtE0hkjY3nWjtOGUs8jD06PYBWv1EBsK0RoxDZEF9HyLKvvF8+kildPRH/whQybU3upFMBM8xhlv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=lFeYJwuz; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1763648142; c=relaxed/simple;
+	bh=URcRCRZc27ATehNsnD5wCfBb0enqn8YbmGPfjxgsNAM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NlitLRKmBWGufY0mRHNslHKJNZ7ySX6lfBiOJ4ZA7zoRmP0nTox3VTX7f8OwEV39d8Xua64VTg9JIf04NanulqI6YS7U0DynisfW0O4azagTH8D3y2hYGJFv1ve9C4PCeIhpLC9MxMzkCJbxabEdzHWSZa8YZUeXdYOjH5h/hog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CuDDILJA; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="lFeYJwuz"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7F5F741003
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 12:12:41 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.898
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id p_GUXyd08UeW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 Nov 2025 12:12:40 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::530; helo=mail-ed1-x530.google.com; envelope-from=jiri@resnulli.us; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6EBCE41000
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6EBCE41000
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=lFeYJwuz
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6EBCE41000
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 12:12:37 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-640a503fbe8so1349327a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 20 Nov 2025 04:12:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CuDDILJA"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2955623e6faso11934445ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Nov 2025 06:15:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763640755; x=1764245555; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=igQkL0hwJSy+45hU8sboipK524syNZD4LXwpNdIPlK4=;
-        b=lFeYJwuziytljiB2j+uPZetQVv2/clI5RVVMwTUKHuUdG29+Kb43YjtSldEy1Q0S4g
-         6YJeYQzrDAFLgJKWJnC+WdhoLytrDKWyhgTrgI1/dBWsUh87IQOSBfy/w3/4ruYuishy
-         QIPIjM/jwMZWtxJlP2OlhgduPZm1mRLOh5hKSxu2/KRUUynX43Ir8nFXQ3hHGBSRx5kx
-         kSg4L6cN8QalhbiDz9kQTKNa8nq9Ypy1NpKiJfr3Q0bIgmXIbWhHOech8eR3S7tv2w/X
-         LtgkAyVshWW4GCDhZJ1LSeCjSjct4NPs1YRRUb3T/h5fZlNlLu2SzwP5HiRFh33sCNz2
-         HXAw==
+        d=gmail.com; s=20230601; t=1763648140; x=1764252940; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1w0vRPTrSQYB1FNs5Alcq6MmQhD4iwCtva78BRmz+fY=;
+        b=CuDDILJADbMeGSWLAwi8x0dHgCi87LlTS2AjDHGTdzPJTrU9sblQ2UGgz/5U0Iw4f8
+         AQ8DUX4Y85nJCzv1HqO3bpXUgf+LmjPsF/KIQ5YfBsZ4HCPdYS1ylJ/Sjs+vqfYZoQed
+         8D1qLwiLx2oMZqiOvDsf0+VQ0zGXgiEfdr3otFTE/cOk2cr6gL63NByP/RHuDW3iFq1c
+         I0OmhBG66TTav02wE6YsFqn7gUO78sUOstYti8EMRab+0OQocGg+u0yZFXZfhRoK+6aK
+         AVOQS3PED5KPn3WDurKcWeFEI9gbTAZOQ4e6bWMc/Ou7z07te67YTLCp5DX3Mj9A0uZs
+         WPpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763640755; x=1764245555;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=igQkL0hwJSy+45hU8sboipK524syNZD4LXwpNdIPlK4=;
-        b=tHYcif9V6v9G2Y8Rww1xNbQ4WC+J6z/hzx+iply+ZjzbUC+q9PhCuQUDO69p/mclv0
-         aasSc0+lAhP1OKboMRHJIHCk2JajrNBJTdmpu91bNfXeXY8u9hdVEG6Q9sYNpRd/8Y9s
-         968LxzxATGiVq/4fsBkam6kvyEkjqMq1KRo95PvxlAfit1UzZYIR0tNIAU5G85Eu8ENQ
-         CtSpyhtdxume7kpTRWLTw0Zy7MgE26J8awYJ2SQ3Emhom4ntEsZvKQ+gw95xe4CAUn7E
-         n7jpknczBBNyxlPMiCoMZcZSJc1Zzr9P6UmCjNzR6WCA+Or14eriGfDw/6hYwMV6YLuz
-         f8uA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5MJTGJ8wtmS7K8nXLO7oWPcvtreprlPjqMXJlz2R7rJOqE8PPzXC+ZJREJZTwnfOxaSfDwynTcLufyAgjkpoq372fDA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxB8U+YBiFBVXQLC8GXeWLx0tt6j0UCPIKpmGR3CkdXL9qZfZni
-	Mv2p1ftpjbkAYiX9FdUhrxMVd2bS1n2CbtL3Ywyt19ycG268IPllcVB0C62P/pxsEio=
-X-Gm-Gg: ASbGncvYKxqiGcggAL9HlK/5NvRmwgj+zHGmnV3i6k+o4fbwVMjwFjQ3tNYHIf0hxZV
-	h4d6gr8hhmFkaDTRL+80xpoF/mEGk+qVDNhg0gbvX8UF1EIFyOCFW3Oh+LRyKnQmLyzXhZv15K0
-	6YFof09PXjHn0nYMIY2Ik3UrmB6UMtJutCsdoT9oPpqeWsqn9ZCGJRMNALgb5OlCzkAz2KHjoiD
-	TPMM4kL9RAMcuYx01/5MSqzbvIizaYh5cUi8oQ1Kw2fdUS1jRqOLkKP5YbBOt1nx4hn1cOaedZK
-	YV4oQRx+oF02B/HPA6MDXwCnnWTORqu8clAaz793Yc7FLnEon+0zynE8sYNeQLrzZLhSJSb/J9F
-	k0n8PHpv0ulrD282G+In0fHUbOV4rjkcbMoGPLX+VCKExAfnBUDQ/I7O4ydxDkv7c+j2tlkvg2G
-	1e7H5NnxThbP/KSYwiRNs=
-X-Google-Smtp-Source: AGHT+IHEfjUDRSw3XsIoCGUJfKvzP1sM+MewmjFxvo0sdFUq9/jwQ57RTX6W6E/9W3zN5+Kf9XtZqg==
-X-Received: by 2002:a05:6402:3549:b0:63f:d245:aec4 with SMTP id 4fb4d7f45d1cf-64536467e18mr3136529a12.32.1763640755390;
-        Thu, 20 Nov 2025 04:12:35 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64536442993sm2075212a12.27.2025.11.20.04.12.34
+        d=1e100.net; s=20230601; t=1763648140; x=1764252940;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1w0vRPTrSQYB1FNs5Alcq6MmQhD4iwCtva78BRmz+fY=;
+        b=WBsVMHhi2OpVgwRBA5uOV5CTNVdm4ZZqKGjRP8REq5awiUbRjL/4bBnljWkmIJac5e
+         zzr1pqVp4KIgWw1jzfOUHqGIhzLe60nZzNlBAycIeICBSAr6kWH2C6E7rv31QSZUOqG2
+         G0AKIfyXRkv3vLLwsDExDfArTx/jFcfTGNIM5Q5FIiVObOnnS+wnM0gWK/fPKWg+JIj7
+         WyUmVArqAPtZ2lV256sigPKflbMAUcC91l+Zfo77Yl9sVecL0taDKviyj5HotBcu4mnu
+         9za3uQYRyrZaBBIVJYbJEtvv9lGLYsR/CrguxE7SExNbFUSz7QNhe1a5ZikNdF77o03q
+         Mtsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPxVVLWbg52gWN7H+s8IthE+EBkhBFwlJ6/xZeKR6pQKc3wuW6Gxi63wLzmV+WCv6T2jWCeTiI5zQO5+GACnXJ/vc2lA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlWQpR0lBJyRIrD8/usr45xlFqIbVOGSpiwh/sQa/PJB7B/gUi
+	ZQTqqdFhlup2Cr5a311LfswqxYq+nRPAy+QXi4hGcgmiEqPM5ysznoD5
+X-Gm-Gg: ASbGncs24WUP66h6hKXGp534ggUst7CjJo91fa25f6ubPoyYBK0FAZVkrhEDJSPc1uD
+	96bRtCncHehN4L6RVRe2FCbvQhwZyJNHTmpYp9Hux7YDZ/1Mdnda2xewTHyjIxZ9Hn7dhUFduVY
+	fZesjRSA+RQxUsUpI9/oyfsuyk/Uv3f//hNAVKbP3Nxv9ef3vj+RfqFsdfzPaIAEQ8LnByI4I44
+	iueW4p5M0V2f3E526jMupWaece3e46/QCVm4mE4wY6n6aSRML1AQMIx67VthXVS0faOLGevglyy
+	II/Txi9fYd5ZgRxmV+5P0tTqIeRsEUZsKwuBCHQi16O167/V5NeaG8BY6zOSnoJmYuxrcER5M1G
+	T89iOZI64k6yLbvPOnIp+/wNQgWpbHzxP3JZfQzickCeq89p1K2PXk1IdWVzQnfD34Hc15mm2zS
+	TTmgx2y0bs1DVZocZ1QUTyLJeGK8tKkq8=
+X-Google-Smtp-Source: AGHT+IHNdc6f9RQwfAmaKFzQBgZ1LixjzxJRn7eguePAU93WE2AGCr17VZU7UMlryHgGAufaRcg0Eg==
+X-Received: by 2002:a17:903:1b03:b0:295:9627:8cbd with SMTP id d9443c01a7336-29b5b0f760cmr43206965ad.33.1763648140012;
+        Thu, 20 Nov 2025 06:15:40 -0800 (PST)
+Received: from COB-LTR7HP24-497.. ([223.185.131.209])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b138bcbsm28442915ad.29.2025.11.20.06.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 04:12:34 -0800 (PST)
-Date: Thu, 20 Nov 2025 13:12:33 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v2] team: Move team device type change at the end of
- team_port_add
-Message-ID: <tdtkaqqlfivf4r4wxgoztv6ogzmp4dprbcz32psoj2sbtgphkg@bvwiovmnxtgi>
-References: <20251113211142.245216-1-zlatistiv@gmail.com>
- <gbashnabbmnsqwwno5rc4piiwkluriytfcnvfdejn4abwovfkl@furcaobquk5t>
- <kpcqanotwzhukk6oemmopw77m5v6lvbubikmk6gotfmwhezbnq@ofz2e2zq4mot>
+        Thu, 20 Nov 2025 06:15:39 -0800 (PST)
+From: I Viswanath <viswanathiyyappan@gmail.com>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	sdf@fomichev.me,
+	kuniyu@google.com,
+	skhawaja@google.com,
+	aleksander.lobakin@intel.com,
+	mst@redhat.com,
+	jasowang@redhat.com,
+	xuanzhuo@linux.alibaba.com,
+	eperezma@redhat.com
+Cc: virtualization@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	I Viswanath <viswanathiyyappan@gmail.com>
+Subject: [PATCH net-next v5 0/2] net: Split ndo_set_rx_mode into snapshot
+Date: Thu, 20 Nov 2025 19:43:52 +0530
+Message-Id: <20251120141354.355059-1-viswanathiyyappan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kpcqanotwzhukk6oemmopw77m5v6lvbubikmk6gotfmwhezbnq@ofz2e2zq4mot>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Wed, Nov 19, 2025 at 07:36:57PM +0100, zlatistiv@gmail.com wrote:
->On Wed, Nov 19, 2025 at 05:51:42PM +0100, Jiri Pirko wrote:
->> Thu, Nov 13, 2025 at 10:11:42PM +0100, zlatistiv@gmail.com wrote:
->> >Attempting to add a port device that is already up will expectedly fail,
->> >but not before modifying the team device header_ops.
->> >
->> >In the case of the syzbot reproducer the gre0 device is
->> >already in state UP when it attempts to add it as a
->> >port device of team0, this fails but before that
->> >header_ops->create of team0 is changed from eth_header to ipgre_header
->> >in the call to team_dev_type_check_change.
->> >
->> >Later when we end up in ipgre_header() struct *ip_tunnel points to nonsense
->> >as the private data of the device still holds a struct team.
->> >
->> >Example sequence of iproute commands to reproduce the hang/BUG():
->> >ip link add dev team0 type team
->> >ip link add dev gre0 type gre
->> >ip link set dev gre0 up
->> >ip link set dev gre0 master team0
->> >ip link set dev team0 up
->> >ping -I team0 1.1.1.1
->> >
->> >Move team_dev_type_check_change down where all other checks have passed
->> >as it changes the dev type with no way to restore it in case
->> >one of the checks that follow it fail.
->> >
->> >Also make sure to preserve the origial mtu assignment:
->> >  - If port_dev is not the same type as dev, dev takes mtu from port_dev
->> >  - If port_dev is the same type as dev, port_dev takes mtu from dev
->> >
->> >Testing:
->> >  - team device driver in-tree selftests
->> >  - Add/remove various devices as slaves of team device
->> >  - syzbot
->> >
->> >Reported-by: syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
->> >Closes: https://syzkaller.appspot.com/bug?extid=a2a3b519de727b0f7903
->> >Fixes: 1d76efe1577b ("team: add support for non-ethernet devices")
->> >Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
->> >---
->> >Changes since v1:
->> >  - Add a "Fixes" tag
->> >  - Add a simple reproducer in the commit log
->> >  https://lore.kernel.org/netdev/20251111171341.4c6d69be@kernel.org/T/#u
->> >
->> > drivers/net/team/team_core.c | 19 +++++++++++--------
->> > 1 file changed, 11 insertions(+), 8 deletions(-)
->> >
->> >diff --git a/drivers/net/team/team_core.c b/drivers/net/team/team_core.c
->> >index 29dc04c299a3..94c149e89231 100644
->> >--- a/drivers/net/team/team_core.c
->> >+++ b/drivers/net/team/team_core.c
->> >@@ -1134,10 +1134,6 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
->> > 		return -EPERM;
->> > 	}
->> > 
->> >-	err = team_dev_type_check_change(dev, port_dev);
->> >-	if (err)
->> >-		return err;
->> >-
->> > 	if (port_dev->flags & IFF_UP) {
->> > 		NL_SET_ERR_MSG(extack, "Device is up. Set it down before adding it as a team port");
->> > 		netdev_err(dev, "Device %s is up. Set it down before adding it as a team port\n",
->> >@@ -1155,10 +1151,12 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
->> > 	INIT_LIST_HEAD(&port->qom_list);
->> > 
->> > 	port->orig.mtu = port_dev->mtu;
->> >-	err = dev_set_mtu(port_dev, dev->mtu);
->> >-	if (err) {
->> >-		netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
->> >-		goto err_set_mtu;
->> >+	if (dev->type == port_dev->type) {
->> >+		err = dev_set_mtu(port_dev, dev->mtu);
->> 
->> I'm probably missing something. Why you made this conditional? Didn't
->> find mentioning that in patch description.
->> 
->
->Hi Jiri,
->
->This is related to keeping the original MTU assignment logic.
->
->Basically I see 2 cases:
->
->if dev->type == port_dev->type then team_dev_type_check_change will
->do nothing and dev_set_mtu will later assign port_dev->mtu = dev->mtu
->
->if dev->type != port_dev->type then team_dev_type_check_change will
->assign dev->mtu = port_dev->mtu and dev_set_mtu will do nothing
->as they will already be the same.
->
->Now since the patch moves the call to team_dev_type_check_change
->past dev_set_mtu it changes this logic.
->
->The conditional is there to maintain the original behavior.
->
->If necessary I can update the commit log to address this in
->more detail.
+This is an implementation of the idea provided by Jakub here
 
-Please do. Also, a brief comment at this check in the code it self would
-be certainly nice for the reader.
+https://lore.kernel.org/netdev/20250923163727.5e97abdb@kernel.org/
 
-Thanks!
+ndo_set_rx_mode is problematic because it cannot sleep. 
 
+To address this, this series proposes dividing the concept of setting
+rx_mode into 2 stages: snapshot and deferred I/O. To achieve this, we
+reinterpret set_rx_mode and add create a new ndo write_rx_mode as
+explained below:
 
->
->> 
->> 
->> >+		if (err) {
->> >+			netdev_dbg(dev, "Error %d calling dev_set_mtu\n", err);
->> >+			goto err_set_mtu;
->> >+		}
->> > 	}
->> > 
->> > 	memcpy(port->orig.dev_addr, port_dev->dev_addr, port_dev->addr_len);
->> >@@ -1233,6 +1231,10 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
->> > 		}
->> > 	}
->> > 
->> >+	err = team_dev_type_check_change(dev, port_dev);
->> >+	if (err)
->> >+		goto err_set_dev_type;
->> >+
->> > 	if (dev->flags & IFF_UP) {
->> > 		netif_addr_lock_bh(dev);
->> > 		dev_uc_sync_multiple(port_dev, dev);
->> >@@ -1251,6 +1253,7 @@ static int team_port_add(struct team *team, struct net_device *port_dev,
->> > 
->> > 	return 0;
->> > 
->> >+err_set_dev_type:
->> > err_set_slave_promisc:
->> > 	__team_option_inst_del_port(team, port);
->> > 
->> >-- 
->> >2.51.0
->> >
+The new set_rx_mode will be responsible for customizing the rx_mode
+snapshot which will be used by write_rx_mode to update the hardware
+
+In brief, the new flow looks something like:
+
+prepare_rx_mode():
+    ndo_set_rx_mode();
+    ready_snapshot();
+
+write_rx_mode():
+    commit_and_use_snapshot();
+    ndo_write_rx_mode();
+
+write_rx_mode() is called from a work item and doesn't hold the 
+netif_addr_lock lock during ndo_write_rx_mode() making it sleepable
+in that section.
+
+This model should work correctly if the following conditions hold:
+
+1. write_rx_mode should use the rx_mode set by the most recent
+    call to prepare_rx_mode before its execution.
+
+2. If a prepare_rx_mode call happens during execution of write_rx_mode,
+    write_rx_mode should be rescheduled.
+
+3. All calls to modify rx_mode should pass through the prepare_rx_mode +
+    schedule write_rx_mode execution flow. netif_rx_mode_schedule_work 
+    has been implemented in core for this.
+
+1 and 2 are guaranteed because of the properties of work queues
+
+Drivers need to ensure 3
+
+To use this model, a driver needs to implement the
+ndo_write_rx_mode callback, change the set_rx_mode callback
+appropriately and replace all calls to modify rx mode with
+netif_rx_mode_schedule_work
+
+Signed-off-by: I Viswanath <viswanathiyyappan@gmail.com>
+---
+Questions I have:
+
+1) Would there ever be a situation in which you will have to wait for I/O 
+to complete in a call to set_rx_mode before proceeding further? That is, 
+Does netif_rx_mode_schedule_work need the flush argument?
+
+2) Does priv_ptr in netif_rx_mode_config make sense? For virtio_net, I 
+can get the vi pointer by doing netdev_priv(dev) and am wondering 
+if this would be a common thing
+
+3) From a previous discussion: 
+https://lore.kernel.org/netdev/417c677f-268a-4163-b07e-deea8f9b9b40@intel.com/
+
+On Thu, 23 Oct 2025 at 05:16, Jacob Keller  wrote:
+> Is there any mechanism to make this guarantee either implemented or at
+> least verified by the core? If not that, what about some sort of way to
+> lint driver code and make sure its correct?
+
+I am not sure how to automate this but basically we need warnings to be 
+generated when the the set_rx_mode implementations are called statically in 
+code (From my understanding, usually in the open callback or the timeout function) 
+but not when they are called through ops->set_rx_mode. 
+Can Coccinelle do something like this?
+
+v1:
+Link: https://lore.kernel.org/netdev/20251020134857.5820-1-viswanathiyyappan@gmail.com/
+
+v2:
+- Exported set_and_schedule_rx_config as a symbol for use in modules
+- Fixed incorrect cleanup for the case of rx_work alloc failing in alloc_netdev_mqs
+- Removed the locked version (cp_set_rx_mode) and renamed __cp_set_rx_mode to cp_set_rx_mode
+Link: https://lore.kernel.org/netdev/20251026175445.1519537-1-viswanathiyyappan@gmail.com/
+
+v3:
+- Added RFT tag
+- Corrected mangled patch
+Link: https://lore.kernel.org/netdev/20251028174222.1739954-1-viswanathiyyappan@gmail.com/
+
+v4:
+- Completely reworked the snapshot mechanism as per v3 comments
+- Implemented the callback for virtio-net instead of 8139cp driver
+- Removed RFC tag
+Link: https://lore.kernel.org/netdev/20251118164333.24842-1-viswanathiyyappan@gmail.com/
+
+v5:
+- Fix broken code and titles
+- Remove RFT tag
+
+Here’s an enumeration of all the cases I have tested that should be exhaustive:
+
+RX behaviour verification:
+
+1) Dest is UC/MC addr X in UC/MC list:
+	no mode: Recv
+	allmulti: Recv
+	promisc: Recv	
+
+2) Dest is UC addr X not in UC list:
+	no_mode: Drop
+	allmulti: Drop
+	promisc: Recv
+
+3) Dest is MC addr X not in MC list:
+	no_mode: Drop
+	allmulti: Recv
+	promisc: Recv
+
+Packets injected from host using scapy on a TAP device as follows:
+sendp(Ether(src=tap0_mac, dst=X) / IP() / UDP() / "test", iface="tap0")
+
+And on the VM side, rx was checked via cat /proc/net/dev
+
+Teardown path:
+
+Relevant as they flush the work item. ens4 is the virtio-net interface.
+
+virtnet_remove:
+ip maddr add 01:00:5e:00:03:02 dev ens4; echo 1 > /sys/bus/pci/devices/0000:00:04.0/remove
+
+virtnet_freeze_down:
+ip maddr add 01:00:5e:00:03:02 dev ens4; echo mem > /sys/power/state
+
+---
+
+I Viswanath (2):
+  net: refactor set_rx_mode into snapshot and deferred I/O
+  virtio-net: Implement ndo_write_rx_mode callback
+
+ drivers/net/virtio_net.c  |  58 +++++------
+ include/linux/netdevice.h | 104 ++++++++++++++++++-
+ net/core/dev.c            | 208 +++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 330 insertions(+), 40 deletions(-)
+
+-- 
+2.34.1
+
