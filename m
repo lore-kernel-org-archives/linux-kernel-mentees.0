@@ -1,110 +1,126 @@
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91A22ECE8F;
-	Fri, 21 Nov 2025 12:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE8C2727EB
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Nov 2025 17:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763729405; cv=none; b=OMXkigLDFqwSz/pVMq9rhrObtHBx2r9yGAjbW8DKKeObO6mtegB3jP+yGUyHMH/TzH2LdFWqp2IbCjjxrFYLqjpf6+hN/I196ULjvb1gpT4r1pRaVvKOHisC7zF7hBOdCWQlX5WOaM16+w6a5iSWJFxkWbE0CQkh1TdyaP0HrBM=
+	t=1763747348; cv=none; b=QOiyn8on2nFj7lQL9BH/tdLYiKra7kHaPGuaPy2XSJj17l0GbqN+NI7bkzzt0s2l4/Qqmaz9C5p3w3IimQ9aR6q4UzWyp0C+nMDo6M96rEGoVCvXbf1UZAIa8kJzvOq+Jt2srqqQApBCfMK3yj5Ehig6VR2WThFAU/3QeR4DOas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763729405; c=relaxed/simple;
-	bh=E6J50PYKhkW1y37m5TtjJdG0IBlfGFAvGeMbYMpo3Jk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=MoDeAMLAzGnqtNfQIfHk5w01QkelFCBS74+uqF29ks/BW81os5VuPvG18lBkeXj0qt6NXjPLKHzty6ix6EWbXwhQo+1S7n9ny96GlEFVTfQbWQHa4E5+ucIIKNN35YIVJVM9ttbn8Ij43rRhQ+p4eL8/8uTwYmd+H/7DEfEwS9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=N0ZIV6as; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
+	s=arc-20240116; t=1763747348; c=relaxed/simple;
+	bh=bbpHoxgmqkgEJqHNWPVdMBw27oGNmoNKaCdnnuCAO/k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UDZlIs4Gbv1tAC1aZnvjCv5Jqkk59UWcVDUwzf3mPXD1d1waIi5zQF2aeFoXYhxBw5hPPa6P0/nMeMVCJ4iVphX/Z5MNKySU7KBU2kX41IsG389bNbJxP4vTnoFudUhXS14vzAmEr29SaMGdTVr5Jp69ozYDD+XZLBZ6Ifp3u1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDdlANLL; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="N0ZIV6as"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=pf0Y7V6zXMOhec+D1eTtFZtRtloGjE6Q6JzbMbbBUjw=; b=N0ZIV6asN74sdUF9RvJ8i20y87
-	EhgFaZHtLYX0u2GXi2qngXseJhIc9k+VFSnh8nwG2y5Hg0OUKnHK/iWf8xYLdWJlTu1ejJLxHF68s
-	DDD7JEkGWlm6z7VF5yXA9paZ1pBCWRQRop91Y9lmVJeDZ0F4yQdEiSwIjxN84as/cD4N4XlhujlcD
-	33ZEPMR2fUGzAvrrkOSklMRqjKOaIPcLiVrSozdLd5/TeIURkrqofijocSDxOGqTnyeJgdPO0Q/Bz
-	lbHNjc5i8zgv8Gc8cPFv3K50vEuvkFNoovFq4zNAC2uBO5fHtHUHJgbwXCG4Hfh//SuJ2JLil8x2r
-	FC9Zrk+Q==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.98.2)
-	id 1vMQQ2-00000000H6l-0U5Z;
-	Fri, 21 Nov 2025 09:39:19 -0300
-Message-ID: <33405621d347fe99dd3a26dc5b67d417@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: ssrane_b23@ee.vjti.ac.in, sfrench@samba.org
-Cc: ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com,
- bharathsm@microsoft.com, linux-cifs@vger.kernel.org,
- samba-technical@lists.samba.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- david.hunter.linux@gmail.com, khalid@kernel.org, Shaurya Rane
- <ssrane_b23@ee.vjti.ac.in>,
- syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
-Subject: Re: [PATCH] cifs: fix memory leak in smb3_fs_context_parse_param
- error path
-In-Reply-To: <20251118150257.35455-1-ssranevjti@gmail.com>
-References: <20251118150257.35455-1-ssranevjti@gmail.com>
-Date: Fri, 21 Nov 2025 09:39:18 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDdlANLL"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-640b06fa959so3894384a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Nov 2025 09:49:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763747344; x=1764352144; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=h8ErBzqTgP4cHYgJVQfDWaPxezOQKn0ALUTf491LHzg=;
+        b=PDdlANLLC/HocaAqIXjFNe2LhRDuLD+D1bpnBYxurPWsqxOQh/OOu9sC2M1SXTY1p1
+         eDN9CWqbHNLqcEdTiqY9qT43wdxQ0PPa8MpW1jB4TC6XwgXvb6rcGi5yHsDt8EN02YQf
+         z6tUxEFiIZQmxKibk/jZC5M3LjRoQW1YUqzCTvWJMegpLMzJ5+CjUd9FSN3oYem3140J
+         GTEOKtaKDigW+oqhPWUyMIN6FIZycF9yJoXzbdcOgzw6RXVmC/t0yC08L/QsziLmEf3I
+         9XtR503243AbKXRfb3B2TCI/JDj1PyTc/lG12O8sOnhAVBXMJxaNn4531ZPJeSgdp81b
+         Gxxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763747344; x=1764352144;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h8ErBzqTgP4cHYgJVQfDWaPxezOQKn0ALUTf491LHzg=;
+        b=W2i8BT9Bm1zk9IhNTcuLbIHpQzGB1jHZLQNMjO2XnWVXmbAOSBLE0ujebYFulTomZ7
+         JVY6iGjaoIew5yEw//qSka4p4bcI7pV9II+ZHKds989UOEmKpeE7tAlUJBpkiU93mEtN
+         CY2IcBICR2kj+CSbmlo/JYjketOjEpHZSN82qf3/K/JATRtYV7D6KqnClHUt6XKCUXhj
+         /dU4yz+SYWyoasd5DL/YPALufTNHhMSNzj/20SzFkYqMtx3zZ/RI6mqKDjUELbN6H0Rh
+         /JUBiNPLXL2p5DkQy8SR9fvSaDBL90Z6Gy6yysK3NFPnVAncVKPwXIm1GI5EY68HtzxU
+         IXKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTR99kRU1Xtr82ZXjvuCRbuHI3Nhwy82CRtQUVQcJdPi7/8Y242A8Y7991eObdZGTY/GkVxB+44ynujOSFAzfs890LjQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSDKlv7gjaCt40A/OSvWKLaAD37uTbpRUnzoZUF+8MCTBkFa6G
+	bFEjBAzmJCNq0TTGUVw2Q0/kLZm9gy06jPfyOiolVeP8nj8sThG9OxJvihoYawJr7Y3eQyo9c2/
+	qEbH+HPN7oU5mVjW+xVwKI0vgBfftuss=
+X-Gm-Gg: ASbGncs2M2CZr4LdSyxvFQdEbK9GrC15BpH9rphiR+Ayjdx92x02X3Ho6zPRF7VM1XT
+	dv622YP+NVG8OrgQKFb8z56ShF+qKfZWa+qaC2CjtqxhpBKJeFlEqF6HU+XLPskX7hV40bsWyh7
+	i0tAU1tVXLqYumS1hDhKTEJV8ZgwBlVLBJPsc2YJRZXbH0T6679W/UibukeG+aoZMztMwuLp7Y8
+	zeL8Jy8PAVC1kYf4aLgAG++cq4QxclrSGAvqmhQSADyWNnVI0qsHCkdRtrF3Ujt/We8KVxGblvd
+	5afkOFxraoTLajgkFMnHeO5rkYZd
+X-Google-Smtp-Source: AGHT+IE4GS79sSxW/Rd4Ohj496vpRoSTu+pKqkj/hZLDMt5SoW5D+KLGWEEIKTW5/CgPvJlUkWdvl5lidG3EzaU5/BE=
+X-Received: by 2002:a05:6402:35cc:b0:640:c918:e3b with SMTP id
+ 4fb4d7f45d1cf-64554676c63mr2972912a12.26.1763747344224; Fri, 21 Nov 2025
+ 09:49:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20251120141354.355059-1-viswanathiyyappan@gmail.com> <20251120071715.28a47b21@kernel.org>
+In-Reply-To: <20251120071715.28a47b21@kernel.org>
+From: I Viswanath <viswanathiyyappan@gmail.com>
+Date: Fri, 21 Nov 2025 23:18:51 +0530
+X-Gm-Features: AWmQ_bnsZ7DyviHAe10zuie-93KQZaGmhmfWVwmmKuclxNtRbUQFHAMN1h6UQus
+Message-ID: <CAPrAcgN=RwA5j_hCwHAdSTwyfj5jignvaZ0nNidFqYaY_VeRxA@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 0/2] net: Split ndo_set_rx_mode into snapshot
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, 
+	skhawaja@google.com, aleksander.lobakin@intel.com, mst@redhat.com, 
+	jasowang@redhat.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-ssrane_b23@ee.vjti.ac.in writes:
+On Thu, 20 Nov 2025 at 20:47, Jakub Kicinski <kuba@kernel.org> wrote:
 
-> From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+> Running
 >
-> Add proper cleanup of ctx->source and fc->source to the
-> cifs_parse_mount_err error handler. This ensures that memory allocated
-> for the source strings is correctly freed on all error paths, matching
-> the cleanup already performed in the success path by
-> smb3_cleanup_fs_context_contents().
-> Pointers are also set to NULL after freeing to prevent potential
-> double-free issues.
->
-> This change fixes a memory leak originally detected by syzbot. The
-> leak occurred when processing Opt_source mount options if an error
-> happened after ctx->source and fc->source were successfully
-> allocated but before the function completed.
->
-> The specific leak sequence was:
-> 1. ctx->source = smb3_fs_context_fullpath(ctx, '/') allocates memory
-> 2. fc->source = kstrdup(ctx->source, GFP_KERNEL) allocates more memory
-> 3. A subsequent error jumps to cifs_parse_mount_err
-> 4. The old error handler freed passwords but not the source strings,
-> causing the memory to leak.
->
-> This issue was not addressed by commit e8c73eb7db0a ("cifs: client:
-> fix memory leak in smb3_fs_context_parse_param"), which only fixed
-> leaks from repeated fsconfig() calls but not this error path.
->
-> Reported-by: syzbot+87be6809ed9bf6d718e3@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=87be6809ed9bf6d718e3
-> Fixes: 24e0a1eff9e2 ("cifs: switch to new mount api")
-> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-> ---
->  fs/smb/client/fs_context.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/fs/smb/client/fs_context.c b/fs/smb/client/fs_context.c
-> index 0f894d09157b..975f1fa153fd 100644
-> --- a/fs/smb/client/fs_context.c
-> +++ b/fs/smb/client/fs_context.c
-> @@ -1834,6 +1834,12 @@ static int smb3_fs_context_parse_param(struct fs_context *fc,
->  	ctx->password = NULL;
->  	kfree_sensitive(ctx->password2);
->  	ctx->password2 = NULL;
-> +	kfree(ctx->source);
-> +	ctx->source = NULL;
-> +	if (fc) {
-> +		kfree(fc->source);
-> +		fc->source = NULL;
-> +	}
+> make -C tools/testing/selftests TARGETS="drivers/net/virtio_net" run_tests
 
-The non-NULL check of @fc makes no sense.
+This bug seems to be caused by a call to probe() followed by remove()
+without ever calling
+dev_open() as dev->rx_mode_ctx is allocated there. Modifying
+netif_rx_mode_flush_work()
+to call flush_work only when netif_running() is true, seems to fix
+this specific bug.
 
-Otherwise looks good:
+However, I found the following deadlock while trying to reproduce that:
 
-Reviewed-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+dev_close():
+    rtnl_lock();
+    cancel_work_sync(); // wait for netif_rx_mode_write_active to complete
+
+netif_rx_mode_write_active(): // From work item
+
+    rtnl_lock(); // Wait for the rtnl lock to be released
+
+I can't find a good way to solve this without changing alloc logic to
+be partly in
+alloc_netdev_mqs since we need the work struct to be alive after
+closing. Does this
+look good if that's really the most reasonable solution:
+
+struct netif_rx_mode_ctx *rx_mode_ctx;
+
+struct netif_rx_mode_ctx {
+    struct work_struct rx_mode_work;
+    struct netif_rx_mode_active_ctx *active_ctx;
+    int state;
+}
+
+struct netif_rx_mode_active_ctx {
+        struct net_device               *dev;
+        struct netif_rx_mode_config     *ready;
+        struct netif_rx_mode_config     *pending;
+}
+
+rx_mode_ctx will be handled in alloc_netdev_mqs()/free_netdev() while active_ctx
+will be handled in dev_open()/dev_close()
+
+Never call flush_work/cancel_work_sync for this work in core
+as that is a guaranteed deadlock because of how everything is serialized
