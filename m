@@ -1,126 +1,277 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE8C2727EB
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Nov 2025 17:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C283A1C9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 21 Nov 2025 18:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763747348; cv=none; b=QOiyn8on2nFj7lQL9BH/tdLYiKra7kHaPGuaPy2XSJj17l0GbqN+NI7bkzzt0s2l4/Qqmaz9C5p3w3IimQ9aR6q4UzWyp0C+nMDo6M96rEGoVCvXbf1UZAIa8kJzvOq+Jt2srqqQApBCfMK3yj5Ehig6VR2WThFAU/3QeR4DOas=
+	t=1763750672; cv=none; b=WMub2R4fdUo/+R5SmwWe/8IbNTLm+AzJ/HSyQpOKbXJwLEHJngrEFljGloqGeaLqCa8cZPSd4nKadk7jGoqPBaqH7vA9d+Q1TL/WPPAuJ95tQxEsEyWTuWBR8QeWS9eYILBAOCBAQvVbGGHEA8a8kNczpWa/+5UPm65AiHneVYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763747348; c=relaxed/simple;
-	bh=bbpHoxgmqkgEJqHNWPVdMBw27oGNmoNKaCdnnuCAO/k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UDZlIs4Gbv1tAC1aZnvjCv5Jqkk59UWcVDUwzf3mPXD1d1waIi5zQF2aeFoXYhxBw5hPPa6P0/nMeMVCJ4iVphX/Z5MNKySU7KBU2kX41IsG389bNbJxP4vTnoFudUhXS14vzAmEr29SaMGdTVr5Jp69ozYDD+XZLBZ6Ifp3u1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PDdlANLL; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763750672; c=relaxed/simple;
+	bh=xs873lP2qfM/5k9HQFM+nsmWeoIPWrEybL41vtvJ+iE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tbjeUJi7444i1HKMyEBSVRlkkJ5ZqVufOD0f44BdEP3rAONCZfseVtMyBHIbNjjihiHx6Z0gYGorFPW3UxSrdZJ+k3XXSTsdTP9Ck+Hya6e+6aaIqiRUZKaclLFeD5LQhvGlGG7ESfEk1CjrPpbGrvVKJQZxdhpLM2P1BpiylKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0zZ9s++; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PDdlANLL"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-640b06fa959so3894384a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Nov 2025 09:49:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0zZ9s++"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6C375406A5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 21 Nov 2025 18:44:30 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NiAwvSpgZ4Dn for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 21 Nov 2025 18:44:29 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 21B99401EC
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 21B99401EC
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=h0zZ9s++
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 21B99401EC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 21 Nov 2025 18:44:28 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-42b2dd19681so276549f8f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 21 Nov 2025 10:44:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763747344; x=1764352144; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8ErBzqTgP4cHYgJVQfDWaPxezOQKn0ALUTf491LHzg=;
-        b=PDdlANLLC/HocaAqIXjFNe2LhRDuLD+D1bpnBYxurPWsqxOQh/OOu9sC2M1SXTY1p1
-         eDN9CWqbHNLqcEdTiqY9qT43wdxQ0PPa8MpW1jB4TC6XwgXvb6rcGi5yHsDt8EN02YQf
-         z6tUxEFiIZQmxKibk/jZC5M3LjRoQW1YUqzCTvWJMegpLMzJ5+CjUd9FSN3oYem3140J
-         GTEOKtaKDigW+oqhPWUyMIN6FIZycF9yJoXzbdcOgzw6RXVmC/t0yC08L/QsziLmEf3I
-         9XtR503243AbKXRfb3B2TCI/JDj1PyTc/lG12O8sOnhAVBXMJxaNn4531ZPJeSgdp81b
-         Gxxg==
+        d=gmail.com; s=20230601; t=1763750667; x=1764355467; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8kbZldhfPU7Rvn2reEs+OkYe904af99Ncl1hi8HiSUU=;
+        b=h0zZ9s++d6LZS9qkbsO9U6vvt11jmuQ5O0FpDreNV4c5JW2z0R5zxkn44ECSAQP46i
+         UZwz41qfY6YVk6x9Y8qb3rxJrN/pHK8QYqN2Mn8dnuSPjXBWlUZJWWRwB6U9f4LZ++Oz
+         1uta/fhX8eBoCsEGqlOOaYCptBXZpqx0r5bOZgc9dKhVisujnD9g501JGu6Qqk86Tu6p
+         tSw7jZgtax1p7TBbHEEc1o2D23yCRgOAWJ2pFxwoX1KBL+7GHMw660V061Fbs981QNIb
+         f/ni5PQRkGIFKH4hdh7HD1xhPNVtWR76AApsREvsYKEKE32AIAycSgJ3WwCbnMLXl7QB
+         g98Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763747344; x=1764352144;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h8ErBzqTgP4cHYgJVQfDWaPxezOQKn0ALUTf491LHzg=;
-        b=W2i8BT9Bm1zk9IhNTcuLbIHpQzGB1jHZLQNMjO2XnWVXmbAOSBLE0ujebYFulTomZ7
-         JVY6iGjaoIew5yEw//qSka4p4bcI7pV9II+ZHKds989UOEmKpeE7tAlUJBpkiU93mEtN
-         CY2IcBICR2kj+CSbmlo/JYjketOjEpHZSN82qf3/K/JATRtYV7D6KqnClHUt6XKCUXhj
-         /dU4yz+SYWyoasd5DL/YPALufTNHhMSNzj/20SzFkYqMtx3zZ/RI6mqKDjUELbN6H0Rh
-         /JUBiNPLXL2p5DkQy8SR9fvSaDBL90Z6Gy6yysK3NFPnVAncVKPwXIm1GI5EY68HtzxU
-         IXKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVTR99kRU1Xtr82ZXjvuCRbuHI3Nhwy82CRtQUVQcJdPi7/8Y242A8Y7991eObdZGTY/GkVxB+44ynujOSFAzfs890LjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSDKlv7gjaCt40A/OSvWKLaAD37uTbpRUnzoZUF+8MCTBkFa6G
-	bFEjBAzmJCNq0TTGUVw2Q0/kLZm9gy06jPfyOiolVeP8nj8sThG9OxJvihoYawJr7Y3eQyo9c2/
-	qEbH+HPN7oU5mVjW+xVwKI0vgBfftuss=
-X-Gm-Gg: ASbGncs2M2CZr4LdSyxvFQdEbK9GrC15BpH9rphiR+Ayjdx92x02X3Ho6zPRF7VM1XT
-	dv622YP+NVG8OrgQKFb8z56ShF+qKfZWa+qaC2CjtqxhpBKJeFlEqF6HU+XLPskX7hV40bsWyh7
-	i0tAU1tVXLqYumS1hDhKTEJV8ZgwBlVLBJPsc2YJRZXbH0T6679W/UibukeG+aoZMztMwuLp7Y8
-	zeL8Jy8PAVC1kYf4aLgAG++cq4QxclrSGAvqmhQSADyWNnVI0qsHCkdRtrF3Ujt/We8KVxGblvd
-	5afkOFxraoTLajgkFMnHeO5rkYZd
-X-Google-Smtp-Source: AGHT+IE4GS79sSxW/Rd4Ohj496vpRoSTu+pKqkj/hZLDMt5SoW5D+KLGWEEIKTW5/CgPvJlUkWdvl5lidG3EzaU5/BE=
-X-Received: by 2002:a05:6402:35cc:b0:640:c918:e3b with SMTP id
- 4fb4d7f45d1cf-64554676c63mr2972912a12.26.1763747344224; Fri, 21 Nov 2025
- 09:49:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763750667; x=1764355467;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8kbZldhfPU7Rvn2reEs+OkYe904af99Ncl1hi8HiSUU=;
+        b=C/afpiCjP032AFy7MOc+JfoGNh8XiN0LQIskKAnBomfNbbUQaKY5hb6txtShlC+o5b
+         ZNP0NBaBRETkNWgeB0nsXE2S0iiKcePDl3fy1AYqjs25JiTU2gRAKOU64gb/1uKTXtKr
+         aOXFyOghRfrktd747E5+5noojy6XdGjQTgpFw6FKmAYLjj481kIRAhAd0dts+Hr5Z6rX
+         DBGGC121f/P1UFtf/2ZMsYPJP11zqpWh/SxgX6TBpnpuBAQlP6+/xAKTj0riJkZXvhSa
+         DWQvDvd/J6vU3XceswUgvSU7JBGhhL/YI1+CWqrLbBtjY3rcHEWBWzKEgH48s2KyEfk4
+         v7vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaVNXY1zzx1VGu0RMDazTTYa8Yq+Wc1jl/Gbl8afF9KeZH1io3sDjS/mQsxsIroI2m0k4wTcwhz0TGzzQUcnB/JV86rg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxLOs5iUdfmpBOYQMUAaBqdivtKYrtCaGleOH0roxjVKcnzA9+I
+	lcql1VYOv2kKpAH6nfJzw1j2trLBRHlNK4BTbwlOC8tLIIqcVe1NIa5e
+X-Gm-Gg: ASbGncsMDptKiA/6ReaE6wMCNJtDRAdvYdyomR2+UuJos72r0kLcobw6EyMWFPBEU5R
+	qoxeeDltV3yAoT5FSqar5w4T9YLqQGJhkodWRtKQsI/57OFOUB5tGAaucsblTgGDeobkcM5+4kM
+	uz8b0BqeMTvRo00JMaSTCJP2nuCSc0Eoc8ORwNBaZe+i1E1no+X3xzIUq/UniG8oeIvYCC9np/I
+	ETEN0x+H+xbMZUsktzeoP8PMbkG121CvehsruFVAjy4Z0jeJdpjPyt8IcZa7LfNhy6fKS5RM0oS
+	Yy9/befKRXx/wSjn3W3ZvxRWBipug7z/Y/J+Ql12y3kDGK1PokhsqL+NtFsfibhY91srCTxcwfH
+	wz/hVHQxKiOq3ddC+D4UdzHByL07E+oyg4mzs+w7ubnjDcaJjk884TXAoX6RkWQY9MavdgHx5P6
+	KdxgQMfRO9wTdom89oUQRVxyYJa/w=
+X-Google-Smtp-Source: AGHT+IFkSly13mqDBCmwEwYfW9NieAAUkgKyRNW0RsRA2Vw0zRJZrc4jelR19X0rHc2qDJ05zM9xjQ==
+X-Received: by 2002:a05:600c:5487:b0:477:a16e:fec5 with SMTP id 5b1f17b1804b1-477c00f4cb0mr19903895e9.0.1763750666624;
+        Fri, 21 Nov 2025 10:44:26 -0800 (PST)
+Received: from [192.168.1.105] ([165.50.70.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f2e454sm12620407f8f.2.2025.11.21.10.44.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Nov 2025 10:44:26 -0800 (PST)
+Message-ID: <3ad2e91e-2c7f-488b-a119-51d62a6e95b8@gmail.com>
+Date: Fri, 21 Nov 2025 20:44:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251120141354.355059-1-viswanathiyyappan@gmail.com> <20251120071715.28a47b21@kernel.org>
-In-Reply-To: <20251120071715.28a47b21@kernel.org>
-From: I Viswanath <viswanathiyyappan@gmail.com>
-Date: Fri, 21 Nov 2025 23:18:51 +0530
-X-Gm-Features: AWmQ_bnsZ7DyviHAe10zuie-93KQZaGmhmfWVwmmKuclxNtRbUQFHAMN1h6UQus
-Message-ID: <CAPrAcgN=RwA5j_hCwHAdSTwyfj5jignvaZ0nNidFqYaY_VeRxA@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 0/2] net: Split ndo_set_rx_mode into snapshot
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	pabeni@redhat.com, horms@kernel.org, sdf@fomichev.me, kuniyu@google.com, 
-	skhawaja@google.com, aleksander.lobakin@intel.com, mst@redhat.com, 
-	jasowang@redhat.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/hfs: fix s_fs_info leak on setup_bdev_super()
+ failure
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+ "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+ "frank.li@vivo.com" <frank.li@vivo.com>,
+ "slava@dubeyko.com" <slava@dubeyko.com>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "jack@suse.cz" <jack@suse.cz>
+Cc: "khalid@kernel.org" <khalid@kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
+ "syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com"
+ <syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>
+References: <20251119073845.18578-1-mehdi.benhadjkhelifa@gmail.com>
+ <c19c6ebedf52f0362648a32c0eabdc823746438f.camel@ibm.com>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <c19c6ebedf52f0362648a32c0eabdc823746438f.camel@ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 20 Nov 2025 at 20:47, Jakub Kicinski <kuba@kernel.org> wrote:
+On 11/19/25 8:58 PM, Viacheslav Dubeyko wrote:
+> On Wed, 2025-11-19 at 08:38 +0100, Mehdi Ben Hadj Khelifa wrote:
+>> The regression introduced by commit aca740cecbe5 ("fs: open block device
+>> after superblock creation") allows setup_bdev_super() to fail after a new
+>> superblock has been allocated by sget_fc(), but before hfs_fill_super()
+>> takes ownership of the filesystem-specific s_fs_info data.
+>>
+>> In that case, hfs_put_super() and the failure paths of hfs_fill_super()
+>> are never reached, leaving the HFS mdb structures attached to s->s_fs_info
+>> unreleased.The default kill_block_super() teardown also does not free
+>> HFS-specific resources, resulting in a memory leak on early mount failure.
+>>
+>> Fix this by moving all HFS-specific teardown (hfs_mdb_put()) from
+>> hfs_put_super() and the hfs_fill_super() failure path into a dedicated
+>> hfs_kill_sb() implementation. This ensures that both normal unmount and
+>> early teardown paths (including setup_bdev_super() failure) correctly
+>> release HFS metadata.
+>>
+>> This also preserves the intended layering: generic_shutdown_super()
+>> handles VFS-side cleanup, while HFS filesystem state is fully destroyed
+>> afterwards.
+>>
+>> Fixes: aca740cecbe5 ("fs: open block device after superblock creation")
+>> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=ad45f827c88778ff7df6
+>> Tested-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+>> Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>> ---
+>> ChangeLog:
+>>
+>> Changes from v1:
+>>
+>> -Changed the patch direction to focus on hfs changes specifically as
+>> suggested by al viro
+>>
+>> Link:https://lore.kernel.org/all/20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com/
+>>
+>> Note:This patch might need some more testing as I only did run selftests
+>> with no regression, check dmesg output for no regression, run reproducer
+>> with no bug and test it with syzbot as well.
+> 
+> Have you run xfstests for the patch? Unfortunately, we have multiple xfstests
+> failures for HFS now. And you can check the list of known issues here [1]. The
+> main point of such run of xfstests is to check that maybe some issue(s) could be
+> fixed by the patch. And, more important that you don't introduce new issues. ;)
+> 
+I have tried to run the xfstests with a kernel built with my patch and 
+also without my patch for TEST and SCRATCH devices and in both cases my 
+system crashes in running the generic/631 test.Still unsure of the 
+cause. For more context, I'm running the tests on the 6.18-rc5 version 
+of the kernel and the devices and the environment setup is as follows:
 
-> Running
->
-> make -C tools/testing/selftests TARGETS="drivers/net/virtio_net" run_tests
+For device creation and mounting(also tried it with dd and had same 
+results):
+fallocate -l 10G test.img
+fallocate -l 10G scratch.img
+sudo mkfs.hfs test.img
+sudo losetup /dev/loop0 ./test.img
+sudo losetup /dev/loop1 ./scratch.img
+sudo mkdir -p /mnt/test /mnt/scratch
+sudo mount /dev/loop0 /mnt/test
 
-This bug seems to be caused by a call to probe() followed by remove()
-without ever calling
-dev_open() as dev->rx_mode_ctx is allocated there. Modifying
-netif_rx_mode_flush_work()
-to call flush_work only when netif_running() is true, seems to fix
-this specific bug.
+For environment setup(local.config):
+export TEST_DEV=/dev/loop0
+export TEST_DIR=/mnt/test
+export SCRATCH_DEV=/dev/loop1
+export SCRATCH_MNT=/mnt/scratch
 
-However, I found the following deadlock while trying to reproduce that:
+Ran the tests using:sudo ./check -g auto
 
-dev_close():
-    rtnl_lock();
-    cancel_work_sync(); // wait for netif_rx_mode_write_active to complete
+If more context is needed to know the point of failure or if I have made 
+a mistake during setup I'm happy to receive your comments since this is 
+my first time trying to run xfstests.
 
-netif_rx_mode_write_active(): // From work item
+>>
+>>   fs/hfs/super.c | 16 ++++++++++++----
+>>   1 file changed, 12 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+>> index 47f50fa555a4..06e1c25e47dc 100644
+>> --- a/fs/hfs/super.c
+>> +++ b/fs/hfs/super.c
+>> @@ -49,8 +49,6 @@ static void hfs_put_super(struct super_block *sb)
+>>   {
+>>   	cancel_delayed_work_sync(&HFS_SB(sb)->mdb_work);
+>>   	hfs_mdb_close(sb);
+>> -	/* release the MDB's resources */
+>> -	hfs_mdb_put(sb);
+>>   }
+>>   
+>>   static void flush_mdb(struct work_struct *work)
+>> @@ -383,7 +381,6 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>>   bail_no_root:
+>>   	pr_err("get root inode failed\n");
+>>   bail:
+>> -	hfs_mdb_put(sb);
+>>   	return res;
+>>   }
+>>   
+>> @@ -431,10 +428,21 @@ static int hfs_init_fs_context(struct fs_context *fc)
+>>   	return 0;
+>>   }
+>>   
+>> +static void hfs_kill_sb(struct super_block *sb)
+>> +{
+>> +	generic_shutdown_super(sb);
+>> +	hfs_mdb_put(sb);
+>> +	if (sb->s_bdev) {
+>> +		sync_blockdev(sb->s_bdev);
+>> +		bdev_fput(sb->s_bdev_file);
+>> +	}
+>> +
+>> +}
+>> +
+>>   static struct file_system_type hfs_fs_type = {
+>>   	.owner		= THIS_MODULE,
+>>   	.name		= "hfs",
+>> -	.kill_sb	= kill_block_super,
+> 
+> It looks like we have the same issue for the case of HFS+ [2]. Could you please
+> double check that HFS+ should be fixed too?
+> 
+I have checked the same error path and it seems that hfsplus_sb_info is 
+not freed in that path(I could provide the exact call stack which would 
+cause such a memory leak) although I didn't create or run any 
+reproducers for this particular filesystem type.
+If you would like a patch for this issue, would something like what is 
+shown below be acceptable? :
 
-    rtnl_lock(); // Wait for the rtnl lock to be released
++static void hfsplus_kill_super(struct super_block *sb)
++{
++       struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
++
++       kill_block_super(sb);
++       kfree(sbi);
++}
++
+  static struct file_system_type hfsplus_fs_type = {
+         .owner          = THIS_MODULE,
+         .name           = "hfsplus",
+-       .kill_sb        = kill_block_super,
++       .kill_sb        = hfsplus_kill_super,
+         .fs_flags       = FS_REQUIRES_DEV,
+         .init_fs_context = hfsplus_init_fs_context,
+  };
 
-I can't find a good way to solve this without changing alloc logic to
-be partly in
-alloc_netdev_mqs since we need the work struct to be alive after
-closing. Does this
-look good if that's really the most reasonable solution:
+If there is something to add, remove or adjust. Please let me know in 
+the case of you willing accepting such a patch of course.
+> Thanks,
+> Slava.
+> 
+Best Regards,
+Mehdi Ben Hadj Khelifa
+>> +	.kill_sb	= hfs_kill_sb,
+>>   	.fs_flags	= FS_REQUIRES_DEV,
+>>   	.init_fs_context = hfs_init_fs_context,
+>>   };
+> 
+> [1] https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues
+> [2] https://elixir.bootlin.com/linux/v6.18-rc6/source/fs/hfsplus/super.c#L694
 
-struct netif_rx_mode_ctx *rx_mode_ctx;
-
-struct netif_rx_mode_ctx {
-    struct work_struct rx_mode_work;
-    struct netif_rx_mode_active_ctx *active_ctx;
-    int state;
-}
-
-struct netif_rx_mode_active_ctx {
-        struct net_device               *dev;
-        struct netif_rx_mode_config     *ready;
-        struct netif_rx_mode_config     *pending;
-}
-
-rx_mode_ctx will be handled in alloc_netdev_mqs()/free_netdev() while active_ctx
-will be handled in dev_open()/dev_close()
-
-Never call flush_work/cancel_work_sync for this work in core
-as that is a guaranteed deadlock because of how everything is serialized
