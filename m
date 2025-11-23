@@ -1,146 +1,131 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86EB28DB71
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Nov 2025 09:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FED13AA2D
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 23 Nov 2025 02:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763803144; cv=none; b=EMv0YB3Oci6/l0hyGvSOKx+F75ZrUa6EFgAFBVURvVMw9Rm8t5NFWHeAHKC5qBvfiLZwde+BtxOpanNGO2mqiDNfljV1JD+RvUl5hZcNsqwITNXexBTaeKMwb39aMestU20jEmCMLPO4uph/xrK2q4fVlVJBswTlpFp0JuwU1TE=
+	t=1763865785; cv=none; b=E1WNV4DbVsJVlToFwO+rThrVP/XCJxO/J3evb0llhBa02NmhUDQswfNJp07BQp2RKFN4YN+ty5yRcT81YgNHCuzyDP+L5rSwUY8NqBqLgg+0YHLUC2QMLsRG7Fh/QMpKn0P2K6sv5/TYj/7Cy0LPh88XftQXTJvubxNTZIRouQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763803144; c=relaxed/simple;
-	bh=3Y6g3pyQ7xItiex/CLdc74fmNKXzVEtgCADpye94/G4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AHXx055/sGL2/ceJSvOIbzLDl+wOfDuTamzx00H5YZaN8aqLz1Ju83UUMDXVjlHajS3wWVNf8qYwRbRwG2koSDzhg8y9gz9kUogXnmihVyhLKEa+Job9lw3Vo21Sa7IzmBCezKMAm5aruHHjq/60qR/LaTIn/NQRoIV3/+IHOSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=MOO2uRON; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1763865785; c=relaxed/simple;
+	bh=QJNqamgrj/tPe4iVAA/P47iocBKgtzs1hDkRnlkMBLI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C6m4bJI1ZvmA6fPWOVxryfCeK8Hle1fLU9B22U2fbEOSwzg3j3DdYn040HCvybVty+Fq9niqRy+tnJOmlFshIcknqUMfL+ylwe2FKIBxSXn+OaM/mei7AgckUkshv5H9zYF4orRsm+Tm6Lc3knHQwmSutId2O7l0Pev8ekr7JWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=ci7UujcY; arc=none smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="MOO2uRON"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C7D6140167
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Nov 2025 09:18:59 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.898
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id om0zT7K-xweU for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Nov 2025 09:18:57 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=jiri@resnulli.us; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 428C7400DA
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 428C7400DA
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=MOO2uRON
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 428C7400DA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Nov 2025 09:18:55 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-42b3669ca3dso1136785f8f.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 22 Nov 2025 01:18:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="ci7UujcY"
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-63f97c4eccaso2863993d50.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 22 Nov 2025 18:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763803133; x=1764407933; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=53xJV33swqTLqvE9PnvUfsctO42OXLht9ChQmj1HdnU=;
-        b=MOO2uRONkboDfLat5IeH1367V+JNHgJXd4Q9SchI3qNn4o50QSMpcu7v1vYftjoGJH
-         IA7/D2K7yCGZeRlGz0Gjb+onQS/+sj2qZDux58zHIyS0AEMhfKj6Ivqpt3U2RTI16Y0P
-         uCqBq+P8kKoGhcGPPc5VT0Trg7UzreDYoaDz2N0prhnqtkGSXslXJ7jYup2ssGdB3Z9y
-         9bxsIKoKvkuIIbmFDeQ3uf0zOklfVnuqhTugaPsvnL64Oz6QWEuDMg6E/ifo4t4KVcRV
-         j2dyfp8MjIlxdi74IAuUQxrl9qaBGgM2Ws3vqyJTY5aZ9a/2ibGmrPwFnCb7lA1x8U5U
-         yTlw==
+        d=vjti.ac.in; s=google; t=1763865781; x=1764470581; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nhvna7XyABpz0y7IciVRtasd6k6MY2T7JOlNLRQKzHM=;
+        b=ci7UujcYxnmJXX12/eUkYIIEZKxVTqh+ZTTiNLmSR5g204O4nFdiATkXi0k/7W3Pw2
+         w+mTBcEKwF/1QCEp80uBmdNxHpVOGr4uHSFxA0j1HwZ1suiICjaeXkbxFlPrR7alAWlY
+         omljStNra8H+DLljvidAZwaUvukHq2L/hP9ls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763803133; x=1764407933;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=53xJV33swqTLqvE9PnvUfsctO42OXLht9ChQmj1HdnU=;
-        b=Z1EAlBPBr5R1TFeAIaScUyZODfUG97nJOvueGIVFRO7haVnd2Eac/GuIAUGQupyWRc
-         t0PqRBgPiU30kCBf2RzuPV7kkZ9cDbn9NiSylKP0GqPaSW3wYznssw4+eX7os/Y34fnH
-         7vJVySDT46czpm0YjYe0JlDB6Z/cfLlJvt6G3dzi3Gqcd6q5jTFFp2KLbhnL3BkYFiyN
-         8ghOK3e/xRSyj0a2q6vF19Ga9QfuF5fTIqKrOeQ0u0Sz3IetLfYimmshyN0ldiJCeslx
-         Ep6LLHCaK7mEQ5DXA/ZbUfbQja+J0oqnHjAM/WRxXbPAPmP144esgCSAo9RFcvQuQXtQ
-         lRng==
-X-Forwarded-Encrypted: i=1; AJvYcCVP3/a2ly6wzM5Co904RJaJulLTb37EetqBlhTlnfqAtBj94xu7XcthIScL8GQs1kUsHnfJdgrOsmGSY545uLlrHeGZTw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxdO33bsGT04dvHhVMMbjmsgRd9GjWIMuYeVCJLsr45pkm9nlyN
-	HZoIiyZ02iDmha8oTr9lcj6KyVrR7/svby9gzF5L7cMg0Hbza71ZvRMrHSJ+r1CFWyA=
-X-Gm-Gg: ASbGncvrlucwXOfNhwyu4yRz1JONfedSHlmrtP8apadma/ERY+ryFyViikEn4i6DPAR
-	0IXL2ojQCVToiYaiJEPh4YgHzCf3QI8upGrTaG8qEFgSNqMjQm0SbuNjaZYEuc7nuMZq2GnLMQf
-	SAF/a71T/IipoXtt9l4vTDRYAK25VU9WcMJzsVNI5+hACtvzBeqaaUhc4aE7fXh3uxktaat5rkt
-	VyzjJj3xWgNbDlmknDhQacIximon3oEX+FMAUMU8EXx2CugOpjjdhiKZ3n5plzwf1O2io5JHmrp
-	fX1IWu7wuCt2vo1KtSwnBbxtsGgV/nxRDT8Ntl7Y4CODLyP3quKVDdb07BdcnBT2c6aMpLPviiw
-	YSWaep+oB0zcP2i7QOs2L68LeGHljxn59YKE3Gxwu7/PaHfAeM68sfYzDomIIBGh+7GusuLfly/
-	HmFGA8iwEgKOEZ1fVX2BoU+06uZ8Bdz1w=
-X-Google-Smtp-Source: AGHT+IGhv/ltDYbUC0qVNfi4WFC7UzIuD90H79TWw0dTFe8qWwKov+G9K1DtiG1LYn9cp3AujCyZqw==
-X-Received: by 2002:a05:6000:4012:b0:428:5673:11e0 with SMTP id ffacd0b85a97d-42cc1d1999dmr5618342f8f.40.1763803133010;
-        Sat, 22 Nov 2025 01:18:53 -0800 (PST)
-Received: from FV6GYCPJ69 ([2001:1ae9:6084:ab00:7d8c:1d72:b43a:e19a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f34ffesm16607741f8f.10.2025.11.22.01.18.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 01:18:52 -0800 (PST)
-Date: Sat, 22 Nov 2025 10:18:51 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
-	khalid@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v4] team: Move team device type change at the end of
- team_port_add
-Message-ID: <6wrz2ldfbfhzolevx5246he3hekgevqmhxwt65hbmvyijkzayq@yadj4nwt2yvi>
-References: <20251122002027.695151-1-zlatistiv@gmail.com>
+        d=1e100.net; s=20230601; t=1763865781; x=1764470581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Nhvna7XyABpz0y7IciVRtasd6k6MY2T7JOlNLRQKzHM=;
+        b=w+1ETV61IYQtk7s8Ig+iN21pkpJRs0fFN8jASGM3maDXKWXWmxJJd48QWa0PbRmLsd
+         BM/BL8y7reNxhccIdhKgoJJ5J05nzX8AQIscRBgRNfWNcLpIazq5F8K92CMM5tFEZMYX
+         8J/LRs/knUDWFaSVd2/ckt3BSaKSIIrut7c5WMKHYc6G3YhKl4/VqDo64+2tp+0tzwBL
+         /Emq00dojbxe66tGm8fQYsqn5hSqjNRY7oTNfTFllfwCIiRMvQt/hP7eHNI6A/WyIfru
+         S+MXrUWA4WNd64DOSEDaEFtnG5pl8+7504ugFUlCbOcKRLKA7za72+ql5aHq1PJD2djG
+         2wQw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmp1l5r2s0PDYrNppNpbfiCtPuFUoW+sFSjY8kohG3QFW+8IGK883LJegkhjv63ynh7IxNyjQohWq35OEWC/yrM7EVnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdSYKVBGbVUHFZr0zmSDek3D7xkcVgCc7geA/xTLiFMpN4u/Qj
+	bZnSsx6kl7LXFPuUnvRYIlNRV77To6fCZ00gADRsIg/t5dSBKLavVRDrhB9FiJFUMBvE/uFVFFx
+	o+qINuVs6GUTBpneUt30SXzhd823AqhBAI6xngytuNA==
+X-Gm-Gg: ASbGncviSGw0aHZAp7PpHfbNeRCHV/zisB1Lpo8DNT3+pU4UUxugw024njTksnqmk8p
+	64tpVDXe39q/PwcPkdWkCKdIxHq4Vl54E/H7Zw8SW1FOYu2irCPiosDevk16VbZSXfTouvptGs1
+	4ZLCWHRMowQ60nLVIow/9CClKCEcG6ychWZilQogrvRKaMkYEM5qaOvt3/DFSWBM/lvRVAAzXTn
+	FtLqKT4HDtKt5yZl9ZmLMa2qn78RCA4x9FUhj/EPkJvv9RkaKSCOXF/HPUyeMWPAK+gy9xhm8nk
+	OdkxP8X7GPrj52W5/XlAFa3xJ7gAdGw9+xBOdQ==
+X-Google-Smtp-Source: AGHT+IFgrY980E9ZQyocO3aMJGUgJeNVFSms6jRM+b3NQsPdCBONY5tq34RGbAY8Nhr62GwkeQB9udkdlOIH8X4kvoo=
+X-Received: by 2002:a05:690e:151a:b0:63e:1ee2:eb03 with SMTP id
+ 956f58d0204a3-64302af1600mr5089681d50.45.1763865780942; Sat, 22 Nov 2025
+ 18:43:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251122002027.695151-1-zlatistiv@gmail.com>
+References: <20251108141834.46428-1-ssranevjti@gmail.com> <20251108141834.46428-2-ssranevjti@gmail.com>
+In-Reply-To: <20251108141834.46428-2-ssranevjti@gmail.com>
+From: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>
+Date: Sun, 23 Nov 2025 08:12:49 +0530
+X-Gm-Features: AWmQ_bnUQ9cqktRiIIylW1Y4-1ZWcYhGpz9uHU__v-2fKfpCX3dbdAfHmkK7RkM
+Message-ID: <CANNWa05ecKo0MOQDUAusuDzNdyFH7gEpF-tS1-Z56Gpg_jWZ5A@mail.gmail.com>
+Subject: Re: [PATCH v3] jfs: Initialize synclist in metapage allocation
+To: shaggy@kernel.org
+Cc: jfs-discussion@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, dsterba@suse.com, david@redhat.com, 
+	shivankg@amd.com, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, 
+	khalid@kernel.org, syzbot+e87be72c9a6fe69996f5@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sat, Nov 22, 2025 at 01:20:27AM +0100, zlatistiv@gmail.com wrote:
->Attempting to add a port device that is already up will expectedly fail,
->but not before modifying the team device header_ops.
->
->In the case of the syzbot reproducer the gre0 device is
->already in state UP when it attempts to add it as a
->port device of team0, this fails but before that
->header_ops->create of team0 is changed from eth_header to ipgre_header
->in the call to team_dev_type_check_change.
->
->Later when we end up in ipgre_header() struct ip_tunnel* points to nonsense
->as the private data of the device still holds a struct team.
->
->Example sequence of iproute2 commands to reproduce the hang/BUG():
->ip link add dev team0 type team
->ip link add dev gre0 type gre
->ip link set dev gre0 up
->ip link set dev gre0 master team0
->ip link set dev team0 up
->ping -I team0 1.1.1.1
->
->Move team_dev_type_check_change down where all other checks have passed
->as it changes the dev type with no way to restore it in case
->one of the checks that follow it fail.
->
->Also make sure to preserve the origial mtu assignment:
->  - If port_dev is not the same type as dev, dev takes mtu from port_dev
->  - If port_dev is the same type as dev, port_dev takes mtu from dev
->
->This is done by adding a conditional before the call to dev_set_mtu
->to prevent it from assigning port_dev->mtu = dev->mtu and instead
->letting team_dev_type_check_change assign dev->mtu = port_dev->mtu.
->The conditional is needed because the patch moves the call to
->team_dev_type_check_change past dev_set_mtu.
->
->Testing:
->  - team device driver in-tree selftests
->  - Add/remove various devices as slaves of team device
->  - syzbot
->
->Reported-by: syzbot+a2a3b519de727b0f7903@syzkaller.appspotmail.com
->Closes: https://syzkaller.appspot.com/bug?extid=a2a3b519de727b0f7903
->Fixes: 1d76efe1577b ("team: add support for non-ethernet devices")
->Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+Pinging if missed
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+On Sat, Nov 8, 2025 at 7:48=E2=80=AFPM <ssrane_b23@ee.vjti.ac.in> wrote:
+>
+> From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+>
+> The synclist field in struct metapage was not being initialized during
+> allocation in alloc_metapage(), leading to list corruption when the
+> metapage is later added to a transaction's sync list.
+>
+> When diUpdatePMap() calls list_add(&mp->synclist, &tblk->synclist), if
+> the synclist field contains stale data from a previous allocation (such
+> as LIST_POISON values from a freed list node), the list debugging code
+> detects the corruption and triggers a stack segment fault.
+>
+> This issue is intermittent because it only manifests when recycled
+> memory happens to contain poison values in the synclist field. The bug
+> was discovered by syzbot, which creates specific filesystem patterns
+> that reliably trigger this uninitialized memory usage.
+>
+> Initialize the synclist field with INIT_LIST_HEAD() in alloc_metapage()
+> to ensure it's in a valid state before being used in list operations.
+> This is consistent with how the wait queue is initialized in the same
+> function.
+>
+> Reported-by: syzbot+e87be72c9a6fe69996f5@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3De87be72c9a6fe69996f5
+> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+>
+> ---
+> Tested:
+>  - Tested locally with syzbot reproducer, no errors observed
+> Changelog:
+> - Correct bug link
+> - Corrected patch format
+>
+>  fs/jfs/jfs_metapage.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/fs/jfs/jfs_metapage.c b/fs/jfs/jfs_metapage.c
+> index 871cf4fb3636..77c512a0a42b 100644
+> --- a/fs/jfs/jfs_metapage.c
+> +++ b/fs/jfs/jfs_metapage.c
+> @@ -269,6 +269,7 @@ static inline struct metapage *alloc_metapage(gfp_t g=
+fp_mask)
+>                 mp->data =3D NULL;
+>                 mp->clsn =3D 0;
+>                 mp->log =3D NULL;
+> +               INIT_LIST_HEAD(&mp->synclist);
+>                 init_waitqueue_head(&mp->wait);
+>         }
+>         return mp;
+> --
+> 2.34.1
+>
