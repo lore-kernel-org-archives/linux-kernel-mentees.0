@@ -1,43 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEA62BE035;
-	Mon, 24 Nov 2025 18:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B14034253F
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 24 Nov 2025 22:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764010327; cv=none; b=hoKzowTrquEOoWZnPkMzKcqn1cebMTbINJ9zJmurKWqCjVodatXt/IEM58HQ2KKKGr8GewZZ6bB26lRcsmOZohcGZfP6zjHfy4Q8wzpWefGlQu8E4zIunEvXLNukg0jxuOapleKmQHOpNpGB+Jxzm/i2bFyOfN6uxZku6ycPRJQ=
+	t=1764023584; cv=none; b=apj/nKLlDNgj0dU/c+Tw8xOdXf48BWN8Ny7qZJw50q2z+pdO5S34GZ1pDr1Ue6iKuNt/IIs3BH72PXHOTGMrnK7GM66S739LF+a4JXQbWcUzrbxeeXqhnyPT1OD6qEujRkkJFfptLwfH9jpM9mSxN+WGsmUwSZKtzhYgpE83q3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764010327; c=relaxed/simple;
-	bh=tyvhxyqDLgZlRxDUys0BlVrPjkRUoqDzcc9MtEED+MQ=;
+	s=arc-20240116; t=1764023584; c=relaxed/simple;
+	bh=RWKvJ2vmxL2k+cHQZ1aHnSmdq8EtsmlbYRU3rauYvUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2EVCXnW94YK/XTPul96VAedT38gDGLBxf7CH2wBXQX8+tJWrFdeG3wVe/DhH8pUu1niQ2kI50kEibA9u9d77B1ZrCsdIbd4Pgc1coyflF7Gk92XyzRZWv/oSTXbkHNZnWXKJ/aG9TLG27UMiv6meMNPp+w9UqdKgDvZIMSSG9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IatQnPZo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLFJZgTJCUa0LhkVI5wfRv9g+Go9ii0/UwMrhrQyn94YWNdmxe4+Pybm3VwgKYHGwV/1mJ6XGeHg/CVAdeAlpRX5HO3OUci0QIWwiERRi4G+Iji8E5iQHTKF8JZwXLaQQKuETOYm8YkY/Qnx8GGuEZwold1ex+YjHiMxqFUucfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=BUWklEIy; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IatQnPZo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92A54C4CEF1;
-	Mon, 24 Nov 2025 18:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764010324;
-	bh=tyvhxyqDLgZlRxDUys0BlVrPjkRUoqDzcc9MtEED+MQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IatQnPZorzv04TdayMmKyYQmSAUmEx0GR8Se0LU0+BomvRK8ykgE+CCXoHyEB9gEe
-	 6VfLwfg++9jmJfx623Xa8QgI3ipqFLcOmckpw0DuUvhxP2RYNvBbPDukGzKCf0ltzu
-	 GkpSRULM+2ZG2YeQW0G89hTxE/z2bzmYPF5eNfZjc9llcJdF3w5B30wDJOPqs4f7uO
-	 /W7BNdEt+ZESt6qYTZ0LTIlMIE4PVgcJC+99t2vp+LEMVwATTIFPi+sThdx7SllavB
-	 1u9pu8nLJ9RLi/q4PxG83NkOIsQ03fCU9u0UkVo93frrzWee/bOctZCizRBcLiOllV
-	 l7N+ydSonOgrA==
-Date: Mon, 24 Nov 2025 10:52:03 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: cem@kernel.org, chandanbabu@kernel.org, bfoster@redhat.com,
-	david@fromorbit.com, hch@infradead.org, linux-xfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
-Subject: Re: [PATCH v5] xfs: validate log record version against superblock
- log version
-Message-ID: <20251124185203.GA6076@frogsfrogsfrogs>
-References: <aR67xfAFjuVdbgqq@infradead.org>
- <20251124174658.59275-3-rpthibeault@gmail.com>
+	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="BUWklEIy"
+Date: Mon, 24 Nov 2025 22:33:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
+	t=1764023578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f638h1XgbGh1cJNAXbxbYgub04PT6qPlLCKNX5ATKI4=;
+	b=BUWklEIyNxRrVgC8y/RKIXyz+3Q+Fg4p8auPabyy6INgAtpY8RYtxvGHjOVSouaNi2cELK
+	1Pnbm5l2S+mkUEPEqV8T6DB4Dx1Lk4LJzy38FxJywaUVo+G6oaGCqYYgaRlbEVoHKIKlDu
+	J5e1wZr+cLzFElAa3K54kqSm0EpMR0ectVtzamLxcB7U8O7lkSHYEqCrQ6whIjOhT5lwgZ
+	N/qO8Z8zBRtpUKlt0Wr8Z8t/9LrU6cypWoFARE5BtLxc7XrYP7Na55Igt0HUuoa4ViQgfs
+	pIRcnRf47aJ5nsgbGv+MHGntJ4dzF+6mTZrE9a3JKRjQpaVXfn9ZG8h3FEkODw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: George Anthony Vernon <contact@gvernon.com>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "frank.li@vivo.com" <frank.li@vivo.com>,
+	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
+	"slava@dubeyko.com" <slava@dubeyko.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"penguin-kernel@i-love.sakura.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
+Message-ID: <aSTdK2m2TInzWW6_@Bertha>
+References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
+ <20251104014738.131872-3-contact@gvernon.com>
+ <e13da4581ff5e8230fa5488f6e5d97695fc349b0.camel@ibm.com>
+ <aRJ8uYyD0ydI8MUk@Bertha>
+ <10acb67e66aa0b05ef2340178e761bafaab20af9.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -46,134 +55,226 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251124174658.59275-3-rpthibeault@gmail.com>
+In-Reply-To: <10acb67e66aa0b05ef2340178e761bafaab20af9.camel@ibm.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Nov 24, 2025 at 12:47:00PM -0500, Raphael Pinsonneault-Thibeault wrote:
-> Syzbot creates a fuzzed record where xfs_has_logv2() but the
-> xlog_rec_header h_version != XLOG_VERSION_2. This causes a
-> KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
-> xlog_recover_process() -> xlog_cksum().
+On Tue, Nov 11, 2025 at 12:48:28AM +0000, Viacheslav Dubeyko wrote:
+> On Tue, 2025-11-11 at 00:00 +0000, George Anthony Vernon wrote:
+> > On Tue, Nov 04, 2025 at 10:34:15PM +0000, Viacheslav Dubeyko wrote:
+> > > On Tue, 2025-11-04 at 01:47 +0000, George Anthony Vernon wrote:
+> > > > hfs_read_inode previously did not validate CNIDs read from disk, thereby
+> > > > allowing inodes to be constructed with disallowed CNIDs and placed on
+> > > > the dirty list, eventually hitting a bug on writeback.
+> > > > 
+> > > > Validate reserved CNIDs according to Apple technical note TN1150.
+> > > 
+> > > The TN1150 technical note describes HFS+ file system and it needs to take into
+> > > account the difference between HFS and HFS+. So, it is not completely correct
+> > > for the case of HFS to follow to the TN1150 technical note as it is.
+> > 
+> > I've checked Inside Macintosh: Files Chapter 2 page 70 to make sure HFS
+> > is the same (CNIDs 1 - 5 are assigned, and all of 1-15 are reserved).
+> > I will add this to the commit message for V3.
+> > 
+> > > > 
+> > > > This issue was discussed at length on LKML previously, the discussion
+> > > > is linked below.
+> > > > 
+> > > > Syzbot tested this patch on mainline and the bug did not replicate.
+> > > > This patch was regression tested by issuing various system calls on a
+> > > > mounted HFS filesystem and validating that file creation, deletion,
+> > > > reads and writes all work.
+> > > > 
+> > > > Link: https://lore.kernel.org/all/427fcb57-8424-4e52-9f21-7041b2c4ae5b@    
+> > > > I-love.SAKURA.ne.jp/T/
+> > > > Reported-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+> > > > Closes: https://syzkaller.appspot.com/bug?extid=97e301b4b82ae803d21b    
+> > > > Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> > > > Tested-by: syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com
+> > > > Signed-off-by: George Anthony Vernon <contact@gvernon.com>
+> > > > ---
+> > > >  fs/hfs/inode.c | 67 +++++++++++++++++++++++++++++++++++++++-----------
+> > > >  1 file changed, 53 insertions(+), 14 deletions(-)
+> > > > 
+> > > > diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+> > > > index 9cd449913dc8..bc346693941d 100644
+> > > > --- a/fs/hfs/inode.c
+> > > > +++ b/fs/hfs/inode.c
+> > > > @@ -321,6 +321,38 @@ static int hfs_test_inode(struct inode *inode, void *data)
+> > > >  	}
+> > > >  }
+> > > >  
+> > > > +/*
+> > > > + * is_valid_cnid
+> > > > + *
+> > > > + * Validate the CNID of a catalog record
+> > > > + */
+> > > > +static inline
+> > > > +bool is_valid_cnid(u32 cnid, u8 type)
+> > > > +{
+> > > > +	if (likely(cnid >= HFS_FIRSTUSER_CNID))
+> > > > +		return true;
+> > > > +
+> > > > +	switch (cnid) {
+> > > > +	case HFS_ROOT_CNID:
+> > > > +		return type == HFS_CDR_DIR;
+> > > > +	case HFS_EXT_CNID:
+> > > > +	case HFS_CAT_CNID:
+> > > > +		return type == HFS_CDR_FIL;
+> > > > +	case HFS_POR_CNID:
+> > > > +		/* No valid record with this CNID */
+> > > > +		break;
+> > > > +	case HFS_BAD_CNID:
+> > > 
+> > > HFS is ancient file system that was needed to work with floppy disks. And bad
+> > > sectors management was regular task and responsibility of HFS for the case of
+> > > floppy disks (HDD was also not very reliable at that times). So, HFS implements
+> > > the bad block management. It means that, potentially, Linux kernel could need to
+> > > mount a file system volume that created by ancient Mac OS.
+> > > 
+> > > I don't think that it's correct management of HFS_BAD_CNID. We must to expect to
+> > > have such CNID for the case of HFS.
+> > > 
+> > 
+> > HFS_BAD_CNID is reserved for internal use of the filesystem
+> > implementation. Since we never intend to use it, there is no correct
+> > logical path that we should ever construct an inode with CNID 5. It does
+> > not correspond to a record that the user can open, as it is a special
+> > CNID used only for extent records used to mark blocks as allocated so
+> > they are not used, a behaviour which we do not implement in the Linux
+> > HFS or HFS+ drivers. Disallowing this CNID will not prevent correctly
+> > formed filesystems from being mounted. I also don't think that
+> > presenting an internal record-keeping structure to the VFS would make
+> > sense or would be consistent with other filesystems.
+> > 
 > 
-> Fix by adding a check to xlog_valid_rec_header() to abort journal
-> recovery if the xlog_rec_header h_version does not match the super
-> block log version.
+> Yes, we don't want to use it on Linux kernel side. But, potentially, the file
+> for bad block management could or was been created/used on Mac OS side. And if
+> anyone tries to mount the HFS volume with the bad block file, then we will
+> refuse to mount it on the Linux kernel side. This is my main worry here. But it
+> is not very probable situation, by the way.
 > 
-> A file system with a version 2 log will only ever set
-> XLOG_VERSION_2 in its headers (and v1 will only ever set V_1), so if
-> there is any mismatch, either the journal or the superblock has been
-> corrupted and therefore we abort processing with a -EFSCORRUPTED error
-> immediately.
+The mount operation only requires reading the root inode, so the
+proposed change does not mean we would refuse to mount an HFS volume.
+
+It is okay if HFS_BAD_CNID already exists in the btree, we simply won't
+ever try to read or write it from disk.
+> > > > +	case HFS_EXCH_CNID:
+> > > > +		/* Not implemented */
+> > > > +		break;
+> > > > +	default:
+> > > > +		/* Invalid reserved CNID */
+> > > > +		break;
+> > > > +	}
+> > > > +
+> > > > +	return false;
+> > > > +}
+> > > > +
+> > > >  /*
+> > > >   * hfs_read_inode
+> > > >   */
+> > > > @@ -350,6 +382,8 @@ static int hfs_read_inode(struct inode *inode, void *data)
+> > > >  	rec = idata->rec;
+> > > >  	switch (rec->type) {
+> > > >  	case HFS_CDR_FIL:
+> > > > +		if (!is_valid_cnid(rec->file.FlNum, HFS_CDR_FIL))
+> > > > +			goto make_bad_inode;
+> > > >  		if (!HFS_IS_RSRC(inode)) {
+> > > >  			hfs_inode_read_fork(inode, rec->file.ExtRec, rec->file.LgLen,
+> > > >  					    rec->file.PyLen, be16_to_cpu(rec->file.ClpSize));
+> > > > @@ -371,6 +405,8 @@ static int hfs_read_inode(struct inode *inode, void *data)
+> > > >  		inode->i_mapping->a_ops = &hfs_aops;
+> > > >  		break;
+> > > >  	case HFS_CDR_DIR:
+> > > > +		if (!is_valid_cnid(rec->dir.DirID, HFS_CDR_DIR))
+> > > > +			goto make_bad_inode;
+> > > >  		inode->i_ino = be32_to_cpu(rec->dir.DirID);
+> > > >  		inode->i_size = be16_to_cpu(rec->dir.Val) + 2;
+> > > >  		HFS_I(inode)->fs_blocks = 0;
+> > > > @@ -380,8 +416,12 @@ static int hfs_read_inode(struct inode *inode, void *data)
+> > > >  		inode->i_op = &hfs_dir_inode_operations;
+> > > >  		inode->i_fop = &hfs_dir_operations;
+> > > >  		break;
+> > > > +	make_bad_inode:
+> > > > +		pr_warn("rejected cnid %lu. Volume is probably corrupted, try performing fsck.\n", inode->i_ino);
+> > > 
+> > > The "invalid cnid" could sound more relevant than "rejected cnid" for my taste.
+> > > 
+> > > The whole message is too long. What's about to have two messages here?
+> > > 
+> > > pr_warn("invalid cnid %lu\n", inode->i_ino);
+> > > pr_warn("Volume is probably corrupted, try performing fsck.\n");
+> > > 
+> > Good improvement!
+> > > 
+> > > > +		fallthrough;
+> > > >  	default:
+> > > >  		make_bad_inode(inode);
+> > > > +		break;
+> > > >  	}
+> > > >  	return 0;
+> > > >  }
+> > > > @@ -441,20 +481,19 @@ int hfs_write_inode(struct inode *inode, struct writeback_control *wbc)
+> > > >  	if (res)
+> > > >  		return res;
+> > > >  
+> > > > -	if (inode->i_ino < HFS_FIRSTUSER_CNID) {
+> > > > -		switch (inode->i_ino) {
+> > > > -		case HFS_ROOT_CNID:
+> > > > -			break;
+> > > > -		case HFS_EXT_CNID:
+> > > > -			hfs_btree_write(HFS_SB(inode->i_sb)->ext_tree);
+> > > > -			return 0;
+> > > > -		case HFS_CAT_CNID:
+> > > > -			hfs_btree_write(HFS_SB(inode->i_sb)->cat_tree);
+> > > > -			return 0;
+> > > > -		default:
+> > > > -			BUG();
+> > > > -			return -EIO;
+> > > > -		}
+> > > > +	if (!is_valid_cnid(inode->i_ino,
+> > > > +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
+> > > 
+> > > What's about to introduce static inline function or local variable for
+> > > S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL? I don't like this two line
+> > > implementation.
+> > 
+> > Okay, I will rewrite this.
+> > 
+> > > 
+> > > > +		BUG();
+> > > 
+> > > I am completely against of leaving BUG() here. Several fixes of syzbot issues
+> > > were the exchanging BUG() on returning error code. I don't want to investigate
+> > > the another syzbot issue that will involve this BUG() here. Let's return error
+> > > code here.
+> > > 
+> > > Usually, it makes sense to have BUG() for debug mode and to return error code
+> > > for the case of release mode. But we don't have the debug mode for HFS code.
+> > 
+> > I prefer BUG() because I think it is a serious bug that we should not
+> > allow for a bad inode to be written. I am willing to take responsibility
+> > for investigating further issues if they appear as a result of this. Of
+> > course, the final say on BUG() or -EIO is yours as the maintainer.
+> > 
+> > > 
 > 
-> Also, refactor the structure of the validity checks for better
-> readability. At the default error level (LOW), XFS_IS_CORRUPT() emits
-> the condition that failed, the file and line number it is
-> located at, then dumps the stack. This gives us everything we need
-> to know about the failure if we do a single validity check per
-> XFS_IS_CORRUPT().
+> The hfs_write_inode() will return error code and it is also bug case. But we
+> will not crash the kernel in such case. Why would you still like to crash the
+> kernel? :)
+
+I would like the kernel to crash so that a bug report is made and I can
+fix it, rather than something go wrong quietly. My logic about that
+could be wrong and I'm happy to return error code as you prefer.
+
 > 
-> Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
-> Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
-> Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-> ---
-> Changelog
-> v1 -> v2: 
-> - reject the mount for h_size > XLOG_HEADER_CYCLE_SIZE && !XLOG_VERSION_2
-> v2 -> v3: 
-> - abort journal recovery if the xlog_rec_header h_version does not 
-> match the super block log version
-> v3 -> v4: 
-> - refactor for readability
-> v4 -> v5:
-> - stop pretending h_version is a bitmap, remove check using
-> XLOG_VERSION_OKBITS
-
-Hrmm maybe we ought to reserve XLOG_VERSION==0x3 so that whenever we do
-log v3 we don't accidentally write logs with bits that won't be
-validated quite right on old kernels?
-
-Though I suppose logv3 would have a separate superblock bit an old
-kernel just plain wouldn't mount a logv3 filesystem, let alone look at
-its log.
-
->  fs/xfs/xfs_log_recover.c | 27 ++++++++++++++++-----------
->  1 file changed, 16 insertions(+), 11 deletions(-)
+> I see your point that we should not be here because we must create the bad inode
+> in hfs_read_inode() for the case of corrupted Catalog File's records. Let me
+> sleep on it. :)
 > 
-> diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
-> index e6ed9e09c027..2ed94be010d0 100644
-> --- a/fs/xfs/xfs_log_recover.c
-> +++ b/fs/xfs/xfs_log_recover.c
-> @@ -2950,18 +2950,23 @@ xlog_valid_rec_header(
->  	xfs_daddr_t		blkno,
->  	int			bufsize)
->  {
-> +	struct xfs_mount	*mp = log->l_mp;
-> +	u32			h_version = be32_to_cpu(rhead->h_version);
->  	int			hlen;
->  
-> -	if (XFS_IS_CORRUPT(log->l_mp,
-> +	if (XFS_IS_CORRUPT(mp,
->  			   rhead->h_magicno != cpu_to_be32(XLOG_HEADER_MAGIC_NUM)))
->  		return -EFSCORRUPTED;
-> -	if (XFS_IS_CORRUPT(log->l_mp,
-> -			   (!rhead->h_version ||
-> -			   (be32_to_cpu(rhead->h_version) &
-> -			    (~XLOG_VERSION_OKBITS))))) {
-> -		xfs_warn(log->l_mp, "%s: unrecognised log version (%d).",
-> -			__func__, be32_to_cpu(rhead->h_version));
-> -		return -EFSCORRUPTED;
-> +
-> +	/*
-> +	 * The log version must match the superblock
-> +	 */
-> +	if (xfs_has_logv2(mp)) {
-> +		if (XFS_IS_CORRUPT(mp, h_version != XLOG_VERSION_2))
+> Thanks,
+> Slava.
 
-Being pedantic here, but the kernel cpu_to_be32 wrappers are magic in
-that they compile to byteswapped constants so you can avoid the runtime
-overhead of byteswapping rhead->h_version by doing:
+Thanks,
 
-	if (XFS_IS_CORRUPT(mp,
-	    rhead->h_version != cpu_to_be32(XLOG_VERSION_2)))
-		return -EFSCORRUPTED;
-
-But seeing as this is log validation for recovery, I think the
-performance implications are vanishingly small.
-
-I suppose if we /really/ want to be pedantic then the change of bitmask
-test to direct comparison ought to be a separate patch in case someone
-some day ends up bisecting a log recovery problem to this patch.
-
-Either way,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
-
-> +			return -EFSCORRUPTED;
-> +	} else {
-> +		if (XFS_IS_CORRUPT(mp, h_version != XLOG_VERSION_1))
-> +			return -EFSCORRUPTED;
->  	}
->  
->  	/*
-> @@ -2969,12 +2974,12 @@ xlog_valid_rec_header(
->  	 * and h_len must not be greater than LR buffer size.
->  	 */
->  	hlen = be32_to_cpu(rhead->h_len);
-> -	if (XFS_IS_CORRUPT(log->l_mp, hlen <= 0 || hlen > bufsize))
-> +	if (XFS_IS_CORRUPT(mp, hlen <= 0 || hlen > bufsize))
->  		return -EFSCORRUPTED;
->  
-> -	if (XFS_IS_CORRUPT(log->l_mp,
-> -			   blkno > log->l_logBBsize || blkno > INT_MAX))
-> +	if (XFS_IS_CORRUPT(mp, blkno > log->l_logBBsize || blkno > INT_MAX))
->  		return -EFSCORRUPTED;
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.43.0
-> 
+George
