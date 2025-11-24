@@ -1,93 +1,82 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C63231829
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Nov 2025 17:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273352C15B5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 24 Nov 2025 17:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764005303; cv=none; b=Bh0xpJxPtuxfBWjt57yaLSPLPCVa5bkFrzh/PPK5VXfr4xYI7P4ao7D/5uftwZUcHir0s0GjnZPh5fjheGjnhQkJ3fjm4cdgwaVxGb7jJFG4g4JzBaR28jlqcDsxShIG2mR/w/QHPhr8DZ1usShGhfWIuo8Zbi9YunfqpC9xv/Y=
+	t=1764006798; cv=none; b=KnhdUNmA1FQgQDuzrHGfxnRPxoGfYGCBQ95bfFmodnpsFgfFtyFjzPclwIGCnth7wt1tfjWgXBHE8iNh3HAadbYJ3X18vmoAa0Pb7/s+E4F8Ax+eMA/ATbvTGjmf/nBP0uP6yznfIQIgqXoQMhU/MpuW6ru9Hniqkt9KdN7sBio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764005303; c=relaxed/simple;
-	bh=3oH/wAdy55TtrwLg5CcQw140ZRAqpfNOOtj3sU8BhII=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QtzfTQ/IGoXQ26aLyBVYtwGg4a0sev+0FtrOmWTKKoeliGoZuffJmpxHBN/CbpMLS+i11MV+CPdaXt77UrtnTWJzYkxDv5p/A6+UzzSyX2zx60uAYFo4Uvip3PGw6T72ix+uhYO51ZJPIgQSffzPgHTBHQlLdnvrpZTORVzPRbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dn1klcfl; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1764006798; c=relaxed/simple;
+	bh=bBWF8rPKKMglK7OceS8v1RN30lLKUQ1GD0/J7LhaqAc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q0FtChDPVDBFavMDDyf2VJI/ZLVuOQcs6aQrnslFY5ic6N0hT+ZOcoKYFjLV/l+SQ9O72O9xznj519u1nFAfoQWvuLCa0Ig1NNoXsozPU1Ls8++dN7f/I+E0LJrutW/2atDPqZGdxSfTsEQnPACUqx6FXfQBE3Hxs+7t9mYD3mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUFkJ8LN; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dn1klcfl"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D2C7E40FC7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Nov 2025 17:28:21 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id F0kFRzv3w_Rs for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 24 Nov 2025 17:28:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=zlatistiv@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E4EE740FCE
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E4EE740FCE
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dn1klcfl
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E4EE740FCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Nov 2025 17:28:20 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-42b3720e58eso3528988f8f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 24 Nov 2025 09:28:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUFkJ8LN"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-88043139c35so45943266d6.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 24 Nov 2025 09:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764005299; x=1764610099; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3J1OuptE+eXhtOMpZOrEy7V0/XXBCdvwVjX11ZxUQz0=;
-        b=dn1klcflrH72JL1Pvk5gwREQ417TeHvjtFiFnPAodHrq7np/X9xQeR9DHhYZvD2GTT
-         93OFl53MnqaCRZUIALq8ntNoomQRP7AEBlw121fDMkfggZCDlJEnKSAISRqN254HqL7F
-         dioY+xAus1fx5rrMl51+4mjF/pw8FJu+7uNlckt9PUOurZroIeoRHc8m1fxPTEj6Xdpq
-         1vvmrNUVgbV+xLvz1HVGFjdbXe8ZR27FCf+DjdNL/rmzLF5s9rQDR8O6tGFcLlwKSbi8
-         VUrtiANFAxUmTD1B5ty4lNX75wZVPgSFdYFytagN2nzf2FFa8qvBghjnpUCgz0t7dKvx
-         wjig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764005299; x=1764610099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764006795; x=1764611595; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3J1OuptE+eXhtOMpZOrEy7V0/XXBCdvwVjX11ZxUQz0=;
-        b=IWlWIfAfFPMaFiUMfLnZLTpVx0mZ1+ekRu2nhHDlCQcOJyYQ1vq/lIHbjRXwWwWxit
-         1vBkX3ZP0786E9NTAmmm3Mno4vXZlAJCoAwZe2jo+tmCyE/eKQh6naIgYMwzFYSQkmxs
-         fKcCjorDg0fFSR3usMW3E11vWxYSVS+jVcPEVArOqtnDA6TbZncbvkgu5/jcL4/GwupD
-         SCpLwZZ6SZmKx91uQAw6Ft7thpSQ9jSzWHYw3rMWdf4wWNnOW2l8OQh08Z0MUTCIVHDb
-         Wb2LnRLR8BK80JIK1jbK1aiX1w+YuVbDoGZJD6EmpFkJyj8vNDD92R8jTdrVaMRJJzrj
-         nWHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGK8V6f+m4GQiRpnfQHwuKuWBMdHTn8nsqYQRDrwrOwG0IV4mAq1ZlTIGEv2ia1/+eJUU5HquO4upGTYLjUQq4ruUpfw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz/lnjQBFvxeSYSGMFd3IP+pHc4eyR71jOpTTstzD0B8uZ++Uc3
-	iydjxgmhbVTR4H40Hs+3uFHOZA2AiQmzR0gESLUgfhLMk1dH4aTMd2Bv
-X-Gm-Gg: ASbGncsuvhBtnzg7Iqx07yM6B00ttGJmMXLgr2nCBlnTKNGHytFFsmfppoXzjf3urpU
-	AOjoWw0Ii0ofz15ydFFk56gujrr8/VdE2Ea9Jl7+Jzc+L+qEsms/dV+jOso7jSYk7wPQleFok1L
-	rNm6QkJOMyejQV0s5t3GQCioxhrwIJeJoe/oIVssLqKQ9B/f9PytykSYn+LrXW4ex3cIjlDGTTx
-	YddDAbM2ZbGl4Z8kaSNSOKgDj1BmYKAHoQQzY7Rw7eTggNvAzwOcBOCRM8HxruzvAh5dA7Tbf2u
-	C3I9wkqIH3Fh25UiNKnleXZE5Fijcd/ScRKYcTJSaC6uXmjNUIzLyAu7l1esPBEXnuF4ZjiHRk3
-	ZAjo1ngYaXndatW0LDnan+tGxQeOAgMukRp121vbkTDLGPNRR2Q3laRPJ09EtoM26tArVC2Vzj1
-	DVJQ3Y39n/5ccBEnxtAv+3nQ==
-X-Google-Smtp-Source: AGHT+IFYcHtKnTQuGnZVQa/KwkYM+ou4ckUgNPHvgqeID7aDViND63oKXSIlG5aX5GpVhrDgW43P8w==
-X-Received: by 2002:a5d:5888:0:b0:42c:a449:d6a5 with SMTP id ffacd0b85a97d-42cc1d27b05mr12919046f8f.34.1764005298543;
-        Mon, 24 Nov 2025 09:28:18 -0800 (PST)
-Received: from localhost.localdomain ([46.10.223.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fa35c2sm28315690f8f.25.2025.11.24.09.28.17
+        bh=LURuhpVUuY1JHDBVH0tH7eUgzbVsxd/8tIMD/zbq7mI=;
+        b=HUFkJ8LNGezzHm+h88hSqE5S6GbRnH7++wERBUy+cUN++4QGNzmGWgtmipLHJFwlW7
+         bNEqybuGlUlkDYDpGNeicoWMv0jWjPVbAQvlnNjSJXY/749p+feHTIDp4eYioZ7c1Jr+
+         N3pZD34ZVKiZKnfP/f7ATDxGjl7wCD5arJkWWEwWvnePxAFVIKH3EG1CB9kGbWlvZTIG
+         8PO7yUf9MZv8GcAjM8PjF1GrZ/skdmRPAA98LBpnjKtvq9h83GCNHGwoNoYVVQ31OVjj
+         2IowGRm6vlXpgpYEuiF3baUfud0801Vs2ncmMksOxh7mPm6Ch0ATwwEFqU7R/S+Z9vPZ
+         pwkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764006795; x=1764611595;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LURuhpVUuY1JHDBVH0tH7eUgzbVsxd/8tIMD/zbq7mI=;
+        b=Yw4jBBzQqMJKOWYXbbhtMmRV5fcTOKWV2wSDa5ulJzPItybt3XpXUkEwCs5NmbtGPD
+         rlOsmNdheo1Hc/PafelRKo3xIkkhc44NPo+mHjuMg9usGFkmrsH52SbMPcP6e3pcLcJP
+         K47mWRiLFultyHYZn2W6I2MHu0Gas7H/edBtgnihrgWDleFh2FtT3CbpNsrQ0DeCjRWB
+         qUdiZ/plAsuN51aCD6kqHhlcb9CVRsYwYh/UmBxYAl/FebI6ImO1xLjtc1ntL1+puQEf
+         taH2YxxIcswBMsYSNOdYAwSZmz3IP/NOQlP+Lwj9STQjlHbbCLvRhXpjvN5MH4sn7vWc
+         iGUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMR7KoyL0b0ak6jEIbtNrbMxdyrCbHi7tkOvDehVt4U5uhcyIgYzkJ1sGOr/Z7cRXj5JbXLX3mo+pNaq7LTae3c+Rg9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwAdItmcRle0SbdMH++DGPzpaOH/Q5+ycnc4SMVDPE/IKGJKys
+	qZaqr+pO43yFXKDf8hvZIebteIb6VG7t8EwKpGA6WLHjBtX7XJayc98Q
+X-Gm-Gg: ASbGncv6lQ+7HCwcUVRIV3MeqnUPy3Vt3K2leSgVo0v/HAnVpcmVwBo10tYMkG0Vk9D
+	Y8lPb8gTWfXI7YTNOIcfIE7FjnZ3af5HIgEFeXsNbpOIgC0dh6LHVVJl0twMpfEqDchvd5yL23Q
+	HCJhUfhTxvjeAasape5le6SBJ+uY6OiphbG6A5fSZvaQaRNVoIQg3umfolye9Iaq58iHNzpVfk6
+	lf57YoloHxQECLs7bUBNh+go/V1SHn1MDmS3grwFYd4Xrj4gVQ/olikHgTpXGP9XJKF89/1vKFW
+	fq/4j7vMxdH3Gd0aULGOVvgL2gk/DMJMH1dEVmv/Uj5GV9EGI/uvfW1JleQ7TPC0umvkoxUeg1D
+	/SvBrXu5iSLws9WW8D7FPYDtFXMt1bxyONyAjDaTFeRTZ4lUI2T1EG5ir06hk6xVcBvNVyBu7dS
+	BmAS+eiE/lGQYHi8rB+EZtV9HxoS1/DeNpZdsPLTvdUQ==
+X-Google-Smtp-Source: AGHT+IGZatrd1Mjg+Nhia8Dfmz1nAgU6r7HISTxMbZWQ2yO30LFfqsql/fK1HY1Zg7Pq9Sx9BsZTdw==
+X-Received: by 2002:a05:6214:21cc:b0:880:4695:4626 with SMTP id 6a1803df08f44-8847c4c7bc1mr171890916d6.15.1764006794854;
+        Mon, 24 Nov 2025 09:53:14 -0800 (PST)
+Received: from rpthibeault-XPS-13-9305.. ([23.233.177.113])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e58ded0sm103284776d6.48.2025.11.24.09.53.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 09:28:18 -0800 (PST)
-From: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-To: aivazian.tigran@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	"Nikola Z. Ivanov" <zlatistiv@gmail.com>,
-	syzbot+f51a2a34984e4d8888fd@syzkaller.appspotmail.com
-Subject: [PATCH] bfs: Fix calculation of offset when moving blocks
-Date: Mon, 24 Nov 2025 19:28:15 +0200
-Message-ID: <20251124172815.100111-1-zlatistiv@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        Mon, 24 Nov 2025 09:53:14 -0800 (PST)
+From: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+To: cem@kernel.org
+Cc: chandanbabu@kernel.org,
+	djwong@kernel.org,
+	bfoster@redhat.com,
+	david@fromorbit.com,
+	hch@infradead.org,
+	linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com,
+	Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Subject: [PATCH v5] xfs: validate log record version against superblock log version
+Date: Mon, 24 Nov 2025 12:47:00 -0500
+Message-ID: <20251124174658.59275-3-rpthibeault@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aR67xfAFjuVdbgqq@infradead.org>
+References: <aR67xfAFjuVdbgqq@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -96,117 +85,101 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bfs_move_blocks performs an incorrect calculation when
-looping over the blocks that are to be moved.
+Syzbot creates a fuzzed record where xfs_has_logv2() but the
+xlog_rec_header h_version != XLOG_VERSION_2. This causes a
+KASAN: slab-out-of-bounds read in xlog_do_recovery_pass() ->
+xlog_recover_process() -> xlog_cksum().
 
-When looping over the section of blocks:
+Fix by adding a check to xlog_valid_rec_header() to abort journal
+recovery if the xlog_rec_header h_version does not match the super
+block log version.
 
-for (i = start; i <= end; i++)
-        if(bfs_move_block(i, where + i, sb)) {
+A file system with a version 2 log will only ever set
+XLOG_VERSION_2 in its headers (and v1 will only ever set V_1), so if
+there is any mismatch, either the journal or the superblock has been
+corrupted and therefore we abort processing with a -EFSCORRUPTED error
+immediately.
 
-Here bfs_move_block will not move
-blocks "start"-"end" to "where"-"where+size"
-but instead it will add "i" (which is initialized to "start")
-to "where", adding additional unintended offset.
+Also, refactor the structure of the validity checks for better
+readability. At the default error level (LOW), XFS_IS_CORRUPT() emits
+the condition that failed, the file and line number it is
+located at, then dumps the stack. This gives us everything we need
+to know about the failure if we do a single validity check per
+XFS_IS_CORRUPT().
 
-Example reproducer of the bug:
-
-dd if=/dev/zero of=./bfs.img count=200 bs=1M
-mkfs.bfs ./bfs.img
-losetup /dev/loop0 ./bfs.img
-mount /dev/loop0 /mnt
-dd if=/dev/urandom of=/mnt/file0 count=75 bs=1M
-dd if=/dev/urandom of=/mnt/file1 count=25 bs=1M
-dd if=/dev/urandom of=/mnt/file2 count=25 bs=1M
-echo 123 >> /mnt/file1
-
-Essentially this will create 3 files, file1 located
-right between file0 and file2 on-disk. Writing more
-data to file1 will cause bfs to attempt to move it
-after file2, where we have enough space to store it,
-but due to the incorrect calculation it will attempt
-to move it past the end of device and trigger a NULL
-pointer dereference in bfs_move_block.
-
-Even if we have enough space to account for the
-unintended offset, the content of file1 will now be
-garbage due to bfs_get_block expecting file1 to be
-right after file2.
-
-For example:
-
-dd if=/dev/zero of=./bfs.img count=200 bs=1M
-mkfs.bfs ./bfs.img
-losetup /dev/loop0 ./bfs.img
-mount /dev/loop0 /mnt
-dd if=/dev/urandom of=/mnt/file0 count=1 bs=512
-dd if=/dev/urandom of=/mnt/file1 count=1 bs=512
-dd if=/dev/urandom of=/mnt/file2 count=1 bs=512
-sync; echo 1 > /proc/sys/vm/drop_caches
-xxd /mnt/file1
-echo 123 >> /mnt/file1
-sync; echo 1 > /proc/sys/vm/drop_caches
-xxd /mnt/file1
-
-The hexdump reveals that our file now contains zeroes,
-except for the "123\n" we echoed at the end.
-
-Fix this by correcting the calculation. Additionally add
-a check for new == NULL inside bfs_move_block and propagate
-the return value of bfs_move_block as a return value of
-bfs_move_blocks in case of error.
-
-Reported-by: syzbot+f51a2a34984e4d8888fd@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f51a2a34984e4d8888fd
-Signed-off-by: Nikola Z. Ivanov <zlatistiv@gmail.com>
+Reported-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9f6d080dece587cfdd4c
+Tested-by: syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Fixes: 45cf976008dd ("xfs: fix log recovery buffer allocation for the legacy h_size fixup")
+Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 ---
-The example reproducers might trigger a WARNING() in mark_buffer_dirty,
-which is observed often when blocks are moved around,
-syzbot has already hit that bug here:
-https://syzkaller.appspot.com/bug?extid=2327bccb02eef9291c1c
-I will follow up with a patch for that soon.
+Changelog
+v1 -> v2: 
+- reject the mount for h_size > XLOG_HEADER_CYCLE_SIZE && !XLOG_VERSION_2
+v2 -> v3: 
+- abort journal recovery if the xlog_rec_header h_version does not 
+match the super block log version
+v3 -> v4: 
+- refactor for readability
+v4 -> v5:
+- stop pretending h_version is a bitmap, remove check using
+XLOG_VERSION_OKBITS
 
- fs/bfs/file.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ fs/xfs/xfs_log_recover.c | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/fs/bfs/file.c b/fs/bfs/file.c
-index d33d6bde992b..649105018014 100644
---- a/fs/bfs/file.c
-+++ b/fs/bfs/file.c
-@@ -40,6 +40,10 @@ static int bfs_move_block(unsigned long from, unsigned long to,
- 	if (!bh)
- 		return -EIO;
- 	new = sb_getblk(sb, to);
-+	if (!new) {
-+		brelse(bh);
-+		return -EIO;
-+	}
- 	memcpy(new->b_data, bh->b_data, bh->b_size);
- 	mark_buffer_dirty(new);
- 	bforget(bh);
-@@ -51,14 +55,17 @@ static int bfs_move_blocks(struct super_block *sb, unsigned long start,
- 				unsigned long end, unsigned long where)
+diff --git a/fs/xfs/xfs_log_recover.c b/fs/xfs/xfs_log_recover.c
+index e6ed9e09c027..2ed94be010d0 100644
+--- a/fs/xfs/xfs_log_recover.c
++++ b/fs/xfs/xfs_log_recover.c
+@@ -2950,18 +2950,23 @@ xlog_valid_rec_header(
+ 	xfs_daddr_t		blkno,
+ 	int			bufsize)
  {
- 	unsigned long i;
-+	int err;
++	struct xfs_mount	*mp = log->l_mp;
++	u32			h_version = be32_to_cpu(rhead->h_version);
+ 	int			hlen;
  
- 	dprintf("%08lx-%08lx->%08lx\n", start, end, where);
--	for (i = start; i <= end; i++)
--		if(bfs_move_block(i, where + i, sb)) {
--			dprintf("failed to move block %08lx -> %08lx\n", i,
--								where + i);
--			return -EIO;
-+	for (i = 0; i <= end - start; i++) {
-+		err = bfs_move_block(start + i, where + i, sb);
-+		if (err) {
-+			dprintf("failed to move block %08lx -> %08lx\n",
-+				start + i, where + i);
-+			return err;
- 		}
-+	}
+-	if (XFS_IS_CORRUPT(log->l_mp,
++	if (XFS_IS_CORRUPT(mp,
+ 			   rhead->h_magicno != cpu_to_be32(XLOG_HEADER_MAGIC_NUM)))
+ 		return -EFSCORRUPTED;
+-	if (XFS_IS_CORRUPT(log->l_mp,
+-			   (!rhead->h_version ||
+-			   (be32_to_cpu(rhead->h_version) &
+-			    (~XLOG_VERSION_OKBITS))))) {
+-		xfs_warn(log->l_mp, "%s: unrecognised log version (%d).",
+-			__func__, be32_to_cpu(rhead->h_version));
+-		return -EFSCORRUPTED;
++
++	/*
++	 * The log version must match the superblock
++	 */
++	if (xfs_has_logv2(mp)) {
++		if (XFS_IS_CORRUPT(mp, h_version != XLOG_VERSION_2))
++			return -EFSCORRUPTED;
++	} else {
++		if (XFS_IS_CORRUPT(mp, h_version != XLOG_VERSION_1))
++			return -EFSCORRUPTED;
+ 	}
+ 
+ 	/*
+@@ -2969,12 +2974,12 @@ xlog_valid_rec_header(
+ 	 * and h_len must not be greater than LR buffer size.
+ 	 */
+ 	hlen = be32_to_cpu(rhead->h_len);
+-	if (XFS_IS_CORRUPT(log->l_mp, hlen <= 0 || hlen > bufsize))
++	if (XFS_IS_CORRUPT(mp, hlen <= 0 || hlen > bufsize))
+ 		return -EFSCORRUPTED;
+ 
+-	if (XFS_IS_CORRUPT(log->l_mp,
+-			   blkno > log->l_logBBsize || blkno > INT_MAX))
++	if (XFS_IS_CORRUPT(mp, blkno > log->l_logBBsize || blkno > INT_MAX))
+ 		return -EFSCORRUPTED;
++
  	return 0;
  }
  
 -- 
-2.51.0
+2.43.0
 
