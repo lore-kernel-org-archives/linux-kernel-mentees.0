@@ -1,51 +1,48 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFF221C167
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 24 Nov 2025 23:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245DA3A1D2;
+	Tue, 25 Nov 2025 06:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764028006; cv=none; b=VkM3iYM/VF6+y9ChLMnI9vFNNY1+div31x9rV0Z5sKFrOGUYZ7jL3F80j2vEmZKWf/SKIqLTXaCcrHVEyCfyM2jOg7BpdF+olURyvLWVUDLLgfz8XJJANbOit0kYBEhnER2rfujInwEiLxWcJN2RLQR5oe3NIVoNdx9jPBRdLNM=
+	t=1764052286; cv=none; b=WgbAIz8uFSEDreCWexic7Kxo/8SkKE6kB38S/YFdbLKDyqjcC2vq09XyaHXaFr8D+V1a2+4iHtXyPrMe22D/MhY1lRe8GzpBrdc4qUXb9R4W7+N12UKmGdRbCaUa5atfH9v9R2zPv8H8VCDZgn9Wyi36chiUNXyJJp8386o+jZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764028006; c=relaxed/simple;
-	bh=QM9zknqSLBY6QSYbDhz5v5I9KvKTzBfg9/rtsn7nAR4=;
+	s=arc-20240116; t=1764052286; c=relaxed/simple;
+	bh=Q5CVO20hx5wq+EystQMLKMhxzXdO8zkqbeFQhRzMWgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnnivndTqjGdPf9PsErod3KO805VlxpTbLpw7l949tYyHCQgK3BNJY12h2E1qprVkTfZDOmoha0cxWKbRhUIfL45eZ7Bc69yNpNfpwbaJCIIUne+aPM+vOkeo5ZxLyEMgcdCcF7B+GyQdnAyZOJTD4jmpQZTXgnJGeJDpoWB8Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com; spf=pass smtp.mailfrom=gvernon.com; dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b=TIo1KzvB; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gvernon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gvernon.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JIB7WhCufgaM14C+Wf8ArBltrHk7hR5wx+b2BbtsfZQN9I4kDB7OmxccC9DzLWGQ7Zmf7hiOBEACKbQeuL6GK9kRYZRc+UbMJmCZ2IdRl/uiobT0WL8hWLre5kWRtfGn4iDz2aGyMS66ZVS2A5YLT6Z3Z9FESUYGsqS0JJSaEMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Er4/Loth; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gvernon.com header.i=@gvernon.com header.b="TIo1KzvB"
-Date: Mon, 24 Nov 2025 23:46:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gvernon.com; s=key1;
-	t=1764027992;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D4P2sClRaAKgY1OkBtVXJNigBx3jVH3TqY+Lt5bLcw4=;
-	b=TIo1KzvBqMvrnB4vf7GcGlk4salBEPMd0xRNQWJr0i5orCJBJCSyPgeVqNO+zdEZOpOgut
-	YxdYVSDASnPE6J43sA7UdU8piY8Wn7QWqn6zlrcE7nQqsT6cqX6j1XpMqvdCLKFVT61EwC
-	R5hxb/doGHu3TztLZ7enPDugYTnorF6R9ypuL+STR0ZFhEg2b48cZ+r2cbELn9KjvXYmV+
-	/gfKNEvK1gQKoDekICzWKDZ9X4RaDDzZkvLBMuYPf4puEpa40+4njA2XhIa3eU8gfq1Afa
-	Jb+A0nP3V+0jMty/gbHaP+FoLaVcpk5yoy5Rvvw3Lk6sr/u40xq1iSAl0yrtkQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: George Anthony Vernon <contact@gvernon.com>
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-	"penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
-	"slava@dubeyko.com" <slava@dubeyko.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"frank.li@vivo.com" <frank.li@vivo.com>,
-	"linux-kernel-mentees@lists.linux.dev" <linux-kernel-mentees@lists.linux.dev>,
-	"syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com" <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
-Message-ID: <aSTuaUFnXzoQeIpv@Bertha>
-References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
- <20251104014738.131872-3-contact@gvernon.com>
- <df9ed36b-ec8a-45e6-bff2-33a97ad3162c@I-love.SAKURA.ne.jp>
- <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Er4/Loth"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qLIr/5g/S2BaUssc3LhMZHZ7o1wXWd7qBh9Mv7hNyss=; b=Er4/LothUf5nNvmv2y323fuBL0
+	UDpDfPjv2tMSLyYw7YF8dHxRRbt4JK6Cr7UozBCou1JkJdhQCh0lhTM/Xws5Iy8xzj3QtkosaELA5
+	HxzPyRUV7uOLWcSnxJsjjhie1JB8AqBRIIt/zPkBjSV26f+xKncMbtuGy6CTnUPaJlXw1s9GKBfa1
+	aHepXpM4C7taFPSCw4IFM6u8nJ28ivaATb9Fap1Uvf+GGrqt3FkQJLe9FHbvIZ+QpWVN77La7ZmbA
+	lvvxlV9f+Dt55IqnnAgC800sMCbjX5S3wKmZJSiV8D0axD/+xrLOt1N5rtwRAEAvzNyIAOzb8ZlwX
+	RxoFuvIA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vNmaA-0000000CpLG-10Po;
+	Tue, 25 Nov 2025 06:31:22 +0000
+Date: Mon, 24 Nov 2025 22:31:22 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>, cem@kernel.org,
+	chandanbabu@kernel.org, bfoster@redhat.com, david@fromorbit.com,
+	hch@infradead.org, linux-xfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	syzbot+9f6d080dece587cfdd4c@syzkaller.appspotmail.com
+Subject: Re: [PATCH v5] xfs: validate log record version against superblock
+ log version
+Message-ID: <aSVNOhcK3PvdlSET@infradead.org>
+References: <aR67xfAFjuVdbgqq@infradead.org>
+ <20251124174658.59275-3-rpthibeault@gmail.com>
+ <20251124185203.GA6076@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -54,32 +51,30 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20251124185203.GA6076@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Nov 11, 2025 at 10:42:09PM +0000, Viacheslav Dubeyko wrote:
-> On Tue, 2025-11-11 at 23:39 +0900, Tetsuo Handa wrote:
-> > On 2025/11/04 10:47, George Anthony Vernon wrote:
-> > > +	if (!is_valid_cnid(inode->i_ino,
-> > > +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
-> > > +		BUG();
-> > 
-> > Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?
-> > If no, this check is racy because make_bad_inode() makes S_ISDIR(inode->i_mode) == false.
-> >  
+> Hrmm maybe we ought to reserve XLOG_VERSION==0x3 so that whenever we do
+> log v3 we don't accidentally write logs with bits that won't be
+> validated quite right on old kernels?
+
+Why do we need to reserve that?  The code checks for either 1 or 2
+right now based on the log feature flag.  If we add a v3 log we'll
+have to ammend this, but reservations won't help with that.
+
+> > +	if (xfs_has_logv2(mp)) {
+> > +		if (XFS_IS_CORRUPT(mp, h_version != XLOG_VERSION_2))
 > 
-> Any inode should be completely created before any hfs_write_inode() call can
-> happen. So, I don't see how hfs_write_inode() and make_bad_inode() could run in
-> parallel.
+> Being pedantic here, but the kernel cpu_to_be32 wrappers are magic in
+> that they compile to byteswapped constants so you can avoid the runtime
+> overhead of byteswapping rhead->h_version by doing:
 > 
+> 	if (XFS_IS_CORRUPT(mp,
+> 	    rhead->h_version != cpu_to_be32(XLOG_VERSION_2)))
+> 		return -EFSCORRUPTED;
+> 
+> But seeing as this is log validation for recovery, I think the
+> performance implications are vanishingly small.
 
-Could we not read the same inode a second time, during the execution of
-hfs_write_inode()?
+Yes.
 
-Then I believe we could hit make_bad_inode() in hfs_read_inode() once we
-had already entered hfs_write_inode(), and so test a cnid against the
-wrong i_mode.
-
-Thanks,
-
-George
