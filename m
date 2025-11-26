@@ -1,131 +1,138 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E4531A800
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 08:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3584C3019CD
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 09:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764147452; cv=none; b=fF9vTLurNXLZQX9SG+rLAXxfnjnCRep6QCcbnjAiNHlsTNC+v/xvt5i6jm5IkE7ykFRpS2di23MTjkY0HgaepM0jqKojzS+XvBBVCTJaMHf2JClyn1vNyfkM57goiM+EA6CkzcjFbAFvy6u1R5nFho0Y96WZBRfMlAJuQO+l3rw=
+	t=1764147849; cv=none; b=F11+YicYO7zmBVlQdOpXFlXzG7huRAgZ+7ilf3MouPEVW1D4dxWZznIau44oTcIdhtzXZfD5ig2BPdbr6tCMi8mQqnlL3iQeEoMbLM6YL0n9hSI6NjSdgAp6p1spkZm6UdxhJLzgQRHjEOkSacTRtBMgwkKQ3j/lPPYC7/ntMqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764147452; c=relaxed/simple;
-	bh=R06W+thWG4PUh9RpwiJNVqt3xWqIpJdtMoUwNagYTwQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FfhQypY7EzX51r/p/YOhIB+iJeniGAEvid24v+dpFHe3DKwo+C5jevPcelskn7wtJ8H5cYbJaiBVrE0H2iZwF/Vv1+XUw0DhUUMy8+MnI/fn/G/HH/fXawzOYRsa9/ztrUSHdMHUT0HjZkFrDrqQH45eJPUBVF4Q+0IYrHtOIb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=Z4L2pCNZ; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+	s=arc-20240116; t=1764147849; c=relaxed/simple;
+	bh=msA1Bmidu73lv6UgIPfMu/uKxgKN3WMlHd0YJZqFXso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kgfApB4iQCayUWoBqVnFvzskYTrKH3a2FmNSiQG2nEhQFhjGP35MkYsaIcDj4o0l3/1q023YfPk+XDZP6vpRPw1rlmEbMnbOYkYoIDvCC5ul9BagPP2CDMbWgLujxp+dFKzDxeV3vdAD/8+rLfR/ynNo7pbq5XtQ4klosZHtbd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCuldOI5; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="Z4L2pCNZ"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-298287a26c3so75477265ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 00:57:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCuldOI5"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ee4c64190cso49087761cf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 01:04:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1764147450; x=1764752250; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ayYGT2wjXVviNIIw08APqOoUIe5IIlHXHG2yMmRJMdA=;
-        b=Z4L2pCNZZ0TlCxj1t6pawXQo3AJKzeLlPamG7SrY6Bj2UZ+Tg/VQ0GgBolV6c1eCjO
-         R9c8ZdjGnAgKWpggtY369EY0o+hu/lmm4AUOtFiJATvKUDgX7ZbKb3c1Yz4Fo5Ggs9qz
-         ClGhgqu4Y5cptPOKOjGUdv0lbJLApqoVI9Na0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764147450; x=1764752250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1764147842; x=1764752642; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ayYGT2wjXVviNIIw08APqOoUIe5IIlHXHG2yMmRJMdA=;
-        b=eAvYJ1rqFmf56lJCoJzUq0l2BMTWatp6vWzaGPXu+eR1bNZ/NmWfN1OSm1NbUlxpTr
-         7qNSbkCzAPoHJHwsDylYOVdK0zJMfn4NN5tQXULa6m3kZVeLb6lvqYfTILB91elYUOhI
-         tgDEWtWvg06PIjGlkEXfRa6aUswagiNHwHEHCmkHOR8hX6+d4PvlrB+VQ0IRJvOn1H0Q
-         LN5YPZ2NHtEvgfmxLs+Dnde0ZRgYzZ2T+uNLDuIzlZfg1IetHqg2yEVY936gi8qoPrXY
-         AofenZ0wQVzUATiuA8YLTC1AJHXHc7k1BexaR/2IY4/IEsNtjkxXv1K+mKyl/OGhLeXt
-         S2hA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqCXJ55CRaWvgko/RJ0IMzEIpdNJTFly1FyLd437BEicn/cXbsNRr0WvtLMAhAAFmMMHzBNNtfLbiXYWdttRGo6BzuUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzeJogk+DuB4EDq/yqt+UTn7gMH9J+lhKdCmGDdlKi/iphuZqFf
-	/KtORYGEy4p6q+LEwRC/FPftfjBjs8nudXIP2vUQdm20d50ZSSYRCzAFMx7Doj9ZTWw=
-X-Gm-Gg: ASbGncuLOA/TyPuMO+rso73JPaLDLGnpwxFoqv/1ZWc+FEqcRrIm+5F7plR3+Zd7ZNK
-	tQBbV+vky9nlEtxMHmi1UjuZakmvTQEmFpfNnFk8ygHET7dCjgVDrzsXZTXNMOTzk1PrXRGdxz8
-	2PDuzfE8zuZPKXQRZ+pSvDypOZQEiGJw1D3qlLSiYz7tBpJG4QflXE+TiJk6p0qUAQZBUDR1wWC
-	0/6GySkAES3C+giZlaI+rsJ6RjomOyS8/PAcJGXJZeLCVoHm1sl2uPB9iPO752Z4WgExtgvjD36
-	LQaktsWPyd6qM5U1h7I7xvP4KuhBul6QbCP/YFbPFcEi9pTrqSpjwCd37mKWXfX/uZQUxom5RMb
-	YeUDzw/REcpYCv1VyhZuUdqwHjnyoIv+GSqoqnlMFIU5ST63Lys2qPptMtC74Y/xBmlO+PHnpph
-	VFuaUW5XiHQ27Q0n1HHPi+8spw9VmlO3HWGt2/HRrYhWEBskRSze8ZmtvS
-X-Google-Smtp-Source: AGHT+IFmMHF+sAkjyYcySvUSftDXvHC79EDpe+15m4p1J1Zg1br8SbDaOQhsYeTCo/U/KY3wrXQL2A==
-X-Received: by 2002:a17:903:17c5:b0:294:f310:5218 with SMTP id d9443c01a7336-29b6bd580aamr237265665ad.0.1764147449992;
-        Wed, 26 Nov 2025 00:57:29 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:9fd4:f657:3c3c:9fd0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b25c104sm191816515ad.54.2025.11.26.00.57.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 00:57:29 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>,
-	Rostislav Lisovy <lisovy@gmail.com>,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
-	syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
-Subject: [PATCH v3] net/sched: em_canid: fix uninit-value in em_canid_match
-Date: Wed, 26 Nov 2025 14:27:18 +0530
-Message-Id: <20251126085718.50808-1-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=hyRh8xXL0L8kVbM1qWyCLwjKZ6UbKVPw2m1+P8OYNlQ=;
+        b=BCuldOI5HT5buiIBaiYmxSVAgOxmwAbDUsCcjEcN6ZjV1Dh4C4DEclFSZWg1Iij2Y+
+         3qpsk81jifrqXw2T658YacTPVF5itisjjTqqoUdEncvjmQtONNo8/xgzyFvUKnD68KDo
+         Z9AGikzwAceYyxCO/VS+J3RTY/WMLNm72gV6yXItSjnMMh/zrxe8tIUgzHFfOnXAIDlh
+         EW1tqR8h94yMvgQbzFBgJsr9fPX6F5f04Ki76I32T1GQ7/IjoZiKPnWwQMp7U8itpyHt
+         H2buK783xk0tlfpI6ptn41VO6qWUtUl+flHhXacbV4goBc9lNkmUkVhKIKiKwwoN4LZa
+         DhXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764147842; x=1764752642;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hyRh8xXL0L8kVbM1qWyCLwjKZ6UbKVPw2m1+P8OYNlQ=;
+        b=LGXi5wyYobMbEFtBBZR2FtELECyI/VNztbpDNjM9X/XpK+9mnWLSoBB6E4r/OQVwFj
+         mOTiaDxHKOTAyhRXVoqD6CzX2dJ0vwu8Os5nR9fVzw3/q8PeKpO4wzLq+GYuLnKdR7n6
+         oo3Mva884PAlMe81wFbU1V1a+QnOcuxQ5BKDQWhUHZyVCTCAYdsOcI9JAvLUa9XxVZEG
+         SlNWpluUFT1qjCj4JC1Ab318PBNxMFK5Ofjzce8fstsu+D4c6nuSpFqdgFsUzZUDr3Ln
+         1xXR07YUXXNTpaTTska9aw/KyNg2PbU8GJ1Zatl2jShFbgN7GhIXVWI9YwsSNcJcd1si
+         F5fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdhozeUWOStsuWZmxVFDyaLuDA67jhqaVtWxgxMhkSvg5NaqIujwZVOitwfeZswLdlJTbCQJlF4EG6R4nteLBh9ZchDQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFfvzf2Isly1wkTDDVlFdy1B3MeFChVsbGZCosy1C05Aly8SX9
+	nNEatg8g7RZ7sosaBbzCzCt6A4HWEcNw7PQ3HeQSXzAJaJFfwE4dksWBsAWE5p/MLsHMXzJlZMf
+	zfJ/rFdK0cGnp08COC1TMY/1FTKGuc2Syt6kqN5lE
+X-Gm-Gg: ASbGncvGqqe/eG6ze1W5BGoWpr00Hzi18SM8KmQsRU6/9TWeZrhxgJGRTzfUmCU0iDW
+	CbjuMI/Rn/s+mY3YJSp0YrhD6IjtLlyd46kwoiHBnnUPVEOXy479PfW212lDxVhLfX4vCrGAZrv
+	hbb6/TieWVBKzfI3w+/ejKRJK7RaN/FAbXX3Z/D4lgPP3KDJy8P5YxRQWCRPTEgpNeuKvN0gE3h
+	/v+VdpWCeBUUwl6t0NppPV8PLQwtJpbZ81bG8ZPf4LUKGfVULI/kcXgxQhKKLnarkCReA==
+X-Google-Smtp-Source: AGHT+IEPVELKVM1cwUwrfGMntJ3piYPimKdkJDSl5UF5isYNXZBNp4wQ/L7Ai4Aqn4fzrw9sl0QMSXAAIJOZ5vJ9tYw=
+X-Received: by 2002:ac8:58d4:0:b0:4ee:1db1:a61b with SMTP id
+ d75a77b69052e-4ee58b04acbmr253389301cf.75.1764147841940; Wed, 26 Nov 2025
+ 01:04:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251126085718.50808-1-ssranevjti@gmail.com>
+In-Reply-To: <20251126085718.50808-1-ssranevjti@gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Wed, 26 Nov 2025 01:03:50 -0800
+X-Gm-Features: AWmQ_bmE9KDgoqH9fUKEjaUj9BjCwLFusadkTUuVGXRtTtcEL0ewy5b2wK6n-kg
+Message-ID: <CANn89iKRYHaYS_wC0CzxsFD6pCHv126xKDbVgozBKvZyK-j7Yw@mail.gmail.com>
+Subject: Re: [PATCH v3] net/sched: em_canid: fix uninit-value in em_canid_match
+To: ssrane_b23@ee.vjti.ac.in
+Cc: Oliver Hartkopp <socketcan@hartkopp.net>, Marc Kleine-Budde <mkl@pengutronix.de>, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Cong Wang <xiyou.wangcong@gmail.com>, 
+	Jiri Pirko <jiri@resnulli.us>, "David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Rostislav Lisovy <lisovy@gmail.com>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, 
+	khalid@kernel.org, syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+On Wed, Nov 26, 2025 at 12:57=E2=80=AFAM <ssrane_b23@ee.vjti.ac.in> wrote:
+>
+> From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+>
+> Use pskb_may_pull() to ensure a complete CAN frame is present in the
+> linear data buffer before reading the CAN ID. A simple skb->len check
+> is insufficient because it only verifies the total data length but does
+> not guarantee the data is present in skb->data (it could be in
+> fragments).
+>
+> pskb_may_pull() both validates the length and pulls fragmented data
+> into the linear buffer if necessary, making it safe to directly
+> access skb->data.
+>
+> Reported-by: syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D5d8269a1e099279152bc
+> Fixes: f057bbb6f9ed ("net: em_canid: Ematch rule to match CAN frames acco=
+rding to their identifiers")
+> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+> ---
+> v3: Use CAN_MTU to validate a complete CAN frame is present
+> v2: Use pskb_may_pull() instead of skb->len check to properly
+>     handle fragmented skbs
+> ---
+>  net/sched/em_canid.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/net/sched/em_canid.c b/net/sched/em_canid.c
+> index 5337bc462755..2d27f91d8441 100644
+> --- a/net/sched/em_canid.c
+> +++ b/net/sched/em_canid.c
+> @@ -99,6 +99,9 @@ static int em_canid_match(struct sk_buff *skb, struct t=
+cf_ematch *m,
+>         int i;
+>         const struct can_filter *lp;
+>
+> +       if (!pskb_may_pull(skb, CAN_MTU))
+> +               return 0;
+> +
+>         can_id =3D em_canid_get_id(skb);
+>
+>         if (can_id & CAN_EFF_FLAG) {
 
-Use pskb_may_pull() to ensure a complete CAN frame is present in the
-linear data buffer before reading the CAN ID. A simple skb->len check
-is insufficient because it only verifies the total data length but does
-not guarantee the data is present in skb->data (it could be in
-fragments).
+For your next netdev patches, please read
+Documentation/process/maintainer-netdev.rst
 
-pskb_may_pull() both validates the length and pulls fragmented data
-into the linear buffer if necessary, making it safe to directly
-access skb->data.
+Resending after review
+~~~~~~~~~~~~~~~~~~~~~~
 
-Reported-by: syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5d8269a1e099279152bc
-Fixes: f057bbb6f9ed ("net: em_canid: Ematch rule to match CAN frames according to their identifiers")
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
----
-v3: Use CAN_MTU to validate a complete CAN frame is present
-v2: Use pskb_may_pull() instead of skb->len check to properly
-    handle fragmented skbs
----
- net/sched/em_canid.c | 3 +++
- 1 file changed, 3 insertions(+)
+Allow at least 24 hours to pass between postings. This will ensure reviewer=
+s
+from all geographical locations have a chance to chime in. Do not wait
+too long (weeks) between postings either as it will make it harder for revi=
+ewers
+to recall all the context.
 
-diff --git a/net/sched/em_canid.c b/net/sched/em_canid.c
-index 5337bc462755..2d27f91d8441 100644
---- a/net/sched/em_canid.c
-+++ b/net/sched/em_canid.c
-@@ -99,6 +99,9 @@ static int em_canid_match(struct sk_buff *skb, struct tcf_ematch *m,
- 	int i;
- 	const struct can_filter *lp;
- 
-+	if (!pskb_may_pull(skb, CAN_MTU))
-+		return 0;
-+
- 	can_id = em_canid_get_id(skb);
- 
- 	if (can_id & CAN_EFF_FLAG) {
--- 
-2.34.1
-
+Thank you.
