@@ -1,152 +1,131 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4D62DCC03
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 08:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E4531A800
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 08:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764147439; cv=none; b=kijMPKDfqqg7bpBwF8zSSJqmWikFF2XpIoKoTmImg1srHfnURKRrxcb1APm/xPfubTqdwxpBXd2AkL06V39GC4K502NEu4TJ2ZmxSVKV6zRz2sWhcbYzrkrigzGwQmIMYo9aMV2eMcEoDYn4PBqChHVItbsbbG5TB1j4lN5KShk=
+	t=1764147452; cv=none; b=fF9vTLurNXLZQX9SG+rLAXxfnjnCRep6QCcbnjAiNHlsTNC+v/xvt5i6jm5IkE7ykFRpS2di23MTjkY0HgaepM0jqKojzS+XvBBVCTJaMHf2JClyn1vNyfkM57goiM+EA6CkzcjFbAFvy6u1R5nFho0Y96WZBRfMlAJuQO+l3rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764147439; c=relaxed/simple;
-	bh=nT+9hkMMKO2a0c2dfjEfFHNaAZraFsUcksi/FyJvXog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fWzz96NbEfmytx567TL8qPSTlJGlkvnxv71KLH1iV94onbMnHgLxnuu/xLkFNGLgHONLrPRgklFmzws1Kf1npIz6RQDc+vz6ESTlltTr+wz0YtZ2iRynBuESvbI4B7ah6zLXnXGe7mIBkwFMmTCm/zq5C4tpMe71riOSh9uibvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=RGQussBX; arc=none smtp.client-ip=209.85.128.169
+	s=arc-20240116; t=1764147452; c=relaxed/simple;
+	bh=R06W+thWG4PUh9RpwiJNVqt3xWqIpJdtMoUwNagYTwQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FfhQypY7EzX51r/p/YOhIB+iJeniGAEvid24v+dpFHe3DKwo+C5jevPcelskn7wtJ8H5cYbJaiBVrE0H2iZwF/Vv1+XUw0DhUUMy8+MnI/fn/G/HH/fXawzOYRsa9/ztrUSHdMHUT0HjZkFrDrqQH45eJPUBVF4Q+0IYrHtOIb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=Z4L2pCNZ; arc=none smtp.client-ip=209.85.214.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="RGQussBX"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-787f586532bso57577497b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 00:57:16 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="Z4L2pCNZ"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-298287a26c3so75477265ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 00:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1764147436; x=1764752236; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4OM6Ho99eQFd7mP86XuPFjtx25R80Ho6T6bFHAVogBI=;
-        b=RGQussBXIiGqeR/s5ZnMqGWDypVPGpyRk/FJaWZUiccLUx6HNgutXORuVCKskFopea
-         gahDkvoeyXUvz9nfoa78WZyrDK7R22TF77ni4oG3grXPJsfd9C7NqgOZNU7QkIDva06l
-         bVSYanSyNioke2bGsYr3KOvFoWKmaOKI+Rveo=
+        d=vjti.ac.in; s=google; t=1764147450; x=1764752250; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ayYGT2wjXVviNIIw08APqOoUIe5IIlHXHG2yMmRJMdA=;
+        b=Z4L2pCNZZ0TlCxj1t6pawXQo3AJKzeLlPamG7SrY6Bj2UZ+Tg/VQ0GgBolV6c1eCjO
+         R9c8ZdjGnAgKWpggtY369EY0o+hu/lmm4AUOtFiJATvKUDgX7ZbKb3c1Yz4Fo5Ggs9qz
+         ClGhgqu4Y5cptPOKOjGUdv0lbJLApqoVI9Na0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764147436; x=1764752236;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4OM6Ho99eQFd7mP86XuPFjtx25R80Ho6T6bFHAVogBI=;
-        b=DHju186N2ucXEAFKeWS9ew552JksSXq6aVJXFnFohHFOhAJqrbNzIPPxoFQFpvqeze
-         ENu0cCagmZfcwjqXWZe1zWBfS/77AXCOznHns8wdDA9ZHu+5GKtP8qJU4zJmVyr6itPd
-         2xNd5o7X31WRH7d3AFOUnVX7cSRTa0Z4Qv3QKWAYCxyCOAOU84I1/fzpw29KWIz6KfpC
-         8FEvEUPxBHyFwZhJSEI3LGdGBWVBQlOgzBG9GBzEAeM3KyWKS//CkiskNw2vc9RtZJYA
-         RVLoAECKXshyPFrZIbuVJ1i6g1QdZmjejUKKWebUiIeb9dJu0c+L5U9IVClcpkh4SD0M
-         m7/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUGJcEijnNbQ9bimEGhbN76yXSKG8BR8IBKLWibB8eE7BfXDUwJTe2vvwWd6zjP3sznloHLTw5rvhlhshqGYpjtyRGVnw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSTXcEK6Gn5US3P9XzQvYjafSCxgu1KWIun+YyVaAL8O0+7Gj+
-	DSRun98K3pA/ke8rInmuKNfEix8mNj7ce5q+uHvsCZMBT/PeZc7flr6o3ItQIx+VEb1JAj9gKvn
-	j+VFjnNUNfw0fzFxUc/1GEPAPx4mbf8LUPODAKovorQ==
-X-Gm-Gg: ASbGncssM2uRTRTy2Ib8Siw5I7/7D8VSC48ZuDBtSBiF9/cAEKVo6NUuLA1c1GIX4mK
-	ys76rLtIP6LRvw2zSmdIIPT9WMovjaOyIm5ntGnBHgTlh6R97iOwoIh0FPFoJlLCKvG1oUktIGU
-	HFuxtbXgmg2UNburq0BaXvDwcKnK3+LaUa3jTZaFMyoMQBPI1zJSiIjOiRPvxU1xTKmvwpPTD5A
-	2y+88ge1HXgIN095UsV5By1pa7oypkq5lfjWxJ514aKr4v2raj89jx9yQpKO3sSRr1ZlvjBBZMK
-	FVBO+rx4U8mL9G/zexr1wDim2g==
-X-Google-Smtp-Source: AGHT+IHJIvCtQDQdlog8TUzs2kVVtyqB7q15hp22o49qFK1YOQ1sGDEwLFExhJCLMavAo58rcSOOrmdo7LPuV53mr+o=
-X-Received: by 2002:a05:690c:e1e:b0:786:5789:57df with SMTP id
- 00721157ae682-78a8b528a34mr142965887b3.45.1764147435965; Wed, 26 Nov 2025
- 00:57:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764147450; x=1764752250;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ayYGT2wjXVviNIIw08APqOoUIe5IIlHXHG2yMmRJMdA=;
+        b=eAvYJ1rqFmf56lJCoJzUq0l2BMTWatp6vWzaGPXu+eR1bNZ/NmWfN1OSm1NbUlxpTr
+         7qNSbkCzAPoHJHwsDylYOVdK0zJMfn4NN5tQXULa6m3kZVeLb6lvqYfTILB91elYUOhI
+         tgDEWtWvg06PIjGlkEXfRa6aUswagiNHwHEHCmkHOR8hX6+d4PvlrB+VQ0IRJvOn1H0Q
+         LN5YPZ2NHtEvgfmxLs+Dnde0ZRgYzZ2T+uNLDuIzlZfg1IetHqg2yEVY936gi8qoPrXY
+         AofenZ0wQVzUATiuA8YLTC1AJHXHc7k1BexaR/2IY4/IEsNtjkxXv1K+mKyl/OGhLeXt
+         S2hA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqCXJ55CRaWvgko/RJ0IMzEIpdNJTFly1FyLd437BEicn/cXbsNRr0WvtLMAhAAFmMMHzBNNtfLbiXYWdttRGo6BzuUQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeJogk+DuB4EDq/yqt+UTn7gMH9J+lhKdCmGDdlKi/iphuZqFf
+	/KtORYGEy4p6q+LEwRC/FPftfjBjs8nudXIP2vUQdm20d50ZSSYRCzAFMx7Doj9ZTWw=
+X-Gm-Gg: ASbGncuLOA/TyPuMO+rso73JPaLDLGnpwxFoqv/1ZWc+FEqcRrIm+5F7plR3+Zd7ZNK
+	tQBbV+vky9nlEtxMHmi1UjuZakmvTQEmFpfNnFk8ygHET7dCjgVDrzsXZTXNMOTzk1PrXRGdxz8
+	2PDuzfE8zuZPKXQRZ+pSvDypOZQEiGJw1D3qlLSiYz7tBpJG4QflXE+TiJk6p0qUAQZBUDR1wWC
+	0/6GySkAES3C+giZlaI+rsJ6RjomOyS8/PAcJGXJZeLCVoHm1sl2uPB9iPO752Z4WgExtgvjD36
+	LQaktsWPyd6qM5U1h7I7xvP4KuhBul6QbCP/YFbPFcEi9pTrqSpjwCd37mKWXfX/uZQUxom5RMb
+	YeUDzw/REcpYCv1VyhZuUdqwHjnyoIv+GSqoqnlMFIU5ST63Lys2qPptMtC74Y/xBmlO+PHnpph
+	VFuaUW5XiHQ27Q0n1HHPi+8spw9VmlO3HWGt2/HRrYhWEBskRSze8ZmtvS
+X-Google-Smtp-Source: AGHT+IFmMHF+sAkjyYcySvUSftDXvHC79EDpe+15m4p1J1Zg1br8SbDaOQhsYeTCo/U/KY3wrXQL2A==
+X-Received: by 2002:a17:903:17c5:b0:294:f310:5218 with SMTP id d9443c01a7336-29b6bd580aamr237265665ad.0.1764147449992;
+        Wed, 26 Nov 2025 00:57:29 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:9fd4:f657:3c3c:9fd0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b25c104sm191816515ad.54.2025.11.26.00.57.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 00:57:29 -0800 (PST)
+From: ssrane_b23@ee.vjti.ac.in
+X-Google-Original-From: ssranevjti@gmail.com
+To: Oliver Hartkopp <socketcan@hartkopp.net>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Rostislav Lisovy <lisovy@gmail.com>,
+	linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+	syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
+Subject: [PATCH v3] net/sched: em_canid: fix uninit-value in em_canid_match
+Date: Wed, 26 Nov 2025 14:27:18 +0530
+Message-Id: <20251126085718.50808-1-ssranevjti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251126070641.39532-1-ssranevjti@gmail.com> <9c9e9356-55c2-4ec0-9a0e-742a374e0d04@hartkopp.net>
-In-Reply-To: <9c9e9356-55c2-4ec0-9a0e-742a374e0d04@hartkopp.net>
-From: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>
-Date: Wed, 26 Nov 2025 14:27:04 +0530
-X-Gm-Features: AWmQ_blI3bICHE0wZGePxKvJM3ZGKSLwaqnMni4SAIeax_i_EG-2dclrwCiuaQ0
-Message-ID: <CANNWa06P=u44r=Nq5Er+iuJW=aEpaAq0L7HKn9id+KLjy_pEtg@mail.gmail.com>
-Subject: Re: [PATCH v2] net/sched: em_canid: fix uninit-value in em_canid_match
-To: Oliver Hartkopp <socketcan@hartkopp.net>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Rostislav Lisovy <lisovy@gmail.com>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com, 
-	khalid@kernel.org, syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Thanks Oliver,
-That makes sense EM_CANID operates on a full struct can_frame, so
-ensuring CAN_MTU bytes are available is the correct approach. I=E2=80=99ll
-update the patch accordingly and send a v3.
-Thanks for the clarification!
-Shaurya
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-On Wed, Nov 26, 2025 at 1:33=E2=80=AFPM Oliver Hartkopp <socketcan@hartkopp=
-.net> wrote:
->
-> Hello Shaurya,
->
-> many thanks that you picked up this KMSAN issue!
->
-> On 26.11.25 08:06, ssrane_b23@ee.vjti.ac.in wrote:
-> > From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-> >
-> > Use pskb_may_pull() to ensure the CAN ID is accessible in the linear
-> > data buffer before reading it. A simple skb->len check is insufficient
-> > because it only verifies the total data length but does not guarantee
-> > the data is present in skb->data (it could be in fragments).
-> >
-> > pskb_may_pull() both validates the length and pulls fragmented data
-> > into the linear buffer if necessary, making it safe to directly
-> > access skb->data.
-> >
-> > Reported-by: syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=3D5d8269a1e099279152bc
-> > Fixes: f057bbb6f9ed ("net: em_canid: Ematch rule to match CAN frames ac=
-cording to their identifiers")
-> > Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-> > ---
-> > v2: Use pskb_may_pull() instead of skb->len check to properly
-> >      handle fragmented skbs (Eric Dumazet)
-> > ---
-> >   net/sched/em_canid.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/net/sched/em_canid.c b/net/sched/em_canid.c
-> > index 5337bc462755..2214b548fab8 100644
-> > --- a/net/sched/em_canid.c
-> > +++ b/net/sched/em_canid.c
-> > @@ -99,6 +99,9 @@ static int em_canid_match(struct sk_buff *skb, struct=
- tcf_ematch *m,
-> >       int i;
-> >       const struct can_filter *lp;
-> >
-> > +     if (!pskb_may_pull(skb, sizeof(canid_t)))
->
-> The EM CANID handles struct CAN frames in skb->data.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/i=
-nclude/uapi/linux/can.h#n221
->
-> The smallest type of CAN frame that can be properly handled with EM
-> CANID is a Classical CAN frame which has a length of 16 bytes.
->
-> Therefore I would suggest
->
->         if (!pskb_may_pull(skb, CAN_MTU))
->
-> instead of only checking for the first element in struct can_frame.
->
-> Many thanks and best regards,
-> Oliver
->
->
-> > +             return 0;
-> > +
-> >       can_id =3D em_canid_get_id(skb);
-> >
-> >       if (can_id & CAN_EFF_FLAG) {
->
+Use pskb_may_pull() to ensure a complete CAN frame is present in the
+linear data buffer before reading the CAN ID. A simple skb->len check
+is insufficient because it only verifies the total data length but does
+not guarantee the data is present in skb->data (it could be in
+fragments).
+
+pskb_may_pull() both validates the length and pulls fragmented data
+into the linear buffer if necessary, making it safe to directly
+access skb->data.
+
+Reported-by: syzbot+5d8269a1e099279152bc@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=5d8269a1e099279152bc
+Fixes: f057bbb6f9ed ("net: em_canid: Ematch rule to match CAN frames according to their identifiers")
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+v3: Use CAN_MTU to validate a complete CAN frame is present
+v2: Use pskb_may_pull() instead of skb->len check to properly
+    handle fragmented skbs
+---
+ net/sched/em_canid.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/net/sched/em_canid.c b/net/sched/em_canid.c
+index 5337bc462755..2d27f91d8441 100644
+--- a/net/sched/em_canid.c
++++ b/net/sched/em_canid.c
+@@ -99,6 +99,9 @@ static int em_canid_match(struct sk_buff *skb, struct tcf_ematch *m,
+ 	int i;
+ 	const struct can_filter *lp;
+ 
++	if (!pskb_may_pull(skb, CAN_MTU))
++		return 0;
++
+ 	can_id = em_canid_get_id(skb);
+ 
+ 	if (can_id & CAN_EFF_FLAG) {
+-- 
+2.34.1
+
