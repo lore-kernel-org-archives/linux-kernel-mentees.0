@@ -1,154 +1,133 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A552F693F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 03:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E89430E0D1
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 26 Nov 2025 03:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764127682; cv=none; b=sLpztiw6Wnbh/vxPN3M+lpbSRNafYUMJvA8gqSOwRurfWF7KvRWR+iVEg7RMMLrU3kV8N52oJNFpZVPejgHFMKVcNZj2nMPgsugarhyab4biz6r5A8ZyuUXhJIolj9hJl9+eILiv9tlgVva2qqe5sNUKedetaxaGAICuMWpRWA0=
+	t=1764128478; cv=none; b=EvlcTrdIV8JDOMq8Xvt2U5Tlm1sL6W87mWJ7IFf8wq4mHa4fz1W5jBfA4f8kyZM0k7V9SEc0tTKV71J5ie7JG4xwKbLD2/y+RZ1CY0HN3fHFy9xGU8ge7SLYUnze11fesSPb9PKulAIS93bGZttRTi78Ua1Cz1KEFXLR/azwTv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764127682; c=relaxed/simple;
-	bh=8qfzksOJbbTsCAArgtKRpDmbL7H3emUXbpVOCg00fyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RBANJaTOdmakvfBnyzTUx4/c/tjQtIsDiAlAFfeP6EFWoDVgSZOkLtyTVZhTA9FS0kDwLMKFsIwh2UGr2aq9dqA8KE5HaLSDn0o0LJCjGLCxy5StMSqpBOrz1DpYuLynDBBs5Y0ulR63ccfCNZ/jP/vzrQCQs6GRAJB9WknKYWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NzzI/mXn; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1764128478; c=relaxed/simple;
+	bh=a9NYLup+GHVLFnigeOor2tUWrU5w0BB3Ez/xbw4Q8GI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tmTMbDDygJK8zQ0N+Ner2afLOmdHynhU9fYqHDdmIKKGnnJxqY1azog1kCHCBWuCYxs34RNkqbwM/8+HeJBwnp+PUvjR49FE9VlKv5EtEWvzuU/+AAjKqUNwnWnVA1t90S2+Chr6ABMEThXSKx3ydA7skJYiU4PtCdzCdmrDnqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=QzJYR0tX; arc=none smtp.client-ip=209.85.210.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NzzI/mXn"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2DFBE83B9E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 03:28:01 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: 1.236
-X-Spam-Level: *
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id AoCOcEydVtbS for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 Nov 2025 03:28:00 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=bagasdotme@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 6992183B6D
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6992183B6D
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NzzI/mXn
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6992183B6D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 03:28:00 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-7b9387df58cso9843598b3a.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 25 Nov 2025 19:28:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="QzJYR0tX"
+Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so5883803b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Nov 2025 19:41:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764127679; x=1764732479; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=51lFxwZazAf8fla+gakTIRMJxAjLqhU3wJI76M1NFic=;
-        b=NzzI/mXnLVYnUSMa9bZPskGSPmHEXP7KcEO9it/39lqJTmU5HIG5K0W1JaQVYua0v+
-         8rOdecin/3x64oa8yqdEMi8NKBwwwg+HoY7jNtCae8FstqYf6Ly4vUvEHr5Y95eA+3r9
-         RD28Ot7TcUmzHFvp+X40j6MbwSmsxTxL8kwVoBwfe1jFszUkizCVG8GruVEDWBUZFNTj
-         etWmqVbygdD4lRmJqgpxfgb2/1ZuFcBRHY6KC4gl15Jl5asgbcC3mhQ4cixO3xiwMHcI
-         1nhU1XkZkR7N7MUlrxrV3eGO4Ldns+JzJQ4O5tFl6rjQKlhbSAgQxi3H0WMQYQnHBbmf
-         4h1g==
+        d=vjti.ac.in; s=google; t=1764128476; x=1764733276; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L06KdTNJX/VzLn2Sdswq1zSZJ8ncJFeN/TZrwKb7bDA=;
+        b=QzJYR0tX75ym+SP/3UuJtHyICL+Q0uFIPw+MYRnDLiGZMfQZg1KUUmdAtzLoGLmKTb
+         nY79nshJQ1nAp/d+MoJpsR1ZnjjW5Qtn32BwgGKR5SVW3iiefsjMFTdT5SG2GfE02WBg
+         xgJJdoOpdw/euZEApQZmLbrMa+Jog9YP3vIeg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764127679; x=1764732479;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=51lFxwZazAf8fla+gakTIRMJxAjLqhU3wJI76M1NFic=;
-        b=FAu7WPd439isAmzY75nHys6nqavPkThrIpDYgb8Bn/4ZWIHQcYi6Ks7qr+gYNWxuuX
-         pxPZZO1PEBCD2aSSMlc0Jxj7iaje60Cazz9fgtnr7GNx7FWM0zemaxBKYY2deddcWXMo
-         HQf1x82Raqdgi4kvj0RS4FEQ93zVaEdap+pBTuUumB+KqDETh15nNgOoR6lTGJXJjdd2
-         D5YGG7RVwmApjB6R7iSP4SWwEfRHfLt/L2pSs3GkSjRIQeXAmMZgDBPRv3949560ByJy
-         qCYoQnWJzAkiqjck7NQJmyroeDQEJu4hPnhLw2rcm0dcCBN8Jo+/et/GZrP6XamjGJ4f
-         y2xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBSAet5U7znKQnt9ZVoIoADsBS9OSXzNYiupVle4h7iQBBjvmKw3YTeQCzM2afSdCVVHfdHtZR3GrffT/Zw4Yr2pE0Mg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxfLq+UTwMBdvgQLyQYfenw+yuq/mScMQRCgeSi/yjJMDmZfDAz
-	WHDbvJYa4GI+ChoMR5rd1ELR4TUlD/SPmcZKdI/wSS2xwvKd9TGv2gJ5
-X-Gm-Gg: ASbGncskQy5oARy1thwNWzTEgYZXBURkJGIYpvnx0et2nQWu57b52hwHSFBzTV2GahK
-	HiwvRA1RotNoJuTZjaMwv2a7DpgrGl9G+pBJ3Qj4/THMNkKzAQ3Gef2Qn1BKhucFfGBC7LhUjMw
-	CUzQGsCbn7f7lQJaiMxqwLmMSZrjeuY5sSwfGiyHQTMOuSFMIE6gQ/hYHQeFs9R3HgqcqIlj6f/
-	JUGl1k7ehyrf8t6H4hp3hhkMTVHuoNfmDXW0PAfxbqDJndH2d5zGeJtCEcYdll837Fq9c70ERbM
-	pYZPBoO0toCy0Bya92Kxzs6i6qkHbPFMD8cXDuHt+31+URfVtfG2IMQ1Mpiv0GifAztkhwP0rHw
-	PBL8bBi2kpeNRS/jRKhLRuKv1vb34Y7fs+yWFQLBIdhF7q+LuYhi7QCcN+bdjzXFppQimfblan5
-	jFWKyM1JCU8BI=
-X-Google-Smtp-Source: AGHT+IG9xHzrSQWvZCXHCGOpqvWXyFnbV+8dBSEJrT3vhP/mRsbjw5OciOtuksf2l1kJH+WCP8MtWw==
-X-Received: by 2002:a05:6a20:3c8d:b0:35f:84c7:4031 with SMTP id adf61e73a8af0-3637e0d3593mr5748425637.55.1764127679511;
-        Tue, 25 Nov 2025 19:27:59 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed471060sm19640415b3a.15.2025.11.25.19.27.58
+        d=1e100.net; s=20230601; t=1764128476; x=1764733276;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L06KdTNJX/VzLn2Sdswq1zSZJ8ncJFeN/TZrwKb7bDA=;
+        b=S1E8EgCQ2GfQXb4SH6oz91reNQIC3ejW3ivHAIUMUQtTSDf7GY+xlpFbIB2ZoqSWjm
+         qe/ZtnCF7i28ys7XUCnoj8OmJ+8eqTAqFTFENqSxWSS6lC2RnekC8ihRq5lDY1gT/UX6
+         RjAa9jioh4qq65PgjIBMkF2DmeCBfTRicx99tXcyjGKIxGrLEk6IUgFUb7G7i2A95b+1
+         BForIGOWAbJ8QxvhXTFA6LGrRDK+OSC3y0WlSts+2ccUfcuFvxBFnsFCbaOvSr1DGjEN
+         pWzzFcbz40X/Pk9ixDzmHD4GHaLxUCyKNB992mX4/OuGFSNxVVyVPtDePTwmW8poYf1n
+         oVYw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5x3hoNAZYugz0K4992QU2nhGWbXQbUEscIESaow3RF26zVF1sl/FNx9LmiZkc3b+D9eqmmoy005/OdpMcIIbu4f5LJA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzb/GQNW4mHb7GIa2lpDaTWeHdxJwnUJ4F0tAqBWUIS2vaXvTKv
+	P7UqURnUPyKf1RprPU0vSh/EOhTuvCGL8NzEZl056SwQJ0yTKlSrUphwpGkkwVwB+wc=
+X-Gm-Gg: ASbGncsS9RwrndUVknYFrrcNuSdE3FShAyyzBEDPr3+1M3/n9OCFYWojMm3E2KZaLjF
+	4HVHafN0m0o8fjKskUImqIDJ88QgJbMDnJgVh3kHi0/lVaMMlTcQZyjNq/WQsmcuBYySP8Z2iXO
+	J232gw1V3JqLaN1yLU0QzHg2xuwycGKZG/M/ubQ7AJWon6q4Lc2j2PeQce1VQmV13Xksvcm7xbJ
+	LU48CpAIotGS80vjJ01zeIze7Vbe36qAow7uhvkjkzEzR+z+FS6iM1NOFRk0UCt4+zJpIes73mO
+	RwmdKwq6urNl0oBKpFiqnbjwz1D18HLe3hYS6RdoAaFpfIA33AcgBy9UGrLrClZxqLeZungU2hY
+	BdohVqMhW6UbUsMh5AOjFQp341mewyohRkGs9QiGaYUfeXXW3mDoqXsUd4D1vVjBa5LdSWVJf6r
+	kzYpKoWxLtpDaiI4AmP3v6Hbp4XVYkbYyLjD5EjbCM9B0SIkFZmLJo9L58
+X-Google-Smtp-Source: AGHT+IFn0YyK8uoIBkvy3BywAsW6leMDGURDB5DGi/SakuSKZblQSgFbhnhe1dMYdgyoOjGxyQCmAg==
+X-Received: by 2002:a05:6a00:1890:b0:7a4:460e:f86a with SMTP id d2e1a72fcca58-7c58e6014e2mr15281081b3a.25.1764128475771;
+        Tue, 25 Nov 2025 19:41:15 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:f53f:2666:7529:e5cd])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f174ba7dsm19410224b3a.64.2025.11.25.19.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 19:27:58 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id CBEA845A3F83; Wed, 26 Nov 2025 10:27:56 +0700 (WIB)
-Date: Wed, 26 Nov 2025 10:27:56 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, khalid@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH] docs: dmaengine: add explanation for phys field in
- dma_async_tx_descriptor structure
-Message-ID: <aSZzvJ4zhEm5jCYd@archie.me>
-References: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+        Tue, 25 Nov 2025 19:41:15 -0800 (PST)
+From: ssrane_b23@ee.vjti.ac.in
+X-Google-Original-From: ssranevjti@gmail.com
+To: hverkuil@kernel.org
+Cc: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+	syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Subject: [PATCH] media: radio-keene: fix memory leak in error path
+Date: Wed, 26 Nov 2025 09:11:05 +0530
+Message-Id: <20251126034105.236131-1-ssranevjti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U9VBp7oVmCj/Mqtc"
-Content-Disposition: inline
-In-Reply-To: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
---U9VBp7oVmCj/Mqtc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix a memory leak in usb_keene_probe() when v4l2_device_register()
+fails. The v4l2 control handler was initialized and controls were
+added, but if v4l2_device_register() failed, the handler was never
+freed, leaking the allocated memory for the handler buckets and
+control structures.
 
-On Thu, Nov 13, 2025 at 12:19:37PM +0530, Bhanu Seshu Kumar Valluri wrote:
-> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentat=
-ion/driver-api/dmaengine/provider.rst
-> index 1594598b3..f4ed98f70 100644
-> --- a/Documentation/driver-api/dmaengine/provider.rst
-> +++ b/Documentation/driver-api/dmaengine/provider.rst
-> @@ -411,7 +411,7 @@ supported.
->    - This structure can be initialized using the function
->      ``dma_async_tx_descriptor_init``.
-> =20
-> -  - You'll also need to set two fields in this structure:
-> +  - You'll also need to set following fields in this structure:
-> =20
->      - flags:
->        TODO: Can it be modified by the driver itself, or
-> @@ -421,6 +421,9 @@ supported.
->        that is supposed to push the current transaction descriptor to a
->        pending queue, waiting for issue_pending to be called.
-> =20
-> +    - phys: Physical address of the descriptor which is used later by
-> +      the dma engine to read the descriptor and initiate transfer.
-> +
->    - In this structure the function pointer callback_result can be
->      initialized in order for the submitter to be notified that a
->      transaction has completed. In the earlier code the function pointer
+Fixes the error handling by adding an err_hdl label that
+ensures v4l2_ctrl_handler_free() is called for all error paths
+after the handler is initialized.
 
-The wording LGTM, thanks!
+Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
+Fixes: 1bf20c3a0c61 ("[media] radio-keene: add a driver for the Keene FM Transmitter")
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+ drivers/media/radio/radio-keene.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+diff --git a/drivers/media/radio/radio-keene.c b/drivers/media/radio/radio-keene.c
+index f3b57f0cb1ec..84916b5ebcb2 100644
+--- a/drivers/media/radio/radio-keene.c
++++ b/drivers/media/radio/radio-keene.c
+@@ -337,14 +337,12 @@ static int usb_keene_probe(struct usb_interface *intf,
+ 	radio->stereo = true;
+ 	if (hdl->error) {
+ 		retval = hdl->error;
+-
+-		v4l2_ctrl_handler_free(hdl);
+-		goto err_v4l2;
++		goto err_hdl;
+ 	}
+ 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+ 	if (retval < 0) {
+ 		dev_err(&intf->dev, "couldn't register v4l2_device\n");
+-		goto err_v4l2;
++		goto err_hdl;
+ 	}
+ 
+ 	mutex_init(&radio->lock);
+@@ -383,6 +381,8 @@ static int usb_keene_probe(struct usb_interface *intf,
+ 
+ err_vdev:
+ 	v4l2_device_unregister(&radio->v4l2_dev);
++err_hdl:
++	v4l2_ctrl_handler_free(&radio->hdl);
+ err_v4l2:
+ 	kfree(radio->buffer);
+ 	kfree(radio);
+-- 
+2.34.1
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---U9VBp7oVmCj/Mqtc
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaSZztQAKCRD2uYlJVVFO
-o3iXAP9hXC3MnhskzYfaAyFleh+Po17o9hELn1Mf7RwHDBrknQD+LKtDpNOsLJVe
-M+AIvBjSO5AFnmkh3L8D5e+INwmlcQA=
-=XV4N
------END PGP SIGNATURE-----
-
---U9VBp7oVmCj/Mqtc--
