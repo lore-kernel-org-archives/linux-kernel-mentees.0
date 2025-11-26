@@ -1,302 +1,224 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B752280024
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 14:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764166148; cv=fail; b=PGCT8GQW5NKltRA328DIDdn73+NqS9gbmlUWhsYAQ1N5Pv9MFTlwnQb//N/dNja3nfCG94rzvhd0+3YHUWA6hJr0/dwT9fOX/By14PuevXRwNBZHQVUO4erhUIwoIVK2dA+/WbhqApJOYiNDup2DfrchwMR7u324jnY12CvzYVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764166148; c=relaxed/simple;
-	bh=uzgSHu13cwZ9P6w2u7zlG2cOEXNVNz18k9846kZpEzc=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=SG+YZPSB96ns63jpTmOjALQWuQQ8HOfrnKRPuho6AjWlIjnHXLWJRL56UfY3l10B/LbLVvwz0xjCOU8Zq1MiJ6NWA2JO0qrVhJVEcxSZodzPGY6PRHJ+O/1gMjwIVin0e94jm4aogMdVhi9gqbD40ZEqxvPWL3eBOceEN9THSTQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QalcagbE; arc=fail smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0569304BBF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 15:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764169622; cv=none; b=HiEruj42LRSvH6cgHXjNYT7EcjEf57xEJZ8m8uiE+6BK5WYmoxOlpXpET82fVwBx7dObM87MY5B3cKNuS95gk4nCyreJe5+6Djm2+lweb0JNHChmx/5ro2nFLLMW0jWzwRwprDLJt/BgZOcF56tiXC8cR94FFOnDJTuhaEcAMzs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764169622; c=relaxed/simple;
+	bh=mcPKLhMvHagy1WJT/pUQlmEU63E3rHGweCxYawVZK7g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nNhuyq0bGsQVd61xQKWqe3OYW/qfF7AKZ+7nbCjjZDItJxMIlryinDwsSg+pgWxXWbwygo3d/fvqdG5ee5eSeCMgv+WFTrBOt+gMP5LMdCeBRWJySLVDrvDY7CGIbvDzFm8gJY9IL1iTA33LNFNRVTIlbFAj+7PbQ3oEmqAsEFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c5kQaOWR; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QalcagbE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5kQaOWR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 100E161458
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 14:09:06 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9A55A412CE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 15:07:00 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.092
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5O__qdCBIwby for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 Nov 2025 14:09:05 +0000 (UTC)
-X-Greylist: delayed 427 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 26 Nov 2025 14:09:04 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 19B3C60A7E
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 19B3C60A7E
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QalcagbE
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.17; helo=mgamail.intel.com; envelope-from=oliver.sang@intel.com; receiver=<UNKNOWN> 
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 19B3C60A7E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 14:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764166144; x=1795702144;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=uzgSHu13cwZ9P6w2u7zlG2cOEXNVNz18k9846kZpEzc=;
-  b=QalcagbE/tChLfsehsMCS/4vx76xSsZIX20Jrr7ddVXLH4UxT23pa0LD
-   W7+wEu+IRyuFbfQoK+piIvhoBL4SjVbJAyZ1Lq5uYVuvPlYeqxYl4sOLM
-   Y0PLarSU6Y0z/0OWXHrUy1pxNsCg9KL1I+YDkEyGA5p/o3flZZ8YwZjF6
-   HZ7s/TjZobzTSano/4N3kxMQTwSmJYbObm9YtpHuW+iBfUKOVsNyCNSzP
-   cMTqrrzoUIHD6CIH5ltY1Y/JCTdzwumzTLqzuHkRT3KsCvJC+83P45g3h
-   OsQfWooOG8y8GuRqqDsi5R056rTDwew4j+/74qwWT3tp03LnXA7t7ID9r
-   w==;
-X-CSE-ConnectionGUID: sViGwfp7Ru26B74Lcy5GeQ==
-X-CSE-MsgGUID: AsuJAIn3TRqN2aKglPqcRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66160459"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="66160459"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 06:01:56 -0800
-X-CSE-ConnectionGUID: l5pmJU+4SBetg9Wv4/8KLA==
-X-CSE-MsgGUID: z4qRnmuySwOw2v3KnFKxFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="197117453"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 06:01:53 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 06:01:52 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 06:01:52 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.33) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 06:01:37 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WYjHZDvwTpitokSf4WV7IpkfuYLMEoUHrSEH+XjoaBXNd0hxtUtsqXGsgtj1CRpF9alpiTFYKPWHOnqNj6TngYYDfmVjxtUeJ86Pdh+GvFAygcYD7BvjfNsFkrEa2uMRi0Q5Jy7cW6S8GiQgrtO94V1gIgSYXfqEj2UM96z5+iSjDGzFSKnT98Jxu8QaCzXMab3gY3mdTj/0FenFqgng+jSZiMBJ48V3VgnRT968YMPDGnfJDU1+AP/xggwF78T80eyEytMnC7Umf3g94m4l0BsymFfXuI8KgDxke9Pj+orh4Rn/kscswk4OHmKVeGjdItIjuk9K6mSUtBH8QzMM4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4GDz8nwT26Q3pH9vY5kO58hm7SJRpbZMiMn24s6tRRs=;
- b=p7i4XHFTcYFWHNIbzFS1TojCiATd51IXSbcMP5YIclU6l69gfpgE6Bpe7I0F26RqMHUADpYQOAwnSRSHOML3WioZ5kYeQrxks3Z6u8GA7Bl+IDp7QoJk5ZIkUHrmzvv2rA0eJ86t5te3Y07+CNV10nYF2m7de7FA1v5yd4acCpagRuZU2PVLDqg9edsjHICEmWLzzPxtXWM40c6sJFbv41ScLor+C6sgEbrwSQP4BWSfVPJkhfEG8gUvZGIpZ09iiqF+ZeIRJJ9UqmNTcALzjs/1TyyZ3Oobbcx9sQIO0Ro2wz8LP2mFR7kzvIxu6dB0NsBfvHx0ksFCOPecd0bX5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by PH7PR11MB6795.namprd11.prod.outlook.com (2603:10b6:510:1b9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.15; Wed, 26 Nov
- 2025 14:01:35 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
- 14:01:35 +0000
-Date: Wed, 26 Nov 2025 22:01:22 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
-	<linux-fsdevel@vger.kernel.org>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <jack@suse.cz>,
-	<syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>, <frank.li@vivo.com>,
-	<glaubitz@physik.fu-berlin.de>, <linux-kernel@vger.kernel.org>,
-	<slava@dubeyko.com>, <syzkaller-bugs@googlegroups.com>,
-	<skhan@linuxfoundation.org>, <david.hunter.linux@gmail.com>,
-	<khalid@kernel.org>, <linux-kernel-mentees@lists.linuxfoundation.org>, "Mehdi
- Ben Hadj Khelifa" <mehdi.benhadjkhelifa@gmail.com>, <oliver.sang@intel.com>
-Subject: Re: [PATCH] fs/super: fix memory leak of s_fs_info on
- setup_bdev_super failure
-Message-ID: <202511262155.f86d1a5f-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com>
-X-ClientProxiedBy: SG2PR01CA0135.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::15) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id uwMZbLc-etOO for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 26 Nov 2025 15:06:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::329; helo=mail-wm1-x329.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6BE73412CD
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6BE73412CD
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=c5kQaOWR
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6BE73412CD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 15:06:59 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4779fd615a3so5411825e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 26 Nov 2025 07:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764169617; x=1764774417; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=16S+92pxDzqHzQvEHk+W0SGiRWFobBQtwlTDSX4bj6Y=;
+        b=c5kQaOWRtXTloCnS7dGrTj1srtaOUovYz2Fm7HQs/t/FS1S3ueKxdcGFu4pNkWSTPW
+         h1pi50wXjZFD4g7Tq7wIu8cOmB5EMFRCoRCso7mYaX9ng6wKxNC+OcBAMmvafAWli5of
+         Sc5dv6MhNE8h9WGsc1QoxnIEUOs05wvrQtGzhff+M5UyYBmfFSd8bj44jtfq/qE9HDjj
+         ajj9kCIthvp+OQnu3FqkgQOEk9+zdf6gGKM0UtjLd+oGMkU/ccUUEh/vKpw2eTYCLoPB
+         F7sMBJRPRVcqMjo1mhHaRmOosvbMv/v5greAMe39D/BTQHBUaaB7P1fsVP2vLke1vX7L
+         JALA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764169617; x=1764774417;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=16S+92pxDzqHzQvEHk+W0SGiRWFobBQtwlTDSX4bj6Y=;
+        b=epRAbaTn0hAdp8Ix8u5nDga4tjs6opgbhEwg2NScfzHbNvQz9tEDIchp7HtMqE29qh
+         sJt53F9DqG4B4t5U/3+OHqxEt2dt2KH7cBWI4nE4sgiqiimm6sCFQQYIoF5KgN+lxdcO
+         8PDtPMk3nbghtfzcYTQ/pvuVS+h3seW9TjBnddxKJrOBwKVAS5mTdNZ+ktK3eiT+iyUY
+         xb40QMKruVdgxcE+qNJ+rXn4WEOM5+85NWkT6TBBYFUWrwhs8YPF7+oKfpAxnoXbB9OC
+         Et9SlM4CJzV3FRHElc3DAcjZ2wLBGw+Qv7F+q+4/cNSPqcLZRKzqjJbMDEMQhYi2mc1A
+         C8NA==
+X-Forwarded-Encrypted: i=1; AJvYcCUREYcNsxF40GH4+EMeP8/eTVvhnmQCGC+5SMvSRh8R4uqZLT8XDf/0d8FMNDGhrwJRDd0BQxMteI0IdD/e66cjc0myAg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzQfIVTbI6xWCg4CfQHaDbFuqiJhFhFXU/bsI7ni8GzLk7UecFr
+	N9UWRRHPvP5HuYRaQVwFc0IPMYBd8mHxncSi4kYuqFH0nXo2Kd+bKABL
+X-Gm-Gg: ASbGncvltfGj91iFa5lacGyWqxIwyZs9amd+DH46rpkla+Me5Cl/HK5ijiIMCawmBVi
+	jcnbiuRa4pFEL5VxbS7jwRwCrCFkXKW0VhXCUn6iMkR97at63qK8mqnVbNYzxKYRFFMgs4ndRzP
+	6Esyj+pZQKhNjwOeBiwGpp23HyHf+yeWbpoCSFbVVgZDMLw4uGF7wgf07xo8ItQgBpnAu9OatKB
+	QbqkJ49nI3EdgOo3OUAoT7OBAsY1P+7R6JXGE+sCTUXDaD0dK4p4xRnrlD2mfJb05h9Ehu5hr/B
+	vVc8FNow0yfO51YNicCWlP6MReENK6YIIVhn+5Ri8TWPqHnCqzkvzYR3V/LT2ZpdrNCMxOFx/BK
+	A2zxNVjHBOJHFaRpL2LbCDgfUQH0/JuQi1373VHWGFjRejJxI6F3KuHz+Mn35b7ueH0mlenylBv
+	7097A+YJ5AK8WLd9Rs6x66hvCyZCFjqQ==
+X-Google-Smtp-Source: AGHT+IHLJQtnOrQIqHTS6ZGn2BqHnmibcb1tF6cwMKDudSdfcrV8sfkTLUNEh2Gbp5Vi4ArcWVva6Q==
+X-Received: by 2002:a05:600c:4f51:b0:477:a977:b8a0 with SMTP id 5b1f17b1804b1-477c01ba7d6mr131441845e9.3.1764169617033;
+        Wed, 26 Nov 2025 07:06:57 -0800 (PST)
+Received: from [192.168.1.105] ([165.50.65.121])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790ade12cesm65565045e9.9.2025.11.26.07.06.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Nov 2025 07:06:56 -0800 (PST)
+Message-ID: <04d3810e-3d1b-4af2-a39b-0459cb466838@gmail.com>
+Date: Wed, 26 Nov 2025 17:06:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB6795:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43a054d5-4123-4ad4-83fe-08de2cf44f68
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aWafNEXcH/w7/IzhQ5x2w8oIXCy62FX8lufN0DySZAICXa63UhFdzcIdAAtv?=
- =?us-ascii?Q?62WNZFI36Ue+bW+pgS/3QJJZ8IVaC6T2UTBolYtiXhyLGI6v4mK9gqDWjenv?=
- =?us-ascii?Q?BCwp3UKcT0vzPBY/9lEx1Vd0+9T4vK0wCiKNx4LqE6do4Cr9/C8XktmNRe9X?=
- =?us-ascii?Q?0Fmxb6kiCwutM6RrKgf2w6Wj6bfrtiGY+dwAEgY+IlBnuH612YzdyhmhmPtD?=
- =?us-ascii?Q?pGQLjenJPtNsje/+WP3BjVhJgYrfnErSuiTLufRlyZ7dEEbaiypdLOgoqvIy?=
- =?us-ascii?Q?YvtPDSbZRAaAbsnaIXq1VdQXt5fopDKtlCFiXVeL6haH+cWHwogXVUN2Flbj?=
- =?us-ascii?Q?Ady+v7RCAnYORB1+3Fdq3vK3tGmNg3h/gpbIHJhyWUYMWPgFornW6/8YNiCX?=
- =?us-ascii?Q?AdLAXA7QBw5Kc7e49TC+ZOnWKSw0KHgObwgi2f09m9XZCk+quVpf1vMhisFu?=
- =?us-ascii?Q?q4oImrHi++ngdFEah4eXc6G4uVulBUq5s37XwndaFIZUWMxn3jaz2lab15jM?=
- =?us-ascii?Q?eu8zuzELUUN/E7DOvj7zfsPA+Ka1hFqBZQVaZrm3zu8w5Xp0eqVe1VDrdDa5?=
- =?us-ascii?Q?suAVc/MhacPNQIEojjLrVNy8k3Nsc6X3e08gvMZJjxDhmgTRTgw04UhNoyVz?=
- =?us-ascii?Q?Hb0UIu3jjovCXtQzJX9AbTD+jjza8yW1G0D4Itxo4nRS9SuEc3Jn7pH5DmiS?=
- =?us-ascii?Q?Rke4Gs1M5wHT5udlpRK9qmwNUt01eEGT6z36y6W0p8grLMkWbnfa7J8RJBqN?=
- =?us-ascii?Q?BkfyASgS56sK5HNx9N/0pfjWHvPvpwo3O8RbhBf5o1XkpPjjH+dh48SnU7DO?=
- =?us-ascii?Q?jl4VRj7oVP4rbVDRTfwn0y93AyWw7hfIXq5cY33ljjXLi8MT0urO7tD1qB1X?=
- =?us-ascii?Q?6T2FgqH3mUvZ53VLjUDnjjNQNSXpHV8HEX9Da8cGM9zFTB/NI8Myti2tpHJB?=
- =?us-ascii?Q?4w9v/plrjmlTBIAWvI1O6z/zKFdZfpeLHEYk12e6tA7PzfYFYbCWFEro3jWo?=
- =?us-ascii?Q?1DN4wyPcq7SGxbCkUIrZcjMbmPZ8ORJiU/TOOZUpUIvfODWUUlRNbk/aNhil?=
- =?us-ascii?Q?ZTeyW8LmwXwBl8/1Jnh0bYSNbeeEhQQduDa+VZ5ZDNB+z1TxER3MZni5w9iQ?=
- =?us-ascii?Q?tbHCsWefbG69h6h2SavvY2wuZIfCed8SPqYSJsYMCKo38Rvanpmv4DJzYeXz?=
- =?us-ascii?Q?WqagzFmDQ78ihLD9oC2mNy6VBFv5Gicn3kVAdwbKzJh1L/oKwCJ72Z9Wyve8?=
- =?us-ascii?Q?PIi3kUDLy0+DyF0XPxa0vZfa2oR0DaqedDekwgK9oNQ6w5rssLk71iLlFrf8?=
- =?us-ascii?Q?sPIDySF7gluIiIbVCCDKDw5BVo+kil/09TkIRF0lyGL7x8ro0jM5Q+rD7aOC?=
- =?us-ascii?Q?Qbsa9krSOjd/Yhutkb2au1DH5HnGegmydKm75XL+uOEzRHDkHA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rLLl981eW7S1OdSgjATZg/BcO5QmTHNEjy+89YS5pkuCFAz56ffbETy+Adga?=
- =?us-ascii?Q?jG48qiST4cLfDEv1nSVWa9zk5xhCaxmZE+zfJcQZx9D5SDD+pKaq/GuigiM8?=
- =?us-ascii?Q?8bXTskY8/8+YXVpFgvBMH/4pp7eDHloDWT1c45TrKb9p6UPxA/Oum380uDWm?=
- =?us-ascii?Q?E7gYT1czY7stkrMYw5t9YWjITwQAkqFDsirX+YaG/OhhxjvPxiUfS4qqlClx?=
- =?us-ascii?Q?NvbC+z/hM/enLb73GvTTm5WiOL7deA8BYtCNBMS2aO0yZwU0n4zwRsjmwdqu?=
- =?us-ascii?Q?t3KrDLOZI6cDm0m1SNaP6V5EKTN0Zilx2kYyn4kMaShUy09HJvNLD/Pu6dnn?=
- =?us-ascii?Q?NYtvMwIv6ckbvpjVYDBq0m0G0y4EJ3QNDHhzX84MQ7r8tarrkF158zOSyb6u?=
- =?us-ascii?Q?j8+Pbp4JMY2j+OOQW+/qqWgU3slyHVVqaY5qZTecHhxz1XE35EpRkdj1weSh?=
- =?us-ascii?Q?7dciJnM/xr+8TpF+PFpOJyGR/IGtU3yWoQxeheDuZLunh1kmPOyF+8lsEZvN?=
- =?us-ascii?Q?OdsC1eJCqc7Wu2xWqmGoa9f7Q5WKYHowSblsf731xYsUw7x7gbuc8KPC69KH?=
- =?us-ascii?Q?LK+Pf5JDMmZ0kOkqeqK+yLwtpAkvw4QmsK9JjfYoPB8zasWy6uB1Znu+NcZU?=
- =?us-ascii?Q?wXy45aktXR40xGjAtB/DbmhPTcLVz8vZUlKhnYCIzYdG7qSz4zf7k5IlcALc?=
- =?us-ascii?Q?l9HL/8glWVRmewammQ3sVrPs+4H5tInpHSllCFjRKofcTbAtepj8GNmoXgmn?=
- =?us-ascii?Q?xsvcPSqXSPxt5vwX1O2TwPUcBiJIBaIAA/fTWsVuxxJYU762Rtr31OL3Feqt?=
- =?us-ascii?Q?ciTsL3Yv6TZ8GRmqk02HNx96eroeJJFR2y/SiRnkdrVUyhgtG+Yyt8/QiFRS?=
- =?us-ascii?Q?m5WwRButAOmb/U9+SdAGDEvYglU9FTXuwmGvtI9sm0HIm8omWRy2gv4y27t0?=
- =?us-ascii?Q?Z8Kt6zjlMLNTN2Ah3VL5L8sG2SeeTI7eikGP7BXm6asDkOgcE8uBmpzadH+O?=
- =?us-ascii?Q?cSdULM/XIgqO1P9YXGkehX+PbNMjdqmq8jsNrXYP6+9gPR1l4rtyPVcnsmXt?=
- =?us-ascii?Q?c+jQSyFSIMlT5c8PT6oYMVoxBbEvjWyjT4YkqZe38ser8SGSJIPb0G3TDy2A?=
- =?us-ascii?Q?+6o3q2Py8ATp/TCCr3Kb0oDWxocUacccQO9ieKC9hWu8lkD5FRcFlAm3x3X6?=
- =?us-ascii?Q?K+vQQRPV3ihGDPEpN+NYKqsA/mqbqmLTNSNC0mKcxEZhys66wCRj+xAirZV5?=
- =?us-ascii?Q?x82F/b5QsSeI27Oteb/6+qi0iaPG6NL1WQgdXmRzbwMW/xwXY9hREnfGEOG4?=
- =?us-ascii?Q?ziPBsTfRSDPxca4znkeG+Dja4pv536wXk6XPIWcoschvqoKsQCN4S1zNubd5?=
- =?us-ascii?Q?U3tMK6AcI4VE3we8PWWvout6L5xrb+NmY5oVj1viNNG8I4yXiu5DjzkgNuJ3?=
- =?us-ascii?Q?FFZiDAc5sEqtgXGIT5r2EY1FwfMC0O71VzKCcf0AqWkMItDTokK9kYh8m5Kh?=
- =?us-ascii?Q?AuWWIB/1V6bO7MV2cjhQKGr8mBwcQSBOUXFkY2E5YsOp45bkUBbUJLmfU/kJ?=
- =?us-ascii?Q?e+Miv1YsiJpOxTLX+WrGlxIVEr/MMZMPBiEeePWA02GrGgc+BpgS1P38+3nP?=
- =?us-ascii?Q?vQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43a054d5-4123-4ad4-83fe-08de2cf44f68
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 14:01:35.0318
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3cpG7ewljxeK2yRi7un+88GP7gHVNhOFxADL2VfEeq9vDW3XszaQSRIun5VxgFv77M7xeOz6kEqMOVv03e4vnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6795
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/hfs: fix s_fs_info leak on setup_bdev_super()
+ failure
+To: Christian Brauner <brauner@kernel.org>,
+ Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+ "frank.li@vivo.com" <frank.li@vivo.com>,
+ "slava@dubeyko.com" <slava@dubeyko.com>,
+ "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+ "jack@suse.cz" <jack@suse.cz>, "khalid@kernel.org" <khalid@kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
+ "syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com"
+ <syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>
+References: <20251119073845.18578-1-mehdi.benhadjkhelifa@gmail.com>
+ <c19c6ebedf52f0362648a32c0eabdc823746438f.camel@ibm.com>
+ <20251126-gebaggert-anpacken-d0d9fb10b9bc@brauner>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <20251126-gebaggert-anpacken-d0d9fb10b9bc@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 11/26/25 2:48 PM, Christian Brauner wrote:
+> On Wed, Nov 19, 2025 at 07:58:21PM +0000, Viacheslav Dubeyko wrote:
+>> On Wed, 2025-11-19 at 08:38 +0100, Mehdi Ben Hadj Khelifa wrote:
+>>> The regression introduced by commit aca740cecbe5 ("fs: open block device
+>>> after superblock creation") allows setup_bdev_super() to fail after a new
+>>> superblock has been allocated by sget_fc(), but before hfs_fill_super()
+>>> takes ownership of the filesystem-specific s_fs_info data.
+>>>
+>>> In that case, hfs_put_super() and the failure paths of hfs_fill_super()
+>>> are never reached, leaving the HFS mdb structures attached to s->s_fs_info
+>>> unreleased.The default kill_block_super() teardown also does not free
+>>> HFS-specific resources, resulting in a memory leak on early mount failure.
+>>>
+>>> Fix this by moving all HFS-specific teardown (hfs_mdb_put()) from
+>>> hfs_put_super() and the hfs_fill_super() failure path into a dedicated
+>>> hfs_kill_sb() implementation. This ensures that both normal unmount and
+>>> early teardown paths (including setup_bdev_super() failure) correctly
+>>> release HFS metadata.
+>>>
+>>> This also preserves the intended layering: generic_shutdown_super()
+>>> handles VFS-side cleanup, while HFS filesystem state is fully destroyed
+>>> afterwards.
+>>>
+>>> Fixes: aca740cecbe5 ("fs: open block device after superblock creation")
+>>> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+>>> Closes: https://syzkaller.appspot.com/bug?extid=ad45f827c88778ff7df6
+>>> Tested-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+>>> Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
+>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>> ---
+>>> ChangeLog:
+>>>
+>>> Changes from v1:
+>>>
+>>> -Changed the patch direction to focus on hfs changes specifically as
+>>> suggested by al viro
+>>>
+>>> Link:https://lore.kernel.org/all/20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com/
+>>>
+>>> Note:This patch might need some more testing as I only did run selftests
+>>> with no regression, check dmesg output for no regression, run reproducer
+>>> with no bug and test it with syzbot as well.
+>>
+>> Have you run xfstests for the patch? Unfortunately, we have multiple xfstests
+>> failures for HFS now. And you can check the list of known issues here [1]. The
+>> main point of such run of xfstests is to check that maybe some issue(s) could be
+>> fixed by the patch. And, more important that you don't introduce new issues. ;)
+>>
+>>>
+>>>   fs/hfs/super.c | 16 ++++++++++++----
+>>>   1 file changed, 12 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+>>> index 47f50fa555a4..06e1c25e47dc 100644
+>>> --- a/fs/hfs/super.c
+>>> +++ b/fs/hfs/super.c
+>>> @@ -49,8 +49,6 @@ static void hfs_put_super(struct super_block *sb)
+>>>   {
+>>>   	cancel_delayed_work_sync(&HFS_SB(sb)->mdb_work);
+>>>   	hfs_mdb_close(sb);
+>>> -	/* release the MDB's resources */
+>>> -	hfs_mdb_put(sb);
+>>>   }
+>>>   
+>>>   static void flush_mdb(struct work_struct *work)
+>>> @@ -383,7 +381,6 @@ static int hfs_fill_super(struct super_block *sb, struct fs_context *fc)
+>>>   bail_no_root:
+>>>   	pr_err("get root inode failed\n");
+>>>   bail:
+>>> -	hfs_mdb_put(sb);
+>>>   	return res;
+>>>   }
+>>>   
+>>> @@ -431,10 +428,21 @@ static int hfs_init_fs_context(struct fs_context *fc)
+>>>   	return 0;
+>>>   }
+>>>   
+>>> +static void hfs_kill_sb(struct super_block *sb)
+>>> +{
+>>> +	generic_shutdown_super(sb);
+>>> +	hfs_mdb_put(sb);
+>>> +	if (sb->s_bdev) {
+>>> +		sync_blockdev(sb->s_bdev);
+>>> +		bdev_fput(sb->s_bdev_file);
+>>> +	}
+>>> +
+>>> +}
+>>> +
+>>>   static struct file_system_type hfs_fs_type = {
+>>>   	.owner		= THIS_MODULE,
+>>>   	.name		= "hfs",
+>>> -	.kill_sb	= kill_block_super,
+>>
+>> It looks like we have the same issue for the case of HFS+ [2]. Could you please
+>> double check that HFS+ should be fixed too?
+> 
+> There's no need to open-code this unless I'm missing something. All you
+> need is the following two patches - untested. Both issues were
+> introduced by the conversion to the new mount api.
+Yes, I don't think open-code is needed here IIUC, also as I mentionned 
+before I went by the suggestion of Al Viro in previous replies that's my 
+main reason for doing it that way in the first place.
 
+Also me and Slava are working on testing the mentionned patches, Should 
+I sent them from my part to the maintainers and mailing lists once 
+testing has been done?
 
-Hello,
-
-kernel test robot noticed "Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]SMP_KASAN_PTI" on:
-
-commit: 45f3d9974e382495db777e0290a32ba0cd6f454b ("[PATCH] fs/super: fix memory leak of s_fs_info on setup_bdev_super failure")
-url: https://github.com/intel-lab-lkp/linux/commits/Mehdi-Ben-Hadj-Khelifa/fs-super-fix-memory-leak-of-s_fs_info-on-setup_bdev_super-failure/20251115-001149
-base: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git 6da43bbeb6918164f7287269881a5f861ae09d7e
-patch link: https://lore.kernel.org/all/20251114165255.101361-1-mehdi.benhadjkhelifa@gmail.com/
-patch subject: [PATCH] fs/super: fix memory leak of s_fs_info on setup_bdev_super failure
-
-in testcase: nvml
-version: nvml-x86_64-4cbe1fd37-1_20251013
-with following parameters:
-
-	test: non-pmem
-	group: util
-
-
-
-config: x86_64-rhel-9.4-func
-compiler: gcc-14
-test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz (Haswell) with 8G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202511262155.f86d1a5f-lkp@intel.com
-
-
-[  164.783048][T42994] EXT4-fs (loop0): VFS: Can't find ext4 filesystem
-[  164.792057][T42994] EXT4-fs (loop0): VFS: Can't find ext4 filesystem
-[  164.798663][T42994] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-[  164.810433][T42994] KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-[  164.818722][T42994] CPU: 3 UID: 0 PID: 42994 Comm: mount Tainted: G S                  6.18.0-rc5-00215-g45f3d9974e38 #1 PREEMPT(voluntary)
-[  164.831362][T42994] Tainted: [S]=CPU_OUT_OF_SPEC
-[  164.835992][T42994] Hardware name: Dell Inc. OptiPlex 9020/0DNKMN, BIOS A05 12/05/2013
-[  164.843927][T42994] RIP: 0010:fuse_kill_sb_blk (kbuild/src/consumer/fs/fuse/inode.c:2126 kbuild/src/consumer/fs/fuse/inode.c:2153) fuse
-[  164.850056][T42994] Code: 00 00 00 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 75 6a 48 8b 9b 90 03 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 da 48 c1 ea 03 <80> 3c 02 00 75 60 48 8b 3b e8 ec f8 ff ff 48 85 db 74 1a 48 83 c4
-All code
-========
-   0:	00 00                	add    %al,(%rax)
-   2:	00 00                	add    %al,(%rax)
-   4:	00 fc                	add    %bh,%ah
-   6:	ff                   	lcall  (bad)
-   7:	df 48 c1             	fisttps -0x3f(%rax)
-   a:	ea                   	(bad)
-   b:	03 80 3c 02 00 75    	add    0x7500023c(%rax),%eax
-  11:	6a 48                	push   $0x48
-  13:	8b 9b 90 03 00 00    	mov    0x390(%rbx),%ebx
-  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  20:	fc ff df 
-  23:	48 89 da             	mov    %rbx,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-  2a:*	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)		<-- trapping instruction
-  2e:	75 60                	jne    0x90
-  30:	48 8b 3b             	mov    (%rbx),%rdi
-  33:	e8 ec f8 ff ff       	call   0xfffffffffffff924
-  38:	48 85 db             	test   %rbx,%rbx
-  3b:	74 1a                	je     0x57
-  3d:	48                   	rex.W
-  3e:	83                   	.byte 0x83
-  3f:	c4                   	.byte 0xc4
-
-Code starting with the faulting instruction
-===========================================
-   0:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   4:	75 60                	jne    0x66
-   6:	48 8b 3b             	mov    (%rbx),%rdi
-   9:	e8 ec f8 ff ff       	call   0xfffffffffffff8fa
-   e:	48 85 db             	test   %rbx,%rbx
-  11:	74 1a                	je     0x2d
-  13:	48                   	rex.W
-  14:	83                   	.byte 0x83
-  15:	c4                   	.byte 0xc4
-[  164.869568][T42994] RSP: 0018:ffffc900022dfbc8 EFLAGS: 00010246
-[  164.875504][T42994] RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff81580d23
-[  164.883352][T42994] RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffff8882004c8014
-[  164.891213][T42994] RBP: ffffffffc020dba0 R08: 0000000000000001 R09: ffffed1040099000
-[  164.899068][T42994] R10: ffff8882004c8007 R11: ffffffff81e792d8 R12: 00000000ffffffea
-[  164.906921][T42994] R13: ffff88810dc18390 R14: ffffffffc0446ab0 R15: 00000000ffffffea
-[  164.914770][T42994] FS:  00007ff3e6309840(0000) GS:ffff88821483e000(0000) knlGS:0000000000000000
-[  164.923579][T42994] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  164.930038][T42994] CR2: 000055c480d92328 CR3: 00000001ec872005 CR4: 00000000001726f0
-[  164.937888][T42994] Call Trace:
-[  164.941038][T42994]  <TASK>
-[  164.943841][T42994]  ? __pfx_fuse_fill_super (kbuild/src/consumer/fs/fuse/inode.c:1939) fuse
-[  164.949619][T42994]  deactivate_locked_super (kbuild/src/consumer/fs/super.c:434 kbuild/src/consumer/fs/super.c:475)
-[  164.954861][T42994]  get_tree_bdev_flags (kbuild/src/consumer/fs/super.c:1699)
-[  164.959839][T42994]  ? __pfx_get_tree_bdev_flags (kbuild/src/consumer/fs/super.c:1662)
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20251126/202511262155.f86d1a5f-lkp@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Best Regards,
+Mehdi Ben Hadj Khelifa
