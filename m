@@ -1,62 +1,64 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37F82E22AB
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Nov 2025 19:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B52827E06C
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Nov 2025 19:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764271146; cv=none; b=BHAexfP6LR8KV9vG3q2QCWWqIvazi12uQUgvl7tHEKwQDQG/iLLYMZjHpvQDsovSQBhIarDBwD+sh6/EBNnMev07xLNca1VZDVE+wJbfN0ebv9vjg9b+3Be5764ZwJn14zHgjankXdoTJUdxZyjKLVKLBkCFzIz0CJNrCvVDJtk=
+	t=1764271177; cv=none; b=BBqPOC9mJa3oILymuo8GP2g5Bsp1nm+HoiCmI3ZTnJNsXSmo5y85ATmkAjMM9KzohmAF31adFwxWZozUVAc6mjUo40YCqMlyGDNzjGFA3kYo6GLuwZ5wQDhmgtWMzlWhYrsBdabR4yLg8A3LOB6u+axCmbqkHyuIxm2PlRFlVBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764271146; c=relaxed/simple;
-	bh=/QE1RVALkE88Yh1a6KcQNX4EHbhhm5ilrBvnj6nOjhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SPQln8vFIz8w7GyTKLd5RZfZHB0x3+XNbAq+HUvnGJaU4oiazgyua04HDjmuLjd3VV6Yemy8sHsKrQzhXKY2s52Pz0Iuml8uqg41INsvmpAQykqN1eZGaFa4hj2VN4kZ9dNTAzzvVVYSHmWMUs+DXMq2daXD5teQN+jnwLbFkvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LdYycDWP; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1764271177; c=relaxed/simple;
+	bh=QiQubMv26zYAKcBaIcJDXjIhFZMBqqNoxcxStSi01jQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WC9CdxlTCoa8L6wAOT3FJ7ifdFdxRvvhS+n/G91LVYkDNwaIAEeooC1vSwLNk3b1ko3l+zZO9oGcpYf/D3gelp9PNhwidsKRVYm3NorzZQTrZMJe7APNkNIDcdSz56+Z5fSKDy6nmBJie/cwldoWtBE1E+1SL2xktoeGyuuzk8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMjfJ0Bg; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LdYycDWP"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso1296093b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Nov 2025 11:19:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMjfJ0Bg"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7b8eff36e3bso1622488b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Nov 2025 11:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764271144; x=1764875944; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F23WvkT7Mp8prCP9vsMQmwjTYVVmBHQ0+fJlOv02XNk=;
-        b=LdYycDWPixVvnNnmaWaKG/JOdmgoc96M3Vyzm7+oSNn08alP193RPSDaHqqcJN8jJp
-         NiqTjtGaw/bIxh036SyH4YWgL5UXjMFifEkiAbRVG0nwo9cR0XvHyBDZQAp63m4ff5Om
-         VBoCybrXa4QZxpTSBeK5jFmcW+jdXoYxl8vLXJFYdGNhJgMZ6w8yu09EVKb4HJdqE5nD
-         g9c4MFZFNquGgbf7yEYDoEAFjvcHfuu8cK1xOqcpcFSFbT9O9ri1O6CO4CRnRMR6MKca
-         uNMFM2F0uDo7DyRudI8gLfmkrcUWjszLUnq33zbMaBRWtbsKdiUEG0CBFZ+s6mM6LNNh
-         rWBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764271144; x=1764875944;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764271176; x=1764875976; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F23WvkT7Mp8prCP9vsMQmwjTYVVmBHQ0+fJlOv02XNk=;
-        b=fRGWwjm6NFIue/DvYtaGCdE0aF9XMmYOELhpb2vYkqD/gny9WG4Ac41B3rrAHu7l2Y
-         tIs2om7V6SPVckjYFrm86z7RJ1siVd02HXhZGw2xL6hPpI8v5+vSASUIg2C6ftumHwpG
-         OMCWYeYgcKu8rLVls7pP0/LqJoOZ9gd5r4rcSrX3aJ6to0AgM22gseqDssfeKRGtujMb
-         AvFcRW3K1XoJo3fEmJYpnzhcCDkm/dI1AvA4cV67vCA+tgXiVOx1may3lR9jhyxIlpsB
-         P5uhpMJaeia2gsCafmCP2Fl+dV1eysg8ID6npaqgx6EHiL0hHWStIjTizc/nGlHMokfr
-         4NkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxv1EaqK70I2JdodxQfwazQjwbCeXE3wexCDy4Jy26oXL+t1s2f+yg7ON804dvHszXjkVc4RNXD3OfP7cUIX7l130cHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/9I4KDvjB7Emysy64cVu7bPPv1CR/3LT4Xq/ps2ZAUauwlqGH
-	ueFoNVUu+lBDL0RhH/2Nwv2x5scZ5W4mUvfOB+gwqMzX/uZJk/2YD3md
-X-Gm-Gg: ASbGncsCgU0HM+pVDGCVShvWOLw8K+6y+xv6CFJabtJUVjZXyEx33DEjY0ujydi+dE1
-	R2XSNVdgYNyNndCBrsnGJDRLRJYiAIiix44WHu0h0Dj1y3wQQ/4b+bTz4XidDktlZXRDGTR3ugT
-	sN/LhHob+QxqIfKcjWhL2l99cmnZ38TphF9C6+lBscJVaJX2Qp4mlv5g5BJ/PA/TBi4MJlOWuoy
-	YQIVX4qGnM+UBsVVfqneCD5SFhY+f0UHNNn6X4E705DpInu840NXCzNPZ8fBh0vM6ho3BJO10zh
-	Z3U8lpczyQwuH2OjfOKLzXMbR9n1/0tJ3liaq+WikhWlopKbfXgKTVLjq56FUcUb9cl0HMUsWsO
-	dEa7/IaJQy8Kw+TCvpQjPdK71H4c2GJOnUtAf/sBdNYlmCCIKmLUZLUuTSmcu5k9BT8Lq3LnJ+L
-	m99BiwaoQnLCtzSfHc
-X-Google-Smtp-Source: AGHT+IEfkxUrALhru/LYVIRVemCtN6SfsCS/++SjEvlyDbNUtwQTOvkACQT7kp8/L72AzSrboRrBiw==
-X-Received: by 2002:a05:6a00:92a2:b0:7b8:e02d:d5b1 with SMTP id d2e1a72fcca58-7c58e609950mr25715904b3a.16.1764271143791;
-        Thu, 27 Nov 2025 11:19:03 -0800 (PST)
+        bh=Bc1zInQPA3mOeFCysXnI54YAVIuQEcNbca5dzFQtVUQ=;
+        b=IMjfJ0BgON/Rsz6Nz77o9gERV821e2Ln40RRWoyTSu4UEbXT//RdlgbSUmyEcFlmZ+
+         MYPoYsAuW2wHwQ0pFfvHg2HXD4jIzjWFbWzDu70zJovLnfSHQHo6RjnnXGdR5ntuNXma
+         avYX0Cglm8ZTTZiBd4QkLnuLAHTPzVi3BnhRtiOiERw+aVeGfIe9I8iwpCFz7p+MHtOk
+         be21hU6wV6KjcsG2+3MQs+y4g/qbDwwM/GefYV9zZUDg7a+5q7cXFNCFbhT0rcF8CnwO
+         vJqqGTZQqHQJeJXT82V0mPr9qosYlMMK7ZcPX1RrnCxHZNheGAKhl80aLKHd3zLFKFH0
+         TFKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764271176; x=1764875976;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bc1zInQPA3mOeFCysXnI54YAVIuQEcNbca5dzFQtVUQ=;
+        b=JUlurbB81naZDwDx4d8kRK7OnTTOG1khX9RCJzg7RZqvaT8NmgDS2Dn3gpdO4Uk90I
+         lA0Iw4fftCoexo31qza96PCPajDnaFVjCY74H4uM353RUWwp9LxV5bByb607HRQb9K3c
+         sV/ZuN2AFj6qA3tkypsFVgu7okWRtOrieCxJ9+Jie5w4WO0NWY7HzbP6+2FJfo/8gNmv
+         8TgLYtBXHZL11sCWYoO1MSnL/dbOXYNJh4QzrrtZaPTTtOmfxVBcKT9lpUBPlztSIaXb
+         kf8n2urQGvrpc9Ap1w3nA9qRY7xzseICpm3c8kTGDUpz3DXTF1YJVpTAOPnzbLjkyOMU
+         egWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFtFLLlqK6HiaP4zaMPt/p9E5+CTGdcNDrBxNQdKYtVEEwaX8oDmgu5KLCQQs6C75uUzZTIQDt7+Bjv6JvqyScU6Vn6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNaR5v5xErKxtemIqpKowJvhvx6YZ1qncmIcldlQIRtnlCgOm+
+	/xKjPhYC0AAzUeod+XPEmX0MfXo6JFNqsw3iI23Wv02w3A278K+1fofZ
+X-Gm-Gg: ASbGnctROrHaPe4wTvsKmgrwbX5Quh3Jn9nzWqXKC9Zq8XoNeti8VFvSlE3CzwO1HLA
+	H0BbnE9Jp2O5iL7uzWkWIMhp8kQymzDiLZ17coRR7gxCGwz9THEF+JxDUQB3c8Z2BQiVMni74kr
+	Z6J5oOgEu688z6obxi1CgZR7GGwJSI74hACCp/eF3Qr4g0Nqwh/KXS1jx2NmpB30lNFtOrjKY/o
+	8saMsqBowD2oAwOBtA7aH5JeZWA+epq9HDezmFf3DJqDpSG/In4g+ozYczQCx/VUpcpxKhy7ida
+	f9u548+nqaBs4LDgVEktSMLrbEr0N64B6iCEIzXTxA1mZdzEZhRbEc0mSisqguqgAyYYHGJHPwl
+	O2ngYnbhe/Na+u871J/gS9Ri4FdN3hSsA3Bl81fCr41gpIbq1INPNJVtUdXhK2x8kPg8FKEHRPJ
+	g/d9zIYGHOzYJ0lANt
+X-Google-Smtp-Source: AGHT+IGhP0W8lcI8uELg/tQPQCKcVo14Va1mvj+bMVqnMs/DZ2d195Ll0cMh0zJjIMvRCX2xb6uVyg==
+X-Received: by 2002:a05:6a00:2d9a:b0:7b6:363b:c678 with SMTP id d2e1a72fcca58-7ca8760d166mr14107945b3a.6.1764271175664;
+        Thu, 27 Nov 2025 11:19:35 -0800 (PST)
 Received: from rakuram-MSI ([2409:40f4:211f:b50d:1190:e256:8b21:a462])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f176096sm2620703b3a.57.2025.11.27.11.18.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f176096sm2620703b3a.57.2025.11.27.11.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 11:19:03 -0800 (PST)
+        Thu, 27 Nov 2025 11:19:35 -0800 (PST)
 From: Rakuram Eswaran <rakuram.e96@gmail.com>
 To: linux-can@vger.kernel.org
 Cc: mkl@pengutronix.de,
@@ -68,10 +70,12 @@ Cc: mkl@pengutronix.de,
 	rakuram.e96@gmail.com,
 	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [RFC PATCH 0/2] can: add dummy_can termination and update SocketCAN docs for CAN XL
-Date: Fri, 28 Nov 2025 00:48:06 +0530
-Message-ID: <20251127191808.144723-1-rakuram.e96@gmail.com>
+Subject: [RFC PATCH 1/2] can: dummy_can: add CAN termination support
+Date: Fri, 28 Nov 2025 00:48:07 +0530
+Message-ID: <20251127191808.144723-2-rakuram.e96@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251127191808.144723-1-rakuram.e96@gmail.com>
+References: <20251127191808.144723-1-rakuram.e96@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,44 +84,59 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This RFC series introduces two changes related to CAN XL support:
+Add support for configuring bus termination in the dummy_can driver.
+This allows users to emulate a properly terminated CAN bus when
+setting up virtual test environments.
 
-  1. Add termination configuration support to the dummy_can driver,
-     enabling termination testing with iproute2.
+Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+---
+Tested the termination setting using below iproute commands:
 
-  2. Update the SocketCAN documentation to describe CAN XL operation,
-     including MTU changes, bittiming/XBTR settings, mixed-mode
-     behaviour, error signalling, and example iproute2 usage.
+  ip link set can0 type can termination 120
+  ip link set can0 type can termination off
 
-The goal of this RFC is to validate whether the proposed behaviour and
-documentation match the expectations for the ongoing CAN XL upstream
-work. Feedback from the maintainers is highly appreciated.
+ drivers/net/can/dummy_can.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-Base commit: 
-commit 30f09200cc4a ("Merge tag 'arm64-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux")
-
-For testing, this series was applied on top of the following patchsets:
-
-  * "treewide: remove can_change_mtu()" (Vincent Mailhol)
-        b4 am 20251003-remove-can_change_mtu-v1-1-337f8bc21181@kernel.org
-        git am ./20251003_mailhol_can_treewide_remove_can_change_mtu.mbx
-
-  * "can: netlink: add CAN XL support" (Marc Kleine-Budde)
-        b4 am 20251126-canxl-v8-0-e7e3eb74f889@pengutronix.de
-        git am ./v8_20251126_mkl_can_netlink_add_can_xl_support.mbx
-
-Testing was performed using the iproute2-next tree (canxl-netlink branch),
-which contains the required CAN XL netlink support for validating
-these changes.
-
-Rakuram Eswaran (2):
-  can: dummy_can: add CAN termination support
-  docs: can: update SocketCAN documentation for CAN XL
-
- Documentation/networking/can.rst | 470 ++++++++++++++++++++++++++++---
- drivers/net/can/dummy_can.c      |  21 ++
- 2 files changed, 454 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/net/can/dummy_can.c b/drivers/net/can/dummy_can.c
+index 41953655e3d3..2949173547e6 100644
+--- a/drivers/net/can/dummy_can.c
++++ b/drivers/net/can/dummy_can.c
+@@ -23,6 +23,21 @@ struct dummy_can {
+ 
+ static struct dummy_can *dummy_can;
+ 
++static const u16 dummy_can_termination_const[] = {
++	CAN_TERMINATION_DISABLED,	/* 0 = off */
++	120,				/* 120 Ohms */
++};
++
++static int dummy_can_set_termination(struct net_device *dev, u16 term)
++{
++	struct dummy_can *priv = netdev_priv(dev);
++
++	netdev_dbg(dev, "set termination to %u Ohms\n", term);
++	priv->can.termination = term;
++
++	return 0;
++}
++
+ static const struct can_bittiming_const dummy_can_bittiming_const = {
+ 	.name = "dummy_can CC",
+ 	.tseg1_min = 2,
+@@ -250,6 +265,12 @@ static int __init dummy_can_init(void)
+ 	priv->can.xl.data_bittiming_const = &dummy_can_xl_databittiming_const;
+ 	priv->can.xl.tdc_const = &dummy_can_xl_tdc_const;
+ 	priv->can.xl.pwm_const = &dummy_can_pwm_const;
++	
++	/* Advertise software termination support */
++	priv->can.termination_const = dummy_can_termination_const;
++	priv->can.termination_const_cnt = ARRAY_SIZE(dummy_can_termination_const);
++	priv->can.do_set_termination = dummy_can_set_termination;
++
+ 	priv->can.ctrlmode_supported = CAN_CTRLMODE_LISTENONLY |
+ 		CAN_CTRLMODE_FD | CAN_CTRLMODE_TDC_AUTO |
+ 		CAN_CTRLMODE_RESTRICTED | CAN_CTRLMODE_XL |
 -- 
 2.51.0
 
