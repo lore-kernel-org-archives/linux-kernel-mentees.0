@@ -1,106 +1,109 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F275D331A4B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 27 Nov 2025 11:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692C4334682;
+	Thu, 27 Nov 2025 14:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764244328; cv=none; b=P8xv/yxQOfjBNydtf9VkjmKmxTGKAcwlswOgBQog4O98GoxfQkCilIshGom8xZVCmqsrhSe4sLgav2RQ1q3Pl+ebId3bI59P7fMh6kmepBY3wMp1+35S79D3col/jwhlVhlIPMnmBXENq7Jn0daPAMqojnv/WjhC3Gp3Wlx+TF0=
+	t=1764255290; cv=none; b=WuQ0mxXMZyIitp9godKSFSSsNbf3udbqnxO7F+lId1fl0wABW68+o/+66IKr7NXB/pBRu332wjZUzADJz2GegZqJiw6+mbD6vXFd7Ux5e3C4bAFqPaEl2A3GKU1hk1qnMQfIQ7i6iVrDjoOqB3jUmdypUqlux7hyGaGi/QpiAsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764244328; c=relaxed/simple;
-	bh=vXMAPEVvuqkmNZC1/QV8tfrfTIWyuSpb49vHXINrQ90=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=EXFTTJCaMRakrS/mpeYZlSNpGbcDUIF6EXJjnZ+1puDefihApmZ1r18iXpI4n3qH3Ux1fpc1+qUmJXJtSM0wJ59KP+5ne8u+BvJY2Esyn87FK9MxMixjDCiXg5lH6jawEGuokREYGMKV2sOOXc5auy5tP/GG9DO6IweerL/lOx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAUgLSfU; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1764255290; c=relaxed/simple;
+	bh=0omifDIQ9EQQ9hAte5EAHzlbV87m/Usi07cZUQL4yv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZXCTfiTx+2UdZKQN4GI+1yERFhKFTUWXpE7dNcrnJTiEc1+9oxcPEaJWfyF6SGEI/mZV9ZHdXmVjdmqiDfRVttmp+Ny8PUuoa60tXwc7twT1esGuiGnj+FcH6RCof+T1xqI5htOyOkdCxHvt5+W34aLJ7BdQVi/C/fXAiqIdU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XO6uO4Ov; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAUgLSfU"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8502260B9D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 27 Nov 2025 11:52:06 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id LeKlgThgrtnn for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 27 Nov 2025 11:52:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org BC1E260B5C
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BC1E260B5C
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iAUgLSfU
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id BC1E260B5C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 27 Nov 2025 11:52:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id EAB1D40375;
-	Thu, 27 Nov 2025 11:52:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22C1C4CEF8;
-	Thu, 27 Nov 2025 11:52:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XO6uO4Ov"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ABFDC4AF09;
+	Thu, 27 Nov 2025 14:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764244324;
-	bh=vXMAPEVvuqkmNZC1/QV8tfrfTIWyuSpb49vHXINrQ90=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=iAUgLSfUY3cNdJ/lT8f6NFrNMIESS5uRK+gHgrsOa8ABQMJM2Pq4+JhUD3tUxtR8B
-	 a9ck5u/IGTN4PbljvRT1s59ncfU+mNuNdoDU4lZ08eSLzAvzGKcT6g8xuA3JWmdDIF
-	 q3m32k3tdSERBBGLGKUW+9jSxGccWSXYK2eigKxA+PgXc7B4EF41RKFMY2kjyzesbf
-	 zV6mf0j3oDs0F7vgyK/KUvV1jZw/Y4liLLqkk69UpZZq9YEW71efF4BwESsj+boqrd
-	 7/7cGY5n94WTp8kGxp2xmmwHfIzkl6+QQzSlrLJhqZWuASjYuRoFjoC0LppMXQPyaY
-	 LDXBBCVIFI3Eg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70D93380CFE0;
-	Thu, 27 Nov 2025 11:51:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1764255290;
+	bh=0omifDIQ9EQQ9hAte5EAHzlbV87m/Usi07cZUQL4yv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XO6uO4Ovm9hKNa2MtDJa9+NN4aM3dtpSBNjrizD+yapUB2fJPJN2qCLuFamMJJ8rp
+	 Jngm+vt1zFp5CbAbGh3Gvwb+pg+id6wHvamoOBmbfcWTHC7GXEnbpS6ozZbFfyjICD
+	 LviKrsUGAdTEtrFQCkhkqeSskUusBESFKqI7C5YK+cyimEc35H8hyvGT1YnPh7ZuHS
+	 3Qvzdk3uZhvXF613V0KfPXgnO3X8ZqJgry1h8T6w8/JRj+TRfsqCgpA4xfTG3wPMYn
+	 NsZJbLwuvRkjdTLtklvJvB4J74qTnIuBXMXOWoNxgGKpXsiWgXsMOz7ZqplO32bBAT
+	 UpBdSDfGQawoQ==
+Date: Thu, 27 Nov 2025 14:54:44 +0000
+From: Simon Horman <horms@kernel.org>
+To: ssrane_b23@ee.vjti.ac.in
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Felix Maurer <fmaurer@redhat.com>,
+	Jaakko Karrenpalo <jkarrenpalo@gmail.com>,
+	Arvid Brodin <arvid.brodin@alten.se>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
+Subject: Re: [PATCH] hsr: fix NULL pointer dereference in skb_clone with hw
+ tag insertion
+Message-ID: <aShmNNgam3bJ2yMO@horms.kernel.org>
+References: <20251125210158.224431-1-ssranevjti@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] selftests: af_unix: remove unused stdlib.h
- include
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176424428626.2543014.2747107697046734578.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Nov 2025 11:51:26 +0000
-References: <20251125113648.25903-1-adelodunolaoluwa@yahoo.com>
-In-Reply-To: <20251125113648.25903-1-adelodunolaoluwa@yahoo.com>
-To: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Cc: kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, shuah@kernel.org,
- netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
- oe-kbuild-all@lists.linux.dev, lkp@intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251125210158.224431-1-ssranevjti@gmail.com>
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Tue, 25 Nov 2025 12:36:48 +0100 you wrote:
-> The unix_connreset.c test included <stdlib.h>, but no symbol from that
-> header is used. This causes a fatal build error under certain
-> linux-next configurations where stdlib.h is not available.
+On Wed, Nov 26, 2025 at 02:31:58AM +0530, ssrane_b23@ee.vjti.ac.in wrote:
+> From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 > 
-> Remove the unused include to fix the build.
+> When hardware HSR tag insertion is enabled (NETIF_F_HW_HSR_TAG_INS) and
+> frame->skb_std is NULL, both hsr_create_tagged_frame() and
+> prp_create_tagged_frame() will call skb_clone() with a NULL skb pointer,
+> causing a kernel crash.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/r/202511221800.hcgCKvVa-lkp@intel.com/
-> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+> Fix this by adding NULL checks for frame->skb_std before calling
+> skb_clone() in the functions.
+
+I think it would be worth including the trace reported by syzcaller here.
+(Say, up to but not including the "Modules linked in" line.)
+I can see it at the link. But maybe the link will go away some day.
+
 > 
-> [...]
+> Reported-by: syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=2fa344348a579b779e05
+> Fixes: f266a683a480 ("net/hsr: Better frame dispatch")
+> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-Here is the summary with links:
-  - [net-next] selftests: af_unix: remove unused stdlib.h include
-    https://git.kernel.org/netdev/net-next/c/5c9c1e78de1e
+As a fix Networking code present in the net tree, this should be
+targeted at the net tree. Like this.
 
-You are awesome, thank you!
+[PATCH net] ...
+
+> ---
+>  net/hsr/hsr_forward.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/net/hsr/hsr_forward.c b/net/hsr/hsr_forward.c
+> index 339f0d220212..4c1a311b900f 100644
+> --- a/net/hsr/hsr_forward.c
+> +++ b/net/hsr/hsr_forward.c
+> @@ -211,6 +211,9 @@ struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
+>  				  __FILE__, __LINE__, port->dev->name);
+>  			return NULL;
+>  		}
+> +
+> +		if (!frame->skb_std)
+> +			return NULL;
+
+I think this can only occur if __pskb_copy() returns NULL.
+So, for clarity, I think this condition should be moved to immediately
+after the call to __pskb_copy().
+
+>  	}
+>  
+>  	return skb_clone(frame->skb_std, GFP_ATOMIC);
+
+...
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+pw-bot: changes-requested
