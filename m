@@ -1,190 +1,170 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD0617736
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 28 Nov 2025 08:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D75D26E161
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 29 Nov 2025 09:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764318084; cv=none; b=qJ8Y+MklzBjVqVSHsDriLJg5qQmDj5WlUsnGiHlh/PJY3StJhC/2hUQdJPE8JfLfhTVF+zS8/bT+JbwHZkplQ3FsAs2O9iyLj/1/wz5/UtbC17kP5OebH6FZKy26Djjh3Pk7cgw71UHf3LAadyORQ55VA3JWZohvebw7SeYpbfQ=
+	t=1764409054; cv=none; b=BID3cAHadqpdIprdbwyfCye9pTRvGWC8XiRw4+jA/jPVIY1gAoqzz+ov/0doA8wfw3dAb8+Vj8eKTOwylfU0N4gzFE5wH2i9hJwM476N0JRBGEmdcb5dwtS29tRmHp/ol0lfowoVsYwYUgjvbwY3R3XCqwqQtHmF1S2dKmozqDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764318084; c=relaxed/simple;
-	bh=AdekLcG7GqFd0zXze/fg+up7Ax95SZCCQWtu33K7Uug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PuAlBjzNOR5I+C3H/9rnsyF1TZQ6aNjsOmwfMqtibH7YSGTKTZrl2oFg4GRoNC19F3BdgHFF37WZhbNGECs9CdRQshrmgiWYwb6wQ2zJgbIhEE2SRJHfaB2BLPMZ6OJd3QxwnxrW715VW44LD7WEvfiDZFcGHiw5an60wfZgGJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KJaaVBRy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1764409054; c=relaxed/simple;
+	bh=ZlTvxu3VWssXrEln8HvuE9rP2j0RUbWa4IrghVjwy5M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hJOpgcdgaYxPFd35Ek/26BkaAaRP6+x8zqOIxKihvg4BTvJwBDzNkn6RP8nSEpjfk4L0PNGgBGwHdW09DaJZtAIaWhxNv/TM42iHe9q0Mlw8FgN+KAvFlczkH0v4P+2d4l3wmnekSI4ONrOPCWu1s/BFYm5uSafaEaKKmXPI4Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=asoVm0ig; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KJaaVBRy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764318081;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKgF0At3T0HdCWd5M90J6uZEDhRAo1+0Ul43YUDqtPI=;
-	b=KJaaVBRyQHSnZCyun2lsxOgBK/kjze9Iw5x4iRCjGkkBQefhMOeF061VbNNPxdAdL9Cz7+
-	ErAYyt3waqY7lDwZ4ytjsV2WHfGYBjcc8xVrhOaYuE6Bn3BpMPtl6zQVBC9vcRmiq0/bt8
-	ZBO5mq6s7Sxv+F8fSZh730rRks4vNrk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-6eCKOMHFMpmCpH__rJnQ0Q-1; Fri,
- 28 Nov 2025 03:21:17 -0500
-X-MC-Unique: 6eCKOMHFMpmCpH__rJnQ0Q-1
-X-Mimecast-MFC-AGG-ID: 6eCKOMHFMpmCpH__rJnQ0Q_1764318075
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CFF51800447;
-	Fri, 28 Nov 2025 08:21:15 +0000 (UTC)
-Received: from thinkpad (unknown [10.45.225.196])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D07C619560B0;
-	Fri, 28 Nov 2025 08:21:09 +0000 (UTC)
-Date: Fri, 28 Nov 2025 09:21:05 +0100
-From: Felix Maurer <fmaurer@redhat.com>
-To: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, jkarrenpalo@gmail.com,
-	arvid.brodin@alten.se, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="asoVm0ig"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2957850c63bso18907005ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 29 Nov 2025 01:37:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vjti.ac.in; s=google; t=1764409050; x=1765013850; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jGXKKxMGK1eysZNyH6QH0SU/9g3Orh82OvwO5tAJksY=;
+        b=asoVm0igSoiNCfeFEAcg1i0q/pt7iiEIVwe6kZ4puX7vXd/bnn1rIlN6exHYMm3j6W
+         qcyiCZVsed043f6UVoNVN6h8CR/pD/exExLA4SHWix2Qvp/inlYgIkr+GSRZOqDJJNfP
+         UxPJ9e659LR5hO511coG2QnPaeBgD2hBaGa8o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764409050; x=1765013850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jGXKKxMGK1eysZNyH6QH0SU/9g3Orh82OvwO5tAJksY=;
+        b=bqqHGlfO+OSTVJcxzclss5DsaG76C/zlGYQMQfLjtneQ07QzW6uH+1LqkUc31JmHfb
+         1/tP3CTD/MHiaTfoeaQiVX/vP/1cGBCmPt+KkI4EsHx3GyIiS35IKF/qH9XdwR3huoRr
+         jHAuwmN8hmgwyKeMosULWdJDi8qJwDp8Zct6r/KH+Mr3WHu8+PyxIXiwKcNtrgfd3p3P
+         zUa6OvBupcGg4/oRxQg837jQdfNhDxgoQrx9aapg6w7Z8vf5zNCuCYaiQbg4BjksL7+b
+         er/cxr9LQDXxRb7LtcAfVYh+VkOKNDMaN5NPzEJL2zv9ACLyi/soYT+dpaCwR2fQFIom
+         z1fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXi0o5TtgMQH1xZk7RZtB/SBhfmyJRXxTQn2Bt694bN+g8xjZvIs/quGdx/zdXENsXxKKPek5eUf/9kDBVBY4dCire7/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxodNtAUO3kDG1JpIPAJBTcunuVm6hZTMib1Ng76SRlVBZ/pQTr
+	dmv7gBdZ3aXrMd3dWg03TfuJo5yHC9qjmy8BksauYI/ccEGogu4e46vcH9Swryrc+Es=
+X-Gm-Gg: ASbGnculzJc4TtjBkf/nEX61v0PBhKZq1jmNjrn0//aIr1wtuMgWWvnTH17lE/8UVbu
+	LV4MxfGlZTOh1CWuOmGj/FnTbGdFV2y1CFBQCttTXhxvm87o4E3VMmxZDKZ+HQyJCCglptoFWeb
+	f6jayIZNYwm0N6688wXB/0qcG0/4a0M4lRCM6E+TpiArmL5+oAC2K1TpEkcneAzSsXl1PQ1fjMm
+	KXpzBPUVuiPOzUEpSlSm81yab+596k+iostCm18BxgHbxlSJvljqCzJ8M1ODTjY1S/NCreF3s0C
+	G6gsEiDqbkg8jF6khc9qWZlZxwO6YA51Oj0m7OzFgpCdji48f5DSQYfVAWhxJt82gCMzFRFrjUA
+	exT+nOvoiuy4cdKeIh4ggtQ3Y8ARA3yBngouYxcokxHSe9JmAEN8KWUih71ofS80xUoAghhB/Mg
+	q5uL/gMwellToMYSzDrbllFQGJeVW3yKTYHXp54yJq7DSfruWG5rY7bzfOIt4=
+X-Google-Smtp-Source: AGHT+IEI8230ifO4LYJAs7VvXkSTCZgJ9OOKZGhnRbVSZR7l7RNsQuwaVaZI1pZEkHGHHbd0YQM1Pg==
+X-Received: by 2002:a17:903:98c:b0:299:dc97:a694 with SMTP id d9443c01a7336-29b5e3b86f5mr378476365ad.24.1764409050232;
+        Sat, 29 Nov 2025 01:37:30 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:ca83:6d4:140:3932])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb542a4sm67075505ad.86.2025.11.29.01.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Nov 2025 01:37:29 -0800 (PST)
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jaakko Karrenpalo <jkarrenpalo@gmail.com>,
+	Felix Maurer <fmaurer@redhat.com>,
+	Arvid Brodin <arvid.brodin@alten.se>,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
 	syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH net v2] net/hsr: fix NULL pointer dereference in
- skb_clone with hw tag insertion
-Message-ID: <aSlbccUo_YwqehWL@thinkpad>
-References: <20251127163219.40389-1-ssrane_b23@ee.vjti.ac.in>
+Subject: [PATCH net v3] net/hsr: fix NULL pointer dereference in prp_get_untagged_frame()
+Date: Sat, 29 Nov 2025 15:07:18 +0530
+Message-Id: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251127163219.40389-1-ssrane_b23@ee.vjti.ac.in>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 27, 2025 at 10:02:19PM +0530, Shaurya Rane wrote:
-> When NETIF_F_HW_HSR_TAG_INS is enabled and frame->skb_std is NULL,
-> hsr_create_tagged_frame() and prp_create_tagged_frame() call skb_clone()
-> with a NULL pointer.
+prp_get_untagged_frame() calls __pskb_copy() to create frame->skb_std
+but doesn't check if the allocation failed. If __pskb_copy() returns
+NULL, skb_clone() is called with a NULL pointer, causing a crash:
+Oops: general protection fault, probably for non-canonical address 0xdffffc000000000f: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
+CPU: 0 UID: 0 PID: 5625 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:skb_clone+0xd7/0x3a0 net/core/skbuff.c:2041
+Code: 03 42 80 3c 20 00 74 08 4c 89 f7 e8 23 29 05 f9 49 83 3e 00 0f 85 a0 01 00 00 e8 94 dd 9d f8 48 8d 6b 7e 49 89 ee 49 c1 ee 03 <43> 0f b6 04 26 84 c0 0f 85 d1 01 00 00 44 0f b6 7d 00 41 83 e7 0c
+RSP: 0018:ffffc9000d00f200 EFLAGS: 00010207
+RAX: ffffffff892235a1 RBX: 0000000000000000 RCX: ffff88803372a480
+RDX: 0000000000000000 RSI: 0000000000000820 RDI: 0000000000000000
+RBP: 000000000000007e R08: ffffffff8f7d0f77 R09: 1ffffffff1efa1ee
+R10: dffffc0000000000 R11: fffffbfff1efa1ef R12: dffffc0000000000
+R13: 0000000000000820 R14: 000000000000000f R15: ffff88805144cc00
+FS:  0000555557f6d500(0000) GS:ffff88808d72f000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555581d35808 CR3: 000000005040e000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ hsr_forward_do net/hsr/hsr_forward.c:-1 [inline]
+ hsr_forward_skb+0x1013/0x2860 net/hsr/hsr_forward.c:741
+ hsr_handle_frame+0x6ce/0xa70 net/hsr/hsr_slave.c:84
+ __netif_receive_skb_core+0x10b9/0x4380 net/core/dev.c:5966
+ __netif_receive_skb_one_core net/core/dev.c:6077 [inline]
+ __netif_receive_skb+0x72/0x380 net/core/dev.c:6192
+ netif_receive_skb_internal net/core/dev.c:6278 [inline]
+ netif_receive_skb+0x1cb/0x790 net/core/dev.c:6337
+ tun_rx_batched+0x1b9/0x730 drivers/net/tun.c:1485
+ tun_get_user+0x2b65/0x3e90 drivers/net/tun.c:1953
+ tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1999
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x5c9/0xb30 fs/read_write.c:686
+ ksys_write+0x145/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0449f8e1ff
+Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 f9 92 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 4c 93 02 00 48
+RSP: 002b:00007ffd7ad94c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f044a1e5fa0 RCX: 00007f0449f8e1ff
+RDX: 000000000000003e RSI: 0000200000000500 RDI: 00000000000000c8
+RBP: 00007ffd7ad94d20 R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000000003e R11: 0000000000000293 R12: 0000000000000001
+R13: 00007f044a1e5fa0 R14: 00007f044a1e5fa0 R15: 0000000000000003
+ </TASK>
+Add a NULL check immediately after __pskb_copy() to handle allocation
+failures gracefully.
 
-Have you acually tested this or do you have any other indication that
-this can happen? After all, you are suggesting that this kernel crash in
-a syzbot VM is caused by a (very uncommon) feature of hardware NICs.
+Reported-by: syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2fa344348a579b779e05
+Fixes: f266a683a480 ("net/hsr: Better frame dispatch")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+v3:
+  - Keep only prp_get_untagged_frame() fix as the other two
+    NETIF_F_HW_HSR_TAG_INS checks are not needed for this bug
+  - Move NULL check immediately after __pskb_copy() call
 
-> Similarly, prp_get_untagged_frame() doesn't check
-> if __pskb_copy() fails before calling skb_clone().
+v2:
+  - Add stack trace to commit message
+  - Target net tree with [PATCH net]
+  - Add Cc: stable@vger.kernel.org
+---
+ net/hsr/hsr_forward.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I suspect that this is really the only condition that can trigger the
-crash in question. This would also match that the syzbot reproducer hits
-this with a PRP interface (IFLA_HSR_PROTOCOL=0x1).
-
-> This causes a kernel crash reported by Syzbot:
->
-> Oops: general protection fault, probably for non-canonical address 0xdffffc000000000f: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
-> CPU: 0 UID: 0 PID: 5625 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full)
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-> RIP: 0010:skb_clone+0xd7/0x3a0 net/core/skbuff.c:2041
-> Code: 03 42 80 3c 20 00 74 08 4c 89 f7 e8 23 29 05 f9 49 83 3e 00 0f 85 a0 01 00 00 e8 94 dd 9d f8 48 8d 6b 7e 49 89 ee 49 c1 ee 03 <43> 0f b6 04 26 84 c0 0f 85 d1 01 00 00 44 0f b6 7d 00 41 83 e7 0c
-> RSP: 0018:ffffc9000d00f200 EFLAGS: 00010207
-> RAX: ffffffff892235a1 RBX: 0000000000000000 RCX: ffff88803372a480
-> RDX: 0000000000000000 RSI: 0000000000000820 RDI: 0000000000000000
-> RBP: 000000000000007e R08: ffffffff8f7d0f77 R09: 1ffffffff1efa1ee
-> R10: dffffc0000000000 R11: fffffbfff1efa1ef R12: dffffc0000000000
-> R13: 0000000000000820 R14: 000000000000000f R15: ffff88805144cc00
-> FS:  0000555557f6d500(0000) GS:ffff88808d72f000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000555581d35808 CR3: 000000005040e000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  hsr_forward_do net/hsr/hsr_forward.c:-1 [inline]
->  hsr_forward_skb+0x1013/0x2860 net/hsr/hsr_forward.c:741
->  hsr_handle_frame+0x6ce/0xa70 net/hsr/hsr_slave.c:84
->  __netif_receive_skb_core+0x10b9/0x4380 net/core/dev.c:5966
->  __netif_receive_skb_one_core net/core/dev.c:6077 [inline]
->  __netif_receive_skb+0x72/0x380 net/core/dev.c:6192
->  netif_receive_skb_internal net/core/dev.c:6278 [inline]
->  netif_receive_skb+0x1cb/0x790 net/core/dev.c:6337
->  tun_rx_batched+0x1b9/0x730 drivers/net/tun.c:1485
->  tun_get_user+0x2b65/0x3e90 drivers/net/tun.c:1953
->  tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1999
->  new_sync_write fs/read_write.c:593 [inline]
->  vfs_write+0x5c9/0xb30 fs/read_write.c:686
->  ksys_write+0x145/0x250 fs/read_write.c:738
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f0449f8e1ff
-> Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 f9 92 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 4c 93 02 00 48
-> RSP: 002b:00007ffd7ad94c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
-> RAX: ffffffffffffffda RBX: 00007f044a1e5fa0 RCX: 00007f0449f8e1ff
-> RDX: 000000000000003e RSI: 0000200000000500 RDI: 00000000000000c8
-> RBP: 00007ffd7ad94d20 R08: 0000000000000000 R09: 0000000000000000
-> R10: 000000000000003e R11: 0000000000000293 R12: 0000000000000001
-> R13: 00007f044a1e5fa0 R14: 00007f044a1e5fa0 R15: 0000000000000003
->  </TASK>
->
-> Fix this by adding NULL checks for frame->skb_std before calling
-> skb_clone() in the affected functions.
->
-> Reported-by: syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2fa344348a579b779e05
-> Fixes: f266a683a480 ("net/hsr: Better frame dispatch")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-> ---
->  net/hsr/hsr_forward.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/net/hsr/hsr_forward.c b/net/hsr/hsr_forward.c
-> index 339f0d220212..8a8559f0880f 100644
-> --- a/net/hsr/hsr_forward.c
-> +++ b/net/hsr/hsr_forward.c
-> @@ -205,6 +205,8 @@ struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
->  				__pskb_copy(frame->skb_prp,
->  					    skb_headroom(frame->skb_prp),
->  					    GFP_ATOMIC);
-> +			if (!frame->skb_std)
-> +				return NULL;
->  		} else {
->  			/* Unexpected */
->  			WARN_ONCE(1, "%s:%d: Unexpected frame received (port_src %s)\n",
-
-This check looks good to me.
-
-> @@ -341,6 +343,8 @@ struct sk_buff *hsr_create_tagged_frame(struct hsr_frame_info *frame,
->  		hsr_set_path_id(frame, hsr_ethhdr, port);
->  		return skb_clone(frame->skb_hsr, GFP_ATOMIC);
->  	} else if (port->dev->features & NETIF_F_HW_HSR_TAG_INS) {
-> +		if (!frame->skb_std)
-> +			return NULL;
->  		return skb_clone(frame->skb_std, GFP_ATOMIC);
->  	}
->
-> @@ -385,6 +389,8 @@ struct sk_buff *prp_create_tagged_frame(struct hsr_frame_info *frame,
->  		}
->  		return skb_clone(frame->skb_prp, GFP_ATOMIC);
->  	} else if (port->dev->features & NETIF_F_HW_HSR_TAG_INS) {
-> +		if (!frame->skb_std)
-> +			return NULL;
->  		return skb_clone(frame->skb_std, GFP_ATOMIC);
->  	}
-
-If any of these two conditions happen we have a different, serious
-problem that needs to be fixed elsewhere.
-
-In hsr_create_tagged_frame(), we first check if we have an skb_hsr (an
-skb containing an already tagged message). If we don't, it has to be an
-skb_std (an skb without any tag). If !skb_std, we are either 1) handing
-around a frame without any skb; or 2) handing a PRP frame to an HSR
-function. In both cases, this would need to be fixed where the problem
-is introduced.
-
-Thanks,
-   Felix
+diff --git a/net/hsr/hsr_forward.c b/net/hsr/hsr_forward.c
+index 339f0d220212..aefc9b6936ba 100644
+--- a/net/hsr/hsr_forward.c
++++ b/net/hsr/hsr_forward.c
+@@ -205,6 +205,8 @@ struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
+ 				__pskb_copy(frame->skb_prp,
+ 					    skb_headroom(frame->skb_prp),
+ 					    GFP_ATOMIC);
++			if (!frame->skb_std)
++				return NULL;
+ 		} else {
+ 			/* Unexpected */
+ 			WARN_ONCE(1, "%s:%d: Unexpected frame received (port_src %s)\n",
+-- 
+2.34.1
 
