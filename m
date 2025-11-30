@@ -1,99 +1,125 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92761373
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 30 Nov 2025 10:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4D127934B
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 30 Nov 2025 10:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764497275; cv=none; b=IOprNwzLHtZiJk6PueTrEZFSOCjyXuitSXz1UdLDe0vzLL3j7MBJiOaeZpa+y+KIEegTGLAazG5Tqtcay+haNWWuWfvx1RcgLQsUkU6AHlOT9ZY1bgzZA+ENB7RnmKgZhDjto9TacFq0w3JoqU1stuPsx6sOGx8dgTUBVZpiyoE=
+	t=1764499621; cv=none; b=Gfn2QjjJmJkWOkDTrZRQxFDUuE9fkIo4PrtGkyFltJGABC61Eq4AD1GX084UclkoJfFaS90ZBNVgkwUzL0P6VNSKGLcr1yAzOzRIxPxcLsmzmqvckQYovyUzQnwyXu0utzf8kr3NuV83Mk1sLlAefUoLCocOQUUWtts7L3562Lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764497275; c=relaxed/simple;
-	bh=BXFBs7UfsJ23azeDN894SfOybCJKtFZxo4EJfCmeyb4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bj22NafGF4JNHob07X5BqPCv5/occYA3DsPf+oBcFOjTeLX+IQqhZOtbEPxt2ddkWHeLSePXSYcihkr4FmX1fMryKkw3Llm87huArgH2m+8ANMmdW4/uWwsjnhnH2Lv6YEqNN4fT4OODHzVe6gV2ILiUGvfgmQa16Rw+ZUPfWkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 5AUA7CS2080474;
-	Sun, 30 Nov 2025 19:07:12 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 5AUA7CaR080471
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 30 Nov 2025 19:07:12 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
-Date: Sun, 30 Nov 2025 19:07:13 +0900
+	s=arc-20240116; t=1764499621; c=relaxed/simple;
+	bh=rlIrI/UmoKYEL0vlVjf1XS3AzQOskSjVa2f/87hoTwQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q0SiTJ3LlONfzZx27zcDpUWbAcIOzbZBaRyjYajdY18VV7RXzPHq5HOGPM8kjMM2QdkFU21UsrUQ+Ey/3SxireZEjFBov3wu9VWYOyrFQ0415IesBnZUKokk3EIxGWXqzvzprOrbE1aG2tlTd4Ft66OaGZB4W5VihWyHk0GndJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gH6Gh/u0; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gH6Gh/u0"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-297f35be2ffso48435295ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 30 Nov 2025 02:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764499619; x=1765104419; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qTNLxP/M5VH8d16ArvNC5jrTL5Ks/32ppFB8c0OA9Rk=;
+        b=gH6Gh/u0L66C57iyBEPJ+UKTuVeO/cjbLsL77eGbGZb27huaXlUZ86Ryh3qD3qzEVj
+         iIR4fd4bs61wpmJBfJWEZHSjRUOvwVS9NsxAhHeirhzFAjah8U6szGlkHaaGqe4enQ2o
+         2KU7+Zvt7ZDVHJYNNfGePa+cr/VAJyugvoXHSsWjFBqm5mWDgCa3AF1DvCPvmeaeMWIn
+         4CvXzfbQ+4Pv+YZQyJqQNM+MZT3v8MxGa3I0HKwmBwOsO8OeOf9MYKaZ/M7hLbSg54+i
+         4S//o3coevLRl8MwnyarHFt5PCbTqgK1jMYY5WlXdrglQzdYRYWMfhBTwqDLmfzfFFwM
+         E6sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764499619; x=1765104419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qTNLxP/M5VH8d16ArvNC5jrTL5Ks/32ppFB8c0OA9Rk=;
+        b=J+FeCjr5FyOJ7aTDfuELv5y1PNCW6twfF566WD+X53mA1KZvegHpmtaNBPmrMboU+m
+         5tGT2yYamCv580qs8ugTrPpoBwux7u5lr0+JrHLdTNMBfc0/5I9EUjkElUPnA813+xTa
+         1Oqai6pRm+2KxS1ejVKdWDBXHw34zl2jJVuq/umr+NYVJWiKgyq/Qsw37PYSBwTPK3KA
+         j3hM+RBuimRVlaGNZSE1lkGCEsgFaxMamZMcI6ZZjp3VdQOx09uXhmp4ScRnmdXMakRo
+         4wHm0PhUr4fs8d+QsNv9Oyr0eqsxWb7XoGSzo2YVSjZne0Y2s6O/3HbHRzAzyU0tlVfD
+         9Srg==
+X-Forwarded-Encrypted: i=1; AJvYcCUygq++dPwiSDyRKNjSl1uHY2cP8qD0/oCveAw/A96eTTrL85I260Y6O/sglPErc1dwaVxATzGNiRIG1VTiyaQLMrLd3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDFtJxdgCIgp3kas8NRyqiw0Xe2uVHE1O39ZXsj0YMEOlWg+iM
+	sTcSw3d2ymBNWNQBDdGNco0s0f0nrY3vbrT+SApY4l7z0m53xZIEid9K
+X-Gm-Gg: ASbGnctAllcbqj18zm+yPCcjV9Lk1fkJz/efn9kolg8a6taO1/LC/zgRmA6RfAmBgX8
+	+aULhjQb513sAdTIwYteYysLU+NCFvYDT+IXQiCOMFN2gSmE2UycxVKPZAZnbLqKiEYcXMY6wwQ
+	rcmBM4rzxMakChMliC0WoMJdDFBN6s4/Q0H7PeHOLs/IcZMvscoRv6/oJz83hTZti0q/ft2e/WU
+	c9pzcCO3m0/RMd0Q8BO6Jjn4sIVuOI6aot+QlR/2C3U+URVaGyDe5NPW8aGRYpt/2hxBDihtec2
+	7/xztdQRMIGKGAUOfwSLAJyTaOzdkevNrZlRwoB11R1dEVFgF1NjPum6UBaqC4S6eO0SCsaEAWX
+	FxE4ckstrDwpotFHSd1308YMI3LEy3TqS0LUzV9LKC0pYDukmnJdfHhNy+SLJL1S6dhiftmKSjr
+	f/U9AHLmuRtFpg/iAtRwPxim5H9YU=
+X-Google-Smtp-Source: AGHT+IERaLvmsksXdm4uqqeOPDAGOjVLAPcWW+DVufQ2i3ULjffRh0sjXfMbZt3b4sdgIKb56s8bhw==
+X-Received: by 2002:a17:903:2b07:b0:290:c94b:8381 with SMTP id d9443c01a7336-29b6c3db606mr396664675ad.7.1764499618952;
+        Sun, 30 Nov 2025 02:46:58 -0800 (PST)
+Received: from localhost.localdomain ([114.79.136.226])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb471c6sm91492475ad.79.2025.11.30.02.46.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Nov 2025 02:46:58 -0800 (PST)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: mark@fasheh.com,
+	jlbec@evilplan.org,
+	joseph.qi@linux.alibaba.com
+Cc: ocfs2-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>,
+	syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] fs: ocfs2: fix kernel BUG in ocfs2_find_victim_chain
+Date: Sun, 30 Nov 2025 16:16:37 +0530
+Message-Id: <20251130104637.264258-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
-To: George Anthony Vernon <contact@gvernon.com>,
-        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "slava@dubeyko.com" <slava@dubeyko.com>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "linux-kernel-mentees@lists.linux.dev"
- <linux-kernel-mentees@lists.linux.dev>,
-        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
- <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
- <20251104014738.131872-3-contact@gvernon.com>
- <df9ed36b-ec8a-45e6-bff2-33a97ad3162c@I-love.SAKURA.ne.jp>
- <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
- <aSTuaUFnXzoQeIpv@Bertha>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <aSTuaUFnXzoQeIpv@Bertha>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav202.rs.sakura.ne.jp
+Content-Transfer-Encoding: 8bit
 
-On 2025/11/25 8:46, George Anthony Vernon wrote:
-> On Tue, Nov 11, 2025 at 10:42:09PM +0000, Viacheslav Dubeyko wrote:
->> On Tue, 2025-11-11 at 23:39 +0900, Tetsuo Handa wrote:
->>> On 2025/11/04 10:47, George Anthony Vernon wrote:
->>>> +	if (!is_valid_cnid(inode->i_ino,
->>>> +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
->>>> +		BUG();
->>>
->>> Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?
->>> If no, this check is racy because make_bad_inode() makes S_ISDIR(inode->i_mode) == false.
->>>  
->>
->> Any inode should be completely created before any hfs_write_inode() call can
->> happen. So, I don't see how hfs_write_inode() and make_bad_inode() could run in
->> parallel.
->>
-> 
-> Could we not read the same inode a second time, during the execution of
-> hfs_write_inode()?
-> 
-> Then I believe we could hit make_bad_inode() in hfs_read_inode() once we
-> had already entered hfs_write_inode(), and so test a cnid against the
-> wrong i_mode.
-> 
+syzbot reported a kernel BUG in ocfs2_find_victim_chain() because the
+`cl_next_free_rec` field of the allocation chain list is 0, triggring the
+BUG_ON(!cl->cl_next_free_rec) condition and panicking the kernel.
 
-My "Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?"
-question does not assume "make_bad_inode() for HFS is called from only hfs_read_inode()".
+To fix this, `cl_next_free_rec` is checked inside the caller of
+ocfs2_find_victim_chain() i.e. ocfs2_claim_suballoc_bits() and if it is
+equal to 0, ocfs2_error() is called, to log the corruption and force the
+filesystem into read-only mode, to prevent further damage.
 
-write_inode() already checks for !is_bad_inode(inode) before calling
-filesystem's write_inode callback
-( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/fs-writeback.c#L1558 ).
+Reported-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=96d38c6e1655c1420a72
+Tested-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+---
+ fs/ocfs2/suballoc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-If the reason for "ubifs is doing it in the ubifs_write_inode()" 
-( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/ubifs/super.c#L299 ) is
-that make_bad_inode() could be called at any moment, it is not safe for HFS to
-depend on "inode->i_mode does not change during hfs_write_inode()".
+diff --git a/fs/ocfs2/suballoc.c b/fs/ocfs2/suballoc.c
+index 6ac4dcd54588..84bb2d11c2aa 100644
+--- a/fs/ocfs2/suballoc.c
++++ b/fs/ocfs2/suballoc.c
+@@ -1993,6 +1993,13 @@ static int ocfs2_claim_suballoc_bits(struct ocfs2_alloc_context *ac,
+ 
+ 	cl = (struct ocfs2_chain_list *) &fe->id2.i_chain;
+ 
++	if (le16_to_cpu(cl->cl_next_free_rec) == 0) {
++		status = ocfs2_error(ac->ac_inode->i_sb,
++				     "Chain allocator dinode %llu has 0 chains\n",
++				     (unsigned long long)le64_to_cpu(fe->i_blkno));
++		goto bail;
++	}
++
+ 	victim = ocfs2_find_victim_chain(cl);
+ 	ac->ac_chain = victim;
+ 
+
+base-commit: 939f15e640f193616691d3bcde0089760e75b0d3
+-- 
+2.34.1
 
