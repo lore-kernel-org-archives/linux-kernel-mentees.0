@@ -1,108 +1,153 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D185D3002DF;
-	Mon,  1 Dec 2025 09:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FE2302156
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Dec 2025 10:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764583011; cv=none; b=q+zNE4MrsmzJaOHKxOZq75cisIuasecyeFKohUongtcOT8b799gXhvJfqqxDfjM5KsNwzZxwJUiOQdzXVGHPUYG8f3CEuhfE5dS2qVIugdXua50O1k/9+SLkWBIzfCrC1LOCxOGsrljOgz1WSwTLvQvoIFOvkclfwuzyTjaGpdU=
+	t=1764583598; cv=none; b=svlUgq2vIJnfxmG2YpkD0N4X9AQ87tWeb4bTI8jnITGKnkOupgjtrqjYayv9v2lbcHfW2IvefXTOlK/hGnPr31NdeppxqrU9dcGtwyL3F+Pqqq58N6rYiM7a/sSEv/9UJwX9ZAW43pccvrTVK+zFade/FDSYKhdkVyk9vQB0OxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764583011; c=relaxed/simple;
-	bh=0741VqD7rQZoGULYdAYLBHLWiFwdSlYmacBxnqit0XQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QIrTQMAZGEPfh0t5zJwBVcEBbdImNXryslj3z4g4O0vUuRogrn3TDmopYgodcE7UJd+h1uMSqgliS6n+0Cw+74yMyE6LTB3qK3vC4YL5uPM8FCjhD3PfxxciMYW6TeZLzM+6w9CoHWTeqPuM58NNA0speHAGbXgLfVvXGHWMhKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=mabxn8Or; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1764583598; c=relaxed/simple;
+	bh=/RXCU9YMtZFIq/MLgD8PmUQsD/aM9+YYw8N1WW/ZQzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IV2OHekzWLkG5gk4PMuTZC7s6UpO8k89z89Qg1ink6s1j3GFYAR0IY++Zne/jJgtA2jTMmFrYELVD1Hj2ycEB7rsZ5hazLHHBrpqTq0lLwN1yn/ZuYI4LIRgjzMXAdxbp4btnEvLF4IGhiFqyBWXxqYtBJ7QzZHPBXn9HWarIgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WWn5SmYJ; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="mabxn8Or"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1764583005; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=Q2Q+D3JvL0e9Lyrus7NV2+aMElmrM7D00PDkV3l5gPo=;
-	b=mabxn8Ort1Tg16PDEOyQo2s19Bi5Em8MrKaF0cEY9lIaeMkZu4JFF8I8p9C4u5VbD3EjRuQeXSeTA9W5klAy47b0vbg6L2ywInUogA41OE7nMJ4SX8er9FLmR0QHu+0vQUhvESoX23t+Zg2UjH0r/sDo5irpMutLlo/64Bj2vUs=
-Received: from 30.221.128.145(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0Wtp9WvP_1764583004 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 01 Dec 2025 17:56:45 +0800
-Message-ID: <fa898d5b-ac9d-44bf-ab98-a520f89dbc28@linux.alibaba.com>
-Date: Mon, 1 Dec 2025 17:56:43 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WWn5SmYJ"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7ba49f92362so2266850b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Dec 2025 02:06:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764583596; x=1765188396; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/z5pMVIch3yE7Wi6Gwka6LLcLmOaOln6MJU3xeFk0M=;
+        b=WWn5SmYJIIMardrf/KwNfgtk2Hr5atAXTQpTlmHYcWPSBTdTLNWpZ8UlqCqA8/oGbY
+         BsRLtP5nZklExiLKMCRKB8g2scwf6vlQVrbd3wJIbLg2r1jyN5+GE8dlZGwI1sYgpN7S
+         5rpxXHbz3R89bxs4nHt7VZRQFIQoskKF3gWtwRF374so3cjmO+a8Iz05pH2pQEXUmdrD
+         FdekNAdX48zui+W2YkmPyBLKrDOhiIzfiIVzU7v2M3OrlmLHRGFVQ8NhI/CbEgsvnZRs
+         gkcXAfvE/7McYUjloSfHwEyaCmui0tC60Bx7zKc7NI0ncUKVHJ8tWw6Kr5i0yfsI/lks
+         4TZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764583596; x=1765188396;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o/z5pMVIch3yE7Wi6Gwka6LLcLmOaOln6MJU3xeFk0M=;
+        b=kZS7wE8rcmWUyzZ6L5bK2JWXa8tZDrk2tu/DC5DdM1pGV4HRc6JUYSIs8ka06CMrAz
+         7MW0xZhwpEIBJ1n2ll+axeCXfwqxg6OlQbABiSTS5VqqKYjs8IRRDZYrkAC6Y3cieP8G
+         2HRgw7EJTr6wGNQRD3lNv+WtaFL98SNM3hxDfyHE+4sJPWJDrwQyhRu1dhO8pgvexG1u
+         ZTeWvunoebnDPex6+KTKRGqtxkjyMLe72Qy7wI0uLZBZ7ScUOV3/amI2fWMxqISxCTOx
+         mY7zmAaFzxrahZWFiJZsnhdF5yo05/ZJnD+Kjw8pGAi6Ps5qLwtuJ/gpT8iFSFLTok/Q
+         V4Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCXj4utny/5kWOwW6bKKdqFBjfpGNCgblW449+o+xAeZz/4ayBUvbc0GoSnHCeurHYKVmQqTfXwrToConBIe0zuQugWE7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGWDM+7M7mW1jYGAiLhW/92vobH9Mv7Qms59A/RuDF+P5x225J
+	mvdu7CCPUjmk81Y3e6DUr8ZYtzYccWGB8ewQWmn3NTTT7KM8QKYfeX54
+X-Gm-Gg: ASbGncsZYI85SH9or5Bx7w5tz7F18e8UPcak6aMLwO6lJ6qdxjKImYCdX5UAE8fJJj5
+	i0XUJJ2wvp2uqkgLzYTF7skXRDEoTfxsIn1C1OY99Nqt+2S0aMpVkMQ7qoX4n8MeqiC/PxKKl6h
+	8vh92Bx5ajme0srXXLG8S8roKbdMkpQxHBSh9/Adcwgg9edn49hTt3Zsq6nMuZ/fT5A8jpGzo/Y
+	kwfB8gKHMv61GETa2Fg9lvLGxs61WMdBZaLmOrGFsV43qpxLKRkpnwqna2XzPMZrVPzI3QyT0Nx
+	ssa0fd2vO6CX3SXUxIX2LwlmINXVI4g37sFLlgG/3wj0HsT72ol4eyH2NjIQCW4/KqWr/ZvKzRr
+	qKGd1eu3mtmB29lPmtwd2s3R7DrMpYQuKQ8OKWyYv7DPm8iB+RMjZsPQNBA1HZFrQU25DpodteX
+	9HJhytQ6uWjKCQxnVyymgm
+X-Google-Smtp-Source: AGHT+IFV+QOFwIbgxkIXTta9oiGaj8O2uodMFcCv3JtloLD3IcPzHdZB4atL7Tljg2zC2VeKT+l0hg==
+X-Received: by 2002:a05:6a00:12e3:b0:7ab:242b:95c6 with SMTP id d2e1a72fcca58-7c41e30b4dfmr38632843b3a.6.1764583595927;
+        Mon, 01 Dec 2025 02:06:35 -0800 (PST)
+Received: from inspiron ([114.79.136.226])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15e9c3f0dsm12944959b3a.37.2025.12.01.02.06.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 02:06:35 -0800 (PST)
+Date: Mon, 1 Dec 2025 15:36:27 +0530
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: Joseph Qi <joseph.qi@linux.alibaba.com>
+Cc: mark@fasheh.com, jlbec@evilplan.org, ocfs2-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] ocfs2: fix kernel BUG in ocfs2_find_victim_chain
+Message-ID: <aS1oo9AyyRGER6Xx@inspiron>
+References: <20251201092450.84991-1-activprithvi@gmail.com>
+ <fa898d5b-ac9d-44bf-ab98-a520f89dbc28@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ocfs2: fix kernel BUG in ocfs2_find_victim_chain
-To: Prithvi Tambewagh <activprithvi@gmail.com>, mark@fasheh.com,
- jlbec@evilplan.org
-Cc: ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
-References: <20251201092450.84991-1-activprithvi@gmail.com>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20251201092450.84991-1-activprithvi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <fa898d5b-ac9d-44bf-ab98-a520f89dbc28@linux.alibaba.com>
 
+On Mon, Dec 01, 2025 at 05:56:43PM +0800, Joseph Qi wrote:
+>
+>
+>On 2025/12/1 17:24, Prithvi Tambewagh wrote:
+>> syzbot reported a kernel BUG in ocfs2_find_victim_chain() because the
+>> `cl_next_free_rec` field of the allocation chain list is 0, triggring the
+>> BUG_ON(!cl->cl_next_free_rec) condition and panicking the kernel.
+>>
+>> To fix this, `cl_next_free_rec` is checked inside the caller of
+>> ocfs2_find_victim_chain() i.e. ocfs2_claim_suballoc_bits() and if it is
+>> equal to 0, ocfs2_error() is called, to log the corruption and force the
+>> filesystem into read-only mode, to prevent further damage.
+>>
+>> Reported-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=96d38c6e1655c1420a72
+>> Tested-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+>> ---
+>> v1->v2:
+>>  - Remove extra line before the if statement in patch
+>>  - Add upper limit check for cl->cl_next_free_rec in the if condition
+>>
+>>  fs/ocfs2/suballoc.c | 7 +++++++
+>>  1 file changed, 7 insertions(+)
+>>
+>> diff --git a/fs/ocfs2/suballoc.c b/fs/ocfs2/suballoc.c
+>> index 6ac4dcd54588..1257c39c2c11 100644
+>> --- a/fs/ocfs2/suballoc.c
+>> +++ b/fs/ocfs2/suballoc.c
+>> @@ -1992,6 +1992,13 @@ static int ocfs2_claim_suballoc_bits(struct ocfs2_alloc_context *ac,
+>>  	}
+>>
+>>  	cl = (struct ocfs2_chain_list *) &fe->id2.i_chain;
+>> +	if (!le16_to_cpu(cl->cl_next_free_rec) ||
+>> +	    le16_to_cpu(cl->cl_next_free_rec) > le16_to_cpu(cl->cl_count)) {
+>> +		status = ocfs2_error(ac->ac_inode->i_sb,
+>> +					"Chain allocator dinode %llu has 0 chains\n",
+>
+>The log message also has to be updateed. How about:
 
+Apologies for the mistake. I will rectify it.  
 
-On 2025/12/1 17:24, Prithvi Tambewagh wrote:
-> syzbot reported a kernel BUG in ocfs2_find_victim_chain() because the
-> `cl_next_free_rec` field of the allocation chain list is 0, triggring the
-> BUG_ON(!cl->cl_next_free_rec) condition and panicking the kernel.
-> 
-> To fix this, `cl_next_free_rec` is checked inside the caller of
-> ocfs2_find_victim_chain() i.e. ocfs2_claim_suballoc_bits() and if it is
-> equal to 0, ocfs2_error() is called, to log the corruption and force the
-> filesystem into read-only mode, to prevent further damage.
-> 
-> Reported-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=96d38c6e1655c1420a72
-> Tested-by: syzbot+96d38c6e1655c1420a72@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
-> ---
-> v1->v2:
->  - Remove extra line before the if statement in patch
->  - Add upper limit check for cl->cl_next_free_rec in the if condition
-> 
->  fs/ocfs2/suballoc.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/fs/ocfs2/suballoc.c b/fs/ocfs2/suballoc.c
-> index 6ac4dcd54588..1257c39c2c11 100644
-> --- a/fs/ocfs2/suballoc.c
-> +++ b/fs/ocfs2/suballoc.c
-> @@ -1992,6 +1992,13 @@ static int ocfs2_claim_suballoc_bits(struct ocfs2_alloc_context *ac,
->  	}
->  
->  	cl = (struct ocfs2_chain_list *) &fe->id2.i_chain;
-> +	if (!le16_to_cpu(cl->cl_next_free_rec) ||
-> +	    le16_to_cpu(cl->cl_next_free_rec) > le16_to_cpu(cl->cl_count)) {
-> +		status = ocfs2_error(ac->ac_inode->i_sb,
-> +					"Chain allocator dinode %llu has 0 chains\n",
+>
+>if (!le16_to_cpu(cl->cl_next_free_rec) ||
+>    le16_to_cpu(cl->cl_next_free_rec) > le16_to_cpu(cl->cl_count)) {
+>	status = ocfs2_error(ac->ac_inode->i_sb,
+>			     "Chain allocator dinode %llu has invalid next "
+>			     "free chain record %u, but only %u total\n",
+>			     (unsigned long long)le64_to_cpu(fe->i_blkno),
+>			     le16_to_cpu(cl->cl_next_free_rec),
+>			     le16_to_cpu(cl->cl_count));
 
-The log message also has to be updateed. How about:
+Thanks for the feedback! I will make v3 for the patch with these suggested 
+changes.
 
-if (!le16_to_cpu(cl->cl_next_free_rec) ||
-    le16_to_cpu(cl->cl_next_free_rec) > le16_to_cpu(cl->cl_count)) {
-	status = ocfs2_error(ac->ac_inode->i_sb,
-			     "Chain allocator dinode %llu has invalid next "
-			     "free chain record %u, but only %u total\n",
-			     (unsigned long long)le64_to_cpu(fe->i_blkno),
-			     le16_to_cpu(cl->cl_next_free_rec),
-			     le16_to_cpu(cl->cl_count));
+>
+>Joseph
+>
+>> +					(unsigned long long)le64_to_cpu(fe->i_blkno));
+>> +		goto bail;
+>> +	}
+>>
+>>  	victim = ocfs2_find_victim_chain(cl);
+>>  	ac->ac_chain = victim;
+>>
+>> base-commit: 939f15e640f193616691d3bcde0089760e75b0d3
+>
 
-Joseph
-
-> +					(unsigned long long)le64_to_cpu(fe->i_blkno));
-> +		goto bail;
-> +	}
->  
->  	victim = ocfs2_find_victim_chain(cl);
->  	ac->ac_chain = victim;
-> 
-> base-commit: 939f15e640f193616691d3bcde0089760e75b0d3
-
+Best Regards,
+Prithvi
