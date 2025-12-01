@@ -1,64 +1,64 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4733A2773D9
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Dec 2025 20:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309212868A9
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Dec 2025 20:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764621459; cv=none; b=P/CrengM7gIxOxM3dLmH9hA6gRLUIjUFHWDnCDxLBVUb0qOZTLBX8GfDQ1Rcq2VkfDLVg1vx2LSA75ZbVFZ9LgInXJU42407BxLUWKsTnrpYalT95d1f8dqBMrO72F+6S/zcaAJZaAsafDo57tDbRPyuui9Fd/wH58HKYVHZ0qo=
+	t=1764621463; cv=none; b=K7ouMmDTVOvK9h4zRWw+77l6cS9pvCiaiWmSM5xkj18N+9nZAC8AvhsUtX8/FkmY3lzTcgvjSCR/OIXGYBOnPrlPv3DIq77sfjBCZFEo0GHR89VwdBOeezZTCEgACpGZ1PXVO2G1ZG50TYp1S08Xa8qnSX2NZ5bxdv+vLixtB/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764621459; c=relaxed/simple;
-	bh=2OV1vA17nQisqkFji+r6uSJUsr6kObVd34VeE1DNE2A=;
+	s=arc-20240116; t=1764621463; c=relaxed/simple;
+	bh=HV83Y8jNILcsVoeAeEISwDwWVyNwvsbim/+VE/epq9k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T6gszWLjnbSK+bHENNDmLVJJ5OSX1UbqIU4IbFseFcR1zA4BAuGybSDSO2Gm6j7Xyvqk8r8Qf1MPihSZdtp44N1WVB1cKswWwuLCAuM6IBJvN5rBxLFPTFniDqdpYMjmcDsvwukz8iGlHzpmG8rOwGd71WPS+qjr8BBunqz8UrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YIT+hADv; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=pw4fmnh0UyHAwMK8CKTJ8u4o796qz6WtJZLWpaFIerUw+s0Pnb3q66oiTRLsUU+4nZsL95TEiOFqBQMVnjda2lCf5Yhrcm37jxojTcsxmGVESAHuGn7hPgXDrY+gsc8GGZt89EKdPUTgfVubV4/6kGLXAlJvQHOo6+H/lledoxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BuP14eHT; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIT+hADv"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3436cbb723fso3893918a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Dec 2025 12:37:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuP14eHT"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3437af8444cso5497792a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Dec 2025 12:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764621458; x=1765226258; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764621461; x=1765226261; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F4ycNkEEiF97kKkbGcrEYiUPA5+jyVCF2v146XXFMKA=;
-        b=YIT+hADvurBVxbSQpP3qXY2GnP9Q6p8t9D2K9oKIWcyAB8OdsKoMcEvSRGQp9HmVmt
-         GbcTj+X+wKOJo9+S4Dlj0M7f2aqFzTxwmtgE/HU0kqghJVhS4Q/40BSZxnBUDrsQYuwf
-         KyIZyhTMDILnpRvW4U4mz0mT3qqaNfVanoluBMEQKdMPu+DNcF8zpX55J/WyjQXYWWOx
-         bUK5H4kyYmuNP0i7KmDuVrHWTf2wubWk8Ji8w/bWZjTSNVj3ApblSTn28o+Dp1jSb9AU
-         /rzV0RrbIVkYK+6XvmPgx2FKU4KUJPHmYp5l6OgGKx9+iS/qqDdI9LNKwxvqL1ETUOvY
-         r62A==
+        bh=HMFinDzf12DskrYWTn3hquLiDv906s1+ITYvei0aZ1A=;
+        b=BuP14eHTPZxRajOKQmQiAs1HJgHO9U3uAlOANMvqTtf22yaymH4xQkNiFkwny6Djhm
+         k1HBMXgiiK++fbnHO77WcjZIZadeuHCTArUrliznF6aneIsRI3sYTyp9v8D4coy25sO1
+         Oh+ytZTQqO95RB/vAPXhM5IsFUPNyw3I0mn0SrdWpSuoaznh9kvM8edqG6UFiEk7VOH2
+         kSxz3cxXtlF4Zggz0BRAjm2m3CSOog+3j+658rDVaCBsgsJ2TNEtGdWLIcRWWVKZi794
+         Guk8beeTErVI8pME3qD3alwbEZIyw/OnQRyKakwq6NqmsfOW9WWa7OUU/7oR+CasXT8S
+         DmFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764621458; x=1765226258;
+        d=1e100.net; s=20230601; t=1764621461; x=1765226261;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=F4ycNkEEiF97kKkbGcrEYiUPA5+jyVCF2v146XXFMKA=;
-        b=TuBbc/YGOQqke/U6enKloyUGE4DqZ5MvYxwq2eLtHtnTtndgzgysJoRG2vR31yWWIk
-         rlyiPXh5C8/mx7OPYF30CF8fgf8bWAhHjGGLu6iHOwpSvWp0U7GsuqZDYOBnfhlnSWEH
-         akXVDedul0CbQVugYvKUgIyJITA9ii/hcZRJCW8iQLk9jrBk5UFNrZSCWndDKkbtq7NI
-         nMMbObkrWymaxFYMoRDLeWkyTU5RJszVTn2B1Ja4KDKlxaKarfhOLYLTAUlqnaMvV0s+
-         e/eC45/DZ9ytIIJCPSGlPn1oH/96NdqQ06d+Ay52D3fsLctrTrgl93WF06p+YY0Op38n
-         64wg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSibzjSOpr9gc5CJ8GgJVAR7fdMUgD3KSRp0m42gv9hY3G6jz+d96VfYdU4mgDLOoRgVSmSIUCavBgztxecNuIsCLJtg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyz1NQxUcIFYpKrF042EPF6+nhjemVfoTvhJb/RJTvp3puHv0Jc
-	nsh13sXG9glxxUd0+dtA16tJ8ZP7nKBmVP8/J0dcaCavIeod3JktpKFQ
-X-Gm-Gg: ASbGnctLifiAae9CpZeyVuELQcB5ac6jo9DZNOLrE7k5JwKnVBUXfNLVSmjKpqr7gdt
-	XPW32gAAlxS3UBzYd3+/tpgwvC4822jjOvB2Mm0/IYme9P9quDnxTxlfka0uc77JPBVECYV9cQK
-	g+8VBo0W1Ez3qXh+0JZVH00/OSzbYTVKtaa6hjcJNEzZMndtKXogyImYVfp8DhEDgFQO5EhLPQn
-	UePKpJH49Id9RA0Jkx3sohFrigeZ8LR7aElp56DQQbua+Q9y9rSeJmSV94fKQEhwvi2j5OYcWEC
-	FEyraW7jPmQ6HAJnXJq9PDv/oSqtNW9iwfaio9TUL7JxIgjUCR+f5xS/WrBnkTFLtk0/PnlMEOT
-	7+2IU75MiG4X2j+2FOhOJECb/QLoGOEO3IV3PfcbWQlMjUjUDy7NmJzeyP3WWtyF8wwyucGY9f/
-	ZbIfawFsTW60kayrUBctwSaNGKpQ9DcD9198duJevCh/OzFQ==
-X-Google-Smtp-Source: AGHT+IEtZwyJ1h84xNpSd8cwSnswEJ6N/+iIfdUSDQxIm5UJsYL1XcBZqW6zMMJ2pg+7syQbAsGqDA==
-X-Received: by 2002:a17:90b:2547:b0:341:88c9:ca62 with SMTP id 98e67ed59e1d1-3475ed6a904mr28534111a91.31.1764621457573;
-        Mon, 01 Dec 2025 12:37:37 -0800 (PST)
+        bh=HMFinDzf12DskrYWTn3hquLiDv906s1+ITYvei0aZ1A=;
+        b=mtoJUpEAOsS/AfKrBSnOkauYlIuq/i8nZQJqZKjpGJmGyzAygvFBY51+hsGuSjA6B5
+         sUYEaAvfJ65UlHcAhfcV0Bs9gonevrJyL+SjWxlc/S4YYlZUibHcQxBbpr7aH/FEIP/n
+         aWqiErzjsGHgDhr86v8qv26uKfiXlDxqtuwq/sPoMOXp5RckU/R7UPeA0TlJxE6P8iYg
+         kOihNuLTBp99F0YEyKG9y5ortoooTwpHxNpBByIRiOPhl+U8wgONIkzl8asQh+KzECHl
+         0z9Z59JfVuUl00bdrKzKk/6JMzJfs3WZH2YJi2UHNb2fBggSrQX31yRKTCEp5izE3HpO
+         Kgdg==
+X-Forwarded-Encrypted: i=1; AJvYcCXWDc2O+aVAv35Kw76L9mrH0431jxstAnWNmknGMgJ7oPN1eWwRncuFPF8ayYNXOJ7kRQxqqBXcYzoPiv+PtxtFeBd1jw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywd3AwEKdVMc1d8EICsw+Ao2LUBygIQOe16gyhDJrTl9XQguxOM
+	kE/pdOCBAtpRltF2jmQLlml33UzziIOhIUfPebaoffjPK8jcXVbOifQp
+X-Gm-Gg: ASbGncsrSxHIBlX0BrW/aV9XKhPjuLcyY7+p26MtmlF6Ra8Q+fM4FGCTKfcaMoM7qfX
+	ccBORxF91XpqKA+IB4PYg6Gbb/JFuKQYENMhngRHgmW+Qp+Ff8FpCzXf7KfV93r3+cD+Lc/DYL6
+	n0pbTm+SrGu6bP8FjKbqtmsL6bVCerKybtCT47m+li3yBS0b9o8FYeNRGONd2mUgQiVBMpcnNDK
+	UwP0JdXovGY4RhVaReieWwJdaZQSQ4HEmj4FGLjiMzpVgca9duX8qGtzg9pUscq/aXitGecuQpE
+	9kzp8Kit3+ZWmJgTDlPnhzOZEnNqK74BBhoRjUQBX7NWNVbVenMdBwaPpxxSR1GhWhe4iWXfPwj
+	qsyNOXQ/g7shEBAuRFPe32vIL4G6/wdtgG/lUy0cPNpMrh6vGEswAcT4cLFLF3KsqtA/2XZ+DO4
+	mu9hpIRDSRLNr6uT7Xb3qL8TdU1cDLPQ0Gdjk=
+X-Google-Smtp-Source: AGHT+IGy5roLh99dzfWSGIMY/TD3KRw3HUxv9eVTSnT6FUeNG1+/rruLpyAViKSztrwT/rheUxgTHw==
+X-Received: by 2002:a17:90b:534e:b0:341:a9e7:e5f9 with SMTP id 98e67ed59e1d1-34733d76c4dmr34752993a91.0.1764621461476;
+        Mon, 01 Dec 2025 12:37:41 -0800 (PST)
 Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.177.250])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be4fb248be1sm13113892a12.3.2025.12.01.12.37.33
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be4fb248be1sm13113892a12.3.2025.12.01.12.37.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 12:37:37 -0800 (PST)
+        Mon, 01 Dec 2025 12:37:41 -0800 (PST)
 From: Clint George <clintbgeorge@gmail.com>
 To: stern@rowland.harvard.edu,
 	gregkh@linuxfoundation.org
@@ -69,9 +69,9 @@ Cc: linux-usb@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	khalid@kernel.org,
 	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH v2 3/6] usb: gadget: dummy_hcd: document ISO endpoint allocation pattern
-Date: Tue,  2 Dec 2025 02:07:12 +0530
-Message-ID: <20251201203715.17768-4-clintbgeorge@gmail.com>
+Subject: [PATCH v2 4/6] usb: gadget: dummy_hcd: use sizeof(*ptr) instead of sizeof *ptr
+Date: Tue,  2 Dec 2025 02:07:13 +0530
+Message-ID: <20251201203715.17768-5-clintbgeorge@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251201203715.17768-1-clintbgeorge@gmail.com>
 References: <20251119130840.14309-1-clintbgeorge@gmail.com>
@@ -84,57 +84,43 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove commented-out ISO definition and add relevant comment documenting
-the ISO endpoint allocation pattern.
+Use 'sizeof(*ptr)' instead of 'sizeof *ptr' to follow kernel coding style.
+This improves readability and maintains consistency across the code.
 ---
- drivers/usb/gadget/udc/dummy_hcd.c | 22 +++++-----------------
- 1 file changed, 5 insertions(+), 17 deletions(-)
+ drivers/usb/gadget/udc/dummy_hcd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index 39b571899..e4124838e 100644
+index e4124838e..cbf9dbf2a 100644
 --- a/drivers/usb/gadget/udc/dummy_hcd.c
 +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -151,35 +151,23 @@ static const struct {
- 	EP_INFO("ep2out-bulk",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_BULK, USB_EP_CAPS_DIR_OUT)),
- /*
--	EP_INFO("ep3in-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_IN)),
--	EP_INFO("ep4out-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_OUT)),
--*/
-+ *	If dummy-hcd supported isochronous transfers:
-+ *	- Endpoints 3 and 4 would be ISO IN/OUT respectively
-+ *	- Endpoints 8 and 9 would be ISO IN/OUT respectively
-+ *	- Endpoints 13 and 14 would be ISO IN/OUT respectively
-+ */
- 	EP_INFO("ep5in-int",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_INT, USB_EP_CAPS_DIR_IN)),
- 	EP_INFO("ep6in-bulk",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_BULK, USB_EP_CAPS_DIR_IN)),
- 	EP_INFO("ep7out-bulk",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_BULK, USB_EP_CAPS_DIR_OUT)),
--/*
--	EP_INFO("ep8in-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_IN)),
--	EP_INFO("ep9out-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_OUT)),
--*/
- 	EP_INFO("ep10in-int",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_INT, USB_EP_CAPS_DIR_IN)),
- 	EP_INFO("ep11in-bulk",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_BULK, USB_EP_CAPS_DIR_IN)),
- 	EP_INFO("ep12out-bulk",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_BULK, USB_EP_CAPS_DIR_OUT)),
--/*
--	EP_INFO("ep13in-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_IN)),
--	EP_INFO("ep14out-iso",
--		USB_EP_CAPS(USB_EP_CAPS_TYPE_ISO, USB_EP_CAPS_DIR_OUT)),
--*/
- 	EP_INFO("ep15in-int",
- 		USB_EP_CAPS(USB_EP_CAPS_TYPE_INT, USB_EP_CAPS_DIR_IN)),
+@@ -1258,7 +1258,7 @@ static int dummy_urb_enqueue(
+ 	unsigned long	flags;
+ 	int		rc;
  
+-	urbp = kmalloc(sizeof *urbp, mem_flags);
++	urbp = kmalloc(sizeof(*urbp), mem_flags);
+ 	if (!urbp)
+ 		return -ENOMEM;
+ 	urbp->urb = urb;
+@@ -2066,7 +2066,7 @@ static struct {
+ static inline void
+ ss_hub_descriptor(struct usb_hub_descriptor *desc)
+ {
+-	memset(desc, 0, sizeof *desc);
++	memset(desc, 0, sizeof(*desc));
+ 	desc->bDescriptorType = USB_DT_SS_HUB;
+ 	desc->bDescLength = 12;
+ 	desc->wHubCharacteristics = cpu_to_le16(
+@@ -2079,7 +2079,7 @@ ss_hub_descriptor(struct usb_hub_descriptor *desc)
+ 
+ static inline void hub_descriptor(struct usb_hub_descriptor *desc)
+ {
+-	memset(desc, 0, sizeof *desc);
++	memset(desc, 0, sizeof(*desc));
+ 	desc->bDescriptorType = USB_DT_HUB;
+ 	desc->bDescLength = 9;
+ 	desc->wHubCharacteristics = cpu_to_le16(
 -- 
 2.43.0
 
