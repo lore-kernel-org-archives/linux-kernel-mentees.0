@@ -1,64 +1,64 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F059426ED4E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Dec 2025 20:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E54524677D
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Dec 2025 20:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764621447; cv=none; b=GznSs7Ag3EDoiax7XDeUMb+sjyqA1ynw3Bvvoq7NQBt43MpZ+LsXAuTdiv6ac0Dqx4u7n121fDv5C27+Ugsx0dC8qX3RDo84PtM6VfRhpUQm7xKfTDGtclskiTqizwweVw1gcyMR2IlQ/fYlHJFOiA6PzIcq4N7oWqJUPuoKLnE=
+	t=1764621451; cv=none; b=tgYwaazNEMcTG3fbgpQJ26QU+QFlnSgYOnu5VN5Qk8JUY45/LwXgHk1xUvTllrYCsY+s2kusjQMFwLdgjrTSrgsrSN9vnIWe6mRUAiPJZqGTfd4WlZ0BjW/ZLPJteOQZlsmVZeWTBtFaIciC6w1N7ouBjV+5nkRq4HabEoiYKlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764621447; c=relaxed/simple;
-	bh=vVfNmKLReJIr6irlUJCgyzFE5CUHU9PZFq34vRHt61o=;
+	s=arc-20240116; t=1764621451; c=relaxed/simple;
+	bh=t1stNn2JIg8QY9Rz687/0JNAKdfT4fwmYs5nGW+tfxk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vFgytaz0JxV02CdSyfdyzHlQAaf1ih2vqbVZm29cnzhh9ZR8+V4fUn2ZXJ483JPtk4MpsYHrDCKeCBOx4ZQdWQdTh7J50rPU/D3a8Y/KtaeQW6n7LFeOVOAmFXjQbnyoRv+CD1427eP/4AG611/okngaUgIjfEcS93WWO8zFTA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eZ7sFuHK; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=T4V/pLv1Ok13j6pjvR2ffpN4mD+Q6nJiasAA3yyhI1i+bNESkSj+RJRQQvC84z+lrsxlIONasptubb+rWIF9xdOwGada9jzHcpID2uJXqijijkXhFOtoPne4vjc1vmGAE7r2xmC3yefLKwlwS/rKbtpN83l71FLQULD7/wZsnC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6nIoFF1; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eZ7sFuHK"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7bf0ad0cb87so5620545b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Dec 2025 12:37:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6nIoFF1"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso4049689b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Dec 2025 12:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764621445; x=1765226245; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764621449; x=1765226249; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4YG0Pj+z2EKpXJyRhBzodicaoMUh26LjSMTkBpeRy1U=;
-        b=eZ7sFuHKnJwczAo7Vq08G30d8tdjm64IDte9BablzafpOMPbMHvR8BmWNAL6fIBw76
-         ucJfYCD4tfuoxxd55a4vauUDPm+LGsShvLPGcKS6uzHchpW4J4ydP8w+LPCfgU9zsNLn
-         7xlFQHN3D52BHr9KiDn45HDNISgzA4Cg5lJZwTABmlUfPwZ5yd+2dV3vLq7x5GaRDlbK
-         x2wtL7v2j/7uSInm2/LjBxO8Fg0AhBEC5ee1kdBJ+LLwYMJPXzHTO29FTU7Y87OPA9Pr
-         3EOPWUBD2ii5t6PMVqWUDk+IbrggRsjL8rxSbEstR/Eda4KyOa3kIuc91eh1ZyArKfYF
-         L1jg==
+        bh=T5EvZHP/L8HTDXW6Wdjo3Us9Wv7cX8ga9zfOaw1spm8=;
+        b=N6nIoFF19QRSl8P6j3jtcIap8Fk52p/HYKkuZQc62xtn3xazByM5JWVn/NpaNs0AS8
+         kGdqVraQqLqWN3oUfjOL7Ma683hRFCgtE3C0g0VBB9ZwFZH7f6V7r+tbzgpt/DdMAUwD
+         KZD9ZfUIRcB3oWu+11C71642tJ9BG+HlejzRl9oUdI8wnY72JiIV2pVWXvBTnHXTS5Tt
+         o6mn48hDbEkO9PmbR70/PTWmFNtNPo9h7ifd3JiUyZwGGHz6jq0UfJqYx/Anga8TQaqZ
+         UccU7/akOzapa86fOxlZOt/TJvB+FnKdOEyGKcsZDrsI4yrOn1jznZut25yaYJBBW7fN
+         8XYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764621445; x=1765226245;
+        d=1e100.net; s=20230601; t=1764621449; x=1765226249;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4YG0Pj+z2EKpXJyRhBzodicaoMUh26LjSMTkBpeRy1U=;
-        b=gfNqPW3+V9z0hOS+n5/QwWCubjNIdJ+NUHTsLPVTyt2WT+/6dSPbSkV1D+PE+02JnU
-         a4Ai50nKqDLpoHwLWOUkci7TDU8CcLuhQqJb15CoENsB3Zgr8tweSDdrKTiJZCsVt8mi
-         h0HzYEtZDtsF7hK1rKPcwgSEVLBUYehflUWmSj6O6CCOqW8pkZC95GESHhoMlg8DKzpX
-         ipDOtM+BXuzSc8QLWQy5Jt6ChR/h7P6ZDoCPReP+lXBA4XpvAyEbYWtGGn/6c7dD2JzH
-         y1Y88DCjZE6MeBTwkqRtzIXEBh45fOPBow8LrE1FxQc9b/g4rE0tLQ9cxoWNkc+IelUy
-         E5jA==
-X-Forwarded-Encrypted: i=1; AJvYcCW605epQH6kPJExkiVIZBRp0foyTFVuHNkdrNdB/P3QN8NMzRTJgKm7VugDy6nGSmyhXuNpPY8myiGPZPKTy6X0qemk2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+odjCdiR/MFeynf1IW1nVc5KYPVtGqD53wg1ZAdkQiyR2Zptp
-	u5dvvR1TgrSrrTpkYEVL4+yjDRux6TZIv1hQ0tRbog6RcfivtYicyUda
-X-Gm-Gg: ASbGncuYBgAVpU3QPdYqss852L8oykEqhCJWvyWxo95lsvk7tadLb+U6HnvWYpPfn3J
-	+1XPrC2ezdS3YAJC/SpQLtNrXLrSDB8fwTi3xVn48wM4BUVtR9QSSvfEd7eX5mCdFmiIVATXNHL
-	U68IqsdX49evG5WC+zLur1slX12dSbuQ/k9b4XGJfXD+INil29xmv3RWs3/yAbD5hy8TACOa0ty
-	w+P3iC9dUB+sXHAJPCsDz43xdPsDBU1vQEUeagbEDF5dhSJX1+Ddwd6Yu8JFkvndO3Z+sK0QZYj
-	LFLjLKyneIhEWquZkMVUw6Gp3L1oNwQwxu5oJvoLdmfxDWVzKkTImijO5eRgbmjs+hS1AvDJyjG
-	2XiDO5TqiBdyaXHRY4f7JSbQPDY4S8IYMr7miIIqkmwf9dF/51XWderT7JDbpnb6nPkTxxjEnKo
-	+73U0Paf+XBFg+TRzWhkjscgTsMsRxntCTrF0=
-X-Google-Smtp-Source: AGHT+IGAwif/XA27nFNIUswvTaFJ8lE0FRoQzMPjwLoR6UR1PITdFn89NrHKtlo6fdOYcbELASwJkg==
-X-Received: by 2002:a05:6a20:a107:b0:350:ee00:3cc1 with SMTP id adf61e73a8af0-36150f05d99mr45878699637.30.1764621445196;
-        Mon, 01 Dec 2025 12:37:25 -0800 (PST)
+        bh=T5EvZHP/L8HTDXW6Wdjo3Us9Wv7cX8ga9zfOaw1spm8=;
+        b=q4Cek0suuPLOuspEWAVN6X69wcXdJYuT8MfiMMkp8IkWHsAv2UxrAIj7Zntuz8cg/U
+         Oug4C6CJjex98aQxyuicDpyYLKU98KmRXFGJ7p0py/lA3addUcbVZblkZCgnRn16/A62
+         aPLVU/s1ZUe2XVop+xJeAAxq2W6Zh2Q0YBGswliqb/UREcmzxQUSJqlxX2y3eEGrN7RE
+         fxiEhapY38Jx2bnpB2DXQuMhAXPQk/j7UYvP9c6SF/c4WgDLuGbbYtsfHvMs4J8ulabq
+         OXe+anIgK+r4NQiRMfhINAYomCnyD8HgK1RpyP3ceDKJskRR+4xQMOEipQeHSvVP9HWf
+         dSfA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1gj6HCwnuPEVz/tUU1vSsFaL1Pd5WI3dvUwXPHVp4guyXDk4NYOpYcFd8fX6icAAL6AyjL9WVWGS+5qZos6CR5WFRjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5fq+1rHXmA6kAsx84DHMWFLSJVItfQrHwtg11eVLr39qLG8zo
+	V9/cM/fS1Hm8h4Y9o8ntnpMvSbSeBJ0QNTMMyg3T47MGEvnES7lWIQRR
+X-Gm-Gg: ASbGncusIMiAMvbyp9aCLLS/hTo0c+jplx/5a+X2Rt5LpSCq/3N53LGZ/8oIyBRjrcc
+	VaRa6rd+CXqQtIDJ6w9OLC+VefhiJ9J1TjcOOvOf9+cFxcn5tjCmexLeO132clMnHZoqQbGoumQ
+	ekDX1i5bVch4MhBnO8/lcYm0/HA/fMrwpIvs/vGTD/oBayGf89tBtZ0CL5YACtvAjP6cIdpl9NK
+	N/4GDvlI3q6QmqYbHltt9CzlTLFc9e6VMp2v+baL9oJuliQM7sTbB8dQLRZvHeatJodVJxQAkF8
+	FO5xEiARU+Z/1DokFy3pNwAHLxnAO98xJpRAIrc81gySFXFX0ksNU1dX71hjrOQWNj0Ir0G0s1n
+	4xh4hGL87gpDnLaDD20dQPDekWQ6QafgUCfwGczZAMFX1CTfxQfQHULIwXQWtHTEuU1FvNQKLi9
+	8q7qLS+b40VtRw0cu+KRgQk+FZaVvg4uUPcuQ=
+X-Google-Smtp-Source: AGHT+IGGWkNqfxSsX6EGB7T9IHuppSj4Hv0wTpEGLyZpu3BctLYgLyzqhlB5dEqW3K2Y4RA3M15dJg==
+X-Received: by 2002:a05:6a20:a126:b0:350:55e0:5522 with SMTP id adf61e73a8af0-36150ef925dmr45927393637.37.1764621449336;
+        Mon, 01 Dec 2025 12:37:29 -0800 (PST)
 Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.177.250])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be4fb248be1sm13113892a12.3.2025.12.01.12.37.21
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be4fb248be1sm13113892a12.3.2025.12.01.12.37.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 12:37:24 -0800 (PST)
+        Mon, 01 Dec 2025 12:37:29 -0800 (PST)
 From: Clint George <clintbgeorge@gmail.com>
 To: stern@rowland.harvard.edu,
 	gregkh@linuxfoundation.org
@@ -69,12 +69,13 @@ Cc: linux-usb@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	khalid@kernel.org,
 	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style improvements
-Date: Tue,  2 Dec 2025 02:07:09 +0530
-Message-ID: <20251201203715.17768-1-clintbgeorge@gmail.com>
+Subject: [PATCH v2 1/6] usb: gadget: dummy_hcd: replace symbolic permissions (S_IRUGO) with octal (0444)
+Date: Tue,  2 Dec 2025 02:07:10 +0530
+Message-ID: <20251201203715.17768-2-clintbgeorge@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251119130840.14309-1-clintbgeorge@gmail.com>
+In-Reply-To: <20251201203715.17768-1-clintbgeorge@gmail.com>
 References: <20251119130840.14309-1-clintbgeorge@gmail.com>
+ <20251201203715.17768-1-clintbgeorge@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,47 +84,34 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series focuses on addressing various coding style issues in
-the dummy_hcd USB gadget driver. The changes includes adding relevant
-comments, improving readability, and ensuring consistency with kernel
-coding conventions.
+Replace existing symbolic permissions S_IRUGO (Read-only) with octal
+permission 0444. This makes it much easier to read and and is consistent
+with the kernel coding style.
 
-Clint George (6):
-  usb: gadget: dummy_hcd: replace symbolic permissions (S_IRUGO) with octal (0444)
-  usb: gadget: dummy_hcd: use 'unsigned int' instead of bare 'unsigned'
-  usb: gadget: dummy_hcd: document ISO endpoint allocation pattern
-  usb: gadget: dummy_hcd: use sizeof(*ptr) instead of sizeof *ptr
-  usb: gadget: dummy_hcd: remove unnecessary parentheses
-  usb: gadget: dummy_hcd: move function braces
-
- drivers/usb/gadget/udc/dummy_hcd.c | 52 ++++++++++++------------------
- 1 file changed, 21 insertions(+), 31 deletions(-)
-
+Signed-off-by: Clint George <clintbgeorge@gmail.com>
 ---
+ drivers/usb/gadget/udc/dummy_hcd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Testing:
-- Ran compiler testing with no new warnings detected.
-- Ensured the module builds and inserts cleanly without issues.
-- Used Static Analysis tools to confirm no new issues were introduced.
-
-Please review the changes and let me know if any modifications
-or further testing of the module is required.
-
-As part of my LKMP mentorship i have to complete 5 patches as a criteria
-for graduation and thus have focused on working on such
-beginner-friendly patches so that not only do i get the required number
-of patches but also get familiar with the process of kernel
-developement. Thus, while this patch series doesn't address the max_stream value
-exceeding problem that triggers the BUG() API, i will take some time to
-dig deeper and truly understand the problem and fix it and not just
-paper-over the problem.
-
-Again, i am very grateful for your feedback greg and alan to guide a
-beginner like me. 
-
-Thanks,
-Clint
-
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+index 1cefca660..fadd3d0c6 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -73,11 +73,11 @@ static struct dummy_hcd_module_parameters mod_data = {
+ 	.is_high_speed = true,
+ 	.num = 1,
+ };
+-module_param_named(is_super_speed, mod_data.is_super_speed, bool, S_IRUGO);
++module_param_named(is_super_speed, mod_data.is_super_speed, bool, 0444);
+ MODULE_PARM_DESC(is_super_speed, "true to simulate SuperSpeed connection");
+-module_param_named(is_high_speed, mod_data.is_high_speed, bool, S_IRUGO);
++module_param_named(is_high_speed, mod_data.is_high_speed, bool, 0444);
+ MODULE_PARM_DESC(is_high_speed, "true to simulate HighSpeed connection");
+-module_param_named(num, mod_data.num, uint, S_IRUGO);
++module_param_named(num, mod_data.num, uint, 0444);
+ MODULE_PARM_DESC(num, "number of emulated controllers");
+ /*-------------------------------------------------------------------------*/
+ 
 -- 
 2.43.0
 
