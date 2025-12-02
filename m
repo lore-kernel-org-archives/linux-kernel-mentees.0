@@ -1,87 +1,75 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980562F619A
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 10:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12576321440
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 15:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764670030; cv=none; b=nijfuIimZodY5bj5yYb2uYCx91p3uHHN7sMGrtFNcRJeukKaprNYfHCNO15zIOXdQOwEDo9G13cy+tw2/G6w3rhZsMhLEsK3sxZj50Vtscopd0O8J+VuwctPG+nsmpZ9K6IrQi0PR3UYbuisy69QbY4toW3A2JTrSXfzsgMUJKc=
+	t=1764690797; cv=none; b=bnobOquI26ZaLOuXH7otxUVmb+JaNL9CLtKfm3/dBDUCGOehzbx0COoOmj9xH32jie3sNn4BEABLOnT7jIizSRu8ieOgV3agLOb0UVa1wZoavprRLciEk4DDQQRphEGqC3+1KGqyNNpHSp9wnCWCZM6r62JhI1l5dAi9TqCYOk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764670030; c=relaxed/simple;
-	bh=D9hK6+alUGiHPuK5szo5jhFNIugok8q4d/OF6vO/d5Y=;
+	s=arc-20240116; t=1764690797; c=relaxed/simple;
+	bh=bLoq+0J4Pdz2yimFi9dyvez+MengAB4dZYv5B3C1McM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=go9fpWuSWk2r/lWfK/OvF6cqa7iAn4tZcLof9Fqz2OiDzcaGcUz2HiEQfVqm5uTmH6fdc3A8+Gk6cp2vl21vVgoec72cRIqnhV9TCs3tXv0xh/ir9cWnhalEOCNHaGd0q1PZFM+UBLvsqdi1lPrxyRHMlo68HxZJPM/u5Gk/HDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EMh+VjBE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jf33t27h; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EMh+VjBE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Jf33t27h; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=JuaCGfvdq5hRJ4rV8Rt8lDY+UYvTDZ2zBRN11oDgnqjpS9kAYLyQlycucP0u9if0xaGnTJRBPEZsdnsIrOkXqJWaBaS+nChJYoOmGp7s8yz+SGmATNE2+B6j+Exjiaz53R4dZqUmBRIN5abopHCfKJJX7TEpISHaLZlJ+j31saU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=SVyAGk26; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EMh+VjBE";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jf33t27h";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EMh+VjBE";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Jf33t27h"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ADD0E5BD10;
-	Tue,  2 Dec 2025 10:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1764670026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r+O7GcXkNiD+d56/fCYcZxMq0g4Dvf48J9PDE9ibk08=;
-	b=EMh+VjBE3bA4wP9+OnDt5CS0gGxVGHLHbw7rW8siO3u+O9vH6r+GvARPLLc1CmCCF7NVFj
-	hP4Jr6lHN1RCioz2UupZWOQSLp1hm3zZqGMcKmORfPAgi1p1CtobhykI8fDxroTSNVYfru
-	Lzxdjp0foxf9er+BDyRezbUlNkZOR8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1764670026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r+O7GcXkNiD+d56/fCYcZxMq0g4Dvf48J9PDE9ibk08=;
-	b=Jf33t27h5LYvbqy5eJfyK6wuW9C7ruVwYq7e4HvUBkZ0imtzJMzJ2LfqCv5kQh00IzQfoe
-	tADoTmMuirvctsCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1764670026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r+O7GcXkNiD+d56/fCYcZxMq0g4Dvf48J9PDE9ibk08=;
-	b=EMh+VjBE3bA4wP9+OnDt5CS0gGxVGHLHbw7rW8siO3u+O9vH6r+GvARPLLc1CmCCF7NVFj
-	hP4Jr6lHN1RCioz2UupZWOQSLp1hm3zZqGMcKmORfPAgi1p1CtobhykI8fDxroTSNVYfru
-	Lzxdjp0foxf9er+BDyRezbUlNkZOR8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1764670026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r+O7GcXkNiD+d56/fCYcZxMq0g4Dvf48J9PDE9ibk08=;
-	b=Jf33t27h5LYvbqy5eJfyK6wuW9C7ruVwYq7e4HvUBkZ0imtzJMzJ2LfqCv5kQh00IzQfoe
-	tADoTmMuirvctsCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E7BB3EA63;
-	Tue,  2 Dec 2025 10:07:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ypKrJkq6LmlMBQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 02 Dec 2025 10:07:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 3EABBA09DA; Tue,  2 Dec 2025 11:07:06 +0100 (CET)
-Date: Tue, 2 Dec 2025 11:07:06 +0100
-From: Jan Kara <jack@suse.cz>
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: axboe@kernel.dk, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, jack@suse.cz, cascardo@igalia.com, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-Subject: Re: [PATCH] loop: don't change loop device under exclusive opener in
- loop_set_status
-Message-ID: <i5xuxe6prso72euxxo4jludbb5fb2juh2ofbgf32ts7aruyesc@na6btym6jats>
-References: <20251114144204.2402336-2-rpthibeault@gmail.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="SVyAGk26"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b1e54aefc5so407237585a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 02 Dec 2025 07:53:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1764690795; x=1765295595; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ein3D251E2lqfEtSiRGhRdTfSxeVBVJFtAWknaD20lQ=;
+        b=SVyAGk26v3b/d6vSgc9OVrIMCkE/reWOPgQr+fzsiUnKUNUCRr8ObcC2YgQ8f76bSi
+         bAdREP6SNvQaEK6dXwlmSSVgV/5UTVJD8FHcILzXmV9r9Ky4FLmbFcoYwWVLV7Ofzj9x
+         z2n6eYQZPlutuqd83cjjOd6QqYRigXzokzAGIVHyaea7+4QhKB0SfYdqswQ3aMQ9/NED
+         joGcDr/TXckJK3hSyQ64ajHVB2kdXbTejFviEYtiaA0nqrYiOzoC2S4qWjklIxSNes6L
+         p7gCKYvYj5drrKXfAJSEMpjecJb+6ZBOUluMIiJJ7kPziGzbXHr5b7a+7ZYn1tEFu4DJ
+         VlIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764690795; x=1765295595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ein3D251E2lqfEtSiRGhRdTfSxeVBVJFtAWknaD20lQ=;
+        b=T0RZsFox3B1nNT+2BzH+dSU5TKt34mJQNfVtRk+vt0f95YG0aX4EOm3kyCFUJdBIhi
+         3I/6qiFhr438qhCB0ZcEqG7v3T2JQqMQUwj+tMcMoODyjOehGiwENj70UwN2pDyCnqPC
+         H9zavsrgDPFconUFFyOEnX7bmdpt75WAM5gMkS/f0O2MXmcmaAUrZZ8Wkev6005c5IBw
+         dqJT7kekVEqr5TtCWFsUXWGpzNBK6nHGbavtQ5y7MZV0kJ/WyfhGj52g+ARaAO30sHHF
+         qwqhYwiDVKxQKXqlzTQ+Qc8t8gXabTn0apLEA7e96YqMtFP7ULyqH8f10jT7kLoRG2ma
+         ZV2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUmX9MF6GclWy0QN6s03/Z1voJwh3Z/P4H/xX0CVCyMy7nEcHLoO9/+fGwnO9FORX/Eayze6UiJ4dA+OMNy6FqWvv1AUQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSlqU3ekbVJKyBkdjlxqJKtI7+7A+Ztt+Awr4xSC1UllKlJ6JW
+	NpPmXavQ8aGnYYsF98h3+NRuag4LE8Hr9+eCOOMw8NRrk6EzjfeAiELMZn2yx6B3ag==
+X-Gm-Gg: ASbGncuaXJ93dmCLV95yT3llCDNbRSL/11ujX4hu6nJ1eFSbxmX2kgdXxJPDoTVMZw8
+	qKJ99YpakgSE044ATXYfJf7l3HVcgp+XuSsdNcea/Ixi6Ks6HWvEmLBJWFGLxV5qA3WCbVBVUzw
+	0gkMDm5UaDLnDK8aDZUgLl33NpE3VTgVj2IL6JOaoMEwxy2eFL2MNEy4D3tj0ZB+6CUpLZzuCL7
+	flOLkQe5z6DKV1sJlTzUo9Uc5nzZ8/htJe9AXPu9f8ZRFuBACYCMyeVnDNOrxJKyKp2EOM5LfTE
+	id1ddpVHPzKEJlYvi9ggBnUDAKv51H891jYv5Ck58P+Os3yoqmpd3/f4YYlc9rYuhpVednVKP7Q
+	pA8cvKxRReM4EFmVB6lI4h4/eCHmxcDMh0+aS/6iBu/B5PWLa3M4y5BamxKROLqyaysazVfw/jo
+	s331/fHmEg6YE6
+X-Google-Smtp-Source: AGHT+IG7imMaW6P034ogai9juXD7cZWXeGPG/KXNDrCibNV7M+DiAwK7QmWiAcjFYeItiAklgvwKWw==
+X-Received: by 2002:a05:620a:1a8f:b0:8b2:ea3f:2f91 with SMTP id af79cd13be357-8b33d48169emr5525748285a.81.1764690794744;
+        Tue, 02 Dec 2025 07:53:14 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::eaae])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b52a1ddd36sm1088799885a.51.2025.12.02.07.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 07:53:14 -0800 (PST)
+Date: Tue, 2 Dec 2025 10:53:11 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Clint George <clintbgeorge@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	khalid@kernel.org
+Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style improvements
+Message-ID: <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
+References: <20251119130840.14309-1-clintbgeorge@gmail.com>
+ <20251201203715.17768-1-clintbgeorge@gmail.com>
+ <2025120200-backslid-endocrine-e64d@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -90,188 +78,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114144204.2402336-2-rpthibeault@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	URIBL_BLOCKED(0.00)[syzkaller.appspot.com:url,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,syzkaller.appspot.com:url,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.com:email]
+In-Reply-To: <2025120200-backslid-endocrine-e64d@gregkh>
 
-On Fri 14-11-25 09:42:05, Raphael Pinsonneault-Thibeault wrote:
-> loop_set_status() is allowed to change the loop device while there
-> are other openers of the device, even exclusive ones.
+On Tue, Dec 02, 2025 at 06:27:46AM +0100, Greg KH wrote:
+> On Tue, Dec 02, 2025 at 02:07:09AM +0530, Clint George wrote:
+> > As part of my LKMP mentorship i have to complete 5 patches as a criteria
+> > for graduation and thus have focused on working on such
+> > beginner-friendly patches so that not only do i get the required number
+> > of patches but also get familiar with the process of kernel
+> > developement.
 > 
-> In this case, it causes a KASAN: slab-out-of-bounds Read in
-> ext4_search_dir(), since when looking for an entry in an inlined
-> directory, e_value_offs is changed underneath the filesystem by
-> loop_set_status().
+> The LKMP internship should be done in drivers/staging/ as generally
+> coding style cleanups are NOT accepted in other parts of the kernel,
+> unless you get approval from the maintainer ahead of time.
 > 
-> Fix the problem by forbidding loop_set_status() from modifying the loop
-> device while there are exclusive openers of the device. This is similar
-> to the fix in loop_configure() by commit 33ec3e53e7b1 ("loop: Don't
-> change loop device under exclusive opener") alongside commit ecbe6bc0003b
-> ("block: use bd_prepare_to_claim directly in the loop driver").
-> 
-> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
-> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+> Does the maintainer of this driver want this to be used for the intern
+> project?
 
-This patch looks mostly good to me. Just one comment:
+In fact, Clint's changes are small and inoffensive enough, I wouldn't 
+mind having them applied to dummy-hcd.
 
-> -loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-> +loop_set_status(struct loop_device *lo, blk_mode_t mode,
-> +		struct block_device *bdev, const struct loop_info64 *info)
->  {
->  	int err;
->  	bool partscan = false;
->  	bool size_changed = false;
->  	unsigned int memflags;
->  
-> +	/*
-> +	 * If we don't hold exclusive handle for the device, upgrade to it
-> +	 * here to avoid changing device under exclusive owner.
-> +	 */
-> +	if (!(mode & BLK_OPEN_EXCL)) {
-> +		err = bd_prepare_to_claim(bdev, loop_set_status, NULL);
-> +		if (err)
-> +			goto out_reread_partitions;
-> +	}
-> +
+However, Greg is perfectly right that this kind of stylistic update is 
+not something that should be submitted for most parts of the kernel.  It 
+just bulks up the Git history with essentially meaningless cruft, making 
+it all that much harder to see the changes that really matter.  That's 
+part of the reason for the suggestion that interns and beginners should 
+confine their efforts to drivers/staging.
 
-So now any LOOP_SET_STATUS call will fail for device that is already
-exclusively open. There are some operations (like modifying the AUTOCLEAR
-flag or loop device name) that are safe even for a device with a mounted
-filesystem. I wouldn't probably bother with that now but I wanted to note
-that there may be valid uses of LOOP_SET_STATUS even for an exclusively
-open loop device and if there are users of that out there we might need to
-refine this a bit. Anyway for now feel free to add:
+Also, remember that trivial changes like this are fine for learning the 
+procedure of submitting kernel patches, but the effects they have on the 
+kernel itself are minimal.  A patch that actually fixes a bug or adds a 
+functional enhancement would be a different story.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-
->  	err = mutex_lock_killable(&lo->lo_mutex);
->  	if (err)
->  		return err;
-> @@ -1270,6 +1281,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
->  	}
->  out_unlock:
->  	mutex_unlock(&lo->lo_mutex);
-> +	if (!(mode & BLK_OPEN_EXCL))
-> +		bd_abort_claiming(bdev, loop_set_status);
-> +out_reread_partitions:
->  	if (partscan)
->  		loop_reread_partitions(lo);
->  
-> @@ -1349,7 +1363,9 @@ loop_info64_to_old(const struct loop_info64 *info64, struct loop_info *info)
->  }
->  
->  static int
-> -loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
-> +loop_set_status_old(struct loop_device *lo, blk_mode_t mode,
-> +		    struct block_device *bdev,
-> +		    const struct loop_info __user *arg)
->  {
->  	struct loop_info info;
->  	struct loop_info64 info64;
-> @@ -1357,17 +1373,19 @@ loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
->  	if (copy_from_user(&info, arg, sizeof (struct loop_info)))
->  		return -EFAULT;
->  	loop_info64_from_old(&info, &info64);
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> -loop_set_status64(struct loop_device *lo, const struct loop_info64 __user *arg)
-> +loop_set_status64(struct loop_device *lo, blk_mode_t mode,
-> +		  struct block_device *bdev,
-> +		  const struct loop_info64 __user *arg)
->  {
->  	struct loop_info64 info64;
->  
->  	if (copy_from_user(&info64, arg, sizeof (struct loop_info64)))
->  		return -EFAULT;
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> @@ -1546,14 +1564,14 @@ static int lo_ioctl(struct block_device *bdev, blk_mode_t mode,
->  	case LOOP_SET_STATUS:
->  		err = -EPERM;
->  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
-> -			err = loop_set_status_old(lo, argp);
-> +			err = loop_set_status_old(lo, mode, bdev, argp);
->  		break;
->  	case LOOP_GET_STATUS:
->  		return loop_get_status_old(lo, argp);
->  	case LOOP_SET_STATUS64:
->  		err = -EPERM;
->  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
-> -			err = loop_set_status64(lo, argp);
-> +			err = loop_set_status64(lo, mode, bdev, argp);
->  		break;
->  	case LOOP_GET_STATUS64:
->  		return loop_get_status64(lo, argp);
-> @@ -1647,8 +1665,9 @@ loop_info64_to_compat(const struct loop_info64 *info64,
->  }
->  
->  static int
-> -loop_set_status_compat(struct loop_device *lo,
-> -		       const struct compat_loop_info __user *arg)
-> +loop_set_status_compat(struct loop_device *lo, blk_mode_t mode,
-> +		    struct block_device *bdev,
-> +		    const struct compat_loop_info __user *arg)
->  {
->  	struct loop_info64 info64;
->  	int ret;
-> @@ -1656,7 +1675,7 @@ loop_set_status_compat(struct loop_device *lo,
->  	ret = loop_info64_from_compat(arg, &info64);
->  	if (ret < 0)
->  		return ret;
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> @@ -1682,7 +1701,7 @@ static int lo_compat_ioctl(struct block_device *bdev, blk_mode_t mode,
->  
->  	switch(cmd) {
->  	case LOOP_SET_STATUS:
-> -		err = loop_set_status_compat(lo,
-> +		err = loop_set_status_compat(lo, mode, bdev,
->  			     (const struct compat_loop_info __user *)arg);
->  		break;
->  	case LOOP_GET_STATUS:
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Alan Stern
