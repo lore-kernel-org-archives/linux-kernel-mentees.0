@@ -1,113 +1,140 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12576321440
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 15:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528AE299AA9
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 16:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.212.143.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764690797; cv=none; b=bnobOquI26ZaLOuXH7otxUVmb+JaNL9CLtKfm3/dBDUCGOehzbx0COoOmj9xH32jie3sNn4BEABLOnT7jIizSRu8ieOgV3agLOb0UVa1wZoavprRLciEk4DDQQRphEGqC3+1KGqyNNpHSp9wnCWCZM6r62JhI1l5dAi9TqCYOk4=
+	t=1764694028; cv=none; b=VZknh6aEWE3p4Br847V0TqS2AABX96CMksM/U0vQJKagyAxRUXzq79jf0/dAHj8IgXYxNwRvXYKWm760c/bnurhWsBUmunAvmuVszH35OkcWYtbgy8+haq+U3Wraakuy954vbtgOr+VG7QU9285CC4e+BthyMtpxG1yYHNbYsQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764690797; c=relaxed/simple;
-	bh=bLoq+0J4Pdz2yimFi9dyvez+MengAB4dZYv5B3C1McM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JuaCGfvdq5hRJ4rV8Rt8lDY+UYvTDZ2zBRN11oDgnqjpS9kAYLyQlycucP0u9if0xaGnTJRBPEZsdnsIrOkXqJWaBaS+nChJYoOmGp7s8yz+SGmATNE2+B6j+Exjiaz53R4dZqUmBRIN5abopHCfKJJX7TEpISHaLZlJ+j31saU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=SVyAGk26; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1764694028; c=relaxed/simple;
+	bh=a6CNrHYUVVv0+6MTS7aOYLrh5nYeoApTDHH0AC53Nqs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=B1iPmGh36r0whbSJI6e/c2joQIVBn6xn7/kgECEFU28vgbAMTkZbUtVRbBQ3Gxj4IilqtLLmODN7nqx/X95Z9yq3nyB3FBp0IjpzhYScdYbilsUMaaLsmAaU4NcFU+JF5PKgq4F+uZDZS0LY2Pn3YtJCg87kLrIGUwFfz8q+fn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=crashcourse.ca; spf=pass smtp.mailfrom=crashcourse.ca; dkim=pass (2048-bit key) header.d=crashcourse.ca header.i=@crashcourse.ca header.b=T00ad531; arc=none smtp.client-ip=199.212.143.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=crashcourse.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crashcourse.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="SVyAGk26"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b1e54aefc5so407237585a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 02 Dec 2025 07:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1764690795; x=1765295595; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ein3D251E2lqfEtSiRGhRdTfSxeVBVJFtAWknaD20lQ=;
-        b=SVyAGk26v3b/d6vSgc9OVrIMCkE/reWOPgQr+fzsiUnKUNUCRr8ObcC2YgQ8f76bSi
-         bAdREP6SNvQaEK6dXwlmSSVgV/5UTVJD8FHcILzXmV9r9Ky4FLmbFcoYwWVLV7Ofzj9x
-         z2n6eYQZPlutuqd83cjjOd6QqYRigXzokzAGIVHyaea7+4QhKB0SfYdqswQ3aMQ9/NED
-         joGcDr/TXckJK3hSyQ64ajHVB2kdXbTejFviEYtiaA0nqrYiOzoC2S4qWjklIxSNes6L
-         p7gCKYvYj5drrKXfAJSEMpjecJb+6ZBOUluMIiJJ7kPziGzbXHr5b7a+7ZYn1tEFu4DJ
-         VlIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764690795; x=1765295595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ein3D251E2lqfEtSiRGhRdTfSxeVBVJFtAWknaD20lQ=;
-        b=T0RZsFox3B1nNT+2BzH+dSU5TKt34mJQNfVtRk+vt0f95YG0aX4EOm3kyCFUJdBIhi
-         3I/6qiFhr438qhCB0ZcEqG7v3T2JQqMQUwj+tMcMoODyjOehGiwENj70UwN2pDyCnqPC
-         H9zavsrgDPFconUFFyOEnX7bmdpt75WAM5gMkS/f0O2MXmcmaAUrZZ8Wkev6005c5IBw
-         dqJT7kekVEqr5TtCWFsUXWGpzNBK6nHGbavtQ5y7MZV0kJ/WyfhGj52g+ARaAO30sHHF
-         qwqhYwiDVKxQKXqlzTQ+Qc8t8gXabTn0apLEA7e96YqMtFP7ULyqH8f10jT7kLoRG2ma
-         ZV2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUmX9MF6GclWy0QN6s03/Z1voJwh3Z/P4H/xX0CVCyMy7nEcHLoO9/+fGwnO9FORX/Eayze6UiJ4dA+OMNy6FqWvv1AUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSlqU3ekbVJKyBkdjlxqJKtI7+7A+Ztt+Awr4xSC1UllKlJ6JW
-	NpPmXavQ8aGnYYsF98h3+NRuag4LE8Hr9+eCOOMw8NRrk6EzjfeAiELMZn2yx6B3ag==
-X-Gm-Gg: ASbGncuaXJ93dmCLV95yT3llCDNbRSL/11ujX4hu6nJ1eFSbxmX2kgdXxJPDoTVMZw8
-	qKJ99YpakgSE044ATXYfJf7l3HVcgp+XuSsdNcea/Ixi6Ks6HWvEmLBJWFGLxV5qA3WCbVBVUzw
-	0gkMDm5UaDLnDK8aDZUgLl33NpE3VTgVj2IL6JOaoMEwxy2eFL2MNEy4D3tj0ZB+6CUpLZzuCL7
-	flOLkQe5z6DKV1sJlTzUo9Uc5nzZ8/htJe9AXPu9f8ZRFuBACYCMyeVnDNOrxJKyKp2EOM5LfTE
-	id1ddpVHPzKEJlYvi9ggBnUDAKv51H891jYv5Ck58P+Os3yoqmpd3/f4YYlc9rYuhpVednVKP7Q
-	pA8cvKxRReM4EFmVB6lI4h4/eCHmxcDMh0+aS/6iBu/B5PWLa3M4y5BamxKROLqyaysazVfw/jo
-	s331/fHmEg6YE6
-X-Google-Smtp-Source: AGHT+IG7imMaW6P034ogai9juXD7cZWXeGPG/KXNDrCibNV7M+DiAwK7QmWiAcjFYeItiAklgvwKWw==
-X-Received: by 2002:a05:620a:1a8f:b0:8b2:ea3f:2f91 with SMTP id af79cd13be357-8b33d48169emr5525748285a.81.1764690794744;
-        Tue, 02 Dec 2025 07:53:14 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d03:1700::eaae])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b52a1ddd36sm1088799885a.51.2025.12.02.07.53.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 07:53:14 -0800 (PST)
-Date: Tue, 2 Dec 2025 10:53:11 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Clint George <clintbgeorge@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	khalid@kernel.org
-Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style improvements
-Message-ID: <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
-References: <20251119130840.14309-1-clintbgeorge@gmail.com>
- <20251201203715.17768-1-clintbgeorge@gmail.com>
- <2025120200-backslid-endocrine-e64d@gregkh>
+	dkim=pass (2048-bit key) header.d=crashcourse.ca header.i=@crashcourse.ca header.b="T00ad531"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
+	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vcLA44GB+j3H/KgnEoBAFvxWPC3E3xHZwmVHQdFIGl0=; b=T00ad531wXnzIFMw3Yu4znsnVv
+	FzAzB4vIJ3w099X+OkXuCI9O6/QS8GsoCcSw0Z00NCpbVIki/cbnTeJgH/oMtczG16JYnX9HrdMht
+	J2U85Fa2kq9O52204X+3VH6phez/aJHJ1ujn4r4bd9W3L2Rv9xRI6WxnN7T7cBt+QCaYdB+lDBzqe
+	z1NW//Q6A22d31UzdMNL2/vT1iinnmZYW9UDGJGUJGeYRtEkMtcOebpNFoWYXFumt9mP2K+/QTSos
+	BUaMTGceUlgZqwlDatvadZu8fwzMZ5ETWLUM/eYOrvEbtMv+akbP/b39guhLBLkWs34h4rLWMoAag
+	8bHK++qA==;
+Received: from [147.129.179.166] (port=56192 helo=rday)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1vQTEF-00000009lNU-3BH7;
+	Tue, 02 Dec 2025 11:27:52 -0500
+Date: Tue, 2 Dec 2025 11:28:59 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Alan Stern <stern@rowland.harvard.edu>
+cc: Greg KH <gregkh@linuxfoundation.org>, 
+    Clint George <clintbgeorge@gmail.com>, linux-usb@vger.kernel.org, 
+    linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com, 
+    linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+    khalid@kernel.org
+Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style
+ improvements
+In-Reply-To: <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
+Message-ID: <7093160b-3700-4bc7-300e-57f4507dffd2@crashcourse.ca>
+References: <20251119130840.14309-1-clintbgeorge@gmail.com> <20251201203715.17768-1-clintbgeorge@gmail.com> <2025120200-backslid-endocrine-e64d@gregkh> <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025120200-backslid-endocrine-e64d@gregkh>
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Tue, Dec 02, 2025 at 06:27:46AM +0100, Greg KH wrote:
-> On Tue, Dec 02, 2025 at 02:07:09AM +0530, Clint George wrote:
-> > As part of my LKMP mentorship i have to complete 5 patches as a criteria
-> > for graduation and thus have focused on working on such
-> > beginner-friendly patches so that not only do i get the required number
-> > of patches but also get familiar with the process of kernel
-> > developement.
-> 
-> The LKMP internship should be done in drivers/staging/ as generally
-> coding style cleanups are NOT accepted in other parts of the kernel,
-> unless you get approval from the maintainer ahead of time.
-> 
-> Does the maintainer of this driver want this to be used for the intern
-> project?
+On Tue, 2 Dec 2025, Alan Stern wrote:
 
-In fact, Clint's changes are small and inoffensive enough, I wouldn't 
-mind having them applied to dummy-hcd.
+> On Tue, Dec 02, 2025 at 06:27:46AM +0100, Greg KH wrote:
+> > On Tue, Dec 02, 2025 at 02:07:09AM +0530, Clint George wrote:
+> > > As part of my LKMP mentorship i have to complete 5 patches as a criteria
+> > > for graduation and thus have focused on working on such
+> > > beginner-friendly patches so that not only do i get the required number
+> > > of patches but also get familiar with the process of kernel
+> > > developement.
+> >
+> > The LKMP internship should be done in drivers/staging/ as generally
+> > coding style cleanups are NOT accepted in other parts of the kernel,
+> > unless you get approval from the maintainer ahead of time.
+> >
+> > Does the maintainer of this driver want this to be used for the intern
+> > project?
+>
+> In fact, Clint's changes are small and inoffensive enough, I wouldn't
+> mind having them applied to dummy-hcd.
+>
+> However, Greg is perfectly right that this kind of stylistic update is
+> not something that should be submitted for most parts of the kernel.  It
+> just bulks up the Git history with essentially meaningless cruft, making
+> it all that much harder to see the changes that really matter.  That's
+> part of the reason for the suggestion that interns and beginners should
+> confine their efforts to drivers/staging.
+>
+> Also, remember that trivial changes like this are fine for learning the
+> procedure of submitting kernel patches, but the effects they have on the
+> kernel itself are minimal.  A patch that actually fixes a bug or adds a
+> functional enhancement would be a different story.
 
-However, Greg is perfectly right that this kind of stylistic update is 
-not something that should be submitted for most parts of the kernel.  It 
-just bulks up the Git history with essentially meaningless cruft, making 
-it all that much harder to see the changes that really matter.  That's 
-part of the reason for the suggestion that interns and beginners should 
-confine their efforts to drivers/staging.
+  FWIW, many years ago, I threw together a collection of kernel
+"cleanup" scripts that scanned the kernel source for various possible
+"improvements". Earlier this year, I posted a number of suggestions
+for cleanup work to the kernel janitors mailing, and slapped together
+a wiki page that described some obvious cleanups:
 
-Also, remember that trivial changes like this are fine for learning the 
-procedure of submitting kernel patches, but the effects they have on the 
-kernel itself are minimal.  A patch that actually fixes a bug or adds a 
-functional enhancement would be a different story.
+https://crashcourse.ca/doku/doku.php?id=linux_kernel_cleanup
 
-Alan Stern
+  As the first example on that page, look for code that insists on
+manually calculating the length of an array when the appropriate macro
+has been defined in include/linux/array_size.h for years. There's
+still some of that lying around that could be tidied up; for example,
+scan the drivers/ directory (do not make fun of my hacky solutions):
+
+$ grep -Er "sizeof ?\(?([^\)]+)\)? ?/ ?sizeof ?\(?.*\1.*" drivers
+drivers/hid/bpf/progs/hid_bpf_helpers.h:#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+drivers/media/common/tveeprom.c:	(i < sizeof(array) / sizeof(char *) ? array[i] : "unknown")
+drivers/net/ethernet/mellanox/mlx4/qp.c:	for (k = MLX4_QP_TABLE_ZONE_RSS + 1; k < sizeof(*bitmap)/sizeof((*bitmap)[0]);
+drivers/net/ethernet/intel/i40e/i40e_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
+drivers/net/ethernet/intel/iavf/iavf_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
+drivers/gpu/drm/xe/xe_guc_hxg_helpers.h:#define hxg_sizeof(T)	(sizeof(T) / sizeof(u32) + BUILD_BUG_ON_ZERO(sizeof(T) % sizeof(u32)))
+drivers/gpu/drm/nouveau/nvif/fifo.c:	a->m.count = sizeof(a->v) / sizeof(a->v.runlists);
+drivers/gpu/drm/amd/display/dc/mpc/dcn30/dcn30_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+drivers/gpu/drm/amd/display/dc/mpc/dcn20/dcn20_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
+drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
+drivers/gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
+drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix) / sizeof(struct dpp_input_csc_matrix);
+drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c:	int arr_size = sizeof(input_csc_matrix)/sizeof(struct input_csc_matrix);
+drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c:	table_size = sizeof(qp_table_##mode##_##bpc##bpc_##max)/sizeof(*qp_table_##mode##_##bpc##bpc_##max); \
+drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c:	for (k = 0; k < sizeof(wb_arb_params->cli_watermark)/sizeof(wb_arb_params->cli_watermark[0]); k++) {
+drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+
+  There are other ideas on that wiki page for someone who wanted
+something simple to start with that aren't just aesthetic, they
+would actually improve the quality and readability of the code.
+
+rday
