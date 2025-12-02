@@ -1,140 +1,156 @@
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528AE299AA9
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 16:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.212.143.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011772BDC25
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764694028; cv=none; b=VZknh6aEWE3p4Br847V0TqS2AABX96CMksM/U0vQJKagyAxRUXzq79jf0/dAHj8IgXYxNwRvXYKWm760c/bnurhWsBUmunAvmuVszH35OkcWYtbgy8+haq+U3Wraakuy954vbtgOr+VG7QU9285CC4e+BthyMtpxG1yYHNbYsQM=
+	t=1764695366; cv=none; b=MaXEXgxz4GW6hBHU+zV9GVM8NVwNRCLv1YgewuafizFCn9dWjQXcSFY45OQc/ZcOFNAojYVU2WTTPRxQUYuqYHIHivRSzrcF0wRaVk1dViQLp3oF2UMKETulmxtNKyyjMTKX/VkB13wvpEj001YyK8iL7XrPRswTdZngnK1Brt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764694028; c=relaxed/simple;
-	bh=a6CNrHYUVVv0+6MTS7aOYLrh5nYeoApTDHH0AC53Nqs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=B1iPmGh36r0whbSJI6e/c2joQIVBn6xn7/kgECEFU28vgbAMTkZbUtVRbBQ3Gxj4IilqtLLmODN7nqx/X95Z9yq3nyB3FBp0IjpzhYScdYbilsUMaaLsmAaU4NcFU+JF5PKgq4F+uZDZS0LY2Pn3YtJCg87kLrIGUwFfz8q+fn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=crashcourse.ca; spf=pass smtp.mailfrom=crashcourse.ca; dkim=pass (2048-bit key) header.d=crashcourse.ca header.i=@crashcourse.ca header.b=T00ad531; arc=none smtp.client-ip=199.212.143.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=crashcourse.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crashcourse.ca
+	s=arc-20240116; t=1764695366; c=relaxed/simple;
+	bh=45MijeCikbLICClrSiN36MCZK5B0JwjpmGbgdSAYvuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OqqfTVepsZdwZdT5PRPkppyUX9SG788AaewwiBSXAfocmvQCH6NRIK+GS4DVGFXrdhvPAFjppHEzcxvVu1dKGiiPOoZMjo7li/E+vdfSCdCYMSEJZbfuGm3GdmiEUEDZfbhveOs9sOoDR4WoBp4F/6h5QIAIyOW4Q/MRTDbYFzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gVgCK8/K; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crashcourse.ca header.i=@crashcourse.ca header.b="T00ad531"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vcLA44GB+j3H/KgnEoBAFvxWPC3E3xHZwmVHQdFIGl0=; b=T00ad531wXnzIFMw3Yu4znsnVv
-	FzAzB4vIJ3w099X+OkXuCI9O6/QS8GsoCcSw0Z00NCpbVIki/cbnTeJgH/oMtczG16JYnX9HrdMht
-	J2U85Fa2kq9O52204X+3VH6phez/aJHJ1ujn4r4bd9W3L2Rv9xRI6WxnN7T7cBt+QCaYdB+lDBzqe
-	z1NW//Q6A22d31UzdMNL2/vT1iinnmZYW9UDGJGUJGeYRtEkMtcOebpNFoWYXFumt9mP2K+/QTSos
-	BUaMTGceUlgZqwlDatvadZu8fwzMZ5ETWLUM/eYOrvEbtMv+akbP/b39guhLBLkWs34h4rLWMoAag
-	8bHK++qA==;
-Received: from [147.129.179.166] (port=56192 helo=rday)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1vQTEF-00000009lNU-3BH7;
-	Tue, 02 Dec 2025 11:27:52 -0500
-Date: Tue, 2 Dec 2025 11:28:59 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alan Stern <stern@rowland.harvard.edu>
-cc: Greg KH <gregkh@linuxfoundation.org>, 
-    Clint George <clintbgeorge@gmail.com>, linux-usb@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com, 
-    linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-    khalid@kernel.org
-Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style
- improvements
-In-Reply-To: <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
-Message-ID: <7093160b-3700-4bc7-300e-57f4507dffd2@crashcourse.ca>
-References: <20251119130840.14309-1-clintbgeorge@gmail.com> <20251201203715.17768-1-clintbgeorge@gmail.com> <2025120200-backslid-endocrine-e64d@gregkh> <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gVgCK8/K"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 436D28071E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:09:23 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -17.601
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 2XZSjcbRon2Q for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  2 Dec 2025 17:09:22 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=cmllamas@google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 73A7C806A2
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 73A7C806A2
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=gVgCK8/K
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 73A7C806A2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:09:22 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-29852dafa7dso1010135ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 02 Dec 2025 09:09:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764695362; x=1765300162; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OE8hvHCw3MFr7aZguM67044oyYLQlhCB1XpMeHQTUwk=;
+        b=gVgCK8/KGGXhu+82BM0xRxbIfQn5zI7UfqWTo24dzQhymDQNg64PtRMmd0tTrh6evp
+         uojTqBUobOuCGwYU1PKQC0T/5ORkX//WoBA4HhSnbLubbJ+YfTL/x5b7Rerd8lZOnbt8
+         CM5YmyVnBGdU2V00/2Lxx+p+OB0pQC5ijhdGrmt6M+Kfepht+iONagei8t85I5STh7E2
+         QbnReNkpQcz+YOQzVEl0ZfS7HdmtE06A1GjJSBQuyBnXG29iX5D7vx0yDtPLfk0KN8az
+         BxuEFMDVdYWAEIhFavWLTUThgk9qqNj/YdX0sPurq6KFK642GFwttYAthi87yGzzQdVB
+         PHBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764695362; x=1765300162;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OE8hvHCw3MFr7aZguM67044oyYLQlhCB1XpMeHQTUwk=;
+        b=qB5jgoxVz1H/us0D20NWxV4lc7paa6vi1ewYYROIFKPqjMDZ0RvarnuAAGTYJ0cT0V
+         yZqgcePjZSihMIsRXgq1xaQaXP68DrzzbvHsYI+w/SLeufSAB+MmO2lM1hIhP7O7LS8h
+         iLNyBawTCgv3rL43Z3YQXyS2gOSkOzUR23EHp+WYfjT1BSYDC3TDHh4/vS/9uTnX9OCX
+         lTkoXlpyQAKdOCI5OhTrqNTM7xt7mN6yvPxXmQZHE738t5ZrTPdfZr0kl6ymVb4tqDk2
+         BhzcvwhJy4tlCu/sMWfGdIzTbRndiCelssduZwvoKwwVzohJnR+/6fdT9vRU52z7+9ZO
+         /Cow==
+X-Forwarded-Encrypted: i=1; AJvYcCUlNQcdNMTHtY6sTvtnrQabZrswM3w+WA7GOOk4mXGpyAz+oPbyGEibSTNbp6bbdxB8CPuiL7L9uPZvQgFl0dC4fbg2rQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxQQjGjD+MlDMgbpseykfFsnx870ZC4TGcDwW4bfYjgnQ/EU2qm
+	ukgTKXRtpY7DKSnIuHlZxHpkuIl8fCbBkQmp7CZjUtW7Q2+baVA0HFCdqJz47agsYw==
+X-Gm-Gg: ASbGncvsBLChFLOwNDz8Y2/C8zEkezj4+2H5ys/YSbzB6qMNc2F7FVAWkvLBGgu6jK1
+	jpJ8CrjRDZiO3dM2IhAa6Lloyf54qD3NLogqfABdbZkgsrUtqV1qZjbAhCgcphQqPtorFvRKBIv
+	GQLXtMXQ6X/Cm6RPR7NViRML0IktARNtdZwLr706ej51F3WqmR+kvZN7uypwh/QB+b9jUc7+Ii0
+	qYfncgcTWnfgDlwvyJNuDQBaJxg13zrkpxjPkVR06I0jIpT4zpoZsm98ODoR7FZaMsSgoKuxU41
+	NAu+H1zb6l0lpGaOfpB/y0kYoBvUMbAjQIL+kA9vjbRR4BCkZMT3FlaVcDMWtZFlxG9/OZgvHhE
+	TquFTmLRqxEG666RqjMe3XdzPkBTgCPMCkRgVxliToi+oKAbpXFscyAivuk5/sC7fp4fVmFbAr9
+	shE3dt0Sw0qztKRjYciI90XG0a6BmSZTWaZPzFYAZUp8D+8da/jw==
+X-Google-Smtp-Source: AGHT+IGn6qVIdCSHwhrPC1gJqwBrvK6krzCrgmGdVcVIh8pC0eWA+kD/oRIoY5s7r5uGCIuLAyh54A==
+X-Received: by 2002:a17:903:1c8:b0:297:eadc:3cd5 with SMTP id d9443c01a7336-29d648abdb6mr335365ad.15.1764695361233;
+        Tue, 02 Dec 2025 09:09:21 -0800 (PST)
+Received: from google.com (129.35.125.34.bc.googleusercontent.com. [34.125.35.129])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d150b68805sm17547149b3a.9.2025.12.02.09.09.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 09:09:20 -0800 (PST)
+Date: Tue, 2 Dec 2025 17:09:15 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arve <arve@android.com>, Todd Kjos <tkjos@android.com>,
+	Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/2] android: binderfs: add missing parameters in
+ binder_ctl_ioctl()'s doc
+Message-ID: <aS8dO9V4suAPF4QG@google.com>
+References: <20251121111203.21800-1-adelodunolaoluwa.ref@yahoo.com>
+ <20251121111203.21800-1-adelodunolaoluwa@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251121111203.21800-1-adelodunolaoluwa@yahoo.com>
 
-On Tue, 2 Dec 2025, Alan Stern wrote:
+On Fri, Nov 21, 2025 at 12:12:02PM +0100, Sunday Adelodun wrote:
+> The kernel-doc comment for binder_ctl_ioctl() lacks descriptions for the
+> @file, @cmd, and @arg parameters, which triggers warnings during
+> documentation builds.
 
-> On Tue, Dec 02, 2025 at 06:27:46AM +0100, Greg KH wrote:
-> > On Tue, Dec 02, 2025 at 02:07:09AM +0530, Clint George wrote:
-> > > As part of my LKMP mentorship i have to complete 5 patches as a criteria
-> > > for graduation and thus have focused on working on such
-> > > beginner-friendly patches so that not only do i get the required number
-> > > of patches but also get familiar with the process of kernel
-> > > developement.
-> >
-> > The LKMP internship should be done in drivers/staging/ as generally
-> > coding style cleanups are NOT accepted in other parts of the kernel,
-> > unless you get approval from the maintainer ahead of time.
-> >
-> > Does the maintainer of this driver want this to be used for the intern
-> > project?
->
-> In fact, Clint's changes are small and inoffensive enough, I wouldn't
-> mind having them applied to dummy-hcd.
->
-> However, Greg is perfectly right that this kind of stylistic update is
-> not something that should be submitted for most parts of the kernel.  It
-> just bulks up the Git history with essentially meaningless cruft, making
-> it all that much harder to see the changes that really matter.  That's
-> part of the reason for the suggestion that interns and beginners should
-> confine their efforts to drivers/staging.
->
-> Also, remember that trivial changes like this are fine for learning the
-> procedure of submitting kernel patches, but the effects they have on the
-> kernel itself are minimal.  A patch that actually fixes a bug or adds a
-> functional enhancement would be a different story.
+Could you please add the warnings here?
 
-  FWIW, many years ago, I threw together a collection of kernel
-"cleanup" scripts that scanned the kernel source for various possible
-"improvements". Earlier this year, I posted a number of suggestions
-for cleanup work to the kernel janitors mailing, and slapped together
-a wiki page that described some obvious cleanups:
+> 
+> Add the missing parameter descriptions to keep the
+> kernel-doc consistent and free of warnings.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes:
+> https://lore.kernel.org/oe-kbuild-all/202511201725.ni2HZ2PP-lkp@intel.com/
 
-https://crashcourse.ca/doku/doku.php?id=linux_kernel_cleanup
+The link for the `Closes:` tag should be on the same line.
 
-  As the first example on that page, look for code that insists on
-manually calculating the length of an array when the appropriate macro
-has been defined in include/linux/array_size.h for years. There's
-still some of that lying around that could be tidied up; for example,
-scan the drivers/ directory (do not make fun of my hacky solutions):
+> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+> ---
+>  drivers/android/binderfs.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/android/binderfs.c b/drivers/android/binderfs.c
+> index be8e64eb39ec..47f6d1e5971e 100644
+> --- a/drivers/android/binderfs.c
+> +++ b/drivers/android/binderfs.c
+> @@ -224,6 +224,9 @@ static int binderfs_binder_device_create(struct inode *ref_inode,
+>  
+>  /**
+>   * binder_ctl_ioctl - handle binder device node allocation requests
+> + * @file: The file pointer for the binder-control device node.
+> + * @cmd: The ioctl command.
+> + * @arg: The ioctl argument.
 
-$ grep -Er "sizeof ?\(?([^\)]+)\)? ?/ ?sizeof ?\(?.*\1.*" drivers
-drivers/hid/bpf/progs/hid_bpf_helpers.h:#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-drivers/media/common/tveeprom.c:	(i < sizeof(array) / sizeof(char *) ? array[i] : "unknown")
-drivers/net/ethernet/mellanox/mlx4/qp.c:	for (k = MLX4_QP_TABLE_ZONE_RSS + 1; k < sizeof(*bitmap)/sizeof((*bitmap)[0]);
-drivers/net/ethernet/intel/i40e/i40e_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
-drivers/net/ethernet/intel/iavf/iavf_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
-drivers/gpu/drm/xe/xe_guc_hxg_helpers.h:#define hxg_sizeof(T)	(sizeof(T) / sizeof(u32) + BUILD_BUG_ON_ZERO(sizeof(T) % sizeof(u32)))
-drivers/gpu/drm/nouveau/nvif/fifo.c:	a->m.count = sizeof(a->v) / sizeof(a->v.runlists);
-drivers/gpu/drm/amd/display/dc/mpc/dcn30/dcn30_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-drivers/gpu/drm/amd/display/dc/mpc/dcn20/dcn20_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-drivers/gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix) / sizeof(struct dpp_input_csc_matrix);
-drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c:	int arr_size = sizeof(input_csc_matrix)/sizeof(struct input_csc_matrix);
-drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c:	table_size = sizeof(qp_table_##mode##_##bpc##bpc_##max)/sizeof(*qp_table_##mode##_##bpc##bpc_##max); \
-drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c:	for (k = 0; k < sizeof(wb_arb_params->cli_watermark)/sizeof(wb_arb_params->cli_watermark[0]); k++) {
-drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
+Can you please follow other kernel-doc format in the file? e.g.
+alignment, no period at the end, etc.
 
-  There are other ideas on that wiki page for someone who wanted
-something simple to start with that aren't just aesthetic, they
-would actually improve the quality and readability of the code.
+>   *
+>   * The request handler for the binder-control device. All requests operate on
+>   * the binderfs mount the binder-control device resides in:
+> -- 
+> 2.43.0
+> 
 
-rday
+This is the wrong file though. The reported issue was for the
+drivers/android/binder/rust_binderfs.c file. Can you add the same
+kernel-doc additions to both files in your next version?
+
+Thanks,
+Carlos Llamas
