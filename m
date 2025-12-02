@@ -1,140 +1,118 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AFA54774
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D1F2E11D7
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 19:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764695508; cv=none; b=GLgAE/XGNGQ2ATJFlV3rtG0VK4JRLSjz4I4xY/1lhw/zlbduT3EmpDb9umalGopZjmbLAEzpawujK+7nQ6ocYAbtL52FQBi8NKOLFmpYQnWZ+OHgdgjOP5KzWD46jx2AeWxDy85BUIIqzp1ZxFvjaulGgTQL6SL6DkvOYZ9iM98=
+	t=1764705088; cv=none; b=cCwumSWILvdWeBqRzw4UPdK2x+zLLX0Y6VBpqq+ydhBjtY/UMZyVuJQuhR5Zz9OOxHMV7KYAE55EbJG24Noz7N58u2DCRNsofmmQJhzbSCYx0Dd4vImvetLTri6ttIX0WNbm+Am+tY3BgUeiD3876x1n5UgPrJGT7GJj6I8xx5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764695508; c=relaxed/simple;
-	bh=NlRtEfjmqJngOZiPtp3BkA0Auz2ik+L2+TB7ln+mJTg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOqmv94bKKUscErRNIAMpWHsa2JwLTkU0JzDUjWRfjgsRm1oyIsJY/N1kBxxNI54s40CMV5wy5Ku+O1pqm+5KCn888Lg6yeExQEsowhN8rJmTrj4WWD5A6tlVsLzcVV0gDmGK7ggJfpdamNuwuRkH1a2YFH3s/RiVvWnE4Lwx14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KZfuKUFZ; arc=none smtp.client-ip=140.211.166.138
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KZfuKUFZ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 267D9827B5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:11:47 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -17.601
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id PTVFprJWuERJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  2 Dec 2025 17:11:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com; envelope-from=cmllamas@google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 82C6B82310
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 82C6B82310
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=KZfuKUFZ
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 82C6B82310
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Dec 2025 17:11:46 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id d9443c01a7336-295c64cb951so1061775ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 02 Dec 2025 09:11:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764695506; x=1765300306; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a2SmQzdPa569Mipnc8Fvji3wocLWE6hhRcSDli/sldQ=;
-        b=KZfuKUFZ7DZZ0P1pr8HE9/pAMDhMCScDEIf0DsOgVGO1RsV7l3MRGM83aZF79km5g4
-         xO6CHh6Z3vsBokNWyrgcti6EnOQTvZKn7vn5LppWLVHufUWB+uk0gdQnH8u1j1IhKZ7W
-         Hf5FhvO/BNFYAd4Qwkp2hRLY4FN/ZyfEIOFUjOE4CD6doJRYKetIgNRXMsdRpLxGwf+x
-         8js1mSWdpZxcIWPRaFsY9gz+LAZCchFwPvea4oWkwlfPvV1YYDy2LNTRwhzrFNQFAvXv
-         ErDk5tDi4kduC52Bnr9cVCG+ouUZ19862K+m1C+fctmJEX266KNUAwuEMFXqlRqp0xPF
-         JtZw==
+	s=arc-20240116; t=1764705088; c=relaxed/simple;
+	bh=fwCFv2z9e223jg0pAovRQ9E+1W1x3hd5ePnE3QF9fis=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=R9wP5ZdIlKtJZBocHU8s8qYIDfweam7OjpitE7j+PkzJ4XexEKSu2isnmaYATDjRkrSe+vaW2y4q3sSDGbOCIGvSFQBpHcskxIIdzsFOSP0KtsEZ4SP3CCgOL0EXNFAKer+4zgXuAsHDOUXQgBd9LimSTZmYAwEnci708QeQ7Wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-450da1dcd2dso311471b6e.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 02 Dec 2025 11:51:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764695506; x=1765300306;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a2SmQzdPa569Mipnc8Fvji3wocLWE6hhRcSDli/sldQ=;
-        b=C6G2ElQ7J7etWHUUJg70PsNVQlyRiQt0nJcXQSSmJb3sn04maPH1NiuemNMfcMSgJm
-         o1IuLYP4pGldBmLOObp29N4AVfTc6lHEy1aD3h1rjvuMCHcDEIRRHQIuYQphe1rsScpE
-         zwzB0STt8cCxBrKXa4g1T8SpOQYqRkor/iJBJob7zNG9K2SFCz5AvvPZw9FCJu/LpiH1
-         mY1ksrOyncG2HJ8KCTq0TsnN7SUS7o9tyCsBUuauFyBdJd4fUVF+nP6F0Zo4eCeH6OKS
-         AWOLyANBLhyKL1q0+swC+vqR7SzUOx4gs/O1iNDCi3Rhuh07NQVDBsGuSzRLb6N24kOG
-         wQBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVEv3GnqKXQmzRbssqLtZtDhgM5uPvKuYKmuj4lrS5bAjY0sW8554ca3kbDYSMyCvBUF4uMBZjzLxvx0S6QX/1GSTOEMw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxDWTriiNfULWAup/r5Cr43HsoRiLOIhzBXvseu6f5ASQnmI9/c
-	caaXdFrMNS3oD+787ffUmH/5be55DDvOU6oWixZZcX03EYmchR/Eyluzw8TWh5B3zw==
-X-Gm-Gg: ASbGnct4+KQD6z5ov8aBCilfpjqDZ8hvnvE0mu/g31auxT6R2rDnNpX2Sbe3PLoZyFb
-	Qu72Rxa2z1JpZASalqWSQnoyoOOgZ4qgyT9FoaJC3QH1aiFoQkZcgcGpr/BiTFFswbqO5o2Cd8B
-	f+Qm48damwfk6aCKdYLV/TEKiHFK9sjkpLRU9MKAXrCpheE97NJQgF7zs8MEe2uccvCpx0wyJXr
-	bIHALx3EHK1Kd5SPvYT9bFP6KLER2uGgoTTY20kmby90Q0umRyBSczH+exwELEW2zG1G/Taja0Y
-	IcKNsGcA4I1+/lyCI0GGdP38+XIlafwDHonyS8/YGztXCfU/NgGqMHSvyaf1bQEJTLJhvAK2/LW
-	J2SkvMg67XkdH/1uHH9xCRxHebz2OhEWUQXP9Qt8GznYFPk3HQCmARxkgdRJWt9x+qB/Nlo6KVu
-	kEI8kvxbaERteYY5QPEO4GjhOiLOb9ie5teAZFzdpWqykxYkThS9zHlP5s8+mY
-X-Google-Smtp-Source: AGHT+IGQATs7M+eeKshlxyjYti9Gf/nKtFGuAKmHJ/UOzDc80Sq2/zOORM/Dt7vPzhTo+0wiF4ueLw==
-X-Received: by 2002:a17:903:11c7:b0:26d:72f8:8cfa with SMTP id d9443c01a7336-29d648b3dcfmr244005ad.13.1764695505646;
-        Tue, 02 Dec 2025 09:11:45 -0800 (PST)
-Received: from google.com (129.35.125.34.bc.googleusercontent.com. [34.125.35.129])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce40acd7sm162686665ad.17.2025.12.02.09.11.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 09:11:45 -0800 (PST)
-Date: Tue, 2 Dec 2025 17:11:40 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arve <arve@android.com>, Todd Kjos <tkjos@android.com>,
-	Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 2/2] android: binder: add missing return value
- documentation for binder_apply_fd_fixups()
-Message-ID: <aS8dzB6-CGfitagu@google.com>
-References: <20251121111203.21800-1-adelodunolaoluwa@yahoo.com>
- <20251121111203.21800-2-adelodunolaoluwa@yahoo.com>
+        d=1e100.net; s=20230601; t=1764705086; x=1765309886;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vrTA8/Ib4dqg468mg7sXdU5lKN1300g4eFvAGgrlg20=;
+        b=XNZIh3lSlKe3lzNbqq2gGdVsOuwyZqrfs/r1sl3+CvSI3FSXyqhNI765bempJRsVYo
+         S8+lGPBkFZKCWCVKcueb6oRn6fxvzw4rW+4Y2yi6d6Ldt45nhpXfJxkDMRTW6UiE5WXP
+         9VCfSScS9JHi7zwvtA4XUkCxu24L04asN7B1O0o6ENbbONQr13ZFGMcwkxIM/T18Sb8B
+         bpiyacQCX+nMGjO0t3xzeNWa2ejE8s6ruOewfeZUjVBgIVlKdMG4DZUNZmizeIrBtuao
+         aUVKDwSZ6/i6/3HlDHAY+JyCulgJd7b7qjIqqHIoG7zsh+eLielL8yl89nFUxzVQD/CU
+         3hwA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAeavZYPaD9PaOYzw8FKNKox7ItBiZnLQlKDlKP2FERZXmEHCf3NQEqs6lXckTPeSKqgIBvn/BlYTe6WCURAQbRDHTHg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJa8QIi92fj7pps+SbGbNWhpds+MYyYuHI2hdTMlRY3OFzDmdV
+	+DLC8tSl0awsyf26Z3pUHie9D5l2I02blSCVNvTT6Kv4YyEUkSU3OzzVANpTRdVlXae9i6uv5kE
+	0iqFklHyZdrRROzhSQ7IoZqwTtnnAryMaGuQWYRNX0EiNnQGt4eAlZu0skFA=
+X-Google-Smtp-Source: AGHT+IHSDhpAfgj8NpXYE1+938IBzEeH6v2xujWW6bryC6W1Kbk/To6d4FkOrTPq7It6EsLEB7nSzYosBkgZ0W4B75A5ZUSymq+V
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251121111203.21800-2-adelodunolaoluwa@yahoo.com>
+X-Received: by 2002:a05:6808:2f14:b0:43d:2e06:4e84 with SMTP id
+ 5614622812f47-4535d2f36b5mr2523422b6e.13.1764705086559; Tue, 02 Dec 2025
+ 11:51:26 -0800 (PST)
+Date: Tue, 02 Dec 2025 11:51:26 -0800
+In-Reply-To: <690e2846.a70a0220.22f260.0057.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <692f433e.a70a0220.d98e3.01a3.GAE@google.com>
+Subject: Re: [syzbot] [ocfs2?] memory leak in ocfs2_new_path_from_path
+From: syzbot <syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, david.hunter.linux@gmail.com, david@redhat.com, 
+	dsterba@suse.com, jfs-discussion@lists.sourceforge.net, jlbec@evilplan.org, 
+	joseph.qi@linux.alibaba.com, khalid@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	mark@fasheh.com, ocfs2-devel@lists.linux.dev, 
+	penguin-kernel@i-love.sakura.ne.jp, shaggy@kernel.org, shivankg@amd.com, 
+	skhan@linuxfoundation.org, ssrane_b23@ee.vjti.ac.in, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 21, 2025 at 12:12:03PM +0100, Sunday Adelodun wrote:
-> The kernel-doc for binder_apply_fd_fixups() was missing a description of
-> its return value, which triggers a kernel-doc warning.
+syzbot has found a reproducer for the following issue on:
 
-How does one trigger this warning? Was there a report of this? Can you
-add the warning you see to the commit message?
+HEAD commit:    4a26e7032d7d Merge tag 'core-bugs-2025-12-01' of git://git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=111c14c2580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cbf343972ee89096
+dashboard link: https://syzkaller.appspot.com/bug?extid=cfc7cab3bb6eaa7c4de2
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16833512580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=151c14c2580000
 
-> 
-> Add the missing "Return:" entry to doc that the function returns 0 on
-> success or a negative errno on failure.
-> 
-> Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
-> ---
->  drivers/android/binder.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-> index a3a1b5c33ba3..535fc881c8da 100644
-> --- a/drivers/android/binder.c
-> +++ b/drivers/android/binder.c
-> @@ -4669,6 +4669,8 @@ static int binder_wait_for_work(struct binder_thread *thread,
->   *
->   * If we fail to allocate an fd, skip the install and release
->   * any fds that have already been allocated.
-> + *
-> + * Return: 0 on success, a negative errno code on failure.
->   */
->  static int binder_apply_fd_fixups(struct binder_proc *proc,
->  				  struct binder_transaction *t)
-> -- 
-> 2.43.0
->
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/3f4ff8b7d65f/disk-4a26e703.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2fbb585ef1ac/vmlinux-4a26e703.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/dfdc58db78d3/bzImage-4a26e703.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/ef2db83daf44/mount_0.gz
+  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=14cae192580000)
 
-Thanks,
-Carlos Llamas
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff8881292668a0 (size 96):
+  comm "syz.1.52", pid 6365, jiffies 4294945684
+  hex dump (first 32 bytes):
+    01 00 00 00 00 00 00 00 80 0e 31 82 ff ff ff ff  ..........1.....
+    50 e7 58 27 81 88 ff ff c0 54 eb 33 81 88 ff ff  P.X'.....T.3....
+  backtrace (crc d3d62878):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4983 [inline]
+    slab_alloc_node mm/slub.c:5288 [inline]
+    __kmalloc_cache_noprof+0x3a6/0x5b0 mm/slub.c:5766
+    kmalloc_noprof include/linux/slab.h:957 [inline]
+    kzalloc_noprof include/linux/slab.h:1094 [inline]
+    ocfs2_new_path fs/ocfs2/alloc.c:688 [inline]
+    ocfs2_new_path_from_path+0x4f/0x90 fs/ocfs2/alloc.c:702
+    ocfs2_get_left_path.constprop.0+0x182/0x390 fs/ocfs2/alloc.c:3491
+    ocfs2_merge_rec_left+0x426/0xe60 fs/ocfs2/alloc.c:3543
+    ocfs2_try_to_merge_extent+0x3cb/0xe90 fs/ocfs2/alloc.c:3794
+    ocfs2_split_extent+0xd2e/0x1330 fs/ocfs2/alloc.c:5139
+    ocfs2_change_extent_flag+0x2ed/0x720 fs/ocfs2/alloc.c:5230
+    ocfs2_mark_extent_written+0x1e3/0x2c0 fs/ocfs2/alloc.c:5276
+    ocfs2_dio_end_io_write+0x5bc/0xaa0 fs/ocfs2/aops.c:2350
+    ocfs2_dio_end_io+0x8c/0x180 fs/ocfs2/aops.c:2404
+    dio_complete+0x12e/0x4b0 fs/direct-io.c:281
+    __blockdev_direct_IO+0x1782/0x1b40 fs/direct-io.c:1303
+    ocfs2_direct_IO+0xf6/0x100 fs/ocfs2/aops.c:2441
+    generic_file_direct_write+0xb4/0x180 mm/filemap.c:4234
+    __generic_file_write_iter+0xa1/0x130 mm/filemap.c:4403
+    ocfs2_file_write_iter+0x68a/0x15a0 fs/ocfs2/file.c:2469
+
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
