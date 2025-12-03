@@ -1,56 +1,56 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC675322A15
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C3F32E733
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764782480; cv=none; b=aEQkZeDX/dsYPa7TN4ASqS86m5J+RtyHfwI+we4i9KwjEJaRCbL64ftvMtCUPTod48ELECS42A/MFGirhLR0P/eG/ny0GKP2EbFoWzM+8WL5g3yrWOMI4qCuWFzv3rYT9JhzfXY3/Cpn5jn5zykOSVTN0IuRzhLLaJ085jDKz9M=
+	t=1764782516; cv=none; b=Q9toaOe2mLSZYDhHRn+3+jPUYwUd4DsUDF0YzkyW80cQdpjWEnYV3jraqNcLxzgK7H/U/TM0WEtItx3+WOa0zVi8zX76O3+C1uZbm08XmzQplynl1erWopzbu8E4ploAm+47Y9s8NZ21vfHQk9BToMRGLjRpUA05Fs9x/+LxC1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764782480; c=relaxed/simple;
-	bh=fdJ1L0/KH9n0iTE1A7RSEbamakqwcU6zYyXHy3ANRI4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jG/kqP1Hfqj93tXT/6mLG25LgVsvOPiLgsqUj7x9mKgplk+M+mBbFLE50/q//Uh0RlfMz171o/yZA71vxREGAiT0BKuN0NoBdj/iRNWoEnwYxB5SCGv4CU/0fN4qq7daUh372rW/F3YwwgK9FHwGn1Eg7wSCrcaXNQC4shvZLGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VZh9a6rI; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1764782516; c=relaxed/simple;
+	bh=pg6AgbK+WXKqk6ICGUlF6ZoMbP2l9IhcXljfRVKs6Jo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=P9tkBedRLYhX0SW3FFs9nGlyF6fuvgoqsYcfzG5VQ+mUKNNVu3XSkOWldIa7RzTaAl1BrdtGya1kU0OwR9r8MtDQTeVeHb9Qkl7Hgrl3KHhKThseYSQBNlYhY7qghALJLBNTWAi8+RmalrT4p+JVR9J3VysaGzIGtsgyMtPqW/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/Nqr3Cl; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZh9a6rI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/Nqr3Cl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 07C9D8408E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:19 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5E9CB4097D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:54 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.792
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id xpRm3A5lDeAx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Dec 2025 17:21:18 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4095784061
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4095784061
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=VZh9a6rI
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4095784061
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:17 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id P9hgKcbWkTfu for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Dec 2025 17:21:53 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B00F640921
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B00F640921
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=W/Nqr3Cl
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B00F640921
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 17:21:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4E96641E4E;
-	Wed,  3 Dec 2025 17:21:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F62C4CEF5;
-	Wed,  3 Dec 2025 17:21:14 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 2238041E56;
+	Wed,  3 Dec 2025 17:21:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C779C4CEF5;
+	Wed,  3 Dec 2025 17:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764782477;
-	bh=fdJ1L0/KH9n0iTE1A7RSEbamakqwcU6zYyXHy3ANRI4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VZh9a6rIC2PaP9N63WFMRf7R4/uOew9c5w+J1GFFCHwyIHFVGI2YatylcPojxAiM3
-	 +6Fj0On6dIqa6pwlckcTCdpTmTkm7dN6ND5M6Cgek15pj2SeAQr4FB850TPRejG8y5
-	 Z5I3BzcJMKV++jGC4WReCDrF93KIM+uMw7DH6uPIPP5LAU2s1k2zFwK0njLeh+oxO6
-	 1dyRPy9vlnJR2WL7YUVDzhZBD+P2fDgoaXkPfQRlfHUVK2WxXoHwnCalaSHtWLKQDf
-	 Kf5QlQbjw++0TW4U6eM42SPhf+Xk0jbJEucT0yh1eadLgKyTuJvvmo61oQRhIISwD1
-	 pMiWM+X214CbA==
-Message-ID: <a0ae7bfa-9924-45b0-9d10-96b91eb17d0c@kernel.org>
-Date: Wed, 3 Dec 2025 18:21:12 +0100
+	s=k20201202; t=1764782513;
+	bh=pg6AgbK+WXKqk6ICGUlF6ZoMbP2l9IhcXljfRVKs6Jo=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=W/Nqr3ClPlgfGjJDfgCJmSNv8TBoB6Y0vWFHcIDFQfvQUrpVkkwINLCcOhsHqH8mJ
+	 WbjxAZepuBPGbjtYDY1UDq6vBimod87lrX9DLKgw+II+b+kmCXvXBRFz5PEp7Zr0su
+	 QBhdILCueSCPeZcY4MiATyF2blVG60v/5L0dElZhbJUfYpUVsWQJpUQKvnP9NQkjFj
+	 0sBUHytxw4loNG53nj6yLLGi2HHt7i7JViYBXWx764byCjok28ToYz4eOExAPw/I7J
+	 CO+T12oI28nwiGzxlwpZjugVaEB6yImRUi6zLikD69KOODVE6Req1QmBuafxjVYe4y
+	 qqdgiojkfKloQ==
+Message-ID: <a04e7622-e9a3-4088-89d4-285157321080@kernel.org>
+Date: Wed, 3 Dec 2025 18:21:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -59,6 +59,7 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Documentation: remoteproc: fix deadlink
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Soham Metha <sohammetha01@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 Cc: shuah@kernel.org, skhan@linuxfoundation.org,
@@ -68,7 +69,7 @@ Cc: shuah@kernel.org, skhan@linuxfoundation.org,
  <conor+dt@kernel.org>, linux-remoteproc@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20251203170702.42769-1-sohammetha01@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <a0ae7bfa-9924-45b0-9d10-96b91eb17d0c@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,26 +114,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251203170702.42769-1-sohammetha01@gmail.com>
+In-Reply-To: <a0ae7bfa-9924-45b0-9d10-96b91eb17d0c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/12/2025 18:07, Soham Metha wrote:
-> The binding file 'gpio-dsp-keystone.txt' has been converted to a DT schema.
-> The current binding is located at:
+On 03/12/2025 18:21, Krzysztof Kozlowski wrote:
+> On 03/12/2025 18:07, Soham Metha wrote:
+>> The binding file 'gpio-dsp-keystone.txt' has been converted to a DT schema.
+>> The current binding is located at:
+>>
+>>     Documentation/devicetree/bindings/gpio/ti,keystone-dsp-gpio.yaml
+>>
+>> This change was made in https://lore.kernel.org/all/20250714202850.3011952-1-robh@kernel.org/
+>> and merged in aff0a1701b020c8e6b172f28828fd4f3e6eed41a
 > 
->     Documentation/devicetree/bindings/gpio/ti,keystone-dsp-gpio.yaml
+> Drop this sentence and instead please use 'commit sha' syntax, see
+> checkpatch and submitting patches docs for details.
 > 
-> This change was made in https://lore.kernel.org/all/20250714202850.3011952-1-robh@kernel.org/
-> and merged in aff0a1701b020c8e6b172f28828fd4f3e6eed41a
+>>
+>> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+>> ---
+>>  .../devicetree/bindings/remoteproc/ti,keystone-rproc.txt        | 2 +-
 
-Drop this sentence and instead please use 'commit sha' syntax, see
-checkpatch and submitting patches docs for details.
+And:
 
-> 
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
-> ---
->  .../devicetree/bindings/remoteproc/ti,keystone-rproc.txt        | 2 +-
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
 
 Best regards,
 Krzysztof
