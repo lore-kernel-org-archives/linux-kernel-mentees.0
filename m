@@ -1,137 +1,129 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A9630F7F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B012324B26
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 19:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764788220; cv=none; b=CBzSlmalmRoHZvkOD7ufBKdQYCOfjpODq5yTMWjOP9mqh6n2v0llIeUKgCNjTa/6fPq2zb90iAUKk0joGO30kaic/MD7DcgeBW+Y/k7p0kVGTlJAR+naVeg3ziEB7met6aKNhkL1JF0uHa6M/9HFl5+DhVMchj9SS+Q9DfCVA14=
+	t=1764789481; cv=none; b=pgU4z1CCdQ7FBlbTVluPCuoLEZXmM5wjrd4AtQzxMu6gjDDgiDDBcUHnDEZeYSN/QTPxu51MYpyjgsFJVJw1A/5NJjHdwUQwwnraY53Al9aVj7weLzAYEXgr0KBhjrieonl3GiTsNsYlC8z5gFIe0gdqlIr2/H8Eh7BgLMRSzgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764788220; c=relaxed/simple;
-	bh=451eezjKzgyOtVuH33TiHjo9Apd1b2ad46/RYOa3TK4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=luAWFTcQK7sCdqqNrwf9yDwT9vstZJhBKHNF1amzF/LFGHETZ6d+u0OXi4sVaS/SsoGp9HqA4JD0LCNi0mvFE3Wp8NviE7hoMhlhqBmKR5gxwnm+m/SvvNjlW9TOXOBn9WSYQnceZnmxauliGZXwhooAF6wc62LQPfm0A1ka90U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hNuV8oQv; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1764789481; c=relaxed/simple;
+	bh=USnLm7GDkh/QWC1LY4TPnyHCbn78OxLiqiS2+bvZ9VI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uoPsNSS2XNirGw76iO+iO7YgCF3IBQBVviwVb1ruAlt35sMHT2DIEPoekghPnk4QgevOhnm8NhpsVPxmor8TOogktXcRyruiF2RW6r7byA/f8IYEMH2mNIjuAJKwLgoYX2rHQtDPl1VbdHspXQIIEB/Y9BIRtGycs+Qqa80Cz0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LmmtUmuJ; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hNuV8oQv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LmmtUmuJ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C89B4842A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:56:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D316160633
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 19:17:59 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: 1.486
 X-Spam-Level: *
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id DB0pdp90OYEx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Dec 2025 18:56:58 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 29F4A842A4
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 29F4A842A4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hNuV8oQv
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 29F4A842A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:56:58 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so56877b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 10:56:58 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 77opXqQismfA for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Dec 2025 19:17:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102b; helo=mail-pj1-x102b.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3237C6058D
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3237C6058D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LmmtUmuJ
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3237C6058D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 19:17:58 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-343ea89896eso28132a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 11:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764788217; x=1765393017; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=71E/ilkLBTqKwG0Dx6ylFmlxqv3BqJ7EmKi1/R6JSno=;
-        b=hNuV8oQvDCx5SXQ+fMxm0OvuMV2zLaDCBEiM8PgbNxcpSn2Pz091GFRsebOB8Lo96c
-         5bZElz18IAHCAYoDLJTlEhwg2PLF09Aj/zpS27H58rUuBULr+GL/+UV1vovq5DMBgkpY
-         z+FJUP3yC6pwFIoOfaY8YmX4QS4iEd5N+WMmhdG8puj3zL3KZL7XFHehSm+Ldp330KaB
-         c8Mtrnu2PsBZhOrZE4a6dBb5N+NYLBM8V4Wr1LMkBF8yWA17K94MqTgsaqwtAeW0il3q
-         H+gf6CNyt+z9MO1bcILt9TwG2fvaESsOP/OetftFlhcMfvJkrKVcIn17Gpgde/dRPxgR
-         aSdg==
+        d=gmail.com; s=20230601; t=1764789478; x=1765394278; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6iTv+jxCLMgJTqv4zJ35P8h4uCjs9494yiCOJzGvP0U=;
+        b=LmmtUmuJ2oouCLdx1QUSXI1wjn380yCR69vIkOkkUUNANc+KKI8y7mmCUxrPqB02u5
+         lIqIQId/XlZiUrZzkAVHWVsOg50TqFfN9F5efB0gQp6MbwnKQXFiByrCRIAMSsfKt5Ku
+         hOG6b8YIeWIOnCnPOSDXnbE8giqhpCOXbgU8KZ25lQDnO7f6oV6DqGhRIzXhip/usZyh
+         5GPTVdd3LaQiElnE9dGbI80pR2d6sp47OPrf4PFS2zlE7kGeOOa3BOh+ANDtAc6eciMG
+         sEbk3eU49QlREnkWQAXAGccQOfT572DFz3Dwdd4hwlb1z0igKeQ0/GVIrOFknL48I8G4
+         Lppw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764788217; x=1765393017;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=71E/ilkLBTqKwG0Dx6ylFmlxqv3BqJ7EmKi1/R6JSno=;
-        b=EPWGc51sWnyN1DqS3fW2Vuzbe9srvDe2Yg7HljZa8OYVsbUgrbFrAg8tBCLC7DmqaB
-         A1ORMYAOfXcOhjquBD+oUle3h98SyGy84s1G4NvOmVYi6mym49RUNhfr+xEln3xc7Sit
-         77ZlgImAOuJ8UEC0HSE4BhM9AGJVygbcSM/fJaFIJJ8wtxIbISwspVapgvqWtzg1iCHr
-         K4cv8mi0gfXwX50KO+2KjCxka9FXB5JS/mAbjx1bYdemSXDm6pkQ03hdfRwLwjOwNbE9
-         t5aX6fU+xvK0WigrArVwLQqDinquPXFahbuZSoETGywmsy9OuIqeWp2aObZV621qi6SJ
-         iDbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmdeWq98LKxCeFVfmSS7k34gA9WGEsTHxUuPfo+Nib97gL01xluTeIraHgQrl/IfkpC1ogsMA7QQvwfheWthOwLbcR9Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxpx2JDDNyTETry8yAe2Dh7HhH0M5z/90FQVaJqZdZY6IM/BqyT
-	Gf6+PJ51spO1Q6XOlwoVY3707EwVv2YctAV1tYGaaQ44hiej6bdxXE1s
-X-Gm-Gg: ASbGncs+kx/psvQS6xeUbIQm1hb72f90Zw06p90PkperLllYoBTnZf6cWyMS+dCkC/K
-	xcaCldglSwQDNySlbsVyRcBo4r7P4hp8/QXKjlJ+jGNd3B+WBiB78x0+EMa8IWWa6CEVxbfxu8M
-	zR8kGkY533lHU7epoTaSr24BKJRlVsqfIipRqUtBhBkNfh06bXLx1d2AyCYJx1s4B7gZp4fUZTq
-	uAi7zqTfi5jf2N5V4vZt53U2ZCRRvwFLWo39vQ9OU/HNrDIarPTxLpHuefxdHtV1Jt+7Sc/PCZu
-	4yMeF5P68WgaRvJ4BtfXNNg9Ixk7VCQ4fT9XKbONAX0/uEjYWD7mITZ6MqQeP2QR0iTbAGRgHie
-	hDyYyHk8rgllIK9qNMhfWEHmXZkJC7GTLtW0Ghy1bmfOebDNhRZyx7JlVL2oR7WPHHECXiO2/ST
-	2CGIggZCEtaPicJOtgk1J6IkDy0ATXFg==
-X-Google-Smtp-Source: AGHT+IFT6Akj8U+/fFusx2rop6IZ68mcqncMokm0DZX3RkEiNJb7fAdqG7Sl0CHQ1h6bv2pXck96VA==
-X-Received: by 2002:a05:6a00:a464:b0:7e1:730a:613b with SMTP id d2e1a72fcca58-7e1730a6f68mr1325466b3a.31.1764788217442;
-        Wed, 03 Dec 2025 10:56:57 -0800 (PST)
-Received: from [192.168.7.10] ([103.182.158.110])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d1518e5dacsm21036833b3a.23.2025.12.03.10.56.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 10:56:56 -0800 (PST)
-Message-ID: <d2dfa83a-80e3-4a89-b853-a88589ef0092@gmail.com>
-Date: Thu, 4 Dec 2025 00:26:50 +0530
+        d=1e100.net; s=20230601; t=1764789478; x=1765394278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6iTv+jxCLMgJTqv4zJ35P8h4uCjs9494yiCOJzGvP0U=;
+        b=KHCbfMAZf5mQe2Be0vXI6QxzssbhMAjKVERmJyWXSpXl8IUqnAQKaNwIvFRAKyV2y5
+         3WM4QzIQ6VqQc5x49GDUKBGkH4O1m0/NwDiT7dLnfb6wyLJbMyO5PhzdEGwSkbjJXN18
+         iklGecKps3Je4wo2IFhBLfOuDUirpvccw8K1MxSoIALdEbq4zGpGzrQoKom4UwbYKzKQ
+         6NoFsX0SL6pJQkwRYU2JDk2GhTNgT2ibj6db645Gwkr9Ti9wdTqON2/7gaghRS3uuDrg
+         lQoY4d8v/xa6+aA7J7MW91yogOQuxa2tiyNO83xwDE+k+HhMr5lKoyUIWS577z8k8s9/
+         AWmw==
+X-Gm-Message-State: AOJu0YyRv2nG3q9wBnEibOHrrC5amSVk3l6f9B1WhVisnEwTW1shTuu5
+	XoMqpW38fXUbycPP3IchGImXSXbkVF//ibifSsnEif4XAeq5c6RihQEyEXnx0vey
+X-Gm-Gg: ASbGncvU+sDMwZBumq0p2K4YrtTZzB4RIP5a/GjkLaK13B4b7gX4V4b+b7/9MUywtiG
+	epwtBFHhGONx1mxV4UPBCs/1fexvZvo8IsreHdgmo03Oe9ZDw30kbrH+Lu2jfE58qGKV6m+RbTJ
+	+AuO3C4ePfGeZ1/He1LzI+wl8Cw8qYnBcHx/uphuIs6j85P6oZGB9yd6GzzRxygY6KrVH+HSaDS
+	d57I4d3usLURSfdoniCPmJZBxGCc39HdRsXr+HRFIJL3iHimO/LJ7PSwtC0FU7f+CVWRQtozB2q
+	K/m+CC49D0FTbs/8Nh9Ukocz/Peba9B/ewlDfeapkwAAjgkNmIBC7RzmIfzrdz6rS6bLfJE2y9h
+	jCRh7Dz9NNB9ZInSWm4pg4ugTD9gdvVN8xbcUl/r4JlltBfrcPV4hP/af64R8kfDdrF0/gkQ7DK
+	yKGSTRBR87WQliUthVX6o=
+X-Google-Smtp-Source: AGHT+IFMir/v4p5eC22DpnDZcblBNCoUo8QfniyVutGYcK+UKapVvVN5phw0cR7NylgNr5IFljGhog==
+X-Received: by 2002:a17:90b:2f03:b0:343:6108:1706 with SMTP id 98e67ed59e1d1-349126895a7mr4245812a91.17.1764789477875;
+        Wed, 03 Dec 2025 11:17:57 -0800 (PST)
+Received: from soham-laptop.. ([103.182.158.110])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34930b5a195sm601293a91.3.2025.12.03.11.17.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 11:17:57 -0800 (PST)
+From: Soham Metha <sohammetha01@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Soham Metha <sohammetha01@gmail.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	=?UTF-8?q?Ricardo=20B=2E=20Marli=C3=A8re?= <ricardo@marliere.net>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] powerpc/mpic: Fix dead link to fsl/mpic.txt
+Date: Thu,  4 Dec 2025 00:47:05 +0530
+Message-Id: <20251203191706.58901-1-sohammetha01@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: remoteproc: Fix dead link to Keystone DSP
- GPIO binding
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-remoteproc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251203180337.50831-1-sohammetha01@gmail.com>
- <aab83a61-9d22-443c-92bc-d7caf1c8afac@kernel.org>
-Content-Language: en-US
-From: Soham Metha <sohammetha01@gmail.com>
-In-Reply-To: <aab83a61-9d22-443c-92bc-d7caf1c8afac@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Thank you for the feedback.
+Update the reference to the old 'fsl/mpic.txt' binding, which was removed in
+commit 326d25198112 ("dt-bindings: powerpc: Drop duplicate fsl/mpic.txt").
 
-On 04/12/25 00:05, Krzysztof Kozlowski wrote:
-> On 03/12/2025 19:03, Soham Metha wrote:
->> The old text binding 'gpio-dsp-keystone.txt' was replaced by a DT schema in
->> commit aff0a1701b020c8e6b172f28828fd4f3e6eed41a
-> 
-> Did you actually read what I asked? I think you just sent it too fast to
-> be able to read entire multi-page document. If you read it, you would
-> see that abbrev is 12 characters/digits.
-> 
+Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+---
+No functional changes.
 
-I did see the documentation mention that the abbreviation should use 
-at least 12 characters, but I didn’t notice any upper limit mentioned 
-in the text. Because of this wording, I assumed longer values were 
-acceptable.
+ arch/powerpc/sysdev/mpic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Should I send a v3 with a 12-character abbreviation?
+diff --git a/arch/powerpc/sysdev/mpic.c b/arch/powerpc/sysdev/mpic.c
+index ad7310bba00b..b6c7b7dc1622 100644
+--- a/arch/powerpc/sysdev/mpic.c
++++ b/arch/powerpc/sysdev/mpic.c
+@@ -1105,7 +1105,7 @@ static int mpic_host_xlate(struct irq_domain *h, struct device_node *ct,
+ 		 * First two cells are as usual.  Third specifies
+ 		 * an "interrupt type".  Fourth is type-specific data.
+ 		 *
+-		 * See Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
++		 * See Documentation/devicetree/bindings/interrupt-controller/chrp,open-pic.yaml
+ 		 */
+ 		switch (intspec[2]) {
+ 		case 0:
+-- 
+2.34.1
 
->> ("dt-bindings: gpio: Convert ti,keystone-dsp-gpio to DT schema").
->>
->> Update the reference to point to the new file.
-> 
-> This wasn't here before, no need to add obvious statements.
-> 
-> Best regards,
-> Krzysztof
-
---
-Soham
