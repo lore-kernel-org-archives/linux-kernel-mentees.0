@@ -1,118 +1,165 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D1F2E11D7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Dec 2025 19:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA51DF6C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  3 Dec 2025 13:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764705088; cv=none; b=cCwumSWILvdWeBqRzw4UPdK2x+zLLX0Y6VBpqq+ydhBjtY/UMZyVuJQuhR5Zz9OOxHMV7KYAE55EbJG24Noz7N58u2DCRNsofmmQJhzbSCYx0Dd4vImvetLTri6ttIX0WNbm+Am+tY3BgUeiD3876x1n5UgPrJGT7GJj6I8xx5M=
+	t=1764769978; cv=none; b=TR65T3J0sxmJz7FOsL043j+KvO3JzFqQ1mgsN8UniaS51cHw1/6dDC4DKlweyGLjyniC/WiKGtQ2qb7aQfxBLAUHCIDyOZlBOn11xX68zniHCPJ5ERyKQMXGnoka2zG3YjcibTOMFD+g4YQ0k/MXuWvsFwu8GKAenLkcM/+oAPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764705088; c=relaxed/simple;
-	bh=fwCFv2z9e223jg0pAovRQ9E+1W1x3hd5ePnE3QF9fis=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=R9wP5ZdIlKtJZBocHU8s8qYIDfweam7OjpitE7j+PkzJ4XexEKSu2isnmaYATDjRkrSe+vaW2y4q3sSDGbOCIGvSFQBpHcskxIIdzsFOSP0KtsEZ4SP3CCgOL0EXNFAKer+4zgXuAsHDOUXQgBd9LimSTZmYAwEnci708QeQ7Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-450da1dcd2dso311471b6e.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 02 Dec 2025 11:51:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764705086; x=1765309886;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vrTA8/Ib4dqg468mg7sXdU5lKN1300g4eFvAGgrlg20=;
-        b=XNZIh3lSlKe3lzNbqq2gGdVsOuwyZqrfs/r1sl3+CvSI3FSXyqhNI765bempJRsVYo
-         S8+lGPBkFZKCWCVKcueb6oRn6fxvzw4rW+4Y2yi6d6Ldt45nhpXfJxkDMRTW6UiE5WXP
-         9VCfSScS9JHi7zwvtA4XUkCxu24L04asN7B1O0o6ENbbONQr13ZFGMcwkxIM/T18Sb8B
-         bpiyacQCX+nMGjO0t3xzeNWa2ejE8s6ruOewfeZUjVBgIVlKdMG4DZUNZmizeIrBtuao
-         aUVKDwSZ6/i6/3HlDHAY+JyCulgJd7b7qjIqqHIoG7zsh+eLielL8yl89nFUxzVQD/CU
-         3hwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVAeavZYPaD9PaOYzw8FKNKox7ItBiZnLQlKDlKP2FERZXmEHCf3NQEqs6lXckTPeSKqgIBvn/BlYTe6WCURAQbRDHTHg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJa8QIi92fj7pps+SbGbNWhpds+MYyYuHI2hdTMlRY3OFzDmdV
-	+DLC8tSl0awsyf26Z3pUHie9D5l2I02blSCVNvTT6Kv4YyEUkSU3OzzVANpTRdVlXae9i6uv5kE
-	0iqFklHyZdrRROzhSQ7IoZqwTtnnAryMaGuQWYRNX0EiNnQGt4eAlZu0skFA=
-X-Google-Smtp-Source: AGHT+IHSDhpAfgj8NpXYE1+938IBzEeH6v2xujWW6bryC6W1Kbk/To6d4FkOrTPq7It6EsLEB7nSzYosBkgZ0W4B75A5ZUSymq+V
+	s=arc-20240116; t=1764769978; c=relaxed/simple;
+	bh=iJbMxEQ9KJpTvPN+2PQqEYTSPK3xO4X8CyvtwKXMehw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hawQ5OGZx9etLbFfnugTMfITidOIt7WA6+vBlUOcTIrZbxRu2UOFo7Lv9pRs23NL1xXlij9orRdhsN1f6cDTjr2nuTDvyUdivSvxQNBVNCGRNJc8Dlr38HtIiH73mOj19n42f2QWs2uydAwOvTgpfAVp4dhvADMoJ8PKJvhjehc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BLayJuEn; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BLayJuEn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764769975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J4fKd3XETzmPiJvqAM1yYm/oyS3lsGvYrwgCa3QS6rc=;
+	b=BLayJuEnZn9TzWCM3OMCNgDy39wItRfmMoZpC6HZHb1IQKMbUUIlVo2JKqqvarB3m8joB4
+	C7fZEZLRS7a18judgaXwmTGze1goSMNE/BxpNf0e2PRTsirNCCzQane/32g5T0k64LPyD5
+	EfkJ4eSetG1lYCY3IZ/A+Z8cgbl8kuE=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-91EOFT0ZOZi4GHrpEfqSeA-1; Wed,
+ 03 Dec 2025 08:52:52 -0500
+X-MC-Unique: 91EOFT0ZOZi4GHrpEfqSeA-1
+X-Mimecast-MFC-AGG-ID: 91EOFT0ZOZi4GHrpEfqSeA_1764769970
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC67E195605B;
+	Wed,  3 Dec 2025 13:52:49 +0000 (UTC)
+Received: from thinkpad (unknown [10.44.32.234])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA0C119560A7;
+	Wed,  3 Dec 2025 13:52:43 +0000 (UTC)
+Date: Wed, 3 Dec 2025 14:52:39 +0100
+From: Felix Maurer <fmaurer@redhat.com>
+To: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jaakko Karrenpalo <jkarrenpalo@gmail.com>,
+	Arvid Brodin <arvid.brodin@alten.se>, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	khalid@kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH net v3] net/hsr: fix NULL pointer dereference in
+ prp_get_untagged_frame()
+Message-ID: <aTBAp3axHXSkrYKO@thinkpad>
+References: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2f14:b0:43d:2e06:4e84 with SMTP id
- 5614622812f47-4535d2f36b5mr2523422b6e.13.1764705086559; Tue, 02 Dec 2025
- 11:51:26 -0800 (PST)
-Date: Tue, 02 Dec 2025 11:51:26 -0800
-In-Reply-To: <690e2846.a70a0220.22f260.0057.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <692f433e.a70a0220.d98e3.01a3.GAE@google.com>
-Subject: Re: [syzbot] [ocfs2?] memory leak in ocfs2_new_path_from_path
-From: syzbot <syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, david.hunter.linux@gmail.com, david@redhat.com, 
-	dsterba@suse.com, jfs-discussion@lists.sourceforge.net, jlbec@evilplan.org, 
-	joseph.qi@linux.alibaba.com, khalid@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	mark@fasheh.com, ocfs2-devel@lists.linux.dev, 
-	penguin-kernel@i-love.sakura.ne.jp, shaggy@kernel.org, shivankg@amd.com, 
-	skhan@linuxfoundation.org, ssrane_b23@ee.vjti.ac.in, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-syzbot has found a reproducer for the following issue on:
+On Sat, Nov 29, 2025 at 03:07:18PM +0530, Shaurya Rane wrote:
+> prp_get_untagged_frame() calls __pskb_copy() to create frame->skb_std
+> but doesn't check if the allocation failed. If __pskb_copy() returns
+> NULL, skb_clone() is called with a NULL pointer, causing a crash:
+> Oops: general protection fault, probably for non-canonical address 0xdffffc000000000f: 0000 [#1] SMP KASAN NOPTI
+> KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
+> CPU: 0 UID: 0 PID: 5625 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full)
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+> RIP: 0010:skb_clone+0xd7/0x3a0 net/core/skbuff.c:2041
+> Code: 03 42 80 3c 20 00 74 08 4c 89 f7 e8 23 29 05 f9 49 83 3e 00 0f 85 a0 01 00 00 e8 94 dd 9d f8 48 8d 6b 7e 49 89 ee 49 c1 ee 03 <43> 0f b6 04 26 84 c0 0f 85 d1 01 00 00 44 0f b6 7d 00 41 83 e7 0c
+> RSP: 0018:ffffc9000d00f200 EFLAGS: 00010207
+> RAX: ffffffff892235a1 RBX: 0000000000000000 RCX: ffff88803372a480
+> RDX: 0000000000000000 RSI: 0000000000000820 RDI: 0000000000000000
+> RBP: 000000000000007e R08: ffffffff8f7d0f77 R09: 1ffffffff1efa1ee
+> R10: dffffc0000000000 R11: fffffbfff1efa1ef R12: dffffc0000000000
+> R13: 0000000000000820 R14: 000000000000000f R15: ffff88805144cc00
+> FS:  0000555557f6d500(0000) GS:ffff88808d72f000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000555581d35808 CR3: 000000005040e000 CR4: 0000000000352ef0
+> Call Trace:
+>  <TASK>
+>  hsr_forward_do net/hsr/hsr_forward.c:-1 [inline]
+>  hsr_forward_skb+0x1013/0x2860 net/hsr/hsr_forward.c:741
+>  hsr_handle_frame+0x6ce/0xa70 net/hsr/hsr_slave.c:84
+>  __netif_receive_skb_core+0x10b9/0x4380 net/core/dev.c:5966
+>  __netif_receive_skb_one_core net/core/dev.c:6077 [inline]
+>  __netif_receive_skb+0x72/0x380 net/core/dev.c:6192
+>  netif_receive_skb_internal net/core/dev.c:6278 [inline]
+>  netif_receive_skb+0x1cb/0x790 net/core/dev.c:6337
+>  tun_rx_batched+0x1b9/0x730 drivers/net/tun.c:1485
+>  tun_get_user+0x2b65/0x3e90 drivers/net/tun.c:1953
+>  tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1999
+>  new_sync_write fs/read_write.c:593 [inline]
+>  vfs_write+0x5c9/0xb30 fs/read_write.c:686
+>  ksys_write+0x145/0x250 fs/read_write.c:738
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f0449f8e1ff
+> Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 f9 92 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 4c 93 02 00 48
+> RSP: 002b:00007ffd7ad94c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+> RAX: ffffffffffffffda RBX: 00007f044a1e5fa0 RCX: 00007f0449f8e1ff
+> RDX: 000000000000003e RSI: 0000200000000500 RDI: 00000000000000c8
+> RBP: 00007ffd7ad94d20 R08: 0000000000000000 R09: 0000000000000000
+> R10: 000000000000003e R11: 0000000000000293 R12: 0000000000000001
+> R13: 00007f044a1e5fa0 R14: 00007f044a1e5fa0 R15: 0000000000000003
+>  </TASK>
+> Add a NULL check immediately after __pskb_copy() to handle allocation
+> failures gracefully.
 
-HEAD commit:    4a26e7032d7d Merge tag 'core-bugs-2025-12-01' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=111c14c2580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cbf343972ee89096
-dashboard link: https://syzkaller.appspot.com/bug?extid=cfc7cab3bb6eaa7c4de2
-compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16833512580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=151c14c2580000
+Thank you, the fix looks good to me. Just a small nit pick (this can
+probably be done when applying): please add the empty lines around the
+trace again. Other than that:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/3f4ff8b7d65f/disk-4a26e703.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2fbb585ef1ac/vmlinux-4a26e703.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/dfdc58db78d3/bzImage-4a26e703.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/ef2db83daf44/mount_0.gz
-  fsck result: OK (log: https://syzkaller.appspot.com/x/fsck.log?x=14cae192580000)
+Reviewed-by: Felix Maurer <fmaurer@redhat.com>
+Tested-by: Felix Maurer <fmaurer@redhat.com>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cfc7cab3bb6eaa7c4de2@syzkaller.appspotmail.com
+> Reported-by: syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=2fa344348a579b779e05
+> Fixes: f266a683a480 ("net/hsr: Better frame dispatch")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+> ---
+> v3:
+>   - Keep only prp_get_untagged_frame() fix as the other two
+>     NETIF_F_HW_HSR_TAG_INS checks are not needed for this bug
+>   - Move NULL check immediately after __pskb_copy() call
+>
+> v2:
+>   - Add stack trace to commit message
+>   - Target net tree with [PATCH net]
+>   - Add Cc: stable@vger.kernel.org
+> ---
+>  net/hsr/hsr_forward.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/net/hsr/hsr_forward.c b/net/hsr/hsr_forward.c
+> index 339f0d220212..aefc9b6936ba 100644
+> --- a/net/hsr/hsr_forward.c
+> +++ b/net/hsr/hsr_forward.c
+> @@ -205,6 +205,8 @@ struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
+>  				__pskb_copy(frame->skb_prp,
+>  					    skb_headroom(frame->skb_prp),
+>  					    GFP_ATOMIC);
+> +			if (!frame->skb_std)
+> +				return NULL;
+>  		} else {
+>  			/* Unexpected */
+>  			WARN_ONCE(1, "%s:%d: Unexpected frame received (port_src %s)\n",
+> --
+> 2.34.1
+>
 
-BUG: memory leak
-unreferenced object 0xffff8881292668a0 (size 96):
-  comm "syz.1.52", pid 6365, jiffies 4294945684
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 80 0e 31 82 ff ff ff ff  ..........1.....
-    50 e7 58 27 81 88 ff ff c0 54 eb 33 81 88 ff ff  P.X'.....T.3....
-  backtrace (crc d3d62878):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4983 [inline]
-    slab_alloc_node mm/slub.c:5288 [inline]
-    __kmalloc_cache_noprof+0x3a6/0x5b0 mm/slub.c:5766
-    kmalloc_noprof include/linux/slab.h:957 [inline]
-    kzalloc_noprof include/linux/slab.h:1094 [inline]
-    ocfs2_new_path fs/ocfs2/alloc.c:688 [inline]
-    ocfs2_new_path_from_path+0x4f/0x90 fs/ocfs2/alloc.c:702
-    ocfs2_get_left_path.constprop.0+0x182/0x390 fs/ocfs2/alloc.c:3491
-    ocfs2_merge_rec_left+0x426/0xe60 fs/ocfs2/alloc.c:3543
-    ocfs2_try_to_merge_extent+0x3cb/0xe90 fs/ocfs2/alloc.c:3794
-    ocfs2_split_extent+0xd2e/0x1330 fs/ocfs2/alloc.c:5139
-    ocfs2_change_extent_flag+0x2ed/0x720 fs/ocfs2/alloc.c:5230
-    ocfs2_mark_extent_written+0x1e3/0x2c0 fs/ocfs2/alloc.c:5276
-    ocfs2_dio_end_io_write+0x5bc/0xaa0 fs/ocfs2/aops.c:2350
-    ocfs2_dio_end_io+0x8c/0x180 fs/ocfs2/aops.c:2404
-    dio_complete+0x12e/0x4b0 fs/direct-io.c:281
-    __blockdev_direct_IO+0x1782/0x1b40 fs/direct-io.c:1303
-    ocfs2_direct_IO+0xf6/0x100 fs/ocfs2/aops.c:2441
-    generic_file_direct_write+0xb4/0x180 mm/filemap.c:4234
-    __generic_file_write_iter+0xa1/0x130 mm/filemap.c:4403
-    ocfs2_file_write_iter+0x68a/0x15a0 fs/ocfs2/file.c:2469
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
