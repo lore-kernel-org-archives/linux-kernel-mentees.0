@@ -1,165 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA51DF6C
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  3 Dec 2025 13:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8554335581E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 16:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764769978; cv=none; b=TR65T3J0sxmJz7FOsL043j+KvO3JzFqQ1mgsN8UniaS51cHw1/6dDC4DKlweyGLjyniC/WiKGtQ2qb7aQfxBLAUHCIDyOZlBOn11xX68zniHCPJ5ERyKQMXGnoka2zG3YjcibTOMFD+g4YQ0k/MXuWvsFwu8GKAenLkcM/+oAPs=
+	t=1764778654; cv=none; b=tP+ewN+1l4cG0x0kGuVCO2d9nl7o7HrxXFAypw8Btlr0ZA2UiBzPIKdZTf39AkIyEv11F5Mc8uwXeN2Zfda8ODaIa4cKcrmEcaS17YP/kqZpPBdf7QH3mKRP7JQBUIEdbqKU++biNEzWG19XNBlx6I1dzsSEs7gWK71wgmJVKZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764769978; c=relaxed/simple;
-	bh=iJbMxEQ9KJpTvPN+2PQqEYTSPK3xO4X8CyvtwKXMehw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hawQ5OGZx9etLbFfnugTMfITidOIt7WA6+vBlUOcTIrZbxRu2UOFo7Lv9pRs23NL1xXlij9orRdhsN1f6cDTjr2nuTDvyUdivSvxQNBVNCGRNJc8Dlr38HtIiH73mOj19n42f2QWs2uydAwOvTgpfAVp4dhvADMoJ8PKJvhjehc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BLayJuEn; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1764778654; c=relaxed/simple;
+	bh=m7wvzK8n8mmykCuV2D/oT25NmE4Ik+3Vyjk+3fY7zpE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tLBzLbbsn/C4EoddFDK6xl2ucbGwWyrpnn+jPsGe/qQXODAXU7V5MAzReXcjQ5gp6C6vbWi7Nqf/JDzpLpkMP9XxNp0ub5Zaqvs2Ro60Qaprb5iUbETHPSrHUQm1LyjW+RvsgaMAIbgfqm0WKA6o8hRge3vn1F8mFE30iegx//I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hmQZXnzn; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BLayJuEn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764769975;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J4fKd3XETzmPiJvqAM1yYm/oyS3lsGvYrwgCa3QS6rc=;
-	b=BLayJuEnZn9TzWCM3OMCNgDy39wItRfmMoZpC6HZHb1IQKMbUUIlVo2JKqqvarB3m8joB4
-	C7fZEZLRS7a18judgaXwmTGze1goSMNE/BxpNf0e2PRTsirNCCzQane/32g5T0k64LPyD5
-	EfkJ4eSetG1lYCY3IZ/A+Z8cgbl8kuE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-91EOFT0ZOZi4GHrpEfqSeA-1; Wed,
- 03 Dec 2025 08:52:52 -0500
-X-MC-Unique: 91EOFT0ZOZi4GHrpEfqSeA-1
-X-Mimecast-MFC-AGG-ID: 91EOFT0ZOZi4GHrpEfqSeA_1764769970
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DC67E195605B;
-	Wed,  3 Dec 2025 13:52:49 +0000 (UTC)
-Received: from thinkpad (unknown [10.44.32.234])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DA0C119560A7;
-	Wed,  3 Dec 2025 13:52:43 +0000 (UTC)
-Date: Wed, 3 Dec 2025 14:52:39 +0100
-From: Felix Maurer <fmaurer@redhat.com>
-To: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jaakko Karrenpalo <jkarrenpalo@gmail.com>,
-	Arvid Brodin <arvid.brodin@alten.se>, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
-	khalid@kernel.org, netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hmQZXnzn"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 150764115E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 16:17:32 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 1.486
+X-Spam-Level: *
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Xrub9rBFWyWJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Dec 2025 16:17:31 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6154341153
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6154341153
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hmQZXnzn
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6154341153
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 16:17:31 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-b9f1d0126e6so482880a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 08:17:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764778650; x=1765383450; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4FWWbLf21dMPxikVgw/00BlP8I6uMMKHQua6OrQ6Ro=;
+        b=hmQZXnzn56fCQqwFdMu8uWLxi2xuDHUawzUCfiE9q34QClkFuNVO7/Ljzng15u17GX
+         tSPjqr4/5kUvkS6akOhe7hePZD9xhZmxAp4Cbg7fqzK8jKa0IXDxdyEs/KD9MwTCfk3M
+         YKiaabdgF1GQvLwha3W8nXxxGPWFjZVRGjUe8mpCpHe1c7FEz17Wp3j8T2RqY32qLWd9
+         YFNNWLIt+mLtyU05LMZC0eVquDFMk/V1ZLZUvHd1+sLflZnOK5TF69a3/rEins32byX+
+         Dj438BHhWQYhFekXGgUdhCzZmCRu5h7KF+B0pF/OH7o1vk188VS0HzQX+vE3qsbdB2lX
+         9RpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764778650; x=1765383450;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f4FWWbLf21dMPxikVgw/00BlP8I6uMMKHQua6OrQ6Ro=;
+        b=MLAiS76Sw+lTp4hqv3pcz2zv4Xj0wWAB8lgVzywyyMmkCjbOG0r6PBbgsrgFvWddTZ
+         3rlitY6JwEV1bIAtTw0XXHuqv3iXRfZIQBBF9JNTWnDv/Tj9yo6q7Ex2zvHvMJ2x3sYe
+         DaZ0eOAkcgCN5kkYwfrANowk5gtIJkwqlgiaI0ZLm0IPVJPK5Q5959ALcpI0a1IdrX4I
+         wjieezla+RoQ0u0+AvVjkxS+fsGixSbRn81WY/KGn/qSR8PcClPu64h0zTI+1mBQIKeL
+         1SA8+cXo+Tpzxak1KcagEUvQKd9nNgY/fZ8IUnuezBW+3qEWGHIotGAwXo76RVTR6CeR
+         mP5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVNqcHhl8sbNcpdt40S1hBLqc2SY2JR+SNW+0+emaFAzkjrmqz0oEuLIRJWLUo5AIxE8gvf1adfrBGYhYwtri2DKg5/qw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwxCZbp0PaxK8pNk0H9Y/qNIJksb5cS4XifxcRUsoMuuXcNKfiN
+	bqhxWEwnzUlpMNW1af9QWHDvLSrZ98AfPMtkqkfljefAr+wW17Yxfrzk
+X-Gm-Gg: ASbGnct3xhJAb43jQUtZIlOYC10Wr+1i2+MVNFpivmK3TgsX5W/65CrfSSlqdfyYukg
+	UgAVzS4fkSdFO26atkK+UKwR/mZC8vgklt9+FO+fiPF+glshJHHDYUjYpm8M9R5Nb7ZCAKDNBka
+	KaDt37Jqn5vChSB/zm/n3IMa+zkwJzwi9E+a8eTo1a2K1twfp+tG5QxXo/b9+HMvnDQPqbc+SMS
+	49GDGEZJYxlHWylgqK07QNdBuXHMPFsWwaiWCv4ZLUH3a9FuZRi4KRELtYCkgVBS7pmu89ysQzZ
+	bnaF30O/Pvf2EXbPkkidgvF8/xl01OJ7fiKXE8ft4+2EQMX1fJr5myp8/KSRf15vS0eHz7FQloc
+	WY4sa2Zcn+iFye8pq51VKa3HEqEI1ei5OOsNjeuj2V9V+4J1NsK+NpsJhumOeHQEBX5UUHYkufz
+	s19WAI8goMqSzyoC0rqko=
+X-Google-Smtp-Source: AGHT+IG0wf1CCleit4IgAC/R6vQH2LL9zvgHeUegQMPxsBffDavDd2CxDbNg/AX41E+TrhXK6iC8Ww==
+X-Received: by 2002:a17:90b:4fc3:b0:32e:2fa7:fe6b with SMTP id 98e67ed59e1d1-349127fdf70mr3304990a91.14.1764778650381;
+        Wed, 03 Dec 2025 08:17:30 -0800 (PST)
+Received: from soham-laptop.. ([103.182.158.110])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34912d1765fsm1117975a91.9.2025.12.03.08.17.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 08:17:29 -0800 (PST)
+From: Soham Metha <sohammetha01@gmail.com>
+To: linux-kselftest@vger.kernel.org
+Cc: shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net v3] net/hsr: fix NULL pointer dereference in
- prp_get_untagged_frame()
-Message-ID: <aTBAp3axHXSkrYKO@thinkpad>
-References: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
+	Soham Metha <sohammetha01@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: arm: keystone: fix deadlink
+Date: Wed,  3 Dec 2025 21:45:32 +0530
+Message-Id: <20251203161534.37414-1-sohammetha01@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 29, 2025 at 03:07:18PM +0530, Shaurya Rane wrote:
-> prp_get_untagged_frame() calls __pskb_copy() to create frame->skb_std
-> but doesn't check if the allocation failed. If __pskb_copy() returns
-> NULL, skb_clone() is called with a NULL pointer, causing a crash:
-> Oops: general protection fault, probably for non-canonical address 0xdffffc000000000f: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
-> CPU: 0 UID: 0 PID: 5625 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full)
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-> RIP: 0010:skb_clone+0xd7/0x3a0 net/core/skbuff.c:2041
-> Code: 03 42 80 3c 20 00 74 08 4c 89 f7 e8 23 29 05 f9 49 83 3e 00 0f 85 a0 01 00 00 e8 94 dd 9d f8 48 8d 6b 7e 49 89 ee 49 c1 ee 03 <43> 0f b6 04 26 84 c0 0f 85 d1 01 00 00 44 0f b6 7d 00 41 83 e7 0c
-> RSP: 0018:ffffc9000d00f200 EFLAGS: 00010207
-> RAX: ffffffff892235a1 RBX: 0000000000000000 RCX: ffff88803372a480
-> RDX: 0000000000000000 RSI: 0000000000000820 RDI: 0000000000000000
-> RBP: 000000000000007e R08: ffffffff8f7d0f77 R09: 1ffffffff1efa1ee
-> R10: dffffc0000000000 R11: fffffbfff1efa1ef R12: dffffc0000000000
-> R13: 0000000000000820 R14: 000000000000000f R15: ffff88805144cc00
-> FS:  0000555557f6d500(0000) GS:ffff88808d72f000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000555581d35808 CR3: 000000005040e000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  hsr_forward_do net/hsr/hsr_forward.c:-1 [inline]
->  hsr_forward_skb+0x1013/0x2860 net/hsr/hsr_forward.c:741
->  hsr_handle_frame+0x6ce/0xa70 net/hsr/hsr_slave.c:84
->  __netif_receive_skb_core+0x10b9/0x4380 net/core/dev.c:5966
->  __netif_receive_skb_one_core net/core/dev.c:6077 [inline]
->  __netif_receive_skb+0x72/0x380 net/core/dev.c:6192
->  netif_receive_skb_internal net/core/dev.c:6278 [inline]
->  netif_receive_skb+0x1cb/0x790 net/core/dev.c:6337
->  tun_rx_batched+0x1b9/0x730 drivers/net/tun.c:1485
->  tun_get_user+0x2b65/0x3e90 drivers/net/tun.c:1953
->  tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1999
->  new_sync_write fs/read_write.c:593 [inline]
->  vfs_write+0x5c9/0xb30 fs/read_write.c:686
->  ksys_write+0x145/0x250 fs/read_write.c:738
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f0449f8e1ff
-> Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 f9 92 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 4c 93 02 00 48
-> RSP: 002b:00007ffd7ad94c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
-> RAX: ffffffffffffffda RBX: 00007f044a1e5fa0 RCX: 00007f0449f8e1ff
-> RDX: 000000000000003e RSI: 0000200000000500 RDI: 00000000000000c8
-> RBP: 00007ffd7ad94d20 R08: 0000000000000000 R09: 0000000000000000
-> R10: 000000000000003e R11: 0000000000000293 R12: 0000000000000001
-> R13: 00007f044a1e5fa0 R14: 00007f044a1e5fa0 R15: 0000000000000003
->  </TASK>
-> Add a NULL check immediately after __pskb_copy() to handle allocation
-> failures gracefully.
+The binding file 'keystone.txt' has been converted to a DT schema.
+The current binding is located at:
 
-Thank you, the fix looks good to me. Just a small nit pick (this can
-probably be done when applying): please add the empty lines around the
-trace again. Other than that:
+    Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml
 
-Reviewed-by: Felix Maurer <fmaurer@redhat.com>
-Tested-by: Felix Maurer <fmaurer@redhat.com>
+This change was made in https://lore.kernel.org/all/20250806212824.1635084-1-robh@kernel.org/
+and merged in commit '20b3c9a403ee23e57a7e6bf5370ca438c3cd2e99'
 
-> Reported-by: syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2fa344348a579b779e05
-> Fixes: f266a683a480 ("net/hsr: Better frame dispatch")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-> ---
-> v3:
->   - Keep only prp_get_untagged_frame() fix as the other two
->     NETIF_F_HW_HSR_TAG_INS checks are not needed for this bug
->   - Move NULL check immediately after __pskb_copy() call
->
-> v2:
->   - Add stack trace to commit message
->   - Target net tree with [PATCH net]
->   - Add Cc: stable@vger.kernel.org
-> ---
->  net/hsr/hsr_forward.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/net/hsr/hsr_forward.c b/net/hsr/hsr_forward.c
-> index 339f0d220212..aefc9b6936ba 100644
-> --- a/net/hsr/hsr_forward.c
-> +++ b/net/hsr/hsr_forward.c
-> @@ -205,6 +205,8 @@ struct sk_buff *prp_get_untagged_frame(struct hsr_frame_info *frame,
->  				__pskb_copy(frame->skb_prp,
->  					    skb_headroom(frame->skb_prp),
->  					    GFP_ATOMIC);
-> +			if (!frame->skb_std)
-> +				return NULL;
->  		} else {
->  			/* Unexpected */
->  			WARN_ONCE(1, "%s:%d: Unexpected frame received (port_src %s)\n",
-> --
-> 2.34.1
->
+Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+---
+ Documentation/arch/arm/keystone/overview.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/arch/arm/keystone/overview.rst b/Documentation/arch/arm/keystone/overview.rst
+index cd90298c493c..bf791b2fc43f 100644
+--- a/Documentation/arch/arm/keystone/overview.rst
++++ b/Documentation/arch/arm/keystone/overview.rst
+@@ -65,7 +65,7 @@ specified through DTS. Following are the DTS used:
+ 
+ The device tree documentation for the keystone machines are located at
+ 
+-        Documentation/devicetree/bindings/arm/keystone/keystone.txt
++        Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml
+ 
+ Document Author
+ ---------------
+-- 
+2.34.1
 
