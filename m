@@ -1,126 +1,136 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1A430749A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9314A31D72D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764786097; cv=none; b=YNU3dOPALa+akUrm3DFZRImdkyzVtZcKBLK+X8x07wpqdU1pNmNl9gSLMD0tAgR6shtEN2JVLvGVlezVIQb7kWg/rKHi+iij/nqJWGbiHzxDgLLBW/dkrMSthk2oztWNXudzbfAVjfpEu72LwbVD6ippzkg4PFJzrZLqhaN5em0=
+	t=1764786934; cv=none; b=sbRh7aiWzmjBCI4Ob4L7bs7tcpEGNMqmcqIPGcCvt9iaTlsdGPTYPdfxxEhdcDVZXksLuKcbrTcPzsjgRwVc/j/YH5VIkRC5N2mKs2uGgyTyVxMaKHAIQS4dL/jS/Cmpyb7795PWXAZ+Et9Dz/7C6zjh8mCtM1oJECKimxTTuFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764786097; c=relaxed/simple;
-	bh=XJ1xcMRdMwOsGfdAXpF2A69QXd/Mrs7f+S0GwB+Q0zA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tK40/bAlm1tYeypIRiBcSKZYphyxpWfA58BC+bbBFyLm/u5EBESSRLMf1kifNt8OwiipFVZDaIUXQeOxWpmN9KiNZYumDuqKpeVQTMs1RQqyWoS9mTnMMzofQpSZnRJ6vaBpQzsyoVBDxl5I2DwOHjzfwkusZHcLThP8ppknkaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=liA8g/9x; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1764786934; c=relaxed/simple;
+	bh=XlN+kiDIheSOouKZGlmhhmpbswiYumcvUrppuJjzNj8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWxMUaJ4NAax9VBm03znDTj/l2B8SElKMOwcL08rNLkEGNGnt22xOmR3USudsEL2RBHmIleFUwPQ8jRiyT1D5GUxjIRf9DQYDrcNLaAm1hrQb7AA6Ifxc0YbLkFjNafhl6dRf75Q1dSBoLOjhmtS4vdXbE6JG0gAY7wcgn0aQ2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWMd+ew2; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="liA8g/9x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWMd+ew2"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 42AF48217A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:21:36 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4A4E94072B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:35:31 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 1.486
-X-Spam-Level: *
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 8gYLrzlkaa5l for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Dec 2025 18:21:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B245A81CDC
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B245A81CDC
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=liA8g/9x
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B245A81CDC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:21:35 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-29555b384acso844795ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 10:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764786094; x=1765390894; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TA5KgmV06QkZagHSOWVDNWdYVxZvmkjGyikqKY+khMg=;
-        b=liA8g/9xhHCewJDO8RiQdhzuuAxpNl9VSQtaeKL6UpD/ilYeqESxvg8tyJPs59i/Kt
-         Qj7Y2FL5U3wYjfHvBt3J0tQ2F9Jqad9Oh7rEHbWffCHzFeeVCsbrujHcGdHwI+cYFhma
-         nQXJb5GGDCSAFCx6VMGmzmdyUZw9tcXJRKxHNCKzM+SaMgNBbbRaf7dVDnzFVJlxTc4n
-         qVQ8u8lgVOJu2KqQCkSK/s2ZikF2a0rD2A+MQhSI7bydlEwSIkNPC3W0JXXY7BjMIXfH
-         /nOm04OPwkwKAN4Hh7//P0UiA1l6HUpY/VGKO2JN2ONtDktgCJ/MDc1pEBdnPKOvgsPj
-         B61Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764786094; x=1765390894;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TA5KgmV06QkZagHSOWVDNWdYVxZvmkjGyikqKY+khMg=;
-        b=MhTM/RpH+UmJp49cXVTJRBaTo6Bwxt3dSfl1Y7zvt0bIBIAxC06gsL0dguuPtZXKBV
-         mlVXtNunl54VASoEuvGiQ7s775o4hb1dUAfUHAxeaG2JgKefIEDVmqHEEphjwem39v1a
-         THE0r2ckmHbS4D2REzHj/9VslkkZkcccu9UWHzhJ6T9LE4yepl96ZBHPaH+Ll4aW8yfC
-         p8Im13ZNbTmJClNgY9p4M0oN4YFU7GCzWDyy8d0K24+xT4VudX66U5nKXbyFySwy61Pm
-         11V4hso1FiIh3vmgiTferJBrOzZxMU7G/uwg5s+IZOMDrpXzPe/70NNcc6n3WO7ZMW7w
-         w28Q==
-X-Gm-Message-State: AOJu0YyNZ3E++2jslkyj43WT0HtkQCvDTp6a43ObpYv6aAzkyPQ5555w
-	vyz6zsMdzzywWMe9iCJ5aKEt02Qq7YHU7uj9lE1IShSUcwWPFxZ/6IBI8cqqRw==
-X-Gm-Gg: ASbGnctYGgirGgQZV5MDVaOSyGygrxmKZlLQZGbfA6/wkuQbOj1Bue77PWESdsRGogD
-	0D0/4gxYrrbqhQGBL9qYZ/69rOoWYVqfRc6A/rcVVAxOyxbLa7XRwySUnaSJtIEAOk8tKmOLfQ/
-	mUF7MEvqMLItpz4r+LQ/E0OR6vSkfZbTzmmTvJlVLHFXWBMDZxLOh312qmbx9ynl9A9JEDN0rpD
-	Nw6QKUmR7KSWJ9CIM8q9vgR6DeX5wGXVz4gSLacrUWBe8CpcR9Z5s2GB0XMF2CGz+wxbCMCK8LO
-	rgvSykIz/dB5R6ZOHTtYxbTRnyVXyWfZOCZ+STm53Hb2DXG/qgpjI2K4+CDYx1/1NNpvJdx35Rk
-	oG83ZAhrJZMbuYDd8jFl7T2LQBcuntxZbpHbzK0hI4LE6y3fZphnmyRTTsKNdwE0AlUmjIg8QyH
-	ytRd3lxq+zrj4SKhTJEnA=
-X-Google-Smtp-Source: AGHT+IEJzmJssgbrkH8WJ4QU3sLFJzLPnML2qy4GAU7o/LHkI5r0URBsuV/jtiXbw3XNi9hrDB5Ahw==
-X-Received: by 2002:a17:903:90c:b0:27d:c542:fe25 with SMTP id d9443c01a7336-29d683afcafmr41970015ad.41.1764786094501;
-        Wed, 03 Dec 2025 10:21:34 -0800 (PST)
-Received: from soham-laptop.. ([103.182.158.107])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb5c6c9sm194659425ad.97.2025.12.03.10.21.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 10:21:34 -0800 (PST)
-From: Soham Metha <sohammetha01@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Soham Metha <sohammetha01@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] Documentation/rv: Fix dead link to monitor_synthesis.rst
-Date: Wed,  3 Dec 2025 23:51:21 +0530
-Message-Id: <20251203182121.52759-1-sohammetha01@gmail.com>
-X-Mailer: git-send-email 2.34.1
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GqDTUOUEcSPT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Dec 2025 18:35:30 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A3AC8406DC
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A3AC8406DC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pWMd+ew2
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A3AC8406DC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 18:35:30 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id D730942E0A;
+	Wed,  3 Dec 2025 18:35:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246F1C4CEF5;
+	Wed,  3 Dec 2025 18:35:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764786929;
+	bh=XlN+kiDIheSOouKZGlmhhmpbswiYumcvUrppuJjzNj8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pWMd+ew2J8HAHLPPD8g8DTQa4BXOLdQ+BFlLXyg2eFVBR93joaRGYs/wY6I5HpuUB
+	 jQqHzzcZagUuSHMsVEVJo0kMnWtdQzuSvaOSE2xpktBmhaiKjdn+IoRo6h3uaHSHsH
+	 GdjWyJqr2zmXGs0jrQQeleU4HziIjrVkFQGNgfMqA52CTHO+1pLruW6ZtOS7/Lb0Bk
+	 DRHWd+LSfWZtEBk5ujmaW73bEl7ArhEn76tWiufFE1bhwYsE0AY6iQccOmJKglQzmJ
+	 Tf2wSvDvzu5YkY5BGO+62Lz5rjtPogbsqT4N+WwRKhquZOQs02iKNUNwu+QrbJAN5h
+	 ojBSxnpCwU+6Q==
+Message-ID: <aab83a61-9d22-443c-92bc-d7caf1c8afac@kernel.org>
+Date: Wed, 3 Dec 2025 19:35:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: remoteproc: Fix dead link to Keystone DSP
+ GPIO binding
+To: Soham Metha <sohammetha01@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Cc: shuah@kernel.org, skhan@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-remoteproc@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20251203180337.50831-1-sohammetha01@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251203180337.50831-1-sohammetha01@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The file 'da_monitor_synthesis.rst' was renamed to 'monitor_synthesis.rst' in
-commit f40a7c060207090f41998025fcd1cfad06ea2780
-("Documentation/rv: Prepare monitor synthesis document for LTL inclusion").
+On 03/12/2025 19:03, Soham Metha wrote:
+> The old text binding 'gpio-dsp-keystone.txt' was replaced by a DT schema in
+> commit aff0a1701b020c8e6b172f28828fd4f3e6eed41a
 
-Update the reference to point to the new filename.
+Did you actually read what I asked? I think you just sent it too fast to
+be able to read entire multi-page document. If you read it, you would
+see that abbrev is 12 characters/digits.
 
-Signed-off-by: Soham Metha <sohammetha01@gmail.com>
----
-Changelog:
-- Use proper commit SHA reference syntax
+> ("dt-bindings: gpio: Convert ti,keystone-dsp-gpio to DT schema").
+> 
+> Update the reference to point to the new file.
 
- Documentation/trace/rv/da_monitor_instrumentation.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This wasn't here before, no need to add obvious statements.
 
-diff --git a/Documentation/trace/rv/da_monitor_instrumentation.rst b/Documentation/trace/rv/da_monitor_instrumentation.rst
-index 6c67c7b57811..b847c58a96b6 100644
---- a/Documentation/trace/rv/da_monitor_instrumentation.rst
-+++ b/Documentation/trace/rv/da_monitor_instrumentation.rst
-@@ -168,4 +168,4 @@ The probes then need to be detached at the disable phase.
- 
- The wip monitor is presented in::
- 
--  Documentation/trace/rv/da_monitor_synthesis.rst
-+  Documentation/trace/rv/monitor_synthesis.rst
--- 
-2.34.1
-
+Best regards,
+Krzysztof
