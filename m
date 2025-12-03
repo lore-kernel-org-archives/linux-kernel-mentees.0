@@ -1,148 +1,126 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CDE296BD7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1A530F552
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764792436; cv=none; b=XhzKpMDhlm1kEj9ZQ6YiAD93jRym+ShOm+y2wDQGiyxyT9hAdvEazcF0P2UGWyC5vIw9vJ7/mUW0hfHNZfpUV7voz2axTC1qKH8JMPOkxSDTHkuBzcbm2/BediDya8Cmam5iDEdELmQ0MQNME5990L0Kwg6OycctKr28yCjCjcI=
+	t=1764793393; cv=none; b=HpWfbqBh73CvX0PnsXsrDcFPD4ZA5Ivetc1/VTF2D6KFMHKIdGK/UiGRPRp32llDnEg4HB12TuVLDaTyHd9mrdvrAJkwwW6pp2/haK55Tugd6OTXrkDeyJlI/r+ELfhhDbYrAcEfgmtINJYodOtS3dksVJpue1oEMX4qW5B34H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764792436; c=relaxed/simple;
-	bh=CKSxJ5PzACcUCfZJ6BNrzyEmQ6cqGSgT/DPPtgS6CYI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LFDmT/T1V3qEPrwJjJ2JGTEOCSqkW2IXqc1bgYd32FervNqrixNLW6ln+S7QieyFHOWXs9ORbOKvKlXOGbP7rsTaCKtMS9ufbOE1Esw1lsxDLFhoUV/0Qu9Pdxa9DIFkOKmFAIyhl2Ye0XVuZlYdMD9tO9NNw4ynPqZaTxbxMBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rSBdGVYQ; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1764793393; c=relaxed/simple;
+	bh=0f2cRLdtpfZ6XvzrazRLf77iCUv6pFST8p4qLMv4o/k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jQYMi4FavsO02UK5755iJ9nQ7bZUtDOKLuci3IWPJFKSOYFnHBLYJfQkofwraV6kIf5/4UFhUor0JyCwpcXyhBv/5wUk1DUxYjBNwOsBWFes3koHaQsXkqvyEgt/RjYu+aMS+QriTVTWQmL6NaBFQRhxGAZp4pQx7B90On9o/SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtDn/vaQ; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rSBdGVYQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtDn/vaQ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B81C3402BB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:07:14 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 279CD40058
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:23:12 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.792
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yJLNC8aVtHnl for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Dec 2025 20:07:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 18F7D400B0
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 18F7D400B0
+ id fxjFHoH8UoPb for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Dec 2025 20:23:11 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6125940028
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6125940028
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rSBdGVYQ
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 18F7D400B0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:07:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 67B7443CDE;
-	Wed,  3 Dec 2025 20:07:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95AEFC4CEF5;
-	Wed,  3 Dec 2025 20:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764792433;
-	bh=CKSxJ5PzACcUCfZJ6BNrzyEmQ6cqGSgT/DPPtgS6CYI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rSBdGVYQJaPPhr7deQew1tXcBeCXZhF8C6ESyscZSkNRlPXU11LsB2TAPp/jDr4i+
-	 YTXFZQFg+chYPruYNY1Kv7gjhK1O1S/yUVxODQm9tYcPNp3ITYOFWVc7wQRk9iw9LB
-	 QByMIiKa68VzfmHNaksSCsjjUjbha1TxGJmQ0rEdSKuhiBea949dtwqFyq4wkVRU9t
-	 5kNtrpJdkUjemjVX6FD83XTWdPHlnsNEjmq/rPeoc1iIpjsRggAwlYMXsJU5oslpSM
-	 xR6+nCpEsgNH059oK/VRmrRANKzocPtyJUZHnV4wdPlEfs6d1Bhi39INCdWByjGz4y
-	 /HcKoARdQxVtA==
-Message-ID: <8f789104-f521-41ee-812b-34607f36a7da@kernel.org>
-Date: Wed, 3 Dec 2025 21:07:08 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VtDn/vaQ
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6125940028
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Dec 2025 20:23:11 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-7ade456b6abso109141b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 12:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764793390; x=1765398190; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1l8AoDl5OxCUERbVgKYnUrs0Din3CsV82rQuW5hqhlI=;
+        b=VtDn/vaQb30B+tYAxBFASOmVzmQfYh+l74f2cr0zPYJNkT9pVlogxjU5ymqSuhL4VE
+         90gPum/mgfOr4vp8ETIqIW3+WoNl/wNh++aos6wo6bRK6OPV2QZpOzlcA873dqdAXTeI
+         HtJeCvmTwXuWa6+466zbZU39lWpvfPriMZfdMh1Tr7vn42UOm537QJG52tbVXwhTj4pr
+         7EFLOlMz46XLFgmT0XDZ1t5PeGFH8k6PWsPAoNnECV5z60I6PCRDfmhnHC1Mi+nAcGrb
+         QNo25Y8HOVN5+HFjQedXHVmE6MnUjDDeX8g6bydTApOkoyJuHEKF9ogvZZeuivz/grk0
+         TH2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764793390; x=1765398190;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1l8AoDl5OxCUERbVgKYnUrs0Din3CsV82rQuW5hqhlI=;
+        b=GcTstCtroA3tOTYCenygk7K1634WZXT7tKnQeepv5DRxVCPRNvWybRG/ipVGSGGwps
+         My2qXjAi5d0dKhWDGHgacETJoy0cKjB6XJXg9gMqpXO4LnKAnRsxgKKuYEXTD05+0KaK
+         hmEU2ygaGDSpu10pTld0eWLMug60ye9v48VkgK9zSQqvXINgFtp6daGEmwxiPk1GphgF
+         UA20HWsylHZSK9gWSaBIDQhjs8Ji9ANaIqVt9RXPQiYuMnFBZ+lK+hHFDWVk750FEK9L
+         Ma9r4ftljiA/4xVBmfLAFGcC6N8G6g34GaYNKnVUj5l0f8/6DNWewgNivaRkF8ZpjNHd
+         JgtQ==
+X-Gm-Message-State: AOJu0Yxwz87b3hNq9U2I9mxK4N5L0IWUxyIhZDu2O1tduOFmMUjtkpu5
+	5OTfXwROBQDrXntWLpbkTTPceH9hpHbPOamd+liJqKc+tKvIVpm0/DZRrFNroctY
+X-Gm-Gg: ASbGnctHAFN3Pg0Gr7onrEQCkCuDOWOzETIMnD27PuruLX6PzDJmMFiEAzHqK3oRQbd
+	RZg0I6mRXR7n05z5ncGqIrjBqJISw6Q76kcZlMG35EheiOp1jd3cskGUw+2ZyVblVzI43oqKC2n
+	VdweXyol9KyLCTZ2Ugzxq7dVHGn9jr2g9VR/eayS5fzdZTpzUuZS4hQIy4Og1yYZRngw6VeBwmD
+	ewNNMVmKRTdJIXLZHxL5oVjT+k+rTuexLgC088PS93Ama/kz9eucJdpb3rbKKykNlcr4rLGJXDq
+	BhXWFa+GylUUotn5BgkWa5vYdsdGJZ7gHPGP9PcdnJHU6gpQQaPBzVW6dcuhbhgxmsKX3sIh1jv
+	bk//fuhG6FmYgO6AUfzARfwep/LX/XePw5cDxXJ9wn7gbgwqQYOveekawum8noM8D1fuP1B/i3q
+	BpCJ0lRvDq3FeRND34iWyg
+X-Google-Smtp-Source: AGHT+IGUUL9n7DaIa1cXN6PrpkeXmukJ76Q6yRwk7pkWsuHejik88WLcCt6xCXQTWG2Rg79pZuVvbw==
+X-Received: by 2002:a05:6a00:2d0b:b0:7b8:c7f7:645e with SMTP id d2e1a72fcca58-7e00dbe88a9mr4580243b3a.17.1764793389917;
+        Wed, 03 Dec 2025 12:23:09 -0800 (PST)
+Received: from soham-laptop.. ([2409:40c2:116e:6f1c:ab6e:2f5d:e763:cc6c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e15f4e0810sm1287230b3a.7.2025.12.03.12.23.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 12:23:09 -0800 (PST)
+From: Soham Metha <sohammetha01@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Soham Metha <sohammetha01@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH] rv: Fix dead link to monitor_synthesis.rst
+Date: Thu,  4 Dec 2025 01:52:59 +0530
+Message-Id: <20251203202259.69116-1-sohammetha01@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: remoteproc: Fix dead link to Keystone DSP
- GPIO binding
-To: Soham Metha <sohammetha01@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-remoteproc@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251203180337.50831-1-sohammetha01@gmail.com>
- <aab83a61-9d22-443c-92bc-d7caf1c8afac@kernel.org>
- <d2dfa83a-80e3-4a89-b853-a88589ef0092@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <d2dfa83a-80e3-4a89-b853-a88589ef0092@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 03/12/2025 19:56, Soham Metha wrote:
-> Thank you for the feedback.
-> 
-> On 04/12/25 00:05, Krzysztof Kozlowski wrote:
->> On 03/12/2025 19:03, Soham Metha wrote:
->>> The old text binding 'gpio-dsp-keystone.txt' was replaced by a DT schema in
->>> commit aff0a1701b020c8e6b172f28828fd4f3e6eed41a
->>
->> Did you actually read what I asked? I think you just sent it too fast to
->> be able to read entire multi-page document. If you read it, you would
->> see that abbrev is 12 characters/digits.
->>
-> 
-> I did see the documentation mention that the abbreviation should use 
-> at least 12 characters, but I didn’t notice any upper limit mentioned 
-> in the text. Because of this wording, I assumed longer values were 
-> acceptable.
-> 
-> Should I send a v3 with a 12-character abbreviation?
+The file 'da_monitor_synthesis.rst' was renamed to 'monitor_synthesis.rst' in
+commit f40a7c060207
+("Documentation/rv: Prepare monitor synthesis document for LTL inclusion").
 
-No need, this is just a nit.
+Update the reference to point to the new filename.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+---
+No functional changes.
 
-Best regards,
-Krzysztof
+ include/rv/da_monitor.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
+index 17fa4f6e5ea6..c2cea209f230 100644
+--- a/include/rv/da_monitor.h
++++ b/include/rv/da_monitor.h
+@@ -8,7 +8,7 @@
+  * The dot2k tool is available at tools/verification/dot2k/
+  *
+  * For further information, see:
+- *   Documentation/trace/rv/da_monitor_synthesis.rst
++ *   Documentation/trace/rv/monitor_synthesis.rst
+  */
+ 
+ #include <rv/automata.h>
+-- 
+2.34.1
+
