@@ -1,152 +1,134 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED669329377
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 08:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5FC33C199
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 09:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764837600; cv=none; b=SeXKpc5gtaqHTXVXFGOmFF3gvnkf6Wb0lMG6ZAIgxVXRrBRa0RKAkG5/JDUiBfqKeHSzOks3nOT9HKaBGHG6SF3kSUfIn9C++5aeehuj9tuUpnPBchT2AJ7c3nDpXSZeQJS9I7ByM4DCWQXeAjnAfm408vBMn3ZnklZA2IB8G94=
+	t=1764839588; cv=none; b=H5VAt0NaN1vHlnVIH7flWvF4OG0BsHUCl7AJymyHhiiUOfZbDP8uklYFG1poAHCWtBIN6AP9/fUFBZ9FxJ010tjzzPIXRa7xjXLcjEP7ag63DySeRcxbGIlAqWh1YTrcILtwe1Zp4W/CMxJ6M/aYemlx1cCZJG1cMluYCkW0qyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764837600; c=relaxed/simple;
-	bh=OxJcYZ/t0IbTZeUHzN5FgPnszKPCjA/MF1pi2URYe70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tDCINhs49K/owM+HObhT3oV5grMVtHvFfU0lkOQ1WY92sSoRUUtTJGyGF+sPf2qXgSO0PNQIXpSYbiF2/jdsFpAfTyZBX6+IZ9OaIM+PfVLe778hfXOKzv45u/i42ZtEk2BRx3ZvnjbyqA4DN9odpIkX5y31cIde/MBPXlwCpgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJCAEqxf; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1764839588; c=relaxed/simple;
+	bh=E/Us579nTVgurFAyuKqneDAK/MMCEioOOwy1LAuVIGU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ct1Q+COmdI0LV2tyQZMf7mqAA3W6Un82VlmtQrfpzrPXce+Mhrw9tVe+JzGsfkEB7YXe10yjuyh/B+8MG8S5MA3WOH3/tWFj/UjpFNs2t+xe7Tc7DnRXf1M/yA9Rd9zG81tI9/zE3Psxj+En4/MleiNGR9QJtHzj+fSWQQOjAzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DXgtKd0p; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJCAEqxf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DXgtKd0p"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9A41A60ACA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 08:39:58 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E018D4077A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 09:13:06 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -9.601
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GOrPJJ1KirCl for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Dec 2025 08:39:58 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=bagasdotme@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org EE0C360A7F
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EE0C360A7F
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kJCAEqxf
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EE0C360A7F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 08:39:57 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-2958db8ae4fso7208745ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 04 Dec 2025 00:39:57 -0800 (PST)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id iC1uCLyct0Fi for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Dec 2025 09:13:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::54a; helo=mail-ed1-x54a.google.com; envelope-from=3n1axaqkkafyy9602fm594cc492.0ca@flex--aliceryhl.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8A4BF40652
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8A4BF40652
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=DXgtKd0p
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8A4BF40652
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 09:13:05 +0000 (UTC)
+Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-6411c626af4so806971a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 04 Dec 2025 01:13:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764837597; x=1765442397; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d1JNxOjk33nzB6A4jXH2tWSnqUE8y1O3Ojrn7T5hKfk=;
-        b=kJCAEqxf5qZqqrvVlipTIcgW5zhccgeSSWPxLkvpO86/sWbdXBu8CqWR3+V11n4tzr
-         VO9m0aoNybZD+PIOSe39YXg3cBE4BW81cT0s15LggJP3ajcmzCnAKfxG1F9bLQM0Gew8
-         SF7L++HQYyOEu3d3IirxCSQ4fNzsp5hnn28g4Q5NYawVVGxpxMpTLqHVtC6/EUCAi+WQ
-         kcJ9TOhQXyPY4TWoJpWuUWuiIQp9vGsEqswKg11JxNCN6bF0Ry337NdIrbDFL4tDRiHH
-         fjiYnVw1Ifn1z0vJ1yaPi5HNEMEh7JDguC6VdFl8p7rnvx1Q3ahj1Kb/mRLLwSmzviIZ
-         2Urg==
+        d=google.com; s=20230601; t=1764839583; x=1765444383; darn=lists.linuxfoundation.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRDZhJnUIfvx3/Hg/oNl3IHpJs7xKfq6AQy62QyhG00=;
+        b=DXgtKd0pteLQedEGR4QHFbXtE9HJkTvAUKVOmQ8SUQukDlz7LhijnI0iys5YaGQc5M
+         kqUus/t3QAfCkQITp8E3M5vCXhTqdFC2xHFzcqqvg2KhgEXQjxaWmfH+Jh/AYEyIBaVR
+         pnawqBnBCXzA5ZNsZyvt/GoUFeO0A5j+HMwudDn/i9RFqt38RaxKD1TePBLcQdK6p3u+
+         mRWOyqptmJ4RisB0Y1noaDi0FVn5OxhHjgoM3tlog67uIY6I49gk7WoxfhUJlice5jzp
+         pUtzdvYFFY4e5UuK/GA7qSVHMmiy6b6fv0qsyz5pn6KHiHY4IgcgHbDR/fcMwRcfSWyE
+         8/OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764837597; x=1765442397;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d1JNxOjk33nzB6A4jXH2tWSnqUE8y1O3Ojrn7T5hKfk=;
-        b=Yi6hHTd0qyYy0U4elR0+3rRvcR5huGavWiFlcOjZp5GpwEHeG1uIFo4Xv/a6hn0KX4
-         ULps1cNQUELGPbVzhFr6Qv36h/aICDDqsNw20UnXQk8YqnSE9ZMK/TdbEeEjoxgJu4Xo
-         kPIq6gDI43ySvgRZp6UcfhWZyVenSdQPIC3e5CNQZcAVijiAkiMSHd+fg9GFHtNi16p/
-         qZhljNxCX+WXevLv86jitA0UvjalFZ9h/CkOGRmvH7HcPjTUueQFrcC+WUUZjxIC/C60
-         8hKbTO8oUX+El2GbBHglPtYXCA91/sb77vO0A1lUOYss4ZfJQ6/7A/yelxPzNxXbJwOj
-         IIzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrSp+6/OYZUn2heb52INapDILOAAdTEGgI/LntKWp9QJKf7XscMDvsDaJqJMGS6+BDjG42JRPLLN3nnYuA+g9bmJ72Zw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyI5v1kwkmWxmjdvbYI3pzYgZEZ3+aqyIhX5c/C8LGaeoBVQDjk
-	n7FtzPWny7/ClGRLHJXumzTek2dRVVlMm0fRBLuYRrgtsd3oM+I3ufpn
-X-Gm-Gg: ASbGncv4kFCh8+C6NfAgyn1MudODgPe0AC3MdnHHG5bos5J4l05BEsdg1xfBv9d/5vS
-	3mNdQcyHqWoO2ttM0VkFfEwxpCe+3PiQlOvIhz0T/1GCDnRqx7f0v/vl2g8jivtRytY2oOkLwNf
-	eXFSQUQ8Y2PiyMEOc1vPzJ/CbP7EhNooMhlx5QjNfJiyawx9d8bW9sGYEUrVPaPKImn5AgCOsNV
-	HvZCo+5SkReAGgQqGR0hiZikqh3wA9i7bhR3NGbrCF0vRbhOIXgV2n9fe1EsST+XKGzPXZi4bQU
-	Y1VRXDpEXYwCfRfpZJ5oa+uAaHcNopyE/kicZrQ/YMruy4DcXlSve28dSzgVh358/59vXHu4wK9
-	k8GzQT73Pj9AhZOwbRdz4wShiMZgGMrjSlFMHygqjA5t1UfLq94roSi2XI/g5yMZ1ioIRSaS/za
-	sID/7fhWzUgFw=
-X-Google-Smtp-Source: AGHT+IGPazSTtY6VVQpikAdMDTf95Vk0b10d8Tb5c077iSAqlm03M0R68qba9fqHpOhAjsCCk1ni5A==
-X-Received: by 2002:a17:903:246:b0:295:7453:b580 with SMTP id d9443c01a7336-29d683f077dmr69081945ad.58.1764837596595;
-        Thu, 04 Dec 2025 00:39:56 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf6a14f40f5sm1096665a12.21.2025.12.04.00.39.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 00:39:55 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id C893441E4822; Thu, 04 Dec 2025 15:39:52 +0700 (WIB)
-Date: Thu, 4 Dec 2025 15:39:52 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Soham Metha <sohammetha01@gmail.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org, rostedt@goodmis.org,
-	namcao@linutronix.de, gmonaco@redhat.com,
-	mathieu.desnoyers@efficios.com, mhiramat@kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation/rv: Fix dead link to
- monitor_synthesis.rst
-Message-ID: <aTFI2LDNLmC1osiG@archie.me>
-References: <20251204032452.9523-1-sohammetha01@gmail.com>
+        d=1e100.net; s=20230601; t=1764839583; x=1765444383;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRDZhJnUIfvx3/Hg/oNl3IHpJs7xKfq6AQy62QyhG00=;
+        b=HsLRdE5/FQ6rGRP9GdIAVmWDmJKWmScSjmpXqciFv0AUn7thZemeTSi9ljXBjv5VXO
+         e/w3bSDNhCC1hj4MBYPihgVC3LtPcPnkana/o7Z4CLViQppUEXljoFDofEp/0AJqjnao
+         aFLWsE+s9bf+Ikb3vnN/KEqrGtNuMPrz5kKzqz/fSgVcyn2oAjDPuQ2kfYHX6WMmkLVT
+         fTgk4APlk4LrSt0CAspJ/dOQ2IlX7YFSSQdxS1+GQUk8CqqAxp0/i8tZ1o0+ma/oEjLc
+         R0hA/CRi4Xryzap+H3D6B8dG322PT56LAvIcbu03nYrUF+EJ0zpOfFQVRVsma6rII2iJ
+         x1wg==
+X-Gm-Message-State: AOJu0Yxtr+uR5Qj/A1FPWj59Dh5QAbdUkJ+HI//i2H2u37K8OL5HaUOg
+	3FVlon3PwSmggTv+R3RUauO3101HrrRHSweqNmZyXVJzCBIeY+vA/Bh5nu1Ahno+BaHO7x3ZHD+
+	jUCcIkkYKJeRSxwfNYA==
+X-Google-Smtp-Source: AGHT+IEhdPWvEmB4vfFoDOsOLUUthSnQqFGCrg+waysgL3RexQWT0QwI0B7dGIxK2uf85VyQcWDZE8BMbpilqHw=
+X-Received: from edc5.prod.google.com ([2002:a05:6402:4605:b0:643:3a03:788d])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:1469:b0:647:a2b2:3db9 with SMTP id 4fb4d7f45d1cf-647abd80d9dmr1973340a12.7.1764839583215;
+ Thu, 04 Dec 2025 01:13:03 -0800 (PST)
+Date: Thu, 4 Dec 2025 09:13:02 +0000
+In-Reply-To: <20251203203222.70415-1-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Aa2dCrHsQWzPoz9c"
-Content-Disposition: inline
-In-Reply-To: <20251204032452.9523-1-sohammetha01@gmail.com>
+Mime-Version: 1.0
+References: <20251203203222.70415-1-sohammetha01@gmail.com>
+Message-ID: <aTFQnsTFuVO5DrYv@google.com>
+Subject: Re: [PATCH] rust: sync: ordering: Fix dead link to LKMM explanation
+From: Alice Ryhl <aliceryhl@google.com>
+To: Soham Metha <sohammetha01@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
+On Thu, Dec 04, 2025 at 02:02:22AM +0530, Soham Metha wrote:
+> Fix the reference to the LKMM 'explanation' document, using the `srctree/`
+> prefix triggers an htmldocs warning.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202508301445.KuPDLTET-lkp@intel.com/
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+> ---
+> No functional changes.
+> 
+>  rust/kernel/sync/atomic/ordering.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/rust/kernel/sync/atomic/ordering.rs b/rust/kernel/sync/atomic/ordering.rs
+> index 3f103aa8db99..d71c4f582f75 100644
+> --- a/rust/kernel/sync/atomic/ordering.rs
+> +++ b/rust/kernel/sync/atomic/ordering.rs
+> @@ -20,7 +20,7 @@
+>  //!   described in "DEPENDENCY RELATIONS" in [`LKMM`]'s [`explanation`].
+>  //!
+>  //! [`LKMM`]: srctree/tools/memory-model/
+> -//! [`explanation`]: srctree/tools/memory-model/Documentation/explanation.txt
+> +//! [`explanation`]: tools/memory-model/Documentation/explanation.txt
 
---Aa2dCrHsQWzPoz9c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Currently, when I view this on:
 
-On Thu, Dec 04, 2025 at 08:54:52AM +0530, Soham Metha wrote:
-> diff --git a/Documentation/trace/rv/da_monitor_instrumentation.rst b/Docu=
-mentation/trace/rv/da_monitor_instrumentation.rst
-> index 6c67c7b57811..9eff38a4ad1f 100644
-> --- a/Documentation/trace/rv/da_monitor_instrumentation.rst
-> +++ b/Documentation/trace/rv/da_monitor_instrumentation.rst
-> @@ -162,10 +162,10 @@ For example, from the wip sample model::
-> =20
->  The probes then need to be detached at the disable phase.
-> =20
-> -[1] The wip model is presented in::
-> +[1] The wip model is presented in:
-> =20
->    Documentation/trace/rv/deterministic_automata.rst
-> =20
-> -The wip monitor is presented in::
-> +The wip monitor is presented in:
-> =20
-> -  Documentation/trace/rv/da_monitor_synthesis.rst
-> +  Documentation/trace/rv/monitor_synthesis.rst
+https://rust.docs.kernel.org/kernel/sync/atomic/ordering/index.html
 
-Looks good, thanks!
+the link goes to:
 
-Fixes: f40a7c06020709 ("Documentation/rv: Prepare monitor synthesis documen=
-t for LTL inclusion")
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/memory-model/Documentation/explanation.txt?h=v6.18
 
---=20
-An old man doll... just what I always wanted! - Clara
+which is the source code of the relevant piece of documentation. Of
+course, a better link would be:
+https://docs.kernel.org/dev-tools/lkmm/docs/explanation.html
 
---Aa2dCrHsQWzPoz9c
-Content-Type: application/pgp-signature; name=signature.asc
+However, I think this patch would case the link to go to
 
------BEGIN PGP SIGNATURE-----
+https://rust.docs.kernel.org/kernel/sync/atomic/ordering/tools/memory-model/Documentation/explanation.txt
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaTFI1AAKCRD2uYlJVVFO
-owDWAPsFTN02CmAMNm5Y8waldi4Tx2eTHjk62BbuOuMDQZvphwD/eRHkMXjpOZM0
-s9c3nDzj2FIK8I2TpfDNUaAhIJ6fpwo=
-=/qR7
------END PGP SIGNATURE-----
+instead, which seems wrong.
 
---Aa2dCrHsQWzPoz9c--
+Alice
