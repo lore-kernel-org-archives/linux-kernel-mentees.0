@@ -1,178 +1,179 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED121465B4
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Dec 2025 01:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFBF21D00A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 01:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764810106; cv=none; b=mZHXRboqKpWwuDAQ4Hj3rl+ScAJmF2N1WiYbskb29WIMJyG4aIqTioaHVKzyg4D1kuW8qygj60ZyGzb40SSpGl2W7W7fFA/AK9ArqB3rZb7fLoSVZeezAQJ2bqRLZQm1H4FQf3aesT2tZwviZwxRDADAyLMp9sQKIlJSsdaDjrA=
+	t=1764811418; cv=none; b=pm6cVFxWVLgUp0pC+izploGyy3TkuxvcctxyxP7rapjtuZe4sfNVwyyXkAh11mpQrWuUuJ0n0WrKSDj4QUtrPN/fnqwlEFRD3zI+nptmhe6vYILw8n+VzbSkNoyTRoP8nfrdYT29uNcyeXtvu/DiUrbx78uipxqg1QbD/Jz3oJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764810106; c=relaxed/simple;
-	bh=MLG+4TD667sksnR+VjBrwaFU2UE/zAZE0BYyenvlTcc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IYmCuQszwmYRZBWAyrscYAAAyEqojauQ+pybcKxSIPe9aAADMk7Hn3wgKzWV1rQv15OM7I4vhXsZPeZYu6dXinMVxIMRQBe/4olPcmwmW1rBqVsoHR405zxCbu48E8bENqh4BlzAumQd7YX54XKViZOZveYSRfG/nMU6HCQ+J50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrZRSNPp; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764811418; c=relaxed/simple;
+	bh=Uvh0yZY15GEtzECgHRv5Oh5uDOtYGTU0PpHMlDzRVdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CsW/InIQtEGye20CdG8UPv2vt/QhJQYuWQo0aemg9Hma279HMNlkQjfQC12oud9AmcWgfKArMRllmWGZzkeLr+V7BAKaCl1hvU9mFbx491eAGPz2FKn4roPLww6qDgGW+QhmQQ0JOmL55yHkNujgGnRJCv95Oe51oRyjtm+cBJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cm7laBDC; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrZRSNPp"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-559934e34bcso115124e0c.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 03 Dec 2025 17:01:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cm7laBDC"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id A8E5A407BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 01:23:36 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id SK_CMwqmj7Ug for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Dec 2025 01:23:36 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=bagasdotme@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 09538407AA
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09538407AA
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Cm7laBDC
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 09538407AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 01:23:35 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-297dc3e299bso3588805ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 17:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764810104; x=1765414904; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X/jpmwvefl1mqvp+uOSfl3BlWJkpSeUUghpaaV/zL/s=;
-        b=NrZRSNPpcxFfF1D8TKKnzXqrg7t+IGL9gVT12dwOcXg6P3InlCFo3KljFaeaulfr/c
-         XBbRf2t5Rz5Ft1oF5FovzqO44RoyS7UzIPDK5nuWRdisgrBSWaZ65iPl6AAJ4XhGNDfN
-         10emavRKCPeT7TQogsnvtcmeUMnEAGaQFWmV2CNRlBD9sJoAqOBm0mj9Wd9KHFWPLdAM
-         iYb8/4qE+6HiBl/CdEMCdo6cNo2MBilWGTni1Vg88zy7Z+b1vRalP90YpOPkqJKp00UY
-         2qD0DrxFeSWKhxC9Oa+n4F6voF/5gghktKj3DY43Ood3UJ+tlO9dbt9EEXeWW36hMt9l
-         kmxw==
+        d=gmail.com; s=20230601; t=1764811415; x=1765416215; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J7S+3a6m2SRWGZPl86oDbuprI5NM42FY1cIZzP35vOQ=;
+        b=Cm7laBDCegXuGaOAKA3hRF2aZX8IMfDC0dNCFOz1DuTabnHMR3KUSsT/axhcBIgnS3
+         7t12k6LNXX5asNFElWZwUqngG+WUX/hf+gZj/M6DbRVInLVKuQa7AkMS2Vcpm4gNo4ST
+         9FbjkvtzDDHKDhmKyiQHijsII/PEIdjUhXjsIVMTk6WYTI/6FE5UPguuMNpwC2t6Va93
+         LZFkZdVyJoVtYFRmCeuady3OM/zAark4jn9Ug8w9QgQuzojpSjkj8T1b3mKBHGP0KmAN
+         6T8ieFfWaFNAkQ+Zrj8ibf6ALWQFp3oDiur6D2zq8OJjoWLOyDftGV7C+ctiHm5rXtlK
+         zEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764810104; x=1765414904;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X/jpmwvefl1mqvp+uOSfl3BlWJkpSeUUghpaaV/zL/s=;
-        b=Gzp1FoYGnP8EZ4R1AOihk9AgrchpDcE/jZjPBaWe4hkheJcKNrD0X8HL19mANsDJPw
-         IY/GWTMmQrGc6JnDYfQferJHcbZ2tx44PGEh5Vz0/Q12L9vQKYyDwbZq1e/SPXw64v4V
-         KUpEbshKVFPoehFwkUCWTLdZDvMM4UgznG5FiYcFAxFSXTWgRvcY+Zyl7sPoEZeoGFT1
-         7HM1GYEBORC9PDq2MICZGjRD1DdVGkvbyNuGsIQMY2v/fDPeGP7scDNs3JUzNyKsXDjC
-         60RFJuiTUB6zILNAiFL/hgEjVuKs2gEdO8b+DZnGjZNNjvGT+oOT3Ca9+Ag7G1mMJ3+N
-         Azyg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5exLG+KPlywTI241OBZKrkKFSEAiKmunv+a07udZ+orAz0GO12OQhsVghkOq/q0wyyyLriXJxQ7ngPEiZb+MbU8NZSg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxKPMsqEEtd8Gk9rcx+mDxxpyBJnBrm6xBlspsq16r2dccicFi
-	aaXcHE8alwwpLRD0deNAZrlUs/EqeI+mEPhwRQLPplsaprHLmCGPqC5c
-X-Gm-Gg: ASbGncv4FZYb9GIyEuALVcEbRIF9L0e7F3xhGcnV1XevzUJatEb67gVsDwjbJFSacDy
-	iZ8yd2zMBOk5Jyj0ThauC33osIs2OJyIfh4vbcGqVyQNFBGfOqlU9yh4UpVVJuEoAYFXWA1k6H5
-	T2LgCEY3IRQ86HRo3f/fKmb2jmqgwPMoHobycGWx5ivLpGlslOUvVi8cPCgdZHpAIaKIaJzXgij
-	6+YaHyYksKUT6i+iFAwHPAA4ooypWteXk3RiNxXk6lREwAtDnqAChkw51tKrUpeJOFHAB2olKGw
-	CrdmRQfIa6+j+1yarTfuQV+3YENmCJAIxEFfph5IxIwOWy6+KmHQwqDNACQP/MS/LcGkx0QRs4k
-	lRb3IFxFxSuwHUki/t7dkir04b5sNhW3L9DM5pX9/rt0sDiymFM6UZXs0F+/N5WzBIn8EwYsmhD
-	sVe1aLyR2Ga0V6jCcQqWucllS8B7Iu
-X-Google-Smtp-Source: AGHT+IGzPdHmI1kwj4OJtIrF7cAk+/qpDFHxaFmgpkFzZAoaCN1mnQwyIFi805Oul4X2uKICOFi4zw==
-X-Received: by 2002:a05:6122:469a:b0:559:eef7:3a1 with SMTP id 71dfb90a1353d-55e69b89f39mr301254e0c.0.1764810103365;
-        Wed, 03 Dec 2025 17:01:43 -0800 (PST)
-Received: from [172.16.226.146] ([98.254.184.207])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55e6c938d9bsm65562e0c.14.2025.12.03.17.01.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 17:01:42 -0800 (PST)
-Message-ID: <ff80d148-fe2c-4198-8c3d-ae92adb20fe3@gmail.com>
-Date: Wed, 3 Dec 2025 20:01:40 -0500
+        d=1e100.net; s=20230601; t=1764811415; x=1765416215;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J7S+3a6m2SRWGZPl86oDbuprI5NM42FY1cIZzP35vOQ=;
+        b=VyDHJaxpM9FxtB1HNb2C3ol8TgpbOJsmUoVA3d/NBpzq7tCWbhZGdaY3B0ynyQoqox
+         FpNR0RrPs8mVFal/BZ0rKziKypxG8xuM5mo0xsb99WYAhRgRy559k/z59AL0/Z0zv0zv
+         VskwMEfryOjdROZuWOU+NUKczBOVGvVKdwQKVI3pXRRGiosWEfo97kycz2D8VlAYhiVh
+         VRkIHmLK3K9H3YYiwBEsV6LYHz4nAtRzvMaLt2lliyg+AueYAbqmjKzyvuShyN2FP5rc
+         2bI7diKR3viKBqtjQGATx3cdfiKOhHPHBR1E3x4MWNmBlIYmLcfybdiWpHkOQXlIs/U9
+         qeDA==
+X-Forwarded-Encrypted: i=1; AJvYcCX1QvYw80la+sBywEhGKCkXkkhyFs902uxSMSr+c3tN4NF4VIOxG0jifAYeppoiyvy/iMb5+65qW3AVAKiKuA3PyrfwqQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzZCHj4kPsRgDpQ4iuty+s+NzWl82/6SjI4EmfizZhPEEUyNNPg
+	ZRgtTpfU0pwKUpopH+FPLmvY42qOVV2L7pj5fcjo2u+nxbttjPj4MU6Y
+X-Gm-Gg: ASbGncvKgLTQryBTDG8faDqZGjQPh1hLcloUCdLljEcATuhgdFOYN1JiBlB+JBLyaC8
+	rvt0IUgORFNclehAvkfXrlAxMyhqvtppAKyPyJsTez60w83hZns/urU7mbSZVGyqZOOXkkkuEm2
+	d0qtIrXDNlT1tynNvNeEq34gOJffJ3JS/FMIsnOskS6EUo3ITyd5Qut6wzb5F6EZ1dAf7l6fMx9
+	DfDsvV8fJDWqML/2v2Q/LxlTwLul+agH+3jr207hKVZ4JE+koZ9q2CzaDE8rPiDexhVDC0vzzQJ
+	nJraVN091WewJQrIo7oUsxVzqWylTG6VQqiIDK0RAUQZBb/k4cxnZKIcrwEvN1smCqJn+ZWRF+r
+	s5wxz859zg6nnrEeJTN6/urMjzuQESYEC3JFcJcuimJN3M1KtvDsgucgPOwIkE8kvRymKs4JRFe
+	1r93o7MFTMU2I=
+X-Google-Smtp-Source: AGHT+IFO7v+xzv9ChUChipH5utZ+kiuQ/BxDExY4ttC5HF2DSTum5pVPJ5bvBYUxIBOnKh910HxSJg==
+X-Received: by 2002:a17:903:1105:b0:297:dfae:1524 with SMTP id d9443c01a7336-29d9fb658bcmr15363485ad.16.1764811415111;
+        Wed, 03 Dec 2025 17:23:35 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae4cf9d0sm1674715ad.29.2025.12.03.17.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 17:23:33 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id B8348422D89E; Thu, 04 Dec 2025 08:23:31 +0700 (WIB)
+Date: Thu, 4 Dec 2025 08:23:31 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Soham Metha <sohammetha01@gmail.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Cc: shuah@kernel.org, skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Nam Cao <namcao@linutronix.de>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v2] Documentation/rv: Fix dead link to
+ monitor_synthesis.rst
+Message-ID: <aTDik5tn_5TR_-9B@archie.me>
+References: <20251203182121.52759-1-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style improvements
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>,
- Alan Stern <stern@rowland.harvard.edu>, Greg KH <gregkh@linuxfoundation.org>
-Cc: Clint George <clintbgeorge@gmail.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, khalid@kernel.org
-References: <20251119130840.14309-1-clintbgeorge@gmail.com>
- <20251201203715.17768-1-clintbgeorge@gmail.com>
- <2025120200-backslid-endocrine-e64d@gregkh>
- <17845408-4a9c-470d-8949-f4cd0a847615@rowland.harvard.edu>
- <7093160b-3700-4bc7-300e-57f4507dffd2@crashcourse.ca>
-Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <7093160b-3700-4bc7-300e-57f4507dffd2@crashcourse.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 12/2/25 11:28, Robert P. J. Day wrote:
-> On Tue, 2 Dec 2025, Alan Stern wrote:
-> 
->> On Tue, Dec 02, 2025 at 06:27:46AM +0100, Greg KH wrote:
->>> On Tue, Dec 02, 2025 at 02:07:09AM +0530, Clint George wrote:
->>>> As part of my LKMP mentorship i have to complete 5 patches as a criteria
->>>> for graduation and thus have focused on working on such
->>>> beginner-friendly patches so that not only do i get the required number
->>>> of patches but also get familiar with the process of kernel
->>>> developement.
->>>
->>> The LKMP internship should be done in drivers/staging/ as generally
->>> coding style cleanups are NOT accepted in other parts of the kernel,
->>> unless you get approval from the maintainer ahead of time.
->>>>>> Does the maintainer of this driver want this to be used for the intern
->>> project?
->>
->> In fact, Clint's changes are small and inoffensive enough, I wouldn't
->> mind having them applied to dummy-hcd.
->>
->> However, Greg is perfectly right that this kind of stylistic update is
->> not something that should be submitted for most parts of the kernel.  It
->> just bulks up the Git history with essentially meaningless cruft, making
->> it all that much harder to see the changes that really matter.  That's
->> part of the reason for the suggestion that interns and beginners should
->> confine their efforts to drivers/staging.
->>
->> Also, remember that trivial changes like this are fine for learning the
->> procedure of submitting kernel patches, but the effects they have on the
->> kernel itself are minimal.  A patch that actually fixes a bug or adds a
->> functional enhancement would be a different story.
-> 
->   FWIW, many years ago, I threw together a collection of kernel
-> "cleanup" scripts that scanned the kernel source for various possible
-> "improvements". Earlier this year, I posted a number of suggestions
-> for cleanup work to the kernel janitors mailing, and slapped together
-> a wiki page that described some obvious cleanups:
-> 
-> https://crashcourse.ca/doku/doku.php?id=linux_kernel_cleanup
-> 
->   As the first example on that page, look for code that insists on
-> manually calculating the length of an array when the appropriate macro
-> has been defined in include/linux/array_size.h for years. There's
-> still some of that lying around that could be tidied up; for example,
-> scan the drivers/ directory (do not make fun of my hacky solutions):
-> 
-> $ grep -Er "sizeof ?\(?([^\)]+)\)? ?/ ?sizeof ?\(?.*\1.*" drivers
-> drivers/hid/bpf/progs/hid_bpf_helpers.h:#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> drivers/media/common/tveeprom.c:	(i < sizeof(array) / sizeof(char *) ? array[i] : "unknown")
-> drivers/net/ethernet/mellanox/mlx4/qp.c:	for (k = MLX4_QP_TABLE_ZONE_RSS + 1; k < sizeof(*bitmap)/sizeof((*bitmap)[0]);
-> drivers/net/ethernet/intel/i40e/i40e_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
-> drivers/net/ethernet/intel/iavf/iavf_adminq.h:	if (!((u32)aq_rc < (sizeof(aq_to_posix) / sizeof((aq_to_posix)[0]))))
-> drivers/gpu/drm/xe/xe_guc_hxg_helpers.h:#define hxg_sizeof(T)	(sizeof(T) / sizeof(u32) + BUILD_BUG_ON_ZERO(sizeof(T) % sizeof(u32)))
-> drivers/gpu/drm/nouveau/nvif/fifo.c:	a->m.count = sizeof(a->v) / sizeof(a->v.runlists);
-> drivers/gpu/drm/amd/display/dc/mpc/dcn30/dcn30_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> drivers/gpu/drm/amd/display/dc/mpc/dcn20/dcn20_mpc.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-> drivers/gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-> drivers/gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix)/sizeof(struct dpp_input_csc_matrix);
-> drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> drivers/gpu/drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c:	int arr_size = sizeof(dpp_input_csc_matrix) / sizeof(struct dpp_input_csc_matrix);
-> drivers/gpu/drm/amd/display/dc/dce110/dce110_opp_csc_v.c:	int arr_size = sizeof(input_csc_matrix)/sizeof(struct input_csc_matrix);
-> drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c:	table_size = sizeof(qp_table_##mode##_##bpc##bpc_##max)/sizeof(*qp_table_##mode##_##bpc##bpc_##max); \
-> drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c:	for (k = 0; k < sizeof(wb_arb_params->cli_watermark)/sizeof(wb_arb_params->cli_watermark[0]); k++) {
-> drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c:#define NUM_ELEMENTS(a) (sizeof(a) / sizeof((a)[0]))
-> 
->   There are other ideas on that wiki page for someone who wanted
-> something simple to start with that aren't just aesthetic, they
-> would actually improve the quality and readability of the code.
-> 
-> rday
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ExQ7Ve6pZdT2zuD7"
+Content-Disposition: inline
+In-Reply-To: <20251203182121.52759-1-sohammetha01@gmail.com>
 
 
-Hey Rday,
+--ExQ7Ve6pZdT2zuD7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Wow, this is interesting. I did something similar when I was a mentee in
-the LKMP. I am a co-mentor now for the program. Would you say that
-maintainers regard the patches that would come from fixing these style
-issues as fundamentally different than the ones Clint attempted to fix?
+On Wed, Dec 03, 2025 at 11:51:21PM +0530, Soham Metha wrote:
+> The file 'da_monitor_synthesis.rst' was renamed to 'monitor_synthesis.rst=
+' in
+> commit f40a7c060207090f41998025fcd1cfad06ea2780
+> ("Documentation/rv: Prepare monitor synthesis document for LTL inclusion"=
+).
 
-Also, are your scripts open for anyone to use, including future mentees?
+[also Cc: people in the commit's SoB chain]
 
-Greg, if mentees fixed the ones that Rday's script cause, would you
-still prefer that those be confined to mainly drivers/staging?
+Nit: For commit references, please use abbreviated commit hash (at least 12
+characters; I personally prefer 14).
 
-Thanks,
-David Hunter
+>=20
+> Update the reference to point to the new filename.
+>=20
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
 
+Fixes: f40a7c06020709 ("Documentation/rv: Prepare monitor synthesis documen=
+t for LTL inclusion")
+
+>  The wip monitor is presented in::
+> =20
+> -  Documentation/trace/rv/da_monitor_synthesis.rst
+> +  Documentation/trace/rv/monitor_synthesis.rst
+
+Thanks for the catch! Can you also unwrap the references (which are in
+literal code blocks) so that these can be linked? Like:
+
+---- >8 ----
+diff --git a/Documentation/trace/rv/da_monitor_instrumentation.rst b/Docume=
+ntation/trace/rv/da_monitor_instrumentation.rst
+index 6c67c7b5781118..9eff38a4ad1ff4 100644
+--- a/Documentation/trace/rv/da_monitor_instrumentation.rst
++++ b/Documentation/trace/rv/da_monitor_instrumentation.rst
+@@ -162,10 +162,10 @@ For example, from the wip sample model::
+=20
+ The probes then need to be detached at the disable phase.
+=20
+-[1] The wip model is presented in::
++[1] The wip model is presented in:
+=20
+   Documentation/trace/rv/deterministic_automata.rst
+=20
+-The wip monitor is presented in::
++The wip monitor is presented in:
+=20
+-  Documentation/trace/rv/da_monitor_synthesis.rst
++  Documentation/trace/rv/monitor_synthesis.rst
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--ExQ7Ve6pZdT2zuD7
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaTDijwAKCRD2uYlJVVFO
+o/hyAQCZTtG+Npjdwceg3B2fWEbRK/dfQs5AlrpJpTI4YvX0SAEA3EOr9AbpAW68
+ivyGkRfmr5ezDnFob0+1riZRH8AzDgQ=
+=SD/G
+-----END PGP SIGNATURE-----
+
+--ExQ7Ve6pZdT2zuD7--
