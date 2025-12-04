@@ -1,137 +1,118 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54482DDC5
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Dec 2025 00:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4CD13B293
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 00:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764809030; cv=none; b=YCfAZzfZMwHm5fdqt8JfaWZmvoFqJa0XhJBWWRAzrOqSqFLHmaxoYwwC59K+EwlDYahlS9w1L6P3MCJXb0bY5hpC5MO+o3tkDXTDrIfMtI6x6cARriqfrQIkLNv+Ekx48FNnVdlP+EJHErN6FWcGlfgSie/puslT4xFFjiVaeQ4=
+	t=1764809224; cv=none; b=kN585JG1jDEpXp84lSl9EYKPq7o9bHTJ8hHKSsz1LNJuOhxorXpviKRlOETFz5luZ+OGGCbdxn+/pmnuBUPwL4uEhv4fgXVRu0784VMomWAHVe5PRHLURCTyl0/xUFAGq5RVF0rZV2xSY955mFJbs8jk1lwo5nWQvSMXasnbnPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764809030; c=relaxed/simple;
-	bh=7C4m9y22CDhJly1Sa/M8ZgDQxAAaoOub7TsjprrN6mo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Znaiuo8IToqYLLbR8VYzSJcM4jCV1RZovrBDdrGR9xiHLp5oCtLioD0aQCdSeQWcJO0lWCMdKOmim+vbflMQQlIg/CFJJPdJM6nZrfhqdKmKs4gxljLb04nDPv3SB9+l+GdhBbDi+dFYE/M5pBNTvJYJbVewHAr8dB0wR0GuWY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alnVpMO/; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764809224; c=relaxed/simple;
+	bh=iCqQu8YiZuW9HA006Q3yyvDDszNFiwK4fDW6js+q/dI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKAoTm7jbhDEtwmg+nMxsunUPh/4vnPem+5fNOW46WhUMxdUpPQ4BdYW8Rjvy66/E93O0qGCOzZYT2W9OT6zI2XPRjTZh6ZZHLfx162oQJv1K/c2JvuvGrNWuIdDbrcCDZ0HXlersfj/Aoc6s0cw/ZICcS+aWgJuqp2hYQpPQJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o2TgSUwM; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alnVpMO/"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-55ad466ad1eso117691e0c.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 03 Dec 2025 16:43:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o2TgSUwM"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5F7ED83D62
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 00:47:01 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -17.601
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Qo5lKYgwhTer for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Dec 2025 00:47:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com; envelope-from=cmllamas@google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B40AF83D1C
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B40AF83D1C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=o2TgSUwM
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B40AF83D1C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 00:47:00 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id d9443c01a7336-2980343d9d1so44415ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Dec 2025 16:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764809028; x=1765413828; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=61Fg0qope6bIFTvBwF2PK7eB2MmgYw/t+V2Q9FitbBc=;
-        b=alnVpMO/RMMj4yti7sU9PlFyJGPxZtYZ981Ify75SfoEzvxkgSs7/MPKfmpbvPdaD9
-         WXpeAY3p06cw8KDG3GDeWXthmdx+vdx9D/teXkDYWWSmyfmm7LOsk5VIj36x4pCsiBee
-         Lb8iduuzCpVBagcV11XhHhoIqSiNoIRl/05h1O0j0HlWnvCn2vRDX+bB1yRCgtXv6rwB
-         aQuR3W9hJIcdgXv8FFmh+ololIlH99Cjq8ZiacmoDAAiZYD+/UlcgoNoJvspv7GUd1N+
-         VVtc6xKROibD9XxxxmK/jikS+x63x6WZPayUV54VdSsMxSsHMM2b2BaX5gs0TfWGj4/w
-         bygQ==
+        d=google.com; s=20230601; t=1764809220; x=1765414020; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZRPKWeZ5Qund3cw/ji9ZPyAMDI/pWSSKTsDwxtv2M3o=;
+        b=o2TgSUwMYjiijGTW3OZFV/WjcIJ7QBATDK4tmw/unTzO73W43212q8TK+BV54IWNYt
+         hwvvrn1IB78ljhi3kRmQ8TKwQ8bBYZNZJwNR5CP09JTVHLIHDqc6OwLWlGtmV8k8/R1h
+         1AUZGTuy41fb0cB447hnyb89iU0HaeYB35UF/pVquuaw60OvoPyLeIgT/qZALVnKxRVR
+         PyvvyLtf2l/6kKl/XWwnG0k+/961vMw4/I01fyydO5nvYJGN/JVSviBSCnc7X0x96/N0
+         DuRh5NhfwpPlNev9owUex5Arvb+fkU55ayB7tRqcSGv6p3OVi/CXj4Q8Ngz03EL5o7Zy
+         itMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764809028; x=1765413828;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=61Fg0qope6bIFTvBwF2PK7eB2MmgYw/t+V2Q9FitbBc=;
-        b=DGyrSaJkC1IeF6vH7m0bBkSvhBRzdM4VBv+wTxk1lZzR8sciHZmMXMa+pD/74eGOKk
-         I4HheuHTnqPgpQ2pJEQEqMQGejDFTz93oxSgNnxrDhrRxIzKdIGEcwGBbYQMullr9G86
-         vxLmlaTepwMqBBdI2+ty2Dyn3NqA3zQabVpdqLT7rqE1Dup7LLnev2BPqhdrhZMd/NUp
-         lP0JHMe+V4ekalG79AiN3wBxrz6tQ1DCoLVVfM4yEHlhHRVZy2M5YqJM9v2jmvDgiN8V
-         p/CoZEGw2cWZfm5FS+WFhays2AiQVCFVGR77vV9mSa7CRz36isRIALREJVgkxatmhkKR
-         hVhA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYma2P7ukGDDaTIvsxDtHbaarWc/rAKEGIuT9lz7R1kK6F9nQL9WuoNgJmkDzTQXSXn/IvdEKJsTV0gDB1mDGoJ8UmZA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoPcEZZmHiYgAJpWxHDijj1S0XJjszYjtVWoOE8Pky1dP4V4Mp
-	imcDBGSh6NUNpCZy5pgpKZXxvGocJcVHkp7Qqm+lNVe2KVPATnJWJsqi
-X-Gm-Gg: ASbGncthV0hGTrZr+jRaFbDvhflgbrOzuItY2k1MrfowdZ3pDyf3h22VFe3JO6BBYWI
-	u8hktrHUYTReP2h3vauhERSez8xi/lIWw3dKnJE6A9/YenXtLTogvzp+mVg9KnYkXP4Q0o+HNGH
-	xWkQEdwH2aCgRaHQCgVHLE0m+FpNxIsg5gnEOFi24knRzk2/XtA7BDHKy8uwaMQE8xdtwtqZwSn
-	sUmBAazOI8XwrIo8kdCK7oDshocpydOafh5FBkHh8Azr3TaL4fCnv4XYHu3wj0kVJ9RAGKJWTnT
-	TrbVpiTY00Zm/Q1VvhVSZoUWlWbfYbSb+2wbOHXJBqd7HSOcYUNusk7UOqToeMPSzWku0NSTe+9
-	xsPbrgGyPp2pIwLU6ZuwZ1zdDK2z5U0CKEuQcduwNIpG01fYzMmPWGuXMb/F4Oo8ZSnjK5HYyz5
-	T+PxJ89cdbtUXrGGSW0DP+rvsu78z8
-X-Google-Smtp-Source: AGHT+IGsuatuhKh4iVq8o2lXvbj9+Qg260ROC3Yx+Y7OG23faK6RtOzwe4m6qVvfmSN3u8YYtNXYFg==
-X-Received: by 2002:a05:6122:8c7:b0:55b:aab:95e8 with SMTP id 71dfb90a1353d-55e69d8b1e4mr240706e0c.9.1764809028159;
-        Wed, 03 Dec 2025 16:43:48 -0800 (PST)
-Received: from [172.16.226.146] ([98.254.184.207])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55e6c56853esm77504e0c.1.2025.12.03.16.43.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Dec 2025 16:43:47 -0800 (PST)
-Message-ID: <fb90cdeb-3286-43df-9043-eb474bf4ba8a@gmail.com>
-Date: Wed, 3 Dec 2025 19:43:44 -0500
+        d=1e100.net; s=20230601; t=1764809220; x=1765414020;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZRPKWeZ5Qund3cw/ji9ZPyAMDI/pWSSKTsDwxtv2M3o=;
+        b=Dnr+1r9jTaPnUqfWqzXBhlR8xLsw0Kal6quaHt78RW+8fVf7rwo2TNdcTQMGREKVci
+         YP9TlBF4/zUDUO91HaUIrZhsKMCQU2r/8UXnG/yEbA6Dx3v2199ZDkA5PaWo6qoYKDVr
+         enQdIOFVGVPCMlWYTmxhDdWtCkMbKy/lNPaSiQ2LU32kkt8ETM/vaVXuT8mErcoOBNCw
+         HZ8rJIA9Jk3yHCV+M+OapfzYWsEePumTJdxEHmf7L+VFostGKK1WzOLTUL/cevmotzoZ
+         +k6Prh0qWRqA1Sw3g/ahYItHaWpO/64iJWhF8KIbbiPT/ENLscI3rAoFreSsQt4Ydbi5
+         Ks1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVVPOdOM0E5cCowEfh+WZXHDJzSN2eOnh/xAzrEr6ZZt7nPZpM7dYs5y9ggfjOGYR0kxvUwcZNXaeer6tNBas2d5YRuDA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy8JnmnlA8nG6pz+dfsxPbXdeUt8LzEqFHJEEJVD/YhnOgH4BQ1
+	SWsn1V3MF9SyIJF3P5j5+JaCpCxusJdxnEaB6UnqSUshE92dLcr5+J/oId3EH8dIwg==
+X-Gm-Gg: ASbGncuJrRIpqJPEJX7eRHmQ3gyvxzJ+iFDJ2OkWNRwfW41HXWT4ep0hAhHVhS4q1H1
+	nytjAaJGsUC1/BYJvVeUAl5CPEbEeqarjbvIa+7D/SEimfzXHfQI7gp37fdFUU6IiVsl0l3MysE
+	1eIGLJKBod2q3I5ndwyXPWXt1IH8S8LFAHfTWktR00tAhLj98/sV5Xpj4ngzA2+yKpXWb6IsVBt
+	0akSwO5WjJrQ12mg2dPuCXeQbyJLOeUXAofEe2JL7Q9qpSlG9v2Ne3JHi5qd4M2LIRef2DcUVvg
+	47Ktnfu4MBfI9Fvmz3QtDjykuT/OYlbqHLLcrrJNdC2vTzhxzq+gxYx7IsbwZazSKBYJZtXl2aE
+	gt52L2M7pYigDtYB4knYTouirW0p03u2ECnJJRj0OVFl/5GzDqBnvtD/WV+XQOb81Z/ZljDUxo9
+	OFYLgo9JiwiBXkbOZ4LcsS097Iht3Rh62jiV9mBG4N14u9Hcbbsw==
+X-Google-Smtp-Source: AGHT+IH+0aCy9fVrVSrP2Dp9OUkIwTd4pk1PbNhePVAvYe+rYXBQsI8pgc1ph8mnkBNbWNx/7/TL7w==
+X-Received: by 2002:a17:902:db04:b0:295:30bc:458e with SMTP id d9443c01a7336-29dacb15b9cmr720725ad.3.1764809219739;
+        Wed, 03 Dec 2025 16:46:59 -0800 (PST)
+Received: from google.com (129.35.125.34.bc.googleusercontent.com. [34.125.35.129])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e2af843307sm163296b3a.61.2025.12.03.16.46.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 16:46:59 -0800 (PST)
+Date: Thu, 4 Dec 2025 00:46:54 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arve <arve@android.com>, Todd Kjos <tkjos@android.com>,
+	Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 2/2] android: binder: add missing return value
+ documentation for binder_apply_fd_fixups()
+Message-ID: <aTDZ_oKCRjGe6RNa@google.com>
+References: <20251121111203.21800-1-adelodunolaoluwa@yahoo.com>
+ <20251121111203.21800-2-adelodunolaoluwa@yahoo.com>
+ <aS8dzB6-CGfitagu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] usb: gadget: dummy_hcd: coding style improvements
-To: Clint George <clintbgeorge@gmail.com>, stern@rowland.harvard.edu,
- gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- khalid@kernel.org
-References: <20251119130840.14309-1-clintbgeorge@gmail.com>
- <20251201203715.17768-1-clintbgeorge@gmail.com>
-Content-Language: en-US
-From: David Hunter <david.hunter.linux@gmail.com>
-In-Reply-To: <20251201203715.17768-1-clintbgeorge@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aS8dzB6-CGfitagu@google.com>
 
-On 12/1/25 15:37, Clint George wrote:
-> This patch series focuses on addressing various coding style issues in
-> the dummy_hcd USB gadget driver. The changes includes adding relevant
-> comments, improving readability, and ensuring consistency with kernel
-> coding conventions.
+On Tue, Dec 02, 2025 at 05:11:40PM +0000, Carlos Llamas wrote:
+> On Fri, Nov 21, 2025 at 12:12:03PM +0100, Sunday Adelodun wrote:
+> > The kernel-doc for binder_apply_fd_fixups() was missing a description of
+> > its return value, which triggers a kernel-doc warning.
 > 
-> Clint George (6):
->   usb: gadget: dummy_hcd: replace symbolic permissions (S_IRUGO) with octal (0444)
->   usb: gadget: dummy_hcd: use 'unsigned int' instead of bare 'unsigned'
->   usb: gadget: dummy_hcd: document ISO endpoint allocation pattern
->   usb: gadget: dummy_hcd: use sizeof(*ptr) instead of sizeof *ptr
->   usb: gadget: dummy_hcd: remove unnecessary parentheses
->   usb: gadget: dummy_hcd: move function braces
-> 
->  drivers/usb/gadget/udc/dummy_hcd.c | 52 ++++++++++++------------------
->  1 file changed, 21 insertions(+), 31 deletions(-)
-> 
-> ---
-> 
-> Testing:
-> - Ran compiler testing with no new warnings detected.
-> - Ensured the module builds and inserts cleanly without issues.
-> - Used Static Analysis tools to confirm no new issues were introduced.
-> 
-> Please review the changes and let me know if any modifications
-> or further testing of the module is required.
-> 
-> As part of my LKMP mentorship i have to complete 5 patches as a criteria
-> for graduation and thus have focused on working on such
-> beginner-friendly patches so that not only do i get the required number
-> of patches but also get familiar with the process of kernel
-> developement. Thus, while this patch series doesn't address the max_stream value
-> exceeding problem that triggers the BUG() API, i will take some time to
-> dig deeper and truly understand the problem and fix it and not just
-> paper-over the problem.
-> 
-> Again, i am very grateful for your feedback greg and alan to guide a
-> beginner like me. 
-> 
-> Thanks,
-> Clint
-> 
+> How does one trigger this warning? Was there a report of this? Can you
+> add the warning you see to the commit message?
 
-Hey Clint,
+Ha! I guess one needs to ask for this warn:
 
-In general, when submitting version 2 of a patch series, most
-maintainers will prefer that you send it as a new patch series and not
-as a reply. I usually recommend putting the links to the respective
-previous versions in the change log.
-
-Thanks,
-David Hunter
+$ ./scripts/kernel-doc -Wreturn drivers/android/binder.c > /dev/null
+Warning: drivers/android/binder.c:4674 No description found for return value of 'binder_apply_fd_fixups'
