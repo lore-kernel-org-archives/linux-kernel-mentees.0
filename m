@@ -1,122 +1,342 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C4A1C28E;
-	Thu,  4 Dec 2025 10:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9577A338F5E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764843787; cv=none; b=CvgCeEO5JNo+Ll0cp+WO1MxT0nZPvLgbHSQSRemNWrsu7pV9A5V46i7hH/5cWHlUwOb4AI7qtsmlZL+zrz8k4w++7Gdn5/CovElPcI09kRDonBTYCFliUbef6KC0wCQIVUFo8iZjGU03tacF1aLlk9tyw3+ADfQ28MtUgzpnpc8=
+	t=1764847187; cv=none; b=nlm3Xws04lotWQvm3TpS243vud2HApFLUbo0PGbYCJf7s7YUzbpd91JGMUV5nMWrqNtR04vnbiQl3EwNyKpsH8X5QiIurfPOIiZ+LckRI323IiLIPL0cnAC0nTfYIwSejFN4CPtB0tGGbAWfTAd7GRnvNxNv+w4pmHg4T9rIc70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764843787; c=relaxed/simple;
-	bh=3iWgpvWwBbytpY9cQwdNWXJ+A62+Nlt6nuF09p4zyBY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=PmPiYqRDs0nArUc3Hvd9AMZKKHZhw0zTKBIF3xKPr1csUmD/EM6PeEdp4jQew7yuhjTy+IRRyJh1OVo2kDWzyCAuuW4QIwXbXZJmrYtmU7yBR1/aFbuTUTUEcvqgyWyDJos+aE+zLEzZGOGJEftS4B1ICrEqew4rAXIdwxMoX/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftMwOJ3K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764847187; c=relaxed/simple;
+	bh=WvWscm3N0CLn6M85vSbAydGeABjO0HO9GfKwvOQSNPI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S1Yu0TsJDgSGthfozHayUPjBLPaeC0YmMbomj/jVOX7IgZbU7Cca/BAA46BCLL2R1q0DkU8akzCvbSyJ4i+GD49PytcpdT8T4RR+iigX1bcX1Ca9Ce+vQZNoVX7hwYkW7PyAGgeqClhhNrnDk3AFMFQZmR9Afm5R/YqwGy41KjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gYGh/nsR; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftMwOJ3K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4B6C4CEFB;
-	Thu,  4 Dec 2025 10:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764843787;
-	bh=3iWgpvWwBbytpY9cQwdNWXJ+A62+Nlt6nuF09p4zyBY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ftMwOJ3Ka+ViFJHX2Qa31FBZ1yqjDGmECs17+He0c4dn49b4ONHxrQoLiWfmLxCUj
-	 wZ74PRVm/G/d6tU/7j6rRVUTkPsjbmDM1iMd/b02zmmMNzM5kLzJa3wTcXqPgUlPrz
-	 Nzvenb3GBwrgYof4LFRsz38vTto37AaG+ucrxqqm92x4k4BAcuU302PvLBfrmxg0Tg
-	 LbOnNqZyqgaLzcMryjvE5y3JmwEaaKkFuIe+RgwvknJFEYbiVos4YVLSrm144NZ8Eo
-	 gASIjFH0A1lh98CtBQK+zJKfXEdMQw22TzJfqsJ2YJyZcydxawVm5CBiTYKdOgleha
-	 nJpFI/LriJ+KQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F2A3D3AA9A9C;
-	Thu,  4 Dec 2025 10:20:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYGh/nsR"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 284CC40359
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:45 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id LBR1zIIVjH72 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Dec 2025 11:19:44 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C34734007A
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C34734007A
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gYGh/nsR
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C34734007A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:43 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4779c9109ceso800715e9.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 04 Dec 2025 03:19:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764847181; x=1765451981; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X2hKqtZ8qRJCylrwPhE3PF073DcXkJTYdnB19/D32AM=;
+        b=gYGh/nsRBlrHWhTIoc06QpWy2QfRe8RwmFBkPNEqWd9xHG43gBHXqHMsSNks4OZ3pz
+         fdC2oE8yS5UEhSdu9uLtHLJto6snGjxaJwmAAwThtpwito8N48sP4Waclz/TYSXxz4un
+         UR8CBkGgd+B6oQw8jVg/L0/VlNBVrbxp7Ea8l0NeIXGbfaff/KqzzQGqu9tJvxKa3IxW
+         W+jqYkPNUs91+JSCKzxMbgcLljJakvm2eBioAHiOt0PvOeGcEGlrmXPm7mzlNGrmnEuF
+         biYz1/lbKKuGx8dvgqgl5NiJYB6S1jgyvB6rKC8VISZgziO5aTLLGTdpC9nT7R51aYZv
+         OIbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764847181; x=1765451981;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X2hKqtZ8qRJCylrwPhE3PF073DcXkJTYdnB19/D32AM=;
+        b=eArXhdbjhbzpUDV/HCOFaD8jEtYtAo2uNIO6kYK1SX0AWmFhX52MbSamW6kI6mX3Fy
+         qAbWwNxU4DeWxcUqkfaSqCU/62zAs+U4ypzd4eGeFKPYLVuwsIn+3ZRWCnVl/aS14iUF
+         oJDWdnBi6LnsiRyABZz/43Hv18v2flP+etW7HsSuGEKjcm00YsvMOnC5flvN+JP3KNu8
+         jem5/tOobHiPJx9VK1rFqqJ9F8e52vsu8TLtRSdFUUpBYIAxi+pt8LyRX5gBgzlTNuLa
+         L400w/ZZA03EElOeJ+wbdPEw+fEqnKiBIA4uIsfgl+9omLufk7pI0zftaqlsAd30b7ym
+         Ks+w==
+X-Forwarded-Encrypted: i=1; AJvYcCU628/7nTNtgbIlPsqL+fm/8RZ20zxIZLmoVSJ7rVzFkSsMqGAafr8r1ZA68f9rIcyGQDqYwZeBJe0snwTfWJeMpaG8BQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwxXIvChyx9/ZdZtx8nGSbUHPBb7DJ5suRXSM2nFhkeIYjReOUI
+	iNyVer+kodVykv6frs1oCLNibGVJa3GHNG8qR+v49k4120KNRg16Gzsn
+X-Gm-Gg: ASbGncsnyZxYtveSrzH3y2R+ocvm4ObmnxJgw29r3u/CwR01/zXHXu6UEDjKFmhcesy
+	SAVU7f84MceFpESod0lx/AMZ9ei9ODWcg3BniJUBjbFPE74mQseQb/45/e7bKBJ5PuR3/r4AtgI
+	ha/0Dgz31BQnZVSBu9HLg0ngWttyY/yI6zoKkf8uWwhSIHxnU56ohAMPUEa1sLllMzqlbJW9ORp
+	rI4l0OBRAj7ZwMlZLsYGdoEHbUJL2jw054vqp4kfKAcDPRR2ltExValnZx93MXz+G8fcoQ/93rQ
+	xWuDmayC2jJQNSueQwfXCbaIY3z+nTkmtT8Cj0nA0tfAbCUITrn20UK+787HMj/CwN5iWXGLMwS
+	sWjkgcUiAPSJY8aSfTYFfljgz7J6XAxMYjUhefFkBtkvKuDAN4DDhsFTEFaqMBDfF26CHXNiMtp
+	pFPmhPiPNAAtNO/rVVZoNco4tBBN/ychq7Ckvw8Fc=
+X-Google-Smtp-Source: AGHT+IHKGaDGgUu/hfwTgcpCX6n2PEp9miiG+arZ8x+lwbdliZVRvTkAtNbXyE16s9JREheiCryq8w==
+X-Received: by 2002:a05:600c:c4b7:b0:477:5b01:7d42 with SMTP id 5b1f17b1804b1-4792c8e4c60mr29672955e9.5.1764847181177;
+        Thu, 04 Dec 2025 03:19:41 -0800 (PST)
+Received: from [192.168.1.105] ([165.50.56.69])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353f8bsm2691904f8f.43.2025.12.04.03.19.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 03:19:40 -0800 (PST)
+Message-ID: <3237e199-2375-4064-9a28-134836b00606@gmail.com>
+Date: Thu, 4 Dec 2025 13:19:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v3] net/hsr: fix NULL pointer dereference in
- prp_get_untagged_frame()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176484360579.718719.17275039273482574777.git-patchwork-notify@kernel.org>
-Date: Thu, 04 Dec 2025 10:20:05 +0000
-References: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
-In-Reply-To: <20251129093718.25320-1-ssrane_b23@ee.vjti.ac.in>
-To: SHAURYA RANE <ssrane_b23@ee.vjti.ac.in>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, jkarrenpalo@gmail.com,
- fmaurer@redhat.com, arvid.brodin@alten.se, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
- khalid@kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+2fa344348a579b779e05@syzkaller.appspotmail.com, stable@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] hfs: ensure sb->s_fs_info is always cleaned up
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+ "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+ "frank.li@vivo.com" <frank.li@vivo.com>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "slava@dubeyko.com" <slava@dubeyko.com>,
+ "sandeen@redhat.com" <sandeen@redhat.com>, "jack@suse.cz" <jack@suse.cz>
+Cc: "khalid@kernel.org" <khalid@kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com"
+ <syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>
+References: <20251201222843.82310-1-mehdi.benhadjkhelifa@gmail.com>
+ <20251201222843.82310-2-mehdi.benhadjkhelifa@gmail.com>
+ <4b620e91b43f86dceed88ed2f73b1ff1e72bff6c.camel@ibm.com>
+ <4047dad6-d7f8-4630-896a-68d4b224f6c6@gmail.com>
+ <32a2196b93ccdac0623175180a26c690e97536f6.camel@ibm.com>
+Content-Language: en-US
+From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+In-Reply-To: <32a2196b93ccdac0623175180a26c690e97536f6.camel@ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Sat, 29 Nov 2025 15:07:18 +0530 you wrote:
-> prp_get_untagged_frame() calls __pskb_copy() to create frame->skb_std
-> but doesn't check if the allocation failed. If __pskb_copy() returns
-> NULL, skb_clone() is called with a NULL pointer, causing a crash:
-> Oops: general protection fault, probably for non-canonical address 0xdffffc000000000f: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000078-0x000000000000007f]
-> CPU: 0 UID: 0 PID: 5625 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full)
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-> RIP: 0010:skb_clone+0xd7/0x3a0 net/core/skbuff.c:2041
-> Code: 03 42 80 3c 20 00 74 08 4c 89 f7 e8 23 29 05 f9 49 83 3e 00 0f 85 a0 01 00 00 e8 94 dd 9d f8 48 8d 6b 7e 49 89 ee 49 c1 ee 03 <43> 0f b6 04 26 84 c0 0f 85 d1 01 00 00 44 0f b6 7d 00 41 83 e7 0c
-> RSP: 0018:ffffc9000d00f200 EFLAGS: 00010207
-> RAX: ffffffff892235a1 RBX: 0000000000000000 RCX: ffff88803372a480
-> RDX: 0000000000000000 RSI: 0000000000000820 RDI: 0000000000000000
-> RBP: 000000000000007e R08: ffffffff8f7d0f77 R09: 1ffffffff1efa1ee
-> R10: dffffc0000000000 R11: fffffbfff1efa1ef R12: dffffc0000000000
-> R13: 0000000000000820 R14: 000000000000000f R15: ffff88805144cc00
-> FS:  0000555557f6d500(0000) GS:ffff88808d72f000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000555581d35808 CR3: 000000005040e000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  hsr_forward_do net/hsr/hsr_forward.c:-1 [inline]
->  hsr_forward_skb+0x1013/0x2860 net/hsr/hsr_forward.c:741
->  hsr_handle_frame+0x6ce/0xa70 net/hsr/hsr_slave.c:84
->  __netif_receive_skb_core+0x10b9/0x4380 net/core/dev.c:5966
->  __netif_receive_skb_one_core net/core/dev.c:6077 [inline]
->  __netif_receive_skb+0x72/0x380 net/core/dev.c:6192
->  netif_receive_skb_internal net/core/dev.c:6278 [inline]
->  netif_receive_skb+0x1cb/0x790 net/core/dev.c:6337
->  tun_rx_batched+0x1b9/0x730 drivers/net/tun.c:1485
->  tun_get_user+0x2b65/0x3e90 drivers/net/tun.c:1953
->  tun_chr_write_iter+0x113/0x200 drivers/net/tun.c:1999
->  new_sync_write fs/read_write.c:593 [inline]
->  vfs_write+0x5c9/0xb30 fs/read_write.c:686
->  ksys_write+0x145/0x250 fs/read_write.c:738
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f0449f8e1ff
-> Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 f9 92 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 4c 93 02 00 48
-> RSP: 002b:00007ffd7ad94c90 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
-> RAX: ffffffffffffffda RBX: 00007f044a1e5fa0 RCX: 00007f0449f8e1ff
-> RDX: 000000000000003e RSI: 0000200000000500 RDI: 00000000000000c8
-> RBP: 00007ffd7ad94d20 R08: 0000000000000000 R09: 0000000000000000
-> R10: 000000000000003e R11: 0000000000000293 R12: 0000000000000001
-> R13: 00007f044a1e5fa0 R14: 00007f044a1e5fa0 R15: 0000000000000003
->  </TASK>
-> Add a NULL check immediately after __pskb_copy() to handle allocation
-> failures gracefully.
+On 12/4/25 12:19 AM, Viacheslav Dubeyko wrote:
+> On Tue, 2025-12-02 at 11:16 +0100, Mehdi Ben Hadj Khelifa wrote:
+>> On 12/2/25 12:04 AM, Viacheslav Dubeyko wrote:
+>>> On Mon, 2025-12-01 at 23:23 +0100, Mehdi Ben Hadj Khelifa wrote:
+>>>> When hfs was converted to the new mount api a bug was introduced by
+>>>> changing the allocation pattern of sb->s_fs_info. If setup_bdev_super()
+>>>> fails after a new superblock has been allocated by sget_fc(), but before
+>>>> hfs_fill_super() takes ownership of the filesystem-specific s_fs_info
+>>>> data it was leaked.
+>>>>
+>>>> Fix this by freeing sb->s_fs_info in hfs_kill_super().
+>>>>
+>>>> Cc: stable@vger.kernel.org
+>>>> Fixes: ffcd06b6d13b ("hfs: convert hfs to use the new mount api")
+>>>> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
+>>>> Closes: https://syzkaller.appspot.com/bug?extid=ad45f827c88778ff7df6
+>>>> Tested-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+>>>> Signed-off-by: Christian Brauner <brauner@kernel.org>
+>>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
+>>>> ---
+>>>>    fs/hfs/mdb.c   | 35 ++++++++++++++---------------------
+>>>>    fs/hfs/super.c | 10 +++++++++-
+>>>>    2 files changed, 23 insertions(+), 22 deletions(-)
+>>>>
+>>>> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+>>>> index 53f3fae60217..f28cd24dee84 100644
+>>>> --- a/fs/hfs/mdb.c
+>>>> +++ b/fs/hfs/mdb.c
+>>>> @@ -92,7 +92,7 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    		/* See if this is an HFS filesystem */
+>>>>    		bh = sb_bread512(sb, part_start + HFS_MDB_BLK, mdb);
+>>>>    		if (!bh)
+>>>> -			goto out;
+>>>> +			return -EIO;
+>>>
+>>> Frankly speaking, I don't see the point to rework the hfs_mdb_get() method so
+>>> intensively. We had pretty good pattern before:
+>>>
+>>> int hfs_mdb_get(struct super_block *sb) {
+>>>           if (something_happens)
+>>>                goto out;
+>>>
+>>>           if (something_happens_and_we_need_free_buffer)
+>>>               goto out_bh;
+>>>
+>>>    	return 0;
+>>>
+>>> out_bh:
+>>> 	brelse(bh);
+>>> out:
+>>> 	return -EIO;
+>>>    }
+>>>
+>>> The point here that we have error management logic in one place. Now you have
+>>> spread this logic through the whole function. It makes function more difficult
+>>> to manage and we can introduce new bugs. Could you please localize your change
+>>> without reworking this pattern of error situation management? Also, it will make
+>>> the patch more compact. Could you please rework the patch?
+>>>
+>> This change in particular is made by christian. As he mentionned in one
+>> of his emails to my patches[1], his logic was that hfs_mdb_put() should
+>> only be called in fill_super() which cleans everything up and that the
+>> cleanup labels don't make sense here which is why he spread the logic of
+>> cleanup across the function. Maybe he can give us more input on this
+>> since it wasn't my code.
+>>
+>> [1]:https://lore.kernel.org/all/20251119-delfin-bioladen-6bf291941d4f@brauner/
+>>>
 > 
-> [...]
+> I am not against of not calling the hfs_mdb_put() in hfs_mdb_get(). But if I am
+> trying to rework some method significantly, guys are not happy at all about it.
+> :) I am slightly worried about such significant rework of hfs_mdb_get() because
+> we potentially could introduce some new bugs. And I definitely will have the
+> conflict with another patch under review. :)
+> 
 
-Here is the summary with links:
-  - [net,v3] net/hsr: fix NULL pointer dereference in prp_get_untagged_frame()
-    https://git.kernel.org/netdev/net/c/188e0fa5a679
+Totally understandable. If I was to make that change I would probably 
+seperate it from the fix (except the part where we delete freeing the 
+s_fs_info struct). But I guess christian wanted to do the whole 
+refactoring since it was related and it made more sense as he explained it.
+> I've spent some more time for reviewing the patch again. And I think I can
+> accept it as it is. Currently, I don't see any serious issue in hfs_mdb_get().
+> It is simply my code style preferences. :) But people can see it in different
+> ways.
+> 
+Thanks for you time and effort!
+>>>
+>>>>    
+>>>>    		if (mdb->drSigWord == cpu_to_be16(HFS_SUPER_MAGIC))
+>>>>    			break;
+>>>> @@ -102,13 +102,14 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    		 * (should do this only for cdrom/loop though)
+>>>>    		 */
+>>>>    		if (hfs_part_find(sb, &part_start, &part_size))
+>>>> -			goto out;
+>>>> +			return -EIO;
+>>>>    	}
+>>>>    
+>>>>    	HFS_SB(sb)->alloc_blksz = size = be32_to_cpu(mdb->drAlBlkSiz);
+>>>>    	if (!size || (size & (HFS_SECTOR_SIZE - 1))) {
+>>>>    		pr_err("bad allocation block size %d\n", size);
+>>>> -		goto out_bh;
+>>>> +		brelse(bh);
+>>>> +		return -EIO;
+>>>>    	}
+>>>>    
+>>>>    	size = min(HFS_SB(sb)->alloc_blksz, (u32)PAGE_SIZE);
+>>>> @@ -125,14 +126,16 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    	brelse(bh);
+>>>>    	if (!sb_set_blocksize(sb, size)) {
+>>>>    		pr_err("unable to set blocksize to %u\n", size);
+>>>> -		goto out;
+>>>> +		return -EIO;
+>>>>    	}
+>>>>    
+>>>>    	bh = sb_bread512(sb, part_start + HFS_MDB_BLK, mdb);
+>>>>    	if (!bh)
+>>>> -		goto out;
+>>>> -	if (mdb->drSigWord != cpu_to_be16(HFS_SUPER_MAGIC))
+>>>> -		goto out_bh;
+>>>> +		return -EIO;
+>>>> +	if (mdb->drSigWord != cpu_to_be16(HFS_SUPER_MAGIC)) {
+>>>> +		brelse(bh);
+>>>> +		return -EIO;
+>>>> +	}
+>>>>    
+>>>>    	HFS_SB(sb)->mdb_bh = bh;
+>>>>    	HFS_SB(sb)->mdb = mdb;
+>>>> @@ -174,7 +177,7 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    
+>>>>    	HFS_SB(sb)->bitmap = kzalloc(8192, GFP_KERNEL);
+>>>>    	if (!HFS_SB(sb)->bitmap)
+>>>> -		goto out;
+>>>> +		return -EIO;
+>>>>    
+>>>>    	/* read in the bitmap */
+>>>>    	block = be16_to_cpu(mdb->drVBMSt) + part_start;
+>>>> @@ -185,7 +188,7 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    		bh = sb_bread(sb, off >> sb->s_blocksize_bits);
+>>>>    		if (!bh) {
+>>>>    			pr_err("unable to read volume bitmap\n");
+>>>> -			goto out;
+>>>> +			return -EIO;
+>>>>    		}
+>>>>    		off2 = off & (sb->s_blocksize - 1);
+>>>>    		len = min((int)sb->s_blocksize - off2, size);
+>>>> @@ -199,12 +202,12 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    	HFS_SB(sb)->ext_tree = hfs_btree_open(sb, HFS_EXT_CNID, hfs_ext_keycmp);
+>>>>    	if (!HFS_SB(sb)->ext_tree) {
+>>>>    		pr_err("unable to open extent tree\n");
+>>>> -		goto out;
+>>>> +		return -EIO;
+>>>>    	}
+>>>>    	HFS_SB(sb)->cat_tree = hfs_btree_open(sb, HFS_CAT_CNID, hfs_cat_keycmp);
+>>>>    	if (!HFS_SB(sb)->cat_tree) {
+>>>>    		pr_err("unable to open catalog tree\n");
+>>>> -		goto out;
+>>>> +		return -EIO;
+>>>>    	}
+>>>>    
+>>>>    	attrib = mdb->drAtrb;
+>>>> @@ -229,12 +232,6 @@ int hfs_mdb_get(struct super_block *sb)
+>>>>    	}
+>>>>    
+>>>>    	return 0;
+>>>> -
+>>>> -out_bh:
+>>>> -	brelse(bh);
+>>>> -out:
+>>>> -	hfs_mdb_put(sb);
+>>>> -	return -EIO;
+>>>>    }
+>>>>    
+>>>>    /*
+>>>> @@ -359,8 +356,6 @@ void hfs_mdb_close(struct super_block *sb)
+>>>>     * Release the resources associated with the in-core MDB.  */
+>>>>    void hfs_mdb_put(struct super_block *sb)
+>>>>    {
+>>>> -	if (!HFS_SB(sb))
+>>>> -		return;
+>>>>    	/* free the B-trees */
+>>>>    	hfs_btree_close(HFS_SB(sb)->ext_tree);
+>>>>    	hfs_btree_close(HFS_SB(sb)->cat_tree);
+>>>> @@ -373,6 +368,4 @@ void hfs_mdb_put(struct super_block *sb)
+>>>>    	unload_nls(HFS_SB(sb)->nls_disk);
+>>>>    
+>>>>    	kfree(HFS_SB(sb)->bitmap);
+>>>> -	kfree(HFS_SB(sb));
+>>>> -	sb->s_fs_info = NULL;
+>>>>    }
+>>>> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+>>>> index 47f50fa555a4..df289cbdd4e8 100644
+>>>> --- a/fs/hfs/super.c
+>>>> +++ b/fs/hfs/super.c
+>>>> @@ -431,10 +431,18 @@ static int hfs_init_fs_context(struct fs_context *fc)
+>>>>    	return 0;
+>>>>    }
+>>>>    
+>>>> +static void hfs_kill_super(struct super_block *sb)
+>>>> +{
+>>>> +	struct hfs_sb_info *hsb = HFS_SB(sb);
+>>>> +
+>>>> +	kill_block_super(sb);
+>>>> +	kfree(hsb);
+>>>> +}
+>>>> +
+>>>>    static struct file_system_type hfs_fs_type = {
+>>>>    	.owner		= THIS_MODULE,
+>>>>    	.name		= "hfs",
+>>>> -	.kill_sb	= kill_block_super,
+>>>> +	.kill_sb	= hfs_kill_super,
+>>>>    	.fs_flags	= FS_REQUIRES_DEV,
+>>>>    	.init_fs_context = hfs_init_fs_context,
+>>>>    };
+> 
+> Looks good. Thanks a lot for the fix.
+> 
+> Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> 
+> Thanks,
+> Slava.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Best Regards,
+Mehdi Ben Hadj khelifa
 
