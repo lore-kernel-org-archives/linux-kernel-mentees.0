@@ -1,342 +1,83 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9577A338F5E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F922D0C99
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 15:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764847187; cv=none; b=nlm3Xws04lotWQvm3TpS243vud2HApFLUbo0PGbYCJf7s7YUzbpd91JGMUV5nMWrqNtR04vnbiQl3EwNyKpsH8X5QiIurfPOIiZ+LckRI323IiLIPL0cnAC0nTfYIwSejFN4CPtB0tGGbAWfTAd7GRnvNxNv+w4pmHg4T9rIc70=
+	t=1764861603; cv=none; b=HZ+KzHLTBZ3Ti9QQ3GPxTH+JFIbmugBRsCMEOhsrFl72+MBR3loreLNHmbTC9XJAEDZn5KdDeM/DuXSuLE3gQcyoNQlHvuw89yGe66W4058amJof8XmQ0kJBYq1j6DUiPz3F3BJ2wKXTS7kc0Xr75GghkI75099DSz5XKMuRW1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764847187; c=relaxed/simple;
-	bh=WvWscm3N0CLn6M85vSbAydGeABjO0HO9GfKwvOQSNPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S1Yu0TsJDgSGthfozHayUPjBLPaeC0YmMbomj/jVOX7IgZbU7Cca/BAA46BCLL2R1q0DkU8akzCvbSyJ4i+GD49PytcpdT8T4RR+iigX1bcX1Ca9Ce+vQZNoVX7hwYkW7PyAGgeqClhhNrnDk3AFMFQZmR9Afm5R/YqwGy41KjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gYGh/nsR; arc=none smtp.client-ip=140.211.166.133
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gYGh/nsR"
+	s=arc-20240116; t=1764861603; c=relaxed/simple;
+	bh=ssBbCYvjCZJhgE1nFJcWZFdkknw1t8OtO8y6K93BcMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZbSdvUSUY3HQHjGIvmEPWUY9quWgLPpa0zNO8rRDSEa7mlwvA6vDBjlbCOILMO7KXIbCzR3wZ2683FSDITb1nw8q9bl5t4nFIHUq8aERMl90CjllBxraN6J0N5aTDmNPpRKeeRkqEKAp3FLLwQbBeVKJMfc2WU27/y6O1oOOUCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 284CC40359
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D95B240211
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 15:19:59 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -4.19
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id LBR1zIIVjH72 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Dec 2025 11:19:44 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=mehdi.benhadjkhelifa@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C34734007A
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C34734007A
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gYGh/nsR
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C34734007A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 11:19:43 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4779c9109ceso800715e9.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 04 Dec 2025 03:19:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764847181; x=1765451981; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X2hKqtZ8qRJCylrwPhE3PF073DcXkJTYdnB19/D32AM=;
-        b=gYGh/nsRBlrHWhTIoc06QpWy2QfRe8RwmFBkPNEqWd9xHG43gBHXqHMsSNks4OZ3pz
-         fdC2oE8yS5UEhSdu9uLtHLJto6snGjxaJwmAAwThtpwito8N48sP4Waclz/TYSXxz4un
-         UR8CBkGgd+B6oQw8jVg/L0/VlNBVrbxp7Ea8l0NeIXGbfaff/KqzzQGqu9tJvxKa3IxW
-         W+jqYkPNUs91+JSCKzxMbgcLljJakvm2eBioAHiOt0PvOeGcEGlrmXPm7mzlNGrmnEuF
-         biYz1/lbKKuGx8dvgqgl5NiJYB6S1jgyvB6rKC8VISZgziO5aTLLGTdpC9nT7R51aYZv
-         OIbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764847181; x=1765451981;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X2hKqtZ8qRJCylrwPhE3PF073DcXkJTYdnB19/D32AM=;
-        b=eArXhdbjhbzpUDV/HCOFaD8jEtYtAo2uNIO6kYK1SX0AWmFhX52MbSamW6kI6mX3Fy
-         qAbWwNxU4DeWxcUqkfaSqCU/62zAs+U4ypzd4eGeFKPYLVuwsIn+3ZRWCnVl/aS14iUF
-         oJDWdnBi6LnsiRyABZz/43Hv18v2flP+etW7HsSuGEKjcm00YsvMOnC5flvN+JP3KNu8
-         jem5/tOobHiPJx9VK1rFqqJ9F8e52vsu8TLtRSdFUUpBYIAxi+pt8LyRX5gBgzlTNuLa
-         L400w/ZZA03EElOeJ+wbdPEw+fEqnKiBIA4uIsfgl+9omLufk7pI0zftaqlsAd30b7ym
-         Ks+w==
-X-Forwarded-Encrypted: i=1; AJvYcCU628/7nTNtgbIlPsqL+fm/8RZ20zxIZLmoVSJ7rVzFkSsMqGAafr8r1ZA68f9rIcyGQDqYwZeBJe0snwTfWJeMpaG8BQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwxXIvChyx9/ZdZtx8nGSbUHPBb7DJ5suRXSM2nFhkeIYjReOUI
-	iNyVer+kodVykv6frs1oCLNibGVJa3GHNG8qR+v49k4120KNRg16Gzsn
-X-Gm-Gg: ASbGncsnyZxYtveSrzH3y2R+ocvm4ObmnxJgw29r3u/CwR01/zXHXu6UEDjKFmhcesy
-	SAVU7f84MceFpESod0lx/AMZ9ei9ODWcg3BniJUBjbFPE74mQseQb/45/e7bKBJ5PuR3/r4AtgI
-	ha/0Dgz31BQnZVSBu9HLg0ngWttyY/yI6zoKkf8uWwhSIHxnU56ohAMPUEa1sLllMzqlbJW9ORp
-	rI4l0OBRAj7ZwMlZLsYGdoEHbUJL2jw054vqp4kfKAcDPRR2ltExValnZx93MXz+G8fcoQ/93rQ
-	xWuDmayC2jJQNSueQwfXCbaIY3z+nTkmtT8Cj0nA0tfAbCUITrn20UK+787HMj/CwN5iWXGLMwS
-	sWjkgcUiAPSJY8aSfTYFfljgz7J6XAxMYjUhefFkBtkvKuDAN4DDhsFTEFaqMBDfF26CHXNiMtp
-	pFPmhPiPNAAtNO/rVVZoNco4tBBN/ychq7Ckvw8Fc=
-X-Google-Smtp-Source: AGHT+IHKGaDGgUu/hfwTgcpCX6n2PEp9miiG+arZ8x+lwbdliZVRvTkAtNbXyE16s9JREheiCryq8w==
-X-Received: by 2002:a05:600c:c4b7:b0:477:5b01:7d42 with SMTP id 5b1f17b1804b1-4792c8e4c60mr29672955e9.5.1764847181177;
-        Thu, 04 Dec 2025 03:19:41 -0800 (PST)
-Received: from [192.168.1.105] ([165.50.56.69])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d353f8bsm2691904f8f.43.2025.12.04.03.19.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Dec 2025 03:19:40 -0800 (PST)
-Message-ID: <3237e199-2375-4064-9a28-134836b00606@gmail.com>
-Date: Thu, 4 Dec 2025 13:19:36 +0100
+ id ouzdPQwzkzJ8 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Dec 2025 15:19:59 +0000 (UTC)
+X-Greylist: delayed 402 seconds by postgrey-1.37 at util1.osuosl.org; Thu, 04 Dec 2025 15:19:58 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org C310C40207
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C310C40207
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=216.40.44.11; helo=relay.hostedemail.com; envelope-from=rostedt@goodmis.org; receiver=<UNKNOWN> 
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C310C40207
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Dec 2025 15:19:58 +0000 (UTC)
+Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id F1C6C140213;
+	Thu,  4 Dec 2025 15:13:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 4D04060010;
+	Thu,  4 Dec 2025 15:13:11 +0000 (UTC)
+Date: Thu, 4 Dec 2025 10:14:15 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Soham Metha <sohammetha01@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+ skhan@linuxfoundation.org, namcao@linutronix.de,
+ mathieu.desnoyers@efficios.com, mhiramat@kernel.org, bagasdotme@gmail.com,
+ linux-kernel@vger.kernel.org, Jonathan Corbet	 <corbet@lwn.net>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] Documentation/rv: Fix dead link to
+ monitor_synthesis.rst
+Message-ID: <20251204101415.284a7a96@gandalf.local.home>
+In-Reply-To: <a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
+References: <20251204032452.9523-1-sohammetha01@gmail.com>
+	<a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] hfs: ensure sb->s_fs_info is always cleaned up
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
- "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
- "frank.li@vivo.com" <frank.li@vivo.com>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "slava@dubeyko.com" <slava@dubeyko.com>,
- "sandeen@redhat.com" <sandeen@redhat.com>, "jack@suse.cz" <jack@suse.cz>
-Cc: "khalid@kernel.org" <khalid@kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "david.hunter.linux@gmail.com" <david.hunter.linux@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com"
- <syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com>
-References: <20251201222843.82310-1-mehdi.benhadjkhelifa@gmail.com>
- <20251201222843.82310-2-mehdi.benhadjkhelifa@gmail.com>
- <4b620e91b43f86dceed88ed2f73b1ff1e72bff6c.camel@ibm.com>
- <4047dad6-d7f8-4630-896a-68d4b224f6c6@gmail.com>
- <32a2196b93ccdac0623175180a26c690e97536f6.camel@ibm.com>
-Content-Language: en-US
-From: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
-In-Reply-To: <32a2196b93ccdac0623175180a26c690e97536f6.camel@ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: rujjifn7nmmpoy6emxase4mo9xz6gpjo
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 4D04060010
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18g2ePbYYWzvuSuCcxWBc4OByX3PMhDc5o=
+X-HE-Tag: 1764861191-398429
+X-HE-Meta: U2FsdGVkX184vYPUcvrLViW5zHJdPCatX83ejljFGPH2fxJ4h0hTwSpErVduYmjTrYR29tekZaaMHEdHIxFl5PRvfkHc4m9iPIhy7jESma/o2V8mtOQb1LtF0lkkJXgTDniWGsFCR+Uz39KOI+VI2COoi9bYUxX91atrBJBv+BNY/IH295o602LYWYPw0JZIbJgY1izfVs2P9aTvW/dVLyl6Kqwn8DEBC8R9mFMd0cClbF7biK/Modq4B0t3hs/g3D7yuutEXyXavPaoTUmWOfvJZU++z/xrv1gi/JFOtaWtKr/effdPerQR8QesxGpYc0cqvrahHlK/IbsEj4KmeARlBgK18kR1zGcrrJH3tP01UzSRT+pRQA==
 
-On 12/4/25 12:19 AM, Viacheslav Dubeyko wrote:
-> On Tue, 2025-12-02 at 11:16 +0100, Mehdi Ben Hadj Khelifa wrote:
->> On 12/2/25 12:04 AM, Viacheslav Dubeyko wrote:
->>> On Mon, 2025-12-01 at 23:23 +0100, Mehdi Ben Hadj Khelifa wrote:
->>>> When hfs was converted to the new mount api a bug was introduced by
->>>> changing the allocation pattern of sb->s_fs_info. If setup_bdev_super()
->>>> fails after a new superblock has been allocated by sget_fc(), but before
->>>> hfs_fill_super() takes ownership of the filesystem-specific s_fs_info
->>>> data it was leaked.
->>>>
->>>> Fix this by freeing sb->s_fs_info in hfs_kill_super().
->>>>
->>>> Cc: stable@vger.kernel.org
->>>> Fixes: ffcd06b6d13b ("hfs: convert hfs to use the new mount api")
->>>> Reported-by: syzbot+ad45f827c88778ff7df6@syzkaller.appspotmail.com
->>>> Closes: https://syzkaller.appspot.com/bug?extid=ad45f827c88778ff7df6
->>>> Tested-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
->>>> Signed-off-by: Christian Brauner <brauner@kernel.org>
->>>> Signed-off-by: Mehdi Ben Hadj Khelifa <mehdi.benhadjkhelifa@gmail.com>
->>>> ---
->>>>    fs/hfs/mdb.c   | 35 ++++++++++++++---------------------
->>>>    fs/hfs/super.c | 10 +++++++++-
->>>>    2 files changed, 23 insertions(+), 22 deletions(-)
->>>>
->>>> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
->>>> index 53f3fae60217..f28cd24dee84 100644
->>>> --- a/fs/hfs/mdb.c
->>>> +++ b/fs/hfs/mdb.c
->>>> @@ -92,7 +92,7 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    		/* See if this is an HFS filesystem */
->>>>    		bh = sb_bread512(sb, part_start + HFS_MDB_BLK, mdb);
->>>>    		if (!bh)
->>>> -			goto out;
->>>> +			return -EIO;
->>>
->>> Frankly speaking, I don't see the point to rework the hfs_mdb_get() method so
->>> intensively. We had pretty good pattern before:
->>>
->>> int hfs_mdb_get(struct super_block *sb) {
->>>           if (something_happens)
->>>                goto out;
->>>
->>>           if (something_happens_and_we_need_free_buffer)
->>>               goto out_bh;
->>>
->>>    	return 0;
->>>
->>> out_bh:
->>> 	brelse(bh);
->>> out:
->>> 	return -EIO;
->>>    }
->>>
->>> The point here that we have error management logic in one place. Now you have
->>> spread this logic through the whole function. It makes function more difficult
->>> to manage and we can introduce new bugs. Could you please localize your change
->>> without reworking this pattern of error situation management? Also, it will make
->>> the patch more compact. Could you please rework the patch?
->>>
->> This change in particular is made by christian. As he mentionned in one
->> of his emails to my patches[1], his logic was that hfs_mdb_put() should
->> only be called in fill_super() which cleans everything up and that the
->> cleanup labels don't make sense here which is why he spread the logic of
->> cleanup across the function. Maybe he can give us more input on this
->> since it wasn't my code.
->>
->> [1]:https://lore.kernel.org/all/20251119-delfin-bioladen-6bf291941d4f@brauner/
->>>
-> 
-> I am not against of not calling the hfs_mdb_put() in hfs_mdb_get(). But if I am
-> trying to rework some method significantly, guys are not happy at all about it.
-> :) I am slightly worried about such significant rework of hfs_mdb_get() because
-> we potentially could introduce some new bugs. And I definitely will have the
-> conflict with another patch under review. :)
-> 
+On Thu, 04 Dec 2025 07:36:57 +0100
+Gabriele Monaco <gmonaco@redhat.com> wrote:
 
-Totally understandable. If I was to make that change I would probably 
-seperate it from the fix (except the part where we delete freeing the 
-s_fs_info struct). But I guess christian wanted to do the whole 
-refactoring since it was related and it made more sense as he explained it.
-> I've spent some more time for reviewing the patch again. And I think I can
-> accept it as it is. Currently, I don't see any serious issue in hfs_mdb_get().
-> It is simply my code style preferences. :) But people can see it in different
-> ways.
+> Anyway looks good to me.
 > 
-Thanks for you time and effort!
->>>
->>>>    
->>>>    		if (mdb->drSigWord == cpu_to_be16(HFS_SUPER_MAGIC))
->>>>    			break;
->>>> @@ -102,13 +102,14 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    		 * (should do this only for cdrom/loop though)
->>>>    		 */
->>>>    		if (hfs_part_find(sb, &part_start, &part_size))
->>>> -			goto out;
->>>> +			return -EIO;
->>>>    	}
->>>>    
->>>>    	HFS_SB(sb)->alloc_blksz = size = be32_to_cpu(mdb->drAlBlkSiz);
->>>>    	if (!size || (size & (HFS_SECTOR_SIZE - 1))) {
->>>>    		pr_err("bad allocation block size %d\n", size);
->>>> -		goto out_bh;
->>>> +		brelse(bh);
->>>> +		return -EIO;
->>>>    	}
->>>>    
->>>>    	size = min(HFS_SB(sb)->alloc_blksz, (u32)PAGE_SIZE);
->>>> @@ -125,14 +126,16 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    	brelse(bh);
->>>>    	if (!sb_set_blocksize(sb, size)) {
->>>>    		pr_err("unable to set blocksize to %u\n", size);
->>>> -		goto out;
->>>> +		return -EIO;
->>>>    	}
->>>>    
->>>>    	bh = sb_bread512(sb, part_start + HFS_MDB_BLK, mdb);
->>>>    	if (!bh)
->>>> -		goto out;
->>>> -	if (mdb->drSigWord != cpu_to_be16(HFS_SUPER_MAGIC))
->>>> -		goto out_bh;
->>>> +		return -EIO;
->>>> +	if (mdb->drSigWord != cpu_to_be16(HFS_SUPER_MAGIC)) {
->>>> +		brelse(bh);
->>>> +		return -EIO;
->>>> +	}
->>>>    
->>>>    	HFS_SB(sb)->mdb_bh = bh;
->>>>    	HFS_SB(sb)->mdb = mdb;
->>>> @@ -174,7 +177,7 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    
->>>>    	HFS_SB(sb)->bitmap = kzalloc(8192, GFP_KERNEL);
->>>>    	if (!HFS_SB(sb)->bitmap)
->>>> -		goto out;
->>>> +		return -EIO;
->>>>    
->>>>    	/* read in the bitmap */
->>>>    	block = be16_to_cpu(mdb->drVBMSt) + part_start;
->>>> @@ -185,7 +188,7 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    		bh = sb_bread(sb, off >> sb->s_blocksize_bits);
->>>>    		if (!bh) {
->>>>    			pr_err("unable to read volume bitmap\n");
->>>> -			goto out;
->>>> +			return -EIO;
->>>>    		}
->>>>    		off2 = off & (sb->s_blocksize - 1);
->>>>    		len = min((int)sb->s_blocksize - off2, size);
->>>> @@ -199,12 +202,12 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    	HFS_SB(sb)->ext_tree = hfs_btree_open(sb, HFS_EXT_CNID, hfs_ext_keycmp);
->>>>    	if (!HFS_SB(sb)->ext_tree) {
->>>>    		pr_err("unable to open extent tree\n");
->>>> -		goto out;
->>>> +		return -EIO;
->>>>    	}
->>>>    	HFS_SB(sb)->cat_tree = hfs_btree_open(sb, HFS_CAT_CNID, hfs_cat_keycmp);
->>>>    	if (!HFS_SB(sb)->cat_tree) {
->>>>    		pr_err("unable to open catalog tree\n");
->>>> -		goto out;
->>>> +		return -EIO;
->>>>    	}
->>>>    
->>>>    	attrib = mdb->drAtrb;
->>>> @@ -229,12 +232,6 @@ int hfs_mdb_get(struct super_block *sb)
->>>>    	}
->>>>    
->>>>    	return 0;
->>>> -
->>>> -out_bh:
->>>> -	brelse(bh);
->>>> -out:
->>>> -	hfs_mdb_put(sb);
->>>> -	return -EIO;
->>>>    }
->>>>    
->>>>    /*
->>>> @@ -359,8 +356,6 @@ void hfs_mdb_close(struct super_block *sb)
->>>>     * Release the resources associated with the in-core MDB.  */
->>>>    void hfs_mdb_put(struct super_block *sb)
->>>>    {
->>>> -	if (!HFS_SB(sb))
->>>> -		return;
->>>>    	/* free the B-trees */
->>>>    	hfs_btree_close(HFS_SB(sb)->ext_tree);
->>>>    	hfs_btree_close(HFS_SB(sb)->cat_tree);
->>>> @@ -373,6 +368,4 @@ void hfs_mdb_put(struct super_block *sb)
->>>>    	unload_nls(HFS_SB(sb)->nls_disk);
->>>>    
->>>>    	kfree(HFS_SB(sb)->bitmap);
->>>> -	kfree(HFS_SB(sb));
->>>> -	sb->s_fs_info = NULL;
->>>>    }
->>>> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
->>>> index 47f50fa555a4..df289cbdd4e8 100644
->>>> --- a/fs/hfs/super.c
->>>> +++ b/fs/hfs/super.c
->>>> @@ -431,10 +431,18 @@ static int hfs_init_fs_context(struct fs_context *fc)
->>>>    	return 0;
->>>>    }
->>>>    
->>>> +static void hfs_kill_super(struct super_block *sb)
->>>> +{
->>>> +	struct hfs_sb_info *hsb = HFS_SB(sb);
->>>> +
->>>> +	kill_block_super(sb);
->>>> +	kfree(hsb);
->>>> +}
->>>> +
->>>>    static struct file_system_type hfs_fs_type = {
->>>>    	.owner		= THIS_MODULE,
->>>>    	.name		= "hfs",
->>>> -	.kill_sb	= kill_block_super,
->>>> +	.kill_sb	= hfs_kill_super,
->>>>    	.fs_flags	= FS_REQUIRES_DEV,
->>>>    	.init_fs_context = hfs_init_fs_context,
->>>>    };
-> 
-> Looks good. Thanks a lot for the fix.
-> 
-> Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> 
-> Thanks,
-> Slava.
+> Acked-by: Gabriele Monaco <gmonaco@redhat.com>
 
-Best Regards,
-Mehdi Ben Hadj khelifa
+Jon,
 
+Care to take this through your tree? Gabriele is the maintainer of this
+code.
+
+-- Steve
