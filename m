@@ -1,143 +1,136 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A72273D84
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036A229B781
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  6 Dec 2025 15:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765033439; cv=none; b=CsNMEwQ+QV5LQcAUPr8Xr0u8IjEvWJGpUBkq2V6kNZmBD9CyY2Ay7c178sH68TUJPPF/lySHNDLcxF2ay53fZygvFrB6fVhB4mKIvThDDpgUt6hWO9j3nxiiwS4snv0n9p/nyPj78Vi950L6ZMfYhW7HOJ0vKntMUpyE68HaXEw=
+	t=1765036118; cv=none; b=fNxUl+S+fSulB7W6A70823zl97W3tRCLuoIz9FuSe/v3JieuZwvtuc9wrEXASHMH+bihW97SEc2FgMd3SZnUaWn7Oa47Ajp8L2dxI+61NkcZh22ooK9H5lCPe/KZpxXrFLmCTbZGNtWh53JG5f/Vn9S4/Hie7dLC5H3ixvEd3b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765033439; c=relaxed/simple;
-	bh=fN2Xexoi/B9ctLaAFFwv+iZ85CtawTyBDeizMK5ec0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EMuxwbjybmRxlKUdfBZ+rP8DgGTvan36AT2++65JulShGnbhlVp4XutlnUi66HvJagvOBEe7LP31YkokBJgaJHcoxI35mrVjyDMRY7iZo1JaYqgb2iN5M8Ott75zDfjFbuzDt6D/Fb3KbueEZzk6fCyl/vjs5WcNWx2WtxE63uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hrHfp3e8; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1765036118; c=relaxed/simple;
+	bh=GuParDz5eBLylVgW96qpjXBZ/qEXhOMxbh9C6uWa7ac=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=prHmjPE4GHc4oilWaSRyFqsK0P9sK6Njo7Xq2WtF72fJCUwydsPN57gUZLezvqvCdVVyJkUNm0rJlCN4xeMU0LJe6uhkMFFnBrmhFmjrcEcwPGvJPBE/c3XAbB8QlQc4VFffNmKYlAAirWIWQyQF7IG3jKS06GP+4VCktHHuOQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROegrRMb; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hrHfp3e8"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0A78784207
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:58 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.25
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id qDT4qM1JPlWF for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Dec 2025 15:03:57 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::132a; helo=mail-dy1-x132a.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D784183F2E
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D784183F2E
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hrHfp3e8
-Received: from mail-dy1-x132a.google.com (mail-dy1-x132a.google.com [IPv6:2607:f8b0:4864:20::132a])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D784183F2E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:56 +0000 (UTC)
-Received: by mail-dy1-x132a.google.com with SMTP id 5a478bee46e88-2a45877bd5eso5266262eec.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 06 Dec 2025 07:03:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROegrRMb"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso2488462b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 06 Dec 2025 07:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765033436; x=1765638236; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m+tR6RUcnOhStP3t3KnBwgUkXc4dKjHlIZuatPHOKmc=;
-        b=hrHfp3e8SYO0gxYrojLUoWRHpMK1cpXs+jK0W2g/ATLUO5jKk6qYC4dQwfWvs1VgJu
-         nBrBbv89n91wnznrklHMotz2S4OApsqXNK/JW2nOQ4LN2E5rXyeHuIlvDQugT2kuuQbd
-         3Yr5ldAumNz87V55Z9uKDAb0kzKpjilR83a3cZx6uPkWkovljEq5UZzevV9STiG/6gNs
-         2Ova5oXnU66WLd7EBjoJbrq/uIdQ7KR00Yn11DpIj15GO8kvrWyW8rgtBGn+fWPTam39
-         dxZS519NcRTEgmUz6VP74+uJ4Lxvxfl/RPFlU6ek5WTl7vshw5W3+F5/mgCWKtWbq+Jb
-         ag/w==
+        d=gmail.com; s=20230601; t=1765036116; x=1765640916; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+eRPeM9q2EbXpge8hopYzyHkKbCy3VfPZR9AGB8+LLk=;
+        b=ROegrRMbt7tAJR04w/QBpviK5CwHD6Uwq3GJCKoULAUNJ3T7aly5eCwgGgJwnl0VPw
+         r1lUe1VALMSfaHVx4ItJFBtUdM1NK1LsY403e1tFqHB2TtfIKhb+S00mCD2Y4r4dU/8l
+         04vyJ97VsLh9ko8MkvjG96T6waqKXHihP96RIfJr3Jzuq+Nf+ZSQoVjpKL64za0UTXwe
+         iU7CZge1TVg98ZcwjddsKSIEwZXwcC4FK3O5vXPanC3e1NtXH+SRI5MvKDJgb1RaS4C0
+         qbNAGfWu3ybXD1P6yXtUlMSCNJpiK3eG8U1ZjI2PlE1YlUHU2FZS+NBgickqIulBW2Mm
+         FEhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765033436; x=1765638236;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=m+tR6RUcnOhStP3t3KnBwgUkXc4dKjHlIZuatPHOKmc=;
-        b=SG2uc2/11u6WdNJuAKTbcKRDnZSusBLBwaKvAP2W9LXQAcLnhnDGPY8iPbj5b6zlJ7
-         XqP7cJ/29Gt0FBj9C3JDpjxBZsxYMf0EngrcvWACZ2+qhe/CLrXwPbCxRrKv1lnlFxyJ
-         psD7MT04B2JZfOdylCz6n9HH/JW+IkmDcKU1DUnwrtnpjqGMrdRoadMni0nVJhmcJZXl
-         XgKoSi33coMSja9lDCojBLgEFu98NT2AX/sLN5iixhsIUqklmS04i1wzoOlzAdEq6BrC
-         BZGpOGTQ7X0p5c0II7crZaFM9H05O2N1piYoMjlyTPMnlU+5c2tZFUYh5fPscJtajd/g
-         Nauw==
-X-Gm-Message-State: AOJu0YzdyeRfU0Juc/ZIvtaHwDhMd6WSyF2JEwQF3SGxPcUzWz6oSQeY
-	/A9dmJicB3S/Mm1batAhfHxls6Ov2+6lGN8qI3PjpCNi/kkw8/1uaRlk
-X-Gm-Gg: ASbGncufxeCJsK3LLOEcYOwp8IuyuuszhRglptfyDZ0JdIYnjVNByJ6bf89DBv+EWri
-	M1IYc6DuiOXteVW7ztDCmI3J1a/ZyfGTA0/LLt7icoACpcXYh6j7spcTHWyfqe4aJHF12582l3+
-	wSXfGTViCRQTzFcIfz/rnxLvK6fvrB9YuTzDrCQ0a1F8W/ZK1xVxJLJ6KhvIdqzsOmPxstgcgY5
-	IOqZAHuvXdzU2QUi1XZUuZYm7D45FnKVW31EshDKOslt+SvLv3lhPYFyBQ46hjq3EkNERx0tGcW
-	Riceke9X3wYb9n/EvPekqv9ukXx+TJzLWLpjuMqE4JUpUIXLoUN9Q49z39Vbdx9q1ya4pvc9Zko
-	z0TtU6EU6mwG+ja0BMNdjnqPSJt5DOoYun/6zUEi7s20G4nHoEJezlk71fDwBss8C7VEV3Q9cQG
-	Yok3v/a/3qoPxPBQer4fha6/I=
-X-Google-Smtp-Source: AGHT+IFzojphrHRVtMjAYXF3z/dTrYB/zZKE8NoGiyXHbs+9+cXXnLG2F0IpmuMealC4iJgXnHs01w==
-X-Received: by 2002:a05:7300:e7ac:b0:2a4:3593:ccc8 with SMTP id 5a478bee46e88-2abc6f0ff38mr1683190eec.15.1765033435525;
-        Sat, 06 Dec 2025 07:03:55 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2aba88433fesm21958618eec.6.2025.12.06.07.03.54
+        d=1e100.net; s=20230601; t=1765036116; x=1765640916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+eRPeM9q2EbXpge8hopYzyHkKbCy3VfPZR9AGB8+LLk=;
+        b=W0bq5ZOelcwp4nZ1blsJBaIVRV1hbbGeCh1dpVUjLsXsv/hJLjPnfwUKtMuiCPyBcP
+         dxE0LXL5BySc+xOpYJ4lyG4ZC/66Q9KAlBKKP3M8rbFUn0u8t0XtQzz7ggYkubJf77tV
+         Wm6dvSIQfpQ7f/27OCHudphNVbRGfelTQpmQV/qaA6EUwI5JfTZsyWanuTFl6SLW8lTh
+         icxuAx3ls/jLaFL95XpEYkGLcXnU10ytxMWI+DQiLzyL6Qgq02O9a+dXtE43Ib5jXmBa
+         QaBRCeWu2vTMMrFPoWGAom90y6kBQ+a3ZKWVJbCuOjJiqnu7SUrb85cucl/yjISp7FtF
+         BFcg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnAwsCLnunec/SqTeUSsGmHU0xl/yEVmOibwvS3jVvu3OygIvFvww0h7+x7NYopeilDXCt4T8miGLnpHI+LC8IUZvZpw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3nWVBTq/LaklzoxnHotXR2jc8Rww8SS8wqAM8rTiU4Rb6bQ64
+	UybIz+paawMu8EwcelKXAp3GRu53amlsnSKeKckr2wmy0Ky0HKCaKq/f
+X-Gm-Gg: ASbGncvS+5+cgH26n0Y9NGE653eJPrVLpnvZL09ZycSxVaCvITqZmO3IZgmldYH3vHF
+	LvgkuNLTss1iROCwhK6ZO5SxZQFcX4eEc34ryrKYkxa3OZFL059ZSJMJE7E1PB0lJxdZNTtOzTc
+	tsXpuLGziunFvak3r6MO/jZzHxfu4t6uyDeC6j9FdHtj+bPZDHUeBzWOPgSXhm+SUvRWAvQqGnv
+	Al9fczGu0oR30S5xfFsI9DQbAifbIXdJmLJlFIXMad0yge2QON3v3JS1mbDHlJuUIkxi2IprEuw
+	rns4atYw3uh8sI274T+kC2N6jOb3EZLtxyHzttDAjQUmXtQEWU31pk7SI9cvoxk+3ZCC2G/Gm5M
+	AcJ0Jtq7WV6O7E6LJ+ycn1JZeycBU5Fq747VTabJw2lEyT641Uz77IQmQQmhMLKCgqsPAoWYbYZ
+	0JvVl1rvChqN+kW6TH74NKaNWEgA==
+X-Google-Smtp-Source: AGHT+IHFctVdxlEN7Gl0atqGBbR40knvStVEAlZWL5HG/t6ahFYt4XUQze3IxeMz74Bn6QMNjDZeag==
+X-Received: by 2002:a05:6a20:a11e:b0:364:31e:2cb1 with SMTP id adf61e73a8af0-36617e6c5dfmr2683085637.17.1765036116169;
+        Sat, 06 Dec 2025 07:48:36 -0800 (PST)
+Received: from localhost.localdomain ([114.79.178.20])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf6875cc8eesm7645210a12.16.2025.12.06.07.48.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Dec 2025 07:03:54 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 6 Dec 2025 07:03:53 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Soham Metha <sohammetha01@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: hwmon: g762: fix dead link to G762
- binding
-Message-ID: <0b01dafa-9d77-4ea6-a10e-05bc67ee2eaf@roeck-us.net>
-References: <20251203181213.51618-1-sohammetha01@gmail.com>
+        Sat, 06 Dec 2025 07:48:35 -0800 (PST)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: mark@fasheh.com,
+	jlbec@evilplan.org,
+	joseph.qi@linux.alibaba.com
+Cc: ocfs2-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>,
+	syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] ocfs2: Fix kernel BUG in ocfs2_write_block
+Date: Sat,  6 Dec 2025 21:18:19 +0530
+Message-ID: <20251206154819.175479-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251203181213.51618-1-sohammetha01@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 03, 2025 at 11:42:13PM +0530, Soham Metha wrote:
-> The old text binding 'g762.txt' was replaced by a DT schema in
-> commit 3d8e253724170ae9c8948c36801204fc2aa53682
-> ("dt-bindings: hwmon: Convert g762 to YAML schema").
-> 
-> Update the reference to point to the new YAML binding:
->     Documentation/devicetree/bindings/hwmon/gmt,g762.yaml
-> 
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
-> ---
-> Changelog:
-> - Use proper commit SHA reference syntax
+When the filesystem is being mounted, the kernel panics while the data
+regarding slot map allocation to the local node, is being written to the
+disk. This occurs because the value of slot map buffer head block
+number, which should have been greater than or equal to
+`OCFS2_SUPER_BLOCK_BLKNO` (evaluating to 2) is less than it, indicative
+of disk metadata corruption. This triggers
+BUG_ON(bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) in ocfs2_write_block(),
+causing the kernel to panic.
 
-Really ?
+This is fixed by introducing an if condition block in
+ocfs2_update_disk_slot(), right before calling ocfs2_write_block(), which
+checks if `bh->b_blocknr` is lesser than `OCFS2_SUPER_BLOCK_BLKNO`; if
+yes, then ocfs2_error is called, which prints the error log, for
+debugging purposes, and the return value of ocfs2_error() is returned
+back to caller of ocfs2_update_disk_slot() i.e. ocfs2_find_slot(). If
+the return value is zero. then error code EIO is returned.
 
-ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 3d8e25372417 ("dt-bindings: hwmon: g762: Convert to yaml schema")'
-#106:
-commit 3d8e253724170ae9c8948c36801204fc2aa53682
-("dt-bindings: hwmon: Convert g762 to YAML schema").
+Reported-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c818e5c4559444f88aa0
+Tested-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+---
+ fs/ocfs2/slot_map.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-I am going to apply
-https://patchwork.kernel.org/project/linux-hwmon/patch/20251205215835.783273-1-katharasasikumar007@gmail.com/mbox/
-instead.
+diff --git a/fs/ocfs2/slot_map.c b/fs/ocfs2/slot_map.c
+index e544c704b583..788924fc3663 100644
+--- a/fs/ocfs2/slot_map.c
++++ b/fs/ocfs2/slot_map.c
+@@ -193,6 +193,16 @@ static int ocfs2_update_disk_slot(struct ocfs2_super *osb,
+ 	else
+ 		ocfs2_update_disk_slot_old(si, slot_num, &bh);
+ 	spin_unlock(&osb->osb_lock);
++	if (bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) {
++		status = ocfs2_error(osb->sb,
++				     "Invalid Slot Map Buffer Head "
++				     "Block Number : %llu, Should be >= %d",
++				     le16_to_cpu(bh->b_blocknr),
++				     le16_to_cpu((int)OCFS2_SUPER_BLOCK_BLKNO));
++		if (!status)
++			return -EIO;
++		return status;
++	}
+ 
+ 	status = ocfs2_write_block(osb, bh, INODE_CACHE(si->si_inode));
+ 	if (status < 0)
 
-Guenter
+base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
+-- 
+2.43.0
 
-> 
->  Documentation/hwmon/g762.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/g762.rst b/Documentation/hwmon/g762.rst
-> index 0371b3365c48..f224552a2d3c 100644
-> --- a/Documentation/hwmon/g762.rst
-> +++ b/Documentation/hwmon/g762.rst
-> @@ -17,7 +17,7 @@ done via a userland daemon like fancontrol.
->  Note that those entries do not provide ways to setup the specific
->  hardware characteristics of the system (reference clock, pulses per
->  fan revolution, ...); Those can be modified via devicetree bindings
-> -documented in Documentation/devicetree/bindings/hwmon/g762.txt or
-> +documented in Documentation/devicetree/bindings/hwmon/gmt,g762.yaml or
->  using a specific platform_data structure in board initialization
->  file (see include/linux/platform_data/g762.h).
->  
