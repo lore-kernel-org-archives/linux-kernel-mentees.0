@@ -1,105 +1,143 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5462DA768
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Dec 2025 18:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A72273D84
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764872441; cv=none; b=WdH4dfcvLd89ye7j7dFUbIYwsvq2x+qtkvwGFr46dlgnNGNIETH4HPjkzMf6hFGKrx9p1ldaqDa28bsvGa/U8+b9pNoSVuEUpGy09VrTf/hOAdgqa3Z5qJonD8pEMeJYqRsmoqhwx/lo9uvp97N0JU53SGjs7gbAT7scoU8HS74=
+	t=1765033439; cv=none; b=CsNMEwQ+QV5LQcAUPr8Xr0u8IjEvWJGpUBkq2V6kNZmBD9CyY2Ay7c178sH68TUJPPF/lySHNDLcxF2ay53fZygvFrB6fVhB4mKIvThDDpgUt6hWO9j3nxiiwS4snv0n9p/nyPj78Vi950L6ZMfYhW7HOJ0vKntMUpyE68HaXEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764872441; c=relaxed/simple;
-	bh=E4iaRlftraDlwmQqHLKR3EzuMkbythAKaPWIWuwk/3s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GjzOsUbY7rHWX4gpVYShU3UKWzHb4v9KoORnLk2NCnNrmVYz9wYPw9JI5/z+zfPUd84G4wWNqISD/Y4JX95Cy+VLgzfT6EyxpNmEaDgxnBXEQqqist3Do/rPMF68KIADplOj+1toK7N2dbDQHSAD4jfCK5EaFzpLqmNP7V/cAhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=oodi9xw5; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1765033439; c=relaxed/simple;
+	bh=fN2Xexoi/B9ctLaAFFwv+iZ85CtawTyBDeizMK5ec0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EMuxwbjybmRxlKUdfBZ+rP8DgGTvan36AT2++65JulShGnbhlVp4XutlnUi66HvJagvOBEe7LP31YkokBJgaJHcoxI35mrVjyDMRY7iZo1JaYqgb2iN5M8Ott75zDfjFbuzDt6D/Fb3KbueEZzk6fCyl/vjs5WcNWx2WtxE63uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hrHfp3e8; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="oodi9xw5"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-4507605e19aso710431b6e.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 04 Dec 2025 10:20:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hrHfp3e8"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0A78784207
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:58 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.25
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id qDT4qM1JPlWF for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  6 Dec 2025 15:03:57 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::132a; helo=mail-dy1-x132a.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D784183F2E
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D784183F2E
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hrHfp3e8
+Received: from mail-dy1-x132a.google.com (mail-dy1-x132a.google.com [IPv6:2607:f8b0:4864:20::132a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D784183F2E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  6 Dec 2025 15:03:56 +0000 (UTC)
+Received: by mail-dy1-x132a.google.com with SMTP id 5a478bee46e88-2a45877bd5eso5266262eec.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 06 Dec 2025 07:03:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1764872439; x=1765477239; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7l4Bvsh5Fm7h+h3RAFW2TekuY5Wvnkm4pZdsrpvY+08=;
-        b=oodi9xw5UKDThSYgGqcBnsiypCPNW9JuMbICy1fB6tyl7RR/aw8y92UQ+ld7IG6lb6
-         rUtSrz1Rfq4e145asGrfREI8y7cUgDlwDHofvq52LpDSxgp39C2/wSdyqCYTMqSv01wp
-         fup+QbqxZZ2mA7xdrTCNhIlFrBoD+G5cLsLtsXWv+fn/vVmflfmLyUcDwtekg2Sk48Be
-         PmjNfmgRUR8OBxb2PHYDW+dcK2U1meQ+bBI8JliJyFzFaxzo8qHY9MMgMiatLwmozr/E
-         /xyUfI9ILpPMH34/sE5sle2Bqp5bK9w/kgn0gwjSmlx9lhlvlsrMrfZR1vzO0z1OgatT
-         4now==
+        d=gmail.com; s=20230601; t=1765033436; x=1765638236; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m+tR6RUcnOhStP3t3KnBwgUkXc4dKjHlIZuatPHOKmc=;
+        b=hrHfp3e8SYO0gxYrojLUoWRHpMK1cpXs+jK0W2g/ATLUO5jKk6qYC4dQwfWvs1VgJu
+         nBrBbv89n91wnznrklHMotz2S4OApsqXNK/JW2nOQ4LN2E5rXyeHuIlvDQugT2kuuQbd
+         3Yr5ldAumNz87V55Z9uKDAb0kzKpjilR83a3cZx6uPkWkovljEq5UZzevV9STiG/6gNs
+         2Ova5oXnU66WLd7EBjoJbrq/uIdQ7KR00Yn11DpIj15GO8kvrWyW8rgtBGn+fWPTam39
+         dxZS519NcRTEgmUz6VP74+uJ4Lxvxfl/RPFlU6ek5WTl7vshw5W3+F5/mgCWKtWbq+Jb
+         ag/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764872439; x=1765477239;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7l4Bvsh5Fm7h+h3RAFW2TekuY5Wvnkm4pZdsrpvY+08=;
-        b=K55sUGnxbvRMkfyzLmjP+BeP8N8Bbc18G30HSVWqYagaPJsF5C7m7ux243u4fFls0Z
-         w15hyued/0oHyQd8aaNTUhf1+qP1z2tR7LertgYlPXj1ccyxCo5GNrytUa8zyoxCbhdQ
-         Es1KS76cScCJeoYnieJYrylTwj41rv8TZhqdT5bBDI4uvXRyAL4BEr7Pkvbu5m2zg1VB
-         1mySQk5SOAzewfH2Bmpg7hxZpvn4q7O1Tk3Z7F92br6A4PPaPwMiGLg1Z07sUBtaAzQ7
-         9ZmouGM5ovegm6L+sulKnA0ZKLFCkHv6+JDBPUR4p82NhpHC3qhg421Q8MrtcrQuH99p
-         vCAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXpqKWAlENO0Ag8tqdf1tHlq+T4zTuDx1HLlKV2aNg0P0Ml8D6d3AGF7BIvazZQZFwCrygjiLiyVEbxap+jx64Fw3EohQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHMBLNgn09BKfKM10KW2SgZ+d/zu1JbrInaPlxlTCv6kWa3iLf
-	gza0WdVBp8opB6IEfHBaxYLK289niAZqTWoyCwduhaxn77VX3xf10L5LAaVXmUljgIk=
-X-Gm-Gg: ASbGncsRvaYmgU7gL/uv1VSb5iQk2MVabXVLXfRZKJYiPgukNyriFGgygSnA53h0wmL
-	QTEVflKxuKzLAxwp3facS8391NZCD7ygslTYPX0o7WKbPGbzj4GJTVnGGDlaOcbBv0trenftXUH
-	wGHYks0S5EN4GdCfR6ug578tUyrn0hJp4OKV6h3dC11HZ4FYLdgXEHUdMwbTyrlKGlALedUXFnT
-	FhkkagdS8e+VDGxbPwvox5ZhICyPwb2QNWH0FVFY8B5VspjKu/jqA7xr9MDcK4UY6c3JAeC+6/6
-	xfkZZBg1L9547m+8SY/Q9S+glAJlXMDy6gxej0S6K+in9FUUt2gtVqrNRqrJNkTUkGpI+Xkdkxs
-	IJqAQ7/+5KvZ2vxoHjRAfpa5hrfmfdqQrwmJPoUK8vOrgHl0FO9vtL8n5NrZIDTY0I3HWYlwrs0
-	8CKQ==
-X-Google-Smtp-Source: AGHT+IFXxmNxHx1/RwmCgScmOCKtrUl6+EjSkjYkHMQhz5CWSvRh2Fg8NSX5nfMZGX4uxn4SYwvcwg==
-X-Received: by 2002:a05:6808:d48:b0:444:4086:4524 with SMTP id 5614622812f47-4536e4f420cmr4009135b6e.31.1764872438741;
-        Thu, 04 Dec 2025 10:20:38 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4537f8a02b6sm992180b6e.4.2025.12.04.10.20.37
+        d=1e100.net; s=20230601; t=1765033436; x=1765638236;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=m+tR6RUcnOhStP3t3KnBwgUkXc4dKjHlIZuatPHOKmc=;
+        b=SG2uc2/11u6WdNJuAKTbcKRDnZSusBLBwaKvAP2W9LXQAcLnhnDGPY8iPbj5b6zlJ7
+         XqP7cJ/29Gt0FBj9C3JDpjxBZsxYMf0EngrcvWACZ2+qhe/CLrXwPbCxRrKv1lnlFxyJ
+         psD7MT04B2JZfOdylCz6n9HH/JW+IkmDcKU1DUnwrtnpjqGMrdRoadMni0nVJhmcJZXl
+         XgKoSi33coMSja9lDCojBLgEFu98NT2AX/sLN5iixhsIUqklmS04i1wzoOlzAdEq6BrC
+         BZGpOGTQ7X0p5c0II7crZaFM9H05O2N1piYoMjlyTPMnlU+5c2tZFUYh5fPscJtajd/g
+         Nauw==
+X-Gm-Message-State: AOJu0YzdyeRfU0Juc/ZIvtaHwDhMd6WSyF2JEwQF3SGxPcUzWz6oSQeY
+	/A9dmJicB3S/Mm1batAhfHxls6Ov2+6lGN8qI3PjpCNi/kkw8/1uaRlk
+X-Gm-Gg: ASbGncufxeCJsK3LLOEcYOwp8IuyuuszhRglptfyDZ0JdIYnjVNByJ6bf89DBv+EWri
+	M1IYc6DuiOXteVW7ztDCmI3J1a/ZyfGTA0/LLt7icoACpcXYh6j7spcTHWyfqe4aJHF12582l3+
+	wSXfGTViCRQTzFcIfz/rnxLvK6fvrB9YuTzDrCQ0a1F8W/ZK1xVxJLJ6KhvIdqzsOmPxstgcgY5
+	IOqZAHuvXdzU2QUi1XZUuZYm7D45FnKVW31EshDKOslt+SvLv3lhPYFyBQ46hjq3EkNERx0tGcW
+	Riceke9X3wYb9n/EvPekqv9ukXx+TJzLWLpjuMqE4JUpUIXLoUN9Q49z39Vbdx9q1ya4pvc9Zko
+	z0TtU6EU6mwG+ja0BMNdjnqPSJt5DOoYun/6zUEi7s20G4nHoEJezlk71fDwBss8C7VEV3Q9cQG
+	Yok3v/a/3qoPxPBQer4fha6/I=
+X-Google-Smtp-Source: AGHT+IFzojphrHRVtMjAYXF3z/dTrYB/zZKE8NoGiyXHbs+9+cXXnLG2F0IpmuMealC4iJgXnHs01w==
+X-Received: by 2002:a05:7300:e7ac:b0:2a4:3593:ccc8 with SMTP id 5a478bee46e88-2abc6f0ff38mr1683190eec.15.1765033435525;
+        Sat, 06 Dec 2025 07:03:55 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2aba88433fesm21958618eec.6.2025.12.06.07.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 10:20:38 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: martin.petersen@oracle.com, Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
- david.hunter.linux@gmail.com, khalid@kernel.org, 
- syzbot+527a7e48a3d3d315d862@syzkaller.appspotmail.com, 
- Keith Busch <kbusch@kernel.org>
-In-Reply-To: <20251204181259.23864-1-ssrane_b23@ee.vjti.ac.in>
-References: <20251204181259.23864-1-ssrane_b23@ee.vjti.ac.in>
-Subject: Re: [PATCH] block: fix memory leak in __blkdev_issue_zero_pages
-Message-Id: <176487243751.985814.383120227280182840.b4-ty@kernel.dk>
-Date: Thu, 04 Dec 2025 11:20:37 -0700
+        Sat, 06 Dec 2025 07:03:54 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 6 Dec 2025 07:03:53 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Soham Metha <sohammetha01@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: hwmon: g762: fix dead link to G762
+ binding
+Message-ID: <0b01dafa-9d77-4ea6-a10e-05bc67ee2eaf@roeck-us.net>
+References: <20251203181213.51618-1-sohammetha01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251203181213.51618-1-sohammetha01@gmail.com>
 
-
-On Thu, 04 Dec 2025 23:42:59 +0530, Shaurya Rane wrote:
-> Move the fatal signal check before bio_alloc() to prevent a memory
-> leak when BLKDEV_ZERO_KILLABLE is set and a fatal signal is pending.
+On Wed, Dec 03, 2025 at 11:42:13PM +0530, Soham Metha wrote:
+> The old text binding 'g762.txt' was replaced by a DT schema in
+> commit 3d8e253724170ae9c8948c36801204fc2aa53682
+> ("dt-bindings: hwmon: Convert g762 to YAML schema").
 > 
-> Previously, the bio was allocated before checking for a fatal signal.
-> If a signal was pending, the code would break out of the loop without
-> freeing or chaining the just-allocated bio, causing a memory leak.
+> Update the reference to point to the new YAML binding:
+>     Documentation/devicetree/bindings/hwmon/gmt,g762.yaml
 > 
-> [...]
+> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+> ---
+> Changelog:
+> - Use proper commit SHA reference syntax
 
-Applied, thanks!
+Really ?
 
-[1/1] block: fix memory leak in __blkdev_issue_zero_pages
-      commit: 220d82ee063a38fcdc658b8d4274f59de4398dd0
+ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 3d8e25372417 ("dt-bindings: hwmon: g762: Convert to yaml schema")'
+#106:
+commit 3d8e253724170ae9c8948c36801204fc2aa53682
+("dt-bindings: hwmon: Convert g762 to YAML schema").
 
-Best regards,
--- 
-Jens Axboe
+I am going to apply
+https://patchwork.kernel.org/project/linux-hwmon/patch/20251205215835.783273-1-katharasasikumar007@gmail.com/mbox/
+instead.
 
+Guenter
 
-
+> 
+>  Documentation/hwmon/g762.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/g762.rst b/Documentation/hwmon/g762.rst
+> index 0371b3365c48..f224552a2d3c 100644
+> --- a/Documentation/hwmon/g762.rst
+> +++ b/Documentation/hwmon/g762.rst
+> @@ -17,7 +17,7 @@ done via a userland daemon like fancontrol.
+>  Note that those entries do not provide ways to setup the specific
+>  hardware characteristics of the system (reference clock, pulses per
+>  fan revolution, ...); Those can be modified via devicetree bindings
+> -documented in Documentation/devicetree/bindings/hwmon/g762.txt or
+> +documented in Documentation/devicetree/bindings/hwmon/gmt,g762.yaml or
+>  using a specific platform_data structure in board initialization
+>  file (see include/linux/platform_data/g762.h).
+>  
