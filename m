@@ -1,136 +1,133 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036A229B781
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  6 Dec 2025 15:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0025627E066;
+	Mon,  8 Dec 2025 19:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765036118; cv=none; b=fNxUl+S+fSulB7W6A70823zl97W3tRCLuoIz9FuSe/v3JieuZwvtuc9wrEXASHMH+bihW97SEc2FgMd3SZnUaWn7Oa47Ajp8L2dxI+61NkcZh22ooK9H5lCPe/KZpxXrFLmCTbZGNtWh53JG5f/Vn9S4/Hie7dLC5H3ixvEd3b8=
+	t=1765221123; cv=none; b=b3qelTKCHOAgO9MU4mFZwmxq48hdZOSgN+ouGWLL7CtVC2dtnQWw453LgG6gPlTTut9AiGxsMLTuX3J0rqjRlVl65sBwKQsqw9FCYRJtTwMP5ojXh+t/vT/gc4dEwnsPmPhHQHbrQjkZooXDLADwv6GcpbrJ2/D1Z++CzS6PGaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765036118; c=relaxed/simple;
-	bh=GuParDz5eBLylVgW96qpjXBZ/qEXhOMxbh9C6uWa7ac=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=prHmjPE4GHc4oilWaSRyFqsK0P9sK6Njo7Xq2WtF72fJCUwydsPN57gUZLezvqvCdVVyJkUNm0rJlCN4xeMU0LJe6uhkMFFnBrmhFmjrcEcwPGvJPBE/c3XAbB8QlQc4VFffNmKYlAAirWIWQyQF7IG3jKS06GP+4VCktHHuOQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROegrRMb; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765221123; c=relaxed/simple;
+	bh=4GJXL/LoLHx7N2a8v5VWshnzbRCiIknwAktZdBjLWzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qrBBp6yquQN3jXfK8MF6aWZt8QkIWiKB71XBK1nDV+fTyOwkM4tTEett5DAYxU3NLwGzyy/apMI0ZdHyc5vIifmi3BAeQF5Mb29dXWdlpRu0uTE+2stdw4TWiwLFOPUG1fbifHBhLL3qycYBd5fBqlwHHBgxL+lqFwTSoGDKxfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djkd0x8R; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROegrRMb"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bc248dc16aso2488462b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 06 Dec 2025 07:48:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765036116; x=1765640916; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+eRPeM9q2EbXpge8hopYzyHkKbCy3VfPZR9AGB8+LLk=;
-        b=ROegrRMbt7tAJR04w/QBpviK5CwHD6Uwq3GJCKoULAUNJ3T7aly5eCwgGgJwnl0VPw
-         r1lUe1VALMSfaHVx4ItJFBtUdM1NK1LsY403e1tFqHB2TtfIKhb+S00mCD2Y4r4dU/8l
-         04vyJ97VsLh9ko8MkvjG96T6waqKXHihP96RIfJr3Jzuq+Nf+ZSQoVjpKL64za0UTXwe
-         iU7CZge1TVg98ZcwjddsKSIEwZXwcC4FK3O5vXPanC3e1NtXH+SRI5MvKDJgb1RaS4C0
-         qbNAGfWu3ybXD1P6yXtUlMSCNJpiK3eG8U1ZjI2PlE1YlUHU2FZS+NBgickqIulBW2Mm
-         FEhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765036116; x=1765640916;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+eRPeM9q2EbXpge8hopYzyHkKbCy3VfPZR9AGB8+LLk=;
-        b=W0bq5ZOelcwp4nZ1blsJBaIVRV1hbbGeCh1dpVUjLsXsv/hJLjPnfwUKtMuiCPyBcP
-         dxE0LXL5BySc+xOpYJ4lyG4ZC/66Q9KAlBKKP3M8rbFUn0u8t0XtQzz7ggYkubJf77tV
-         Wm6dvSIQfpQ7f/27OCHudphNVbRGfelTQpmQV/qaA6EUwI5JfTZsyWanuTFl6SLW8lTh
-         icxuAx3ls/jLaFL95XpEYkGLcXnU10ytxMWI+DQiLzyL6Qgq02O9a+dXtE43Ib5jXmBa
-         QaBRCeWu2vTMMrFPoWGAom90y6kBQ+a3ZKWVJbCuOjJiqnu7SUrb85cucl/yjISp7FtF
-         BFcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWnAwsCLnunec/SqTeUSsGmHU0xl/yEVmOibwvS3jVvu3OygIvFvww0h7+x7NYopeilDXCt4T8miGLnpHI+LC8IUZvZpw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3nWVBTq/LaklzoxnHotXR2jc8Rww8SS8wqAM8rTiU4Rb6bQ64
-	UybIz+paawMu8EwcelKXAp3GRu53amlsnSKeKckr2wmy0Ky0HKCaKq/f
-X-Gm-Gg: ASbGncvS+5+cgH26n0Y9NGE653eJPrVLpnvZL09ZycSxVaCvITqZmO3IZgmldYH3vHF
-	LvgkuNLTss1iROCwhK6ZO5SxZQFcX4eEc34ryrKYkxa3OZFL059ZSJMJE7E1PB0lJxdZNTtOzTc
-	tsXpuLGziunFvak3r6MO/jZzHxfu4t6uyDeC6j9FdHtj+bPZDHUeBzWOPgSXhm+SUvRWAvQqGnv
-	Al9fczGu0oR30S5xfFsI9DQbAifbIXdJmLJlFIXMad0yge2QON3v3JS1mbDHlJuUIkxi2IprEuw
-	rns4atYw3uh8sI274T+kC2N6jOb3EZLtxyHzttDAjQUmXtQEWU31pk7SI9cvoxk+3ZCC2G/Gm5M
-	AcJ0Jtq7WV6O7E6LJ+ycn1JZeycBU5Fq747VTabJw2lEyT641Uz77IQmQQmhMLKCgqsPAoWYbYZ
-	0JvVl1rvChqN+kW6TH74NKaNWEgA==
-X-Google-Smtp-Source: AGHT+IHFctVdxlEN7Gl0atqGBbR40knvStVEAlZWL5HG/t6ahFYt4XUQze3IxeMz74Bn6QMNjDZeag==
-X-Received: by 2002:a05:6a20:a11e:b0:364:31e:2cb1 with SMTP id adf61e73a8af0-36617e6c5dfmr2683085637.17.1765036116169;
-        Sat, 06 Dec 2025 07:48:36 -0800 (PST)
-Received: from localhost.localdomain ([114.79.178.20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf6875cc8eesm7645210a12.16.2025.12.06.07.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Dec 2025 07:48:35 -0800 (PST)
-From: Prithvi Tambewagh <activprithvi@gmail.com>
-To: mark@fasheh.com,
-	jlbec@evilplan.org,
-	joseph.qi@linux.alibaba.com
-Cc: ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Prithvi Tambewagh <activprithvi@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djkd0x8R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765221122; x=1796757122;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4GJXL/LoLHx7N2a8v5VWshnzbRCiIknwAktZdBjLWzs=;
+  b=djkd0x8RG4iNyONw9rVIvrCxj2HiCVZ1YzWh2OWwX9AmAnj03tvfWLEO
+   Nyt5l9UQZx4x7/3viEQe13oLAemh06dUCUyQGS+ZJrnqmd1/yFAzj0OcI
+   HXLiRW4iGsCyifHZmbbgHIxhpJ+zmT23ZQZgAqYbsGvCBkFlqFf3/kpwN
+   s7ehDnM1mae1XfCGmkGUOTTcrq+hcx5mrtrjPfqcuDVteKy+bef+P2d5d
+   IazuKecCcNaEfYBopEffrKaTSgXROzoa0I+Owi7uMrhjKldhkvp96Wn8u
+   nJ18SYVVN7m/veLLHKwVWk1ReWtrVYenYbUmSHwqid2j5HJBc4epkZ3fx
+   A==;
+X-CSE-ConnectionGUID: jqYluo9yQiSicN2znDBggw==
+X-CSE-MsgGUID: f5KrfOMvQq+fyOI41EvuXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="54711468"
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="54711468"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 11:12:02 -0800
+X-CSE-ConnectionGUID: dIpHVU1eQw2pTfwkXgE9tQ==
+X-CSE-MsgGUID: K8sgQq9xRsiatQ/7I2vP3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="200177196"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2025 11:11:58 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vSgeJ-000000000kR-0L12;
+	Mon, 08 Dec 2025 19:11:55 +0000
+Date: Tue, 9 Dec 2025 03:11:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prithvi Tambewagh <activprithvi@gmail.com>, mark@fasheh.com,
+	jlbec@evilplan.org, joseph.qi@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org, Prithvi Tambewagh <activprithvi@gmail.com>,
 	syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH] ocfs2: Fix kernel BUG in ocfs2_write_block
-Date: Sat,  6 Dec 2025 21:18:19 +0530
-Message-ID: <20251206154819.175479-1-activprithvi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] ocfs2: Fix kernel BUG in ocfs2_write_block
+Message-ID: <202512090210.evJEJv5b-lkp@intel.com>
+References: <20251206154819.175479-1-activprithvi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251206154819.175479-1-activprithvi@gmail.com>
 
-When the filesystem is being mounted, the kernel panics while the data
-regarding slot map allocation to the local node, is being written to the
-disk. This occurs because the value of slot map buffer head block
-number, which should have been greater than or equal to
-`OCFS2_SUPER_BLOCK_BLKNO` (evaluating to 2) is less than it, indicative
-of disk metadata corruption. This triggers
-BUG_ON(bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) in ocfs2_write_block(),
-causing the kernel to panic.
+Hi Prithvi,
 
-This is fixed by introducing an if condition block in
-ocfs2_update_disk_slot(), right before calling ocfs2_write_block(), which
-checks if `bh->b_blocknr` is lesser than `OCFS2_SUPER_BLOCK_BLKNO`; if
-yes, then ocfs2_error is called, which prints the error log, for
-debugging purposes, and the return value of ocfs2_error() is returned
-back to caller of ocfs2_update_disk_slot() i.e. ocfs2_find_slot(). If
-the return value is zero. then error code EIO is returned.
+kernel test robot noticed the following build warnings:
 
-Reported-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c818e5c4559444f88aa0
-Tested-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
----
- fs/ocfs2/slot_map.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+[auto build test WARNING on 24172e0d79900908cf5ebf366600616d29c9b417]
 
-diff --git a/fs/ocfs2/slot_map.c b/fs/ocfs2/slot_map.c
-index e544c704b583..788924fc3663 100644
---- a/fs/ocfs2/slot_map.c
-+++ b/fs/ocfs2/slot_map.c
-@@ -193,6 +193,16 @@ static int ocfs2_update_disk_slot(struct ocfs2_super *osb,
- 	else
- 		ocfs2_update_disk_slot_old(si, slot_num, &bh);
- 	spin_unlock(&osb->osb_lock);
-+	if (bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) {
-+		status = ocfs2_error(osb->sb,
-+				     "Invalid Slot Map Buffer Head "
-+				     "Block Number : %llu, Should be >= %d",
-+				     le16_to_cpu(bh->b_blocknr),
-+				     le16_to_cpu((int)OCFS2_SUPER_BLOCK_BLKNO));
-+		if (!status)
-+			return -EIO;
-+		return status;
-+	}
- 
- 	status = ocfs2_write_block(osb, bh, INODE_CACHE(si->si_inode));
- 	if (status < 0)
+url:    https://github.com/intel-lab-lkp/linux/commits/Prithvi-Tambewagh/ocfs2-Fix-kernel-BUG-in-ocfs2_write_block/20251206-235042
+base:   24172e0d79900908cf5ebf366600616d29c9b417
+patch link:    https://lore.kernel.org/r/20251206154819.175479-1-activprithvi%40gmail.com
+patch subject: [PATCH] ocfs2: Fix kernel BUG in ocfs2_write_block
+config: loongarch-randconfig-r112-20251207 (https://download.01.org/0day-ci/archive/20251209/202512090210.evJEJv5b-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090210.evJEJv5b-lkp@intel.com/reproduce)
 
-base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090210.evJEJv5b-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> fs/ocfs2/slot_map.c:197:26: sparse: sparse: cast to restricted __le16
+>> fs/ocfs2/slot_map.c:197:26: sparse: sparse: cast to restricted __le16
+
+vim +197 fs/ocfs2/slot_map.c
+
+   182	
+   183	static int ocfs2_update_disk_slot(struct ocfs2_super *osb,
+   184					  struct ocfs2_slot_info *si,
+   185					  int slot_num)
+   186	{
+   187		int status;
+   188		struct buffer_head *bh;
+   189	
+   190		spin_lock(&osb->osb_lock);
+   191		if (si->si_extended)
+   192			ocfs2_update_disk_slot_extended(si, slot_num, &bh);
+   193		else
+   194			ocfs2_update_disk_slot_old(si, slot_num, &bh);
+   195		spin_unlock(&osb->osb_lock);
+   196		if (bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) {
+ > 197			status = ocfs2_error(osb->sb,
+   198					     "Invalid Slot Map Buffer Head "
+   199					     "Block Number : %llu, Should be >= %d",
+   200					     le16_to_cpu(bh->b_blocknr),
+   201					     le16_to_cpu((int)OCFS2_SUPER_BLOCK_BLKNO));
+   202			if (!status)
+   203				return -EIO;
+   204			return status;
+   205		}
+   206	
+   207		status = ocfs2_write_block(osb, bh, INODE_CACHE(si->si_inode));
+   208		if (status < 0)
+   209			mlog_errno(status);
+   210	
+   211		return status;
+   212	}
+   213	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
