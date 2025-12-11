@@ -1,119 +1,123 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A2D4594A;
-	Thu, 11 Dec 2025 02:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC042E2665
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 11 Dec 2025 18:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765419456; cv=none; b=YTfc4Bm0mSKePjhfC4RrINH1uv5PqkKhxcUoClAeqhnMoamgPSW8B6hlR6eAoKrcsHdodz7Z48PeIA3I+MiIm1ae/d/3kwTnR4BnhhuNz+EPgWSD1rn4nueUxyvEZWB7FKi6G9tBgGfAWqxKdfhhNL3JM9h2vluaVjSw/HUCljc=
+	t=1765476676; cv=none; b=obXlxw4P2/ZB19sC9iXTPehFZHUcRrKJ1DiksBRlqLhtgEZgDEIL2QhWI3QeUqKztpDIOla1fgi3zEI1Bo9SKSv0hdbJpzdCc0IUAfDj0kumcxcYWLKTHmFzmgLXdzwgkpMD7AoBi124eTitxx631mo9d9jN+J0J+4iAyFUceqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765419456; c=relaxed/simple;
-	bh=a+tfNJgQPF+uN9UshD59v9mkXXYfgebFMUr3mlaw3f8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dpFfLN+ljuiOMUHAe2GD1zWJF/0XgndZkSvNPGAqZLkS+UOBGMM7FVzoE9Wa0Soo4G3dhXzgPL/2MliBgucS+5EHpmpBHggn27OLn+ARtf3evPF1oqOCITIaqVsTO1PtTcfPl5VsmRisTNlMU/DcIct4WW34JmNd5Wb868qXClA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=waorHZ45; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1765476676; c=relaxed/simple;
+	bh=DZV1pBUBFyRmC5kjaFqSAxVxhJafuZs9wSJun8rf5Nw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EaOBbXJzBliULn2A1YrUhdiwcq2V7ZBK6BQ6BhLRETAc4utP4Um1hNuGMAYyv0stdhHaoDygT5HCPXGJjBovYOtMe28+F2s1dL52TNFlfBexEB25vBQej0Kw7iB2o4xDjEuW0J2va2BzpqNyjclFbPOVGF5Ci6mLP9U0WvQ+E9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fs+ERp/R; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="waorHZ45"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1765419443; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=Upr/ZI57OkYJyDopLBCsUvYpG+siWtd4+W1Pv/Saam4=;
-	b=waorHZ453O9KguzRjVvF8mIpxJR+plpMzomJ27/R64Ftf1hhmXVpkm8x+3gBu/2b+3U8tgoWh2d8TkqdLMV4RwYlOSuUZ3p+uQIR4VqOivXuqs0c7H47PXB7Cm0GT0h6fy89qE99luXlfFxNZXlA3EUENUuldu+FAVGigfCH19Y=
-Received: from 30.221.145.54(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0WuYVcyM_1765419442 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 11 Dec 2025 10:17:22 +0800
-Message-ID: <9bad11da-0655-4fb4-b424-8c124b127290@linux.alibaba.com>
-Date: Thu, 11 Dec 2025 10:17:21 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fs+ERp/R"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b725ead5800so56150066b.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 11 Dec 2025 10:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765476673; x=1766081473; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0kfe94o6bfYSwLIbCY/05bsAoo/TxMAqJX9Kt5vqfg=;
+        b=Fs+ERp/RsHFL06D4FK5Vn79et88y4XqC+Z6B1dylUVFYjUsua8X8aoA4aoti/5m+tJ
+         uIObgZQk8xqNvURXa4l1gPLR7eIO31sZG+hz698J+/mjdlcdLbsOYf0cG6OxeJNQBUJq
+         JF9zBNToGfnzbC6YeW0vlyOpT/b3NUBAVqMhxMqij2PXmIIMorsol6alNythjgg4JY3+
+         IESbvgDg6S2xUPIqjf5q44OcjYYuB+pzoDXYNktYPCbHHxLz5d3x+SHoqwlAgLdzGZtv
+         SbNG+7QkLpnIYxxkx2vkxVjpLGY9Vsw+y3LdjClsZagfxzTAioAwLM0UNZAYUWufau3Y
+         lOOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765476673; x=1766081473;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I0kfe94o6bfYSwLIbCY/05bsAoo/TxMAqJX9Kt5vqfg=;
+        b=n3GBUM5GSkMLCDsZ8p/Crzz3x84CJdfUU7Eua3oTnoKrZghp2D8XzRankksv/6Ibta
+         sh12LXQNTakHyhuLwJnS0mLyAQmJwRu3mY3OhVGWNapojg/JZPGUpqgwvj4BtEJv/7fN
+         t9yZ3FFJ+0bACisVkbjg5p/qahYY39Cjn9BPlxRWhBV2A/rCT+naw5YaN6Hl+Zoh6XWp
+         VAnAFdRLZjn1W4XyCaOQgk4r8uHNRMv/qxA8v0HjKOwBBS6wJ+Yqo+KqIj3+NiDgtcTn
+         sLKsho0HvEtye3qTV5YouHc9REP7BSRrH6ZXNnfAun4PzUI2l+Aqqk3zdOaU6bDR+yzC
+         sygw==
+X-Forwarded-Encrypted: i=1; AJvYcCUt8rMcVhre5rQRR1rLZjBNN5scdCsbPkDbaujDtwzE8LYmXE1uij8HA5f4p/imrHkWhWbzYw1e/XsiCmwlP9jFpSoEmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7pXC/R2gOtnusY3wv0riGb/gb9LmFOG4asOKYkmB69QhGSLip
+	jHwoC4dUJLlPm6IcypsjG3RcAk/vX87swYkDMsNUOeIem90xOiZb9p2r
+X-Gm-Gg: AY/fxX4XLmZ52Xd5WtwJ2tvrfFJpOel9IL3E5k7Ux6Xoi70Pf3hcjp9csk8gERpDxUH
+	UtZUx1+PEOoKswM99PSGQKyDCG0o+wjhajzFSXvhOF27B1NkSLolO+bOxfWnDh0UZonoE7zUxVB
+	06rmIsTdYvjlPiyDazX2M1rIJo8CtB8EzP1B33u7FYZWbBqRPEEbSDHnLXJjq2aGkgXdWlRMINo
+	Jov/XvZT3EuboWaBevUDtfhBUrM663AySCx59x00avXfLZY58J4N4WgI36VE+x58SjMy/LbBHxP
+	UQhp8bedJdPhmT8CLWGK6mIuoDUs0a3LaVbdx+IKqyuoPFG8mQU2PQ0jwogApVgF5Ikl3Zi+qTJ
+	/M87q3kawE9a8KmfN0xoEsYQgxftImBah+1xYV/viiZIqHwY1kBLKwvV0qKj4TSy1GPSdYh1mez
+	sk3yu/IjENYG64kNzEJZ/EY5wi0gS7xhwoxRZFefU1+6IZjy3gMTHXwMHdzc5OecStt2hNrdS1+
+	vQtLeohobKiwFv9ZEoO6aPKi6I6E0MlZXCajF8wkg==
+X-Google-Smtp-Source: AGHT+IHHsqhhTL9gS1gTnSlcNNIXMgogTFs1G5FT7mIU7zY0WhRrywOf5Z7p94b6SgJWVcKCORCxxA==
+X-Received: by 2002:a17:907:9602:b0:b77:1b05:a081 with SMTP id a640c23a62f3a-b7ce83f09ebmr735650766b.27.1765476672736;
+        Thu, 11 Dec 2025 10:11:12 -0800 (PST)
+Received: from localhost.localdomain (host194.safe-lock.net. [195.20.212.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5718dfsm329542766b.54.2025.12.11.10.11.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 10:11:12 -0800 (PST)
+From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+To: zack.rusin@broadcom.com
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	david.hunter.linux@gmail.com,
+	skhan@linuxfoundation.org,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] drm/vmwgfx: Fix kernel-doc warnings for vmwgfx_fence
+Date: Thu, 11 Dec 2025 19:10:44 +0100
+Message-Id: <20251211181044.4098689-1-kubik.bartlomiej@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ocfs2: fix kernel BUG in ocfs2_write_block
-To: Prithvi Tambewagh <activprithvi@gmail.com>, mark@fasheh.com,
- jlbec@evilplan.org, Heming Zhao <heming.zhao@suse.com>
-Cc: ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org,
- syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20251210193257.25500-1-activprithvi@gmail.com>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20251210193257.25500-1-activprithvi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add missing descriptions for vmw_event_fence_action_seq_passed.
 
+This fixes the following warnings:
+drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'f'
+	not described in 'vmw_event_fence_action_seq_passed'
+drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'cb'
+	not described in 'vmw_event_fence_action_seq_passed'
 
-On 2025/12/11 03:32, Prithvi Tambewagh wrote:
-> When the filesystem is being mounted, the kernel panics while the data
-> regarding slot map allocation to the local node, is being written to the
-> disk. This occurs because the value of slot map buffer head block
-> number, which should have been greater than or equal to
-> `OCFS2_SUPER_BLOCK_BLKNO` (evaluating to 2) is less than it, indicative
-> of disk metadata corruption. This triggers
-> BUG_ON(bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) in ocfs2_write_block(),
-> causing the kernel to panic.
-> 
-> This is fixed by introducing an if condition block in
-> ocfs2_update_disk_slot(), right before calling ocfs2_write_block(), which
-> checks if `bh->b_blocknr` is lesser than `OCFS2_SUPER_BLOCK_BLKNO`; if
-> yes, then ocfs2_error is called, which prints the error log, for
-> debugging purposes, and the return value of ocfs2_error() is returned
-> back to caller of ocfs2_update_disk_slot() i.e. ocfs2_find_slot(). If
-> the return value is zero. then error code EIO is returned.
-> 
-> Reported-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=c818e5c4559444f88aa0
-> Tested-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
-> ---
-> v1->v2:
->  - Remove usage of le16_to_cpu() from ocfs2_error()
->  - Cast bh->b_blocknr to unsigned long long
->  - Remove type casting for OCFS2_SUPER_BLOCK_BLKNO
->  - Fix Sparse warnings reported in v1 by kernel test robot
->  - Update title from 'ocfs2: Fix kernel BUG in ocfs2_write_block' to
->    'ocfs2: fix kernel BUG in ocfs2_write_block'
-> 
-> v1 link: https://lore.kernel.org/all/20251206154819.175479-1-activprithvi@gmail.com/T/
-> 
->  fs/ocfs2/slot_map.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/fs/ocfs2/slot_map.c b/fs/ocfs2/slot_map.c
-> index e544c704b583..e916a2e8f92d 100644
-> --- a/fs/ocfs2/slot_map.c
-> +++ b/fs/ocfs2/slot_map.c
-> @@ -193,6 +193,16 @@ static int ocfs2_update_disk_slot(struct ocfs2_super *osb,
->  	else
->  		ocfs2_update_disk_slot_old(si, slot_num, &bh);
->  	spin_unlock(&osb->osb_lock);
-> +	if (bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) {
-> +		status = ocfs2_error(osb->sb,
-> +				     "Invalid Slot Map Buffer Head "
-> +				     "Block Number : %llu, Should be >= %d",
-> +				     (unsigned long long)bh->b_blocknr,
-> +				     OCFS2_SUPER_BLOCK_BLKNO);
-> +		if (!status)
-> +			return -EIO;
-> +		return status;
-> +	}
->  
->  	status = ocfs2_write_block(osb, bh, INODE_CACHE(si->si_inode));
->  	if (status < 0)
-> 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202507040807.jKTxWGVQ-lkp@intel.com/
 
-Ummm... The 'bh' is from ocfs2_slot_info, which is load from crafted
-image during mount.
-So IIUC, the root cause is we read slot info without validating, see
-ocfs2_refresh_slot_info().
-So I'd prefer to implement a validate func and pass it into
-ocfs2_read_blocks() to do this job.
+Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Joseph
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+index 00be92da5509..85795082fef9 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+@@ -515,12 +515,12 @@ int vmw_fence_obj_unref_ioctl(struct drm_device *dev, void *data,
+ /**
+  * vmw_event_fence_action_seq_passed
+  *
+- * @action: The struct vmw_fence_action embedded in a struct
+- * vmw_event_fence_action.
++ * @f: The struct dma_fence which provides timestamp for the action event
++ * @cb: The struct dma_fence_cb callback for the action event.
+  *
+- * This function is called when the seqno of the fence where @action is
+- * attached has passed. It queues the event on the submitter's event list.
+- * This function is always called from atomic context.
++ * This function is called when the seqno of the fence has passed
++ * and it is always called from atomic context.
++ * It queues the event on the submitter's event list.
+  */
+ static void vmw_event_fence_action_seq_passed(struct dma_fence *f,
+ 					      struct dma_fence_cb *cb)
+--
+2.39.5
+
