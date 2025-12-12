@@ -1,123 +1,138 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC042E2665
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 11 Dec 2025 18:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57431321445
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 12 Dec 2025 12:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765476676; cv=none; b=obXlxw4P2/ZB19sC9iXTPehFZHUcRrKJ1DiksBRlqLhtgEZgDEIL2QhWI3QeUqKztpDIOla1fgi3zEI1Bo9SKSv0hdbJpzdCc0IUAfDj0kumcxcYWLKTHmFzmgLXdzwgkpMD7AoBi124eTitxx631mo9d9jN+J0J+4iAyFUceqc=
+	t=1765540918; cv=none; b=uNeLutRrZxPXzgS79I//Xd18+Zeaw2o/2qUM4ewueGeS5N+LEmWJDiRdG4S8eEGkbbV5IhAfgUa3g38k8jJdQg9hbhs8p3lfPqlIkAmXm6y30hs4A7Sag45Av3mxBC8j2cBZ4drXYmjV5uGimEM34+xDC6vwq0W/A654Ahz5Joc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765476676; c=relaxed/simple;
-	bh=DZV1pBUBFyRmC5kjaFqSAxVxhJafuZs9wSJun8rf5Nw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EaOBbXJzBliULn2A1YrUhdiwcq2V7ZBK6BQ6BhLRETAc4utP4Um1hNuGMAYyv0stdhHaoDygT5HCPXGJjBovYOtMe28+F2s1dL52TNFlfBexEB25vBQej0Kw7iB2o4xDjEuW0J2va2BzpqNyjclFbPOVGF5Ci6mLP9U0WvQ+E9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fs+ERp/R; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765540918; c=relaxed/simple;
+	bh=bgISNmaIgWcegkblebGKLzHkBeTWyZt2bMBC3KFX/mk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=A3GgG1oe8a/3B/bGB2CQhmGxSORK4pcCq/+JtGMQhZqfiZ3/ZGT+KHZjJOvLwi59lWRKxRnjhlNYcRHgryPhhe1J4eAwQREqUjZyv9c3ifs6BMDYhmdzyi+dbY05UnF7zd+xPZ3IDdV5QqIpmpk0cmiHwI79Mz+705Oko+21Ibk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=EAB+6RXg; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fs+ERp/R"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b725ead5800so56150066b.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 11 Dec 2025 10:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765476673; x=1766081473; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0kfe94o6bfYSwLIbCY/05bsAoo/TxMAqJX9Kt5vqfg=;
-        b=Fs+ERp/RsHFL06D4FK5Vn79et88y4XqC+Z6B1dylUVFYjUsua8X8aoA4aoti/5m+tJ
-         uIObgZQk8xqNvURXa4l1gPLR7eIO31sZG+hz698J+/mjdlcdLbsOYf0cG6OxeJNQBUJq
-         JF9zBNToGfnzbC6YeW0vlyOpT/b3NUBAVqMhxMqij2PXmIIMorsol6alNythjgg4JY3+
-         IESbvgDg6S2xUPIqjf5q44OcjYYuB+pzoDXYNktYPCbHHxLz5d3x+SHoqwlAgLdzGZtv
-         SbNG+7QkLpnIYxxkx2vkxVjpLGY9Vsw+y3LdjClsZagfxzTAioAwLM0UNZAYUWufau3Y
-         lOOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765476673; x=1766081473;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I0kfe94o6bfYSwLIbCY/05bsAoo/TxMAqJX9Kt5vqfg=;
-        b=n3GBUM5GSkMLCDsZ8p/Crzz3x84CJdfUU7Eua3oTnoKrZghp2D8XzRankksv/6Ibta
-         sh12LXQNTakHyhuLwJnS0mLyAQmJwRu3mY3OhVGWNapojg/JZPGUpqgwvj4BtEJv/7fN
-         t9yZ3FFJ+0bACisVkbjg5p/qahYY39Cjn9BPlxRWhBV2A/rCT+naw5YaN6Hl+Zoh6XWp
-         VAnAFdRLZjn1W4XyCaOQgk4r8uHNRMv/qxA8v0HjKOwBBS6wJ+Yqo+KqIj3+NiDgtcTn
-         sLKsho0HvEtye3qTV5YouHc9REP7BSRrH6ZXNnfAun4PzUI2l+Aqqk3zdOaU6bDR+yzC
-         sygw==
-X-Forwarded-Encrypted: i=1; AJvYcCUt8rMcVhre5rQRR1rLZjBNN5scdCsbPkDbaujDtwzE8LYmXE1uij8HA5f4p/imrHkWhWbzYw1e/XsiCmwlP9jFpSoEmw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7pXC/R2gOtnusY3wv0riGb/gb9LmFOG4asOKYkmB69QhGSLip
-	jHwoC4dUJLlPm6IcypsjG3RcAk/vX87swYkDMsNUOeIem90xOiZb9p2r
-X-Gm-Gg: AY/fxX4XLmZ52Xd5WtwJ2tvrfFJpOel9IL3E5k7Ux6Xoi70Pf3hcjp9csk8gERpDxUH
-	UtZUx1+PEOoKswM99PSGQKyDCG0o+wjhajzFSXvhOF27B1NkSLolO+bOxfWnDh0UZonoE7zUxVB
-	06rmIsTdYvjlPiyDazX2M1rIJo8CtB8EzP1B33u7FYZWbBqRPEEbSDHnLXJjq2aGkgXdWlRMINo
-	Jov/XvZT3EuboWaBevUDtfhBUrM663AySCx59x00avXfLZY58J4N4WgI36VE+x58SjMy/LbBHxP
-	UQhp8bedJdPhmT8CLWGK6mIuoDUs0a3LaVbdx+IKqyuoPFG8mQU2PQ0jwogApVgF5Ikl3Zi+qTJ
-	/M87q3kawE9a8KmfN0xoEsYQgxftImBah+1xYV/viiZIqHwY1kBLKwvV0qKj4TSy1GPSdYh1mez
-	sk3yu/IjENYG64kNzEJZ/EY5wi0gS7xhwoxRZFefU1+6IZjy3gMTHXwMHdzc5OecStt2hNrdS1+
-	vQtLeohobKiwFv9ZEoO6aPKi6I6E0MlZXCajF8wkg==
-X-Google-Smtp-Source: AGHT+IHHsqhhTL9gS1gTnSlcNNIXMgogTFs1G5FT7mIU7zY0WhRrywOf5Z7p94b6SgJWVcKCORCxxA==
-X-Received: by 2002:a17:907:9602:b0:b77:1b05:a081 with SMTP id a640c23a62f3a-b7ce83f09ebmr735650766b.27.1765476672736;
-        Thu, 11 Dec 2025 10:11:12 -0800 (PST)
-Received: from localhost.localdomain (host194.safe-lock.net. [195.20.212.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5718dfsm329542766b.54.2025.12.11.10.11.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 10:11:12 -0800 (PST)
-From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-To: zack.rusin@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] drm/vmwgfx: Fix kernel-doc warnings for vmwgfx_fence
-Date: Thu, 11 Dec 2025 19:10:44 +0100
-Message-Id: <20251211181044.4098689-1-kubik.bartlomiej@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="EAB+6RXg"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BC4RkhQ022275;
+	Fri, 12 Dec 2025 12:01:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=3z+tc1
+	NpR5UUK27rqzSVFLKc+7teQZCqO8GScwzmUXA=; b=EAB+6RXgQzo6yFR44YXZf5
+	X3tDcwqkeIZO7uOFv+tB/jh4A0Pj5biLs9UUy60/zTS43JRWRj9KNMzMa+rYDIjA
+	jYV46CB5n9wthbViCsWDOij84+/r6jLhFA6bWusK+4CysHSOp9p/Z+gFYzBpf7SC
+	ZueIHjqc85ZB+y0gnkXGKcextCJpDQrUXF8jptqm2x7Ta7+41coQZPsylNKAv8G0
+	Xu/nfEI76z65z1w0WJpW0iQtmzFC4c0lCCcIHXaLrBtoVzZOShJY/Mb/EmGoRZPI
+	WkcEXRR/Kqt8c8vkYEHL9RE+hp5WhaT5Le1nGciBJoHqF+EPnJx1qQiNJ4TWjd4g
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4avc0kd65b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Dec 2025 12:01:45 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BCBxjH7003043;
+	Fri, 12 Dec 2025 12:01:45 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4avc0kd657-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Dec 2025 12:01:45 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BC9uA5e030331;
+	Fri, 12 Dec 2025 12:01:44 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4avxtskvb3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 Dec 2025 12:01:44 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BCC1gYJ44171672
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Dec 2025 12:01:42 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6FC422004D;
+	Fri, 12 Dec 2025 12:01:42 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8C66620040;
+	Fri, 12 Dec 2025 12:01:36 +0000 (GMT)
+Received: from [9.61.250.41] (unknown [9.61.250.41])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 12 Dec 2025 12:01:36 +0000 (GMT)
+Message-ID: <60dfb410-b814-4db5-b928-6793fba012a4@linux.ibm.com>
+Date: Fri, 12 Dec 2025 17:31:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] selftests/powerpc/pmu/: Add
+ check_extended_reg_test to .gitignore
+To: Gopi Krishna Menon <krishnagopi487@gmail.com>, maddy@linux.ibm.com,
+        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        shuah@kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20250922004439.2395-1-krishnagopi487@gmail.com>
+Content-Language: en-US
+From: Aditya Bodkhe <adityab1@linux.ibm.com>
+In-Reply-To: <20250922004439.2395-1-krishnagopi487@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=Cf8FJbrl c=1 sm=1 tr=0 ts=693c0429 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=wQKQ9SNmtxRVP8ipeUEA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: nV8BXba4YoY5DJvZBK1AYrhH6zswStZi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDAxNiBTYWx0ZWRfX8HnwRLd2e+WU
+ zk1orW3QtNGqzd7dsilTBoaLnt8QEdltcd8WJepODGKC0h9obrpws6VWLZmzHmAmCNGgdf1xneg
+ CKRChMzUtw4wbmSgypk9Dn4GxMmJ8ox6nzHn+LEji9fhgIyOjgfpPII4xp3Av1QzzFFU378T4GR
+ zpfjWWDqm8hMUek18MbSAbSVngEP3UUcZQ0i0JDAlrIYfBUPC6jPBtT77+h0rgUJxPsRWYabz4a
+ crWiNSseSYQ2P0eBvQZ5tqzkJKUDznE7TX6chBvvAUe/2ORzQJDHXgtfHj3NMb+tsu4iPWk8EyI
+ /FB8lCIcJVeO3F5xUQtx7A+ljyAzWOqKv3dhGtd+44z3d7zO+ZaaTTp3WCE9KV4RT0iTPqcPQJP
+ dHedoZh/8J3ptgxz0QrU/gHq3hZpbA==
+X-Proofpoint-GUID: GxgCxAftOxTNCp4AAKpB7jSYyLNmPx95
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-12_03,2025-12-11_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 malwarescore=0 clxscore=1011 adultscore=0
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510240000
+ definitions=main-2512060016
 
-Add missing descriptions for vmw_event_fence_action_seq_passed.
 
-This fixes the following warnings:
-drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'f'
-	not described in 'vmw_event_fence_action_seq_passed'
-drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'cb'
-	not described in 'vmw_event_fence_action_seq_passed'
+On 22/09/25 6:11 am, Gopi Krishna Menon wrote:
+> Add the check_extended_reg_test binary to .gitignore to avoid accidentally
+> staging the build artifact.
+>
+> Signed-off-by: Gopi Krishna Menon <krishnagopi487@gmail.com>
+> ---
+>   tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore b/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
+> index f93b4c7c3a8a..ea29228334e8 100644
+> --- a/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
+> +++ b/tools/testing/selftests/powerpc/pmu/sampling_tests/.gitignore
+> @@ -1,5 +1,6 @@
+>   bhrb_filter_map_test
+>   bhrb_no_crash_wo_pmu_test
+> +check_extended_reg_test
+>   intr_regs_no_crash_wo_pmu_test
+>   mmcr0_cc56run_test
+>   mmcr0_exceptionbits_test
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202507040807.jKTxWGVQ-lkp@intel.com/
+I tested this patch , the file is correctly ignored through the updated 
+.gitignore entry.
 
-Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Tested-by: Aditya Bodkhe <adityab1@linux.ibm.com>
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 00be92da5509..85795082fef9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -515,12 +515,12 @@ int vmw_fence_obj_unref_ioctl(struct drm_device *dev, void *data,
- /**
-  * vmw_event_fence_action_seq_passed
-  *
-- * @action: The struct vmw_fence_action embedded in a struct
-- * vmw_event_fence_action.
-+ * @f: The struct dma_fence which provides timestamp for the action event
-+ * @cb: The struct dma_fence_cb callback for the action event.
-  *
-- * This function is called when the seqno of the fence where @action is
-- * attached has passed. It queues the event on the submitter's event list.
-- * This function is always called from atomic context.
-+ * This function is called when the seqno of the fence has passed
-+ * and it is always called from atomic context.
-+ * It queues the event on the submitter's event list.
-  */
- static void vmw_event_fence_action_seq_passed(struct dma_fence *f,
- 					      struct dma_fence_cb *cb)
---
-2.39.5
+Thanks,
+Aditya
 
