@@ -1,73 +1,74 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B823331A71
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 08:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195FE3321C7
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 08:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788552; cv=none; b=M8ZZLfbRKVQPR1K0dj/nz3e97HphrTmfaqVbJlp2Ur/MXgW3J2G2PEbkQJGdLZvfZMUwk0YnM70kX0H6MEb0uU50dZ98C83jmGJTASgrxfr+KoBT4pVc4m6p/3NSwezIFBuIF9En7HNbh6fDMjLt2B9nB+Sb0pexvuej+Q7Axmw=
+	t=1765788633; cv=none; b=bGxgfySg64iOEqlrma7bwxdooJl15TWyDzhCDzmAcldPDtDuPW6wxstDxIgkj94uiXuzI9+SBnrvIikR3B0GDR1viRcecQz7fduGzKK2Xr6LEw1//qvn9HH0ifESnfssjL7iwChM+PJu+2sR75RM5njob/5IcnsOoFq4y+AlgEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788552; c=relaxed/simple;
-	bh=8i1Q4oq+cytJl0IcVUuiEN7sbmcQ3V9vJUtywYQr9Sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g9FBsX01Mv719g4hKUvDcXFw+3oLsBL8zWl2ZrW7/KpHHochIUKuk+XAL+0mxggKDHhSjZxNzCyRxMJTPu3UJa5yoZDaz9EtO0RDNJ2KsWgPwZVbNn52VzGIyt5YFOdfwLcTlaaVoXeUYPWknJz8O3n4n6IagglVgp1JB4AAlp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jadogFa/; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1765788633; c=relaxed/simple;
+	bh=UNJhjhBfdgMb0hckhX2MFxw95f5+0F9VDFTwddpYTEE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ugs0alBl4vAR2yp6KmTyY66+nBWsIatL1jg++gqr4f0Cx671Ud8sPklo3JVw0PC/sNoI64b/IO9RHnIew7/UHKFus5iOykv3QMdKwafFTt8wN0wkxdcoUdRmfeVaXoVala1kSKRECP4aUDH0fM5c0pADbIY3+l79KHOlYUoJWNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgL/mp9g; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jadogFa/"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso2514704b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 00:49:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgL/mp9g"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso2430290b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 00:50:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765788548; x=1766393348; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765788631; x=1766393431; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZ3tmZ1IHwFtnfG4tSNUz05gU5jSKEuY1R6lKbDLdrU=;
-        b=jadogFa/vKLe7rxSHty712bk0DtQCFVaSi57Mq/AHuYA3iIOtPiA7ScVWBHVodq1zi
-         Czze1tEgEeSdD90c4qllhrFK745/0h6ZS7Bn5JcFUqRUscs3/LFGwIPCDYQeB1d7s61f
-         zc4cXgl1kN4h8pB0ZpO6jZfHhHWMyPM6YPBAvUnGKujtR+piB58VMuHInU21bdRV0i94
-         Ge53QcYbIu9xNO1hAnasXbmF1GP5eDQKRRhssWMkGFf5g2CKPepSWMIzXKleeTj3r+Y7
-         6sICYIF3t2QBVnRlUCalvsl6QAqtAu6a6cJ5q0PVpEDwgGz/PBH+cDruocYlLY3Fs5uj
-         GoEQ==
+        bh=4cLICT+Xfx3iSAb03bNjdxgJ5nQ9eDd3fe2nx7UuqzU=;
+        b=kgL/mp9gbyiNALQ72bADY87wxshTjSk8B05VbBRDOIxaqrXITy4FaH7nfgVKVgnr/a
+         6/N62mPHhVoSZ9orQFl3mcP5qeifdINUtupRlVZYn1NO891LM0b4iuZMVVNG/Co25fel
+         xb/DFOTkQy0858/4nALP76UATN1A0YCZd0gj5fAYvnpmWMNGhIAij8tKrS3hZaT1hFYA
+         3eM4vkNsUTz/axLwvlTNL4Yhy1GOF/sI2RDvClbaxvdeHZ0AiTTLQLw3RzKYoxAs3gJg
+         GRIPTzFAuZcU8FnVg5VAxv+hKfjEPBqEeuuI/GI0YymL6k8KmY9+JhL4PeHm1g607H5T
+         f5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765788548; x=1766393348;
+        d=1e100.net; s=20230601; t=1765788631; x=1766393431;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZZ3tmZ1IHwFtnfG4tSNUz05gU5jSKEuY1R6lKbDLdrU=;
-        b=XP7QhP/kFdtwfxj9jD9efoYBv5IsnXb8ZKvl/x4O4uhmU7meiWK4kUKQeobBhTw5kH
-         IWPY0SUbhLxepzFW8JYkG6v6JNTngAbqzQbS4Elbt0mGCLzIcgKg14Mml9fWfYjoL+Kf
-         KqEmUGXl0IR43IuibkufLM9nVucaJjlrDZUVYM+7UZs+5TL7Xw3p2QXMIy/WHhVotc3k
-         3TQ7r7w471Gd1GZDXiWiRPmw++s228bXqX6bqO2vaw2af+gYzq+CZb91BleoTy1RxyBL
-         8m9HAu0c8RKJKfEL07WhJTir1CBrn4ofHWQ9pXOJY+4p8QNMs3HETEwM5z1dcCQmeZiW
-         mGhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUuDTI1H6hVEEkgtRODtZQQAofXx+Q/S6mdRcVXgioOd9Txv99Mru7EcY2Rd/RsMy8YgjLuran8jbXV8iZc/Uzhl4S6AQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLNTKE8hrVZpZ0BihVj3j0QzP30ad3phIF5iNhnryyuhsBDVr8
-	8VotT35eg76lSLGW0/FCxEKPdIVLT8KrLCC3X08VnVGVQscYDNIgfe6w
-X-Gm-Gg: AY/fxX5uZap6Pmr6E4EPAeMfWVY9/1Mv1d5agXfNGVsOTC6Nz43w9XvQQhKxyJkiSId
-	n71niSMqjs+AugJUkIAeW+Cr7vqXjgMGnJw+aA5QqY6Uq/5OVjWCKu9dC4ET3VK7+uWqwwjLx6Q
-	7RzDdnh6NUtCbcMMfzcboEYhYnOe1RKxQN/WkH0PRuRHQyRtNdDBmf6c7KG4Ypx76X21xgc6vrK
-	SVmygvRbgZvsvD5V3hWvjdcFebD7oBXmiVUgUOp3d8QcxUl2rweWqCXXrXLxndNDjlLaFr8q3YL
-	ofbcb5ZMQ9NdLdYD/fT2UgtXo0SjcYBBv3R8g6AQdFwo6mroHp/PbAAIGFxcvTc/cAL5O2FrFRz
-	TUlpfZue1fwRYAOlwMt+ntiws6TcJklXr8U/Z5GzDEF7FR+n61twovzltxavDivoXWNIXfg/cEe
-	SeqYXWXSR93+M2aA70bNrB0ia6ThuIWrEwheYpdTqqpxHBGA==
-X-Google-Smtp-Source: AGHT+IGFOLhOHUN0HBIHPChEhB8BYMiAZvuRpj05aTiyNpnf/kXx8TbMc7tFpRcia34euXu/C2dH3g==
-X-Received: by 2002:a05:6a20:6a26:b0:366:14b0:4b07 with SMTP id adf61e73a8af0-369afdfcb23mr9317176637.67.1765788548220;
-        Mon, 15 Dec 2025 00:49:08 -0800 (PST)
+        bh=4cLICT+Xfx3iSAb03bNjdxgJ5nQ9eDd3fe2nx7UuqzU=;
+        b=aqCvQIZ3QroMoqxS7jO3QmKZMmB8mNOqTJCXGtJ1AUSpKwPPFqnJgKbdGYafDiiFPU
+         6CcGDRZuxNdjtZsjfndSn3egI9PutCCxcpjsMzHXeLDXIFH+SDRU69fRxQrUkR4wj6/m
+         wUExsF31OtFM4ES3U3h9MH94TPjPrKejJfnHa12KIwoHp6nTKsNzsvYPOVZZFdoUjQpy
+         5B5hcwMC7RmZgTGDet9/ajAIW19XfoWdZr7eEf/iEdx4zH8kFbTgDvCiW6FfZi6yOsYi
+         EXLTYgI6dNu5gYg3B6D/cTKaob5U0OWbYdnPOz0zvA8fi0kDgUayx5hSF0+c4tMrw+q8
+         jKMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWu4Q+ZMELW5guSbkmTbvTcpVzm8kUwDATHp9RESvxnyg7DHiyw6N54/97ycWogJlDAJXeTbugHIgq7Q36+L2xKBp6L9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwW+UMiiJQW13PcjhZGjgLT8QzwV0cQl8dNdYyNVFzbTJqHe909
+	oCS+ZGkzFOV9Z232U3Eie7hYqMvM5ObrDN2borP7QL6XrlMdVZcm61KD
+X-Gm-Gg: AY/fxX42hnO4DdSZ70bcnV2ziHbZsHJSFB2AasVP6doIz9WpwQCz9FX1HWLTVU9B4tA
+	iVhGkJQKl2Ecnn7TnVI96MNbD6/fIk0vRxq//uIHp4oMIkzTxi/ZOc7n2E8UWIYFWwd1fqmvxcB
+	QMtmL0Bin0zp/edBXtIa4PfA0SnGOha8loEumcuD+n70IDaMCyRLQ/40krnJJ+Omew7UaA6ViKb
+	74OO4ZvkkzAhX0bl1e2BReiWKRPT9MblQhou+9v4+7IpqzYckz/LeZrdydtSJ/Ua/k/Re1tdEH2
+	jSXB1DCy5U7R7ZlqwbqMoJ2/ZR/UCgUu6gw+mjkIU25IfKJfOwbdbK5hwR0ECZi+VCB+IS8YFE2
+	GAnn62WySrGulounRzXZrJOSCMTWwmgTX6+P3sOkfs3yuXF1+F/7ySCUPSveYaTaLZrBvIRKKqW
+	RjNpfnsnjhtijWItoiqkIF5TTLnw5Kfm+FBAY=
+X-Google-Smtp-Source: AGHT+IHkiONbozf9pjfNVTzEsjplZ/PllBupKMp54qcU+ah02z/Rx4CDnQ/3DyFEalYJchKrsKO91w==
+X-Received: by 2002:a05:6a00:4510:b0:7e8:43f5:bd44 with SMTP id d2e1a72fcca58-7f6696a3da1mr9612737b3a.48.1765788631390;
+        Mon, 15 Dec 2025 00:50:31 -0800 (PST)
 Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.180.190])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c509cb51sm12035577b3a.54.2025.12.15.00.49.05
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c4e9d9e3sm11976334b3a.45.2025.12.15.00.50.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 00:49:07 -0800 (PST)
+        Mon, 15 Dec 2025 00:50:30 -0800 (PST)
 From: Clint George <clintbgeorge@gmail.com>
-To: skhan@linuxfoundation.org
+To: ming.lei@redhat.com,
+	skhan@linuxfoundation.org
 Cc: linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	david.hunter.linux@gmail.com,
 	linux-kernel-mentees@lists.linux.dev,
 	khalid@kernel.org,
 	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH] kselftest/anon_inode: replace null pointers with empty arrays
-Date: Mon, 15 Dec 2025 14:19:00 +0530
-Message-ID: <20251215084900.7590-1-clintbgeorge@gmail.com>
+Subject: [PATCH] kselftest/kublk: include message in _Static_assert for C11 compatibility
+Date: Mon, 15 Dec 2025 14:20:22 +0530
+Message-ID: <20251215085022.7642-1-clintbgeorge@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -77,9 +78,10 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make use of empty (NULL-terminated) array instead of NULL pointer to
-avoid compiler errors while maintaining the behavior of the function
-intact
+Add descriptive message in the _Static_assert to comply with the C11
+standard requirement to prevent compiler from throwing out error. The
+compiler throws an error when _Static_assert is used without a message as
+that is a C23 extension.
 
 Signed-off-by: Clint George <clintbgeorge@gmail.com>
 ---
@@ -90,45 +92,67 @@ module shows no regression on system with x86 architecture
 
 Let me know if any more testing is needed to be done
 
+
 [] Error log:
-~/Desktop/kernel-dev/linux-v1/tools/testing/selftests/filesystems$ make LLVM=1 W=1
-  CC       devpts_pts
-  CC       file_stressor
-  CC       anon_inode_test
-anon_inode_test.c:45:37: warning: null passed to a callee that requires a non-null argument [-Wnonnull]
-   45 |         ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-      |                                            ^~~~
-/usr/lib/llvm-18/lib/clang/18/include/__stddef_null.h:26:14: note: expanded from macro 'NULL'
-   26 | #define NULL ((void*)0)
-      |              ^~~~~~~~~~
-/home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:535:11: note: expanded from macro 'ASSERT_LT'
-  535 |         __EXPECT(expected, #expected, seen, #seen, <, 1)
-      |                  ^~~~~~~~
-/home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:758:33: note: expanded from macro '__EXPECT'
-  758 |         __typeof__(_expected) __exp = (_expected); \
-      |                                        ^~~~~~~~~
-1 warning generated.
+~/Desktop/kernel-dev/linux-v1/tools/testing/selftests/ublk$ make LLVM=1 W=1
+  CC       kublk
+In file included from kublk.c:6:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+In file included from null.c:3:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+In file included from file_backed.c:3:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+In file included from common.c:3:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+In file included from stripe.c:3:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+In file included from fault_inject.c:11:
+./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
+  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
+      |                                                  ^
+      |                                                  , ""
+1 error generated.
+make: *** [../lib.mk:225: /home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/ublk/kublk] Error 1
 
 
- tools/testing/selftests/filesystems/anon_inode_test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/filesystems/anon_inode_test.c b/tools/testing/selftests/filesystems/anon_inode_test.c
-index 94c6c81c2..2c4c50500 100644
---- a/tools/testing/selftests/filesystems/anon_inode_test.c
-+++ b/tools/testing/selftests/filesystems/anon_inode_test.c
-@@ -42,7 +42,10 @@ TEST(anon_inode_no_exec)
- 	fd_context = sys_fsopen("tmpfs", 0);
- 	ASSERT_GE(fd_context, 0);
+
+ tools/testing/selftests/ublk/kublk.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/ublk/kublk.h b/tools/testing/selftests/ublk/kublk.h
+index fe42705c6..e5eb5f762 100644
+--- a/tools/testing/selftests/ublk/kublk.h
++++ b/tools/testing/selftests/ublk/kublk.h
+@@ -217,7 +217,7 @@ static inline __u64 build_user_data(unsigned tag, unsigned op,
+ 		unsigned tgt_data, unsigned q_id, unsigned is_target_io)
+ {
+ 	/* we only have 7 bits to encode q_id */
+-	_Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
++	_Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7, "UBLK_MAX_QUEUES_SHIFT must be <= 7");
+ 	assert(!(tag >> 16) && !(op >> 8) && !(tgt_data >> 16) && !(q_id >> 7));
  
--	ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-+	char *const empty_argv[] = {NULL};
-+	char *const empty_envp[] = {NULL};
-+
-+	ASSERT_LT(execveat(fd_context, "", empty_argv, empty_envp, AT_EMPTY_PATH), 0);
- 	ASSERT_EQ(errno, EACCES);
- 
- 	EXPECT_EQ(close(fd_context), 0);
+ 	return tag | (op << 16) | (tgt_data << 24) |
 -- 
 2.43.0
 
