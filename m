@@ -1,158 +1,209 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195FE3321C7
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 08:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99F4346E4E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 14:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788633; cv=none; b=bGxgfySg64iOEqlrma7bwxdooJl15TWyDzhCDzmAcldPDtDuPW6wxstDxIgkj94uiXuzI9+SBnrvIikR3B0GDR1viRcecQz7fduGzKK2Xr6LEw1//qvn9HH0ifESnfssjL7iwChM+PJu+2sR75RM5njob/5IcnsOoFq4y+AlgEQ=
+	t=1765808505; cv=none; b=E57BR7+i03rnFfae0aTyiySF+XivW3S3xEfWM9MamSO8SWnVaL3+Y2GRSFAHqhuHbE9sHIuaLbhniWWcYsE4kaN9hQh1zXCgNjJF6BH8hpzhlBrOEphn3gX7xx2eTZv/jrTxp1Kvh9qiQS6pbVuknunIMQywdwvBgsnxFt+0FnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788633; c=relaxed/simple;
-	bh=UNJhjhBfdgMb0hckhX2MFxw95f5+0F9VDFTwddpYTEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ugs0alBl4vAR2yp6KmTyY66+nBWsIatL1jg++gqr4f0Cx671Ud8sPklo3JVw0PC/sNoI64b/IO9RHnIew7/UHKFus5iOykv3QMdKwafFTt8wN0wkxdcoUdRmfeVaXoVala1kSKRECP4aUDH0fM5c0pADbIY3+l79KHOlYUoJWNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgL/mp9g; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765808505; c=relaxed/simple;
+	bh=bSZ+jogn9yHHF2Hf/tFUteTWBVrPzrenciac6AIJbrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f2TKNiOKsB8UkM/vnDwAjv6SrVwQ8zR8RfI9aZW00HJlQLTP4pJitZsbiAMKrHtG7YSrn94x8rJaZu6MllPQgFN99m/uU8Ufjaq/k34aWgEeKYZ9G4B9PYFzLBZvQuyTU5x048yodiCEAX9SqngChA8ijuv+P7kKEAHRFH0fIus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=e275dveT; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgL/mp9g"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso2430290b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 00:50:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="e275dveT"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47798f4059fso4076985e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Dec 2025 06:21:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765788631; x=1766393431; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cLICT+Xfx3iSAb03bNjdxgJ5nQ9eDd3fe2nx7UuqzU=;
-        b=kgL/mp9gbyiNALQ72bADY87wxshTjSk8B05VbBRDOIxaqrXITy4FaH7nfgVKVgnr/a
-         6/N62mPHhVoSZ9orQFl3mcP5qeifdINUtupRlVZYn1NO891LM0b4iuZMVVNG/Co25fel
-         xb/DFOTkQy0858/4nALP76UATN1A0YCZd0gj5fAYvnpmWMNGhIAij8tKrS3hZaT1hFYA
-         3eM4vkNsUTz/axLwvlTNL4Yhy1GOF/sI2RDvClbaxvdeHZ0AiTTLQLw3RzKYoxAs3gJg
-         GRIPTzFAuZcU8FnVg5VAxv+hKfjEPBqEeuuI/GI0YymL6k8KmY9+JhL4PeHm1g607H5T
-         f5fQ==
+        d=suse.com; s=google; t=1765808501; x=1766413301; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=atmDNHEXByx/FHD/Om49naRn/dYz/9e7ZxK7+pLOTlM=;
+        b=e275dveTJGg9VhFvo8NtxGXVYlNpyjBwt834PjUaS31Bpv+8f8p3v8mP5Obmemxe2t
+         64m2BUhtywP/NXpO1UkHVwOeylzWTQNmiNClggpu09RySIYqYily7IzKKq7qB1QfaOtX
+         dmH8D+QZGnE9qEwGr48V2VHoB3rFNd6Lfdt0CsjSm2tC384NavenSf9AeWkh6Aw6ReLN
+         cwt5PywUijMZbtzINgC1KpfKXm08VW00t8RX0+2qfTPrkDAC1RN7MPvVM4w+GiNZUdFJ
+         78DtIXuBKtFuLkMz6W8CYSSpOSokI5H6vIGukgF9gW40GGqBBDTUPgTax09LkytttVtZ
+         /rIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765788631; x=1766393431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4cLICT+Xfx3iSAb03bNjdxgJ5nQ9eDd3fe2nx7UuqzU=;
-        b=aqCvQIZ3QroMoqxS7jO3QmKZMmB8mNOqTJCXGtJ1AUSpKwPPFqnJgKbdGYafDiiFPU
-         6CcGDRZuxNdjtZsjfndSn3egI9PutCCxcpjsMzHXeLDXIFH+SDRU69fRxQrUkR4wj6/m
-         wUExsF31OtFM4ES3U3h9MH94TPjPrKejJfnHa12KIwoHp6nTKsNzsvYPOVZZFdoUjQpy
-         5B5hcwMC7RmZgTGDet9/ajAIW19XfoWdZr7eEf/iEdx4zH8kFbTgDvCiW6FfZi6yOsYi
-         EXLTYgI6dNu5gYg3B6D/cTKaob5U0OWbYdnPOz0zvA8fi0kDgUayx5hSF0+c4tMrw+q8
-         jKMg==
-X-Forwarded-Encrypted: i=1; AJvYcCWu4Q+ZMELW5guSbkmTbvTcpVzm8kUwDATHp9RESvxnyg7DHiyw6N54/97ycWogJlDAJXeTbugHIgq7Q36+L2xKBp6L9A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwW+UMiiJQW13PcjhZGjgLT8QzwV0cQl8dNdYyNVFzbTJqHe909
-	oCS+ZGkzFOV9Z232U3Eie7hYqMvM5ObrDN2borP7QL6XrlMdVZcm61KD
-X-Gm-Gg: AY/fxX42hnO4DdSZ70bcnV2ziHbZsHJSFB2AasVP6doIz9WpwQCz9FX1HWLTVU9B4tA
-	iVhGkJQKl2Ecnn7TnVI96MNbD6/fIk0vRxq//uIHp4oMIkzTxi/ZOc7n2E8UWIYFWwd1fqmvxcB
-	QMtmL0Bin0zp/edBXtIa4PfA0SnGOha8loEumcuD+n70IDaMCyRLQ/40krnJJ+Omew7UaA6ViKb
-	74OO4ZvkkzAhX0bl1e2BReiWKRPT9MblQhou+9v4+7IpqzYckz/LeZrdydtSJ/Ua/k/Re1tdEH2
-	jSXB1DCy5U7R7ZlqwbqMoJ2/ZR/UCgUu6gw+mjkIU25IfKJfOwbdbK5hwR0ECZi+VCB+IS8YFE2
-	GAnn62WySrGulounRzXZrJOSCMTWwmgTX6+P3sOkfs3yuXF1+F/7ySCUPSveYaTaLZrBvIRKKqW
-	RjNpfnsnjhtijWItoiqkIF5TTLnw5Kfm+FBAY=
-X-Google-Smtp-Source: AGHT+IHkiONbozf9pjfNVTzEsjplZ/PllBupKMp54qcU+ah02z/Rx4CDnQ/3DyFEalYJchKrsKO91w==
-X-Received: by 2002:a05:6a00:4510:b0:7e8:43f5:bd44 with SMTP id d2e1a72fcca58-7f6696a3da1mr9612737b3a.48.1765788631390;
-        Mon, 15 Dec 2025 00:50:31 -0800 (PST)
-Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.180.190])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c4e9d9e3sm11976334b3a.45.2025.12.15.00.50.27
+        d=1e100.net; s=20230601; t=1765808501; x=1766413301;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=atmDNHEXByx/FHD/Om49naRn/dYz/9e7ZxK7+pLOTlM=;
+        b=IX/HWx5jb34OZe9upMhQ4Wgqho15Gz5Dv/fPx23knz3wgAS3xx8FUUIScpysiQXChh
+         ct0h9VDYWK+7BHfdv7l9pSM6BNQshNcYkkLA6daxLgDEL0YQ86KDI0R2Ym/8xoDLyoPc
+         +O/BkbGNbJu0TwNuK5sJmSctrE2jT9yfm6uh9Nj0a9kvkOdWqsy8GwCdipf0PT9uev17
+         3nrj4lDJyIMbQ7xISdoxkRsEMM2SCtVT2DTmKfI4pZA9NgoqGgRd+CJU0pI7d5u3j1rr
+         YdOyuHGMxya3/Bp4iK7hc9zUyw085ufeCzqUGVIQSBTbAbidWLSh9YDr/59cT/e6EOwo
+         wFhg==
+X-Forwarded-Encrypted: i=1; AJvYcCWPO1Jhx/ibdNYCG7iMw8NFwZ4c66eWu7rJsIqsoIaoCPc3Fk0jboBpA2pHvlBt+cdeVzeNvaVPeByoLYoJ5WlElkYOXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeasVbsvohoxs4Kt/O89l+SN6p7+t/n4aBRcU7gWOWj37a2kU5
+	kxp5a1tqYV+fDnr6gaQ9AefQWP1cocewwHtdF01N5BakjaATnXJC2YFkJFlhi3M0Npo=
+X-Gm-Gg: AY/fxX5biU7yBua2NeV4K6laLlbo0l3tiRQnBZIdlnDT1UJbl3Vme2SBGBjigHmB1J8
+	7YVWoJRDGU2/pAw/EHCQSyffqGVY0f0I1YAksqLj+BK45EcB2utb1A+DfQpg/xWWXKS0OYd0yid
+	ZpBwSU/DUUY7B/OgiqqJkrvwHBu3FIipHAhvAbwBhycACHXfvkMZB+rUawqG/3/gEV9kKhKxZPN
+	k3B8Nx7zH+enE+7hK6D7yR5u4F/21wG00TBU0eVqq1KwHxakyJ1wg1VtnT72ZkIZ9xdvA6I/4nC
+	reysElRjkKDYaeMbxf/597fmVxbDtQnblNedq90cGl/yz5ywj68hhGvb07727OADv8Go2R1o1ZG
+	XXTFnxiTqTJRLbmq83gw2Li5akShX9sKX4pS5Q0q21kb9u3qH21k1+uAflbXI0NFs7JfFyBwB/v
+	bAFmW6qhpixw==
+X-Google-Smtp-Source: AGHT+IGxxdNneEkWwCyD+yQT8HKoJxaWVvr0zBdvdfhVTdhMRoUl3QCSxmfSYCIwwy2sEyBG5Ae59g==
+X-Received: by 2002:a05:600c:34cb:b0:47a:8bfa:bd5 with SMTP id 5b1f17b1804b1-47a8f92285emr69796785e9.8.1765808500726;
+        Mon, 15 Dec 2025 06:21:40 -0800 (PST)
+Received: from localhost ([202.127.77.110])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29f0f74f467sm112333995ad.90.2025.12.15.06.21.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 00:50:30 -0800 (PST)
-From: Clint George <clintbgeorge@gmail.com>
-To: ming.lei@redhat.com,
-	skhan@linuxfoundation.org
-Cc: linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	khalid@kernel.org,
-	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH] kselftest/kublk: include message in _Static_assert for C11 compatibility
-Date: Mon, 15 Dec 2025 14:20:22 +0530
-Message-ID: <20251215085022.7642-1-clintbgeorge@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 15 Dec 2025 06:21:40 -0800 (PST)
+Date: Mon, 15 Dec 2025 22:21:37 +0800
+From: Heming Zhao <heming.zhao@suse.com>
+To: Prithvi Tambewagh <activprithvi@gmail.com>
+Cc: jlbec@evilplan.org, joseph.qi@linux.alibaba.com, mark@fasheh.com, 
+	linux-kernel@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, 
+	khalid@kernel.org, syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3] ocfs2: Add validate function for slot map blocks
+Message-ID: <pbky57xu3cdwtrxieo7y2dicl5vddy7k5ttf32nxypirceoenx@et4o3qg4ifck>
+References: <20251215052513.18436-1-activprithvi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215052513.18436-1-activprithvi@gmail.com>
 
-Add descriptive message in the _Static_assert to comply with the C11
-standard requirement to prevent compiler from throwing out error. The
-compiler throws an error when _Static_assert is used without a message as
-that is a C23 extension.
+On Mon, Dec 15, 2025 at 10:55:13AM +0530, Prithvi Tambewagh wrote:
+> When the filesystem is being mounted, the kernel panics while the data
+> regarding slot map allocation to the local node, is being written to the
+> disk. This occurs because the value of slot map buffer head block
+> number, which should have been greater than or equal to
+> `OCFS2_SUPER_BLOCK_BLKNO` (evaluating to 2) is less than it, indicative
+> of disk metadata corruption. This triggers
+> BUG_ON(bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) in ocfs2_write_block(),
+> causing the kernel to panic.
+> 
+> This is fixed by introducing  function ocfs2_validate_slot_map_block() to
+> validate slot map blocks. It first checks if the buffer head passed to it
+> is up to date and valid, else it panics the kernel at that point itself.
+> Further, it contains an if condition block, which checks if `bh->b_blocknr`
+> is lesser than `OCFS2_SUPER_BLOCK_BLKNO`; if yes, then ocfs2_error is
+> called, which prints the error log, for debugging purposes, and the return
+> value of ocfs2_error() is returned. If the return value is zero. then error
+> code EIO is returned.
+> 
+> This function is used as validate function in calls to ocfs2_read_blocks()
+> in ocfs2_refresh_slot_info() and ocfs2_map_slot_buffers().
+> In addition, the function also contains
 
-Signed-off-by: Clint George <clintbgeorge@gmail.com>
----
+The last sentence seems incomplete.
 
-[] Testing:
-The diff between before and after of running the kselftest test of the
-module shows no regression on system with x86 architecture
+> 
+> Reported-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=c818e5c4559444f88aa0
+> Tested-by: syzbot+c818e5c4559444f88aa0@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+> ---
+> v2->v3:
+>  - Create new function ocfs2_validate_slot_map_block() to validate block 
+>    number of slot map blocks, to be greater then or equal to 
+>    OCFS2_SUPER_BLOCK_BLKNO
+>  - Use ocfs2_validate_slot_map_block() in calls to ocfs2_read_blocks() in
+>    ocfs2_refresh_slot_info() and ocfs2_map_slot_buffers()
+>  - In addition to using previously formulated if block in 
+>    ocfs2_validate_slot_map_block(), also check if the buffer head passed 
+>    in this function is up to date; if not, then kernel panics at that point
+>  - Change title of patch to 'ocfs2: Add validate function for slot map blocks'
+> 
+> v2 link: https://lore.kernel.org/ocfs2-devel/nwkfpkm2wlajswykywnpt4sc6gdkesakw2sw7etuw2u2w23hul@6oby33bscwdw/T/#t
+> 
+> v1->v2:
+>  - Remove usage of le16_to_cpu() from ocfs2_error()
+>  - Cast bh->b_blocknr to unsigned long long
+>  - Remove type casting for OCFS2_SUPER_BLOCK_BLKNO
+>  - Fix Sparse warnings reported in v1 by kernel test robot
+>  - Update title from 'ocfs2: Fix kernel BUG in ocfs2_write_block' to
+>    'ocfs2: fix kernel BUG in ocfs2_write_block'
+> 
+> v1 link: https://lore.kernel.org/all/20251206154819.175479-1-activprithvi@gmail.com/T/
+>  fs/ocfs2/slot_map.c | 29 +++++++++++++++++++++++++++--
+>  1 file changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/ocfs2/slot_map.c b/fs/ocfs2/slot_map.c
+> index e544c704b583..50ddd7f50f8f 100644
+> --- a/fs/ocfs2/slot_map.c
+> +++ b/fs/ocfs2/slot_map.c
+> @@ -44,6 +44,9 @@ struct ocfs2_slot_info {
+>  static int __ocfs2_node_num_to_slot(struct ocfs2_slot_info *si,
+>  				    unsigned int node_num);
+>  
+> +static int ocfs2_validate_slot_map_block(struct super_block *sb,
+> +					  struct buffer_head *bh);
+> +
+>  static void ocfs2_invalidate_slot(struct ocfs2_slot_info *si,
+>  				  int slot_num)
+>  {
+> @@ -132,7 +135,8 @@ int ocfs2_refresh_slot_info(struct ocfs2_super *osb)
+>  	 * this is not true, the read of -1 (UINT64_MAX) will fail.
+>  	 */
+>  	ret = ocfs2_read_blocks(INODE_CACHE(si->si_inode), -1, si->si_blocks,
+> -				si->si_bh, OCFS2_BH_IGNORE_CACHE, NULL);
+> +				si->si_bh, OCFS2_BH_IGNORE_CACHE,
+> +				ocfs2_validate_slot_map_block);
+>  	if (ret == 0) {
+>  		spin_lock(&osb->osb_lock);
+>  		ocfs2_update_slot_info(si);
+> @@ -332,6 +336,26 @@ int ocfs2_clear_slot(struct ocfs2_super *osb, int slot_num)
+>  	return ocfs2_update_disk_slot(osb, osb->slot_info, slot_num);
+>  }
+>  
+> +static int ocfs2_validate_slot_map_block(struct super_block *sb,
+> +					  struct buffer_head *bh)
+> +{
+> +	int rc;
+> +
+> +	BUG_ON(!buffer_uptodate(bh));
+> +
+> +	if (bh->b_blocknr < OCFS2_SUPER_BLOCK_BLKNO) {
+> +		rc = ocfs2_error(sb,
+> +				 "Invalid Slot Map Buffer Head "
+> +				 "Block Number : %llu, Should be >= %d",
+> +				 (unsigned long long)bh->b_blocknr,
+> +				 OCFS2_SUPER_BLOCK_BLKNO);
+> +		if (!rc)
+> +			return -EIO;
 
-Let me know if any more testing is needed to be done
+Since ocfs2_error() never returns 0, please remove the above if condition.
 
-
-[] Error log:
-~/Desktop/kernel-dev/linux-v1/tools/testing/selftests/ublk$ make LLVM=1 W=1
-  CC       kublk
-In file included from kublk.c:6:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-In file included from null.c:3:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-In file included from file_backed.c:3:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-In file included from common.c:3:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-In file included from stripe.c:3:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-In file included from fault_inject.c:11:
-./kublk.h:220:43: error: '_Static_assert' with no message is a C23 extension [-Werror,-Wc23-extensions]
-  220 |         _Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-      |                                                  ^
-      |                                                  , ""
-1 error generated.
-make: *** [../lib.mk:225: /home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/ublk/kublk] Error 1
-
-
-
-
- tools/testing/selftests/ublk/kublk.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/ublk/kublk.h b/tools/testing/selftests/ublk/kublk.h
-index fe42705c6..e5eb5f762 100644
---- a/tools/testing/selftests/ublk/kublk.h
-+++ b/tools/testing/selftests/ublk/kublk.h
-@@ -217,7 +217,7 @@ static inline __u64 build_user_data(unsigned tag, unsigned op,
- 		unsigned tgt_data, unsigned q_id, unsigned is_target_io)
- {
- 	/* we only have 7 bits to encode q_id */
--	_Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7);
-+	_Static_assert(UBLK_MAX_QUEUES_SHIFT <= 7, "UBLK_MAX_QUEUES_SHIFT must be <= 7");
- 	assert(!(tag >> 16) && !(op >> 8) && !(tgt_data >> 16) && !(q_id >> 7));
- 
- 	return tag | (op << 16) | (tgt_data << 24) |
--- 
-2.43.0
-
+Thanks,
+Heming
+> +		return rc;
+> +	}
+> +	return 0;
+> +}
+> +
+>  static int ocfs2_map_slot_buffers(struct ocfs2_super *osb,
+>  				  struct ocfs2_slot_info *si)
+>  {
+> @@ -383,7 +407,8 @@ static int ocfs2_map_slot_buffers(struct ocfs2_super *osb,
+>  
+>  		bh = NULL;  /* Acquire a fresh bh */
+>  		status = ocfs2_read_blocks(INODE_CACHE(si->si_inode), blkno,
+> -					   1, &bh, OCFS2_BH_IGNORE_CACHE, NULL);
+> +					   1, &bh, OCFS2_BH_IGNORE_CACHE,
+> +					   ocfs2_validate_slot_map_block);
+>  		if (status < 0) {
+>  			mlog_errno(status);
+>  			goto bail;
+> 
+> base-commit: 24172e0d79900908cf5ebf366600616d29c9b417
+> -- 
+> 2.43.0
+> 
