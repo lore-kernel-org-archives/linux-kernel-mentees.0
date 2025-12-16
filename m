@@ -1,135 +1,91 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51662341674
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Dec 2025 11:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2476322B64
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 16 Dec 2025 16:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765884765; cv=none; b=X+KDDNs+32+aK1fMKvIbxvmttatA56fgP/XM9rbPDnsb6TnbveK8B6+l0f0mlXSE0GeM744rwjT3d/37MhzJPM8oggzjxfN+AdZ//fyJmvqUKPuH1vsMyLhbeZl+b8F1wlQfZ6sJcz7lCxcVmjMsNdbum1uYPWpFUMY7Ok3lstI=
+	t=1765904376; cv=none; b=eeDu4G++v/XaJH9vs8CHtXr2hwGPXQR6yx+msygID3RT4j2wlHSr9kZFOLLCC0I94jdX5mJEwImQYRPIxAcFAqTHOs9WGsg6Q+iO0Lcrcnb7EY01H4N5tsHzB6qN2f9ogttY0S9LtidWIjXTuOrJx/viOqqC/JY/OG9w8HYuU6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765884765; c=relaxed/simple;
-	bh=8i1Q4oq+cytJl0IcVUuiEN7sbmcQ3V9vJUtywYQr9Sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uwqThz/S47CTiFZ2oV9Vo/nBhpbvGdUGBRP+FWT1TgZKFnwm9SK7VDkgwcD9HNiEvl7MtgqOwc6ZRbLtDX3ZXKDxfxrNbPVLXsNNpvRCvO2NEKKP0mD0SaxQkaR9X6debi/b3b+AODdeo23eRsZCgstpwB50XrOBR6SpTjQ3i5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcrjaYNi; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765904376; c=relaxed/simple;
+	bh=u2xpFD/jCgWb8wPDV9D7Rh3i1CiZMtxI89nFvq3Au5I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sig5CKpo15hdad0nuHNeM78UAfwF8YlwHP95BYqskjwann3ZqvdwS51nsNQ6FN9/0arE2ApNsPa3f2NdGWsIsetYpcpyOUDaVFSBywU5tfi2rAH1iNhQpzMk9hmuQfgr4QKt7Ojz9toQMrrBzyKfR3r9QXP6ARMCxQKgKcBIrcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bd0D1hOV; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcrjaYNi"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so4765407b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Dec 2025 03:32:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765884763; x=1766489563; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZ3tmZ1IHwFtnfG4tSNUz05gU5jSKEuY1R6lKbDLdrU=;
-        b=mcrjaYNiytHEo44JhiYjJsMw9CdUfIst52X61SrMLkNNA/7+LR6kfTQlSn44iL3X0d
-         bOQZdWNUST63rDfc7e4YrXPBqKkcrJgDNRNRZ9ts8dRH1qyYqK/fE1d5+5CUEQ3TOjD/
-         ysqNDZzYQHAtVxFhM6EHVRHaPhgeS/kTOE6e0mdJyJX2BLpZwAI0OlLQ+xh8NIbMJ7k9
-         kg2rNLJavYh9u1WKvc8mE2BTakJpBIbUUtpJByJzsS1Y0VrdOqHOjqpyuQmBo5rv03Yx
-         AfM7PqFuvS5OZb36jFBZBX/99QqMPXRle/af6bViAAs7tuKDHi4M6c9XwQfeWuw5K6Hi
-         dtUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765884763; x=1766489563;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZZ3tmZ1IHwFtnfG4tSNUz05gU5jSKEuY1R6lKbDLdrU=;
-        b=WVyW2/LL+fWvEkzHn/8RnxaV1ww3y8XeECdCruVcPQUSNRbElZ29Ke/XgWPAgDUPGU
-         PHre1RPN1hiiz5fO5b1zwTVAbojA+yIiDhQcFEC7RBX0DEj3n8XrUSwo85MT0O7hXIYJ
-         0ws8UP5H1tgaNc0azmifdYPj6m59llr+QLdu3KvSfsLwCQXBRyrNoPjGDnbNYW1I7Imz
-         blkqdr4agLKjxSzxbp5qYs43yo0e4ZsQ/5l/q9cUcvJlsbztwSC8pYioE6S9UQjYxRF0
-         kXKtXuqp2ymIJGFIhgnGPOQPrJfcvaTohPJaoyrx9EWhHH3YUrc4CSRzIaXPxkbygd47
-         6NmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWw6r8nKSvEemiUF/JA0/OmxJwLCrIcVV+m87P2y3dpveXdfxjfUx98PcP92YKk6D0ImEswCOrHVFjYYemJpA4U7P9HPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAKafYKjCuRro2JYJZJ6GaS01vm6hYcweRDmRS8T4R8DNNO0ib
-	nEEGN6kfMi1JtzY2Hl3fyqM2/JqhpOPlHfcGOOQZHMZRlJ31EFKeGh/o
-X-Gm-Gg: AY/fxX6dTfQy+nwDw3nZsqRp/rnnLvetLDLX0Qh5GZ/Zr0i68CQ3iaOY527RGlj+C6/
-	qXc1/Qvv1TA71reV4bj8L4DuVd+BlXcp6Y6rlLNMHSarrjjuxRYNTKyXmRwzwtFexJsJk4bpFgZ
-	SsqyV6g0LZnjpoIzpsj9dfkWL4Caw+ME3WgGf4Fvr484IAY5hBj6vZ4yM7BuDi9imHpK0FMD5Cm
-	WBfTqQMZSLYfCgBkZXzjB6/pPtznhqQ5j1N4iuavEdRkPgqc/+yw46qZOg90Zb0t26OJLi4njoZ
-	dbcBXyRF9Juf1dOKuXw271QNfe9p9kyhQQmMAJ46IA6tkEA3FMuAErbq4rt1anyIiEm9/ERF7Xi
-	OLXKKjvTB8dLdmt7vALUAK5PL1TJaY+mDDaYDXzChJzWUVl5YHDwCZGfFUB6iNu5p/pu6YsN0FK
-	2176E3jbRgsr+PGri29/GvHxdQPHtUiDWo664=
-X-Google-Smtp-Source: AGHT+IFHsfLEVVPCBJUNo6ehMO6o3DkxZJTvcaro+U6PBAF85TV3OLtEPW0YkxInyTeBVEV720SCaQ==
-X-Received: by 2002:a05:6a00:3007:b0:7e8:450c:61b1 with SMTP id d2e1a72fcca58-7f67156b80amr14130957b3a.33.1765884763520;
-        Tue, 16 Dec 2025 03:32:43 -0800 (PST)
-Received: from clint-ThinkPad-L14-Gen-2.. ([110.226.180.190])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm15317899b3a.3.2025.12.16.03.32.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 03:32:43 -0800 (PST)
-From: Clint George <clintbgeorge@gmail.com>
-To: shuah@kernel.org
-Cc: linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	david.hunter.linux@gmail.com,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	khalid@kernel.org,
-	Clint George <clintbgeorge@gmail.com>
-Subject: [PATCH] kselftest/anon_inode: replace null pointers with empty arrays
-Date: Tue, 16 Dec 2025 17:02:35 +0530
-Message-ID: <20251216113235.4896-1-clintbgeorge@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bd0D1hOV"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 83A93402E3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 16 Dec 2025 16:59:35 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id EKl3FQbxkbNm for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 16 Dec 2025 16:59:35 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=vkoul@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E41BC40283
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E41BC40283
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Bd0D1hOV
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E41BC40283
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 16 Dec 2025 16:59:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 293FE4445E;
+	Tue, 16 Dec 2025 16:59:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A77EC4CEF1;
+	Tue, 16 Dec 2025 16:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765904374;
+	bh=u2xpFD/jCgWb8wPDV9D7Rh3i1CiZMtxI89nFvq3Au5I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Bd0D1hOVHBTjH9OBc1gFFBOPAhERgJS7o3lS/N6/6k3/FHneq0WFlbfVUJNB3fnSh
+	 LfO7TlRcQxMHuhkRLJquV5SYzm7RcueRNZTpSzmDKHSwjtyb6PXs2eEyzHQSPGCWtc
+	 LV6xy0jLOQ91Vb4QP8XP5M5IEDjuXQNar5V44byp7ddf+nFiLMFJgp5U28xjRN/b1x
+	 ci/wVV58jYoQ5xwncjv4P4Rhz52VaJMsYgJt/IzF1wBC8GAOIiC3YrbZmeKWnZqnSl
+	 uZqtdmw5fsWspa4pOYdg2MZovz5OyqLGfctA0s238y/wAQ6rvOkRDpZ55rpUwoSox6
+	 WEQmYXUtoDDaw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com
+In-Reply-To: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+References: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+Subject: Re: [PATCH] docs: dmaengine: add explanation for phys field in
+ dma_async_tx_descriptor structure
+Message-Id: <176590437126.430148.14439468580856849330.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 22:29:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-Make use of empty (NULL-terminated) array instead of NULL pointer to
-avoid compiler errors while maintaining the behavior of the function
-intact
-
-Signed-off-by: Clint George <clintbgeorge@gmail.com>
----
-
-[] Testing:
-The diff between before and after of running the kselftest test of the
-module shows no regression on system with x86 architecture
-
-Let me know if any more testing is needed to be done
-
-[] Error log:
-~/Desktop/kernel-dev/linux-v1/tools/testing/selftests/filesystems$ make LLVM=1 W=1
-  CC       devpts_pts
-  CC       file_stressor
-  CC       anon_inode_test
-anon_inode_test.c:45:37: warning: null passed to a callee that requires a non-null argument [-Wnonnull]
-   45 |         ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-      |                                            ^~~~
-/usr/lib/llvm-18/lib/clang/18/include/__stddef_null.h:26:14: note: expanded from macro 'NULL'
-   26 | #define NULL ((void*)0)
-      |              ^~~~~~~~~~
-/home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:535:11: note: expanded from macro 'ASSERT_LT'
-  535 |         __EXPECT(expected, #expected, seen, #seen, <, 1)
-      |                  ^~~~~~~~
-/home/clint/Desktop/kernel-dev/linux-v1/tools/testing/selftests/../../../tools/testing/selftests/kselftest_harness.h:758:33: note: expanded from macro '__EXPECT'
-  758 |         __typeof__(_expected) __exp = (_expected); \
-      |                                        ^~~~~~~~~
-1 warning generated.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
 
- tools/testing/selftests/filesystems/anon_inode_test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Thu, 13 Nov 2025 12:19:37 +0530, Bhanu Seshu Kumar Valluri wrote:
+> Describe the need to initialize the phys field in the dma_async_tx_descriptor
+> structure during its initialization.
+> 
+> 
 
-diff --git a/tools/testing/selftests/filesystems/anon_inode_test.c b/tools/testing/selftests/filesystems/anon_inode_test.c
-index 94c6c81c2..2c4c50500 100644
---- a/tools/testing/selftests/filesystems/anon_inode_test.c
-+++ b/tools/testing/selftests/filesystems/anon_inode_test.c
-@@ -42,7 +42,10 @@ TEST(anon_inode_no_exec)
- 	fd_context = sys_fsopen("tmpfs", 0);
- 	ASSERT_GE(fd_context, 0);
- 
--	ASSERT_LT(execveat(fd_context, "", NULL, NULL, AT_EMPTY_PATH), 0);
-+	char *const empty_argv[] = {NULL};
-+	char *const empty_envp[] = {NULL};
-+
-+	ASSERT_LT(execveat(fd_context, "", empty_argv, empty_envp, AT_EMPTY_PATH), 0);
- 	ASSERT_EQ(errno, EACCES);
- 
- 	EXPECT_EQ(close(fd_context), 0);
+Applied, thanks!
+
+[1/1] docs: dmaengine: add explanation for phys field in dma_async_tx_descriptor structure
+      commit: 08be54a9e56f9523b50d1923a94a48ef5890c0bc
+
+Best regards,
 -- 
-2.43.0
+~Vinod
+
 
