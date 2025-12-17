@@ -1,68 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60270186E40;
-	Wed, 17 Dec 2025 07:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2970359F94
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Dec 2025 17:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765957849; cv=none; b=jpPzYIX92r3sAPsdp9fdhXqAgW4j+lsLCRU3lYChXtuji7DnIoHhQzqXSSFScg60vZ0ZYROzPg/J0EdVFX+CMvrkI2PQTJXBuw30dCxFdFCfOm2ojCGCwDB52cLdNsFOCEDt4xwJzaDyMEaJlIu0YVSstKUxgtaLuPg4qJ46WC4=
+	t=1765993732; cv=none; b=fReSrDh9mFppIGu9Ydezhz1sFzSUHlIUuYMn9uNmrZV+iIMCDxX/jhqvbRfZ7ROMV9CK9ryPML8BcxtUz2FmQOOOslx0NrdBUxKi0dl9S9vyO//6DmoosaZ2nwa7299kgeAsatXB18BEVlJIMBUDH6g724WgTBQtAXpQNcVHB7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765957849; c=relaxed/simple;
-	bh=J9WJlUCEjQm5gpLOyqNqcYkJSfJIPsFcBEdW7XxwL+w=;
+	s=arc-20240116; t=1765993732; c=relaxed/simple;
+	bh=LFDtB0r86QEKLFsnS02ZL6NTbx2AKlKYiF5fTNtX9hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYfgqusPQLwTqywVfpS/WFNqnbamtu5MmWRwuKDOXjXVP1seVtWpw5gOPmfeNQbyp5SM+PECT8qQyd1RTAlsyv5A8AQJCnJSvDLkUscebIq/IwXXNPnxZakRdv4YIPbLi0lkbRMF6P44W+HtVJ03KMg6aGt/sOhx5k8mSIxXYK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nRM9wEAz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=q5pFM/Vsn9GIC9CTB3Wcp0yyGGujHHo5UFEWzu5QiZnjN1OfiycXluDpFE66xekEaoiMFgnp17vtd1mp8yM0V34KHLLZ5ZWHViha6xKwYlXtj2+KJyWP5hTTO20utTRpJxYsH24U8ycuTMofNHZ0xON8CAXxzc9b3pE4+6Ky76s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1adiwEVo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OLcqSrYR; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oTVzYNkj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zdd+NOOS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nRM9wEAz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6160BC4CEFB;
-	Wed, 17 Dec 2025 07:50:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1765957849;
-	bh=J9WJlUCEjQm5gpLOyqNqcYkJSfJIPsFcBEdW7XxwL+w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nRM9wEAzjQ/X980Sy68FX6boZYG4uTR+qG2cvG82w/ifHISD8Z3lU4zxskEa+81j4
-	 xYYZ/znRnBB7v5jhC/ektyyCdnlIZ3ny2rRFRpWuBMG+RKe4uaeD3B/0HtUePq9hjU
-	 /8Lcd67qS0SOG/juM7UlurBlD1NVN7eFE+IFXWYo=
-Date: Wed, 17 Dec 2025 08:50:43 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?Q?Bart=C5=82omiej?= Kubik <kubik.bartlomiej@gmail.com>
-Cc: jirislaby@kernel.org, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] tty/n_hdlc: Fix struct n_hdlc kernel-doc warnings
-Message-ID: <2025121747-caution-spectator-6cd7@gregkh>
-References: <20251202063748.1210359-1-kubik.bartlomiej@gmail.com>
- <CAPqLRf18v3eQaKsaaf+wB6k5+v65=BkQG2dtS=Bcyee=isOatw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1adiwEVo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OLcqSrYR";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oTVzYNkj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zdd+NOOS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 890E633686;
+	Wed, 17 Dec 2025 17:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1765993728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ACjv9YCYwXqfRo0SpAmCwomizfuUlLcU/KB0MDUNKfM=;
+	b=1adiwEVopiVVjqYDezacgJ9Uphut5A8jes7HizS0ZJAubfNV2Kyebi4EFkDnHydwDXLJNb
+	pykcbq+KHEcBLsNAx+Y4i5JZ4cK/0LwLCMHJO9qOqEcTcl/YJM09LWQjrC4wdQ1Ah/3p+q
+	3cVWqnZ7v5sq02BduQz/2Eos7/ny9Gg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1765993728;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ACjv9YCYwXqfRo0SpAmCwomizfuUlLcU/KB0MDUNKfM=;
+	b=OLcqSrYROCIftQl5nWPNZqQiFcIfzt02zdXs+Nr2KliFSTPtlUp1hiztgi522XhxqKzCt3
+	O1+NwzHcvmpkULAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1765993727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ACjv9YCYwXqfRo0SpAmCwomizfuUlLcU/KB0MDUNKfM=;
+	b=oTVzYNkjQO1eR75xxqdzn1xwVa+JFuA+vx1spimLbdxT0zLzsRdMOVfuk8DYO6tGu3s0m6
+	bL1+7q2JyoPH3saAFCoo0kKeVT7vfAy/pmRjmLuLx7nN/lJ0mdONvFUxt5jRADAFNrKIzB
+	6fHv+p/9XI6o0R6hW7HsNh/qnbN1ihI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1765993727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ACjv9YCYwXqfRo0SpAmCwomizfuUlLcU/KB0MDUNKfM=;
+	b=zdd+NOOSsF3cw571GOEYzZBxeoKvujJWstHnG32OGu1p/YQ6/sR2y4zfyZGMNolURml7uC
+	S9+hLWPew5iBoFCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AAB43EA63;
+	Wed, 17 Dec 2025 17:48:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dBFpHf/sQmlJSAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 17 Dec 2025 17:48:47 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 23D2DA08CC; Wed, 17 Dec 2025 18:48:47 +0100 (CET)
+Date: Wed, 17 Dec 2025 18:48:47 +0100
+From: Jan Kara <jack@suse.cz>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, jack@suse.cz, cascardo@igalia.com, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+Subject: Re: [PATCH] loop: don't change loop device under exclusive opener in
+ loop_set_status
+Message-ID: <2crvwmytxw5splvtauxdq6o3dt4rnnzuy22vcub45rjk354alr@6m66k3ucoics>
+References: <20251114144204.2402336-2-rpthibeault@gmail.com>
+ <i5xuxe6prso72euxxo4jludbb5fb2juh2ofbgf32ts7aruyesc@na6btym6jats>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPqLRf18v3eQaKsaaf+wB6k5+v65=BkQG2dtS=Bcyee=isOatw@mail.gmail.com>
+In-Reply-To: <i5xuxe6prso72euxxo4jludbb5fb2juh2ofbgf32ts7aruyesc@na6btym6jats>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.cz:email,syzkaller.appspot.com:url]
 
-On Wed, Dec 17, 2025 at 08:35:56AM +0100, Bartłomiej Kubik wrote:
-> Hi,
+On Tue 02-12-25 11:07:06, Jan Kara wrote:
+> On Fri 14-11-25 09:42:05, Raphael Pinsonneault-Thibeault wrote:
+> > loop_set_status() is allowed to change the loop device while there
+> > are other openers of the device, even exclusive ones.
+> > 
+> > In this case, it causes a KASAN: slab-out-of-bounds Read in
+> > ext4_search_dir(), since when looking for an entry in an inlined
+> > directory, e_value_offs is changed underneath the filesystem by
+> > loop_set_status().
+> > 
+> > Fix the problem by forbidding loop_set_status() from modifying the loop
+> > device while there are exclusive openers of the device. This is similar
+> > to the fix in loop_configure() by commit 33ec3e53e7b1 ("loop: Don't
+> > change loop device under exclusive opener") alongside commit ecbe6bc0003b
+> > ("block: use bd_prepare_to_claim directly in the loop driver").
+> > 
+> > Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
+> > Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> > Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
 > 
-> I submitted this patch about two weeks ago but haven't received any
-> feedback yet.
-> I wanted to check if there are any concerns with the patch or if any
-> changes are needed.
+> This patch looks mostly good to me. Just one comment:
 > 
-> Please let me know if you need any additional information.
+> > -loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
+> > +loop_set_status(struct loop_device *lo, blk_mode_t mode,
+> > +		struct block_device *bdev, const struct loop_info64 *info)
+> >  {
+> >  	int err;
+> >  	bool partscan = false;
+> >  	bool size_changed = false;
+> >  	unsigned int memflags;
+> >  
+> > +	/*
+> > +	 * If we don't hold exclusive handle for the device, upgrade to it
+> > +	 * here to avoid changing device under exclusive owner.
+> > +	 */
+> > +	if (!(mode & BLK_OPEN_EXCL)) {
+> > +		err = bd_prepare_to_claim(bdev, loop_set_status, NULL);
+> > +		if (err)
+> > +			goto out_reread_partitions;
+> > +	}
+> > +
+> 
+> So now any LOOP_SET_STATUS call will fail for device that is already
+> exclusively open. There are some operations (like modifying the AUTOCLEAR
+> flag or loop device name) that are safe even for a device with a mounted
+> filesystem. I wouldn't probably bother with that now but I wanted to note
+> that there may be valid uses of LOOP_SET_STATUS even for an exclusively
+> open loop device and if there are users of that out there we might need to
+> refine this a bit. Anyway for now feel free to add:
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
 
-Please relax, it was the middle of the merge window and just now -rc1 is
-out.  Give us a few weeks to catch up, especially for minor things like
-documentation issues.
+Raphael, this patch seems to have fallen through the cracks. Can you please
+resend it to Jens with by Reviewed-by tag so that he picks it up? Thanks!
 
-In the meantime, please help out by reviewing other patch submissions to
-help make the review load easier on us all and cause your change to move
-up the queue.
-
-thanks,
-
-greg k-h
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
