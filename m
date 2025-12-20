@@ -1,62 +1,62 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BC7320383
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 19 Dec 2025 10:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63362149C6F
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Dec 2025 08:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766139362; cv=none; b=Lyy7qae9Ay0ss3NUWkT5OLgCOVrJPyMfmmusGC4hwMzs4UtjLN2ZnWxp+GMoNXyQRa7kHFKeflVRDYpDYDInNZaykJwWLNVgDYsUeiUgmmGfURMdQV0GMvrQTUPV/L7E8zkofyZlM7I8HrNkkjCOEqNQGfDRW6v91To2rNKZWVg=
+	t=1766219597; cv=none; b=WFDNBxwJl7bffU4Xx8UhHgzlOhij6Y0i9JHLquSxQc29k/nu2HnjcUiufKxGjWoHUSyi/qKr0TuUTMA5s9x/xLiGO3zegBTpre4FJTEjbDBRxMRiD8pRvV2aWmoeumcFUDHrNOTF5qaMPwVNkC6oFSV76CW3/n/CC2IDraDOgQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766139362; c=relaxed/simple;
-	bh=qidbgDXVZp6ykR2+/5IXt/BtQBS3pxJcPWemvyiEHMc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H5WyXrB0H3dy81sAjxmdCImYl9j4AU60uVSiLtC5qYu7US6ZQRyxTS4Ji2PVuwrD/69ectIqpZBYcuSocsB0QsVtK+8i4GMnxqIjFYuRyomJEiPtsAJe1ubBqCqHSfZ8UB4Ksb0pH6YvugASbAljW7/LRwesTp33wyuGhqnq7iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bzSeKaVZ; arc=none smtp.client-ip=209.85.222.178
+	s=arc-20240116; t=1766219597; c=relaxed/simple;
+	bh=pq/FIErWBVljP69u1kYvr72D2kBq6ZOY2UDhmxvBgT4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r9IOBedgcuIO9x2ew1EIAMvNufYcspZqwziCXg1ryOe/dCk+M+NzS7uddO8do5NEEKmetlsRO1Vt4SCDihZ7gb4sJ4+Abw6C5TDA7gT+cXv74AIzVQq2CYUeS+sjPtA3rqjdK/YmM3G9GdsHG19vXpw24av79cPavLWhGdkAPKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OwVLINHJ; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzSeKaVZ"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8b2ec756de0so160837285a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 19 Dec 2025 02:15:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OwVLINHJ"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b2f2c5ec36so273542685a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Dec 2025 00:33:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766139359; x=1766744159; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766219594; x=1766824394; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ycLYVRrePvHyQPkdfYXnS+tZaNi7CZqNfdDOVcOxfeg=;
-        b=bzSeKaVZKJ4g+tzvPIyDv5+DNwtaC+Q7j5NWhE+b9cv7KVkGX2sfAmPjzHdX0Fo+gr
-         61iSYGH9QAA5p9ty8NGRl0Nngb+aPbSOQifJ5lPofg2nXPZTAi/yNNRsZ1/f4pdps9X5
-         H2UVZADKhg31Y9/0pAcPIZQ1KEZkE7O4zmAzzApggO+lODFPXxQKPyWw5A3vsVvkGlqG
-         F1ZaozdfqbAe9XpWZvx3TH6rjS4nnUjiaGcx3V/RZziPgAdcGUJ9RvTT7KSQInqRidLc
-         hEFtJ3UlymYhmyb99OgVNmivOOQSWlfn0UuBarxDXyDJBylKsehE4ei90cNPENG9KXl5
-         POsg==
+        bh=ZEU8uqiI+VIyXCsQ6KDH6Rq3unniQciJU8YDjqznLQs=;
+        b=OwVLINHJ0G990r3ysrlLAJMhwwUjyaEO9CdjDvHn/kXrBp8V8p2LzpxsIneZbZGC7l
+         XawU+6Dyg88qLJlc65mCsFMp5c58I8jPDVsM84VmbbvACh8Wilt6Z+BTWF00xVNtxyuW
+         KA881SZf6TR6Vx0mL2tUeKOnwhzDv9mtsipAdA2lY3qgPQyVE7XzTSiHT9GtqKjmja1I
+         3updrhpBOJ7jgFPpEeb1cj9Ls3a9cu85PtCZfsx33WZVD6Ru3FSCCSNKR0QFAVEt50uo
+         hBE5zgn1ftEHG9duxiZfkNjD0k4zjrvarhOApLzIYZT8cPFLSEcxKM2DqBK73gzH/M9D
+         d25Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766139359; x=1766744159;
+        d=1e100.net; s=20230601; t=1766219594; x=1766824394;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ycLYVRrePvHyQPkdfYXnS+tZaNi7CZqNfdDOVcOxfeg=;
-        b=CnZGPE0FIo1LGPi4IEN36yoazQmKoGIIdto6npAE/TQQIRdaOlINtw56RDsFSfd2/x
-         IfUr2JZsc7J6kuvxqDsRDoGOEmcvH5HqbUHwGOEyf6ahU1WG1GdwpFwokiifqTJ6LgDM
-         oDWmMP/AZgFbaQhq6uTd1RUNVpdakh88b6Tx0V8IROhc6KO+PWoxQsLHHMPt0MRvocJh
-         E2SQWIuwFfbCDjZng41CdfOBEmJ4p8aYfzHmoONwG85O+b9NuD0QY9HS3h3pemJLWOB+
-         Xi8uC68kFY/jmVZBpeZqNMGL/W2BU59lsf9xV+r0SB5tpXZdMmMoZVVNBEDkTNl55r3/
-         bMew==
-X-Forwarded-Encrypted: i=1; AJvYcCX3fZV4+vahCK2ct/REBpsZdZDdSZHkwXQHrsTfcumDbSbL9ujqURuDur/c/PB5LUqzsiEwaic4BKyrz+JcAC3h49e/3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxi10HPDqa6C61E8FMv5j98jm1Ck8BhP7gTJOSYXZgzHssrQd54
-	fov65vZIMvVnS16RoGBmv7QwtuQzbMoYG2UBYoHLZ+Z/BWJIl9wxKmKB
-X-Gm-Gg: AY/fxX7rU7jeh5X8W+qk7ogvqkr9KJkTS/ozhlEaJ7IiIJKSQRus1EsBa+A8qLULZUv
-	g3oFjW1FN4qFxmRxDwm0quiAi7a7rts7ItjMwdJNH73WMvAT3xBd52nPhOqtN2nKWYpxYvBvAxW
-	kfC62CuMyRmkqK6N1vEYFuTQRq3y+NZIn0ZDQyiuza0aHubBnlYP/rJHMly8ni0xC4jJzXv7jBq
-	5n/FhNjPxbUq4+deviFquLPDp56VP38+qJQdKBX77VckIom/HQzu1PE5JjVmsMiqpXvGKyoXILU
-	U3UjDUzLtGb/qcuRPPXqH+DQuIdfHJWrUvlc6KH9clhC5m33bfhDQsYiJCWsFM52PjkVnvIBiob
-	LzHxprAmnLew1rqm20mmnIVejS028k/OGzuO6WKM+FzH0MKomFdho4tbbdcSDCjG8Iw6QZUmrd6
-	NIovWdUWRoM52rJvmlh081l6mLSal9yU1CB+1aZG3/BCc5yRW0pfQEYuHaH9NTnP7OvqqHkA==
-X-Google-Smtp-Source: AGHT+IFP1l0H8w7uU/D8+kdFU7GHAv1bX+mUdByw7g4p3XknF46ejff2+Hy3IGYyfcaHj80+Rm+ZPw==
-X-Received: by 2002:ac8:6f11:0:b0:4f1:aba0:9329 with SMTP id d75a77b69052e-4f4abd15f01mr30950521cf.33.1766139358652;
-        Fri, 19 Dec 2025 02:15:58 -0800 (PST)
+        bh=ZEU8uqiI+VIyXCsQ6KDH6Rq3unniQciJU8YDjqznLQs=;
+        b=HNwkPE/q0C2fZndzzqlg7hdrtm1vvTWWgFazaJIk9JA46I3nWqNaXKJ430iS+spIfJ
+         6GOZ3KqRGrEWjhgw8YcUkzNFlivOeRoK9QhOk3teVEJO9H83l96M+cuCkk4Y+mwlyvJP
+         26uBIMIdy0GHN/CoGOmwlRLd0ihgxQbsSpfG04R8T+B3njlncDMLvO5iIC7e+Cf4ctN6
+         LOFuG4Vwn9ReM0JIsjI55GZeVRovgyH9eM2yEyDr/se4JwJM0KzuZUEsAhTvF2zmq6wy
+         90W84eNmGmaw+m72RO2bxxzJHJewsY6yxdmjIAFQGkqb7CU+OZlY5u1UgtTyhLDegs5I
+         vP2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWjGekd9dzyEBHqrKrX343Ilq+oHeCbzh/eegvJ+Svi7VPmj2MJwwoUfpcANUo5ymRHmGnSaeSXBj47w3wyx2bA2nvi/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuG5k51r6lf8U+C/DTjduOc9MOG5ZUVXa6+nmzy37WOtlpFW5P
+	sgPJnEGD4iPxvgck9g+O4sdB9X77j6QDJjL8WpQc6P1OVFVYFOiCmHdB
+X-Gm-Gg: AY/fxX5gaFkop9yiJXzajplFUJGzD559ZcVxQtmkHrsg6bWwDYZwQBs75wJc/WzjC0w
+	N2ArMPxsQDMJosW50oaMkok4BCKGbyiF18S/R+w+AQSYBNdCSbBYlj5rhFur0BRZnnHOG0x3Ebq
+	UQxUfTn68ioyDkyd5UlEEaK0WP/6F5OsBI4V6EqffDtQVN9nL9GJ+vL8jjOqkqw/Zqpx0oc+X42
+	ntv0aj+nAWni1NEnvypvN/vvewA3tDOi4rPZ97duQvuCXyz9MMj3oQjwYgtVS0hXssSX9Z2yt1Q
+	ev1HGB4i3v1xgNNO3EF1c873NAgvX7VD/19Ml1YQQRl1+xl4YlA+xwGMm2lL/oAWx9LnLgxeSD4
+	2VuklxA5OdJ8A/r5SlAwvGJs8nUU5+Q7UR5G4xMu2r19eY3bkWuY+jKpaYHAYXcfNDrj73zjd1I
+	6tDdEBrQYaGOKO/KttcrTVw86aVoTXG5wfgi7+XmrkjxJXQsax5STkPL9m+qs=
+X-Google-Smtp-Source: AGHT+IHwTXgZOP1rlGicDDiSypRAJDCxM1E4qVtAuLk27EHrOgjXSd/WSrpzvi/lFsSQEuQsBseoOA==
+X-Received: by 2002:a05:620a:2682:b0:8b9:a134:90e0 with SMTP id af79cd13be357-8c08f65843dmr798094485a.16.1766219594105;
+        Sat, 20 Dec 2025 00:33:14 -0800 (PST)
 Received: from nairdora (108-75-189-46.lightspeed.wchtks.sbcglobal.net. [108.75.189.46])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d997ae49esm16761256d6.28.2025.12.19.02.15.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9623ffe8sm38913786d6.12.2025.12.20.00.33.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 02:15:58 -0800 (PST)
+        Sat, 20 Dec 2025 00:33:13 -0800 (PST)
 From: Adrian Yip <adrian.ytw@gmail.com>
 To: stable@vger.kernel.org
 Cc: Ilya Maximets <i.maximets@ovn.org>,
@@ -70,11 +70,12 @@ Cc: Ilya Maximets <i.maximets@ovn.org>,
 	david.hunter.linux@gmail.com,
 	khalid@kernel.org,
 	Junvy Yang <zhuque@tencent.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
 	Aaron Conole <aconole@redhat.com>,
 	Adrian Yip <adrian.ytw@gmail.com>
-Subject: [PATCH 6.1.y] net: openvswitch: fix middle attribute validation in push_nsh() action
-Date: Fri, 19 Dec 2025 04:14:10 -0600
-Message-ID: <20251219101411.1970581-1-adrian.ytw@gmail.com>
+Subject: [PATCH 6.12.y] net: openvswitch: fix middle attribute validation in push_nsh() action
+Date: Sat, 20 Dec 2025 02:31:12 -0600
+Message-ID: <20251220083119.507027-1-adrian.ytw@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -142,7 +143,7 @@ that's how uAPI works today.  So, keeping as it is.
 Fixes: b2d0f5d5dc53 ("openvswitch: enable NSH support")
 Reported-by: Junvy Yang <zhuque@tencent.com>
 Signed-off-by: Ilya Maximets <i.maximets@ovn.org>
-Acked-by: Eelco Chaudron echaudro@redhat.com
+Acked-by: Eelco Chaudron <echaudro@redhat.com>
 Reviewed-by: Aaron Conole <aconole@redhat.com>
 Link: https://patch.msgid.link/20251204105334.900379-1-i.maximets@ovn.org
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
@@ -153,10 +154,10 @@ Signed-off-by: Adrian Yip <adrian.ytw@gmail.com>
  1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/net/openvswitch/flow_netlink.c b/net/openvswitch/flow_netlink.c
-index d0b6e5872081..d4c8b4aa98b1 100644
+index e3359e15aa2e..7d5490ea23e1 100644
 --- a/net/openvswitch/flow_netlink.c
 +++ b/net/openvswitch/flow_netlink.c
-@@ -2786,13 +2786,20 @@ static int validate_and_copy_set_tun(const struct nlattr *attr,
+@@ -2802,13 +2802,20 @@ static int validate_and_copy_set_tun(const struct nlattr *attr,
  	return err;
  }
  
@@ -179,7 +180,7 @@ index d0b6e5872081..d4c8b4aa98b1 100644
  }
  
  /* Return false if there are any non-masked bits set.
-@@ -3346,7 +3353,7 @@ static int __ovs_nla_copy_actions(struct net *net, const struct nlattr *attr,
+@@ -3388,7 +3395,7 @@ static int __ovs_nla_copy_actions(struct net *net, const struct nlattr *attr,
  					return -EINVAL;
  			}
  			mac_proto = MAC_PROTO_NONE;
