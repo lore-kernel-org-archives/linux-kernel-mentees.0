@@ -1,147 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF61200C2;
-	Tue, 23 Dec 2025 21:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFC4319618
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Dec 2025 21:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766525635; cv=none; b=FQGQCKiB/RbxnWvPeM80Xwg4t+hfcK1mhMLWt/UOWRbMtuKu+8sQ4KBMe1JbyRgwjMTmyj2Lye44bTngUM4haJFd5xo0dJBel7Ssyp5X+IP2IMiYZElfaLoF9lj6xPM/dy2nvdyM44sEv62wIDrNCOmmqXtQgfiKHrsvRw0eMFg=
+	t=1766527155; cv=none; b=cMScX3nMBPy3nZiVaGJ2IQPpCNFJIleP2huhWayYiNxhx82n/lfmg49AbLDSKK1tPEz72VOwLnkOduBsgjEnkMx2LGV2yk3msr1qexEXcIqcqyE8S0bmzrESix1HX1/egEBOQFu3pvWl8BJXxwho00jP1bvVG+XbxOoLEET0U7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766525635; c=relaxed/simple;
-	bh=Yd1r7EvvwBZDyF74Ev/wcb27opJoUMZE7SnmnADxxmc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i86cJxgoA6XUtnyHWneok7CkOb7hEqx4E6h9el/lPuAvnH2zEHjmrvdQ5KHDpnp+p8Xixrq1Z/emLWmDsxiltj+9nIIgP83TFbucu3JH6cV9GpfVJBMXJ1k4QRfNG99lO+G+8/k1GQogG3Zsec4gZOB3piVHb/IQeYNBCSPxPvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llgJuZfU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766527155; c=relaxed/simple;
+	bh=o5/d1n0tGoXesIT7xFEShhShec7ADyKFhy1sjeMZeao=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VS0Vkfs7NnV3VQ1Jr7Z+X2jLiHhGnZ8VySksYbCD2Tu+nmbhjolzXos5Z6j1+9/W0iBVwncPAl92Sz7DkSsDWYFMyeFPfabwNltZBfungOcrlLCU7odEp06h13GJowEmm4hRZv7CpC1rCZ9F8FxBQHZ/vOxRe6UVkuhN5yVl+64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEZHtzTd; arc=none smtp.client-ip=209.85.218.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llgJuZfU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F4CC113D0;
-	Tue, 23 Dec 2025 21:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766525635;
-	bh=Yd1r7EvvwBZDyF74Ev/wcb27opJoUMZE7SnmnADxxmc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=llgJuZfUrApzkL6ogtqYL7GAX1IabRcyHd4o+3p2Gc9oIOHUECx0loEXLjvE/UfzK
-	 tpfm1vBUT5E4Np82xagzdrOgmqEKgI5jD2wyMQZD21yWIkkDFHU4tFW6FdPOtF0NEU
-	 G/ZJQHX+pL33ku/BjtQ/nmB9fJ9VCPsCJKtUirhgTbFncWBrmHO0vm9XtVBlwsSBZ1
-	 dwMDAjT9LDALuK3N2nihtdajwJhPpS4kXsm9F8gVZmcO/OcTQzlX1T49fErXCQmD7Q
-	 vmJRJof0j80CnfvPnWoLq6EfBm0sTLMyBT8lNKJqHnsje9zRoQZ+ZUrhk+0dnDNIAk
-	 ZAM7CRJMUivZg==
-Message-ID: <a85b8659-d4c8-443b-abb1-ae557a2a9896@kernel.org>
-Date: Tue, 23 Dec 2025 22:33:50 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEZHtzTd"
+Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-b727f452fffso1037987866b.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Dec 2025 13:59:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766527152; x=1767131952; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IUybjfCPuH4Iea4yG3y/BgalmWwW4QAXVnrciU7xwY8=;
+        b=kEZHtzTd9GEGljF4iyhyxRu/0CYi1tjMYGdWe0v7/HFkOqM+wozmcv88d81XR/casA
+         DJK0Zre5ID4usqI4rUI9NFm/8ABzOwEZ9QsHUFlXxLUVsh1JUQZuUxvWj/nEACmM4ZrZ
+         CzE110XeR7dzI1hl6j9WgqpGmHFuqLOcPXUd/QdTo9MffLPhNjsfALqIlZ2wFKB9QoMG
+         pFBXOO18ceUMFNOQnXDzkHK8OCP/Y9qL7s2fsv/wmTSU0WHuj1gEGrG9tHC+Ha/ar3iS
+         Y4b6kpevGyCUobuCOgFoghmNJUAHrPKuELPULjsm+8F7LSojuE1Qo1Br6R5bmJY4Acuf
+         5M5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766527152; x=1767131952;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IUybjfCPuH4Iea4yG3y/BgalmWwW4QAXVnrciU7xwY8=;
+        b=sl6vDuJYFy/39S/1WroFTjeAmnjKfkKzQ2e29E/XzqFQckhxlbGUnjlgHxtOW4sLkr
+         DIYwlN4/aFrOKUAlRTkiV7n/Vi893EVHxeayDSALvL1/16qfndapqUzTbUiPAinu6qDo
+         uoFgffAkmU4SWomf6b1jDOmt9DOUARut9VxL9K8nsEv9y4Wr8/07y4W21dnjPwZ1igYA
+         iepAlaspFaN7hlIyPah3tF8DY2vEfzw5nTjaFw1C92MPPF059RDwEBGeyiZo2P8BJfvc
+         m2EDqA3YwQDIItTrooPsikjlYEzbgD+BAr2r1vzVP0EWiwbydCVDoIUdoJz9RyirK43E
+         GqnA==
+X-Forwarded-Encrypted: i=1; AJvYcCX24BXDBRcvJ/+nnDhz1FC428qqDLgGz5w5SrDcG8CoQdcnLt6RcwlG0jsqqhOqdkXyJlRNQkqC57mkxEKXc8m5WhK6AQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAqMZ4TiLHPv4x+66/VLHpFaw38xZmjpPK1uLBb4wiX2DtseP9
+	hty8taHR5m3X2w/dXrEqPHQcH0LAbIr5/am1bftKIfsPb0zaukBH54L5
+X-Gm-Gg: AY/fxX7mV6vWEoJhuyXk8Plm5nFjx4LLAKPsuiYmJMwFZePKhVLFpire5VIZJzGxDx6
+	/sR1unY3RMT592j4vqOgif+yhk9lQL0jaqgxPnlxywVLMNhM5ls4rplTddYSQF7XjyfErlkv7x4
+	72USOJFjZ0th7lBvEu/0TJY0uyuujsMrGfHO0ZEv05uUC6CQMp6alCZlg2SK48Evu3uyZjazunx
+	zFh4YQtLan2dTKzSRhmOiw1/tEoHjGufqKsiH+d1TWWHpD7J7y0Wa06rmIOxKPz8BBgvg+Ekkfe
+	VII857ZhakWD7HUH3nEJkg28mObPsbnT8gmeFquAGaBJ3yGjJ9ib1ryvORKdLQS+knTF+gmP9fU
+	g90gfT1HtKQnJYt6eP4b0JiJ7XHnlaGw1uiAiGgEU7NkY+dM7/SBikICPViO4jf5nxRDUeDTHnK
+	+T8x/cPQVqDawvf+2z4buquLf+E0fNXv0QR65mCFuwTxntW3kBJyjwvlHXv8w3DzQpJTr95xr8e
+	cb0dNUAv5WF2HmyWfvO/SHrFRXUJohK7aIn7ztSzG4=
+X-Google-Smtp-Source: AGHT+IEeVPrStoOO63n58znMCh+CtUHUnz6eYZmVyzuIxpmSQdcD8/AU3tbM/KBMj8HL4qja3IyUfA==
+X-Received: by 2002:a17:906:23e1:b0:b77:1b05:a082 with SMTP id a640c23a62f3a-b8020400379mr1461607466b.2.1766527151725;
+        Tue, 23 Dec 2025 13:59:11 -0800 (PST)
+Received: from localhost.localdomain (host194.safe-lock.net. [195.20.212.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ad1e6dsm1559098366b.21.2025.12.23.13.59.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 13:59:11 -0800 (PST)
+From: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+To: tytso@mit.edu
+Cc: adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	david.hunter.linux@gmail.com,
+	skhan@linuxfoundation.org,
+	khalid@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Bartlomiej Kubik <kubik.bartlomiej@gmail.com>,
+	syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
+Subject: [PATCH] fs/ext4: Initialize new folios before use
+Date: Tue, 23 Dec 2025 22:58:55 +0100
+Message-Id: <20251223215855.2486271-1-kubik.bartlomiej@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/2] can: dummy_can: add CAN termination support
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-can@vger.kernel.org
-Cc: mkl@pengutronix.de, socketcan@hartkopp.net, mailhol@kernel.org,
- khalid@kernel.org, skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
- david.hunter.linux@gmail.com, linux-kernel-mentees@lists.linux.dev
-References: <20251127191808.144723-1-rakuram.e96@gmail.com>
- <20251127191808.144723-2-rakuram.e96@gmail.com>
-Content-Language: en-US
-From: Vincent Mailhol <mailhol@kernel.org>
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20251127191808.144723-2-rakuram.e96@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Rakuram,
+KMSAN reports an uninitialized value in adiantum_crypt, created at
+write_begin_get_folio(). New folios are allocated with the FGP_CREAT
+flag and may be returned uninitialized. These uninitialized folios are
+then used without proper initialization.
 
-Thanks for the patch. My comments are only on the cosmetic aspect.
+Fixes: b799474b9aeb ("mm/pagemap: add write_begin_get_folio() helper function")
+Tested-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
+Reported-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=703d8a2cd20971854b06
 
-Le 27/11/2025 à 20:18, Rakuram Eswaran a écrit :
-> Add support for configuring bus termination in the dummy_can driver.
-> This allows users to emulate a properly terminated CAN bus when
-> setting up virtual test environments.
-> 
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
-> ---
-> Tested the termination setting using below iproute commands:
-> 
->   ip link set can0 type can termination 120
->   ip link set can0 type can termination off
+Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+---
+ include/linux/pagemap.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-When you test, do not forget to also try incorrect values ;)
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 31a848485ad9..31bbc8299e08 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -787,7 +787,8 @@ static inline struct folio *write_begin_get_folio(const struct kiocb *iocb,
+                 fgp_flags |= FGP_DONTCACHE;
 
-  ip link set can0 type can termination 100
-  ip link set can0 type can termination potato
+         return __filemap_get_folio(mapping, index, fgp_flags,
+-                                   mapping_gfp_mask(mapping));
++				mapping_gfp_mask(mapping)|
++				__GFP_ZERO);
+ }
 
-(I think that the code is correct, just see this as a generic
-comment).
-
->  drivers/net/can/dummy_can.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/net/can/dummy_can.c b/drivers/net/can/dummy_can.c
-> index 41953655e3d3..2949173547e6 100644
-> --- a/drivers/net/can/dummy_can.c
-> +++ b/drivers/net/can/dummy_can.c
-> @@ -23,6 +23,21 @@ struct dummy_can {
->  
->  static struct dummy_can *dummy_can;
->  
-> +static const u16 dummy_can_termination_const[] = {
-> +	CAN_TERMINATION_DISABLED,	/* 0 = off */
-> +	120,				/* 120 Ohms */
-> +};
-> +
-> +static int dummy_can_set_termination(struct net_device *dev, u16 term)
-> +{
-> +	struct dummy_can *priv = netdev_priv(dev);
-> +
-> +	netdev_dbg(dev, "set termination to %u Ohms\n", term);
-> +	priv->can.termination = term;
-> +
-> +	return 0;
-> +}
-
-The driver has a kind of structure:
-
-  - first the const bittiming struct declarations
-  - then the dummy_can_print_*() functions
-  - finally the actual code
-
-Try to preserve this structure when adding your changes.
-
->  static const struct can_bittiming_const dummy_can_bittiming_const = {
->  	.name = "dummy_can CC",
->  	.tseg1_min = 2,
-> @@ -250,6 +265,12 @@ static int __init dummy_can_init(void)
->  	priv->can.xl.data_bittiming_const = &dummy_can_xl_databittiming_const;
->  	priv->can.xl.tdc_const = &dummy_can_xl_tdc_const;
->  	priv->can.xl.pwm_const = &dummy_can_pwm_const;
-> +	
-> +	/* Advertise software termination support */
-
-This comment doesn't add much value. You may omit it.
-
-> +	priv->can.termination_const = dummy_can_termination_const;
-> +	priv->can.termination_const_cnt = ARRAY_SIZE(dummy_can_termination_const);
-> +	priv->can.do_set_termination = dummy_can_set_termination;
-
-Here also try to maintain so kind of order: your declaration of
-dummy_can_termination_const is before the other const struct
-declarations, but the priv->can assignment is done after the other
-assignments. Not a big deal but it is nicer to keep the declaration
-and the assignments in the same order.
-
->  	priv->can.ctrlmode_supported = CAN_CTRLMODE_LISTENONLY |
->  		CAN_CTRLMODE_FD | CAN_CTRLMODE_TDC_AUTO |
->  		CAN_CTRLMODE_RESTRICTED | CAN_CTRLMODE_XL |
-
-
-Yours sincerely,
-Vincent Mailhol
-
+ /**
+--
+2.39.5
