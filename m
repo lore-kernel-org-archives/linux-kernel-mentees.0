@@ -1,100 +1,170 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA7020010A
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Dec 2025 01:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32F532A3DE
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Dec 2025 06:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766540356; cv=none; b=PuoN9nV7vlH3wkWoU8IPJhfZXs6mO5sytAkLpT7fgO+bmWwDZxsD/jG9djYtYG4293nAwLYA1p7Cah5AkBQuEylZflolM05WgetEwaXSnrcE/FoKNo/8+v7jUcrTfW2W8zP16Vqh+tPMJIDlIyProfcFPx4ty05ParTdH77we2c=
+	t=1766558300; cv=none; b=DhGFZEb9eS5pQbZSN/sR5eOuGqrALiweo6iH6DD02mVIm/pg9gFXPWZayLg/jdE8TMBQ8CdT0AeiRX0TJCvJmsL89QXCfvKxsz6k+pHmYl6ku8gzicgnf1brXV4EQdCyFKU3jigl6HG8xpl5om1ZbLxiyXlQvUrRGNbxp1yKoRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766540356; c=relaxed/simple;
-	bh=c4rp59GrnxfBa9b+ZQAugwTTfXqcFs40yuy9HG1Vmn0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=MGbHW2NtjZOAVcYKVhL3id8jA+98i5qHKwiaHAGuHAEpN10JDP9CFKOtc4tHGdSr7NAEhDmt1o8AopyI2BgQX0Lo8ymqvsxqIjKFtjvfTeT1elvCn3NctIs5BHsyjyfmvsmnTLutjY8WbcxX5kG76fEsjpyXgnFtCCf6ETx5gBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=FVR38gVr; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1766558300; c=relaxed/simple;
+	bh=gsrHNNbocSyGlKE7vERXRimkrvrozZZCJmIIb6a960o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mSjbY/ajP6/X8z4dY0FkCtwHh/fK62yxjnhjpH0hu9OoRulL+qLMEL8sOSSCPllcmYmfubYzEQRQawB5f7EF9CfEGFhxk20znT1EJ1HIAhjjIAb7YiGc9TnnULD+7URUAGV8mIsV2j2Pdg61d9pRi/ePxZSJvSY7L9ppOF6GbU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUxDNgXa; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="FVR38gVr"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=vJzqNYW0GY6ZNfseR5giYfjmiT49xxHGMuFLcEB4Ldw=;
-	b=FVR38gVrvHqFpzc3XSiyKSxi4vDwIYHzSU2n6BGXyLKM0Mss98FoYfPWUpFZ1wy2CIioFMrHM
-	EQdQ0KpUshxJpX98Rot+CPcmR5ZYTdLJLs++EbyACEaMPJ2w0JU/69QrZOJ+GOnkED4VCOjHxTU
-	BOZFxFhJLt6G8+4RgY2cQCA=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dbZG134W5znTV6;
-	Wed, 24 Dec 2025 09:35:53 +0800 (CST)
-Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0783140539;
-	Wed, 24 Dec 2025 09:39:06 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
- (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 24 Dec
- 2025 09:39:04 +0800
-Message-ID: <b09e6934-6924-4f9a-a866-82599fe64879@huawei.com>
-Date: Wed, 24 Dec 2025 09:39:03 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUxDNgXa"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so4499288b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Dec 2025 22:38:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766558297; x=1767163097; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k1Anp1lY1We4/zAVuAi7e7U46WAxj4AfEwKzru4nCjs=;
+        b=gUxDNgXa7BiQT+G02uGTotJe9DOM7IQlIi2B0u5dyXeet2tOh/lrI1IqPsOrcflp5P
+         hayrqY0S4OK4plSgEIvi5X9oBZDu8KgtvvKt3VYiBUerVAqOQFmX3yyYp82p2RsFrKKH
+         EiPwXpTPYwbgQoqDu2Gg5505k3kzdorp9VkQjtKSXaUa6GFvnW2yh0V56UZ05+ZAKAhG
+         rP/B+aq341kFrEoR2bXu45OdnqDrr3BGBqBxZ0eAxmr5wxi5c+r0trqfUW7TqOil8D5r
+         zHuZhex1FO61+Q2TXyzJ69XFgU/szkHGsz229ShFXKBNps7E0BgJpiQSgDxaBrAg5BD8
+         ZvDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766558297; x=1767163097;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k1Anp1lY1We4/zAVuAi7e7U46WAxj4AfEwKzru4nCjs=;
+        b=t7znGsB59urrj1pxnIfA2ONuo2A+La/uMk4inn799sXm4ceXWiYnBG3EplYl/WNRd2
+         yg0u9kdWDHOGLNJWnSZaRNmfJQZNsHpoCIWP9sW6cGkwX/JPJEnzMjPJtMIHNNcz9hoG
+         zb9uUP4xY800Du9fxDOsGF1ojcsuDtEOWmHqJ6Aumez8twVJsCUWImnRf+wc7qIVLL8e
+         1onhHar4A6tLkGjDrKJSQSgA0YytvIODcxhqxyYPXXzjoVOVdNzUhfW9QQ5TJ4sUtUpg
+         P24pp3zxVVO1puNVlbnb7jbf4U9uQlc1rc8AkXc8tlFiT4E7r7VRVqy8d0DOOpADLHlg
+         MTKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXy8B23AzWW2ORyPuNaQrHesnTEPcTHVhELj783AM/tpp2N+Jf1XC3R5XS8PJij6OVrdWTcixixw8i31ZQiBsG6qn084A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3OM5VLP8FWUInpJhZfbDIlYInXixbwBNIZfHAZ6NZnQ6WJ6eu
+	Iar2VWo6543VCqVHzzD4VYCpZFYLImhDqFTSdOvlHXoRFrTZl/rg3mwj
+X-Gm-Gg: AY/fxX4bd4bmLaBmr+QKseTC1mfAXZZI6Fu4Yz5LBgW5qbUJvt7KyiniiWgD6ySYz5H
+	RcclQQWifzvLCfZrxz0L1DOzzhqAw9jiLYC5q2MnMnnQJHxooJHQZjc6jrjnoVDgj4YAInT8XUy
+	IwW7dVZlz5GHtWc3nmU4e+3i7zUNjBIYUS7SGhmepKRcaWz8vjickGILHhiWA1WAX+D6of9jBWw
+	1ZxMV1ASIDA1dVtfz5hPAtpFm68/+E7mhihiNh6JQAjXEeM0iaeLIlzqjgOBzvFfK/LY2+2gIDe
+	8rGOgr6af557iVlopMEKdaftDubLK+4px5hmA+YTkA6cEyuXTnOfv/W6fANs6DdzcWaQ0crMLkh
+	UDTd3xXPiIkdL9hEmFeaYq0HMoEkqH+Z/zSSb4WiHaK1EUA3S383FRP9Zz5gVnL8WyKtmlYNRGU
+	VSDDlaVVJldOs=
+X-Google-Smtp-Source: AGHT+IGeF+1DNi4wBQ+citO8we8db5AW369vz0FLW8lrY82nDFCZVApz9JhjcAMfqp7ryzxlPiNF4Q==
+X-Received: by 2002:a05:6a00:328f:b0:7e8:43f5:bd36 with SMTP id d2e1a72fcca58-7ff66d5f579mr15039520b3a.34.1766558297009;
+        Tue, 23 Dec 2025 22:38:17 -0800 (PST)
+Received: from inspiron ([111.125.235.126])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e589b0csm15892605b3a.56.2025.12.23.22.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 22:38:16 -0800 (PST)
+Date: Wed, 24 Dec 2025 12:08:09 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Heming Zhao <heming.zhao@suse.com>
+Cc: mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
+	ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	syzbot+af14efe17dfa46173239@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ocfs2: Add check for total number of chains in chain list
+Message-ID: <20251224063809.b5zs7uiiupeexzwa@inspiron>
+References: <20251220094928.134849-1-activprithvi@gmail.com>
+ <dcbfbwivj2pgid24lp7xynsli5v44fw5lskyg6r6yodr223irp@alqswzjnxmmu>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ext4: Initialize new folios before use
-To: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-CC: <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <linux-ext4@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <david.hunter.linux@gmail.com>,
-	<skhan@linuxfoundation.org>, <khalid@kernel.org>,
-	<linux-kernel-mentees@lists.linux.dev>,
-	<syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com>
-References: <20251223215855.2486271-1-kubik.bartlomiej@gmail.com>
-Content-Language: en-GB
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <20251223215855.2486271-1-kubik.bartlomiej@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf500013.china.huawei.com (7.185.36.188)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dcbfbwivj2pgid24lp7xynsli5v44fw5lskyg6r6yodr223irp@alqswzjnxmmu>
 
-Hi Bartlomiej,
+On Mon, Dec 22, 2025 at 11:21:11PM +0800, Heming Zhao wrote:
+> On Sat, Dec 20, 2025 at 03:19:28PM +0530, Prithvi Tambewagh wrote:
+> > The functions ocfs2_reserve_suballoc_bits(), ocfs2_block_group_alloc(),
+> > ocfs2_block_group_alloc_contig() and ocfs2_find_smallest_chain() trust
+> > the on-disk values related to the allocation chain. However, KASAN bug
+> > was triggered in these functions, and the kernel panicked when accessing
+> > redzoned memory. This occurred due to the corrupted value of `cl_count`
+> > field of `struct ocfs2_chain_list`. Upon analysis, the value of `cl_count`
+> > was observed to be overwhemingly large, due to which the code accessed
+> > redzoned memory.
+> > 
+> > The fix introduces an if statement which validates value of `cl_count`
+> > (both lower and upper bounds). Lower bound check ensures the value of
+> > `cl_count` is not zero and upper bound check ensures that the value of
+> > `cl_count` is in the range such that it has a value less than the total
+> > size of struct ocfs2_chain_list and maximum number of chains that can be
+> > present, so as to fill one block.
+> > 
+> > Reported-by: syzbot+af14efe17dfa46173239@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=af14efe17dfa46173239
+> > Tested-by: syzbot+af14efe17dfa46173239@syzkaller.appspotmail.com
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+> > ---
+> >  fs/ocfs2/suballoc.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> > 
+> > diff --git a/fs/ocfs2/suballoc.c b/fs/ocfs2/suballoc.c
+> > index f7b483f0de2a..7ea63e9cc4f8 100644
+> > --- a/fs/ocfs2/suballoc.c
+> > +++ b/fs/ocfs2/suballoc.c
+> > @@ -671,6 +671,21 @@ static int ocfs2_block_group_alloc(struct ocfs2_super *osb,
+> >  	BUG_ON(ocfs2_is_cluster_bitmap(alloc_inode));
+> >  
+> >  	cl = &fe->id2.i_chain;
+> > +	unsigned int block_size = osb->sb->s_blocksize;
+> > +	unsigned int max_cl_count =
+> > +	(block_size - offsetof(struct ocfs2_chain_list, cl_recs)) /
+> > +	sizeof(struct ocfs2_chain_rec);
+> > +
+> > +	if (!le16_to_cpu(cl->cl_count) ||
+> > +	    le16_to_cpu(cl->cl_count) > max_cl_count) {
+> > +		ocfs2_error(osb->sb,
+> > +			    "Invalid chain list: cl_count %u "
+> > +			    "exceeds max %u",
+> > +			    le16_to_cpu(cl->cl_count), max_cl_count);
+> > +		status = -EIO;
+> > +		goto bail;
+> > +	}
+> > +
+> >  	status = ocfs2_reserve_clusters_with_limit(osb,
+> >  						   le16_to_cpu(cl->cl_cpg),
+> >  						   max_block, flags, &ac);
+> > 
+> > base-commit: 36c254515dc6592c44db77b84908358979dd6b50
+> > -- 
+> > 2.34.1
+> > 
+> 
+> Since 'fe' is read by ocfs2_read_inode_block(), the validation function
+> ocfs2_validate_inode_block() is the appropriate place to perform this sanity
+> check.
+> 
+> Please follow the pattern in commit e1c70505ee81 ("ocfs2: add extra consistency
+> checks for chain allocator dinodes") when adding your code.
+> 
+> btw, I am a little bit confused, it seems commit e1c70505ee81 is enough to fix
+> this syzbot issue.
+> 
+> Thanks,
+> Heming
 
-On 2025-12-24 05:58, Bartlomiej Kubik wrote:
-> KMSAN reports an uninitialized value in adiantum_crypt, created at
-> write_begin_get_folio(). New folios are allocated with the FGP_CREAT
-> flag and may be returned uninitialized. These uninitialized folios are
-> then used without proper initialization.
->
-> Fixes: b799474b9aeb ("mm/pagemap: add write_begin_get_folio() helper function")
-> Tested-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
-> Reported-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=703d8a2cd20971854b06
->
-> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> ---
->  include/linux/pagemap.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 31a848485ad9..31bbc8299e08 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -787,7 +787,8 @@ static inline struct folio *write_begin_get_folio(const struct kiocb *iocb,
->                  fgp_flags |= FGP_DONTCACHE;
->
->          return __filemap_get_folio(mapping, index, fgp_flags,
-> -                                   mapping_gfp_mask(mapping));
-> +				mapping_gfp_mask(mapping)|
-> +				__GFP_ZERO);
-We do need to perform some initialization, but doing it in this common
-path is clearly unreasonable. It would introduce unnecessary zeroing
-overhead even for non-crypto scenarios.
+Hello Heming,
 
-Therefore, I suspect something was missed in certain crypto-related
-initialization paths where the zeroing should have been handled instead.
+Thanks or the clarification. I applied the commit e1c70505ee81 ("ocfs2: add 
+extra consistency checks for chain allocator dinodes") above the commit on 
+which syzbot reported the bug : 36c254515dc6 ("Merge tag 'powerpc-6.12-4' 
+of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux") and 
+verified that it fixes this KASAN bug. 
 
+You are right that commit e1c70505ee81 is enough to fix this bug, and my 
+patch is redundant in this case.
 
-Cheers,
-Baokun
+Thanks for the review and guidance!
 
+Best Regards, 
+Prithvi
