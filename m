@@ -1,106 +1,112 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0411519D8AC
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Dec 2025 15:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C867932ABF3
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Dec 2025 15:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766675336; cv=none; b=fwHc/NcNwf+TqIWyDnyvJOndTG6RREhfxvw0XCVJmq9XmvhzS8FoLyTI9BiBIiK5xW7JI/jvt6PqvJtr0K5FIpQLnks9LuS4PdnqIOBsrqjkZpzKi1ta4JmcSq7A0IIfA9LuTCVedNuwBoET2bCfRcVHT+RPoPXp1SKsycuwgVQ=
+	t=1766675899; cv=none; b=Vz7E49o19C/LMMcLT0FiZQ0386ofjyVeMV+3AVS4QgeIfNRXJ+9qGcLwr1HOw0bpoOnuu94B7g+y/E/a3T7YYY0cwT9FGHhC+Q6G7aeL87lBSUTclATFjdEGj8ePR2x79Wb1PMFK6fmx5rx59w8QAs0XxloYKutkcYAWr5jqcA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766675336; c=relaxed/simple;
-	bh=1a8WVK/5R0u2R7uTPPcpwGnVq8+rcROVcLyIqeUBGAE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kwWLv+fK7b577EARcigw51RmIzQYMty/6aBljDoVCYmMlLRIXgiTzxBQHG9hw1L0rBEKW1LFFhXYqt7ZyPD0XNKEuHM65n4G9LJjrqWCWDMigDpZU/kOluUQ+p5450lZb53zKiX61lnmW7lW+H/DmIUBuYff34+JfQBIT0oGU38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=tTzDultn; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1766675899; c=relaxed/simple;
+	bh=MbMBUpR7B2x4JyBu84ec/Nl4m/QIwV9QVVSShfb9dMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5N7RuAwlI+EcolK6rYDXAr0akPXI8zjy1PMHnkjbdDgBSp5wqreAIay1YAXh9xsvpuuV3BGx6P8rZuZMsU2/9haO+SQqe87kRBUECM4Eg5P5mei7wVBszeIE57JoLJdM4bP5muoVBL/m8eNC1o+iRjAX95HNAk+g77lSh7XaLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTIw4JEk; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="tTzDultn"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c6cc366884so3116331a34.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Dec 2025 07:08:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTIw4JEk"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-34c2f335681so5133608a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 25 Dec 2025 07:18:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1766675334; x=1767280134; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4enrxTcJXMNYO4nBPNY3Xlx1Fas4M0tOaGVZ1+UN1kM=;
-        b=tTzDultnxGKKiNVT53I1S6UTur8sLXWNdE/WWHMEXTHJcR+Ff4YwW1BNED/JsrO6of
-         FelFPUZDuK4G35cmoBpzAMRnLssjkU8MlfMSI2N99K+47+K7/6jnphKdGacX/1TEjOBU
-         04BPhhFTzmGHZH/5Ol408q9LzwB+beSorkXJ+TM09ph/POIFE5f61HSH0vxTxexMIk3u
-         77B/g7bR9c7orS1GBTv3oL53oT9wuVy+uD/gQcjbnqt/rzHnGSMV2kun45zD2Kym7x1T
-         C5pbzDf7d6pwAA0maOsRQi0n9aUDmpPesyN+zia2n2Q1V8tJlv06NxegzNGQ9NgKWCOr
-         gBAg==
+        d=gmail.com; s=20230601; t=1766675897; x=1767280697; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qs6BJX7+RWUbYyZjj+cOPleo4iCRlFe1YsbACYZyhFI=;
+        b=bTIw4JEkcCXQ9ejgwJNYNJElCHsV40P6dQRww/I+QbefKWT9ukl/chZoLoU6OW81s2
+         ZcqDh56+B5yL0uGunVidX5SaXKy/doH9wwSYONz3XwmsrBVjTxI6F/anHl+t55JH3GWT
+         DU9zZt8k/vKFReeW2NqhfJ9IKRkRYEQNyUEjwCSVeD21sr36zwzIbgPJFPpSl45t1UvM
+         Lnxmh2UzMEi6xHrgoPBlPugy6p4HwWh1h6FOqNKkNWLBdXwLbckmvQ3+tLwBC/tAbVKE
+         FN0YBYdzChdxySkHOwugRZqieLmpfKBjWCCfanz9d2j+PlUsZkz5jx/ZWGHt0p8Y1nZ5
+         x+iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766675334; x=1767280134;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4enrxTcJXMNYO4nBPNY3Xlx1Fas4M0tOaGVZ1+UN1kM=;
-        b=GT2shBh+ASeS8E9fSEKXt8FHveyI4XxqCKCudaIZ2wXjNwLiLukbdwUAEDS84HwrOD
-         7Zxtk8qTWRbNUEphNRlBBadIX+K8/8rU8BNIcuPntSvElTDSQpd2qmC+LCGeubu24QE4
-         IWOrcNDImn07aLzWAkvNewr8Mmi7Bd3HDEdv0JbYg+RvhTP3nbuJgLbaQwwJ6rEUyPn6
-         fL5xfbvh4VbMOij42bTkh2OqU6g1bXaYCk7KOiKUjX9DKkx35u7n8pe4c3fksuOkDwCz
-         7rAZeB8W06dDSYUyz1+YDpIqGagArXLB5olhBSO/RIOWBByVT369EmuDFGKPh2ZuaBjj
-         hssg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbp7I1fLG/ufDwhm1D4k2fiH5gxpHvoYG25h+6NYgJn6p0X+SyFCvFukynisBztHVgSZaILVDKAA4jJY/MrQApr4Hkrw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9/IKhG9KEHtvWmzjDewrJzosTK1mElLwwpwmqqhtXHGuSq/oa
-	KxV53vfn8Rw2HVfd36GQ3c9Tbsg524Q0du6lCfYHVUc3f+msExr5Wri9/sTl+TiJ6b8=
-X-Gm-Gg: AY/fxX5Cy7IG0xPbxn9O2g3m/jwQqab2rWoGT74iK8w4ahFqUTLJRYfx5LTn5eIed24
-	idmTCtlEY43s/3yBeqO5o86COm4jssOIEPF5gCBx/FazioXWcNaUgEQrEMdbuvkPf0YVua7sMUm
-	UbRg650Anh49ZELDQCNjKItlo4omWpCaCKNjn+K2GLwFvWN9oLWR16TmnOSldu7p39TL1gHsDoS
-	i7O6kReRrAtN5edqUkqcVVE6VbRQf40QL7K1KiCMtW7avm30eFbbjpJEugtHDaRz0EszNNYPT+F
-	Eq2axnVGUP4yDnq9I5eaijGNwEitT8FNKYVi98f8a9T3YPra2qKU/NGD0FRUlfpt+8wwVICxggq
-	XZ+xHXGb5q0VIpMXAA5ERNMkSCRzKzGimkipbOs2/iHBd5F8n/cH+Lo5NMdaU+RTk9TPEntlIdW
-	IozGc=
-X-Google-Smtp-Source: AGHT+IHvysv98JjOtrG/XeetHHlKyurM7jKSGEnAoF86eGaByvTJgHoycWQr3WJoF84WobCqIy6E9Q==
-X-Received: by 2002:a05:6808:1b1e:b0:450:c9c3:a249 with SMTP id 5614622812f47-457b21cfc2amr10228559b6e.45.1766675333911;
-        Thu, 25 Dec 2025 07:08:53 -0800 (PST)
-Received: from [127.0.0.1] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-457b3edb41fsm9481403b6e.18.2025.12.25.07.08.50
+        d=1e100.net; s=20230601; t=1766675897; x=1767280697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qs6BJX7+RWUbYyZjj+cOPleo4iCRlFe1YsbACYZyhFI=;
+        b=WGpG7/pYR5E4zAKQD8T2IHhyrOwwI9CoFq96i+S0Jvx5HkxcCvubvhuAzWDyOWL9fo
+         vsfqnaTYEHsIutxY+Mxq8Vka1OgQbV52+pXarEf8+1A+m4DdydOq3AmO9Lm7JGS6iVc4
+         QB4rjEdCbtLZJ/IrkNtnAm/6Ts9P5T1SKLABOKS2iQwZaIr53BURtMM4c6xv02z8Qh4t
+         dI2anLAsJpzMEN55jor8lW3M4YZuSyboSfDu3MTjvg4hd2v4RnO1/yxKY0gv8C5HPPY8
+         BXjbiKdygeWnYVXMyjfp/4ym0/ja45w2KRIZW2J9YU1fJBV/f4+SdA8X3Ao4FQn3jmjQ
+         KQ8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUsx+45oPPOslb6jCdMNh6fPNb5msC478Ui0QwkDdczkAgM8j4W0+3U2egHZi40mkOR9pHFHOU8e4R8vkFBPhIX+9+lsQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXAGHepFaX0M8/cDSS6M3H8OjR0mR8KW8zbdgrah9DXT45+hxZ
+	DNKNx8mP69JsZx4o0hu7qWI/ONe02f6nZtttidfYRop0nV25oYDwNP5A
+X-Gm-Gg: AY/fxX5ee/zPF6YcbSuZoouPgofBvAsUZrqYvlCfFEDsg1XfCGalCqLuq3gmvY4k7Sq
+	xPuZdYv3vIhQwabM2T3jS+3B5KIAP0lQ1gTBowpR0VgG8N8uYTamAhlzFFwu86AZLm8FbYl9Vkk
+	Jc550p1qivTgLqW8y+4GFP+uCbyocPOA5FM+Kp/Q/6VIyJqXow4JMqMzqho9C+IV6k+q5/H339f
+	Le18FyFisks1TWPLHBnYg9HOszQWyy4GsXFgfAz4cCgJJuW/EFh/g3bweRjzxVnUCrfeR97nESW
+	hWeTXldL06kRL9RcJYasSfv0STOYhfku7k4/xDJVaPVn+Q4qHYrA0AczxTCq+TEkWdNr3SSS6Ny
+	fyWvfEvzuG8N/KkZIEquWOMGcZgUwKmVQZdGu0JzA3thXGGFeQuiluhZ1TZ8la+ydi7B30XMwEE
+	62voL6m9NDNZs=
+X-Google-Smtp-Source: AGHT+IFyYhem34TIt5JkWzwnSB53xq94ui6A4MQrPDy5SuIyfwhYp7CBOvr+9/vlj+sQXcZsrKKlUw==
+X-Received: by 2002:a17:90a:c888:b0:340:be44:dd0b with SMTP id 98e67ed59e1d1-34e921f582amr15972331a91.34.1766675896814;
+        Thu, 25 Dec 2025 07:18:16 -0800 (PST)
+Received: from inspiron ([111.125.235.126])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e772ac06fsm9337558a91.11.2025.12.25.07.18.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Dec 2025 07:08:52 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Prithvi Tambewagh <activprithvi@gmail.com>
-Cc: io-uring@vger.kernel.org, brauner@kernel.org, jack@suse.cz, 
- viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org, 
- syzbot+00e61c43eb5e4740438f@syzkaller.appspotmail.com, 
- stable@vger.kernel.org
-In-Reply-To: <20251225072829.44646-1-activprithvi@gmail.com>
-References: <20251225072829.44646-1-activprithvi@gmail.com>
+        Thu, 25 Dec 2025 07:18:16 -0800 (PST)
+Date: Thu, 25 Dec 2025 20:48:08 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: io-uring@vger.kernel.org, brauner@kernel.org, jack@suse.cz,
+	viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	syzbot+00e61c43eb5e4740438f@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
 Subject: Re: [PATCH v2] io_uring: fix filename leak in __io_openat_prep()
-Message-Id: <176667533028.68806.11770987520631890583.b4-ty@kernel.dk>
-Date: Thu, 25 Dec 2025 08:08:50 -0700
+Message-ID: <20251225151808.lvpfdwqvcej4vxgm@inspiron>
+References: <20251225072829.44646-1-activprithvi@gmail.com>
+ <176667533028.68806.11770987520631890583.b4-ty@kernel.dk>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <176667533028.68806.11770987520631890583.b4-ty@kernel.dk>
 
-
-On Thu, 25 Dec 2025 12:58:29 +0530, Prithvi Tambewagh wrote:
->  __io_openat_prep() allocates a struct filename using getname(). However,
-> for the condition of the file being installed in the fixed file table as
-> well as having O_CLOEXEC flag set, the function returns early. At that
-> point, the request doesn't have REQ_F_NEED_CLEANUP flag set. Due to this,
-> the memory for the newly allocated struct filename is not cleaned up,
-> causing a memory leak.
+On Thu, Dec 25, 2025 at 08:08:50AM -0700, Jens Axboe wrote:
 > 
-> [...]
+> On Thu, 25 Dec 2025 12:58:29 +0530, Prithvi Tambewagh wrote:
+> >  __io_openat_prep() allocates a struct filename using getname(). However,
+> > for the condition of the file being installed in the fixed file table as
+> > well as having O_CLOEXEC flag set, the function returns early. At that
+> > point, the request doesn't have REQ_F_NEED_CLEANUP flag set. Due to this,
+> > the memory for the newly allocated struct filename is not cleaned up,
+> > causing a memory leak.
+> > 
+> > [...]
+> 
+> Applied, thanks!
+> 
+> [1/1] io_uring: fix filename leak in __io_openat_prep()
+>       commit: b14fad555302a2104948feaff70503b64c80ac01
+> 
+> Best regards,
+> -- 
+> Jens Axboe
+> 
+> 
+> 
 
-Applied, thanks!
+Thank you!
 
-[1/1] io_uring: fix filename leak in __io_openat_prep()
-      commit: b14fad555302a2104948feaff70503b64c80ac01
-
-Best regards,
--- 
-Jens Axboe
-
-
-
+Best Regards,
+Prithvi
