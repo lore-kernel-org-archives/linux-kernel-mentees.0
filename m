@@ -1,123 +1,119 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7A0284674
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Dec 2025 12:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A9F24EF8C
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 27 Dec 2025 04:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766750687; cv=none; b=RfW2ttTCTlkt2H/jKJMzNJy0h81wAGDhiHcdiQJ7QwbYjvHePDVWBei2/TKrEM2dMWEBdW0ZSIFQT/u8B2vlcsZI/wVmPXRBqFQbhtpm5kSYnCBJscp9YtQHttO4Kzso85zMs0bTqDhVre6sJmKU6R981eg80bVRHjNlMrZIvcM=
+	t=1766809467; cv=none; b=XD/ynMXu02n1qM5rfGiyZx3jbqu3RjUPrwW3Lc1WoPtEF7kjZcANfnCAzVC9XINLmwP4C0wiuqL+o7ro7H6DWMeKIh9F3c1653ueo4JWQdIFgTlLLAMdKFqpHwxcY2T6iTK4CzcSK+Me8lKjTAVAEoIPCwYs6F0rWmPs+63oDC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766750687; c=relaxed/simple;
-	bh=5WWw3Ai3nUNL+KGovcJwkDFtqP99aWr0F86Mzj5u/cA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pntRWwn5oBfFJMz9lOPWPJ0iDWQw6RJj4BWNQtNLWkPtq2lYTebFdRZv6bZeuJrIXdcdjPtBsBZVNgczgqle2y8ssHhLnh1R40ux6s4eHWXMgVtQVjUphNDSdT7WPrDLPFPNgaTZ44XFlHuFeE4uWmpodUJjvvTbontjxwdyBOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L7qimPVx; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1766809467; c=relaxed/simple;
+	bh=0m0IUyh1qgdS2/DqcwxcLXWiO3+eicNUWxovMIf4IQU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QzdjqG2WhfVJKOwLHgOmPo1ySIOUuJvvdc/mvApu4tYaPaDTAfs9Xw+ov0UiE6BPYvY4g0n85llyJQEsEt4DRQvZ0/Sf4RUh1CPIXtpXbgjIS367u/u/B5e94SZ22LqD+9vrwq9oN1ZSY61CLebwhoJK3XcLI8e6v7PkV1tP3Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=P5OaCtnk; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L7qimPVx"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B0DF46070A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Dec 2025 12:04:45 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2sv9rKPkUVBH for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Dec 2025 12:04:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=mottikumarbabu@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 05BB5606BB
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 05BB5606BB
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=L7qimPVx
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 05BB5606BB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Dec 2025 12:04:44 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-34ab4ac9a34so1221346a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 26 Dec 2025 04:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766750684; x=1767355484; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzOikjZCAZIVSqRjJRRgnV5+w+5j2FvIdULvG9czO64=;
-        b=L7qimPVxK4KZ5JBtK+qftdCuU9qDYNWNE2d55x9UVwlHFCzUnDfX45jk97e3dHmMo9
-         jAosoayda5rhFP1Tnet/ucMSQXuA8FbLnaPNyi1eLpx9FP9AjtUwJIKJETdDCno807PP
-         A45pGr1njLNihwvmLq/8ittc6gHvdoveRYPyEl9m6a0JJxMUG2jKqL7AXj76RFVgZB52
-         D5LZ3B7dslkw28Mw+XUUVOe0174g/95xqOamxIk9fZF3tM5MOvtv+jr1sGEZn4UP0vb1
-         BLFr0Y2snUamrQV6fjl6vASs5dpfqBFc4RSa6o5dpAY1LWaIUWRiAuG1N9h2PIS4UT17
-         CIaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766750684; x=1767355484;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jzOikjZCAZIVSqRjJRRgnV5+w+5j2FvIdULvG9czO64=;
-        b=d/GdoPGa0Y8ehCVfV4ku9DzJ27qWmuVJrkDx/2wUYdKq4h3eMaygoKAns7QpmWBUxQ
-         z3mqZFjzMrCYdpeMazK3hgK+aOkM1j07v7OkZ5N8rCJxELyZVysk2xhu9OCGATsUeLct
-         bvPWVxVXTGSa59fhFpznKEt5C0FxeIWyxoMEal55rTFy0hgE/qryYjdGb0vckPAht4Vz
-         +vPw3l/oUzCESz3vc8LRbnsHNTH7CW+UnOZE6kjY0DVh1i0PSwsYMbOhmk494MBSK1XV
-         GX4JsokmOmPn8bhy14cydSdGI+TcODVS7WKvPy5bwaxSag3D5cuVg++VCsq7/qFhXX4s
-         VGcw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhlST1ZWccbEi/6Twi8PhQT/YvwoHp/Xpl2lsKjo2v3AlvNh0+WsidJQG1wlclEKGkT6JvP5w+LSlxUMOImFHMYkC1QQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwfYgtdXstYNrje5R17CCajcp4Nr3jhMUdVoSNgrBqfe3kv3OG4
-	9SeeBpvNkcfJKDIe+HNNsJG2wTFChxAKsxCGHLtS53TdopRMH0jl5gbD
-X-Gm-Gg: AY/fxX4Iw8TCjxS5JnUiQvj7XN2KqjbF0V6e8IR6JkmM7mdQrObJImcCBl2BNOef+yU
-	rsXtL30rAyNHTLVzfDLbEJ+zTJhVEN2nJOL/eE42XsbSGhXLohICELaXKdEgzXE9S9hsrBbZf2H
-	20/y7Tw6egTxgVYdaAny0kGK4rXjDImQacWYjCoQGGyVjhkiwRrSiJ/JKggBpZmpliiiCRmV0S5
-	0z0mx1xA7M93KRLnaE7KM4RdyGjWxRCXj0/L6gy7dL5TWmmc2iIbu8QptsukQLlVOtblN7UTzqb
-	51SJdVtfd9qJLL7+5HmaBg5Lkk599Jb0Ed9R/fdcVLBb67D7HzEVJ2Lk+Sip3r5Y0z3GicKQEHw
-	nwJ0NsLiOvRwY8Qo8JjhuaiLrn9gX8REdhy8EN1RNZA8vaJvx9aNGrNfd+wdRfiYPaotzMrbD/z
-	8pU9nNy1pBdX8aLQ9gmzfDyRl7QA5Mfexeo9zUOgc7tq+ZZtjs
-X-Google-Smtp-Source: AGHT+IGHbrz3Pi/17OtuTBKj/RvZlBgKGNkstEwcas0tluFEbj85RUQ4XNy2YcB56+6MmI/E1pvQ4w==
-X-Received: by 2002:a17:90b:4d8e:b0:343:e480:49f1 with SMTP id 98e67ed59e1d1-34e921c4431mr15253293a91.5.1766750679676;
-        Fri, 26 Dec 2025 04:04:39 -0800 (PST)
-Received: from zlabs-hw-ts-ws2.csez.zohocorpin.com ([122.15.156.136])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e79a17fb2sm18821244a12.12.2025.12.26.04.04.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Dec 2025 04:04:38 -0800 (PST)
-From: MottiKumar <mottikumarbabu@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	mottikumarbabu@gmail.com
-Subject: [PATCH] staging: sm750fb: fix const array warning
-Date: Fri, 26 Dec 2025 17:34:17 +0530
-Message-ID: <20251226120417.2599020-1-mottikumarbabu@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="P5OaCtnk"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BR2upmV010535;
+	Sat, 27 Dec 2025 04:24:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Uc3XXm
+	uzw+rGlrmHsoHoZKbq47rkIBsTmwgWoQtDbPg=; b=P5OaCtnkURd8VndWJ5qBeq
+	pRuOJHtQTA0RZytQ4FmJ2iH0KEoAvtE64MJ1qSZYPPH5Uzx/Yr2lRB3torh/nYDy
+	kddBDHdHBt2xNxUXWKBSu+I5p/po235JCaQUUbRSl3KWDOa5+cD+U66VzRnxu5DU
+	4nLqttrh/ktnlj8DR7ybgFFL469NtsWb9I5SMwy8bEZmERyCBgaNnOFrbu6dJJYG
+	PfDhF0dmO471+g4jGrxfcksVywhJbbBkm8z7zEPbzesGaMb3t/A4xQ9O45F4E31j
+	hg6ILcVf6No4fUnP3lGpYR+rOt8xRyufjJ+Yhgg4zBqSpvCK0UOltvTfPh5jYjpw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ba73vg4r7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 27 Dec 2025 04:24:09 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BR4O8vX027333;
+	Sat, 27 Dec 2025 04:24:08 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ba73vg4r6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 27 Dec 2025 04:24:08 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BQMjMa1005249;
+	Sat, 27 Dec 2025 04:24:08 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b67mkjgr0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 27 Dec 2025 04:24:08 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BR4O6Zl37945646
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 27 Dec 2025 04:24:06 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1C29220043;
+	Sat, 27 Dec 2025 04:24:06 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6E4EE20040;
+	Sat, 27 Dec 2025 04:24:03 +0000 (GMT)
+Received: from Linuxdev.ibmuc.com (unknown [9.124.212.100])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Sat, 27 Dec 2025 04:24:03 +0000 (GMT)
+From: Madhavan Srinivasan <maddy@linux.ibm.com>
+To: mpe@ellerman.id.au, npiggin@gmail.com, shuah@kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+        skhan@linuxfoundation.org, Christophe Leroy <chleroy@kernel.org>,
+        Gopi Krishna Menon <krishnagopi487@gmail.com>
+Subject: Re: [PATCH RESEND] selftests/powerpc/pmu/: Add check_extended_reg_test to .gitignore
+Date: Sat, 27 Dec 2025 09:54:02 +0530
+Message-ID: <176680916366.22434.4135136741244197220.b4-ty@linux.ibm.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20250922004439.2395-1-krishnagopi487@gmail.com>
+References: <20250922004439.2395-1-krishnagopi487@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 8MdMPsW4acrGCwy_kz-BY5H7ayiMWajr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI3MDAzNSBTYWx0ZWRfX55K3sAyBWSj6
+ ZmwLqmLCSUIz+0Ph5k/UARba5NwHuhK6fgXzvRy4FKqk/c+IXpTzzsc+EIe2EK3E1Apx6xsHCmA
+ JB+FBOYyXw8YTU45ZERwDkeIV6Vpudipuhfu9coDGA30K9wFgXUyYmPzZ4epKdcCUI7Gs6zXwwU
+ DweuEpNTVcMfqijchhGpBFjPnS551Wgro7TaQL/SLKFRC0pUkMtAwtc90yyiVsi0QiZIfQzRwBj
+ J75mq870VoC28rnr7U+MEcETq6XVTSEkC/kqKBgjMcqhy5rlMAKXrzWLRgka0UOgPcnaCubEGw5
+ c2GrNJvf8NYb8tGKvoFRoOnVi9X4WtZOkih2HGh5kK7dItO2KLAY0zxvSR4LZYW8PYr03fOYS2S
+ jl5Oyf7Wg/bDS9vtzpvpFwk0zSozQe8yO4frchSNbLZFSD8yej+fCb64/pZIMjtg5iFad0ZSJws
+ WTJKhQVhvsu1YReW7jg==
+X-Authority-Analysis: v=2.4 cv=fobRpV4f c=1 sm=1 tr=0 ts=694f5f69 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=gLboIuWc-4I6dfgw9HwA:9 a=QEXdDO2ut3YA:10 a=UzISIztuOb4A:10
+ a=zZCYzV9kfG8A:10
+X-Proofpoint-GUID: FmnG9omquVb8lvckOcda3mYZmBSOh5VN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-27_02,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 adultscore=0 malwarescore=0
+ spamscore=0 bulkscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2512270035
 
-Add a missing const to g_fbmode to fix a checkpatch warning:
-"static const char * array should probably be static const char * const"
+On Mon, 22 Sep 2025 06:11:23 +0530, Gopi Krishna Menon wrote:
+> Add the check_extended_reg_test binary to .gitignore to avoid accidentally
+> staging the build artifact.
+> 
+> 
 
-Signed-off-by: MottiKumar <mottikumarbabu@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to powerpc/fixes.
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index d100b9e1d3d5..7afb58561a0c 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -33,7 +33,7 @@
- static int g_hwcursor = 1;
- static int g_noaccel;
- static int g_nomtrr;
--static const char *g_fbmode[] = {NULL, NULL};
-+static const char * const g_fbmode[] = {NULL, NULL};
- static const char *g_def_fbmode = "1024x768-32@60";
- static char *g_settings;
- static int g_dualview;
--- 
-2.43.0
+[1/1] selftests/powerpc/pmu/: Add check_extended_reg_test to .gitignore
+      https://git.kernel.org/powerpc/c/42f53b39004f45a6091109176c62ba33cc52ff96
 
+cheers
