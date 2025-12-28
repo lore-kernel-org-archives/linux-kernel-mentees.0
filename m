@@ -1,138 +1,134 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DF723505E
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Dec 2025 12:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EBA2D7DF3
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Dec 2025 13:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766924761; cv=none; b=Hs07saqylVPd6SMuX62EFgVaQQxLDB2o5K3iTozt4tB1T3h2Zr3uwQQjWjkkYr3y6BXiSizLDxmuWEunbrN7oNTlhzaPl8FqM4eLnbK5tMLMqzK+qFX0usbW5jg9bhF4kkNQkxhL4D7zDHW6tGN7v19d9UFvyCK1LK8K3uGrA30=
+	t=1766926863; cv=none; b=dAD8g9HVxig4PHHG9pDa0X5SNNJAm6truq8c1767JwJyQ8WZ9JmlDbOUzoOUWXqYHhU+Ui/3lCD6c7xxzHnzsvHlnGjJLVWVDW6s7x6eJMXtAya6uUDjieCMsxG1hktu4yQxnqP627ka8CyQ6GpaADQnWndyaCcMy3yQ1uIldro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766924761; c=relaxed/simple;
-	bh=G4boSPsx+1D6wjYp5milfCokWQ5weUbdbMpukLYySAo=;
+	s=arc-20240116; t=1766926863; c=relaxed/simple;
+	bh=fz4fB8c3LX5ADF1KLg3YDwRVnUBMr+BnH2+yhoxJ2YA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YI7kB8RfBUdKnAhhXVEuAKp5HjV+yztY3dxA4H+FUR/a96wSjjl54CVJuvD7OQ1mSxuJUiKsroNijXbN88UzWqr/zUyuObQQO4geyOTwjAKzl4wPn4mWrv7r1bS0rEKG59nxfIEH8otEzU7t4NzpMYODlRBVCj08wOS69vpofuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f4SkQOTW; arc=none smtp.client-ip=209.85.222.52
+	 To:Cc:Content-Type; b=NwWH97HrdV/VXduPcnQbNdyi1ko6UPUkUyr0pOVpsx31NWuD8/G2S9++8IvLFbBwEktxSBAsZcPPqZ5ctYb6FI/SkB24RLPceEL++csaaXIaCQao+0cOGxc6vibk4der5HzvBswvYQQji9xcR3kOIwisAwTh4jrv5MAGygHwUlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eMXIO66I; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f4SkQOTW"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-94130b88642so5691304241.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Dec 2025 04:25:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMXIO66I"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5eae7bb8018so3246087137.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Dec 2025 05:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766924758; x=1767529558; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766926859; x=1767531659; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j+a1v114P45+IznmNMYx8GEEeFQqpPr7hAYNZbfcmeE=;
-        b=f4SkQOTWLg+UvCrfkYL89UvmMI2Zn3wNKN84e756BtQB+tyah+7kUZzdlkiqNSHj9a
-         CTKmS/HFQ52SzfnJI6gB5lSuB0z/X1ZA1guLh0i7CvDyVRQVDHZ8mXYtSTbeeP4hAGFV
-         NRePl3R1ZCoZjul0gplzxcm3RPEh5EzLY6CMI5LDLNW+YUWUbwPQ9MaWlNbwWKE0K/na
-         I3Rg19no+eV31B/3RfHhEFyt1Bmqb2InKgwDvMnnMS4XP1qepMfQY0zuJ6K5SSsul9NI
-         McPgbwTnQLjdrrkWJKWc4+R5tud8K+4lUrlNxUojeqmYCYKd1Nv5SjTgq1T9Ab7AwBQ8
-         5BdQ==
+        bh=MMlB4HkqDtdsbd8UCvJsDayybz1XaRYAS8E3HvSH/6Y=;
+        b=eMXIO66IEmHLY+o7dwshsiEfI1LbQTR9KRrSKAyBUrz2pzAGx7EBDOdkp2/p91Uq2z
+         20GEnn7dmiKK1+YnxWijEkIsyJVS6ROswGjh2/xnt3TYo7imOiSQ/OAQP3WMz3O2clzP
+         4NbrdHLHQSVht9xK12h+RStzzsncIhvvrC9lsVSJfXoZvc2BghDrbqCw8f0/zleW2bTF
+         oSqymMV/o5BQkao+vvfseoB0Geim640jfGM0nTErjH5Y1v64VKO8m5XzfzWStKNZXt5p
+         Xnw6E8KuPmX78gS4v6Jsio4lqN2t+/F/9T7cur/UBlObyH68R4UNZ0OOumcZDCHjsWzN
+         +gLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766924758; x=1767529558;
+        d=1e100.net; s=20230601; t=1766926859; x=1767531659;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=j+a1v114P45+IznmNMYx8GEEeFQqpPr7hAYNZbfcmeE=;
-        b=ZFLWlyGWbvpRDql9bBj5bds4/9Adz7KwitL4HGHOvFIcuT5f8wYPnZ5nCWzd4Zf0qf
-         qnN/0x08PTkxIS+vkNCTSipWZUSLI2eYfRn2JuCBV0V6m2wV6vubKp6hgU9H6PI26beE
-         BKh9tjzkXMSlyVBrd4yiGxQ0LnWg/LWUoe9YLDucQfz7E8Dju7QiYhBARrkVpn43sdIs
-         X8TVn0aJkY/EXoKlTAtTRmOv8q30N1KQNuWypVVaOcCXe1p2QzTDW4/KOrArheSCvSA5
-         D68QJIVjwMP3GrzlTEvDRNplvzKSLkMxqLx9L5nH4PwlP3phOvvhzXIa6+uN7xbYn4NW
-         M8yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXy9727z2mjmOvJUWv+7iJQfDo5ap1nMPeC79fndStTF6nQVojd07CNDO/urzP2uHpbvKbbqZcB5nWm3Fy5SAUobJfKsQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZrytvlByEkLw6UGLG9PH3kbfPVZMMpmZNzYBe9Am+j4lBi6+W
-	AFi4g8XztMq6NosJ8br1rNstWnTXofdVovBrXOBcz+9SSjtUw273dPr27/0ilRBBHEYpol5uDFP
-	zID8188kE3rX6mm8w5jg7jjA6e+pSUK0=
-X-Gm-Gg: AY/fxX46/iC9MBG/ubtW4LWF5wvLtiU1N4STWha/8KM/uGiuz2SvcsQtoP15iEzJQk4
-	xJLyZfuuhqRKV9yXcuYdp5aTBO+CQ/MBkcotiM2c4K9kw2pHz29HaTloLx6s/IyOsDqaYMIzwiA
-	N/t796IZZmrf44j9hcLWfusMD8yi3xVi2mBQUZ4eBshGY7DiCmalMTVSB6THm1PhTAtzy6jHW/T
-	QbWuH88rEBiLUoBSVoEWvDqcKeqgkNOgP2za4RqqkSS3xWLTG4QHAWNwcvLjIH3b7ZAf3upE8HH
-	WtjYYOICu1VS/9Fg1oheL3VL167Bc34C17fgGefsWWHSW+sKzcy6etNVvg==
-X-Google-Smtp-Source: AGHT+IH+84cyhwzRs97FLAAf2r8S5NDGBAdGmh1lgG7MxAKEttWsXtbWFaQRvJrCvF2s7/bpiJ9ZfVZPG6XaIksmQYM=
-X-Received: by 2002:a05:6102:2d05:b0:5df:c1ac:8ad4 with SMTP id
- ada2fe7eead31-5eb1a41d4eemr9551477137.0.1766924758388; Sun, 28 Dec 2025
- 04:25:58 -0800 (PST)
+        bh=MMlB4HkqDtdsbd8UCvJsDayybz1XaRYAS8E3HvSH/6Y=;
+        b=BCPJ7DOGadpTQUc9cpUD9h7H5qmz327Q2wyGrfuz0zpOyWytb5Bb11hMXp/myXAwB2
+         ams7VtzUHxQwmw2C0T+pij04PZx5UD+1F3CXw3QDP9upWBKi8iueIOSEh2AzvhjmJiF1
+         ILgw3Zh2WNMFJ2s20hv8/uehAxoIBCYqKUH9ByzOtMWraxtMqw0otEF6PQ6r/VHAUUZt
+         rHqrUURJfWTgeIavyDWwwd7YN1Si0kChXWJNINPWIAJaCY/R7m05xMy0gsdu/+hyKUzQ
+         J51elaSS/UDVPLOUhTjEPVOiRWnUaiyxxNbFqoYSGLq1X4UI7fp9KT6/msM+v4bVtEj4
+         8FYA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9f9zI2nTV/UH4hc6nGny0PdEEPBmVZiU4DJLn+Pwpc0Qy74W9dJ40vR+xFNdZirkGYISfl/fBv5IuErSz3XdJ44mYKw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFD29oUyzWygCPELHsVBY2jBZnJFKp6COCrLMPp+49QuZNyFI/
+	ZcGeyCB4ZSpOjj7lW9Ju3u7ycZmqEMwPi+iro6bnlomZ0wiaHCUyQU93ciHpgMUrJc8H5qsTWE/
+	KAbPYLt1pqKXBGcTFUy33W/rH3QjJUOs=
+X-Gm-Gg: AY/fxX4lMc+eAgYR2U0SvjZPK7n4RPAyPD7eeWYzCuHDX9mMTN9AcW0FzPkckvVRPUT
+	yUWU3Hm/+qfQdBUVDnctRd7r1lmpoocbztZtBlChLKC0HuYNLvQcl2lVA9Imnw3+UgmIYO4PP+b
+	Ynospzd8uRQZ9x0eBw/3GbCiskw2m9SScoilZIE9z8s7UqZujb8KGVIlP+j6ybIANQYPzQg09+9
+	wqYVot3cucHfMzKtR0ZzzMnZJG8mPRDLRN2kTJUUI2LXHAeyZvzGHgl/JH9TYCt83wBC9I77BaL
+	+7NgBi4IyPV8Q3m/D6/vuBZvw4ojRolgAbDqkVYwqUTxp0Gqj4m6vEE5kw==
+X-Google-Smtp-Source: AGHT+IFFTtcullLfa96LNQCWSwjtHzlb6Hh8bwjn7V4IIxPK5Fciwjwn9p54oxZzw8YYGJOtaKYbtanBaGeF85pw0eQ=
+X-Received: by 2002:a05:6102:d8c:b0:5db:fb4c:3a8f with SMTP id
+ ada2fe7eead31-5eb1a8429c0mr6504010137.39.1766926858777; Sun, 28 Dec 2025
+ 05:00:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251211181044.4098689-1-kubik.bartlomiej@gmail.com>
-In-Reply-To: <20251211181044.4098689-1-kubik.bartlomiej@gmail.com>
+References: <20251223215855.2486271-1-kubik.bartlomiej@gmail.com> <b09e6934-6924-4f9a-a866-82599fe64879@huawei.com>
+In-Reply-To: <b09e6934-6924-4f9a-a866-82599fe64879@huawei.com>
 From: =?UTF-8?Q?Bart=C5=82omiej_Kubik?= <kubik.bartlomiej@gmail.com>
-Date: Sun, 28 Dec 2025 13:25:46 +0100
-X-Gm-Features: AQt7F2olCrKb_Xm353XZx31KYSm38qC_y4hMqLe-E3cVNgsEcUfEuk9b7jKGnqE
-Message-ID: <CAPqLRf1ZN3PWg3mzy5zV_2wfdk76-No4frkx_LTJN4tcyou0GA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix kernel-doc warnings for vmwgfx_fence
-To: zack.rusin@broadcom.com
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org, 
-	david.hunter.linux@gmail.com, skhan@linuxfoundation.org, khalid@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, kernel test robot <lkp@intel.com>
+Date: Sun, 28 Dec 2025 14:00:46 +0100
+X-Gm-Features: AQt7F2prZvEoT0Nv_gEYMYL1GopFvS8Mdzq_tYpG4TelRR8HdL9Nkix5oYqVZAU
+Message-ID: <CAPqLRf224VcJJM1rmiJTnFXg+5tNeF4HC+AEBWpBpWZO6VxbiQ@mail.gmail.com>
+Subject: Re: [PATCH] fs/ext4: Initialize new folios before use
+To: Baokun Li <libaokun1@huawei.com>
+Cc: tytso@mit.edu, adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com, 
+	skhan@linuxfoundation.org, khalid@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, 
+	syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-I submitted this patch about two weeks ago but haven't received any
-feedback yet.
-I wanted to check if there are any concerns with the patch or if any
-changes are needed.
+Thank you for your suggestions.
 
-Please let me know if you need any additional information.
+On Wed, 24 Dec 2025 at 02:39, Baokun Li <libaokun1@huawei.com> wrote:
+>
+> Hi Bartlomiej,
+>
+> On 2025-12-24 05:58, Bartlomiej Kubik wrote:
+> > KMSAN reports an uninitialized value in adiantum_crypt, created at
+> > write_begin_get_folio(). New folios are allocated with the FGP_CREAT
+> > flag and may be returned uninitialized. These uninitialized folios are
+> > then used without proper initialization.
+> >
+> > Fixes: b799474b9aeb ("mm/pagemap: add write_begin_get_folio() helper fu=
+nction")
+> > Tested-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
+> > Reported-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3D703d8a2cd20971854b06
+> >
+> > Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
+> > ---
+> >  include/linux/pagemap.h | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> > index 31a848485ad9..31bbc8299e08 100644
+> > --- a/include/linux/pagemap.h
+> > +++ b/include/linux/pagemap.h
+> > @@ -787,7 +787,8 @@ static inline struct folio *write_begin_get_folio(c=
+onst struct kiocb *iocb,
+> >                  fgp_flags |=3D FGP_DONTCACHE;
+> >
+> >          return __filemap_get_folio(mapping, index, fgp_flags,
+> > -                                   mapping_gfp_mask(mapping));
+> > +                             mapping_gfp_mask(mapping)|
+> > +                             __GFP_ZERO);
+> We do need to perform some initialization, but doing it in this common
+> path is clearly unreasonable. It would introduce unnecessary zeroing
+> overhead even for non-crypto scenarios.
+
+Yes. That could introduce unnecessary zeroing in other paths.
+
+> Therefore, I suspect something was missed in certain crypto-related
+> initialization paths where the zeroing should have been handled instead.
+
+I will try to fix this in the crypto-path only and send [PATCH v2].
+
+>
+> Cheers,
+> Baokun
+>
 
 Best regards
 Bart=C5=82omiej Kubik
-
-On Thu, 11 Dec 2025 at 19:11, Bartlomiej Kubik
-<kubik.bartlomiej@gmail.com> wrote:
->
-> Add missing descriptions for vmw_event_fence_action_seq_passed.
->
-> This fixes the following warnings:
-> drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'f'
->         not described in 'vmw_event_fence_action_seq_passed'
-> drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'cb'
->         not described in 'vmw_event_fence_action_seq_passed'
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202507040807.jKTxWGVQ-lkp@i=
-ntel.com/
->
-> Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwg=
-fx/vmwgfx_fence.c
-> index 00be92da5509..85795082fef9 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-> @@ -515,12 +515,12 @@ int vmw_fence_obj_unref_ioctl(struct drm_device *de=
-v, void *data,
->  /**
->   * vmw_event_fence_action_seq_passed
->   *
-> - * @action: The struct vmw_fence_action embedded in a struct
-> - * vmw_event_fence_action.
-> + * @f: The struct dma_fence which provides timestamp for the action even=
-t
-> + * @cb: The struct dma_fence_cb callback for the action event.
->   *
-> - * This function is called when the seqno of the fence where @action is
-> - * attached has passed. It queues the event on the submitter's event lis=
-t.
-> - * This function is always called from atomic context.
-> + * This function is called when the seqno of the fence has passed
-> + * and it is always called from atomic context.
-> + * It queues the event on the submitter's event list.
->   */
->  static void vmw_event_fence_action_seq_passed(struct dma_fence *f,
->                                               struct dma_fence_cb *cb)
-> --
-> 2.39.5
->
