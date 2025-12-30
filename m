@@ -1,104 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E7A259C80;
-	Sun, 28 Dec 2025 20:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9621B2F12C3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Dec 2025 07:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766952571; cv=none; b=o8L3gU0YT5eROpJYWX73ELSXqzMh/Z45EZ/6aMp1CNDO28cn2+FhW4im3mP2dGCyrbou6wjoK4FyJP5pK4zZP1gbAxX7GRobTELPJQQ+1Ugjex/qT7IzzeUSM3+KqHpbuAOENtkZOGu/jhf7EyfbDy88k1aO7RQMZ5QruyTU76I=
+	t=1767080536; cv=none; b=TZ1J60qQwHIc6ICLjCGeGBWyIlUFJpRX5yczJxo3kRzSMspsP/IUKraz8nbuI/dKddIYfjlfMQXA7OV53u+PkedwKZU4rxtj3Yd5IssSLj1mVhRbMWUb1psECnc2Ynl/0cldQVyUGQakV88OTtR3ttRk4B9CFMSGaHRxE0Prm/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766952571; c=relaxed/simple;
-	bh=TC2nm0EhZWtdnkSETSKNleBF05kbN3asFscul2p8WN8=;
+	s=arc-20240116; t=1767080536; c=relaxed/simple;
+	bh=EK7xRaZTeENFTZbLetkczIs6qxysFgja/Qink8l/jt4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MjqrdQb5GNotvmsEZNJrButeWd+ErNf/52ulJiZGH7/3ThR+Dm6LfN4+d/c1wpxBscQoHV209oNZgKhRbnBXhqfa9DXBk5uADS/lpBA6w5ECFV99rvQ6ree3+H+By8mMzGwWjNv0n18RQmcDe3wD8SRwatO8UMMe0/XBZ22VDzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXPaTvIN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AA87oeEDo8Wma05wJmF5iTCDBELAEh4OBub84F+Q61ErWmg6t6KsePhp34V/QMkoyCvUNmQFBIBA5cYa6puBc29giRQr0zu3OSrbyu8aCPMYDg8caaABIjvpv+zY0TBEzqDlhm8XQte76Bao0ABpJd4hVaUmkkD9Fw9yIhIMoXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MhwTzcoh; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXPaTvIN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AFE1C4CEFB;
-	Sun, 28 Dec 2025 20:09:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766952570;
-	bh=TC2nm0EhZWtdnkSETSKNleBF05kbN3asFscul2p8WN8=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MhwTzcoh"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2B455606EF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Dec 2025 07:42:15 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id xgMSa8mYFK7p for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Dec 2025 07:42:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6C8EA606E3
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6C8EA606E3
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=MhwTzcoh
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6C8EA606E3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Dec 2025 07:42:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id E776F6000A;
+	Tue, 30 Dec 2025 07:42:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44671C4CEFB;
+	Tue, 30 Dec 2025 07:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1767080532;
+	bh=EK7xRaZTeENFTZbLetkczIs6qxysFgja/Qink8l/jt4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UXPaTvINu3EknPTKxdMpWC0hBqOePkr9OIhuJyn1qQb/ezBXophP9XP2zv4oaesAI
-	 gM1nSo+rQMHccr3tdsZJPtfGM3SddO6jxH40ThdJMreRObeVJUOwyIBXhklL5qsepX
-	 IZ/dJ6Y+MgoJn/UJ03u5tdxc6AtzuPCCQL9u5AJ3PWZ3YUC/E0caMKBJ8LttN07LGm
-	 BllX/i5alEQBcpha+mirp7ERZmXIQgZrv1b/+BQOnQsTDS8ImU89/M+yqRRm/PxJtr
-	 aTDc2yG3Hf2qEDMFSRt5n4QQ6/MzeWg7gzBmQ9tYAXEjy7WEYNl67QdV9FtHir/5it
-	 qVNaLNbXz0vLQ==
-Date: Sun, 28 Dec 2025 12:09:28 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: =?utf-8?Q?Bart=C5=82omiej?= Kubik <kubik.bartlomiej@gmail.com>
-Cc: Baokun Li <libaokun1@huawei.com>, tytso@mit.edu,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david.hunter.linux@gmail.com,
-	skhan@linuxfoundation.org, khalid@kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fs/ext4: Initialize new folios before use
-Message-ID: <20251228200928.GA2431@quark>
-References: <20251223215855.2486271-1-kubik.bartlomiej@gmail.com>
- <b09e6934-6924-4f9a-a866-82599fe64879@huawei.com>
- <CAPqLRf224VcJJM1rmiJTnFXg+5tNeF4HC+AEBWpBpWZO6VxbiQ@mail.gmail.com>
+	b=MhwTzcohTSocPm75jgLItw43vuH3dzgTlCHz7suPZbMBazLu1BNDEwgKyiIdbE4Sb
+	 CW+nsjiTBs0srsco+0dUuImyZHhY+47oiQjeD/3qsvBVTVVC/cf/F8h+WOxQ4gCPx9
+	 92DErX35cAj64jVJQIB+d1L8azFPjpz6+NA0Vglg=
+Date: Tue, 30 Dec 2025 08:42:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: MottiKumar <mottikumarbabu@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix const array warning
+Message-ID: <2025123055-procurer-prodigal-27b6@gregkh>
+References: <20251226120417.2599020-1-mottikumarbabu@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPqLRf224VcJJM1rmiJTnFXg+5tNeF4HC+AEBWpBpWZO6VxbiQ@mail.gmail.com>
+In-Reply-To: <20251226120417.2599020-1-mottikumarbabu@gmail.com>
 
-On Sun, Dec 28, 2025 at 02:00:46PM +0100, Bartłomiej Kubik wrote:
-> Hi,
+On Fri, Dec 26, 2025 at 05:34:17PM +0530, MottiKumar wrote:
+> Add a missing const to g_fbmode to fix a checkpatch warning:
+> "static const char * array should probably be static const char * const"
 > 
-> Thank you for your suggestions.
+> Signed-off-by: MottiKumar <mottikumarbabu@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> On Wed, 24 Dec 2025 at 02:39, Baokun Li <libaokun1@huawei.com> wrote:
-> >
-> > Hi Bartlomiej,
-> >
-> > On 2025-12-24 05:58, Bartlomiej Kubik wrote:
-> > > KMSAN reports an uninitialized value in adiantum_crypt, created at
-> > > write_begin_get_folio(). New folios are allocated with the FGP_CREAT
-> > > flag and may be returned uninitialized. These uninitialized folios are
-> > > then used without proper initialization.
-> > >
-> > > Fixes: b799474b9aeb ("mm/pagemap: add write_begin_get_folio() helper function")
-> > > Tested-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
-> > > Reported-by: syzbot+703d8a2cd20971854b06@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=703d8a2cd20971854b06
-> > >
-> > > Signed-off-by: Bartlomiej Kubik <kubik.bartlomiej@gmail.com>
-> > > ---
-> > >  include/linux/pagemap.h | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> > > index 31a848485ad9..31bbc8299e08 100644
-> > > --- a/include/linux/pagemap.h
-> > > +++ b/include/linux/pagemap.h
-> > > @@ -787,7 +787,8 @@ static inline struct folio *write_begin_get_folio(const struct kiocb *iocb,
-> > >                  fgp_flags |= FGP_DONTCACHE;
-> > >
-> > >          return __filemap_get_folio(mapping, index, fgp_flags,
-> > > -                                   mapping_gfp_mask(mapping));
-> > > +                             mapping_gfp_mask(mapping)|
-> > > +                             __GFP_ZERO);
-> > We do need to perform some initialization, but doing it in this common
-> > path is clearly unreasonable. It would introduce unnecessary zeroing
-> > overhead even for non-crypto scenarios.
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index d100b9e1d3d5..7afb58561a0c 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>  static int g_hwcursor = 1;
+>  static int g_noaccel;
+>  static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>  static const char *g_def_fbmode = "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview;
+> -- 
+> 2.43.0
 > 
-> Yes. That could introduce unnecessary zeroing in other paths.
 > 
-> > Therefore, I suspect something was missed in certain crypto-related
-> > initialization paths where the zeroing should have been handled instead.
-> 
-> I will try to fix this in the crypto-path only and send [PATCH v2].
 
-Please see https://lore.kernel.org/linux-ext4/20251210022202.GB4128@sol/
-for my earlier analysis of this issue.
+Did you test build this change?  If not, please do so.
 
-- Eric
+thanks,
+
+greg k-h
