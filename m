@@ -1,110 +1,281 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EAF32571C
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 10:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A213932E753
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 12:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767694933; cv=none; b=g8KIPFUTiobLwzFGc00lJYvK5SbVBMLqp2A/jjwolmEfV6cDsS8U+ZH7aao8iSkVIyFM04n78WFuqINm1lVpnpX+8XFQDLaYixIV1q8Tu0Nc03KqI3z8KvQzwIBusu9C5r5kwMg6Kq+rat2JQPSqX9Lzpvtweovl8DmFVMu/2gA=
+	t=1767701300; cv=none; b=C1gPA+bfoJKkshDLQEyTNhPxZP4seC/N25+qwzl84qhAHEqxQ7SJad63gpbP7mn0eLc/rr+HEvZ8bEEko/qmj7VLfaGFxe217TURmL0MBn8mDKvQHeJK3f34idRKoTofWQzdZqm30A1aWGrLRbWfmpeNjQzBzmchQ1nSqWOOBiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767694933; c=relaxed/simple;
-	bh=Qb6WoV9Vb+9ivg8YiGHYmDmhRSLCLFqNAxPn2UOFfRk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=CatLGcAz2+yldUFWMnNwTNpzl2atlHJ3zblM1sR8/0+YzGJBGBqfIL/RELJ2trDbRfkkoECmRo6eSgKocVk8cJvxXTyX7K2xI19UPhhA1BXYtK0NSuX3GPUnM1nQdO/xj5ORZ5pRvhKU6vb+adADNc2mIQ38DqLNuc5RckATYcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 606ALgNX054401;
-	Tue, 6 Jan 2026 19:21:42 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 606ALgkU054395
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 6 Jan 2026 19:21:42 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <75fd5e4a-65af-48b1-a739-c9eb04bc72c5@I-love.SAKURA.ne.jp>
-Date: Tue, 6 Jan 2026 19:21:39 +0900
+	s=arc-20240116; t=1767701300; c=relaxed/simple;
+	bh=+W/OG9hSv3ZdaiIFx2ZpwlIdZsOkYGpeJXZF1X1V3+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s+9PHKaHbi2El/Tqg6bRRTa0TwlfPIc9wmEqfPEcqENVxb8ofOOx8lbVQ8IV6t/IM5urs4uQrchukzPNex/pBljdP6lWTWNV2da6tlom7FTqG4P9+RDZNanmCktMwMwg2PcwQ9r1ZHfv8nDo5GIprC9IWsww/OHvh2ZuN8PF8L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fe9Z2NWA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YkbW0vVG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wFCpSPli; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LIFBKhQF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fe9Z2NWA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YkbW0vVG";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wFCpSPli";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LIFBKhQF"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D1CD85BCC3;
+	Tue,  6 Jan 2026 12:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767701297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
+	b=fe9Z2NWAadywFeBjd2IpCMk8RCagykfjdjc/AfNW1+7rdwU7nYxsZC7djSDiouqAmX672g
+	RJ9RkV29Q3bxKEPOnrYIyFCbI7GDYwtW4GWMkyFQBrRUiROVHYvhch0bXqTshY8+0QONJw
+	Iq8R6rquXRenIBiRzJMXYOQEnQcTxyA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767701297;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
+	b=YkbW0vVG+zf3ayLD0ZMJQbiR0mAYPuWDz9gPSJuMTm5s/whViZvjF2jc6E27isCCP4UcbJ
+	ABL6+vtAVpLQvaBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767701296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
+	b=wFCpSPliOOlIkaq84Y+iFsTSmAsOEBPObh539cyGNkpus+0rW+4bSKcxfPqao7/NmGtVcf
+	O85heE6H1mjbVB9n2YSvVOOVl+R9vdSxB1op+u/idivMJm1uTHlXoADPvpnuFFGuya0vfP
+	3SWRFykmrPTcEz0oeNADAor9S/6zp0M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767701296;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
+	b=LIFBKhQF43KFjbcYQVoLbyW0VbRI2fcLhNdGzbXjX05C+K4TgXqCWwGEnq03FygvXEN/YS
+	XoBtbSW4hSPMkPBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C56313EA63;
+	Tue,  6 Jan 2026 12:08:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7tcpMDD7XGlwdQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 06 Jan 2026 12:08:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 852A9A08E3; Tue,  6 Jan 2026 13:08:16 +0100 (CET)
+Date: Tue, 6 Jan 2026 13:08:16 +0100
+From: Jan Kara <jack@suse.cz>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: axboe@kernel.dk, jack@suse.cz, 
+	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, Yongpeng Yang <yangyongpeng@xiaomi.com>
+Subject: Re: [PATCH v2] loop: don't change loop device under exclusive opener
+ in loop_set_status
+Message-ID: <f45muigy6nwxtbfbxidbqyru73qtntuqfby6lgnt32c6eyyov6@eg2mbf6pncq6>
+References: <2crvwmytxw5splvtauxdq6o3dt4rnnzuy22vcub45rjk354alr@6m66k3ucoics>
+ <20251217190040.490204-2-rpthibeault@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: George Anthony Vernon <contact@gvernon.com>,
-        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "slava@dubeyko.com" <slava@dubeyko.com>,
-        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "linux-kernel-mentees@lists.linux.dev"
- <linux-kernel-mentees@lists.linux.dev>,
-        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
- <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
- <20251104014738.131872-3-contact@gvernon.com>
- <df9ed36b-ec8a-45e6-bff2-33a97ad3162c@I-love.SAKURA.ne.jp>
- <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
- <aSTuaUFnXzoQeIpv@Bertha>
- <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251217190040.490204-2-rpthibeault@gmail.com>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.cz:email,syzkaller.appspot.com:url]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
 
-On 2025/11/30 19:07, Tetsuo Handa wrote:
-> On 2025/11/25 8:46, George Anthony Vernon wrote:
->> On Tue, Nov 11, 2025 at 10:42:09PM +0000, Viacheslav Dubeyko wrote:
->>> On Tue, 2025-11-11 at 23:39 +0900, Tetsuo Handa wrote:
->>>> On 2025/11/04 10:47, George Anthony Vernon wrote:
->>>>> +	if (!is_valid_cnid(inode->i_ino,
->>>>> +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
->>>>> +		BUG();
->>>>
->>>> Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?
->>>> If no, this check is racy because make_bad_inode() makes S_ISDIR(inode->i_mode) == false.
->>>>  
->>>
->>> Any inode should be completely created before any hfs_write_inode() call can
->>> happen. So, I don't see how hfs_write_inode() and make_bad_inode() could run in
->>> parallel.
->>>
->>
->> Could we not read the same inode a second time, during the execution of
->> hfs_write_inode()?
->>
->> Then I believe we could hit make_bad_inode() in hfs_read_inode() once we
->> had already entered hfs_write_inode(), and so test a cnid against the
->> wrong i_mode.
->>
+On Wed 17-12-25 14:00:40, Raphael Pinsonneault-Thibeault wrote:
+> loop_set_status() is allowed to change the loop device while there
+> are other openers of the device, even exclusive ones.
 > 
-> My "Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?"
-> question does not assume "make_bad_inode() for HFS is called from only hfs_read_inode()".
-
-In a different thread, it turned out that make_bad_inode() must not be called
-once the inode is fully visible
-( https://lkml.kernel.org/r/wqkxevwtev5p77czk2com5zvbbwcpxxeucrt7zbgjciqxjyivx@c7624klburuh ),
-requiring "make_bad_inode() for HFS is called from only hfs_read_inode()" assumption being true.
-
-When can we expect next version of this patch?
-
+> In this case, it causes a KASAN: slab-out-of-bounds Read in
+> ext4_search_dir(), since when looking for an entry in an inlined
+> directory, e_value_offs is changed underneath the filesystem by
+> loop_set_status().
 > 
-> write_inode() already checks for !is_bad_inode(inode) before calling
-> filesystem's write_inode callback
-> ( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/fs-writeback.c#L1558 ).
+> Fix the problem by forbidding loop_set_status() from modifying the loop
+> device while there are exclusive openers of the device. This is similar
+> to the fix in loop_configure() by commit 33ec3e53e7b1 ("loop: Don't
+> change loop device under exclusive opener") alongside commit ecbe6bc0003b
+> ("block: use bd_prepare_to_claim directly in the loop driver").
 > 
-> If the reason for "ubifs is doing it in the ubifs_write_inode()" 
-> ( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/ubifs/super.c#L299 ) is
-> that make_bad_inode() could be called at any moment, it is not safe for HFS to
-> depend on "inode->i_mode does not change during hfs_write_inode()".
-> 
+> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
+> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
+> Tested-by: Yongpeng Yang <yangyongpeng@xiaomi.com>
+> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+> Reviewed-by: Jan Kara <jack@suse.cz>
 
+Jens, ping?
+
+								Honza
+
+> ---
+> v2:
+> - added Tested-by and Reviewed-by tags for v1
+> 
+>  drivers/block/loop.c | 41 ++++++++++++++++++++++++++++++-----------
+>  1 file changed, 30 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> index 053a086d547e..756ee682e767 100644
+> --- a/drivers/block/loop.c
+> +++ b/drivers/block/loop.c
+> @@ -1222,13 +1222,24 @@ static int loop_clr_fd(struct loop_device *lo)
+>  }
+>  
+>  static int
+> -loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
+> +loop_set_status(struct loop_device *lo, blk_mode_t mode,
+> +		struct block_device *bdev, const struct loop_info64 *info)
+>  {
+>  	int err;
+>  	bool partscan = false;
+>  	bool size_changed = false;
+>  	unsigned int memflags;
+>  
+> +	/*
+> +	 * If we don't hold exclusive handle for the device, upgrade to it
+> +	 * here to avoid changing device under exclusive owner.
+> +	 */
+> +	if (!(mode & BLK_OPEN_EXCL)) {
+> +		err = bd_prepare_to_claim(bdev, loop_set_status, NULL);
+> +		if (err)
+> +			goto out_reread_partitions;
+> +	}
+> +
+>  	err = mutex_lock_killable(&lo->lo_mutex);
+>  	if (err)
+>  		return err;
+> @@ -1270,6 +1281,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
+>  	}
+>  out_unlock:
+>  	mutex_unlock(&lo->lo_mutex);
+> +	if (!(mode & BLK_OPEN_EXCL))
+> +		bd_abort_claiming(bdev, loop_set_status);
+> +out_reread_partitions:
+>  	if (partscan)
+>  		loop_reread_partitions(lo);
+>  
+> @@ -1349,7 +1363,9 @@ loop_info64_to_old(const struct loop_info64 *info64, struct loop_info *info)
+>  }
+>  
+>  static int
+> -loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
+> +loop_set_status_old(struct loop_device *lo, blk_mode_t mode,
+> +		    struct block_device *bdev,
+> +		    const struct loop_info __user *arg)
+>  {
+>  	struct loop_info info;
+>  	struct loop_info64 info64;
+> @@ -1357,17 +1373,19 @@ loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
+>  	if (copy_from_user(&info, arg, sizeof (struct loop_info)))
+>  		return -EFAULT;
+>  	loop_info64_from_old(&info, &info64);
+> -	return loop_set_status(lo, &info64);
+> +	return loop_set_status(lo, mode, bdev, &info64);
+>  }
+>  
+>  static int
+> -loop_set_status64(struct loop_device *lo, const struct loop_info64 __user *arg)
+> +loop_set_status64(struct loop_device *lo, blk_mode_t mode,
+> +		  struct block_device *bdev,
+> +		  const struct loop_info64 __user *arg)
+>  {
+>  	struct loop_info64 info64;
+>  
+>  	if (copy_from_user(&info64, arg, sizeof (struct loop_info64)))
+>  		return -EFAULT;
+> -	return loop_set_status(lo, &info64);
+> +	return loop_set_status(lo, mode, bdev, &info64);
+>  }
+>  
+>  static int
+> @@ -1546,14 +1564,14 @@ static int lo_ioctl(struct block_device *bdev, blk_mode_t mode,
+>  	case LOOP_SET_STATUS:
+>  		err = -EPERM;
+>  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
+> -			err = loop_set_status_old(lo, argp);
+> +			err = loop_set_status_old(lo, mode, bdev, argp);
+>  		break;
+>  	case LOOP_GET_STATUS:
+>  		return loop_get_status_old(lo, argp);
+>  	case LOOP_SET_STATUS64:
+>  		err = -EPERM;
+>  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
+> -			err = loop_set_status64(lo, argp);
+> +			err = loop_set_status64(lo, mode, bdev, argp);
+>  		break;
+>  	case LOOP_GET_STATUS64:
+>  		return loop_get_status64(lo, argp);
+> @@ -1647,8 +1665,9 @@ loop_info64_to_compat(const struct loop_info64 *info64,
+>  }
+>  
+>  static int
+> -loop_set_status_compat(struct loop_device *lo,
+> -		       const struct compat_loop_info __user *arg)
+> +loop_set_status_compat(struct loop_device *lo, blk_mode_t mode,
+> +		    struct block_device *bdev,
+> +		    const struct compat_loop_info __user *arg)
+>  {
+>  	struct loop_info64 info64;
+>  	int ret;
+> @@ -1656,7 +1675,7 @@ loop_set_status_compat(struct loop_device *lo,
+>  	ret = loop_info64_from_compat(arg, &info64);
+>  	if (ret < 0)
+>  		return ret;
+> -	return loop_set_status(lo, &info64);
+> +	return loop_set_status(lo, mode, bdev, &info64);
+>  }
+>  
+>  static int
+> @@ -1682,7 +1701,7 @@ static int lo_compat_ioctl(struct block_device *bdev, blk_mode_t mode,
+>  
+>  	switch(cmd) {
+>  	case LOOP_SET_STATUS:
+> -		err = loop_set_status_compat(lo,
+> +		err = loop_set_status_compat(lo, mode, bdev,
+>  			     (const struct compat_loop_info __user *)arg);
+>  		break;
+>  	case LOOP_GET_STATUS:
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
