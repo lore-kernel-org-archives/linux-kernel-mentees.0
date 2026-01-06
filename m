@@ -1,281 +1,104 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A213932E753
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 12:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185AF23EA86
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 12:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767701300; cv=none; b=C1gPA+bfoJKkshDLQEyTNhPxZP4seC/N25+qwzl84qhAHEqxQ7SJad63gpbP7mn0eLc/rr+HEvZ8bEEko/qmj7VLfaGFxe217TURmL0MBn8mDKvQHeJK3f34idRKoTofWQzdZqm30A1aWGrLRbWfmpeNjQzBzmchQ1nSqWOOBiI=
+	t=1767702552; cv=none; b=Xb+CyZm9OpvVqXOrWDLWD9n44A3hI1385jretkvz6r7qKtxdl+QOdwRGWAMTvpnxT8R1xUyXvGo5IZBzkJyekguFt2haMp212XoccSvIDddtPqDMlBtu7ccCYYvUSPPttCzRpglCuGWKopCTB3lll7YkE+IbUs3/WZrMb4NQyE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767701300; c=relaxed/simple;
-	bh=+W/OG9hSv3ZdaiIFx2ZpwlIdZsOkYGpeJXZF1X1V3+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s+9PHKaHbi2El/Tqg6bRRTa0TwlfPIc9wmEqfPEcqENVxb8ofOOx8lbVQ8IV6t/IM5urs4uQrchukzPNex/pBljdP6lWTWNV2da6tlom7FTqG4P9+RDZNanmCktMwMwg2PcwQ9r1ZHfv8nDo5GIprC9IWsww/OHvh2ZuN8PF8L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fe9Z2NWA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YkbW0vVG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wFCpSPli; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=LIFBKhQF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1767702552; c=relaxed/simple;
+	bh=wXZzH27gnUDagNl5a0ME5KVazZHyReqGn/kmzzyAPc4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=c8Ot7rS868hi/RC3FfRkZN71wF3djHBxrtJFhVGSduYG4Zt8E/6RR0hUJx+xjWfyYSn4H9CQGrJyN5ABognahIOYq3Kp/NmZ3ZvLL+Q6buqN18Xc4zFzsdklqSmSuY38KwOB/YBKw1epoA4VNfwAkp4qao0FUIISaBdc72x33BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sfngdJbq; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fe9Z2NWA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YkbW0vVG";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wFCpSPli";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="LIFBKhQF"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D1CD85BCC3;
-	Tue,  6 Jan 2026 12:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767701297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
-	b=fe9Z2NWAadywFeBjd2IpCMk8RCagykfjdjc/AfNW1+7rdwU7nYxsZC7djSDiouqAmX672g
-	RJ9RkV29Q3bxKEPOnrYIyFCbI7GDYwtW4GWMkyFQBrRUiROVHYvhch0bXqTshY8+0QONJw
-	Iq8R6rquXRenIBiRzJMXYOQEnQcTxyA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767701297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
-	b=YkbW0vVG+zf3ayLD0ZMJQbiR0mAYPuWDz9gPSJuMTm5s/whViZvjF2jc6E27isCCP4UcbJ
-	ABL6+vtAVpLQvaBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767701296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
-	b=wFCpSPliOOlIkaq84Y+iFsTSmAsOEBPObh539cyGNkpus+0rW+4bSKcxfPqao7/NmGtVcf
-	O85heE6H1mjbVB9n2YSvVOOVl+R9vdSxB1op+u/idivMJm1uTHlXoADPvpnuFFGuya0vfP
-	3SWRFykmrPTcEz0oeNADAor9S/6zp0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767701296;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+U6IdZ4NJ2OtMuGntNzqapcSRZ/FVDdE3xGkF515WKQ=;
-	b=LIFBKhQF43KFjbcYQVoLbyW0VbRI2fcLhNdGzbXjX05C+K4TgXqCWwGEnq03FygvXEN/YS
-	XoBtbSW4hSPMkPBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C56313EA63;
-	Tue,  6 Jan 2026 12:08:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7tcpMDD7XGlwdQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 06 Jan 2026 12:08:16 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 852A9A08E3; Tue,  6 Jan 2026 13:08:16 +0100 (CET)
-Date: Tue, 6 Jan 2026 13:08:16 +0100
-From: Jan Kara <jack@suse.cz>
-To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-Cc: axboe@kernel.dk, jack@suse.cz, 
-	syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, Yongpeng Yang <yangyongpeng@xiaomi.com>
-Subject: Re: [PATCH v2] loop: don't change loop device under exclusive opener
- in loop_set_status
-Message-ID: <f45muigy6nwxtbfbxidbqyru73qtntuqfby6lgnt32c6eyyov6@eg2mbf6pncq6>
-References: <2crvwmytxw5splvtauxdq6o3dt4rnnzuy22vcub45rjk354alr@6m66k3ucoics>
- <20251217190040.490204-2-rpthibeault@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sfngdJbq"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4792bd2c290so9400255e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 Jan 2026 04:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1767702549; x=1768307349; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/pZdwAP/wq9kuKKVzLJ5M0q6p8KUwTZW9kKk5Fbt3zQ=;
+        b=sfngdJbqdrnfO2IMm9SYPI1fLAV/OiBuWQLQgMcP0J/WMyiNs7Iq3BkrUww6xaWumS
+         MF207PlEokRinFIUiMzHkDnwXxbUC9HUxquLzOS3MYia3mAavY9svSYmpcacymLv6PKO
+         w/Q4i6iV4QUkQW5Yyplh3ilADs8z6OeXqxZuN5z9hOEA9Np8CaLmoIWvEm8bzgNm3dTu
+         JZkDr4/GGsyVtmXFAeJpmwuqYT8W6z3/c6Lx26iGkW4L4DCH3CoHsVpHJaeWhn891vgj
+         K+Fj6p+rI+yZ9qRNtaS8+Vz3L/NB6pF9DWs77TqKubZKqmCSTmb5E/0LHkUB0pSYJ7zD
+         4FFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767702549; x=1768307349;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/pZdwAP/wq9kuKKVzLJ5M0q6p8KUwTZW9kKk5Fbt3zQ=;
+        b=vWK06CxoORTcapuQDImUmZ9psZ95OUA71Rnui2wL9gPUqeUQQdytQiTBRpLDiQCXY3
+         de7NmqLibaxJLEQAeKOHw3aGPDlp725oQCwv2CFwS8mZ8jK8DEFIo81a91ShMeSz0fAC
+         xbu9Krma2vqgcTpzW4pLsJHFfMf2uECR4DH/Da3WNdGWjd3nCnYBKFwjLlPUxpyth4OG
+         OqSyH/GP9FJKF+W7LkNOOoADXaoIf8LUKedXW5iv7jOq0FbZOcTJrIxMH9KYgJMCkJKN
+         pIjDU0tuxmyV/al7IhXORvG474tE9Jn5wrDJDloaCP3S0PErrtvwDiwAbt1aSZ8tkuc0
+         4/Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVNi1zwmH9j9OLu5ztVzhF45W+kCt5v+2wnU4o/Wzq9IIHx7Zzgwbbbz1O8y8eNmymwawiF1iKnOfLO4vfuuNsrc3G8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YynHgJtmuE59PdAQ+cfNAZvqG3LJzXfXFRpLUXpezUhI+OeB8Km
+	/X+Rw51O3CwVhP9mmSUpLyW5+2c3t2v4ksViQBQjbbLzYzz1j4wZm7bKc1C08IfdaieQjWJR3sz
+	Ycccv2HWn3rnYbQ==
+X-Google-Smtp-Source: AGHT+IGDb5uS6PkHdgGZm/vN+neaeuomXNsUF5fH4vDNKaBbgCTUgMqpCF8VtoYm6kaWCOvj+sJGU4W9OTyeoQ==
+X-Received: from wmoo8-n1.prod.google.com ([2002:a05:600d:108:10b0:479:36b0:ff54])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3b27:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-47d7f062feamr32360515e9.1.1767702549472;
+ Tue, 06 Jan 2026 04:29:09 -0800 (PST)
+Date: Tue, 06 Jan 2026 12:29:08 +0000
+In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251217190040.490204-2-rpthibeault@gmail.com>
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[3ee481e21fd75e14c397];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.cz:email,syzkaller.appspot.com:url]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
+Mime-Version: 1.0
+References: <20250830163949.20952-1-reddybalavignesh9979@gmail.com> <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+X-Mailer: aerc 0.21.0
+Message-ID: <DFHI984SEFV3.2JL88CLHNT2SO@google.com>
+Subject: Re: [PATCH v3] selftests: complete kselftest include centralization
+From: Brendan Jackman <jackmanb@google.com>
+To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, <akpm@linux-foundation.org>, 
+	<shuah@kernel.org>, <richard.weiyang@gmail.com>
+Cc: <david.shane.hunter@gmail.com>, <khalid@kernel.org>, 
+	<Liam.Howlett@oracle.com>, <davem@davemloft.net>, <david@redhat.com>, 
+	<edumazet@google.com>, <gnoack@google.com>, <horms@kernel.org>, 
+	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>, 
+	<linux-security-module@vger.kernel.org>, <lorenzo.stoakes@oracle.com>, 
+	<mhocko@suse.com>, <mic@digikod.net>, <ming.lei@redhat.com>, 
+	<pabeni@redhat.com>, <surenb@google.com>, <vbabka@suse.cz>, 
+	<linux-kernel-mentees@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 17-12-25 14:00:40, Raphael Pinsonneault-Thibeault wrote:
-> loop_set_status() is allowed to change the loop device while there
-> are other openers of the device, even exclusive ones.
-> 
-> In this case, it causes a KASAN: slab-out-of-bounds Read in
-> ext4_search_dir(), since when looking for an entry in an inlined
-> directory, e_value_offs is changed underneath the filesystem by
-> loop_set_status().
-> 
-> Fix the problem by forbidding loop_set_status() from modifying the loop
-> device while there are exclusive openers of the device. This is similar
-> to the fix in loop_configure() by commit 33ec3e53e7b1 ("loop: Don't
-> change loop device under exclusive opener") alongside commit ecbe6bc0003b
-> ("block: use bd_prepare_to_claim directly in the loop driver").
-> 
-> Reported-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3ee481e21fd75e14c397
-> Tested-by: syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com
-> Tested-by: Yongpeng Yang <yangyongpeng@xiaomi.com>
-> Signed-off-by: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
+On Thu Oct 16, 2025 at 10:44 AM UTC, Bala-Vignesh-Reddy wrote:
+> This follow-up patch completes centralization of kselftest.h and
+> ksefltest_harness.h includes in remaining seltests files, replacing all
+> relative paths with a non-relative paths using shared -I include path
+> in lib.mk
 
-Jens, ping?
+This seems to be breaking the x86 build for me:
 
-								Honza
+=E2=9D=AF=E2=9D=AF  git checkout e6fbd1759c9ece5044d3470f30a5e2166dc9de89
+=E2=9D=AF=E2=9D=AF  make -j mrproper
+=E2=9D=AF=E2=9D=AF  make -sj100 defconfig
+=E2=9D=AF=E2=9D=AF  make -sj100 headers
+=E2=9D=AF=E2=9D=AF  make -sj100 -C tools/testing/selftests  TARGETS=3D"x86"
+In file included from syscall_nt.c:17:
+helpers.h:10:10: fatal error: kselftest.h: No such file or directory
+   10 | #include "kselftest.h"
+      |          ^~~~~~~~~~~~~
+[...]
+=E2=9D=AF=E2=9D=AF  git checkout HEAD^
+=E2=9D=AF=E2=9D=AF  make -sj100 -C tools/testing/selftests  TARGETS=3D"x86"
+[builds]
 
-> ---
-> v2:
-> - added Tested-by and Reviewed-by tags for v1
-> 
->  drivers/block/loop.c | 41 ++++++++++++++++++++++++++++++-----------
->  1 file changed, 30 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index 053a086d547e..756ee682e767 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -1222,13 +1222,24 @@ static int loop_clr_fd(struct loop_device *lo)
->  }
->  
->  static int
-> -loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-> +loop_set_status(struct loop_device *lo, blk_mode_t mode,
-> +		struct block_device *bdev, const struct loop_info64 *info)
->  {
->  	int err;
->  	bool partscan = false;
->  	bool size_changed = false;
->  	unsigned int memflags;
->  
-> +	/*
-> +	 * If we don't hold exclusive handle for the device, upgrade to it
-> +	 * here to avoid changing device under exclusive owner.
-> +	 */
-> +	if (!(mode & BLK_OPEN_EXCL)) {
-> +		err = bd_prepare_to_claim(bdev, loop_set_status, NULL);
-> +		if (err)
-> +			goto out_reread_partitions;
-> +	}
-> +
->  	err = mutex_lock_killable(&lo->lo_mutex);
->  	if (err)
->  		return err;
-> @@ -1270,6 +1281,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
->  	}
->  out_unlock:
->  	mutex_unlock(&lo->lo_mutex);
-> +	if (!(mode & BLK_OPEN_EXCL))
-> +		bd_abort_claiming(bdev, loop_set_status);
-> +out_reread_partitions:
->  	if (partscan)
->  		loop_reread_partitions(lo);
->  
-> @@ -1349,7 +1363,9 @@ loop_info64_to_old(const struct loop_info64 *info64, struct loop_info *info)
->  }
->  
->  static int
-> -loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
-> +loop_set_status_old(struct loop_device *lo, blk_mode_t mode,
-> +		    struct block_device *bdev,
-> +		    const struct loop_info __user *arg)
->  {
->  	struct loop_info info;
->  	struct loop_info64 info64;
-> @@ -1357,17 +1373,19 @@ loop_set_status_old(struct loop_device *lo, const struct loop_info __user *arg)
->  	if (copy_from_user(&info, arg, sizeof (struct loop_info)))
->  		return -EFAULT;
->  	loop_info64_from_old(&info, &info64);
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> -loop_set_status64(struct loop_device *lo, const struct loop_info64 __user *arg)
-> +loop_set_status64(struct loop_device *lo, blk_mode_t mode,
-> +		  struct block_device *bdev,
-> +		  const struct loop_info64 __user *arg)
->  {
->  	struct loop_info64 info64;
->  
->  	if (copy_from_user(&info64, arg, sizeof (struct loop_info64)))
->  		return -EFAULT;
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> @@ -1546,14 +1564,14 @@ static int lo_ioctl(struct block_device *bdev, blk_mode_t mode,
->  	case LOOP_SET_STATUS:
->  		err = -EPERM;
->  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
-> -			err = loop_set_status_old(lo, argp);
-> +			err = loop_set_status_old(lo, mode, bdev, argp);
->  		break;
->  	case LOOP_GET_STATUS:
->  		return loop_get_status_old(lo, argp);
->  	case LOOP_SET_STATUS64:
->  		err = -EPERM;
->  		if ((mode & BLK_OPEN_WRITE) || capable(CAP_SYS_ADMIN))
-> -			err = loop_set_status64(lo, argp);
-> +			err = loop_set_status64(lo, mode, bdev, argp);
->  		break;
->  	case LOOP_GET_STATUS64:
->  		return loop_get_status64(lo, argp);
-> @@ -1647,8 +1665,9 @@ loop_info64_to_compat(const struct loop_info64 *info64,
->  }
->  
->  static int
-> -loop_set_status_compat(struct loop_device *lo,
-> -		       const struct compat_loop_info __user *arg)
-> +loop_set_status_compat(struct loop_device *lo, blk_mode_t mode,
-> +		    struct block_device *bdev,
-> +		    const struct compat_loop_info __user *arg)
->  {
->  	struct loop_info64 info64;
->  	int ret;
-> @@ -1656,7 +1675,7 @@ loop_set_status_compat(struct loop_device *lo,
->  	ret = loop_info64_from_compat(arg, &info64);
->  	if (ret < 0)
->  		return ret;
-> -	return loop_set_status(lo, &info64);
-> +	return loop_set_status(lo, mode, bdev, &info64);
->  }
->  
->  static int
-> @@ -1682,7 +1701,7 @@ static int lo_compat_ioctl(struct block_device *bdev, blk_mode_t mode,
->  
->  	switch(cmd) {
->  	case LOOP_SET_STATUS:
-> -		err = loop_set_status_compat(lo,
-> +		err = loop_set_status_compat(lo, mode, bdev,
->  			     (const struct compat_loop_info __user *)arg);
->  		break;
->  	case LOOP_GET_STATUS:
-> -- 
-> 2.43.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+If I just revert all the changes to tools/testing/selftests/x86/, it
+builds again.
