@@ -1,85 +1,110 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F287732692D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Jan 2026 01:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EAF32571C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 10:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767662172; cv=none; b=QU4gZVM1X+Z3Z3Olinr9tSaUxFekAJ8iOXX4wE2vtGURX1s+Ege10KeWlPg5DWdcWVgSIijvQ/0EU6DhD9/DLpSzHuefBuE3caI9gigQyroTORuhj31se+ATZgqsiHvyZCUKvNLYSE2S6clSdrt7UUCj628SyzRTEVf6mnzzB1Q=
+	t=1767694933; cv=none; b=g8KIPFUTiobLwzFGc00lJYvK5SbVBMLqp2A/jjwolmEfV6cDsS8U+ZH7aao8iSkVIyFM04n78WFuqINm1lVpnpX+8XFQDLaYixIV1q8Tu0Nc03KqI3z8KvQzwIBusu9C5r5kwMg6Kq+rat2JQPSqX9Lzpvtweovl8DmFVMu/2gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767662172; c=relaxed/simple;
-	bh=OzJHFsfEHzvgI2kXNEToJUDBn4I1m/TX38QGMIfzvg0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=aMI+yXIQPIB8rhqXOUjkjr2v14Zcb9uc2kaPsEeA+UAnQylKRRtceS5obFpBSnkUrBSW59zwr5yA0kmMEdmULqI1U1YQsg4G5/jFHpJX/UE8nrcQtyh7Ho1cTd+2SXxnBHxLj41DSd8a3QXNNkqa3xK8W/Iz7dClAcCS5Ek9da4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hRdbaEml; arc=none smtp.client-ip=140.211.166.138
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hRdbaEml"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7150D809B8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Jan 2026 01:16:10 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id P22OLG89u28F for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  6 Jan 2026 01:16:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=pjw@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org DBD1D80974
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DBD1D80974
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=hRdbaEml
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DBD1D80974
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Jan 2026 01:16:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id C561A436BD;
-	Tue,  6 Jan 2026 01:16:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3B94C116D0;
-	Tue,  6 Jan 2026 01:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767662168;
-	bh=OzJHFsfEHzvgI2kXNEToJUDBn4I1m/TX38QGMIfzvg0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=hRdbaEml+S9GmYO5A6Ks+1HyDRv07YQSj4dv6i2mxKPU9BvL8Yyf2Qvh1SVeOTLLo
-	 NpT1ux2dV1gQYVrLVx3xBBEPqmgCw/vIH3bWVjyn5lIamyxHkMIEJUuNmL2RmoNP4t
-	 lrUlrpfX/pOFwIf97hu7zXJb/9BvAQPcQk0v2fgns3pjOX8H7vV75cbn2r8e1sbqO6
-	 DoW3KVbcPMbjRQglhdeU/093wI3TLUQNvowTHX21gawVxdAVYN60rW+Ur2WJ8IMDM4
-	 cfphxA0EOpNGxHWd5SHPYwnvZeit9prItWKD5jSg1cvvwwOe7ML3K0fQE3ZjZjGDoV
-	 t+x+1E/KRgOaw==
-Date: Mon, 5 Jan 2026 18:16:05 -0700 (MST)
-From: Paul Walmsley <pjw@kernel.org>
-To: Soham Metha <sohammetha01@gmail.com>
-cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org, 
-    skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-    Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-    Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Breno Leitao <leitao@debian.org>, Song Shuai <songshuaishuai@tinylab.org>, 
-    Andrew Morton <akpm@linux-foundation.org>, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] riscv: kexec_image: Fix dead link to
- boot-image-header.rst
-In-Reply-To: <20251203194355.63265-1-sohammetha01@gmail.com>
-Message-ID: <1bb1f1bd-72a0-42f4-4183-75d44dd21634@kernel.org>
-References: <20251203194355.63265-1-sohammetha01@gmail.com>
+	s=arc-20240116; t=1767694933; c=relaxed/simple;
+	bh=Qb6WoV9Vb+9ivg8YiGHYmDmhRSLCLFqNAxPn2UOFfRk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CatLGcAz2+yldUFWMnNwTNpzl2atlHJ3zblM1sR8/0+YzGJBGBqfIL/RELJ2trDbRfkkoECmRo6eSgKocVk8cJvxXTyX7K2xI19UPhhA1BXYtK0NSuX3GPUnM1nQdO/xj5ORZ5pRvhKU6vb+adADNc2mIQ38DqLNuc5RckATYcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 606ALgNX054401;
+	Tue, 6 Jan 2026 19:21:42 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.10] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 606ALgkU054395
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 6 Jan 2026 19:21:42 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <75fd5e4a-65af-48b1-a739-c9eb04bc72c5@I-love.SAKURA.ne.jp>
+Date: Tue, 6 Jan 2026 19:21:39 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] hfs: Validate CNIDs in hfs_read_inode
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: George Anthony Vernon <contact@gvernon.com>,
+        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+        "slava@dubeyko.com" <slava@dubeyko.com>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "frank.li@vivo.com" <frank.li@vivo.com>,
+        "linux-kernel-mentees@lists.linux.dev"
+ <linux-kernel-mentees@lists.linux.dev>,
+        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
+ <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+References: <d2b28f73-49c8-4e30-9913-01702da4dfe4@I-love.SAKURA.ne.jp>
+ <20251104014738.131872-3-contact@gvernon.com>
+ <df9ed36b-ec8a-45e6-bff2-33a97ad3162c@I-love.SAKURA.ne.jp>
+ <a31336352b94595c3b927d7d0ba40e4273052918.camel@ibm.com>
+ <aSTuaUFnXzoQeIpv@Bertha>
+ <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+In-Reply-To: <43eb85b9-4112-488b-8ea0-084a5592d03c@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
 
-On Thu, 4 Dec 2025, Soham Metha wrote:
-
-> Fix the reference to 'boot-image-header.rst', which was moved to
-> 'Documentation/arch/riscv/' in commit 'ed843ae947f8' 
-> ("docs: move riscv under arch").
+On 2025/11/30 19:07, Tetsuo Handa wrote:
+> On 2025/11/25 8:46, George Anthony Vernon wrote:
+>> On Tue, Nov 11, 2025 at 10:42:09PM +0000, Viacheslav Dubeyko wrote:
+>>> On Tue, 2025-11-11 at 23:39 +0900, Tetsuo Handa wrote:
+>>>> On 2025/11/04 10:47, George Anthony Vernon wrote:
+>>>>> +	if (!is_valid_cnid(inode->i_ino,
+>>>>> +			   S_ISDIR(inode->i_mode) ? HFS_CDR_DIR : HFS_CDR_FIL))
+>>>>> +		BUG();
+>>>>
+>>>> Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?
+>>>> If no, this check is racy because make_bad_inode() makes S_ISDIR(inode->i_mode) == false.
+>>>>  
+>>>
+>>> Any inode should be completely created before any hfs_write_inode() call can
+>>> happen. So, I don't see how hfs_write_inode() and make_bad_inode() could run in
+>>> parallel.
+>>>
+>>
+>> Could we not read the same inode a second time, during the execution of
+>> hfs_write_inode()?
+>>
+>> Then I believe we could hit make_bad_inode() in hfs_read_inode() once we
+>> had already entered hfs_write_inode(), and so test a cnid against the
+>> wrong i_mode.
+>>
 > 
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+> My "Is it guaranteed that hfs_write_inode() and make_bad_inode() never run in parallel?"
+> question does not assume "make_bad_inode() for HFS is called from only hfs_read_inode()".
 
-Thanks, queued for v6.19-rc.
+In a different thread, it turned out that make_bad_inode() must not be called
+once the inode is fully visible
+( https://lkml.kernel.org/r/wqkxevwtev5p77czk2com5zvbbwcpxxeucrt7zbgjciqxjyivx@c7624klburuh ),
+requiring "make_bad_inode() for HFS is called from only hfs_read_inode()" assumption being true.
 
+When can we expect next version of this patch?
 
-- Paul
+> 
+> write_inode() already checks for !is_bad_inode(inode) before calling
+> filesystem's write_inode callback
+> ( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/fs-writeback.c#L1558 ).
+> 
+> If the reason for "ubifs is doing it in the ubifs_write_inode()" 
+> ( https://elixir.bootlin.com/linux/v6.18-rc7/source/fs/ubifs/super.c#L299 ) is
+> that make_bad_inode() could be called at any moment, it is not safe for HFS to
+> depend on "inode->i_mode does not change during hfs_write_inode()".
+> 
+
