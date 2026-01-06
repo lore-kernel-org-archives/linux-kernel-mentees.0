@@ -1,104 +1,107 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185AF23EA86
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 12:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16491325730
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Jan 2026 12:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767702552; cv=none; b=Xb+CyZm9OpvVqXOrWDLWD9n44A3hI1385jretkvz6r7qKtxdl+QOdwRGWAMTvpnxT8R1xUyXvGo5IZBzkJyekguFt2haMp212XoccSvIDddtPqDMlBtu7ccCYYvUSPPttCzRpglCuGWKopCTB3lll7YkE+IbUs3/WZrMb4NQyE4=
+	t=1767702639; cv=none; b=oJorMGtF7Bdwansj10xF6INjywE3Uz3XWnQMWXyzSyWhzjOu0BnfwJJlZUyEMjRR4X0R1FdYPPRSr5q3QYDnYrAZH04C3ajrBJMe4/RQee8lCvoTGpoVYXWhfuHIsmD1syLaJHNQmh5GadzPI/2Zasis4ZuMEdC18/kz/5pS/cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767702552; c=relaxed/simple;
-	bh=wXZzH27gnUDagNl5a0ME5KVazZHyReqGn/kmzzyAPc4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=c8Ot7rS868hi/RC3FfRkZN71wF3djHBxrtJFhVGSduYG4Zt8E/6RR0hUJx+xjWfyYSn4H9CQGrJyN5ABognahIOYq3Kp/NmZ3ZvLL+Q6buqN18Xc4zFzsdklqSmSuY38KwOB/YBKw1epoA4VNfwAkp4qao0FUIISaBdc72x33BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sfngdJbq; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1767702639; c=relaxed/simple;
+	bh=gB36QsoXU0TpS239Nema2PzGFrocJoq6IaXrZ2FkwNs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Xqiicv3vcSnkws62V+bkqi/XJHuLLR2RYwhlL1k85bO/tXmzr5r8YRdPKHGf8ZeybjNC1efxzc9cR2VHz4YoxkA0wG032I+bmWf6TmaG89VbWMJPASfHzkO/HxjDpbjfQnyBOZ1mztDl8XRTYfrZnWTmvlokgwCC4Oxh29uwGDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=buodNzYk; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sfngdJbq"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4792bd2c290so9400255e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 Jan 2026 04:29:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="buodNzYk"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7c7545310b8so459873a34.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 Jan 2026 04:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767702549; x=1768307349; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/pZdwAP/wq9kuKKVzLJ5M0q6p8KUwTZW9kKk5Fbt3zQ=;
-        b=sfngdJbqdrnfO2IMm9SYPI1fLAV/OiBuWQLQgMcP0J/WMyiNs7Iq3BkrUww6xaWumS
-         MF207PlEokRinFIUiMzHkDnwXxbUC9HUxquLzOS3MYia3mAavY9svSYmpcacymLv6PKO
-         w/Q4i6iV4QUkQW5Yyplh3ilADs8z6OeXqxZuN5z9hOEA9Np8CaLmoIWvEm8bzgNm3dTu
-         JZkDr4/GGsyVtmXFAeJpmwuqYT8W6z3/c6Lx26iGkW4L4DCH3CoHsVpHJaeWhn891vgj
-         K+Fj6p+rI+yZ9qRNtaS8+Vz3L/NB6pF9DWs77TqKubZKqmCSTmb5E/0LHkUB0pSYJ7zD
-         4FFg==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1767702636; x=1768307436; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eRD6jeYRVssN659Sw64j7XEIC4cPwxx4Q1nuaQx4yCI=;
+        b=buodNzYkaFzHLnIRj9IcDau7ctHKtK09cW3dgCsIxL2oasIjrK7rAL5iqX3iuxmjbL
+         IJFL1951ZzgWbEOGSz/yYYn7zm3dp97dgmY3QQiBvy9GxrBmfia7cq+LL0YGf0ub+tuY
+         /eE33K0arke3dWW0wNI7UkLhuCORdAyzF52pDhhk1IO/ZvCByvaP4zV4rbweyeEk56hf
+         mHHU0uhXtc5e8TKjFKlk6vzIREXQjCExmZ3vaZMP8IA5uFHPEdlNxle5jwrTDfZXR4pX
+         jgqXkF+FDphqpG/E/vdIbeijjf/PF4IeKOUgxZyl5v18XoM0TPTC4JPDj2Lfnp00K0b/
+         IqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767702549; x=1768307349;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/pZdwAP/wq9kuKKVzLJ5M0q6p8KUwTZW9kKk5Fbt3zQ=;
-        b=vWK06CxoORTcapuQDImUmZ9psZ95OUA71Rnui2wL9gPUqeUQQdytQiTBRpLDiQCXY3
-         de7NmqLibaxJLEQAeKOHw3aGPDlp725oQCwv2CFwS8mZ8jK8DEFIo81a91ShMeSz0fAC
-         xbu9Krma2vqgcTpzW4pLsJHFfMf2uECR4DH/Da3WNdGWjd3nCnYBKFwjLlPUxpyth4OG
-         OqSyH/GP9FJKF+W7LkNOOoADXaoIf8LUKedXW5iv7jOq0FbZOcTJrIxMH9KYgJMCkJKN
-         pIjDU0tuxmyV/al7IhXORvG474tE9Jn5wrDJDloaCP3S0PErrtvwDiwAbt1aSZ8tkuc0
-         4/Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVNi1zwmH9j9OLu5ztVzhF45W+kCt5v+2wnU4o/Wzq9IIHx7Zzgwbbbz1O8y8eNmymwawiF1iKnOfLO4vfuuNsrc3G8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YynHgJtmuE59PdAQ+cfNAZvqG3LJzXfXFRpLUXpezUhI+OeB8Km
-	/X+Rw51O3CwVhP9mmSUpLyW5+2c3t2v4ksViQBQjbbLzYzz1j4wZm7bKc1C08IfdaieQjWJR3sz
-	Ycccv2HWn3rnYbQ==
-X-Google-Smtp-Source: AGHT+IGDb5uS6PkHdgGZm/vN+neaeuomXNsUF5fH4vDNKaBbgCTUgMqpCF8VtoYm6kaWCOvj+sJGU4W9OTyeoQ==
-X-Received: from wmoo8-n1.prod.google.com ([2002:a05:600d:108:10b0:479:36b0:ff54])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3b27:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-47d7f062feamr32360515e9.1.1767702549472;
- Tue, 06 Jan 2026 04:29:09 -0800 (PST)
-Date: Tue, 06 Jan 2026 12:29:08 +0000
-In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+        d=1e100.net; s=20230601; t=1767702636; x=1768307436;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eRD6jeYRVssN659Sw64j7XEIC4cPwxx4Q1nuaQx4yCI=;
+        b=pa1A81B9q6OIEQfT3Sjw6CDUngqQKMHNXQEVnQ2LBVON/8RsKouDRlKioEAKvMPX07
+         MYWG7qEWNDW7Lm+8koaeI6rOQljE5vBhUQ1ncT1FWZuIWiAWDP4PJUUgzS0qMOIJAgp6
+         YVNk+aGbK3h9SLmGlN8a7f5n53h+BVeVNLtNPxsN5M1m4rH7ZaKzizi0ZYcXIoLpOu33
+         7ruxPLfwmDiwpbIsX1Brv/KnvFPlWdknPrZ1+ns6cygdN2IB2sbuSTrjnKxba1G8lTaW
+         B99VNqQW4dNn8+J9HOBzqpUOEYDcrvHP3UeaAjj5g6LI0pdw3FbnrC++XoN217GTC9jn
+         oEyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWB9VIqCH6MUdH/U++6Yyju/GYFseIUx5SRXLgaHBxSoSfMcNSFxUIA/OKrHnevI67jtnkLc657FUuyE8Mx+JPTay38yA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDdF3T8P1zS/DJmc1JlWU4DAcUtxXw4Rrc8Yp50sMHYNQ8iLif
+	f7edklUzU3mcGTWj0N6XRRH7TtpduzUh99g6YV4pkNXx2XlkbMYQw7jFJpgWPaPaMpM=
+X-Gm-Gg: AY/fxX6t+LcSf5zvNgA8+zVT4gZEKNChxFAp6aqSUC0404fnZv6/nuyRHem2bqxHxOM
+	YF3q2ImZNlp5Tsly55OSRME7w+L9gcXMUWyZhatzdcdKOfN8y4TzrxFQFfqPM/t0cDxrwvz9WTc
+	mLgTc2VrA6346PDyMFQJ2EW9hUjystdiNp0y/OYgGssYAVDhdV5FDCo3+u2FmLsvkkcFjQn9Dbu
+	pWuIFY2vRLGsY20PaaGjuSqc6KqQ7eFFRyYXDrXpt3jUELTjYMZe9q/wsaMiorBzybide6V/Bxl
+	53x3LWvInOnMwjbhLpp5enbiHJVAU+tNsV6dHprMlb06zNTaw3X2zXrJOex6MiHCUvu2bKw7Xg+
+	kT5NgcyF/FxiK2W+11bS/D8Ei53QaWH5niyB1XeY6D+kn2DVNDQsUJPfuNcrLWGa5qM/dKo/6QH
+	zDp9s=
+X-Google-Smtp-Source: AGHT+IEtZa9I+uCqm09OkXqO3MU9uobkzq6ZOZ/pse7UNNQlUp3JEKnyhaX9omCuNpUegRYFCc62Hg==
+X-Received: by 2002:a05:6830:618a:b0:7c5:3afb:79db with SMTP id 46e09a7af769-7ce4676e4cbmr1304877a34.35.1767702635955;
+        Tue, 06 Jan 2026 04:30:35 -0800 (PST)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce478af6efsm1328600a34.18.2026.01.06.04.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 04:30:35 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: Raphael Pinsonneault-Thibeault <rpthibeault@gmail.com>
+Cc: jack@suse.cz, syzbot+3ee481e21fd75e14c397@syzkaller.appspotmail.com, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, 
+ Yongpeng Yang <yangyongpeng@xiaomi.com>
+In-Reply-To: <20251217190040.490204-2-rpthibeault@gmail.com>
+References: <2crvwmytxw5splvtauxdq6o3dt4rnnzuy22vcub45rjk354alr@6m66k3ucoics>
+ <20251217190040.490204-2-rpthibeault@gmail.com>
+Subject: Re: [PATCH v2] loop: don't change loop device under exclusive
+ opener in loop_set_status
+Message-Id: <176770263471.676302.4742936561051912973.b4-ty@kernel.dk>
+Date: Tue, 06 Jan 2026 05:30:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20250830163949.20952-1-reddybalavignesh9979@gmail.com> <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
-X-Mailer: aerc 0.21.0
-Message-ID: <DFHI984SEFV3.2JL88CLHNT2SO@google.com>
-Subject: Re: [PATCH v3] selftests: complete kselftest include centralization
-From: Brendan Jackman <jackmanb@google.com>
-To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>, <akpm@linux-foundation.org>, 
-	<shuah@kernel.org>, <richard.weiyang@gmail.com>
-Cc: <david.shane.hunter@gmail.com>, <khalid@kernel.org>, 
-	<Liam.Howlett@oracle.com>, <davem@davemloft.net>, <david@redhat.com>, 
-	<edumazet@google.com>, <gnoack@google.com>, <horms@kernel.org>, 
-	<kuba@kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>, 
-	<linux-security-module@vger.kernel.org>, <lorenzo.stoakes@oracle.com>, 
-	<mhocko@suse.com>, <mic@digikod.net>, <ming.lei@redhat.com>, 
-	<pabeni@redhat.com>, <surenb@google.com>, <vbabka@suse.cz>, 
-	<linux-kernel-mentees@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Thu Oct 16, 2025 at 10:44 AM UTC, Bala-Vignesh-Reddy wrote:
-> This follow-up patch completes centralization of kselftest.h and
-> ksefltest_harness.h includes in remaining seltests files, replacing all
-> relative paths with a non-relative paths using shared -I include path
-> in lib.mk
 
-This seems to be breaking the x86 build for me:
+On Wed, 17 Dec 2025 14:00:40 -0500, Raphael Pinsonneault-Thibeault wrote:
+> loop_set_status() is allowed to change the loop device while there
+> are other openers of the device, even exclusive ones.
+> 
+> In this case, it causes a KASAN: slab-out-of-bounds Read in
+> ext4_search_dir(), since when looking for an entry in an inlined
+> directory, e_value_offs is changed underneath the filesystem by
+> loop_set_status().
+> 
+> [...]
 
-=E2=9D=AF=E2=9D=AF  git checkout e6fbd1759c9ece5044d3470f30a5e2166dc9de89
-=E2=9D=AF=E2=9D=AF  make -j mrproper
-=E2=9D=AF=E2=9D=AF  make -sj100 defconfig
-=E2=9D=AF=E2=9D=AF  make -sj100 headers
-=E2=9D=AF=E2=9D=AF  make -sj100 -C tools/testing/selftests  TARGETS=3D"x86"
-In file included from syscall_nt.c:17:
-helpers.h:10:10: fatal error: kselftest.h: No such file or directory
-   10 | #include "kselftest.h"
-      |          ^~~~~~~~~~~~~
-[...]
-=E2=9D=AF=E2=9D=AF  git checkout HEAD^
-=E2=9D=AF=E2=9D=AF  make -sj100 -C tools/testing/selftests  TARGETS=3D"x86"
-[builds]
+Applied, thanks!
 
-If I just revert all the changes to tools/testing/selftests/x86/, it
-builds again.
+[1/1] loop: don't change loop device under exclusive opener in loop_set_status
+      commit: 08e136ebd193eae7d5eff4c66d576c4a2dabdc3f
+
+Best regards,
+-- 
+Jens Axboe
+
+
+
