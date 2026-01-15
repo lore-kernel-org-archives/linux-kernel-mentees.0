@@ -1,75 +1,76 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252A11C5486
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 03:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E790A25DAEA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 03:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768447098; cv=none; b=GjYpmxNyQS+KOwy5Zc/1IkX3hCEcdFzOnMf7b4oTH1LCwZyBX+8HZP5gPC38F1iocMVQmWMEXaHx346HgBcjxSTBFXWTd1UyvUHVe/DHQuXvS/Wj0a+0nFSUEqtN44Q3eJeuwpiYG/UKsGy3tZza+5lQ03Rwl4AvgVIzrynfAlM=
+	t=1768447223; cv=none; b=rdIJ24V3ZdvYKfED3oZep/715BqNJtEjmkVXQOv//zhts1sL8PRcXDCoYSu6IB3tRWlv/z9vgTcPMxckdrvWgL4msZu1HxqhPIkPxH30CsydxNgzwQjcXhrR9gD+0Y5mzKH/khBHVoFMweh3KAKTGP8fTY655k3BA3ltQ/eK3SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768447098; c=relaxed/simple;
-	bh=8EmIHHytuXZsqabkLaDxueYvDHKgg6SZisnCQ4LJyXI=;
+	s=arc-20240116; t=1768447223; c=relaxed/simple;
+	bh=upkeY48wkxEI/Uops1fgvv5r4MWDRauu4M3UNZQqQZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GdNTuMOS9EnYW/y/WINeTClVAMaQwP3PB3hWbX4xyMf0v++zdrnZf5VY/0ig8s/spaNUcQi06jierwHPzkLvVE+AI3fzBavREkjMdCLhKZpCqZ+vYO92HAC5SS9VcldZ2gTAOYH6iHOJOVxzI2aSeIO8lkB30UihfvQeNdFTrSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRnFFzkO; arc=none smtp.client-ip=209.85.214.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMBF9Bf3UtF4RZWXDtVU0cPaY/iJ37uZJN/ez3TE4XZVsR4D1IYF0V1yzicBOFQ4aTOD/OWWOpXSkwbxOpMYtoOA8cKSoch+GcuhXOkKnV2B6S5iknj4KOGTZsCnpVt7o4RgTZtN2337ER679nuep2duC8/HW6yHvLN0PIucKMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGBfrGWA; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRnFFzkO"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a07fac8aa1so3654985ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 Jan 2026 19:18:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGBfrGWA"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-81e821c3d4eso386845b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 Jan 2026 19:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768447096; x=1769051896; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768447220; x=1769052020; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wmYjSrJzL29LGQ4/a20KLPcwDCWONGKpUE1hB+LOwt8=;
-        b=JRnFFzkOeTd4aij+yeH7Fxtllml54S5svEjdvfiydlhmXQlA41wj+yKAMTJ2693Ujo
-         od1HXb7FImmoGJtXOYMIuxqH/sKMoKAeb/6zlRESbHskVyJMd5CYA04xAnCCzHnm/Dp2
-         ooKrRKfrOcoWjBlKAZgGGHjt41Ui8tgaiORzGUu+UzX38ehXC5sOVyxhfCzW8CqWc8d5
-         Pbv0L2Qv649AgUbpRakI3/AQk3qXL9MqsglBY5eL3VkeIFlphQkdFI8GhUBTxEVKslGz
-         z0swvjFnELq8AtOea5HgO5+uKQGNfwNFOL/mnRRAFp8T2EZhEbNmWFcdatwyfyoJB6Ty
-         ogzw==
+        bh=Trq+zKapUs2OXgXptR+lx0STbGwE8yhsbG9H7N7gDZA=;
+        b=HGBfrGWADlUuxI7BH4yjSVS9EzzPUq3vBFjIUE/FNPeI4Nu0/w+hpjMO3zXmSQlF79
+         MTGAjZkBdKBrAUQKu1rT/yviBTg6gSWz4VqqpEcDI3LKekStZ70SWIwwBoPyh+be9AE6
+         lns+tWuE1Qt2OR3oSFoMkOwQ4WGdXEqckdxFe9X/n0zXvsmhv0oQ/WYgQPbIyWMD1fAT
+         Q33NEMnL/PTYaTSYyzg1AeSSGKP4FzpfQNr84KJ2tebXoCVUP8tQB9A4KiXDQ/nyMHfG
+         /t7YyiwmO0uZcklBf4fM9Ee7T+Jssni4Bo9KQw80FkYcaB3fJMOZEp30fH332uKdsEV/
+         4ytg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768447096; x=1769051896;
+        d=1e100.net; s=20230601; t=1768447220; x=1769052020;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wmYjSrJzL29LGQ4/a20KLPcwDCWONGKpUE1hB+LOwt8=;
-        b=pHPv2dWzLsXlZdQmNMUj8rmWKcH4mZ9hpO4DldcI9eoz/vgZHUxsdvjpbq7cK0UKIo
-         7Lbmfx0lcl/Wv2m8KWRk0BNfVZuj0yi2hfzhbaMxKf8dzMgb2wLjgQ79H8ko68eqc/au
-         8yWXk8U52rIlk6eDPrZcmF8jC9x+iR1fNYJLIAffcS5GpgLDs94Pq6QpeBN0LQ24npzM
-         Rntmxx/kTU79qoMK3bnelhiAikdMpba9v/KoOQzk2o3tcY9iu9qGcSIS1iMpu34Fe/ym
-         drpqzBaaAEbC2ltdPJMazBojqyi7LoVDSO+tkfKbY0gQqZBzFVqtm7FKIXuLjb7sRZNH
-         9vLw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/6mD18oT6OFpjxAs/LqX0oXrXVvwObAUoKwcEUwiF8K0EmhHuwGF3InDwxJfEstAGzoHk210hKM1sVCFprzVb+ziKxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7luQ+fng4MxFmc+s3jI8MEieHyeGSG1fpk5NN3GYdcy0ysdbT
-	K8B76saHP4m+FZwy5rlzMhc5tqcs/bdo1Zr8y+gojTDbH9hzCE7KWkoX
-X-Gm-Gg: AY/fxX594ZDRmaIlOo15nrNO4fLVxu1yi2JLuIyBC1EYwHKAG2dGIOvCUgUFlFDr4r2
-	vgO9qyl6EPJZkj5TyeBTCuMSS1FXIAVlDV1HiAewb1ZFt2YbjLRlkJucPTtWt0++xHrot/psBCd
-	JT4C8mHTriTFjfBsMuid+EheVFh+vFD2/EGnqpCDritLuaSiBOc9O80/Oz5RUUq/AF3M0toz8RZ
-	502t5I6O2S1db1bANznhX/buZsEHR4+1PeXsUfuC82wsDItdzQdEjMcYN0ebWbTtmoGqZnqoLh5
-	dk2sBkLwHOeyIZ0uxsprUZkrz5y03PfRUtG2gFuYxCtbSL0VOCBvis9KxWtLpyRnMxy2+qlOtPv
-	dJSDHqf/G02ZXyGb/yxoFifbw7moV5PZdCkj9+3ET2Zuy/Vsu1i8FcS1CtED8Yk0I19eSw3MG70
-	Y7psZc7er2jLM=
-X-Received: by 2002:a17:903:904:b0:299:e031:173 with SMTP id d9443c01a7336-2a599e7798dmr46454015ad.35.1768447096322;
-        Wed, 14 Jan 2026 19:18:16 -0800 (PST)
+        bh=Trq+zKapUs2OXgXptR+lx0STbGwE8yhsbG9H7N7gDZA=;
+        b=m03O0eWLYDr7C5RN4NgPTXDd2HRwLISLwHlxVF+pkbvJz76KZpjKpnYlodxh3yae/n
+         aLAuJwNGcrdr+Oc6oDWldJ7yG/sMgUMltj7gmpbBCOkpoYemrPDrUjm/qbk7biaF3uCH
+         XKRVkEvNvRBUNlar3sxQ3VEw854HoEHs8rlqflXKhY6N5R3Qf5d6NXTRouIdJDJUOvG8
+         KNxlE01Iwor5Q6QEZh6oiEw46C0excwQE/KhDL3ojIduNKDIUu9pY+9TEgOIpJ4ipImu
+         wWssB/2MvToByZvOjgyS/a6ZYFpZEIV8k7RW4IZur+2RjgIqc7zPv/RgaWW0sP9WViPO
+         uOTg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8+oiXFAQ7tUwYxkeURGVsJzIBcuPBg/x61K/ahW+hZ9gMjqdvfysr0PU07F+nfPXTFrBwMaLrPApbgFPqSmZ+i2Z2qw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOGHc8cKR8ks6mJxcKOIygMnEpUvYxRNl5QqW9WiB18hMDBuli
+	4dWAG831PvM6wDFznFnpFXt/jZGyjihR+vVglpGU4f1Gfb2SHR4Dmgtp9S4c+Q==
+X-Gm-Gg: AY/fxX65vz9iKi1KdKvZSRD6UBaS2oNaVqd7uLREnNrQBIoVLaSwLv7Mq51gcXv5UpA
+	iHAiGdkvr/0yKCHsbmlO/jPVCJ23gp4UeGMW4LKVGBEZlgif2H0MLlbwKK4cv7QAYypMOKTbw2m
+	UgZ0OSvO4MQIG2JheAh+BeIdIn5wH+abwdNgrKnibZ+8XHKZ6RDUhc1LZ3J5Usb6OFMjX3KqYJb
+	7aKIgbmCrBhWFosfdWWB2BcXLuQRa+kR+5xtktc2JCu5vFbBl/qJ3X30hajz+sUD+cRS1juXjA1
+	D2kxjtJMO59NA00LjxU5q3r1nQhlhpbPDhobAtcOQcNFC3n7wx4DG5FeobvoheEjE9uHyc4F7Dc
+	OTOmyTCiGBEYNJiPgs55cFXVSuvxa0T2FEtpZuaU6Fk9kh8raSNYJoC/kEGI72BlHHx3cTvImlb
+	AWLZ1knsVTOWc=
+X-Received: by 2002:a05:6a00:a24c:b0:81f:4063:f1ef with SMTP id d2e1a72fcca58-81f83d5e4b5mr3914019b3a.54.1768447220095;
+        Wed, 14 Jan 2026 19:20:20 -0800 (PST)
 Received: from inspiron ([111.125.235.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c47221sm237420365ad.23.2026.01.14.19.18.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81f8e381d7csm963637b3a.0.2026.01.14.19.20.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 19:18:15 -0800 (PST)
-Date: Thu, 15 Jan 2026 08:48:09 +0530
+        Wed, 14 Jan 2026 19:20:19 -0800 (PST)
+Date: Thu, 15 Jan 2026 08:50:12 +0530
 From: Prithvi <activprithvi@gmail.com>
-To: joseph.qi@linux.alibaba.com
-Cc: mark@fasheh.com, jlbec@evilplan.org, heming.zhao@suse.com,
-	ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: Re: [PATCH] ocfs2: Fix circular locking dependency in
- ocfs2_del_inode_from_orphan()
-Message-ID: <20260115031809.w7ksrj2ostwyxa54@inspiron>
-References: <20260106125100.327980-1-activprithvi@gmail.com>
- <94b4189d-dfb6-4443-a336-abbae89d36ad@linux.alibaba.com>
- <20260108183652.ro4xueuj6itfaph3@inspiron>
+To: martin.petersen@oracle.com
+Cc: linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, hch@lst.de, jlbec@evilplan.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] scsi: target: Fix recursive locking in
+ __configfs_open_file()
+Message-ID: <20260115032012.yb5ylmumcirrmsbr@inspiron>
+References: <20260108191523.303114-1-activprithvi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,185 +79,94 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108183652.ro4xueuj6itfaph3@inspiron>
+In-Reply-To: <20260108191523.303114-1-activprithvi@gmail.com>
 
-On Fri, Jan 09, 2026 at 12:07:00AM +0530, Prithvi wrote:
-> On Thu, Jan 08, 2026 at 09:29:11AM +0800, Joseph Qi wrote:
-> > 
-> > 
-> > On 2026/1/6 20:51, Prithvi Tambewagh wrote:
-> > > A possible circular locking dependency in ocfs2_del_inode_from_orphan()
-> > > is detected by syzbot, which occurs due to change in the sequence of
-> > > acquiring locks. The existing chain is:
-> > > 
-> > > &ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE] --> &dquot->dq_lock --> 
-> > > &ocfs2_quota_ip_alloc_sem_key
-> > > 
-> > > In ocfs2_dio_end_io_write(), &ocfs2_quota_ip_alloc_sem_key is acquired,
-> > > and then ocfs2_del_inode_from_orphan() is called, which acquires
-> > > &ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE]. This opposes the
-> > > existing dependency chain:
-> > > 
-> > 
-> > IIUC, ocfs2_dio_end_io_write() only gets the &ocfs2_file_ip_alloc_sem_key.
-> > So how it happens?
-> > 
-> > Thanks,
-> > Joseph
-> > 
+On Fri, Jan 09, 2026 at 12:45:23AM +0530, Prithvi Tambewagh wrote:
+> In flush_write_buffer, &p->frag_sem is acquired and then the loaded store
+> function is called, which, here, is target_core_item_dbroot_store().
+> This function called filp_open(), following which these functions were
+> called (in reverse order), according to the call trace:
 > 
-> IIUC that would be the case when ocfs2_dio_end_io_write() operates on normal
-> files. However, according to the report of the bug, ocfs2_dio_end_io_write()
-> is holding &ocfs2_quota_ip_alloc_sem_key so I think due to random fuzzing by 
-> syzkaller, the function is curently operating on a quota file.
+> down_read
+> __configfs_open_file
+> do_dentry_open
+> vfs_open
+> do_open
+> path_openat
+> do_filp_open
+> file_open_name
+> filp_open
+> target_core_item_dbroot_store
+> flush_write_buffer
+> configfs_write_iter
 > 
-> Then it calls ocfs2_del_inode_from_orphan() which tries to acquire
-> &ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE]. According to the existing
-> dependency chain, after acquiring it, &ocfs2_quota_ip_alloc_sem_key can be
-> acquired. But the existing code in ocfs2_dio_end_io_write() first acquires
-> &ocfs2_quota_ip_alloc_sem_key, thus triggering the circular dependency
-> warning. 
+> Hence ultimately, __configfs_open_file() was called, indirectly by
+> target_core_item_dbroot_store(), and it also attempted to acquire
+> &p->frag_sem, which was already held by the same thread, acquired earlier
+> in flush_write_buffer. This poses a possibility of recursive locking,
+> which triggers the lockdep warning.
 > 
-> Thanks,
-> Prithvi
->
-> > > -> #3 (&ocfs2_quota_ip_alloc_sem_key){++++}-{4:4}:
-> > >        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-> > >        down_write+0x3a/0x50 kernel/locking/rwsem.c:1590
-> > >        ocfs2_create_local_dquot+0x19d/0x1a40 fs/ocfs2/quota_local.c:1227
-> > >        ocfs2_acquire_dquot+0x80f/0xb30 fs/ocfs2/quota_global.c:883
-> > >        dqget+0x7c1/0xf20 fs/quota/dquot.c:980
-> > >        __dquot_initialize+0x3b3/0xcb0 fs/quota/dquot.c:1508
-> > >        ocfs2_get_init_inode+0x13b/0x1b0 fs/ocfs2/namei.c:205
-> > >        ocfs2_mknod+0x863/0x2050 fs/ocfs2/namei.c:313
-> > >        ocfs2_create+0x1a5/0x440 fs/ocfs2/namei.c:676
-> > >        lookup_open fs/namei.c:3796 [inline]
-> > >        open_last_lookups fs/namei.c:3895 [inline]
-> > >        path_openat+0x1500/0x3840 fs/namei.c:4131
-> > >        do_filp_open+0x1fa/0x410 fs/namei.c:4161
-> > >        do_sys_openat2+0x121/0x1c0 fs/open.c:1437
-> > >        do_sys_open fs/open.c:1452 [inline]
-> > >        __do_sys_openat fs/open.c:1468 [inline]
-> > >        __se_sys_openat fs/open.c:1463 [inline]
-> > >        __x64_sys_openat+0x138/0x170 fs/open.c:1463
-> > >        do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-> > >        do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
-> > >        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > > 
-> > > -> #2 (&dquot->dq_lock){+.+.}-{4:4}:
-> > >        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-> > >        __mutex_lock_common kernel/locking/rtmutex_api.c:535 [inline]
-> > >        mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:547
-> > >        wait_on_dquot fs/quota/dquot.c:357 [inline]
-> > >        dqget+0x73a/0xf20 fs/quota/dquot.c:975
-> > >        __dquot_initialize+0x3b3/0xcb0 fs/quota/dquot.c:1508
-> > >        ocfs2_get_init_inode+0x13b/0x1b0 fs/ocfs2/namei.c:205
-> > >        ocfs2_mknod+0x863/0x2050 fs/ocfs2/namei.c:313
-> > >        ocfs2_create+0x1a5/0x440 fs/ocfs2/namei.c:676
-> > >        lookup_open fs/namei.c:3796 [inline]
-> > >        open_last_lookups fs/namei.c:3895 [inline]
-> > >        path_openat+0x1500/0x3840 fs/namei.c:4131
-> > >        do_filp_open+0x1fa/0x410 fs/namei.c:4161
-> > >        do_sys_openat2+0x121/0x1c0 fs/open.c:1437
-> > >        do_sys_open fs/open.c:1452 [inline]
-> > >        __do_sys_openat fs/open.c:1468 [inline]
-> > >        __se_sys_openat fs/open.c:1463 [inline]
-> > >        __x64_sys_openat+0x138/0x170 fs/open.c:1463
-> > >        do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-> > >        do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
-> > >        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > > 
-> > > -> #1 (&ocfs2_sysfile_lock_key[INODE_ALLOC_SYSTEM_INODE]){+.+.}-{4:4}:
-> > >        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-> > >        down_write+0x3a/0x50 kernel/locking/rwsem.c:1590
-> > >        inode_lock include/linux/fs.h:980 [inline]
-> > >        ocfs2_remove_inode fs/ocfs2/inode.c:731 [inline]
-> > >        ocfs2_wipe_inode fs/ocfs2/inode.c:894 [inline]
-> > >        ocfs2_delete_inode fs/ocfs2/inode.c:1155 [inline]
-> > >        ocfs2_evict_inode+0x153d/0x40d0 fs/ocfs2/inode.c:1295
-> > >        evict+0x504/0x9c0 fs/inode.c:810
-> > >        do_unlinkat+0x39f/0x570 fs/namei.c:4744
-> > >        __do_sys_unlinkat fs/namei.c:4778 [inline]
-> > >        __se_sys_unlinkat fs/namei.c:4771 [inline]
-> > >        __x64_sys_unlinkat+0xd3/0xf0 fs/namei.c:4771
-> > >        do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-> > >        do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
-> > >        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > > 
-> > > -> #0 (&ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE]){+.+.}-{4:4}:
-> > >        check_prev_add kernel/locking/lockdep.c:3165 [inline]
-> > >        check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-> > >        validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
-> > >        __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
-> > >        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-> > >        down_write+0x3a/0x50 kernel/locking/rwsem.c:1590
-> > >        inode_lock include/linux/fs.h:980 [inline]
-> > >        ocfs2_del_inode_from_orphan+0x134/0x740 fs/ocfs2/namei.c:2730
-> > >        ocfs2_dio_end_io_write fs/ocfs2/aops.c:2306 [inline]
-> > >        ocfs2_dio_end_io+0x47b/0x1100 fs/ocfs2/aops.c:2404
-> > >        dio_complete+0x25e/0x790 fs/direct-io.c:281
-> > >        __blockdev_direct_IO+0x2bc0/0x31f0 fs/direct-io.c:1303
-> > >        ocfs2_direct_IO+0x260/0x2d0 fs/ocfs2/aops.c:2441
-> > >        generic_file_direct_write+0x1dc/0x3e0 mm/filemap.c:4189
-> > >        __generic_file_write_iter+0x120/0x240 mm/filemap.c:4358
-> > >        ocfs2_file_write_iter+0x157d/0x1d20 fs/ocfs2/file.c:2469
-> > >        iter_file_splice_write+0x97a/0x10f0 fs/splice.c:738
-> > >        do_splice_from fs/splice.c:938 [inline]
-> > >        direct_splice_actor+0x104/0x160 fs/splice.c:1161
-> > >        splice_direct_to_actor+0x5b3/0xcd0 fs/splice.c:1105
-> > >        do_splice_direct_actor fs/splice.c:1204 [inline]
-> > >        do_splice_direct+0x187/0x270 fs/splice.c:1230
-> > >        do_sendfile+0x4ec/0x7f0 fs/read_write.c:1370
-> > >        __do_sys_sendfile64 fs/read_write.c:1431 [inline]
-> > >        __se_sys_sendfile64+0x13e/0x190 fs/read_write.c:1417
-> > >        do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-> > >        do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
-> > >        entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > > 
-> > > Fix this by acquiring &ocfs2_quota_ip_alloc_sem_key after acquiring
-> > > &ocfs2_sysfile_lock_key[ORPHAN_DIR_SYSTEM_INODE], effectively calling
-> > > down_write(&oi->ip_alloc_sem) after the call to
-> > > ocfs2_del_inode_from_orphan().
-> > > 
-> > > Reported-by: syzbot+78359d5fbb04318c35e9@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=78359d5fbb04318c35e9
-> > > Tested-by: syzbot+78359d5fbb04318c35e9@syzkaller.appspotmail.com
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
-> > > ---
-> > >  fs/ocfs2/aops.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
-> > > index 76c86f1c2b1c..586e3b74d782 100644
-> > > --- a/fs/ocfs2/aops.c
-> > > +++ b/fs/ocfs2/aops.c
-> > > @@ -2295,8 +2295,6 @@ static int ocfs2_dio_end_io_write(struct inode *inode,
-> > >  		goto out;
-> > >  	}
-> > >  
-> > > -	down_write(&oi->ip_alloc_sem);
-> > > -
-> > >  	/* Delete orphan before acquire i_rwsem. */
-> > >  	if (dwc->dw_orphaned) {
-> > >  		BUG_ON(dwc->dw_writer_pid != task_pid_nr(current));
-> > > @@ -2309,6 +2307,8 @@ static int ocfs2_dio_end_io_write(struct inode *inode,
-> > >  			mlog_errno(ret);
-> > >  	}
-> > >  
-> > > +	down_write(&oi->ip_alloc_sem);
-> > > +
-> > >  	di = (struct ocfs2_dinode *)di_bh->b_data;
-> > >  
-> > >  	ocfs2_init_dinode_extent_tree(&et, INODE_CACHE(inode), di_bh);
-> > > 
-> > > base-commit: 765e56e41a5af2d456ddda6cbd617b9d3295ab4e
-> > 
-
+> Fix this by modifying target_core_item_dbroot_store() to use kern_path()
+> instead of filp_open() to avoid opening the file using filesystem-specific
+> function __configfs_open_file(), and further modifying it to make this
+> fix compatible.
+> 
+> Reported-by: syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=f6e8174215573a84b797
+> Tested-by: syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+> ---
+>  drivers/target/target_core_configfs.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/target/target_core_configfs.c b/drivers/target/target_core_configfs.c
+> index b19acd662726..f29052e6a87d 100644
+> --- a/drivers/target/target_core_configfs.c
+> +++ b/drivers/target/target_core_configfs.c
+> @@ -108,8 +108,8 @@ static ssize_t target_core_item_dbroot_store(struct config_item *item,
+>  					const char *page, size_t count)
+>  {
+>  	ssize_t read_bytes;
+> -	struct file *fp;
+>  	ssize_t r = -EINVAL;
+> +	struct path path = {};
+>  
+>  	mutex_lock(&target_devices_lock);
+>  	if (target_devices) {
+> @@ -131,17 +131,18 @@ static ssize_t target_core_item_dbroot_store(struct config_item *item,
+>  		db_root_stage[read_bytes - 1] = '\0';
+>  
+>  	/* validate new db root before accepting it */
+> -	fp = filp_open(db_root_stage, O_RDONLY, 0);
+> -	if (IS_ERR(fp)) {
+> +	r = kern_path(db_root_stage, LOOKUP_FOLLOW, &path);
+> +	if (r) {
+>  		pr_err("db_root: cannot open: %s\n", db_root_stage);
+>  		goto unlock;
+>  	}
+> -	if (!S_ISDIR(file_inode(fp)->i_mode)) {
+> -		filp_close(fp, NULL);
+> +	if (!d_is_dir(path.dentry)) {
+> +		path_put(&path);
+>  		pr_err("db_root: not a directory: %s\n", db_root_stage);
+> +		r = -ENOTDIR;
+>  		goto unlock;
+>  	}
+> -	filp_close(fp, NULL);
+> +	path_put(&path);
+>  
+>  	strscpy(db_root, db_root_stage);
+>  	pr_debug("Target_Core_ConfigFS: db_root set to %s\n", db_root);
+> 
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> -- 
+> 2.34.1
+> 
 
 Hello all,
 
 Just a gentle ping on this thread.
 
-Thanks,
+Thanks, 
 Prithvi
