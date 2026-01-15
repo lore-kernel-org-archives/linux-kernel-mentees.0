@@ -1,65 +1,82 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DBF6FC5;
-	Thu, 15 Jan 2026 04:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFD73BC4E4
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 16:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768452486; cv=none; b=IV0dAScSVwPneWpDHvUxVyYoCe02+PxSuLjnRUXhzfl6S54JaT2CBxYVVEItG6Fh6/XDn0fBeF6lVlnDU2p0DPxeaVzg5gse1VVehVrAR/M1bgwwwLHrgwwTxlbSMKX96o31cke/Pn+L/47Z4JuzwcFiXRnx1WYja9u3Fkf4Qds=
+	t=1768496257; cv=none; b=ZUqke3M37blv2ufEPtqs6lJzlGP4gsWivfJkdvw+0U3r10eZe1RROFTvqxNw/oPOmQTd4yxv1gAw1lAjepovUgs5BV/1fBfp6fsktB7MAm30YoSmR9R+N0tDaqpES1kQUZhrj2JPtOik53bGrHp4xrGNNPvc/3+m6vZ/NXbSTk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768452486; c=relaxed/simple;
-	bh=47OtzQgY6nHGb4lxcI/4PzOywfsjoHrQCdwasbHu3Xg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=shmKmXODwf2n0f0lM/D2yx7EgpW/dPd/5QZTbpd5AKSrkVBt/YYhYuJ0vzZRuLV18whx2OKSzPzK8a94+fXI1D4MBFiYSGm6ElP2a6c2HXSd/cx9YrZnwh35atgekY2KZKFIHqM26QZdqNy4dBQtAfx/hLmi6NkgrCVDUt5TAI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pu4laoO2; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768496257; c=relaxed/simple;
+	bh=RRiX81CZwQhe6tuMCfbcvaDGNPLe3O4jA/JD7UOTEbY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dA+5LkBnpzZGU4ad1Gp3vI8VgUPbvrsojJ6hYPtke7dYKwfkpzlL3ZT3mSRLpHGWlYX7R7/dfkR1n5L1H/L5fWRtGAjyU6Wm2z2sMjk4g3x+lCCV/wPHK2QfyRAgOM2NyKfgkb/pEmZluUBndGK6Bomj1tzBN42MlbTUB1DZ+I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=QRP82hww; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pu4laoO2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=D87Ch2KqlTEe3e8iwoPHWXFYV51pB8QmLIpUm7OMBBk=; b=pu4laoO21I+dXLugCg7RHmuqFE
-	E8/hTSNKjZVwuWVfEs2Ko2NAC+4pj5hSMKurZ3SIrZBhbXt2hfF6+TIV6zGZ5VNt6gez+CbyVgAh4
-	DViBVRDU1NImDjs2SgzsY7BaaIMrv4AaW1DkxYgLghGLzbO4Jni7Vjc83/eOOa++Nn+C4MwXhVKXk
-	CabyDFF5Wr4Ra9VZlse0AIZtnThPoe2U8b4B1GUl+zBjRYR4RvUUGhAAy6vbkp9LEeLaVp4FIbq00
-	F8k5bBawBRQNzlh4T8p++LHq194rgJxI3k1uAsMBQtZ5psv85kksks/17/ZuTV7kFDA5wREv2OJ5x
-	Vq5e+A8w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgFH2-00000007DOE-1UeB;
-	Thu, 15 Jan 2026 04:47:56 +0000
-Date: Thu, 15 Jan 2026 04:47:56 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Prithvi <activprithvi@gmail.com>
-Cc: joseph.qi@linux.alibaba.com, mark@fasheh.com, jlbec@evilplan.org,
-	heming.zhao@suse.com, ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH] ocfs2: Fix circular locking dependency in
- ocfs2_del_inode_from_orphan()
-Message-ID: <aWhxfLwUvHDswsIY@casper.infradead.org>
-References: <20260106125100.327980-1-activprithvi@gmail.com>
- <94b4189d-dfb6-4443-a336-abbae89d36ad@linux.alibaba.com>
- <20260108183652.ro4xueuj6itfaph3@inspiron>
- <20260115031809.w7ksrj2ostwyxa54@inspiron>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="QRP82hww"
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4dsTgM6kW4z1XLwWq;
+	Thu, 15 Jan 2026 16:57:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1768496253; x=1771088254; bh=pyJZLrfYN2fopVo75CqixFeJ
+	Ag7d9LR6Rf52qTESDCM=; b=QRP82hww25rHq/9BSUHHSiWm1b2wYPyDivT8jGCh
+	CCVOapBk8eRxKB88JFKz8F6EzoAEejIbMqs1DRlmtSoqyeh9VdI2dfuh34JuR6Ez
+	15a5930vopQWoat26A4oVSHOPOf/6WJyi31fOG8zX9m10ZtsBoBE3J625T606xYl
+	ojah3djRvWEoep14fQAL3WpSdMsxbJBi3hoEYl+1g1uZQQ5ppeqlHhZ8aHL3JVZ2
+	5OfCbvi6sY5eRi8sEF7f+85Y0MQo//vrxTrr1qiiei9A3L3HyWxrTM8jL7CIHOds
+	8jVhW9vA9caNMmis+ofnhUnkz/MiJLIkuDgvxrRn5IPBVQ==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id EthOTvHz3v5K; Thu, 15 Jan 2026 16:57:33 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4dsTgF6l2wz1XLyhS;
+	Thu, 15 Jan 2026 16:57:29 +0000 (UTC)
+Message-ID: <2f88aa9b-b1c2-4b02-81e8-1c43b982db1b@acm.org>
+Date: Thu, 15 Jan 2026 08:57:28 -0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115031809.w7ksrj2ostwyxa54@inspiron>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scsi: target: Fix recursive locking in
+ __configfs_open_file()
+To: Prithvi Tambewagh <activprithvi@gmail.com>, martin.petersen@oracle.com
+Cc: linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, hch@lst.de, jlbec@evilplan.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
+ syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com, stable@vger.kernel.org
+References: <20260108191523.303114-1-activprithvi@gmail.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260108191523.303114-1-activprithvi@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 15, 2026 at 08:48:09AM +0530, Prithvi wrote:
-> On Fri, Jan 09, 2026 at 12:07:00AM +0530, Prithvi wrote:
-> > IIUC that would be the case when ocfs2_dio_end_io_write() operates on normal
-> > files. However, according to the report of the bug, ocfs2_dio_end_io_write()
-> > is holding &ocfs2_quota_ip_alloc_sem_key so I think due to random fuzzing by 
-> > syzkaller, the function is curently operating on a quota file.
+On 1/8/26 12:15 PM, Prithvi Tambewagh wrote:
+> This poses a possibility of recursive locking,
+> which triggers the lockdep warning.
 
-So the right fix is probably to disallow DIO to a quota file, wouldn't
-you say?
+Patches that fix a lockdep complaint should include the full lockdep 
+complaint.
+
+Since the fixed lockdep complaint didn't trigger a deadlock it must be
+a false positive complaint, isn't it? Such complaints should be fixed
+but without additional information we can't tell what the best way is to
+fix the complaint.
+
+Thanks,
+
+Bart.
