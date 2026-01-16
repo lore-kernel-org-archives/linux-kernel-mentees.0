@@ -1,82 +1,78 @@
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFD73BC4E4
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 16:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF036336EC9
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 Jan 2026 06:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768496257; cv=none; b=ZUqke3M37blv2ufEPtqs6lJzlGP4gsWivfJkdvw+0U3r10eZe1RROFTvqxNw/oPOmQTd4yxv1gAw1lAjepovUgs5BV/1fBfp6fsktB7MAm30YoSmR9R+N0tDaqpES1kQUZhrj2JPtOik53bGrHp4xrGNNPvc/3+m6vZ/NXbSTk8=
+	t=1768543265; cv=none; b=Vk+Zcy01IiP7pWSPl24YhtxGzf6oLDK+n2TWPHkH7gooLD2NuRtZlROkjzzB10rhEIcqbYvTrtvug5ooPYMrKM5O4jOEQsX5JNuxfXBnbsPJ9XWJfB8Fo4Le26uvvs78aRuRlVX2uM0c7pJbeIuvXnngngekX/P4BvaQZlBhLwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768496257; c=relaxed/simple;
-	bh=RRiX81CZwQhe6tuMCfbcvaDGNPLe3O4jA/JD7UOTEbY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dA+5LkBnpzZGU4ad1Gp3vI8VgUPbvrsojJ6hYPtke7dYKwfkpzlL3ZT3mSRLpHGWlYX7R7/dfkR1n5L1H/L5fWRtGAjyU6Wm2z2sMjk4g3x+lCCV/wPHK2QfyRAgOM2NyKfgkb/pEmZluUBndGK6Bomj1tzBN42MlbTUB1DZ+I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=QRP82hww; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="QRP82hww"
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4dsTgM6kW4z1XLwWq;
-	Thu, 15 Jan 2026 16:57:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1768496253; x=1771088254; bh=pyJZLrfYN2fopVo75CqixFeJ
-	Ag7d9LR6Rf52qTESDCM=; b=QRP82hww25rHq/9BSUHHSiWm1b2wYPyDivT8jGCh
-	CCVOapBk8eRxKB88JFKz8F6EzoAEejIbMqs1DRlmtSoqyeh9VdI2dfuh34JuR6Ez
-	15a5930vopQWoat26A4oVSHOPOf/6WJyi31fOG8zX9m10ZtsBoBE3J625T606xYl
-	ojah3djRvWEoep14fQAL3WpSdMsxbJBi3hoEYl+1g1uZQQ5ppeqlHhZ8aHL3JVZ2
-	5OfCbvi6sY5eRi8sEF7f+85Y0MQo//vrxTrr1qiiei9A3L3HyWxrTM8jL7CIHOds
-	8jVhW9vA9caNMmis+ofnhUnkz/MiJLIkuDgvxrRn5IPBVQ==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id EthOTvHz3v5K; Thu, 15 Jan 2026 16:57:33 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4dsTgF6l2wz1XLyhS;
-	Thu, 15 Jan 2026 16:57:29 +0000 (UTC)
-Message-ID: <2f88aa9b-b1c2-4b02-81e8-1c43b982db1b@acm.org>
-Date: Thu, 15 Jan 2026 08:57:28 -0800
+	s=arc-20240116; t=1768543265; c=relaxed/simple;
+	bh=93I/oMEzhd/e3i+NwOuCZv4NZFaytmGEp7ozk/HGMh8=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=dS1mlnZLkQ5d6l28DdGg111ZpRFEoW18Q5fjGLVcUHbXzI0AC6nRiAb7o/L6QEIhQxnDtRrkldfb0MKrbVqofbDFWRiGeq4AzbtAMJtsihJ8nbz9Q1YMkKVFTlqzXbmsWrK1bHRWJpjFTyj8fQqQxnNF7CGQIVk8vSu/0XK3ImA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-404201da527so8031708fac.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 22:01:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768543263; x=1769148063;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqxeTpOTSPSaeYMkDqzGlSX59eRy8+Mpf+mJ9vwFUWQ=;
+        b=IEgqdnBZhQkZJLrqlW7nqghmOY/XQOYmHFxEWaZpJelMuvxBwZ3CnSIj0i4Pq2kM6o
+         adou2tRe1lOE9OAZIReF9N42X+1noOiYjScz9lsI/sKGXqvVgSJjP2rUxL8Tu5Fc1ndw
+         UdU0gxX5J0gwgPALHQpDMYSyHJBz/iLnYw9/fStFe/L33VpBVwxCE++fBHYWBhdx21mQ
+         obmZuI3zpuJ4wT+PJ+kT2L+P93eT99VHApGz2KvvecnGqX6jOKFvFBvNm6yc3IaYcVjC
+         xKNKkEugSzpu7RlVKpiaqndoHDh2OuD+QJ+2Io0N3UGmPshF2XtVJPzxYiGvnkY44LO8
+         hGdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQl4KExDWsRgot57IT45QdRSHCt5uRXFr3K70/lV6X9SUyNxDg0acRrrqxClXlafuSNH/eYQ9ZQ35Z5NdL53bafDwoeg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztJk/snUFLX4zh2Pj3Roa/4Ih0AbZ4xJCZs2lYSpUp8CrFiFhu
+	nFkZ4zn/LhAPCIWcm+6u1tFDQt5eXqP4sbsEZEoC1WAncJT8vtZPYpgPOdzw3efOtnnkxn9619U
+	velCF6L949AbeBxiMi7BiI5VkJyGHf7h4j1X+OssPkcs6/CJ7AEI2azNTrSA=
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scsi: target: Fix recursive locking in
- __configfs_open_file()
-To: Prithvi Tambewagh <activprithvi@gmail.com>, martin.petersen@oracle.com
-Cc: linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
- linux-kernel@vger.kernel.org, hch@lst.de, jlbec@evilplan.org,
- linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, david.hunter.linux@gmail.com, khalid@kernel.org,
- syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20260108191523.303114-1-activprithvi@gmail.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20260108191523.303114-1-activprithvi@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a4a:ca0a:0:b0:659:9a49:8e2e with SMTP id
+ 006d021491bc7-6610e65373cmr3170889eaf.32.1768543262921; Thu, 15 Jan 2026
+ 22:01:02 -0800 (PST)
+Date: Thu, 15 Jan 2026 22:01:02 -0800
+In-Reply-To: <67117fd9.050a0220.10f4f4.0004.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6969d41e.050a0220.58bed.003e.GAE@google.com>
+Subject: Re: [syzbot] [ocfs2?] KASAN: slab-use-after-free Read in ocfs2_reserve_suballoc_bits
+From: syzbot <syzbot+af14efe17dfa46173239@syzkaller.appspotmail.com>
+To: activprithvi@gmail.com, akpm@linux-foundation.org, 
+	david.hunter.linux@gmail.com, dmantipov@yandex.ru, heming.zhao@suse.com, 
+	jlbec@evilplan.org, joseph.qi@linux.alibaba.com, khalid@kernel.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	mark@fasheh.com, ocfs2-devel@lists.linux.dev, skhan@linuxfoundation.org, 
+	stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/8/26 12:15 PM, Prithvi Tambewagh wrote:
-> This poses a possibility of recursive locking,
-> which triggers the lockdep warning.
+syzbot suspects this issue was fixed by commit:
 
-Patches that fix a lockdep complaint should include the full lockdep 
-complaint.
+commit e1c70505ee8158c1108340d9cd67182ade93af4a
+Author: Dmitry Antipov <dmantipov@yandex.ru>
+Date:   Thu Oct 30 15:30:02 2025 +0000
 
-Since the fixed lockdep complaint didn't trigger a deadlock it must be
-a false positive complaint, isn't it? Such complaints should be fixed
-but without additional information we can't tell what the best way is to
-fix the complaint.
+    ocfs2: add extra consistency checks for chain allocator dinodes
 
-Thanks,
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140a0852580000
+start commit:   36c254515dc6 Merge tag 'powerpc-6.12-4' of git://git.kerne..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7a3fccdd0bb995
+dashboard link: https://syzkaller.appspot.com/bug?extid=af14efe17dfa46173239
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13444727980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11861440580000
 
-Bart.
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: ocfs2: add extra consistency checks for chain allocator dinodes
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
