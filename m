@@ -1,78 +1,121 @@
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF036336EC9
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 Jan 2026 06:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37FB302767;
+	Sat, 17 Jan 2026 11:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768543265; cv=none; b=Vk+Zcy01IiP7pWSPl24YhtxGzf6oLDK+n2TWPHkH7gooLD2NuRtZlROkjzzB10rhEIcqbYvTrtvug5ooPYMrKM5O4jOEQsX5JNuxfXBnbsPJ9XWJfB8Fo4Le26uvvs78aRuRlVX2uM0c7pJbeIuvXnngngekX/P4BvaQZlBhLwU=
+	t=1768648132; cv=none; b=G/GJXbwuVA/Wv9mrEIXi5IgihYTEk0O6y2UINQXM433LXQMnTnKwdyePqZKCy3eI7UFiCsfX6VXcNWL7Bkc0rgx/U21pOk8cxjH1MdDoD8qhleQQfbcz6MXtJaJBp9a8hyBPfsfGLP7R3rLEMU50KHsRUJz4yXFzoXUiDJ4mnx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768543265; c=relaxed/simple;
-	bh=93I/oMEzhd/e3i+NwOuCZv4NZFaytmGEp7ozk/HGMh8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=dS1mlnZLkQ5d6l28DdGg111ZpRFEoW18Q5fjGLVcUHbXzI0AC6nRiAb7o/L6QEIhQxnDtRrkldfb0MKrbVqofbDFWRiGeq4AzbtAMJtsihJ8nbz9Q1YMkKVFTlqzXbmsWrK1bHRWJpjFTyj8fQqQxnNF7CGQIVk8vSu/0XK3ImA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-404201da527so8031708fac.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Jan 2026 22:01:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768543263; x=1769148063;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqxeTpOTSPSaeYMkDqzGlSX59eRy8+Mpf+mJ9vwFUWQ=;
-        b=IEgqdnBZhQkZJLrqlW7nqghmOY/XQOYmHFxEWaZpJelMuvxBwZ3CnSIj0i4Pq2kM6o
-         adou2tRe1lOE9OAZIReF9N42X+1noOiYjScz9lsI/sKGXqvVgSJjP2rUxL8Tu5Fc1ndw
-         UdU0gxX5J0gwgPALHQpDMYSyHJBz/iLnYw9/fStFe/L33VpBVwxCE++fBHYWBhdx21mQ
-         obmZuI3zpuJ4wT+PJ+kT2L+P93eT99VHApGz2KvvecnGqX6jOKFvFBvNm6yc3IaYcVjC
-         xKNKkEugSzpu7RlVKpiaqndoHDh2OuD+QJ+2Io0N3UGmPshF2XtVJPzxYiGvnkY44LO8
-         hGdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQl4KExDWsRgot57IT45QdRSHCt5uRXFr3K70/lV6X9SUyNxDg0acRrrqxClXlafuSNH/eYQ9ZQ35Z5NdL53bafDwoeg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YztJk/snUFLX4zh2Pj3Roa/4Ih0AbZ4xJCZs2lYSpUp8CrFiFhu
-	nFkZ4zn/LhAPCIWcm+6u1tFDQt5eXqP4sbsEZEoC1WAncJT8vtZPYpgPOdzw3efOtnnkxn9619U
-	velCF6L949AbeBxiMi7BiI5VkJyGHf7h4j1X+OssPkcs6/CJ7AEI2azNTrSA=
+	s=arc-20240116; t=1768648132; c=relaxed/simple;
+	bh=+xBLSIUx2N5KxfA2VeFB//he0XAsrbIf0+B/O+Yz9Jc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ojdO4yz+jwUwRnbBnOVthzJne3J5Pv8gbDivBadv57admL4ODKuYbO/jgmcbzszX8JHd0tHY9ZmVRevvyFlMmYOnhxRPqOeKP5D1lrgmsHBahZrH8W+G8DOXozChUYGEKcMxfYmjD2nJlxqTo4tW/c8siHwiPsbNcGFXXWxiFLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=S/J2s2LJ; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="S/J2s2LJ"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 549E340E00DE;
+	Sat, 17 Jan 2026 11:08:46 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id dnQvOZ78Pixd; Sat, 17 Jan 2026 11:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768648119; bh=/A+0bk7B40xIPt0aGnnJOZFvRXKoh6vVmNLjdynIbEI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S/J2s2LJHctqwlE0CtnLqOtSoI0/kwSFlCjfgzW9ohr6XUK6scjyDjYSYeZP2vLWn
+	 iEQF03TwH8JJELhwItr3de8rHFBfeZTdV4t7g7KLD2oeH0KnLcFvm3QsyF9q87PfZl
+	 CJA0L5xNmMoPNqBu/q0p9r8dHvjzzN1TCW6t4Jft3ZnAb4cfCsB0AcClAiECwBgpAz
+	 MUaM4I5Bc35q9QV9EZQTwd4PuwAGUIn/4kG+u/4YG2UJYbJwmMaPwNWVmc7CYPiUmg
+	 23TR6JWA+t8z8pISYWVqrxSS85chTH6orToXtCuauij7K9W/DMVru0jawAO7VKY6Py
+	 iMBnkvgLOv7jkqW2+q9m/shl852bevU7nNMxbYS3UuOkaugUHTkPn4XVl3z+JtG1/2
+	 3m3KNPMtaOl+hoI86M+5nEKodJZsuQKTSSTVLYeEfTfrWFevDm2YvBmduCW8lsjj/R
+	 je9Nu807YnHV57be3lVQqJ3rujkUuwRha0a4j+iDiOj2q7RMiezRYKukaIxPKOsKfO
+	 mnGQf1FfBiwrxppsR72uAOhpxk/APaCJtnto2nYZbMoAeumgNblyJw41yFzdMEgG1s
+	 DyvlZahH5YFpLxyHI1R0T2jCenLtkoBPwtSQ2tQWlXU0f+3X0DpNeWz2ZZiZhgIS8j
+	 zTTrXMAV4yCmjqoWlhcka3pE=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 7521940E00DA;
+	Sat, 17 Jan 2026 11:08:17 +0000 (UTC)
+Date: Sat, 17 Jan 2026 12:08:09 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: naresh.kamboju@linaro.org, broonie@kernel.org, anders.roxell@linaro.org,
+	arnd@arndb.de, benjamin.copeland@linaro.org,
+	dan.carpenter@linaro.org, dave.hansen@linux.intel.com,
+	hpa@zytor.com, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, lkft-triage@lists.linaro.org,
+	mingo@redhat.com, regressions@lists.linux.dev,
+	richard.weiyang@gmail.com, shuah@kernel.org, surenb@google.com,
+	tglx@linutronix.de, x86@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: Re: [PATCH] selftests/x86: Add selftests include path for
+ kselftest.h after centralization
+Message-ID: <20260117110809.GAaWttmUvKQddPgw07@fat_crate.local>
+References: <CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com>
+ <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:ca0a:0:b0:659:9a49:8e2e with SMTP id
- 006d021491bc7-6610e65373cmr3170889eaf.32.1768543262921; Thu, 15 Jan 2026
- 22:01:02 -0800 (PST)
-Date: Thu, 15 Jan 2026 22:01:02 -0800
-In-Reply-To: <67117fd9.050a0220.10f4f4.0004.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6969d41e.050a0220.58bed.003e.GAE@google.com>
-Subject: Re: [syzbot] [ocfs2?] KASAN: slab-use-after-free Read in ocfs2_reserve_suballoc_bits
-From: syzbot <syzbot+af14efe17dfa46173239@syzkaller.appspotmail.com>
-To: activprithvi@gmail.com, akpm@linux-foundation.org, 
-	david.hunter.linux@gmail.com, dmantipov@yandex.ru, heming.zhao@suse.com, 
-	jlbec@evilplan.org, joseph.qi@linux.alibaba.com, khalid@kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	mark@fasheh.com, ocfs2-devel@lists.linux.dev, skhan@linuxfoundation.org, 
-	stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251022062948.162852-1-reddybalavignesh9979@gmail.com>
 
-syzbot suspects this issue was fixed by commit:
+On Wed, Oct 22, 2025 at 11:59:48AM +0530, Bala-Vignesh-Reddy wrote:
+> The previous change centralizing kselftest.h include path in lib.mk
+> caused x86 selftests to fail, as x86 Makefile overwrites CFLAGS using
+> ":=", dropping the include path added in lib.mk. Therefore, helpers.h
+> could not find kselftest.h during compilation.
+> 
+> Fix this by adding the tools/testing/sefltest to CFLAGS in x86 Makefile.
+> 
+> Fixes: 4d89827dfb27 ("selftests: complete kselftest include centralization")
 
-commit e1c70505ee8158c1108340d9cd67182ade93af4a
-Author: Dmitry Antipov <dmantipov@yandex.ru>
-Date:   Thu Oct 30 15:30:02 2025 +0000
+This should be:
 
-    ocfs2: add extra consistency checks for chain allocator dinodes
+e6fbd1759c9e ("selftests: complete kselftest include centralization")
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=140a0852580000
-start commit:   36c254515dc6 Merge tag 'powerpc-6.12-4' of git://git.kerne..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7a3fccdd0bb995
-dashboard link: https://syzkaller.appspot.com/bug?extid=af14efe17dfa46173239
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13444727980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11861440580000
+@akpm: I see you took the above commit - I'll take this fix through tip.
 
-If the result looks correct, please mark the issue as fixed by replying with:
+> Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Closes: https://lore.kernel.org/lkml/CA+G9fYvKjQcCBMfXA-z2YuL2L+3Qd-pJjEUDX8PDdz2-EEQd=Q@mail.gmail.com/T/#m83fd330231287fc9d6c921155bee16c591db7360
+> 
+> Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+> ---
+>  tools/testing/selftests/x86/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/testing/selftests/x86/Makefile b/tools/testing/selftests/x86/Makefile
+> index 83148875a12c..434065215d12 100644
+> --- a/tools/testing/selftests/x86/Makefile
+> +++ b/tools/testing/selftests/x86/Makefile
+> @@ -36,6 +36,7 @@ BINARIES_32 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_32))
+>  BINARIES_64 := $(patsubst %,$(OUTPUT)/%,$(BINARIES_64))
+>  
+>  CFLAGS := -O2 -g -std=gnu99 -pthread -Wall $(KHDR_INCLUDES)
+> +CFLAGS += -I $(top_srcdir)/tools/testing/selftests/
+>  
+>  # call32_from_64 in thunks.S uses absolute addresses.
+>  ifeq ($(CAN_BUILD_WITH_NOPIE),1)
+> -- 
 
-#syz fix: ocfs2: add extra consistency checks for chain allocator dinodes
+Thx.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
