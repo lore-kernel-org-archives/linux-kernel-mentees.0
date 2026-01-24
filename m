@@ -1,136 +1,135 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49482D4B77
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 Jan 2026 20:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55C91A9FAB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 24 Jan 2026 07:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769198792; cv=none; b=OQhfuezh+MrhEB4rxxlvlCNkZICuOFmEQM+zZLacKfV6xHGCV18y3RNdSD2QeVua4/knqFNXriEBsYBBZ4kyrt2DOLP+O4XpMd1lzLXtuM2gbyFw/p8v4ko3Cx6cxmAfOBQ/opVVciNWN/ya2aGXMn7xSxevA46SOUSCpm+IWlo=
+	t=1769238469; cv=none; b=STv5KgKoyLvkyi1UpxPpk+EtjFQ1GDz8zgVz7eA0j+fL7wcwzctjhiUvrwCnhV1GvGY47zUFScMukbRSsOrc+cWl72yj8cTxrO12USmRu0ALe5eOG5vG1KuJiJl3NrpqWioDRa3lFO5eCq9MdxDUBr6vURxmEA0AuYRZ3HXq6Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769198792; c=relaxed/simple;
-	bh=v1sXU4PdFUfhYag1oK10C//CQAN0sHDfsL1wvzXt6y4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ENrEVr5OGC7esTNxAwv8H06hPsRadRrPP5rSZ0Sx5/sEShO8EHWgL6BgSw1iZbPGqa0YL+3za3DCGSggvdOoJotRn+MdwRYL5mG9UHxDhs7rAtRmwQ3D9sT+mdJdCrjIfVEyJ0vurnmvDVTBMq7otDSOetig1RNpodv22p2sbg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRCM6Eb9; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1769238469; c=relaxed/simple;
+	bh=J3zHDYzfTTCt2dU5qEXpmS9XYoXRIWt7rSr+GnITUeA=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=VQ4UmwPEA4+k78su2qLkrcuMl8hkoVpakqIRKG2m01enlDmelZXM7SZX3da8fAuzWsQK1Hjs+/4//Eb/NFpaW1avKiY1HXIJayvP7kMadgeTGtLOpvnwcHCi9gYjCjxor4W1IhkqcZy7XPBpXIFP9joL3t2DEsyolIUr29VCCzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LWq7a7v8; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRCM6Eb9"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LWq7a7v8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A183C40AD2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 Jan 2026 20:06:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 95EFE60823
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 24 Jan 2026 07:07:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -5.795
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id OU1bnztq01er for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Jan 2026 20:06:30 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org ED02C40ACC
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ED02C40ACC
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YRCM6Eb9
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id ED02C40ACC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 Jan 2026 20:06:29 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-81c72659e6bso2655427b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 Jan 2026 12:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769198789; x=1769803589; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mz/jgqDQ6Gq5gSxog3VT5ArFAGGJtxquZRf1ad8YXHk=;
-        b=YRCM6Eb9pVNmLOFi3nr1UsQym2aimF1nX3Jdka6X+qGMuxdh58arGQj9lfAsKOQi02
-         zzzZmC6B+qowYg1ZOFfR0e3kqfVD1OTj2D+F7QySX35Y/jqDmTANUDnaWDKKkWQHGgsk
-         9o+taC6L7TjaP6+KzIZTo0Vf7UQwrTdgEmoteRvrYy1B1aE5h6a2stKgr4iWusTKT5KV
-         dwtfTZqB3uVziO98PSSq67mVZlfDYAe058IHu7PNeHbbT34l3RKG4DlVD1ITBVl59Xfq
-         220SVvKFZ7qNmGavRWhpK03aYf0b4+1QTWaRPcJC6UDUUAU12MohvObiVyqqUSLy1Zyu
-         Efrg==
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5qdNmQERdMVu for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 24 Jan 2026 07:07:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=gmonaco@redhat.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6FA9260707
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6FA9260707
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LWq7a7v8
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6FA9260707
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 24 Jan 2026 07:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769238464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J3zHDYzfTTCt2dU5qEXpmS9XYoXRIWt7rSr+GnITUeA=;
+	b=LWq7a7v8hfNkiaX+TMW1rbtPQmHHSDDUOuDXjSwgoaUKyb0dzEXnFeyrdGszGyQlaPadk+
+	uitbVomfsRY23nxnGKYrwCVuDhvmCo0gTR/Yxy5qsT2Faaq/d6KgtgpXqNyKJeecEzSMzz
+	xAjcey1rn9EMROK/Yjnj3ZL4l6BZBgI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-9-qFMqBf-yPmO-xMN20AVq1g-1; Sat, 24 Jan 2026 02:07:42 -0500
+X-MC-Unique: qFMqBf-yPmO-xMN20AVq1g-1
+X-Mimecast-MFC-AGG-ID: qFMqBf-yPmO-xMN20AVq1g_1769238461
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47d4029340aso39767345e9.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 23 Jan 2026 23:07:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769198789; x=1769803589;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mz/jgqDQ6Gq5gSxog3VT5ArFAGGJtxquZRf1ad8YXHk=;
-        b=e2LgBOPo3XDso/okumDRKyAJSU3jgW4jWldbrcNzbpf21nR52jItuau0QojuehytD/
-         E8a3pFeKinliEoXz21aOUpCjyQbfeHk25D4pNuFmrS6W5KFfBvl4qgUo/epWD9Afp0uX
-         iynivcBXl+9Y289r2j0lMKDdSnEpSAp4YLRheQMqKhTQkv2wpJV6lbUVAua/cCky6VNi
-         vmZUSBqQGcddAihTOh/7lqzigM3oXwTu/gcsJRLhZq/744gr0undXt1EuLsaQHw/5K2V
-         m0Q9Dp1CJ2skF2gl5uHaPQhqbgWJcD0cAyneoK43kVbIr79MENlPcajAsMbem50CHJmO
-         1YSQ==
-X-Gm-Message-State: AOJu0YyI88aNLp69jvgelohK26MtooStHrrUA7dj91DwR0ugVW1STfRt
-	TrPyn5TQkLG3xMbpYj1f0O6wdeRgLiU1zGhr+cUBOeA8T+zt0SCctFlOc3n+koH/
-X-Gm-Gg: AZuq6aLl6GOMyY25MVLU0bPL6Zr/SwmiiRT79mpy16Gzpd+6t8Q2g+4H1+oWJPf4bgf
-	Hsg8ianvOFTBJNGiN+99Cw5TDdMOOAf+VhcgiAlKtmkWW8vMoPYYU/8NQfqxUPbEWdB60PcNABY
-	nLr3HuybcA5PFxAWf6v+Mjz4/N1QGRngcyyx+2P79Z0jfTVxUFmx1YcGDfUsPBx7JI871lV1eRP
-	iFdkgmFsgqAjtbK5IBNbGnMTJWDI+vFqV5XykTwnxzXM3vj7VwAEvRn9O2DtJWz6j+4pOKbteq5
-	vEUkl+J8OEIvdVRxWqH7MVZrgV89DTY7Lwm4UeL/4nJ6ifdLfdSkvyzf44jSPbxJuy/gieuiqDJ
-	T2heRv+z6uY87uyHg0q0mHneAv2PFSR4ibA6X+spv/cxZN83HtRsdrJWj2bvciLwxcXm+NTqWST
-	bDUEpMbWMC735mosekjpU=
-X-Received: by 2002:a05:6a20:9c92:b0:38b:e944:3e94 with SMTP id adf61e73a8af0-38e6f7dad49mr3505436637.39.1769198788579;
-        Fri, 23 Jan 2026 12:06:28 -0800 (PST)
-Received: from [192.168.7.12] ([103.182.158.109])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a142e71sm2770571a12.11.2026.01.23.12.06.25
+        d=1e100.net; s=20230601; t=1769238461; x=1769843261;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J3zHDYzfTTCt2dU5qEXpmS9XYoXRIWt7rSr+GnITUeA=;
+        b=lJqpeY98b8qmdHIgxLI/IXxgClu9KSKUf1m2sO6AV6MEYAsnDEBDPjmSNjr5KD7guA
+         qqRu11RzPCu+reslaJfd1qL9nhzpGhbEW8sZMy5pcaadUTQKINhBZJGxURBJdBT6QrSU
+         DwyQV5z+KSHLCGIFbVxs/tataVCCj0idcOxPkHK0WfPYgz3bSRsICeC/Fk4f0jzVHNyK
+         sfi1cHTdT9Tum/unXv8yBnu8oTK95M//1Nzq1vQlu3HXMxEovFEGnYULKbOs4AKRcqpd
+         35saiyI+YnXDFnjs8vkE1ZppTeLVBoU6RF2G5Y1K+nIuiDe2pTSuNyPNgodFutqSt099
+         tm5Q==
+X-Gm-Message-State: AOJu0YyGR3658mv+4FNarB1ydqKGBwF4t2Pn3FINRsMIQzqGQKToVpaX
+	1ohWe9XsZa7AadYGVLIok6m5eadwJzjQ9zvjBy+RlYw9PSigEswgqvL/QF/TqLlwgfrZsCUfCwt
+	Jp+K+YwF5D0/364PclV8e7K6U+FKx5yFNVLGAKR3MHFBSez+xoUuk/id6iZseIgd0ikcPc4yM92
+	pImdGRYX9Uqx1QkA==
+X-Gm-Gg: AZuq6aLT/NIUOgd5W+Bc3+OcQ9fORECEzoKZ2kiQhDmemOC3Ao50houiwYvv4xiz+6q
+	FNW24RB1O8iZritNSSH2Bgxd8FJbhc592f1MiyNm2H5Hz1lenmvrk96MYp7Ra86iEQqOlRAbxu/
+	kYpVumR1CJyXcGPRilismIxt1PqI/qr7igrrJK9UTo296gfQ8MgB6sexHtWycviMIxsQWk1fCUP
+	2Fzyi2kH97v49zakypKSSeoU8ZZQhARyTxwlKJBHxjhCHNvwKmC8ZYk6R4teAOHJxPQdPPQfKcw
+	pg8jmCeh9t2Z3YYqjyzW+p3tOxQfrVcB6gEFmOTOu+PZT1Ov/Vqcd2LQ2Eyc1i2M/QYSYL1oRue
+	IUQnYqg==
+X-Received: by 2002:a05:600c:8217:b0:46e:761b:e7ff with SMTP id 5b1f17b1804b1-4804c9bff60mr82792175e9.28.1769238461385;
+        Fri, 23 Jan 2026 23:07:41 -0800 (PST)
+X-Received: by 2002:a05:600c:8217:b0:46e:761b:e7ff with SMTP id 5b1f17b1804b1-4804c9bff60mr82791905e9.28.1769238461003;
+        Fri, 23 Jan 2026 23:07:41 -0800 (PST)
+Received: from [127.0.0.1] ([195.174.134.45])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804d85cff5sm102409995e9.7.2026.01.23.23.07.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jan 2026 12:06:28 -0800 (PST)
-Message-ID: <c79d4fbd-e9a4-4d73-a650-b01f437a4c0b@gmail.com>
-Date: Sat, 24 Jan 2026 01:36:23 +0530
+        Fri, 23 Jan 2026 23:07:40 -0800 (PST)
+Date: Sat, 24 Jan 2026 07:07:39 +0000
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Soham Metha <sohammetha01@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-trace-kernel@vger.kernel.org
+Message-ID: <7350432b-f47c-4e9a-baee-b0d7d5dd1770@redhat.com>
+In-Reply-To: <c79d4fbd-e9a4-4d73-a650-b01f437a4c0b@gmail.com>
+References: <20251203202259.69116-1-sohammetha01@gmail.com> <c79d4fbd-e9a4-4d73-a650-b01f437a4c0b@gmail.com>
+Subject: Re: [PATCH] rv: Fix dead link to monitor_synthesis.rst
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] rv: Fix dead link to monitor_synthesis.rst
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
- Gabriele Monaco <gmonaco@redhat.com>, linux-trace-kernel@vger.kernel.org
-References: <20251203202259.69116-1-sohammetha01@gmail.com>
-Content-Language: en-US
-From: Soham Metha <sohammetha01@gmail.com>
-In-Reply-To: <20251203202259.69116-1-sohammetha01@gmail.com>
+X-Correlation-ID: <7350432b-f47c-4e9a-baee-b0d7d5dd1770@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hD6SJkhs7i1DsR-ac_Q0wIZ8BidcUC4iY6wBLU8bZfE_1769238461
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
+2026-01-23T20:06:35Z Soham Metha <sohammetha01@gmail.com>:
+> On 04/12/25 01:52, Soham Metha wrote:
+>> --- a/include/rv/da_monitor.h
+>> +++ b/include/rv/da_monitor.h
+>> @@ -8,7 +8,7 @@
+>> =C2=A0 * The dot2k tool is available at tools/verification/dot2k/
+>> =C2=A0 *
+>> =C2=A0 * For further information, see:
+>> - *=C2=A0=C2=A0 Documentation/trace/rv/da_monitor_synthesis.rst
+>> + *=C2=A0=C2=A0 Documentation/trace/rv/monitor_synthesis.rst
+>> =C2=A0 */
+> Hi,
+>
+> Just a gentle ping on this documentation patch in case it was missed.
+> Please let me know if any changes are needed.
 
+Hi Soham,
 
-On 04/12/25 01:52, Soham Metha wrote:
-> The file 'da_monitor_synthesis.rst' was renamed to 'monitor_synthesis.rst' in
-> commit f40a7c060207
-> ("Documentation/rv: Prepare monitor synthesis document for LTL inclusion").
-> 
-> Update the reference to point to the new filename.
-> 
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
-> ---
-> No functional changes.
-> 
->  include/rv/da_monitor.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
-> index 17fa4f6e5ea6..c2cea209f230 100644
-> --- a/include/rv/da_monitor.h
-> +++ b/include/rv/da_monitor.h
-> @@ -8,7 +8,7 @@
->   * The dot2k tool is available at tools/verification/dot2k/
->   *
->   * For further information, see:
-> - *   Documentation/trace/rv/da_monitor_synthesis.rst
-> + *   Documentation/trace/rv/monitor_synthesis.rst
->   */
->  
->  #include <rv/automata.h>
+the same change was included in [1], which is already on linux-next.
+I think I missed your patch since it apparently arrived first.
 
-Hi,
+Thanks anyway,
+Gabriele
 
-Just a gentle ping on this documentation patch in case it was missed.
-Please let me know if any changes are needed.
+[1] - https://lore.kernel.org/lkml/20251230075337.11993-1-slopixelz@gmail.c=
+om
 
-Thanks,
-Soham
