@@ -1,144 +1,127 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD97221DAE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 10:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0113314B9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 11:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769421628; cv=none; b=Dm+jgwub5ebaDShlAzOBjwDsvVps5AlQZ0V0BNqZnRfJOlz+XnwAivZNHPRX9GL25/EXgDg+0KC6ZNgzjcf7qfOTiJRxz3hsQiBiAUIyIY394HTnY9JJwOIs7osvr4mssRIbnQUgOePoVRRdCHjCQzXxJ7hFTSV8CyZGgGLhf9s=
+	t=1769426025; cv=none; b=g9s2JzEj4UK3RNa66gmmfwDR+NAK6bo8L/7PaKH2VEhVwbLElE+y0vaLw8e5qiauUoCI8Dom6cJEZYO21S/UQ0dL6gEZ90gEG2KAu/OouFgEcJOxLR9x9Dv8j+EuEPepkH4iCJ/BkN/H1bX/VNmU3BpDw9dktlG/mG27inyVebE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769421628; c=relaxed/simple;
-	bh=tJN8cBuW1VuIx84lc7fZGDOv71FRj+5cuSY3sUiPiOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Smaz0JTEOpY5x6MoiU1HNT4CBoXZ5WTFa1F0Xq3KzQW0CGYokIVWl5qvS4yCzHAhnHkuX0aeKPmcM5fYonb+OtfxZBGyMeYGDCAoPS2YZ+W77Qb1gjBbSugLAfvoY5BMYmUarRF2oiaDvz+flUx7tey6QDd8HysVU0XMP0ByXEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YxV2zIaL; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1769426025; c=relaxed/simple;
+	bh=FX+u7dLDurNlxOccyfrLQ21pHfY2VWLGsQf174i4Ot4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LrqPrNsJhV7A3ggz47xR0pGONangkS2k70G71wVzZf8vA2v9Al4OhdTxSEkslKZWbn9RGmuT1aOTGLqX5NhR7Q9JcodXbq2QwtCRUzI1Xm1BdppCEf1JYSj8zQ+RiKIpjrcwmaMxxMEtfBEtMC6CnCyq2PrYUz6Y4s+0NDhura4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aw7UJlPH; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YxV2zIaL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aw7UJlPH"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CA14340811
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 10:00:26 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2A24F60B9A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 11:13:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id VjYVAVuEifiM for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Jan 2026 10:00:26 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::130; helo=mail-lf1-x130.google.com; envelope-from=daniel.lezcano@linaro.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 706E740810
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 706E740810
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=YxV2zIaL
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 706E740810
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 10:00:25 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-59b679cff1fso4209900e87.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 02:00:25 -0800 (PST)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id AINWPf6Pmprm for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Jan 2026 11:13:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=sohammetha01@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 86D5460B99
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 86D5460B99
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Aw7UJlPH
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 86D5460B99
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 11:13:43 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-8217f2ad01eso3782736b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Jan 2026 03:13:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769421623; x=1770026423; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XJfKflYBu18fhX3WN0xj5fj1Y8QY4H7l3AO1Jpg4o/o=;
-        b=YxV2zIaL4cO2dtFPib+owmzh8jlm39Xb/upx6i9V0r3DD3SxZbbgxiPGG6CfIqMNyw
-         0gyYd7fPmKMkYOPOot9yVVhh9cz20+Av8XocvRlNqLIDbdRgiTlm4M3V6EuhvPC5eIkd
-         UXTYXT8JmXsYOAQVnn4yXUBOg8f7DgWmi/E/aLZ40kODCPmBGVM3ifBCsQLwbf0MU4xq
-         z/PrEVqYENvBP6pZl2r6yzTquuAuTru/iZczeRH99bTdWXj1K9mcOp9QtHwFlhSTAqte
-         6PxWceXr4KxJHLw+IlWNqvjymenooSLBt4ycTGuIuP79n4ib1aPfVSzp7JlkdZJ1yq4M
-         YNXA==
+        d=gmail.com; s=20230601; t=1769426022; x=1770030822; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yjrX7lfZ60gmKC1KhjPLhFh8kl1ZoOz3IaYZdZMcIfo=;
+        b=Aw7UJlPHOZIR4gPK05N1qM2PX4/raGEIDDn0mpIiqMTOGDR83CpmPVC34/YsJ5YQJq
+         ICkT4YAfyf0V+wWyPYXhZQ7YDj08Lsgzv/sliqbrqC1FDLOfPypgNMTznNUw5XpeQSmV
+         /bKzK0hxy3IcXPoqdhwCxagWCgKKGdyfrv+vWC4i3nitgT2UyLdv90s5afj8a/2CKw3W
+         f/fDeQj5h1oeW47SA7U3iBnsiifA7yGUJjnihcLmMwlSYpLTvzIScTwpbwD6U3y909aF
+         zIzx4xzeWeFfDrg7mfSd49EjNK+KeNMFp390FF3LTc7d+c/ddaljMuTqQKuKRyOVStMm
+         DiBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769421623; x=1770026423;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XJfKflYBu18fhX3WN0xj5fj1Y8QY4H7l3AO1Jpg4o/o=;
-        b=m4VjU/yOW4V4rwgcDptiqwu7KGX6FrtzOFeTlvxki2tPRdJUpIUvvyq2xmsciCmeR4
-         z5l0TFsbTSMBzI8hJ0wHcIHcV/vpxYqx0+Aq0WZB31gGJ3qcea/ha3I0eSSkpmY+k2ZZ
-         hYsv78YxWZqO3fCRc76K8zKotdBttREkJYd6Rya7QR8FGFHuhPTqKerYy5nvjYLel3by
-         F10Ikx5LdAkaZzymFj94xDDsikyJSs/RNE2xHtBHQG6jNLUlnkE1L6fRaTUI+LVu39i+
-         n3HlOdtKRbB1oqDZ6jMkfTOKCaTDUDjwUwEKlmU0CeeIzpIELCFPHfpWiXwXEhsOpxJb
-         BZ6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWZEGpRCuybRcSP4hw3WP6zgNVxm1DmDZdU3BD9EHyIvTzfozTgQ9eSjkUGbd8SeKjiSRKppWAc+Z1UAwAzNm+A+7nazg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwHohnWDj7hqh6NA1sFMzoDX0O9eZfGk+l4oXuyi2IycVSo/AXp
-	UgG6n41PUIdTVfzkflUFNRdpkaskaxnJeDIjF2v6C4tyM5IBmalmkRwa+Ai8kgZhMo8=
-X-Gm-Gg: AZuq6aKly2JCh4+G75IJVQbRi+bgjod5uUtgJYDxLeE9wGDLZLzkyUTH6bPw9AYlWhR
-	fkfwfBuoHVn4K072oknYqEt1DYvzqvy2abtSjZ4mKqrHJZdFjDVykxJVLDIbK3COB4ok5TdHALl
-	Q6zOgS2Zd1xrOUOLZq7clhCdiqAtpx+alFqV/ALN4CVZha37gBMI6ePnZazRr4CIUuuVvuMjLIl
-	ttnOJO62rW5M58qNswtK5OZIT11sb/XDBQvq723mQxPlQNVmdY5S6iGvPIY93y00mENA1TENp2Y
-	1S7RtSxErdkZVSm2zRkCDx0zvA8FdhkKp724XMcYuwmgvxtu4AUkdHKOgMgsr26589w9P2zeEjI
-	sjtOiqmG51eDqYfoeGo8QL9JVTWMh9XtYE8/PIlfVxcGMXvxuLuzaPartj6So9NG03cBPL4T8rg
-	LnIZRKVAQIb8Y2qbTn05VSlk7/texBNosovGvw8rix4UhhGh05lsWk6hTRNBm7yE9G4w==
-X-Received: by 2002:a05:6512:2387:b0:59d:e5dc:8815 with SMTP id 2adb3069b0e04-59df3a496e4mr1399980e87.22.1769421622547;
-        Mon, 26 Jan 2026 02:00:22 -0800 (PST)
-Received: from ?IPV6:2a05:6e02:1041:c10:17d9:6808:3dfd:3f30? ([2a05:6e02:1041:c10:17d9:6808:3dfd:3f30])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-59de492781fsm2485887e87.89.2026.01.26.02.00.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jan 2026 02:00:21 -0800 (PST)
-Message-ID: <6dc69230-b0d4-456f-8798-e771769f1fc9@linaro.org>
-Date: Mon, 26 Jan 2026 11:00:20 +0100
+        d=1e100.net; s=20230601; t=1769426022; x=1770030822;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yjrX7lfZ60gmKC1KhjPLhFh8kl1ZoOz3IaYZdZMcIfo=;
+        b=oZFfL3hF1/0bP8cbBv7Ar1ZQlPSuwx+rSfHnJP9yvWphuNt5kuijrKtjgyYOWgly/A
+         wtYvaabBlb65Jv8IdzQjOScINvtH8HW8Pm6fWZQAv+6mMSIi+qURLpRLWS8H2k+OqZ9S
+         0UNWfSCS4PjVWcei1A5SY1UN1V41aAoGLxtzJZefoSqs+l4CHPRaTFkJF46wT3K9iqFf
+         YOoeJ39fhVsKTUvZOrPJP/HfgucB27QHAQSwPFH2dtKR5VAXBcgh133QXRXn3sst9eUE
+         L0Yl45GBukWuvZK1jbVhIw25ACL9Gj9NzYLeBlS6qwkdPYy6Fdke7jBYu2kqu5IkmP0a
+         8AEw==
+X-Gm-Message-State: AOJu0YzcuEPIaYPQdEqz6SjeM8NrMsBBR2ElYhXDiJpAjFu6lefeO3t2
+	/J9dD/Am3NtqqjhqxpW5fVDtXxFEqLucMo4se17yQfM68l0Q8TqAeyXcCtUC5yDL
+X-Gm-Gg: AZuq6aJF4XBcnWOGBuXFwQrCELH9ELEy75DL1JHKXCKUWJg599dG/RG8mr0HAypPuSD
+	D/eCGvaPFge0jsbNQwj/BzvhPP548Ub+zUL8nh/giWTz/+hmgv3E7A+7YUjGQRQHWqdT50S4xbf
+	DUNnBw6Wj9/c7mNEY9AGkas6OzIKs9LWFOe6QtsvitVa40FXWnz7+U01CXbJw8mO8EsL0zqYLY4
+	sASo0ErSIuFlMSJI4JCTRezPZD9b1HJ/d7p3VdWyqp9J9akPWi+1Kk2N1tkRjZXizbE+Uu30A8W
+	mFihPi9iWDsyqmnP2e/CD8Wci9yjBsVnvzgOVUJpRR/TTixPihCZVyqZFYJBg74eaGxAnQqivp8
+	18Oor1agMhzAeq+T5/XhwUIDUxtRtejn/GdXqJlEnMWfuSMPz7v/iJSbPryfZCgEptxXEy+WicP
+	/zQs6pbI8aERqALDlhnsU=
+X-Received: by 2002:a05:6a00:218c:b0:821:afd6:c6e5 with SMTP id d2e1a72fcca58-823411d83c8mr3791919b3a.5.1769426022198;
+        Mon, 26 Jan 2026 03:13:42 -0800 (PST)
+Received: from soham-laptop.. ([103.182.158.110])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873e903sm9068178b3a.51.2026.01.26.03.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 03:13:41 -0800 (PST)
+From: Soham Metha <sohammetha01@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Soham Metha <sohammetha01@gmail.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH] docs: bindings: da9055: fix dead link to codec binding
+Date: Mon, 26 Jan 2026 16:43:09 +0530
+Message-Id: <20260126111309.22097-1-sohammetha01@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clocksource/drivers/armada-370-xp: Fix dead link to timer
- binding
-To: Soham Metha <sohammetha01@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-References: <20251203195859.65835-1-sohammetha01@gmail.com>
- <49b45635-5f17-4cfc-8324-8c6f59fec082@gmail.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <49b45635-5f17-4cfc-8324-8c6f59fec082@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 1/23/26 21:05, Soham Metha wrote:
-> 
-> 
-> On 04/12/25 01:28, Soham Metha wrote:
->> The old text binding 'marvell,armada-370-xp-timer.txt' was replaced by a
->> DT schema in commit '4334d83904fc'
->> ("dt-bindings: timer: Convert marvell,armada-370-timer to DT schema").
->>
->> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
->> ---
->> No functional changes.
->>
->>   drivers/clocksource/timer-armada-370-xp.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/clocksource/timer-armada-370-xp.c b/drivers/clocksource/timer-armada-370-xp.c
->> index 54284c1c0651..2221148e2de2 100644
->> --- a/drivers/clocksource/timer-armada-370-xp.c
->> +++ b/drivers/clocksource/timer-armada-370-xp.c
->> @@ -22,7 +22,7 @@
->>    *     doing otherwise leads to using a clocksource whose frequency varies
->>    *     when doing cpufreq frequency changes.
->>    *
->> - * See Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
->> + * See Documentation/devicetree/bindings/timer/marvell,armada-370-timer.yaml
->>    */
->>   
->>   #include <linux/init.h>
-> 
-> Hi,
-> 
-> Just a gentle ping on this documentation patch in case it was missed.
-> Please let me know if any changes are needed.
+The simple audio codec bindings were consolidated into
+trivial-codec.yaml by commit 4acbfcf11cbe ("ASoC: dt-bindings:
+consolidate simple audio codec to trivial-codec.yaml").
 
-It is picked-up already and in linux-next
+Update the DA9055 binding documentation to reference the new
+trivial-codec.yaml location.
 
+Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+---
+ Documentation/devicetree/bindings/mfd/da9055.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/mfd/da9055.txt b/Documentation/devicetree/bindings/mfd/da9055.txt
+index 131a53283e17..d3099bf56002 100644
+--- a/Documentation/devicetree/bindings/mfd/da9055.txt
++++ b/Documentation/devicetree/bindings/mfd/da9055.txt
+@@ -15,7 +15,7 @@ The CODEC device in DA9055 has a separate, configurable I2C address and so
+ is instantiated separately from the PMIC.
+ 
+ For details on accompanying CODEC I2C device, see the following:
+-Documentation/devicetree/bindings/sound/da9055.txt
++Documentation/devicetree/bindings/sound/trivial-codec.yaml
+ 
+ ======
+ 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+2.34.1
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
