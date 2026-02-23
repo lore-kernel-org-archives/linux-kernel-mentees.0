@@ -1,76 +1,78 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A4031E106
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Feb 2026 03:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845803191D0
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Feb 2026 05:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771818496; cv=none; b=EW+rjsKj8zHbw5ZGuS3qy3j/p3tOQxmX69zC+WtyKO569r6DNHLEsmi/p5I/M+vLzIu6mPygUb1yzG3QTiH5Omolki2vqNn9WPXIKTPWqSYi2k1Elc8k2cuwRdgCk/zGz5RV2Q5kbRQLq3qWE8neMf8uBRAqlsoqz20gSQqDvdg=
+	t=1771823150; cv=none; b=PYiEJbYFJjr0MGPsB+TiRTPQI3ryLWh1reDR0wPRyt/x87dh7grHRw+isFOrVGCY3Hs5Gm1GGqdfMT/lVXiDfTv6aPZ7OL2OqZgb4SAT6zqsmWRGA/SCDNfVSz2Shj7CzVxM/qgaDQTBMCAueMnpTmBOO2k78zRptyjclul9NFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771818496; c=relaxed/simple;
-	bh=SF93mBnv6b6pLe/1HBoftNRah+ZLiF1OcBwwqbvPe6E=;
+	s=arc-20240116; t=1771823150; c=relaxed/simple;
+	bh=A9slZ5N0/UsQdOKw3tWJ+4nAFnrshsaCbHTVfHuGwBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ft51bIm+XC/aLNS6AUp+bndGKpxl1k4l7Gxo3+58fIbVA7h9e7O9KDBlXOLcAholOoXdTXf57vERkXJr8aIV6II93F8APF4o9oyjac3hZldsUGYfUjILLQbPCT9C39fTyaWuY3M4fNzGXwWokzEU0KgU8X/izRM9Vwz/fWTzjgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jrh9SnzA; arc=none smtp.client-ip=209.85.214.174
+	 Content-Type:Content-Disposition:In-Reply-To; b=fSq59ommFoEUdbVMVswlDtqFR8uRPvs+dp0TiGTvBNAbVzk3qiP06bvyWlow58lbGXx2mmk4ubbOwO+b9m4E0BLihFLRX5mUUoOVO4sQKf04mrqPtjVzG2SstfxDYQRfYZWw5zqOHv+jEYs+vrUOzPTRBhYkLZLE2ftU52dIO6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HW9cneCT; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jrh9SnzA"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2aad1dc8856so27009725ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 22 Feb 2026 19:48:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HW9cneCT"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-823075fed75so1674175b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 22 Feb 2026 21:05:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771818494; x=1772423294; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771823149; x=1772427949; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W4rzQ0T621GZSjBat75RSIcrNnampDyhuho7rtv7pj0=;
-        b=Jrh9SnzA/yw84TfPvQQxzt+/vaHZ4hoAk17hSQ81gblcwv7viRCQJB0U+VI6o31Ud4
-         OYw2vBgpB/8slR8GyksnkbxKv9XVLWcn4uKk5LJVCyjmhHW6XsszkIPLUaHvJ57HuppW
-         3kIff0tvtcwXbLZ9P5hTGI5zTDG7ymv/bJacp1e/7LNQeCPlyi+drw7ykTwsh9hdeoKL
-         Epslhu1y8C9Q3z92lVprpKcKvlUSZd3/wWVXSIsrsaxGIxrlEQodYKGvWzDiEP9Kq3Ne
-         2JK9MjtjSgh+d1fkvp+n//xlOPtgjQYjLSXVKk9MMvAmrnq4nXT8/eqjkDiwN4NgxkIk
-         7Gag==
+        bh=5hhZ5RweDCuGAhrMmpm5vtWlUVrdoNXDwump054BM6A=;
+        b=HW9cneCTA4eEraxnhO95I6L2DEJq9dJZEMgsY3IGxqCccZAvMCXY8t0r/3J55ctbQ/
+         SR8CZI4UI3yXMjuSlJGVG59+BghKTTwPgouWoMnBTpyGJDTj5fANzsRsPRShUI401+Lv
+         B6eVEghvO8k7cjQUBzp/mlfky3yUKYprbEunPK/po+Lm+vDOdBH2aF0hGktRj/8L1UEv
+         GO5PHJIYPKsmIKU4TDiNOmqf7bkJ/SPA7k5k21Xc6yyNet2a35gu0ToDLL7nBv0WI6OE
+         Yr/FBzfP+F8+vleRexgW0j8cb9dGSG8QIOZLP8G2gJ+W8AeRM6x5cfa7MuJ02hkfTnXh
+         ZJQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771818494; x=1772423294;
+        d=1e100.net; s=20230601; t=1771823149; x=1772427949;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W4rzQ0T621GZSjBat75RSIcrNnampDyhuho7rtv7pj0=;
-        b=NfnWH8mpJ3F6dUlFeetmVv8m67x4GkwvNqIisbyAAirfzKCHTN+yMPCaJjyBLbYA4A
-         gXOPOFpdWrqUoQKhdMP5/l9UwVwmaTSlcKxvDk/+1OPVETDsm0pCg+B+rHyl20wSJysz
-         VNlxkrcQXMYaZmQllVjURbkokX9zfBSOv/j0hzyxy2ruS4ojbatzBRKSecdRfJkqpz37
-         83DuNQAbR8oBko5WpKjM0WzLQ8U7swZe8bVkw7Yj6lPPSHpnuqzvBTr6Ij3DR5swhDAi
-         0x5DgeJhCYr/PrX8oLxAi1iaDvpWjIWVPBh1cc9sfUMluTiHRCcWU1SbJhH/jWn3UYUk
-         pcdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUA+9NnzWjpa6R86Uc/65pAK5fHWhuAkYUSqJuRx3F1gF54fWS4pbhVJqwtQGwNUyVJnChyu+TIbpYtEEFahYblTVBwug==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTdHZYLoPJB/fRJp0P4E6JzWBbk/lOtUIU/nNSb/CVCFOS8B3Q
-	2TTShqcFKEmK/kSENqvr5hVOzljTsRXFy9jhqacPixkMjVuBUYv1YoAp
-X-Gm-Gg: ATEYQzy+qd4Yg1sbYB92hREJZbanIYS6Pjqj36Ll2R/ojmFHPDkrwhijsWrfwGyRB4R
-	wbVz2L1AwdfrT0oSxYBImtoYU1GSNPFfANauJioSqNRczEX8oGajqEeAK+FtNwW0+6MpWLNC32x
-	UjzQynLcnQPpU1WtRyC0N9ZFYBUS67tznUt/v+Nhxln09AXigulpYrBBOZe55i+cnOBmYcSUO8r
-	icIgycTSBLXwzbLQEWHPc/0EC97PHBilAwmMvxiT5ec2N8/vDBWrJraV6oActJUBprOGXCIPwQF
-	zDXlGFOanQYmDa0JJ75WAL8/PL1dcnkfOzskVYT0v40U5FI3K3CI5ngGEc1PkTnAmegF8bki64A
-	E4mry7+Cil4mEMB8QF5uB1RAcHl3FRxtFbvTQ//wcJc0iGl4x1NvPBd/7mNCtxgOYODAitjOAvx
-	vsDP7YF1806WDXl4vZlUi+wMQ=
-X-Received: by 2002:a17:902:ecc6:b0:2aa:d7fe:8603 with SMTP id d9443c01a7336-2ad74419e3emr70224515ad.8.1771818493881;
-        Sun, 22 Feb 2026 19:48:13 -0800 (PST)
+        bh=5hhZ5RweDCuGAhrMmpm5vtWlUVrdoNXDwump054BM6A=;
+        b=DrS8hA3BBPuHsyMVfNCjqkUcf6hOEgcrcAN3dUDl1pj0esDT1UEcesQ428RQXis6Is
+         bC4FhdW0TCUM0uemDScMJR02Nwmiu6UrCS+VmX1cBXvyk3QJJ3ASTKAZogTeK0K+K+ts
+         5crd2H3f1cPN7TokMJyS8qrqTbVgvADmlCfaXEVyzW7ruKzYWBiLO7xIKJ4OK4e3IO69
+         TUnUjG2aV30ExrnkHwQovzVPiOkcR880I5lv0TmaD6n46TdzsyURujRQRuT9jCHfY+UZ
+         Ak8LwhOWAQQOePlilv5W62ovww/4IRqXdqMRi+M78d/H1xB+IozNqg3i5CYaoOLbluZA
+         IfDg==
+X-Forwarded-Encrypted: i=1; AJvYcCW533Oop58U1Y4clk7Y+yiezlZhNIfZ/IMYvqem13ENaB9dGqlm3Cb9Cmtk8/mIbFb5XyDkkQMDRo6CL4G4/4ebRdzhIA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/lVMnkQl92c9Fc/Qqf2xr/fQt5S7bnUg4QcWasxvOXRnAluy6
+	TlTp06XyiwfqewpcZobFe3HereE9UR1mm+78Nlkj15cBbX80qugo5tWKjuusaLuU
+X-Gm-Gg: AZuq6aIr6v2O5r3GluOSidLoXV5DeLF/NGIHcacMzqhUzkb26Ak4WYNUEGmEGdBIiBx
+	zv5kDRUWrJKjUZDVjuY8BjqbI7E1e/MiUcL/x+VVn1r0q3B9wvRcWgVWRq0V/ZLnUQ0iK6wMsQN
+	/bPvcs9CnoJB042YjEsv8p0Rt3NdeKNUj05nYBEjt1CAQFSgTjUGQ7/Df4RbrgvUK16jWW6BWjL
+	4ezyQd+q1pOGIYHgJwWOydXrPONEruSDGcM3mc+VkE1zMBVO+rrNoJ+Ks4uYslVDfddySKO67V+
+	6iWoo1Q9jVGGjjwJD3LZjY1QdsXb+mSFu+zx4AJJHnw+dD6TswIzD6NUWId9TN9gUzcgvQnYzk5
+	hwBdVV4iEZKFeNuh/LAWQ5qsh/Hx6ZPrK2ByxBwFOieDdv4lI5IrBGbsCP7xFIlXtKHWGUyXqq6
+	Wszz+2khLZOGWoQ43sdQ/We6s=
+X-Received: by 2002:a05:6a00:ab0b:b0:7a2:7058:ab89 with SMTP id d2e1a72fcca58-826db7a962dmr5491545b3a.7.1771823148751;
+        Sun, 22 Feb 2026 21:05:48 -0800 (PST)
 Received: from inspiron ([111.125.235.136])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad75027641sm67314185ad.64.2026.02.22.19.48.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd8bc0c8sm5745980b3a.54.2026.02.22.21.05.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 19:48:13 -0800 (PST)
-Date: Mon, 23 Feb 2026 09:18:05 +0530
+        Sun, 22 Feb 2026 21:05:48 -0800 (PST)
+Date: Mon, 23 Feb 2026 10:35:40 +0530
 From: Prithvi <activprithvi@gmail.com>
-To: martin.petersen@oracle.com, d.bogdanov@yadro.com, bvanassche@acm.org,
-	viro@zeniv.linux.org.uk
-Cc: linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4] scsi: target: fix recursive locking in
- __configfs_open_file()
-Message-ID: <20260223034805.yhzmheiwndxtj5zu@inspiron>
-References: <20260216062002.61937-1-activprithvi@gmail.com>
+To: willy@infradead.org, joseph.qi@linux.alibaba.com
+Cc: mark@fasheh.com, jlbec@evilplan.org, heming.zhao@suse.com,
+	ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org
+Subject: Re: [PATCH] ocfs2: Fix circular locking dependency in
+ ocfs2_del_inode_from_orphan()
+Message-ID: <20260223050540.2g44esrm32kpcega@inspiron>
+References: <20260106125100.327980-1-activprithvi@gmail.com>
+ <94b4189d-dfb6-4443-a336-abbae89d36ad@linux.alibaba.com>
+ <20260108183652.ro4xueuj6itfaph3@inspiron>
+ <20260115031809.w7ksrj2ostwyxa54@inspiron>
+ <aWhxfLwUvHDswsIY@casper.infradead.org>
+ <20260216041659.plgrj5tiseeqwbkl@inspiron>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,161 +81,109 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260216062002.61937-1-activprithvi@gmail.com>
+In-Reply-To: <20260216041659.plgrj5tiseeqwbkl@inspiron>
 
-On Mon, Feb 16, 2026 at 11:50:02AM +0530, Prithvi Tambewagh wrote:
-> In flush_write_buffer, &p->frag_sem is acquired and then the loaded store
-> function is called, which, here, is target_core_item_dbroot_store().
-> This function called filp_open(), following which these functions were
-> called (in reverse order), according to the call trace:
+On Mon, Feb 16, 2026 at 09:47:08AM +0530, Prithvi wrote:
+> On Thu, Jan 15, 2026 at 04:47:56AM +0000, Matthew Wilcox wrote:
+> > On Thu, Jan 15, 2026 at 08:48:09AM +0530, Prithvi wrote:
+> > > On Fri, Jan 09, 2026 at 12:07:00AM +0530, Prithvi wrote:
+> > > > IIUC that would be the case when ocfs2_dio_end_io_write() operates on normal
+> > > > files. However, according to the report of the bug, ocfs2_dio_end_io_write()
+> > > > is holding &ocfs2_quota_ip_alloc_sem_key so I think due to random fuzzing by 
+> > > > syzkaller, the function is curently operating on a quota file.
+> > 
+> > So the right fix is probably to disallow DIO to a quota file, wouldn't
+> > you say?
 > 
-> down_read
-> __configfs_open_file
-> do_dentry_open
-> vfs_open
-> do_open
-> path_openat
-> do_filp_open
-> file_open_name
-> filp_open
-> target_core_item_dbroot_store
-> flush_write_buffer
-> configfs_write_iter
+> Hello all,
 > 
-> target_core_item_dbroot_store() tries to validate the new file path by
-> trying to open the file path provided to it; however, in this case,
-> the bug report shows:
+> Firstly I apologize for the delay...I was trying to understand the bug in
+> detail and few strange things I noticed. I have now confirmed the bug is
+> due to uninitialized locks during slab reuse. Here are the deatils:
 > 
-> db_root: not a directory: /sys/kernel/config/target/dbroot
+> According to earlier observations, we knew that a file with a quota lock
+> was trying to enter DIO path which is not permitted. I observed that
+> that in spite of adding checks like IS_NOQUOTA(inode) since I observed:
 > 
-> indicating that the same configfs file was tried to be opened, on which
-> it is currently working on. Thus, it is trying to acquire frag_sem
-> semaphore of the same file of which it already holds the semaphore obtained
-> in flush_write_buffer(), leading to acquiring the semaphore in a nested
-> manner and a possibility of recursive locking.
+> else if (fe->i_flags & cpu_to_le32(OCFS2_QUOTA_FL)) {
+>         inode->i_flags |= S_NOQUOTA;
+> }
 > 
-> Fix this by modifying target_core_item_dbroot_store() to use kern_path()
-> instead of filp_open() to avoid opening the file using filesystem-specific
-> function __configfs_open_file(), and further modifying it to make this
-> fix compatible.
+> in ocfs2_populate_inode(). However with this change also the issue didn't
+> seem to get resolved.
 > 
-> Reported-by: syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=f6e8174215573a84b797
-> Tested-by: syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
-> Reviewed-by: Dmitry Bogdanov <d.bogdanov@yadro.com>
-> ---
-> Changes since v3:
->  - Add LOOKUP_DIRECTORY flag in call to kern_path() so as to check presence 
->    of directory checks more efficiently
+> I found that it was some inode numbered 16979 which was entering DIO.
+> However, upon investigation I noticed that inode 16979 passed through
+> ocfs2_populate_inode() only when create_ino = 1. Upon adding a few printk
+> statements in __ocfs2_mknod_locked() I found that the inode 16979 strangely
+> held ocfs2_quota_ip_allc_sem lock at the mknod stage. I suspected it to be
+> a lock cleanup issue in the slab object when inodes are returned to the slab.
 > 
-> v3 link: https://lore.kernel.org/all/20260205162624.117957-1-activprithvi@gmail.com/T/#m175d152067817dd6e9dc1821b6fbf626e47a4007
+> I found that in one mount session, an inode was mounted as a quota file,
+> with a very small number (mostly <50) then later on in another mount session
+> that same slab object is reused for the inode with number 16979 which
+> immediately causes the lockdep warning to occur since it still holds the
+> quota_ip_alloc_sem lock.
 > 
+> IIUC, I did not find any way the semaphore is cleaned when an inode is
+> evicted. Hence I think to add init_rwsem() to the ocfs2_clear_inode() to
+> stop the warning, since now that inode held ip_alloc_sem lock only, thus
+> no quota lock acquired during DIO and the issue never occurs, even if same
+> slab object is used which retains the lock identity. In addition, a check
+> can be added to block DIO on quota files.
 > 
-> Note:
-> I checked out and found that when I try to test on commit 3a8660878839faadb4f1a6dd72c3179c1df56787
-> (latest commit on which bug dashboard reports the bug on, in upstream repository) 
-> syzbot uses, in its kernel config:
+> Thus, I think the following change should work:
 > 
-> CONFIG_CC_VERSION_TEXT="gcc (Debian 12.2.0-14+deb12u1) 12.2.0"
+> diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
+> index 76c86f1c2b1c..372c198afa25 100644
+> --- a/fs/ocfs2/aops.c
+> +++ b/fs/ocfs2/aops.c
+> @@ -2420,7 +2420,13 @@ static ssize_t ocfs2_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+>         struct inode *inode = file->f_mapping->host;
+>         struct ocfs2_super *osb = OCFS2_SB(inode->i_sb);
+>         get_block_t *get_block;
+> -
+> +
+> +       if(IS_NOQUOTA(inode)) {
+> +               mlog(ML_ERROR, "Direct IO is not allowed for Quota inode %lu\n",
+> +                    inode->i_ino);
+> +               return -ENOTSUP;
+> +       }
+> +
+>         /*
+>          * Fallback to buffered I/O if we see an inode without
+>          * extents.
+> diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
+> index b5fcc2725a29..3e36da2ca5d0 100644
+> --- a/fs/ocfs2/inode.c
+> +++ b/fs/ocfs2/inode.c
+> @@ -1268,7 +1268,8 @@ static void ocfs2_clear_inode(struct inode *inode)
+>                         "Clear inode of %llu, alloc_sem is locked\n",
+>                         (unsigned long long)oi->ip_blkno);
+>         up_write(&oi->ip_alloc_sem);
+> -
+> +       init_rwsem(&oi->ip_alloc_sem);
+> +
+>         mlog_bug_on_msg(oi->ip_open_count,
+>                         "Clear inode of %llu has open count %d\n",
+>                         (unsigned long long)oi->ip_blkno, oi->ip_open_count);
 > 
-> Ref: https://syzkaller.appspot.com/x/.config?x=e854293d7f44b5a5
-> Syzbot Reply: https://lore.kernel.org/all/6767d8ea.050a0220.226966.0021.GAE@google.com/T/#m62bc76de5549460ae98e843bb120712548489794
+> What do you think?
 > 
-> While when #syz test (i.e. on HEAD commit of upstream) is used, it uses, in
-> its kernel config:
-> 
-> CONFIG_CC_VERSION_TEXT="gcc (Debian 14.2.0-19) 14.2.0"
-> 
-> Ref: https://syzkaller.appspot.com/x/.config?x=99ac58566e9eb044
-> Syzbot reply: https://lore.kernel.org/all/6767d8ea.050a0220.226966.0021.GAE@google.com/T/#me8b79610e4c18a8d8a7d8d6bc249d1c7cf2f8819
-> 
-> However in both cases it uses:
-> 
-> gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> 
-> Probably due to mismatch in compiler version which syzbot actually uses and 
-> whats present in kernel config, the build fails for the first case. However, 
-> the patch succeeds in fixing the bug in second case.
-> 
-> Earlier for v1 patch (sine v2 patch involved minor change to commit message 
-> and v3 involved adding a missed out Reviewed-by tag) patch the kernel builds 
-> as well as testing succeeded since syzbot used this in its kernel config:
-> 
-> CONFIG_CC_VERSION_TEXT="gcc (Debian 12.2.0-14+deb12u1) 12.2.0"
-> 
-> as well as used the compiler:
-> 
-> gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40 
-> 
-> Changes since v2:
->  - Add Reviewed-by tag received from Dmitry Bogdanov, which was accidentally
->    left to be added in v2 patch.
-> 
-> v2 link: https://lore.kernel.org/linux-scsi/20260122154051.64132-1-activprithvi@gmail.com/T/#u
-> Reference for Reviewed-by Tag: https://lore.kernel.org/all/20260108191523.303114-1-activprithvi@gmail.com/T/#mb22d0fc06e747e2b2df8320a15afd2a0670fd0e7
-> 
-> 
-> Changes since v1:
->  - Update commit message to reflect the fact that same file, which code was 
->    currently operating on, was tried to be opened again, leading to 
->    acquiring the same semaphore in nested manner & possibility of recursive
->    locking.
-> 
-> v1 link: https://lore.kernel.org/all/20260108191523.303114-1-activprithvi@gmail.com/T/
-> 
->  drivers/target/target_core_configfs.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/target/target_core_configfs.c b/drivers/target/target_core_configfs.c
-> index b19acd662726..f94c242eff97 100644
-> --- a/drivers/target/target_core_configfs.c
-> +++ b/drivers/target/target_core_configfs.c
-> @@ -108,8 +108,8 @@ static ssize_t target_core_item_dbroot_store(struct config_item *item,
->  					const char *page, size_t count)
->  {
->  	ssize_t read_bytes;
-> -	struct file *fp;
->  	ssize_t r = -EINVAL;
-> +	struct path path = {};
->  
->  	mutex_lock(&target_devices_lock);
->  	if (target_devices) {
-> @@ -131,17 +131,14 @@ static ssize_t target_core_item_dbroot_store(struct config_item *item,
->  		db_root_stage[read_bytes - 1] = '\0';
->  
->  	/* validate new db root before accepting it */
-> -	fp = filp_open(db_root_stage, O_RDONLY, 0);
-> -	if (IS_ERR(fp)) {
-> +	r = kern_path(db_root_stage, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);
-> +	if (r) {
->  		pr_err("db_root: cannot open: %s\n", db_root_stage);
-> +		if (r == -ENOTDIR)
-> +			pr_err("db_root: not a directory: %s\n", db_root_stage);
->  		goto unlock;
->  	}
-> -	if (!S_ISDIR(file_inode(fp)->i_mode)) {
-> -		filp_close(fp, NULL);
-> -		pr_err("db_root: not a directory: %s\n", db_root_stage);
-> -		goto unlock;
-> -	}
-> -	filp_close(fp, NULL);
-> +	path_put(&path);
->  
->  	strscpy(db_root, db_root_stage);
->  	pr_debug("Target_Core_ConfigFS: db_root set to %s\n", db_root);
-> 
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> -- 
-> 2.34.1
-> 
+> Thank you and best regards,
+> Prithvi
 
 Hello everyone,
 
-Just a gentle ping on this v4 patch; it incorporates Al Viro's suggestion 
-from v3 to use LOOKUP_DIRECTORY flag in kern_path(). Kindly let me know if 
-anything else is needed from my side or any feedback is to be addressed.
+Just a gentle ping on this thread...I wanted to seek feedback regarding the
+analysis of uninitialized locks during slab reuse. If the proposed fix is 
+correct, I can go ahead and send a v2 patch for the same.
+
+In addition, I also realised using -EPERM in the if condition in 
+ocfs2_direct_IO() might be more relevant so I tested a patch with that change 
+and it doesn't trigger any issue with the testing with reproducer program as 
+tested here :
+https://lore.kernel.org/all/66fdfef3.050a0220.9ec68.0031.GAE@google.com/T/#m00f39888c9cfdb78b2c5eff8d1e2cba82e4fd9cc
 
 Thanks,
 Prithvi
