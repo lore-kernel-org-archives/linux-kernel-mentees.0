@@ -1,217 +1,124 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBF3298CA5
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 28 Feb 2026 05:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A084B1CEACB
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  1 Mar 2026 02:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772255589; cv=none; b=lRZZYvq6jszKdoY6DmtVysGYwS5krsrgN/Z6HdwfDMYgBpGExL4jMsmTjG86OT91t3gA41Ij0oJwhjhLhN7ZxHqMPnZl5HjJ9D8xD2UQxyv9fdc1wAlPXoXnweS7/NJqbxr9V9DkxrY5nycZAYblHWs+BCV0piJZT6sCgNEQW1k=
+	t=1772331134; cv=none; b=SgwJOKpMR2cZvO3sQL0U7Tf+9U0lUoOTjVSrmxGzOmW2t6u4YrHQA2w5RoOwB7UgKmtr5grEr03tmsZOyZ6HLLJm8Ru87oS8892CrzqCLhF5GabNwJwwQl0xQ95X87G/0RDqEghvmLysA6i9b5ni4UlQ4hb3CTWZSiDy76mY7gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772255589; c=relaxed/simple;
-	bh=+c9IQ/uNTRg49+9wa/kh4QHB8MPQKVPgUmsSr5njBPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cvXJcGoR//9fW347ojxx4/M/0H35GogLzoan0hJXWmPyx0k2ZvnRvFA6yQMbItP2V1euK7+FKgZyGYfQFl2zoJIyUh9J/0TgGPCcl6AXtpq9vZ76BB+jdtIHO6uVynJ4u/KNcuKIa2jaKZAIp8UB1FhtHfekw101egkNCtqMo5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mcJEjXgk; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772331134; c=relaxed/simple;
+	bh=lxYc73aonE9SdBtAaEVg8hkcAIJc0/IP2W5COTnTNZU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OVOYX0k0gEOQdHrZy5eAkTQGcnki1J34VC4wb051oQQjS0pBJgVpnsh8kqQKR2DOyo+qSdGgaiWdy7lvORRKbA95Lv+KFZBp/Zh5HoXJODj29diwYto9ChfNKbqCONBPPxZSylzwKyhKCfB/jOJHNeLS0dG0mnZ3DZHlzv6t9DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BgLQovOb; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mcJEjXgk"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ad617d5b80so18092585ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Feb 2026 21:13:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772255588; x=1772860388; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=femWzuUVK1P2mPU+Nw7t3r4CPyjg2W4tlblzeF3oME4=;
-        b=mcJEjXgkqmmilWWv42Y5iFwFyVbdZqHhDHBb7jw7o12Fh4DUDtLCmTwogrhlxkpDlH
-         Jmtzes0lq7K9Ck+xGUYBTg1nt40fiCb4YpvDbC7pa0Op3fqgYQI4PGQSUydKLUotO2lf
-         tCLfSLRQdetUxt/lZCwKvLJgrQ8dJga7K05cGtpB2YNs0vqmkhoVEXYAqGUd4UHhkq5k
-         OevBMegUubHfNI4pzRmV7QsfQwM5ZnAZW7IeCNnMbvaUXzclQdjWDm9VI3ZqcfF42BPO
-         WvBClCEavkDJ6LoRjgv9FcdWEHoHECZF4QQHbiGGeGBU/u/Ehz7IloJETS1QO/PALg/q
-         cz6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772255588; x=1772860388;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=femWzuUVK1P2mPU+Nw7t3r4CPyjg2W4tlblzeF3oME4=;
-        b=b6aQKcuRM1Znq6+1/E+zvQOayoYNL8EYLARvR2tWSxY2tTiI35TYN2WguPfEQXGM2p
-         VcOmCJxeBluSQG+mNm0mBHYMtG1GfJf9rYu/q7WqEfyOQzyc2CJs2UGVMXuOpiM0k1Vp
-         ki7+34qwfUS5UGWOCJT57hccnPaHXfng35CTVsidM7A6NcPLt07PBx3BSaBLNn728+DN
-         c6UT/zHrl2q0MqFMwwT/5cK+RCexhnlTstnyMauCAmdoa/gyTeOSyosLARjtELS7Czzk
-         61cFp5RKS6mpK9uGOdShpiNINAZU0z3Hxmid3lU7oZqwyS2/g91quaszp6MydIiChlRD
-         QwMA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8dW/64sQH7xi2ed+owDtBGiNgy7ZDaRS60BaGEcOgTGfDLJTdPV8G5oLjAQD1w9glsGwnA6p5k7d/lowE/G9G3faVsA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcuT5ouVMIo75ige40V7dlnDuPZwAOm1agod9XWY+Rr9Lbv2U0
-	7l61ZN3A5zUGduQshinVoUSD3GGaQQSA/1YylJ//XrqxEYS+n3MizS4g
-X-Gm-Gg: ATEYQzzDBuayTlnZbteaGH/2NdYFegEFe7GasI0wflnZtPf2HT4ibhC0TGggmkv71Uv
-	8tersUyDkNokEPDSG2cKdmKM/nX91/ENMq/Stlo/bxJeHcxnGazSejmSBXiuoAXGXJQCeraBfb6
-	qC+Uk4YcvUlyjMO4vRVzTTFVsyDY6npqIMm7CuRd27hhd2I822szPVfUBA6N3vSiC9rToGeqISn
-	qkxlEBcyNEgKnU/tf9cziR4+vCE+SIW+ZJUWMgDH39TDRQlFM/WtZJOpnHpbuN8GUo8jRIxgGzE
-	KAdeZQkJRr1vSvModz0qD6tLn+oG/H+ZL5Rw44BHGtSGJ0BOFiEcgmu2oAl6FM5BVyvto93fYdY
-	1849cP4diFgq4v4F79ioZ8q9SOA4i0eQPQXahDxximSMnwb4c4/fhYNcCIWPIEkj6S6BGWtCE+X
-	O37ToMvWKg6rIypJaskj/YYh4=
-X-Received: by 2002:a17:902:ebc6:b0:2aa:fc73:98ac with SMTP id d9443c01a7336-2ae2e4d6aa2mr51885275ad.49.1772255587764;
-        Fri, 27 Feb 2026 21:13:07 -0800 (PST)
-Received: from inspiron ([111.125.231.159])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae3e4e34fesm4088615ad.28.2026.02.27.21.13.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 21:13:07 -0800 (PST)
-Date: Sat, 28 Feb 2026 10:42:59 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: Heming Zhao <heming.zhao@suse.com>
-Cc: willy@infradead.org, joseph.qi@linux.alibaba.com, mark@fasheh.com,
-	jlbec@evilplan.org, ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-	khalid@kernel.org
-Subject: Re: [PATCH] ocfs2: Fix circular locking dependency in
- ocfs2_del_inode_from_orphan()
-Message-ID: <20260228051259.67dyp4l2iuy7jpuq@inspiron>
-References: <20260106125100.327980-1-activprithvi@gmail.com>
- <94b4189d-dfb6-4443-a336-abbae89d36ad@linux.alibaba.com>
- <20260108183652.ro4xueuj6itfaph3@inspiron>
- <20260115031809.w7ksrj2ostwyxa54@inspiron>
- <aWhxfLwUvHDswsIY@casper.infradead.org>
- <20260216041659.plgrj5tiseeqwbkl@inspiron>
- <20260223050540.2g44esrm32kpcega@inspiron>
- <y2vzekvugtr22z4ndnjtktecwcjhtutztwyz6mrjpmrvteqljh@2esklij5l5mx>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BgLQovOb"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6211rv5Z2959056;
+	Sun, 1 Mar 2026 02:12:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=OueFgH16wNFp08pfIQZWhtxLRsIcJoum+oFhKIczr7Y=; b=
+	BgLQovObyMRNcMXNGqHak/Ndv6OF2EGBoNNWo0TRnxV0UKi/qyEUXJu29V52+YCD
+	eEUUhP+QhVpTQdcCCqC7nSBiMeWVQGqBQffsN4tc3RQ/OGcFImtFAz4shiIBzo5u
+	Oe9+Rw95hwIjly+Npu67hHWnbHIGPGzr5Msr76qP6dMdnAZTcPFUd4Az4L7Srht3
+	aAaFgkJA5Oe2KJe/U2IVt43t5vU0ce5gHY60Csh9gamm27ZwW+5jhkYGgEXzEC0I
+	XJ4E8dZIN5lvODh6WbKD/TuP+8PY2289LRAs2XT+bGpo5vHKFLdL9/HzIjJvtIFt
+	/ts3AWKrnhmIyUHKks/N/g==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4cksh8rnr0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 01 Mar 2026 02:12:04 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 621001Sd034818;
+	Sun, 1 Mar 2026 02:12:03 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4ckptbpnr1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 01 Mar 2026 02:12:03 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 6212C329009031;
+	Sun, 1 Mar 2026 02:12:03 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4ckptbpnqs-1;
+	Sun, 01 Mar 2026 02:12:03 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: d.bogdanov@yadro.com, bvanassche@acm.org, viro@zeniv.linux.org.uk,
+        Prithvi Tambewagh <activprithvi@gmail.com>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+        skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+        khalid@kernel.org,
+        syzbot+f6e8174215573a84b797@syzkaller.appspotmail.com,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v4] scsi: target: fix recursive locking in __configfs_open_file()
+Date: Sat, 28 Feb 2026 21:11:56 -0500
+Message-ID: <177233109550.1886347.7587466794424670539.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260216062002.61937-1-activprithvi@gmail.com>
+References: <20260216062002.61937-1-activprithvi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <y2vzekvugtr22z4ndnjtktecwcjhtutztwyz6mrjpmrvteqljh@2esklij5l5mx>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-28_07,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 phishscore=0 mlxlogscore=991 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2602130000 definitions=main-2603010017
+X-Proofpoint-ORIG-GUID: _37AuvKSc9CCrlBW3Q0HX5JOMPjaB9gD
+X-Authority-Analysis: v=2.4 cv=D8VK6/Rj c=1 sm=1 tr=0 ts=69a3a074 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=x4eqshVgHu-cdnggieHk:22 a=VwQbUJbxAAAA:8
+ a=VJyBxvkRRnMTyqRnq1MA:9 a=QEXdDO2ut3YA:10 cc=ntf awl=host:12261
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDAxNyBTYWx0ZWRfX6HdC04BG1eVm
+ sFCEWP223EGQR2PN/gX/kIMlt/vBvuVOzjbLc5vpBFG8xTB6SkHaCAP4qCfER+4BHI+3VG+XaOE
+ 0ipyGHuRZPyR6wzbuy+m3lbBIIpX6VoJlwgEaTnYHv541iIOHV70KpgjkOnzqxV8iyTHddtfvtg
+ f0KhdssIfXE1KqIQy+de4zQ6FimCp5i+6DndlLSs3N6Cf66Q766vzBD3gejRxc9IRe3IaLK0fnh
+ gD3yzqylaMYnbuIoQ5gxZzm1UjfuMbtV5w3IphiT3L3+gSDV017HqTBsGvIVst/Buv7wTjFlIyY
+ NYm1lKditaVbqXR1w2HK98Y6ScDDU6rbAtbfoJmdNxTLDBDSuZzxqB1Ueu5Ndt4lq+1X+lNLGdm
+ 4QiFNgUXD+W5pbEqT8CCK7/5IENTHrb268bqI3Y47uo8ybT2FqnV1DOA2T9Q1mskEJ0rZxErRun
+ C6Ky5yZVTAYwNrCCm15sW8m3TRi6KsfSukcg00oQ=
+X-Proofpoint-GUID: _37AuvKSc9CCrlBW3Q0HX5JOMPjaB9gD
 
-On Tue, Feb 24, 2026 at 04:54:02PM +0800, Heming Zhao wrote:
-> On Mon, Feb 23, 2026 at 10:35:40AM +0530, Prithvi wrote:
-> > On Mon, Feb 16, 2026 at 09:47:08AM +0530, Prithvi wrote:
-> > > On Thu, Jan 15, 2026 at 04:47:56AM +0000, Matthew Wilcox wrote:
-> > > > On Thu, Jan 15, 2026 at 08:48:09AM +0530, Prithvi wrote:
-> > > > > On Fri, Jan 09, 2026 at 12:07:00AM +0530, Prithvi wrote:
-> > > > > > IIUC that would be the case when ocfs2_dio_end_io_write() operates on normal
-> > > > > > files. However, according to the report of the bug, ocfs2_dio_end_io_write()
-> > > > > > is holding &ocfs2_quota_ip_alloc_sem_key so I think due to random fuzzing by 
-> > > > > > syzkaller, the function is curently operating on a quota file.
-> > > > 
-> > > > So the right fix is probably to disallow DIO to a quota file, wouldn't
-> > > > you say?
-> > > 
-> > > Hello all,
-> > > 
-> > > Firstly I apologize for the delay...I was trying to understand the bug in
-> > > detail and few strange things I noticed. I have now confirmed the bug is
-> > > due to uninitialized locks during slab reuse. Here are the deatils:
-> > > 
-> > > According to earlier observations, we knew that a file with a quota lock
-> > > was trying to enter DIO path which is not permitted. I observed that
-> > > that in spite of adding checks like IS_NOQUOTA(inode) since I observed:
-> > > 
-> > > else if (fe->i_flags & cpu_to_le32(OCFS2_QUOTA_FL)) {
-> > >         inode->i_flags |= S_NOQUOTA;
-> > > }
-> > > 
-> > > in ocfs2_populate_inode(). However with this change also the issue didn't
-> > > seem to get resolved.
-> > > 
-> > > I found that it was some inode numbered 16979 which was entering DIO.
-> > > However, upon investigation I noticed that inode 16979 passed through
-> > > ocfs2_populate_inode() only when create_ino = 1. Upon adding a few printk
-> > > statements in __ocfs2_mknod_locked() I found that the inode 16979 strangely
-> > > held ocfs2_quota_ip_allc_sem lock at the mknod stage. I suspected it to be
-> > > a lock cleanup issue in the slab object when inodes are returned to the slab.
-> > > 
-> > > I found that in one mount session, an inode was mounted as a quota file,
-> > > with a very small number (mostly <50) then later on in another mount session
-> > > that same slab object is reused for the inode with number 16979 which
-> > > immediately causes the lockdep warning to occur since it still holds the
-> > > quota_ip_alloc_sem lock.
-> > > 
-> > > IIUC, I did not find any way the semaphore is cleaned when an inode is
-> > > evicted. Hence I think to add init_rwsem() to the ocfs2_clear_inode() to
-> > > stop the warning, since now that inode held ip_alloc_sem lock only, thus
-> > > no quota lock acquired during DIO and the issue never occurs, even if same
-> > > slab object is used which retains the lock identity. In addition, a check
-> > > can be added to block DIO on quota files.
-> > > 
-> > > Thus, I think the following change should work:
-> > > 
-> > > diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
-> > > index 76c86f1c2b1c..372c198afa25 100644
-> > > --- a/fs/ocfs2/aops.c
-> > > +++ b/fs/ocfs2/aops.c
-> > > @@ -2420,7 +2420,13 @@ static ssize_t ocfs2_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-> > >         struct inode *inode = file->f_mapping->host;
-> > >         struct ocfs2_super *osb = OCFS2_SB(inode->i_sb);
-> > >         get_block_t *get_block;
-> > > -
-> > > +
-> > > +       if(IS_NOQUOTA(inode)) {
-> > > +               mlog(ML_ERROR, "Direct IO is not allowed for Quota inode %lu\n",
-> > > +                    inode->i_ino);
-> > > +               return -ENOTSUP;
-> > > +       }
-> > > +
-> > >         /*
-> > >          * Fallback to buffered I/O if we see an inode without
-> > >          * extents.
-> > > diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
-> > > index b5fcc2725a29..3e36da2ca5d0 100644
-> > > --- a/fs/ocfs2/inode.c
-> > > +++ b/fs/ocfs2/inode.c
-> > > @@ -1268,7 +1268,8 @@ static void ocfs2_clear_inode(struct inode *inode)
-> > >                         "Clear inode of %llu, alloc_sem is locked\n",
-> > >                         (unsigned long long)oi->ip_blkno);
-> > >         up_write(&oi->ip_alloc_sem);
-> > > -
-> > > +       init_rwsem(&oi->ip_alloc_sem);
-> > > +
-> > >         mlog_bug_on_msg(oi->ip_open_count,
-> > >                         "Clear inode of %llu has open count %d\n",
-> > >                         (unsigned long long)oi->ip_blkno, oi->ip_open_count);
-> > > 
-> > > What do you think?
-> > > 
-> > > Thank you and best regards,
-> > > Prithvi
-> > 
-> > Hello everyone,
-> > 
-> > Just a gentle ping on this thread...I wanted to seek feedback regarding the
-> > analysis of uninitialized locks during slab reuse. If the proposed fix is 
-> > correct, I can go ahead and send a v2 patch for the same.
-> > 
-> > In addition, I also realised using -EPERM in the if condition in 
-> > ocfs2_direct_IO() might be more relevant so I tested a patch with that change 
-> > and it doesn't trigger any issue with the testing with reproducer program as 
-> > tested here :
-> > https://lore.kernel.org/all/66fdfef3.050a0220.9ec68.0031.GAE@google.com/T/#m00f39888c9cfdb78b2c5eff8d1e2cba82e4fd9cc
-> > 
-> > Thanks,
-> > Prithvi
-> 
-> Hi Prithvi,
-> 
-> This patch disables DIO on quota files, which will lead to a performance
-> regression. Other filesystems (such as ext4 and gfs2) do not forbid DIO on quota
-> files. Therefore, I NAK this patch.
-> 
-> I have sent an alternative patch[1] to address this issue. Please take a look.
-> 
-> [1]:
-> https://lore.kernel.org/ocfs2-devel/20260224084909.28361-1-heming.zhao@suse.com/T/#u
-> 
-> Thanks,
-> Heming
+On Mon, 16 Feb 2026 11:50:02 +0530, Prithvi Tambewagh wrote:
 
-Hello Heming, 
+> In flush_write_buffer, &p->frag_sem is acquired and then the loaded store
+> function is called, which, here, is target_core_item_dbroot_store().
+> This function called filp_open(), following which these functions were
+> called (in reverse order), according to the call trace:
+> 
+> down_read
+> __configfs_open_file
+> do_dentry_open
+> vfs_open
+> do_open
+> path_openat
+> do_filp_open
+> file_open_name
+> filp_open
+> target_core_item_dbroot_store
+> flush_write_buffer
+> configfs_write_iter
+> 
+> [...]
 
-Thanks for your feedback! I see your point about performance regression and 
-agree that your approach using down_write_trylock is a much more robust way 
-to fix this issue.
+Applied to 7.0/scsi-fixes, thanks!
 
-Thanks, 
-Prithvi
+[1/1] scsi: target: fix recursive locking in __configfs_open_file()
+      https://git.kernel.org/mkp/scsi/c/14d4ac19d189
+
+-- 
+Martin K. Petersen
