@@ -1,128 +1,348 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B123AA516
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Mar 2026 14:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CC03BFE56
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Mar 2026 16:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277544; cv=none; b=Jv4TLfn+ZOvN0HMq7kaJa4N7TGvaNpmSt4Qvi91sKWWFiaHfOa/fhrWuxeP9PYc71fIlcxUKsCTSe98pGvO8dIh1BMkDfAxfJOlBqNWkFFMUW9ToFvlWIayoejLxxzlP/Z7QkXljxJjv9rorNbB59Rd4+krqRhA2h+gzIPNa6Do=
+	t=1774283363; cv=none; b=N5yQbkdUjaEYH8MgHEHZs8olj6j3ACfH4UlRzrxuRCpGPWWAXYJpaV6Sl3978lBU4Lejnv7SI5y8lUeYE+YTPQtRKOvicJ62VH8HnQsmnihiPRskb12w/HN0YlJpR5OLzIkL0LzWJhnqosCBjRaxIXKQcG1vsnfZOxN1tU8iNjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277544; c=relaxed/simple;
-	bh=56qJK4yD3U9EA7KLi2YIpYQ7slKn912lh6LF4LUfzLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1kjOevon+H7aOpILPUrSx5HVUqxHc2tOut1APVqGKk3vk9z6C6jmipTIOwLNR5W1seuuDHoeOIQN5w0RN3K/ApSqgnxv9HVCciOsgZ4L3YVa2Ld0Xra9VyjxjvJSktlnPJYrMaVOACyYuaFkugTrI7S81Z0Rbf0k1RCC95xylM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nfs2jRWp; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1774283363; c=relaxed/simple;
+	bh=34e+LQKJEw7JRxljLgIJ0WsY3yL1y0iL2JAVsmCdc6k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lQcnKsveQSm3BHX/BmDARZPweWBVAeTNccJMraDf36jXkyTsj/T2e28pqC1PFHHPJm1eowfptrr0LtNdU9KTh+hn3uo2eufNTeluC1u28TuF3SacZqTcaaLW/1ps6LD9REAcq52p6aGwuhQNhNlNbwSlMP41WMo+nEpimQNuuPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltdmrmBi; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nfs2jRWp"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2addb31945aso31488915ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Mar 2026 07:52:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltdmrmBi"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82ae378fff8so2243963b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 23 Mar 2026 09:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774277542; x=1774882342; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FfOO4PyYEkqRDNpFOu7sop/vHqEpZFiPDUIVrBhezJQ=;
-        b=Nfs2jRWpoL/yoOrZjaCjJHQxyaNLhBruFtZR2b5X5d+MBammqJZFU5isDSxela3Ho8
-         8c0r0U6cyRzUOiRW5n9CsV+zuT+AK5xmtCCEi7LiGGmwHmBz5hQio7M3ul7sCGJGHl1P
-         0LhKtL2+QL3O7e7+LIlM+4UhoSqTLCXep8WAkdbpwOAyvVTXqzejDeWSZNAox2gDIbV/
-         Qvh0pMSinlxNuJTNOrluyx8Zredb3DMSoDF0ey0n5pjF7hmCkUP6yxR7XHnodjNPeafY
-         /wZUklp54isplvDfvIV4cU3P6hk9oBzir/J7zLpZZB35Xjv/cKrUM7QNfan9q4/ZcmiU
-         v7Dg==
+        d=gmail.com; s=20230601; t=1774283361; x=1774888161; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DEzBe1NN78BfdAo1/VcgiKXD8axm/NYlT83UKa0Ybh8=;
+        b=ltdmrmBiIzbN6e5QA3DJNdyEcIkxloy8uXL7Wy+YslrK7C3Ny3kbMwScpebdjC4lkz
+         HeifWUVBAXLhq/YBCQlQWle/LDzDqZKofYLP6S3MLf+wAzJOBlYdwmXRfBhvHqqSWiZA
+         giCaFZBvKsWotwV6C3BWZ5XE1tMADP67pf4lSImREb36e8vNZfwJ0vG1ioBBU2fw7zvy
+         G8iF50FENHzDu1VfoFjmIXohtIE1Z5VWkUK4A06T3bMqmi7UMkzkbj6XXY8qU8mn4o8Y
+         B6xhi2NoqBNuJodGtAswEqNoCIVUrFLI122EaCqcWGdZJb/VloVInDs5ZinIUq/FlvOO
+         ibfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774277542; x=1774882342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FfOO4PyYEkqRDNpFOu7sop/vHqEpZFiPDUIVrBhezJQ=;
-        b=GoHSq3+/WLf6gAB3XkC8PEZzYbv/0aGXvyMihAFJiKoJ5M4qhZzIt8VD3J61bDXdOZ
-         y3SqQsArOjbzS27sEGxeHvU34axr8YIamueEI0bSNueLmiuhmCnSmU4gMlj4Gg0F7QXm
-         ye7NgCXaQ+FW62hPVJYyb1ZDI4APzSJ+MW3YY182IH7l9kcqWCuE6s4pCl5up0KIOkfe
-         XFQLz6i5bfNgbMIl9+vX2Eklnl7InvZ5DcTFM5XqdEaLLfjr3WbEV07on2YqM0bWKYIW
-         nIc+lAIeJEf59vGTTGIA3x2bqXQewAXbJ4nOb3WeH7hkgA2L0SQwdeXK/y9JdUVhwtr/
-         VGBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkcpfTftttn0KwjJaUKoh8sJNLTQ0ugFMFwNIB7JcRMP41512QDJCDqunv5GuUQmWubrfyN+C5cMdYk7riFOA36zcGsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8kYznu81x/vPl9Lagd4ncYynpSh30izSO63kt/vtqTsFF01Ff
-	ugCcp6GUBnzcYnAN0qJYovxtfo7xs61jC2z/Gzuw7coVg4g0/6QLLwvf
-X-Gm-Gg: ATEYQzzXrkccChO1ms26Z+SvSrl7ImvJIcu9OxVoWdnVgTlsLsubABvRq9WosOuZeb8
-	QQlO65RQAvswsIyKT1CMh4cImb/9PAQuFcEBHSYdIs2tUXZKwLOMWwf3A3SJ2BSMhSsMdpzDn6F
-	JiNyRQqE6mdcd9gTYRE6Cac0asV0QHfwrjRcFWGcqGDDfmLzhaFMbDHpKCvGEnsRFTLvR/FMVxc
-	4c1Hhx21UaZnupsSUmX9U1pd0qW6tZhJDKakb0Rdz+p88xYiaHHqVNUMKPmcWYY9u4xHILG/jW9
-	x4Oihpop1KeN9fH/j4Bt+6l8qBd3R/1cJOaf8tEJ10qcOd8+CSRyG2x5bZARGD8qEzb3obK9jRc
-	KG6ecffHjuRz3bFqEe4qyf8pdQtcvwWpTHwTMdi3jwYaAwgw6mgEiPtuFqzT+aMf0TAxZrGUCxF
-	HAKyf8Tl912FJoNZgQvIs+bvE=
-X-Received: by 2002:a17:902:f70e:b0:2ae:5104:571e with SMTP id d9443c01a7336-2b0826d6e37mr112977745ad.9.1774277542268;
-        Mon, 23 Mar 2026 07:52:22 -0700 (PDT)
-Received: from inspiron ([111.125.240.152])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083516938sm119387375ad.6.2026.03.23.07.52.18
+        d=1e100.net; s=20251104; t=1774283361; x=1774888161;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DEzBe1NN78BfdAo1/VcgiKXD8axm/NYlT83UKa0Ybh8=;
+        b=Cc+6pZ8t0Zs8WygRTtaK2G/KxWBLtgKckgD6Vq+8dViqt4QeOOIkjiNX447lce+5yn
+         /nVj1nY5uD2QSn8t1dBrkMsug8IbW1TL7YnSch6mZMYcIEnGExDpSHh58bWdDkzlA7e/
+         4nO9mVCRalHQJoTkd4muBd89t853lvhUfURi3oA+SydW5mEFOGaTggbL1vPZotuhFVIz
+         nesp0PRAvC/9nE2Ww2UqRMhfvy+IvcyvsSMx9TNl7C53CC5fVriJtoI26DAcysvCXYWH
+         gn6cbTHiXNsx+z3TH2Sh1wTrLVjr/DxM91PSy9wfNlvr8SO7n+CZHHPel2xsuDVtnfxm
+         c6/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUQj7O9saVFLrHaAAwBDYVc/G/Ez44+JNJuI+GSEbTAo9gS17/GtSdUmnlY2IhdvMsHBYQxMk7gTqyjCWVeDQSEKfE/uQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxf4qXjRdzOPqfvv0prdQXnJzsGhk6BWb6pIIYaPiP5cCOMC6Ob
+	gF0nJA4lZBZKBUBAQH4/jpmmEKip3eQkgpLYCnfkKYXKnbH/MlhesFnH
+X-Gm-Gg: ATEYQzxsA18541OjLRL3B29OwXl96v2NwhaDRzFvZLHJbRc9yS4u993jFdA5/7+FAr4
+	aDytgROrqLZmCVukswf4IdujxaYKcJMZR2RK7cqBsn6zkxaZHYGsiyrNTa3Bbc3cUgTHSYE/z+i
+	xzCobaGMR/SEMopxSrp3xWco1bBlF/xqk+v/rijXxqoY2NPgkg4y3tvvfORs2LLhp0ne4zAl/tv
+	OYHG3RfQUa+pkRgqC1Te1s1YIvIzqSVlZ0K2jY+mEEZzMlnQr/sMEpUM/7MIs7x1jUWatXQQDK1
+	k07MXj10dMOW4EAgIBSpvZGCs/P22jTvszcQjIIHBwbnNlw+moGSKSMZAibonRTpFL4Mcm7+5gI
+	hDArptofatm6LfMXnuHLh2dpQxtuYbR/v1jyjO5nKZP6Xsm0jJem7RdM80O464pyS/I5iQ2URKV
+	2z12NwpDrcpD1SFJg+Ln884wuWP65pcKa+k0bFqUQt
+X-Received: by 2002:a05:6a00:2d29:b0:82c:28de:fa26 with SMTP id d2e1a72fcca58-82c28defcd5mr8120561b3a.36.1774283360922;
+        Mon, 23 Mar 2026 09:29:20 -0700 (PDT)
+Received: from localhost.localdomain ([111.125.240.152])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bc66b3sm10560369b3a.21.2026.03.23.09.29.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 07:52:21 -0700 (PDT)
-Date: Mon, 23 Mar 2026 20:22:14 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	ethantidmore06@gmail.com, dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: place constant on right side of
- equality operator
-Message-ID: <20260323145214.ubhshy2gwp52j5zh@inspiron>
-References: <20260321092536.138499-1-activprithvi@gmail.com>
- <acEFrIIYaS3ZW8j6@ashevche-desk.local>
- <20260323132235.sg6fw2azr724g7un@inspiron>
- <acFBPuCNpD_MNKwR@ashevche-desk.local>
+        Mon, 23 Mar 2026 09:29:20 -0700 (PDT)
+From: Prithvi Tambewagh <activprithvi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	abrahamadekunle50@gmail.com,
+	straube.linux@gmail.com,
+	b9788213@gmail.com,
+	ethantidmore06@gmail.com,
+	dan.carpenter@linaro.org,
+	andriy.shevchenko@linux.intel.com,
+	weibu@redadmin.org,
+	knavaneeth786@gmail.com,
+	ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com,
+	lukagejak5@gmail.com,
+	samasth.norway.ananda@oracle.com,
+	karanja99erick@gmail.com,
+	s9430939@naver.com,
+	suunj1331@gmail.com,
+	ysinghcin@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Prithvi Tambewagh <activprithvi@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: fix constant on left side of test checkpatch warnings
+Date: Mon, 23 Mar 2026 21:59:01 +0530
+Message-Id: <20260323162901.121947-1-activprithvi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acFBPuCNpD_MNKwR@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 23, 2026 at 03:33:50PM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 23, 2026 at 06:52:35PM +0530, Prithvi wrote:
-> > On Mon, Mar 23, 2026 at 11:19:40AM +0200, Andy Shevchenko wrote:
-> > > On Sat, Mar 21, 2026 at 02:55:36PM +0530, Prithvi Tambewagh wrote:
-> > > > Place constant 0xFF on right side of equality operator when checking
-> > > > value of hw_channel_plan to fix checkpatch.pl warning and conform with
-> > > > the Linux Kernel coding style.
-> > > 
-> > > First of all, in the very same function there are more of a such.
-> > > And hence the Q: have you checked the entire driver? Please do.
-> 
-> > Thanks for the correction...While checking out other places requiring similar 
-> > change, I observed the other place in the function where constant is on left 
-> > side of equality operator:
-> > 
-> > 	if (
-> > 		(false == pHalData->bDisableSWChannelPlan) &&
-> > 		rtw_is_channel_plan_valid(sw_channel_plan)
-> > 	)
-> > 		chnlPlan = sw_channel_plan;
-> > 
-> > Here, the formatting of if statement can be improved and we can also replace 
-> > 	(false == pHalData->bDisableSWChannelPlan) with :
-> > 
-> > 	!pHalData->bDisableSWChannelPlan
-> > 
-> > Would it be alright to add these changes to v2 of this patch itself since
-> > they  are related to the code having constant on left side of == operator?
-> 
-> Yes, but I also meant to go through more files in this driver for the same
-> style issue.
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+In all types of comparison/test (using ==, !=, >=, <=, >, <
+operators) ensure that the constant lies to the right side of the test,
+thus fixing checkpatch warnings : comparisons should place the constant
+on the right side of the test, throughout the rtl8723bs driver.
 
-Sure...sorry didn't get it earlier. I will check for checkpatch warnings 
-related to constant being on left side of test in the driver and send a 
-v2 patch. 
+Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
+---
+v1 link: https://lore.kernel.org/linux-staging/20260323145214.ubhshy2gwp52j5zh@inspiron/T/#mc3b693b37c49fbdde89171b7f1bf61b7ba8eb964
 
-Best Regards,
-Prithvi
+ .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c    |  4 ++--
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c |  5 +----
+ drivers/staging/rtl8723bs/hal/hal_com.c        |  8 +++-----
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c |  8 ++++----
+ drivers/staging/rtl8723bs/hal/odm.c            |  4 ++--
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c   |  3 +--
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  | 18 +++++++++---------
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c |  2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h  |  4 ++--
+ drivers/staging/rtl8723bs/include/wifi.h       |  2 +-
+ 10 files changed, 26 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+index d32dbf94858f..58f6cf063498 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+@@ -2211,7 +2211,7 @@ static void halbtc8723b2ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
+ 	}
+ 
+ 	algorithm = halbtc8723b2ant_ActionAlgorithm(pBtCoexist);
+-	if (pCoexSta->bC2hBtInquiryPage && (BT_8723B_2ANT_COEX_ALGO_PANHS != algorithm)) {
++	if (pCoexSta->bC2hBtInquiryPage && (algorithm != BT_8723B_2ANT_COEX_ALGO_PANHS)) {
+ 		halbtc8723b2ant_ActionBtInquiry(pBtCoexist);
+ 		return;
+ 	} else {
+@@ -2490,7 +2490,7 @@ void EXhalbtc8723b2ant_BtInfoNotify(
+ 		return;
+ 	}
+ 
+-	if (BT_INFO_SRC_8723B_2ANT_WIFI_FW != rspSource) {
++	if (rspSource != BT_INFO_SRC_8723B_2ANT_WIFI_FW) {
+ 		pCoexSta->btRetryCnt = pCoexSta->btInfoC2h[rspSource][2] & 0xf; /* [3:0] */
+ 
+ 		pCoexSta->btRssi = pCoexSta->btInfoC2h[rspSource][3] * 2 + 10;
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 9df3274c1048..61b35173aa4f 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -313,7 +313,7 @@ static void GetDeltaSwingTable_8723B(
+ 	u16 rate = *(pDM_Odm->pForcedDataRate);
+ 	u8 channel = pHalData->CurrentChannel;
+ 
+-	if (1 <= channel && channel <= 14) {
++	if (channel >= 1 && channel <= 14) {
+ 		if (IS_CCK_RATE(rate)) {
+ 			*TemperatureUP_A   = pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_P;
+ 			*TemperatureDOWN_A = pRFCalibrateInfo->DeltaSwingTableIdx_2GCCKA_N;
+@@ -1425,9 +1425,6 @@ static void phy_IQCalibrate_8723B(
+ 		}
+ 	}
+ 
+-	if (0x00 == PathAOK) {
+-	}
+-
+ /* path B IQK */
+ 	if (is2T) {
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 31b3e880ae6a..00fa5c386d63 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -107,7 +107,7 @@ u8 hal_com_config_channel_plan(
+ 	pHalData->bDisableSWChannelPlan = false;
+ 	chnlPlan = def_channel_plan;
+ 
+-	if (0xFF == hw_channel_plan)
++	if (hw_channel_plan == 0xFF)
+ 		AutoLoadFail = true;
+ 
+ 	if (!AutoLoadFail) {
+@@ -122,10 +122,8 @@ u8 hal_com_config_channel_plan(
+ 		}
+ 	}
+ 
+-	if (
+-		(false == pHalData->bDisableSWChannelPlan) &&
+-		rtw_is_channel_plan_valid(sw_channel_plan)
+-	)
++	if (!pHalData->bDisableSWChannelPlan &&
++	    rtw_is_channel_plan_valid(sw_channel_plan))
+ 		chnlPlan = sw_channel_plan;
+ 
+ 	return chnlPlan;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index dc2da49e6738..28ec996cd411 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -462,18 +462,18 @@ u8 PHY_GetTxPowerIndexBase(
+ 
+ 	if (IS_CCK_RATE(Rate))
+ 		txPower = pHalData->Index24G_CCK_Base[RFPath][chnlIdx];
+-	else if (MGN_6M <= Rate)
++	else if (Rate >= MGN_6M)
+ 		txPower = pHalData->Index24G_BW40_Base[RFPath][chnlIdx];
+ 
+ 	/*  OFDM-1T */
+-	if ((MGN_6M <= Rate && Rate <= MGN_54M) && !IS_CCK_RATE(Rate))
++	if ((Rate >= MGN_6M && Rate <= MGN_54M) && !IS_CCK_RATE(Rate))
+ 		txPower += pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+ 
+ 	if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+-		if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++		if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+ 			txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+ 	} else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+-		if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
++		if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+ 			txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+ 	}
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 639b6da2302b..bbe05211f4ed 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -343,9 +343,9 @@ bool ODM_RAStateCheck(
+ 	}
+ 
+ 	/*  Decide RATRState by RSSI. */
+-	if (RSSI > HighRSSIThreshForRA)
++	if (HighRSSIThreshForRA < RSSI)
+ 		RATRState = DM_RATR_STA_HIGH;
+-	else if (RSSI > LowRSSIThreshForRA)
++	else if (LowRSSIThreshForRA < RSSI)
+ 		RATRState = DM_RATR_STA_MIDDLE;
+ 	else
+ 		RATRState = DM_RATR_STA_LOW;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index af6cdda8238d..25bc11ac874c 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -25,9 +25,8 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
+ 
+ 	do {
+ 		valid = rtw_read8(padapter, REG_HMETFR) & BIT(msgbox_num);
+-		if (0 == valid) {
++		if (!valid)
+ 			read_down = true;
+-		}
+ 	} while ((!read_down) && (retry_cnts--));
+ 
+ 	return read_down;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 8d259820f103..02c3f4229e74 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -405,11 +405,11 @@ s32 rtl8723b_FirmwareDownload(struct adapter *padapter, bool  bUsedWoWLANFw)
+ 			break;
+ 	}
+ 	_FWDownloadEnable(padapter, false);
+-	if (_SUCCESS != rtStatus)
++	if (rtStatus != _SUCCESS)
+ 		goto fwdl_stat;
+ 
+ 	rtStatus = _FWFreeToGo(padapter, 10, 200);
+-	if (_SUCCESS != rtStatus)
++	if (rtStatus != _SUCCESS)
+ 		goto fwdl_stat;
+ 
+ fwdl_stat:
+@@ -1165,15 +1165,15 @@ s32 rtl8723b_InitLLTTable(struct adapter *padapter)
+ 
+ static void hal_get_chnl_group_8723b(u8 channel, u8 *group)
+ {
+-	if (1  <= channel && channel <= 2)
++	if (channel >= 1 && channel <= 2)
+ 		*group = 0;
+-	else if (3  <= channel && channel <= 5)
++	else if (channel >= 3 && channel <= 5)
+ 		*group = 1;
+-	else if (6  <= channel && channel <= 8)
++	else if (channel >= 6 && channel <= 8)
+ 		*group = 2;
+-	else if (9  <= channel && channel <= 11)
++	else if (channel >= 9 && channel <= 11)
+ 		*group = 3;
+-	else if (12 <= channel && channel <= 14)
++	else if (channel >= 12 && channel <= 14)
+ 		*group = 4;
+ }
+ 
+@@ -1221,7 +1221,7 @@ static void Hal_ReadPowerValueFromPROM_8723B(
+ 
+ 	memset(pwrInfo24G, 0, sizeof(struct TxPowerInfo24G));
+ 
+-	if (0xFF == PROMContent[eeAddr+1])
++	if (PROMContent[eeAddr+1] == 0xFF)
+ 		AutoLoadFail = true;
+ 
+ 	if (AutoLoadFail) {
+@@ -2035,7 +2035,7 @@ static void hw_var_set_bcn_func(struct adapter *padapter, u8 variable, u8 *val)
+ 		val8 &= ~(EN_BCN_FUNCTION | EN_TXBCN_RPT);
+ 
+ 		/*  Always enable port0 beacon function for PSTDMA */
+-		if (REG_BCN_CTRL == bcn_ctrl_reg)
++		if (bcn_ctrl_reg == REG_BCN_CTRL)
+ 			val8 |= EN_BCN_FUNCTION;
+ 
+ 		rtw_write8(padapter, bcn_ctrl_reg, val8);
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index a1f2cbf2cf55..9f6503ac2234 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -413,7 +413,7 @@ int rtl8723bs_xmit_thread(void *context)
+ 		if (signal_pending(current)) {
+ 			flush_signals(current);
+ 		}
+-	} while (_SUCCESS == ret);
++	} while (ret == _SUCCESS);
+ 
+ 	complete(&pxmitpriv->SdioXmitTerminate);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
+index 0f28c904a714..0f378830462f 100644
+--- a/drivers/staging/rtl8723bs/include/ieee80211.h
++++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+@@ -395,8 +395,8 @@ enum {
+ };
+ 
+ #define IS_HT_RATE(_rate)				(_rate >= MGN_MCS0 && _rate <= MGN_MCS31)
+-#define IS_CCK_RATE(_rate)				(MGN_1M == _rate || _rate == MGN_2M || _rate == MGN_5_5M || _rate == MGN_11M)
+-#define IS_OFDM_RATE(_rate)				(MGN_6M <= _rate && _rate <= MGN_54M  && _rate != MGN_11M)
++#define IS_CCK_RATE(_rate)				(_rate == MGN_1M || _rate == MGN_2M || _rate == MGN_5_5M || _rate == MGN_11M)
++#define IS_OFDM_RATE(_rate)				(_rate >= MGN_6M && _rate <= MGN_54M  && _rate != MGN_11M)
+ 
+ 
+ /* NOTE: This data is for statistical purposes; not all hardware provides this
+diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
+index 230b2c4ffd3b..31eaf40a3425 100644
+--- a/drivers/staging/rtl8723bs/include/wifi.h
++++ b/drivers/staging/rtl8723bs/include/wifi.h
+@@ -275,7 +275,7 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
+ 
+ static inline int IsFrameTypeCtrl(unsigned char *pframe)
+ {
+-	if (WIFI_CTRL_TYPE == GetFrameType(pframe))
++	if (GetFrameType(pframe) == WIFI_CTRL_TYPE)
+ 		return true;
+ 	else
+ 		return false;
+
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+-- 
+2.34.1
+
