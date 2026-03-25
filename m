@@ -1,84 +1,80 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC25B405ADB
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 25 Mar 2026 17:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9063225A359
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 25 Mar 2026 21:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774461464; cv=none; b=Lz8FqHKoNH1SZnrRSzgrP0/DyfrlvFfsHgzyoGyWi7v79pDEkP03ues6sTdO2iqc8MY+5XIoVBkQRia9kq8N0NGRubqw+cHa9v54O7ylMLKzWlvk5gBH+FzgW/cfmfjSC9FRwJ9H2hpOgPYFqAaW5AGQm3NAb4w9/m5KP+3aXyU=
+	t=1774474498; cv=none; b=kfS/+zjg16pjASmznYdwVM2sYv+A1P6W/wZ+KI/IigitgIqTczrkaXzECb5ka5WAR0Slk55B3SyqvHFULH9vzqAnbJwGzwpzezG5L5Vj/L5qfSnFuU4TPfWI10jfSYPTLdGwb08NE6+V5KHEGkWKXv38KEswuVpNSNGCT78kkZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774461464; c=relaxed/simple;
-	bh=xvWzPN1nkIFRgvFzDtwDvedSGADAfcokxKB4Zsn6aik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ndG+iWLago8GX7Us71XD8o0gr6GxUu32Bk7KpbTIunsFcgfhTvnOuCcC/DxIoQX9lywix5HYBpb96VHU2zYRKBOlmqlh2IiDsxErx181UMomFAEI9zRvvozam/818p2QCcvuxJ9i19pKjijzwq2dT8DKtJK1uhwJEzYAieygAKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=if8z5+TP; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1774474498; c=relaxed/simple;
+	bh=ZQYFyxFfCiVFYjcUR80pgTmR9yPRGHtpS9PpvOl0IsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Or0N/Ezk1G/QTNyUgz/tpj/KQOAgQE+TO8er1lZ3ofekHST+5yTCmGA+FlrJ7QdSCg65PQph9hOsdnVxL0Af5JADmjWZqi9XfKcHguyUxTDnyUS9D8sMavFwTzCA1NTL/18VwJCWtWxllH7hPmahCeBZ6l9Mgnu1dS1nzUyThBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eTeyp7V7; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="if8z5+TP"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-67c1b8b1f96so134373eaf.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 25 Mar 2026 10:57:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eTeyp7V7"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso2574325e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 25 Mar 2026 14:34:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1774461460; x=1775066260; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eY0l7UxVB7jzGuePFfO9KnMG27VpQ3QH8tZoP51PR3Q=;
-        b=if8z5+TPuJvNipARSOm2GuFkQUHTjFri/HL+bLihspTLtst+2BwTv+mKL3I6Z6xAca
-         QZ/Z4Intr2zL6oN7UfFZidUXb0YoQ/Wjj9AK29ouSH1zClBswUHTEjo5++3GVvDUCC1x
-         Tn0fwToQa3jptrMljEK9TlALOrcJ2xybB5fPc=
+        d=linaro.org; s=google; t=1774474495; x=1775079295; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aaERduj73kZVleeRSp8mEl5F7YmtzogBhrXc9iUxk2g=;
+        b=eTeyp7V7MAfJNMvqqERwkt0Zz7vmX/x336aJeiuG/c0iSmLKy5h0tQVZWJA5Wt/1gT
+         LVZTGG69Wa1bY9xcdfgOhVP7AmOgldpHkO4tiTChi468lMmZ1ijgEfgXpTBCtsp7xBvp
+         JPoj8KaBhwzTEqjnvnd//2y084+nyH+qcjE/ZLt/dPLFIxLnTl15xwueXPQlpXP0XOo0
+         DftPxL2/cgxgCAbPRBkXUN0w1KsEZvZeYB+VpHfe+FPJzwSEY5xvMVLMDw6yG81lzXLR
+         F0hksOH/mdL4PCgTh/jlUqS03uee5PZlsii47qRAszfSZwxpZ8ZAJ+jfvUXPJ8vWdUlb
+         BBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774461460; x=1775066260;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eY0l7UxVB7jzGuePFfO9KnMG27VpQ3QH8tZoP51PR3Q=;
-        b=WefaWaTXlnBw43o1OjS7bM4wWFy9FjHt9r5IBN3PCPOeuRWFbpyncm0x9zf54azwG8
-         c88CcgmxFRK+kiwfCWouwVdaRP2P/ZpSZn2gg57r5DzZITDfRzzRqe8Pd3yn9GJunkeM
-         ufG4w0cEZg9V8DEgzIcd1tFyDe4xn5sYvWUf/9wbwzaMy6Q9EJ+Sh9Vhs7avG0EviQUQ
-         If8whzo+CLwS5uPpvHWYBzt7sHPGNs1JD64qyXTR/DBME1PO6srqSsHsRP2ZXM9Q5eWN
-         6qweCPpY1NNcsUfGfmNQO3NwK6Bh62Bo6bpSjkiC4d1CTK5IkR25xGmO5GZtsGPR+oJv
-         XhDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWK6joDzALJkp6daJDMH1k/f9D1m/oofJEcHglvpI1z94h2Ers54QQOF0VOCcuILM0ypBe8kD46eNZNJlVQWnAT7hTOQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoUBXH9L9awoERL5tbc1nuiaQqOsEnXDa9WIZxlY2+6VVWRmgi
-	Qg29cHBU4PhHOsGWgh5SBj2Lf9CV32YkuKd1p6L633PjOb+WI7622RoSLG2YV5V+bTE=
-X-Gm-Gg: ATEYQzx5bEWxSZeYQVM8ISkNtWr2tUQDmwb/x06xhtQMi8pHFeTkmU78zx0ngMKyxfX
-	2Ab1yW+XzA6Ye4RTqpBDHxnTaCMp3gnmj1dhVX6brd4/7DL1S8E84cExRFrnSkR0Roym4zLHni5
-	7jnsZvK8RyR3QvGXfsjQUS58fsq8bhP/LmVugDGywLW8kna7l0cq/OloqqZHHKWY6LnDw3z4610
-	ITH7hBvRw0EByaLSl2s2CXkFLmSJd1fkfHekOn5bf2zJO6ux8mqR9ghCDOmEIypuelHUa5cmejt
-	1Y79e6clg2BgLK2sysH7XRKbWMDmBPzy08TqpeWN8Ci+L7A/1mDIm0E1AkzjhzxqUB3gKUqiz8/
-	SczbnEZQbeusDAoNKQr0CEAegyABKEMxRbNnAo1+gadfusaDWYjnQM8tJsn5B352VXueCp3gRML
-	Fi+iHy3QBPM7fctuuKs2wvzHAQwFnTpM2FnCM=
-X-Received: by 2002:a05:6820:228a:b0:67d:ead4:cf42 with SMTP id 006d021491bc7-67dff57f599mr2161417eaf.62.1774461460434;
-        Wed, 25 Mar 2026 10:57:40 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41cc7ad3403sm212627fac.11.2026.03.25.10.57.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 10:57:39 -0700 (PDT)
-Message-ID: <ea43143b-a880-4d15-9fd6-1a4a25abf187@linuxfoundation.org>
-Date: Wed, 25 Mar 2026 11:57:38 -0600
-Precedence: bulk
-X-Mailing-List: linux-kernel-mentees@lists.linux.dev
-List-Id: <linux-kernel-mentees.lists.linux.dev>
-List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+        d=1e100.net; s=20251104; t=1774474495; x=1775079295;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aaERduj73kZVleeRSp8mEl5F7YmtzogBhrXc9iUxk2g=;
+        b=pBd+MM/wXyN+YxHd+gebReNkKeOJ929zLM73SFukgVe46GYVqp2itax6tCfjbEr6Wg
+         68RzhloixgGe7gtIsmRUFYu7Wfg+Th0tFWzLTPOiP3ShcdTC+P1Qcg7FtxvWdn7kHM7s
+         EB0+Ml5VQmkTMkocXIovqyiKW0zqoIxiMzwymakEfLVOqRG7ylDchegiqZ7+eu8i6s2U
+         GwEZEjVtGKLUrpZtRGsCrhBz3iW6hLjUJ031ELV6wOrXnlTeBwU3AISGldjlJ8UNAtdA
+         RrS/wDh3UjcP6s5EpWYDRPKCS3UhsYV5dJ4FkkO0+QX2wRpfoMoBkVLxMc9YEaw/hbRw
+         xgwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUz6JYwJLN2TRlWEnch2chToAPJM0NgA7G/X/OQ5Vw8dx+q7SZIWKZkRgkuuljf9grALAdseugck2ig3SMZlXn/FJUY1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyyg1THvNXMbExtdDAQGxV/bLXvYz/jW/jK6z5+833PAr4dp7V3
+	FiKlUIgZH6Da+FEBAiYs4XWuMR9YSo+k3KIWn5/MHZOJyqVZUem4U0vbBg8X5Tta85Q=
+X-Gm-Gg: ATEYQzxtoXhEJtJCU1PuEdHfxp97slgHRb38r7dgOz3B+oQNMl1pFpm7GI+FA7dKdWG
+	Ui30S8JuCTlqUuBNZdbaN7h3OvAaPzmnERhm1CniRK1NUgXGOKaUkgFHbekuvh4yLgqAurWsZFq
+	rFCDVnaxZwdszzL2L2WcTSjJEhw0QhiVYy052R+1v+9RkL4mH15Rblu9UQxpdfWndlqYPaWdMX4
+	PsiOvMZgdmQGxNEi46zU+bahEnNVw+9FJqPrIRMDbrV1Rt5P32JqXEEnPltx/x2uBMQE7kRAIQy
+	lqz1o1J60ZrPaPFX34L+vXd+NiCET8Wlmmf6MwrVyXrnvVbPDaWhp1rsM19tGMd4RjHjLcIMrZA
+	oxMQT8gVsUNFYIQ2JmAbVuQTSJfPGzsCJr+Dzd9oVnS3C1/aN18cq7GhKWOQ7IP7QVHiJkkU+F6
+	7RUnYA+Xyp1RX77DJrglfKuH4t7Xo=
+X-Received: by 2002:a05:600c:45c4:b0:485:3dfc:57a with SMTP id 5b1f17b1804b1-487160717d3mr75241795e9.32.1774474494591;
+        Wed, 25 Mar 2026 14:34:54 -0700 (PDT)
+Received: from localhost ([41.210.147.106])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9194311asm3404640f8f.10.2026.03.25.14.34.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 14:34:53 -0700 (PDT)
+Date: Thu, 26 Mar 2026 00:34:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Prithvi <activprithvi@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
+	straube.linux@gmail.com, b9788213@gmail.com,
+	ethantidmore06@gmail.com, weibu@redadmin.org,
+	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com, lukagejak5@gmail.com,
+	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
+	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	khalid@kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
  checkpatch warnings
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Prithvi <activprithvi@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
- straube.linux@gmail.com, b9788213@gmail.com, ethantidmore06@gmail.com,
- weibu@redadmin.org, knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
- dharanitharan725@gmail.com, lukagejak5@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
- khalid@kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <acRU-NKBqLe4-e3E@stanley.mountain>
 References: <20260323162901.121947-1-activprithvi@gmail.com>
  <acFtiaXTp7bwl604@ashevche-desk.local>
  <20260324130234.3776tp4ykuerffcg@inspiron>
@@ -88,44 +84,79 @@ References: <20260323162901.121947-1-activprithvi@gmail.com>
  <20260324160229.f46h25ebd2mxcfiq@inspiron>
  <656d3bf5-8d97-454e-9691-540cdb79dab4@linuxfoundation.org>
  <acONUF2nLAk6uhQs@stanley.mountain>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <acONUF2nLAk6uhQs@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <ea43143b-a880-4d15-9fd6-1a4a25abf187@linuxfoundation.org>
+Precedence: bulk
+X-Mailing-List: linux-kernel-mentees@lists.linux.dev
+List-Id: <linux-kernel-mentees.lists.linux.dev>
+List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="BvSJJhSL1hENOWF8"
+Content-Disposition: inline
+In-Reply-To: <ea43143b-a880-4d15-9fd6-1a4a25abf187@linuxfoundation.org>
 
-On 3/25/26 01:22, Dan Carpenter wrote:
-> There are a couple of different things happening here.  The mentorship
-> program has its own rules.  The rule that people should test their code
-> seems like a good rule.
 
-Correct. The goal is to avoid introducing regressions.
+--BvSJJhSL1hENOWF8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wed, Mar 25, 2026 at 11:57:38AM -0600, Shuah Khan wrote:
+> My primary concern with this change is that it 10 files changed, with
+> 26 insertions(+), 32 deletions(-)
 > 
-> In staging, most of the patches that we apply not tested.  I assumed
-> this patch wasn't tested.  Patches like this are not a big deal because
-> we can easily review them.  Sometimes, patches change runtime so unless
-> it's a security issue, we want those to be tested.
+> It can be difficult to find any regressions unless the changes are
+> tested. I understand it is staging repo, but if we relax the rules
+> for staging irrespective of the scope of change, it becomes lot
+> harder to find regressions later. We are essentially leaving the
+> job of testing to users. Also if ans when the driver is pulled into
+> mainline, it will inherit the regressions that crept in.
 > 
->>
->> -	if (0x00 == PathAOK) {
->> -	}
->>
-> 
-> We normally wouldn't merge patches which do multiple things at once
-> but it doesn't really make sense to reverse this condition around since
-> it's dead code so to me it falls under the "related change" category.
 
-My primary concern with this change is that it 10 files changed, with
-26 insertions(+), 32 deletions(-)
+To me this is a mechanical patch (basically automatic, flip the
+if statement) from a newbie.  These kinds of patches are seldom a
+problem.
 
-It can be difficult to find any regressions unless the changes are
-tested. I understand it is staging repo, but if we relax the rules
-for staging irrespective of the scope of change, it becomes lot
-harder to find regressions later. We are essentially leaving the
-job of testing to users. Also if ans when the driver is pulled into
-mainline, it will inherit the regressions that crept in.
+I took a sample of the patches for five years from 2021 to the end of
+2025.  We merged 54406 commits in staging.  We had 401 Fixes tags.  But
+then I decided I don't care about Kconfig problems so I cut it down to
+380 bugs.  Half of those (189 commits) were from when the driver was
+merged.  We tend to not review code very much when it is first merged
+to staging.  The other half (191 commits) were from us missing bugs
+during review.  191 bugs over five years is 40 bugs per year.
 
-thanks,
--- Shuah
+I hand reviewed a bunch of the 191 commits.  It's mostly senior
+developers and maintainers who introduce bugs.  They are normally doing
+complicated things like adding features or re-working core parts of the
+driver.  Quite a few of these patches were tested.
 
+The fallout from newbie patches is pretty rare and often really
+minor.  A common thing is "We deleted code but we didn't delete
+everything."  The number of serious mess ups is probably just a
+couple times per year out of the 40 total bugs per year.
+
+I've attached my script so you can check yourself.  NEW means the
+bug was introduced by a new driver.  OLD means, ideally it would
+have been caught in review.
+
+regards,
+dan carpenter
+
+--BvSJJhSL1hENOWF8
+Content-Type: application/x-sh
+Content-Disposition: attachment; filename="old_v_new.sh"
+Content-Transfer-Encoding: quoted-printable
+
+#!/bin/bash=0A=0A# set -e=0A=0ASTART=3D2021-01-01=0AEND=3D2026-01-01=0A=0AH=
+ASHES_W_FIX=3D$(git log --no-merges --before=3D2026-01-01 --after=3D2021-01=
+-01 --grep Fixes: --format=3D'%h' drivers/staging/)=0A=0Afor HASH in $HASHE=
+S_W_FIX ; do=0A    # I don't care about Kconfigs=0A    if ! git log -1 --na=
+me-only --format=3D'' $HASH | egrep -q '\.[ch]' ; then=0A        continue=
+=0A    fi=0A=0A    # head -n1 so we only look at the first hash (lazy)=0A  =
+  LINE=3D$(git log -1 $HASH | egrep '    Fixes:' | head -n1)=0A=0A    TAG=
+=3D$(echo $LINE | cut -d : -f 2 | cut -d '(' -f 1)=0A    # a couple tags ar=
+e bad.  check if they exist=0A    if ! git cat-file -e $TAG 2> /dev/null ; =
+then=0A        continue=0A    fi=0A=0A    AUTHOR=3D$(git log -1 --format=3D=
+'%an' $TAG)=0A=0A    if git log -1 --name-status $TAG | grep ^A | egrep '\.=
+[ch]$' | grep -q "A" ; then=0A        echo NEW $HASH $LINE=0A    else=0A   =
+     echo OLD $HASH $LINE=0A    fi=0Adone=0A=0A=0A
+--BvSJJhSL1hENOWF8--
