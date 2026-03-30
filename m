@@ -1,67 +1,33 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0405D29BDB1
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 28 Mar 2026 17:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9B334572B;
+	Mon, 30 Mar 2026 16:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774720048; cv=none; b=XQ0yt7tYg/ZOFY2i7ldp0LnDjWOPcZ1cX0ZXYXnK6Fp4Jdst2eODcmbHshCepK6RZGuyFy5jfzOW9+qi6Ga2XuiB/kLpx3cu6bDFb538BcrN+gWl08mwF3+DDOFO4mvY2eBAmdxtrUQBhAcDEwJugYu7DoXIWUAI6SlrXuoXVSc=
+	t=1774886592; cv=none; b=NzmysdIGxRio13k1i8DdY7nsTYJZx4nRAeb/KFNiLWt5ArRHJ0VVb0Hn+4d+LJfZC70/3kf9lZbelgKlVYJ8VvEA+x0qDzf6UTLdkJB1m9S7fQWbtpBuUSAg3z6WG9/rMl9o55ve6Z5jnowI9OEnz/4B5rMiCKSoTJ4aqxoMFvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774720048; c=relaxed/simple;
-	bh=rIZbsesVc+iaqwMCwemksOjIcmx6/Md7GKgKyl92coQ=;
+	s=arc-20240116; t=1774886592; c=relaxed/simple;
+	bh=ckjMKN9a9NqhO1/KeZipVwRjuNPIuQTCTiSEfJKh5Dk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmXET95325Ob/ZX33phCLEiUaC1c9J8IQmNC2Y5/6EmfspwR6wbekX4JJ9BtfQvRwrxHv2LX+FXnfV0m5/2wnHRpJPFPH3FAp9g2GWf5c81Ioe8EkkY+00ZjlO6eOfeI7VdMdgM7WwTYltTLzRXjkLQRVTqQpo+ovXrDP09yLIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qa6BMO2z; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QzC16O14JZ8Lf/1zK04/ggyAMWA/IR2Hht7ge05oZ9PpSswtYdIkEDJTruMCmnoD7cfH8xrON9PO++lhoyaZHlSVVa8JyYwfGxRE2m4gmubI3/K8qssEsZOV2hBWHGUOpUGgDsglg9XCjTH6M0YBdDdxvcXSXDE/Bxc/YtH2h6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TlWznSHS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qa6BMO2z"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-354a18c48b5so3008295a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 28 Mar 2026 10:47:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774720046; x=1775324846; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GicS4u0uTJrzhgI2U3/6yA3+5EnlNX/UM5h+UEdgc68=;
-        b=Qa6BMO2zHlQiIqz5F3GqcltYoLqaenYcR1Mb3sGN1tFa4MlR74oMX/ULcBlkQ86ZNv
-         92sEq0f6CLmYxNV0N2Jraf93XHLNxIyJsrxgsWsO8Am8qp+Zd5hwuXuuA/+In3N2hYFG
-         bAw3Ax1GzptdqqY3M6nJQ4JNn51pId2DSUPTqBh8toEe2c8YG62rzwqnB7a7CDK/YRR4
-         NY908y5O19vcuVdhifyBrTHc56p2DObPR3l/P4ZRbt+uF3jQCo9k2KMnQniiCyWG8TvA
-         5um6UtBVTZCjcH2zEn8HVSCdFSPAQrCHTRmj1cCL3ojUr0Rfe32oiDbU8Yi6EDIjKZM4
-         PCrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774720046; x=1775324846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GicS4u0uTJrzhgI2U3/6yA3+5EnlNX/UM5h+UEdgc68=;
-        b=SX28ulPDuhRRxRLPJzixYuA9PHts9Ae0x8us28qgsUOi+MpEvTT7SxpnHj9YQeRPzK
-         Ot2LU9m6UKLx6VrA3TRNlviwLPoNKjmfXZ/11zSoPM5tJnTqIWnm+eT0D9JHZwBPYimN
-         JJ5Yka7Eh6Nkf4FIZ5r9MaArYXOwqJK4V80icjP/bL7nSoY8V781chDCqsjSBbs0cOcw
-         gMZnUUbuZXWKhwaWe4zbrbNbW3DPJieLqVpfRNvUsXsJCSLK7mfLmWOURU5pTVS2Ol7v
-         CRkI3K1AIie/1rs/agOhpWqeNXL0XpZX+T428nwNibwCCia5yKhzSiiK49fSaxHkue9l
-         C9gw==
-X-Forwarded-Encrypted: i=1; AJvYcCXM1gkXYy5PDTnoZ13KfUt31BK5aruNDvUSSaIFLIAbcT3DOYQazmND1dri29AvB0ZVHTwhEyU1pRm1ycq+RS41YotZlQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxW75eDFmJKyHSKwSPTz6QsyUM8RWR1zLmk13axM/qimt5lC2Ju
-	0WL2fSMPUC0J8lCtGhF1WV/hKkVyzCSMSjYFid61qojq+bSRqQlTQ4fy
-X-Gm-Gg: ATEYQzxHBhdir6qn9keq+AswKhaUgT8OQ3NReeJ/5NTpzK4qmU784TGUVcJ2wOrMnMH
-	uTSi2vM6ouSDsMAGRi/e5NWpw4h5Xcq+0xaH8KRNjochxOCPCz7Ace6RDCnKsUeDgvSnsa376/R
-	Yv6Thih8wxN5bpgngykMo8Qx8BSFaftt/0S+xhZhjmNqrlHRbSZferlp+kheBjWyu0jUYeZydmK
-	0i28gdEXx7sYBOp52a8qZupn6dR2BROmBiEpyAes8octRANCh5kLU3/G7Mbo3YlMQW4uKvnJtUd
-	SzH9OeBJLZ6rNGv74ZWgXWXfYW2OpbPx0qh59SChjTaTrMCg3DaaaFGIoAYX5uv/ZazXnwnw0Qp
-	MSW8GlJNyyJ55jNGfxKQruNjZZ1xmun2WuFFW+yXpVMJwRTiQpfaYKB+hEPydUGNKiBoq8bd63X
-	oC2eni9dmDLv24nJLe86lX2ho=
-X-Received: by 2002:a17:90b:1e4f:b0:35b:e593:b1d7 with SMTP id 98e67ed59e1d1-35c3000dbc0mr6313800a91.12.1774720046219;
-        Sat, 28 Mar 2026 10:47:26 -0700 (PDT)
-Received: from inspiron ([111.125.240.152])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35d9507d739sm2559019a91.11.2026.03.28.10.47.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 10:47:25 -0700 (PDT)
-Date: Sat, 28 Mar 2026 23:17:16 +0530
-From: Prithvi <activprithvi@gmail.com>
-To: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org
-Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TlWznSHS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62516C4CEF7;
+	Mon, 30 Mar 2026 16:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774886592;
+	bh=ckjMKN9a9NqhO1/KeZipVwRjuNPIuQTCTiSEfJKh5Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TlWznSHS0PZEx/GaCg4An2nNPrFhZSsle5fcT7UXff2O5q2GnnceA8ZWuBkFpBT+w
+	 kGJczCFc4q+czENmcGJnTYM1eiWju/ef/vbU7U0D291t5LyFuV07cjUmOVa3VP/ItD
+	 ohsjiqkpI1gGPdWZ5ED75wS2reYCDG1eyGvvTzrk=
+Date: Mon, 30 Mar 2026 18:03:08 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Prithvi <activprithvi@gmail.com>
+Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
 	straube.linux@gmail.com, b9788213@gmail.com,
 	ethantidmore06@gmail.com, weibu@redadmin.org,
 	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
@@ -73,8 +39,9 @@ Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
 	khalid@kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
  checkpatch warnings
-Message-ID: <20260328174716.rna2qykokwkojzpt@inspiron>
+Message-ID: <2026033047-explore-embody-564f@gregkh>
 References: <20260323162901.121947-1-activprithvi@gmail.com>
+ <20260328174716.rna2qykokwkojzpt@inspiron>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,28 +50,35 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260323162901.121947-1-activprithvi@gmail.com>
+In-Reply-To: <20260328174716.rna2qykokwkojzpt@inspiron>
 
-Hello all,
+On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
+> Hello all,
+> 
+> Thank you very much for taking time to review this patch.
+> 
+> I understand, that this patch may be considered to be majorly mechanical
+> changes, but still, the scope of the patch as well as the changes
+> involved make testing important for this patch.
+> 
+> I agree that, in case of unavailability of hardware for testing, I should
+> have mentioned it and used the RFT tag for the patch since v1. I
+> apologize for missing this detail & understand that compile-time testing
+> can't be sufficient here with all the changes introduced by this patch
+> and also the concern of the possibility of regressions getting introduced.
+> 
+> Going forward, I will be meticulous about clearly disclosing the testing 
+> status of the patch and if I am not able to test a patch, I will be sure 
+> to add RFT tag since v1 of the patch itself.
+> 
+> Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
+> with the RFT tag, incorporating the changes discussed in this thread?
 
-Thank you very much for taking time to review this patch.
+Yes please.
 
-I understand, that this patch may be considered to be majorly mechanical
-changes, but still, the scope of the patch as well as the changes
-involved make testing important for this patch.
+But remember to do only one logical thing per patch, I see multiple
+things happening in this one :(
 
-I agree that, in case of unavailability of hardware for testing, I should
-have mentioned it and used the RFT tag for the patch since v1. I
-apologize for missing this detail & understand that compile-time testing
-can't be sufficient here with all the changes introduced by this patch
-and also the concern of the possibility of regressions getting introduced.
+thanks,
 
-Going forward, I will be meticulous about clearly disclosing the testing 
-status of the patch and if I am not able to test a patch, I will be sure 
-to add RFT tag since v1 of the patch itself.
-
-Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
-with the RFT tag, incorporating the changes discussed in this thread?
-
-Thank you,
-Prithvi
+greg k-h
