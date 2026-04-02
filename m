@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE52838F93D
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Apr 2026 16:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB23EE1E0
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Apr 2026 16:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775146366; cv=none; b=sWnMOPf8aJYP0+b3CAra3Xlb26u4AYe26ynxMGHcpcfUThdG0mMMHZ32/mG48/4X2IOs3UTpJowJbGlh/9ndSoYoifZmpwhpHQ3XGV8tHm0zzYAuCfKDlcRvhuxX5YKSzH2fhqU4Tv9f40lMpdqTx+FNESY1CF0RXBCruXHaZ3U=
+	t=1775146457; cv=none; b=XLwU3SsVkf9Jl4PwozGeXZ13Q8gbpBZnHW3M88H5CDLZjbyMnK+vOLWviNdEjv0NgI5gEFbYzDQn2iqQAd1fVh5Rr+gpbYEQX7EpfEhxpgKmRTftq5NCx9R6aGOBLzPv+cyWB8NrWaEFF5HMzF6Y1g4cM7/H9IGQoZtzIWEC6fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775146366; c=relaxed/simple;
-	bh=jJTiBYBIB5CT8zd/d/a+k0YMZldcj8zdAJP7LpFG0L8=;
+	s=arc-20240116; t=1775146457; c=relaxed/simple;
+	bh=NNCjv2ZdmVCtPsLbi5cpk/LVnlCg2htihlVU122tBWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HWY3j65M8ucaGYSZZRPA7ZOEvH5GX/yiXvQ/i7rgQtLIfYHpCQ1CT53Llc4Ei8fp8MN2OX5rJaPF60BIqSdCtuV1CLoZSOrwTfwWn5aiNd+D6zkNqKbSYBrix+QCxYOSADZ2rEVGnPLSmv3CzZYi5PNAfFWvZWNPK/t0EIE2/Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhJeVYQY; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=L2WsMAQmcfZiRtaePBo9jsX3l32uJqGNUbte80ukDTvNyzgnBiVvPAVi0TVr1dTX+85ynGdyAIDSGGejLX5LM5OO6huD2lkqR3TxDVG0uAxAWLT6pbU60o2EJP27wXAnXe2AnqkoPuh+4U+K6X7/ZatiqNlbqUSmID8IVyW4pJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/Yi/lbL; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhJeVYQY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/Yi/lbL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775146364; x=1806682364;
+  t=1775146455; x=1806682455;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jJTiBYBIB5CT8zd/d/a+k0YMZldcj8zdAJP7LpFG0L8=;
-  b=mhJeVYQYuPwcb1I1AUKdZTMvs/yasQ9/uPPx8ciNo/j4wbiOL8+HC2MZ
-   QHk2fcKQVrlDNCukYRHWcCHVAovpqmWJsjtaSTmIDml1QGH6yPvWrSaW+
-   YVpA8Rl7HIIvKomYl1gStO/gNj3VpZZmQNJ0KZO/52dr+ZixYWOrlE+or
-   QdwXp90fax4cvNkj0r1NoFWV9y2gsIaJbTUoJMSAntz0Ej18MAEUUZh8f
-   XxoO5qksIIanjbFhENgYN+NLBcSrEfM8nm3bZ1zca8B/6NM9oLxk+roXo
-   nSnbun1BzlDSbs9bC/Kxr+hOEfgaMrYjncKq1VINzPKmROu0QDeNxW0l+
+  bh=NNCjv2ZdmVCtPsLbi5cpk/LVnlCg2htihlVU122tBWE=;
+  b=S/Yi/lbLvxfHQh22dpxINDEZXJixR+4ZdfTCt5u05FgC2MetGebMw8/B
+   tllMp9vVjgTS3u/ScFeFBktfcORlXRsvIT1cuwGnSuem/kQBc63el66TT
+   Hlpcopc24osbsrwL87CXr6euNRZ2Y5wgtcUIcCym86Rrcama+i+FJEHNN
+   1p0n5XHmXz7Ffx7amh3sOREDlpUxyFolP1qcnbBeolDZQywuO+9TFeqAO
+   QpyhiIWu+La02ITK5HjckKNPSf/iaMG4hGnbiySPwYR+pbbed1eg2Q+ci
+   9FjYYttZKnO1yn2jkczPty9kkxrYsRTHFJ6FjyakIYlmPS1N0zuRzOky3
    A==;
-X-CSE-ConnectionGUID: q2MlIjIjQg2eOQzLbxQGDw==
-X-CSE-MsgGUID: mQS0WX+YTCiWijM5XoXopw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="76327300"
+X-CSE-ConnectionGUID: Js2BGVRuT8+V7Kl/dVaunw==
+X-CSE-MsgGUID: HAVk8lamShGdePpUGByx+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="63760013"
 X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="76327300"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:12:44 -0700
-X-CSE-ConnectionGUID: Rp222jsnR5Ojelx8yxgCLA==
-X-CSE-MsgGUID: Uaf9i3fVQO2IcQsXgm7wmQ==
+   d="scan'208";a="63760013"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:14:15 -0700
+X-CSE-ConnectionGUID: b4khTNdaRVO0CSOg79OxYg==
+X-CSE-MsgGUID: ZjeNP17wSL6Iqj7IP5RM7A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
+   d="scan'208";a="224167458"
 Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:12:41 -0700
-Date: Thu, 2 Apr 2026 19:12:39 +0300
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:14:12 -0700
+Date: Thu, 2 Apr 2026 19:14:09 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Aldo Conte <aldocontelk@gmail.com>
 Cc: jic23@kernel.org, ktsai@capellamicro.com, dlechner@baylibre.com,
@@ -49,10 +51,11 @@ Cc: jic23@kernel.org, ktsai@capellamicro.com, dlechner@baylibre.com,
 	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org, me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 2/2] iio: light: cm3323: use dev_err_probe() in probe path
-Message-ID: <ac6Vd0YM06tJXzJO@ashevche-desk.local>
+Subject: Re: [PATCH 1/2] iio: light: cm3323: fix reg_conf not being
+ initialized correctly
+Message-ID: <ac6V0WWyndrg-7pS@ashevche-desk.local>
 References: <20260402151730.18901-1-aldocontelk@gmail.com>
- <20260402151730.18901-3-aldocontelk@gmail.com>
+ <20260402151730.18901-2-aldocontelk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -61,31 +64,48 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260402151730.18901-3-aldocontelk@gmail.com>
+In-Reply-To: <20260402151730.18901-2-aldocontelk@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Apr 02, 2026 at 05:17:30PM +0200, Aldo Conte wrote:
-> Replace dev_err() calls with dev_err_probe() in cm3323_init() and
-> cm3323_probe(). cm3323_init() is called by cm3323_probe() ,  so using
-> dev_err_probe() ensures that deferred probing is handled
-> correctly and simplifies error paths.
+On Thu, Apr 02, 2026 at 05:17:29PM +0200, Aldo Conte wrote:
+> The code stores the return value of i2c_smbus_write_word_data()
+> in data->reg_conf; however, this value represents the result
+> of the write operation and not the value actually written to
+> the configuration register. This meant that the contents of
+> data->reg_conf did not truly reflect the contents
+> of the hardware register.
 > 
-> Remove the redundant error message in cm3323_probe().
+> Instead, save the value of the register before the write
+> and use this value in the I2C write.
 > 
-> Tested on a Raspberry Pi 3B using i2c-stub. The driver probes
-> successfully and successfully read integration_time after this change.
+> The bug was found by code inspection: i2c_smbus_write_word_data()
+> returns 0 on success, not the value written to the register.
 
-...
+> Tested using i2c-stub on a Raspberry Pi 3B running a custom 6.19.10
+> kernel. Before loading the driver , the configuration register 0x00
 
-> +		return dev_err_probe(&data->client->dev, ret,
-> +				     "Error reading reg_conf\n");
+Extra space needs to be removed.
 
-Add
+> CM3323_CMD_CONF was populated with 0x0030 using
+> i2cset -y 11 0x10 0x00 0x0030 w, encoding an integration time of 320ms
 
-	struct device *dev = &data->client->dev;
+I recommend to use backquotes when providing a shell commands.
 
-at the top of the function and make these just to be one-liners.
+`i2cset -y 11 0x10 0x00 0x0030 w`
+
+> in bits[6:4].
+> 
+> Due to the error into the initialization of data->reg_conf in
+> cm3323_init(), the print of integration_time returns 0.040000
+> instead of the expected 0.320000. This happens because the read of the
+> integration_time depends on cm3323_get_it_bits() that is based on the
+> value of data->reg_conf, which is erroneously set to 0.
+> 
+> With this fix applied, data->reg_conf correctly saves 0x0030 after init
+> and the successive integration_time reports 0.320000 as expected.
+
+Overall a good catch!
 
 -- 
 With Best Regards,
