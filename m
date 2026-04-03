@@ -1,61 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB23EE1E0
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Apr 2026 16:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166F129D27A
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Apr 2026 07:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775146457; cv=none; b=XLwU3SsVkf9Jl4PwozGeXZ13Q8gbpBZnHW3M88H5CDLZjbyMnK+vOLWviNdEjv0NgI5gEFbYzDQn2iqQAd1fVh5Rr+gpbYEQX7EpfEhxpgKmRTftq5NCx9R6aGOBLzPv+cyWB8NrWaEFF5HMzF6Y1g4cM7/H9IGQoZtzIWEC6fk=
+	t=1775201481; cv=none; b=lIXfqhKTPt/SNOHVwL+9rIT7Bm1yuUyVN7kvpNPXqLQ7PEN+jYLJhc4M4/IUTsFwf7XhIHzyG8H1rbMhjWunqhGZfpDRz1Pdmx1WxQ2/jt9Gv7iveydkYFf1qk5FU1GORaRNV9mdB5VE+dMn1BNBoB491/5G58RRkrjfAEBGsI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775146457; c=relaxed/simple;
-	bh=NNCjv2ZdmVCtPsLbi5cpk/LVnlCg2htihlVU122tBWE=;
+	s=arc-20240116; t=1775201481; c=relaxed/simple;
+	bh=rZ9YqBG8TkbbbOZnyerkTV4TfrBtBiuUGlowBhsF7Os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L2WsMAQmcfZiRtaePBo9jsX3l32uJqGNUbte80ukDTvNyzgnBiVvPAVi0TVr1dTX+85ynGdyAIDSGGejLX5LM5OO6huD2lkqR3TxDVG0uAxAWLT6pbU60o2EJP27wXAnXe2AnqkoPuh+4U+K6X7/ZatiqNlbqUSmID8IVyW4pJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/Yi/lbL; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/PwmryFrvbt87jsX4tIyR0BHyUKeUA8wQGW1ujMne1a2HDZJ3LT+jeuypQsZ1AMPw0SKRhDF6h/UILUWJoLoc9WRFvwvgWL+RLmdO+jKCn4QrGeHF6txKeNxwq0C1SN4a3cPyOQZAieOW/js7mdH0c0nSERm6AJfMsiejPDHmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnwJJIcF; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/Yi/lbL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775146455; x=1806682455;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NNCjv2ZdmVCtPsLbi5cpk/LVnlCg2htihlVU122tBWE=;
-  b=S/Yi/lbLvxfHQh22dpxINDEZXJixR+4ZdfTCt5u05FgC2MetGebMw8/B
-   tllMp9vVjgTS3u/ScFeFBktfcORlXRsvIT1cuwGnSuem/kQBc63el66TT
-   Hlpcopc24osbsrwL87CXr6euNRZ2Y5wgtcUIcCym86Rrcama+i+FJEHNN
-   1p0n5XHmXz7Ffx7amh3sOREDlpUxyFolP1qcnbBeolDZQywuO+9TFeqAO
-   QpyhiIWu+La02ITK5HjckKNPSf/iaMG4hGnbiySPwYR+pbbed1eg2Q+ci
-   9FjYYttZKnO1yn2jkczPty9kkxrYsRTHFJ6FjyakIYlmPS1N0zuRzOky3
-   A==;
-X-CSE-ConnectionGUID: Js2BGVRuT8+V7Kl/dVaunw==
-X-CSE-MsgGUID: HAVk8lamShGdePpUGByx+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="63760013"
-X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="63760013"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:14:15 -0700
-X-CSE-ConnectionGUID: b4khTNdaRVO0CSOg79OxYg==
-X-CSE-MsgGUID: ZjeNP17wSL6Iqj7IP5RM7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,156,1770624000"; 
-   d="scan'208";a="224167458"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 09:14:12 -0700
-Date: Thu, 2 Apr 2026 19:14:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Aldo Conte <aldocontelk@gmail.com>
-Cc: jic23@kernel.org, ktsai@capellamicro.com, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, daniel.baluta@intel.com,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org, me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 1/2] iio: light: cm3323: fix reg_conf not being
- initialized correctly
-Message-ID: <ac6V0WWyndrg-7pS@ashevche-desk.local>
-References: <20260402151730.18901-1-aldocontelk@gmail.com>
- <20260402151730.18901-2-aldocontelk@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnwJJIcF"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2aae4816912so10239695ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775201479; x=1775806279; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=StDviqK2auPtsxUwQZnkiY2ibM0+znAstnSyvsxhsUc=;
+        b=lnwJJIcFqrGcBTOCTUTnxLb0l5QFJ0Vzxe30swro/WPjiYxy1NEbxmW83nanBAf2KI
+         u2fSwoNYI9iK/7OEwS79g/wPvDGxIbVv7BaQNetX+cziBUGqyrUd4xCpCBCzHwNV46pJ
+         DeHqZVQ/dT2vTw294+SO8Y4IYRsx6/MOnudCoxQBOvgJpOyvmDc1n2CYIlB7SdClIir1
+         Xj8L+yzi/stnIYZ5WUwWgt7vPBlzagczH0ahKUcmKABi4qDz5twvR2qhPKCC3/1Y5rS2
+         8hqqrQ6mF5jSFHHUSa4ognigSCWStnMmkzrqqpB0/tK0tBftLGWl8/T5LPchxgo+DoQY
+         wwVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775201479; x=1775806279;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=StDviqK2auPtsxUwQZnkiY2ibM0+znAstnSyvsxhsUc=;
+        b=hZNDJQJ5sJ3+WPaDXOvp9I/+pDwYDmM3HlyrHbPItLBwwf1ll+Q3Ataf8K1WpVN0FS
+         WhXOjheePb7F/Lrme0fWSABdjapun13/cebFSI7RMkkkzKE1YheATUITj8uP9VX6Lsp3
+         F2uNvs86BbeRWTH7wWBD7FmDS30fLoa9nZMyFqmGaBqd3WiyUCy8qgsE7fPZkru4l5dD
+         YWTh9PJljAXwFuB7S3gax+BFnXvxV0Ak1Lt/P0x5De/QYA0gdn/Fj6m2tVbcChHqKiyS
+         C+AM+knhhEclho3x+ZK4yyN+OEF1vMkgMjZ8nKx9iZ89hREDG65Y92LOCejYXn5rE6OL
+         a3fw==
+X-Forwarded-Encrypted: i=1; AJvYcCUkkXgv9aq5PscXsgiQrnzKF8e7HxbAdUVeoBo0YyGEt3ZVo1Six7Um5M5saWOE+FwCZrUaarbvASKJsbaWvsvEma/ckQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxR058fITxWMUdMPi4pxZm7NaBrZ8tCIGi/byKPYms0SX9q3Wok
+	wzDQeFJM0/lBcJO49J8pZ+g1xSh18tyT77zQiSa+Z1vDq/brDyIZcW4i
+X-Gm-Gg: AeBDievACSFidH/n7U2I4XZisvBd1OPHuTENDq+VBBgrRFDQZBqfhz3g8osVjiMR+Hr
+	BOC04vo5n+cjK9hAdKneafS7/ECmzqWaVHuE4LtQZEDPM2MUepfuwZ56hu1o2xQrfGM2mgSykRR
+	jyujI9EB4yDEE7MrYi5XvHd5ZrfG7EiGlpkZiu6Ze87D/p6yBkRV7ec/ClRd1pbkiDOotZ58f/X
+	ZdCK2AK7/SVSPFnFHus0mJSQ8fGDZnGxZAzvP8MUre8VqNHmjChvk/At4SydADxBvlS5xzohUkQ
+	Gsas1PcWyz85yY4Y7zriC1FYBz/wC2Sx3ymrf0TM6AY3mOz41PVIf/L1nwU7+pYJFXyBAeRGcTI
+	vIAt0j72pJef10jwmbcNXFeMZpljcrXO5oozx8Fe1yfzfpgPSyCpslg2aJavNSjY/FWABv/2Uj9
+	gNNanikc2gjJ6wcMqOSMwmJMxFbyfvNHc=
+X-Received: by 2002:a17:903:32cd:b0:2b2:51e8:2c20 with SMTP id d9443c01a7336-2b281760833mr23082345ad.21.1775201479414;
+        Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
+Received: from inspiron ([114.79.178.61])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2749c38adsm63481725ad.69.2026.04.03.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 00:31:19 -0700 (PDT)
+Date: Fri, 3 Apr 2026 13:01:08 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
+	straube.linux@gmail.com, b9788213@gmail.com,
+	ethantidmore06@gmail.com, weibu@redadmin.org,
+	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com, lukagejak5@gmail.com,
+	samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
+	s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
+ checkpatch warnings
+Message-ID: <20260403073108.qj5vjqx7zq4l3kdx@inspiron>
+References: <20260323162901.121947-1-activprithvi@gmail.com>
+ <20260328174716.rna2qykokwkojzpt@inspiron>
+ <2026033047-explore-embody-564f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -64,51 +85,47 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260402151730.18901-2-aldocontelk@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <2026033047-explore-embody-564f@gregkh>
 
-On Thu, Apr 02, 2026 at 05:17:29PM +0200, Aldo Conte wrote:
-> The code stores the return value of i2c_smbus_write_word_data()
-> in data->reg_conf; however, this value represents the result
-> of the write operation and not the value actually written to
-> the configuration register. This meant that the contents of
-> data->reg_conf did not truly reflect the contents
-> of the hardware register.
+On Mon, Mar 30, 2026 at 06:03:08PM +0200, Greg KH wrote:
+> On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
+> > Hello all,
+> > 
+> > Thank you very much for taking time to review this patch.
+> > 
+> > I understand, that this patch may be considered to be majorly mechanical
+> > changes, but still, the scope of the patch as well as the changes
+> > involved make testing important for this patch.
+> > 
+> > I agree that, in case of unavailability of hardware for testing, I should
+> > have mentioned it and used the RFT tag for the patch since v1. I
+> > apologize for missing this detail & understand that compile-time testing
+> > can't be sufficient here with all the changes introduced by this patch
+> > and also the concern of the possibility of regressions getting introduced.
+> > 
+> > Going forward, I will be meticulous about clearly disclosing the testing 
+> > status of the patch and if I am not able to test a patch, I will be sure 
+> > to add RFT tag since v1 of the patch itself.
+> > 
+> > Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
+> > with the RFT tag, incorporating the changes discussed in this thread?
 > 
-> Instead, save the value of the register before the write
-> and use this value in the I2C write.
+> Yes please.
 > 
-> The bug was found by code inspection: i2c_smbus_write_word_data()
-> returns 0 on success, not the value written to the register.
-
-> Tested using i2c-stub on a Raspberry Pi 3B running a custom 6.19.10
-> kernel. Before loading the driver , the configuration register 0x00
-
-Extra space needs to be removed.
-
-> CM3323_CMD_CONF was populated with 0x0030 using
-> i2cset -y 11 0x10 0x00 0x0030 w, encoding an integration time of 320ms
-
-I recommend to use backquotes when providing a shell commands.
-
-`i2cset -y 11 0x10 0x00 0x0030 w`
-
-> in bits[6:4].
+> But remember to do only one logical thing per patch, I see multiple
+> things happening in this one :(
 > 
-> Due to the error into the initialization of data->reg_conf in
-> cm3323_init(), the print of integration_time returns 0.040000
-> instead of the expected 0.320000. This happens because the read of the
-> integration_time depends on cm3323_get_it_bits() that is based on the
-> value of data->reg_conf, which is erroneously set to 0.
+> thanks,
 > 
-> With this fix applied, data->reg_conf correctly saves 0x0030 after init
-> and the successive integration_time reports 0.320000 as expected.
+> greg k-h
 
-Overall a good catch!
+Sure...just to confirm I should send RFT patch series, with patch 1 being 
+regarding the change of keeping constant on right side of test (shall I 
+include the minor changes like proper formatting of if statements, or even
+value == 0 changed to !value, etc. in same patch itself or strictly keep 
+only the constant on right side changes in this patch?) and patch 2 being 
+regarding the API change of using read_poll_timeout_atomic() only, is this 
+correct?
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thank you, 
+Prithvi
