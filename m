@@ -1,31 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BA9299943;
-	Fri,  3 Apr 2026 08:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFAC3932D0
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Apr 2026 09:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775203452; cv=none; b=ETy4+DoAXiDhYSzlAnBdwdasIlFZclj0WEVhBJTNsUziIwlInEE+HMqI8IdAx5exky7kdOql1+mgEYSZzM1I42muKA0yd/zzVIrfZbaHLcQUrr7YqN1VVrrIrXOdG5jxkqJ7KaI2PnGjZK3qN86VFiNxYTxQPvf4QFL7kjgokHw=
+	t=1775209620; cv=none; b=ZVTwpNTL3lkXMxbEfnZuqxxt7JRQWGbKR1wmR5bLfUbybOhYtW/ORScKOEyXCsM4u0rCUsNaxokCDFZEFpQlw0vjaopBvALI3MH1OEzM6b4Z1bTKWgMWA9rAFB7QfjYxxQ/SoPdhcn2zCt+egwJXqaymakTv0E5IkEArPXrvgew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775203452; c=relaxed/simple;
-	bh=3xk5QR7wCVct8wdSDr6ZwDQMZ8XKNfKvuFTuoATThF8=;
+	s=arc-20240116; t=1775209620; c=relaxed/simple;
+	bh=p60BRs5FAVudtDIWG0lrqVFZH7bExONxaFkex8D8ISA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fe6KyIBKwGSkd47l05gDDy1VXGzLlxvn0mYDBi8bAq+EgR5xXTzCSqeBUNWmmmYD2SFUqgOJaLUdMfyyPvj9ApVQvLxXgMqukDZvTZmIcvNZouPAMGNcrliiesOONkfKuFwXGbg7rnY9rRklegUODsrQVcw7aSRSA5BzX8uPaJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=c4oelyry; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/SEqdRD6mRVrO35TR0RfZB2bNyJ96PHcbVLgnUUCZ9rHkKgDuRtLAZd2iFV3gnVuKXfzTTpcnXFBRP0DvYX1oqPkh0H9tuVhNaY3Y57wYn912I79ZHWKf4udkWAd26AEsFE5shwRut9RsKxX0rWgUR0sADwYp+c9q42PRFgLno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/ftLi+o; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="c4oelyry"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04138C4CEF7;
-	Fri,  3 Apr 2026 08:04:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775203451;
-	bh=3xk5QR7wCVct8wdSDr6ZwDQMZ8XKNfKvuFTuoATThF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c4oelyryifSO7FiVTBnoOCurd9cehwP92ZH4tLrrcMbcNQhqIsBWQpUdFz944QzZ1
-	 jGkuHuVUSPFyEhkDbGf0iBzMifTW3C1+MMmOQ9YTgpzzbf2zfqzR+HNtysfFOHztXq
-	 LAFO3eS/wg5fzgOXZaL9OGiS9ihYuQ3h7pJ4AIiM=
-Date: Fri, 3 Apr 2026 10:04:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Prithvi <activprithvi@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/ftLi+o"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82ce09b4197so760171b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 03 Apr 2026 02:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775209619; x=1775814419; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vz+gjdpiukg6Y9fAW5H7hyMM4+ZnsKxjEKaoeKbJt9w=;
+        b=R/ftLi+oopnVA+7P2FPvr+WfOViw2j1lFzOr0//mm8KFtLL6vwQkJDIvaou171Xodz
+         xaNl1yR6ysSf1kFkyHYt5uXyo3xuQ/bM3P0raoCdaDqrWtnF6TG85G5V1YlyfmiTHyr6
+         0m27CjiBxBb9VGkWKL6+GhHiGipheBy9QcwH0y7/YSmpZEXgWP67aGxALR0iwlonml2S
+         /P6PCc43nhu/nG/N1hbvyHKHePlQsdKNG9WTS5xp3FmUJxyG00md/+cDGpnmxhj7yufV
+         Jb3zVo+urLSZBBeMxYnpQLe+m8zd0WlR5epBLo/lyR8222EtGTVyQkAwi8YIB6qZmBZW
+         0nNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775209619; x=1775814419;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vz+gjdpiukg6Y9fAW5H7hyMM4+ZnsKxjEKaoeKbJt9w=;
+        b=SQk4WWpNnwKfnNgPWVbKD2+ILSuzMWwe/OkI7pOTIIWX1UqRa67bI4eFkFxw2a0Rld
+         ef3Gxaqm760j3HsnY2U7YyrAgI7N6puCaDWaS8M7G1xtvHTAHaDm/iTdQZLvBkqQ1+ot
+         s4UO+Km3y6TN23W7rXMj2PnGge8G24kSfi1AE40r+CI9VkWt5L8wGTFAmxBp+3sjQ/QK
+         jl1+kPLJkY8VuuHqst7CQynE3ZNEtguPi7DyXXdH4uXn5Rwo5lFzsOukAe8QSDAreE1o
+         KSCjpyF1QYgB05Q9jMveaugY9iNZYwTSQF1R7J1utbqj3EGZ4olk6DMMPAyF0e/rwY1D
+         GTSw==
+X-Forwarded-Encrypted: i=1; AJvYcCVx0juhLzmM71ccQ1QG9eu574CAKzHMbU4/5w12XWDG+nzH1RnKDdm6IVuon9zNW4iusE7OlKUDBScUtUqsbTlKxW+8jw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAxBQ+GF1BSRedKLBjraMZiecZCZWth2uCtrxw9J/mTkhLlRqP
+	r77EfuJkP0G2r0AzO6VApjuBm+6PhpWOnJKgrw9B2UORmuxferk0Wf6V
+X-Gm-Gg: AeBDieusVXV3l7q48o7LTh3S3EjCPo7uuIUBuv7lJEebPq+QPA5kGGllHpPfgHV8hGo
+	u2R/7LxSFZZE8b4KRYvVvCS8UCI7wxzZbegS4c3Az1UhbRUKoEeo5EjO2FAOdHrpA/lM5PodBER
+	HvrJ3H7ja3y5nDfN0YG3p+NS1s1UGpwouyeqffJB/fsX5UgvxTZjuo0SmhwJFtkbdTbmCBl0vf4
+	iMNUnNMmc4BsFo5sgoAV798NrtX5Gn481OipB+hLs+LAq2CbPIQmY9rtRYEY6gqlYKAUE8yFOz/
+	33ITEWEGmow+aXxgowhQwfamKdpvn3jOgn3tuLYTaU4mn3GFV2d95/yYfwyyru5quN2AMR2e+Ws
+	+DDpMPiirXM4Iv6H2FSjtK32NhIktfvTKOYqBNMigwXXPMMKoKx+afJqZLCTJ8hNionTFNIR2aM
+	od7Az8iHVF0/nvAUi06H5+
+X-Received: by 2002:a05:6a00:4b53:b0:82c:70a8:faec with SMTP id d2e1a72fcca58-82d0da7dff7mr2222291b3a.21.1775209618705;
+        Fri, 03 Apr 2026 02:46:58 -0700 (PDT)
+Received: from inspiron ([114.79.178.61])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c6ad8asm5756282b3a.40.2026.04.03.02.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2026 02:46:58 -0700 (PDT)
+Date: Fri, 3 Apr 2026 15:16:47 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
 	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
 	straube.linux@gmail.com, b9788213@gmail.com,
@@ -39,11 +73,12 @@ Cc: andriy.shevchenko@linux.intel.com, skhan@linuxfoundation.org,
 	khalid@kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: fix constant on left side of test
  checkpatch warnings
-Message-ID: <2026040317-bunt-pampered-a625@gregkh>
+Message-ID: <20260403094647.fmgop6xh2cjpit3s@inspiron>
 References: <20260323162901.121947-1-activprithvi@gmail.com>
  <20260328174716.rna2qykokwkojzpt@inspiron>
  <2026033047-explore-embody-564f@gregkh>
  <20260403073108.qj5vjqx7zq4l3kdx@inspiron>
+ <2026040317-bunt-pampered-a625@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -52,55 +87,62 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260403073108.qj5vjqx7zq4l3kdx@inspiron>
+In-Reply-To: <2026040317-bunt-pampered-a625@gregkh>
 
-On Fri, Apr 03, 2026 at 01:01:08PM +0530, Prithvi wrote:
-> On Mon, Mar 30, 2026 at 06:03:08PM +0200, Greg KH wrote:
-> > On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
-> > > Hello all,
+On Fri, Apr 03, 2026 at 10:04:08AM +0200, Greg KH wrote:
+> On Fri, Apr 03, 2026 at 01:01:08PM +0530, Prithvi wrote:
+> > On Mon, Mar 30, 2026 at 06:03:08PM +0200, Greg KH wrote:
+> > > On Sat, Mar 28, 2026 at 11:17:16PM +0530, Prithvi wrote:
+> > > > Hello all,
+> > > > 
+> > > > Thank you very much for taking time to review this patch.
+> > > > 
+> > > > I understand, that this patch may be considered to be majorly mechanical
+> > > > changes, but still, the scope of the patch as well as the changes
+> > > > involved make testing important for this patch.
+> > > > 
+> > > > I agree that, in case of unavailability of hardware for testing, I should
+> > > > have mentioned it and used the RFT tag for the patch since v1. I
+> > > > apologize for missing this detail & understand that compile-time testing
+> > > > can't be sufficient here with all the changes introduced by this patch
+> > > > and also the concern of the possibility of regressions getting introduced.
+> > > > 
+> > > > Going forward, I will be meticulous about clearly disclosing the testing 
+> > > > status of the patch and if I am not able to test a patch, I will be sure 
+> > > > to add RFT tag since v1 of the patch itself.
+> > > > 
+> > > > Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
+> > > > with the RFT tag, incorporating the changes discussed in this thread?
 > > > 
-> > > Thank you very much for taking time to review this patch.
+> > > Yes please.
 > > > 
-> > > I understand, that this patch may be considered to be majorly mechanical
-> > > changes, but still, the scope of the patch as well as the changes
-> > > involved make testing important for this patch.
+> > > But remember to do only one logical thing per patch, I see multiple
+> > > things happening in this one :(
 > > > 
-> > > I agree that, in case of unavailability of hardware for testing, I should
-> > > have mentioned it and used the RFT tag for the patch since v1. I
-> > > apologize for missing this detail & understand that compile-time testing
-> > > can't be sufficient here with all the changes introduced by this patch
-> > > and also the concern of the possibility of regressions getting introduced.
+> > > thanks,
 > > > 
-> > > Going forward, I will be meticulous about clearly disclosing the testing 
-> > > status of the patch and if I am not able to test a patch, I will be sure 
-> > > to add RFT tag since v1 of the patch itself.
-> > > 
-> > > Lastly, I wanted to kindly ask if it will be alright to send a v3 patch 
-> > > with the RFT tag, incorporating the changes discussed in this thread?
+> > > greg k-h
 > > 
-> > Yes please.
-> > 
-> > But remember to do only one logical thing per patch, I see multiple
-> > things happening in this one :(
-> > 
-> > thanks,
-> > 
-> > greg k-h
+> > Sure...just to confirm I should send RFT patch series, with patch 1 being 
+> > regarding the change of keeping constant on right side of test (shall I 
+> > include the minor changes like proper formatting of if statements, or even
+> > value == 0 changed to !value, etc. in same patch itself or strictly keep 
+> > only the constant on right side changes in this patch?) and patch 2 being 
+> > regarding the API change of using read_poll_timeout_atomic() only, is this 
+> > correct?
 > 
-> Sure...just to confirm I should send RFT patch series, with patch 1 being 
-> regarding the change of keeping constant on right side of test (shall I 
-> include the minor changes like proper formatting of if statements, or even
-> value == 0 changed to !value, etc. in same patch itself or strictly keep 
-> only the constant on right side changes in this patch?) and patch 2 being 
-> regarding the API change of using read_poll_timeout_atomic() only, is this 
-> correct?
+> What would you want to see if you had to review a patch series?  Which
+> is easier, a change that only does one type of logical thing throughout
+> it, or one that mixes different things on the same lines?
+> 
+> Remember, a human has to read all of these :)
+> 
+> thanks,
+> 
+> greg k-h
 
-What would you want to see if you had to review a patch series?  Which
-is easier, a change that only does one type of logical thing throughout
-it, or one that mixes different things on the same lines?
+Understood - I would send RFT v3 patch series, with each patch doing a single 
+logical thing.
 
-Remember, a human has to read all of these :)
-
-thanks,
-
-greg k-h
+Thanks,
+Prithvi
