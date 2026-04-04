@@ -1,69 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA68914F112;
-	Sat,  4 Apr 2026 00:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3752DB7BF
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  4 Apr 2026 20:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775261701; cv=none; b=P2Xp8Im0Qu3sdfh42ijwEvrj6T92X0Fdv6+FLRXB6h2WR32eqWhYlVfaLqupx0LydMv9SjovIq1iGgErPritg/8u5K58Y9eErl//a5YKjTtkD+qJBQydKUMng/rBNPAnBYYFRVYCsE57FJh5ZErKcv+hbtLVnk5AbpWZEmClfOg=
+	t=1775336339; cv=none; b=FJBruXvrSBwz7GNpVS5+3cFR86yH73zfS5JyIXgFcY05ZuhW2zlL3X89HcgK90nRd4FTT7y9CBGkFUClE1CRuKx5l/GOC+Y9R294DHteZ4fcKH3OEfhAIIwMoRme5BBCJDH/Mpvnoq0bllHEwDHM73BAULc4o/KpvkbWd0G/zos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775261701; c=relaxed/simple;
-	bh=a1cA2VuH9gx7o5zyfrOR9t8QM2OgfKxSfh7Z8o/lYKI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JwME8XaMM8l8aJ9tepzmw1cYNqpG7L38FkI25KKEu/99mnyltUaWXTqzXKlUcVXS+TCZDQ85p+zdy3oOVPvVyNCTImbN+GivAc4yhXjLXXkrMhvyfzVIacFeG7gI6enzT4BVGt1H2DNLbQ+MxCYRUIkuXT62oZWTOM2iooRmSwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7RJwPq5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775336339; c=relaxed/simple;
+	bh=9nvdIFs0RiVU6vxasKbbrN5eV05nBxgSym4LflyWbDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X3HRcz+LQtF3ca5J2WtWwRkUq9Bk/5iirw7RoCMdp/xn0N7KPTAB7T1yTvADOoEQJoEmijzIWJY4E+CF0lSQiapGL6stMTMb4cdjAMb6UP5iQKmCp+QB72//TWZcuvk/ZzkWDFANeCzuDezlVAtQAeiTPAEll9SVEB7QwknG51I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jMiNeu6V; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7RJwPq5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F76C19423;
-	Sat,  4 Apr 2026 00:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775261701;
-	bh=a1cA2VuH9gx7o5zyfrOR9t8QM2OgfKxSfh7Z8o/lYKI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=R7RJwPq5P7YZbwq2z+dASC1/BE9GNbHd54E6NhuIo2Oy9NGwiQjAN3FfQPV5uoReq
-	 x+Fjr1SKsjk+EwJcgjIELBuqTsPl3PzOqERQoISjBoXD+ya1xbiChwBiDMN8MBvqQH
-	 MX50y/oFMx+eiMPkq3l2I+HGzZ3Act8gJptF0vq8w76s8CZs9zJpOlYE1k1C4sNBL/
-	 UVAx5Y1qAr6jhZwaeytwb/LhW1hQ0XRzpLbuuGv1cnbdGWql1/u4AfZPPGl4/ZZK57
-	 A++JDPys0/Z+Ar3lauhGm/t7w6PWMJheLbN3Uc/eq94KO9kKMUEmesFjpHIKcKuk45
-	 7UlskaI4ubvKQ==
-From: Namhyung Kim <namhyung@kernel.org>
-To: peterz@infradead.org, mingo@redhat.com, acme@kernel.org, 
- SeungJu Cheon <suunj1331@gmail.com>
-Cc: mark.rutland@arm.com, alexander.shishkin@linux.intel.com, 
- jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, 
- me@brighamcampbell.com, shuah@kernel.org, linux-perf-users@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-In-Reply-To: <20260402160410.425978-1-suunj1331@gmail.com>
-References: <20260402160410.425978-1-suunj1331@gmail.com>
-Subject: Re: [PATCH v3] perf header: Validate build_id filename length to
- prevent buffer overflow
-Message-Id: <177526170118.2123878.2776545631982676157.b4-ty@kernel.org>
-Date: Fri, 03 Apr 2026 17:15:01 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jMiNeu6V"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-483487335c2so28779305e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 04 Apr 2026 13:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775336336; x=1775941136; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=duUyI1SAeNVm/Wy4g4Wo7s4yIGMomxToV5BpPoZ9vuI=;
+        b=jMiNeu6VBtveGTzOI7spEgPujcB1TaPKb7vTVnOhbQDB8MmtZV6aL45N7jGYe/fukA
+         HSFQboN+xBtEEse1TKV9ocyEX8XIjc01kHX/s/bqlx2He1MT5F65T7rmWmupqO+lQyTT
+         jQlrFt47BYJ3s/PVDFwJvznhhv/FYgdGNBmnUvC8wfV/VjT8EV4asoKWUWVZIG6h4Eki
+         TiammBaGrS3G83wWuKtaxPgThaV07nDA+im0vQphxKlh8WOLI25ap+DJendfFO8fXTMW
+         7iu9uCLiNo/L7iIXOvAeKnMX1x4LLv7icQ4v81aO61CEersukVrb3PCq0fc/+VbmA+WE
+         SX8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775336336; x=1775941136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=duUyI1SAeNVm/Wy4g4Wo7s4yIGMomxToV5BpPoZ9vuI=;
+        b=jUffFOiCSPXMacdhCagymHFV8alQ8bKFGzAFBgR8ppEJNuVCrNqP4MM14wSppqdxzM
+         5wDfQKg34+5dOFE7pDV7sJN1bQsIaHpiEtZdUObqty9XeLxDCAYw0/SlA6XVvr5klQFh
+         wL1wIyciBlYFurSc433wunWSwvP4L/q1kdpHwZJaaBHqf3vdAMY38R6zSDqtZJVd+UoI
+         LXr04ioj77YfU9GdwnlGnvGJJU64fxDHJQyb16DHUzuo33Re3wKSJZo9obwFmUkz/6Wk
+         +X/mYSNxSGqjV9VgCICejXHteOYBjeOwLeQVEjr+WcQnUqe8G60L8u9JeHwZs9G93wyE
+         4Tgw==
+X-Forwarded-Encrypted: i=1; AJvYcCXkzAGiMpfw5IlbyMbJdXiJpdv/zLZJNtvDfYrzIiXCvi/rBP3UhcNDelf8l4orimNsHGLsaNqo1R3ivQSQnxO7iYviRQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZL/srGEQV+SAuUA16muv2gQktthdXte6QHSdDFQWfmjtQlOv6
+	2ieL+i31UpFSoQY0qFq5s7lJP3v0ZNmRlRsF2LVS2oZumvv0tGBAUurn
+X-Gm-Gg: AeBDieuMHs9qAJg2xRTk0Eu7rOkil//KR81UInX4YmT0591RKul8JAWyzdZuYNmnjXo
+	Rs9qhpW9/RP/Wz/ZwsVbvEPYRsODUTNwjkCKaxKe0UzxNrv4JMa5P8lQNKu3P8q8VR5k7f9DfiF
+	l327CIA5PMXFUNHeNKRzyI26XmMg3SK/5D2DI4f91UbXZ4SQ9vuMZaoqb7nKqEtby8BBONMoTAm
+	MqUPNqLYjQpBq39/4x8sT2xkuVC+NUU9VORv08utNDKpGybmilXTUb39SFdGPQyCn7CnPiHHgX5
+	tHpr8eLKaEFLSBM8VC12koepIO68Dnc8vnoWqWfaUSpa3ZA0dJbhpZ3I8BC5nrEK1OQLNAvhX3I
+	9gqe2n0c8cNgooLq1Qf1tanY/yjsFaw5rqIzXKkhwa+yACR06G73o1KY+3FIwkW+FOIqQRw6OhF
+	KJTHZSf3azV2XQy/zjsnT2VOFfWoMtF0sPTD85/o80Dy1CgZoIunKc
+X-Received: by 2002:a05:600c:3042:b0:488:a25e:14b2 with SMTP id 5b1f17b1804b1-488a25e153amr36322295e9.9.1775336335750;
+        Sat, 04 Apr 2026 13:58:55 -0700 (PDT)
+Received: from aldo-conte-t14.tailf68ad9.ts.net ([94.164.143.38])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488a36f22b1sm84749535e9.10.2026.04.04.13.58.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Apr 2026 13:58:55 -0700 (PDT)
+From: Aldo Conte <aldocontelk@gmail.com>
+To: jic23@kernel.org
+Cc: ktsai@capellamicro.com,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	daniel.baluta@intel.com,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2 0/2] iio: light: cm3323: fix and cleanup
+Date: Sat,  4 Apr 2026 22:58:50 +0200
+Message-ID: <20260404205853.18559-1-aldocontelk@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c04d2
+Content-Transfer-Encoding: 8bit
 
-On Fri, 03 Apr 2026 01:04:10 +0900, SeungJu Cheon wrote:
-> The build_id parsing functions calculate a filename length from the
-> event header size and read directly into a stack buffer of PATH_MAX
-> bytes without bounds checking. A malformed perf.data file with a
-> crafted header.size can cause the length to be negative or exceed
-> PATH_MAX, resulting in a stack buffer overflow.
-> 
-> Add bounds checking for the filename length in both
-> perf_header__read_build_ids() and the ABI quirk variant. Print a
-> warning message when invalid length is detected.
-> 
-> [...]
-Applied to perf-tools-next, thanks!
+This series fixes a bug and does a cleanup of the CM3323 
+color light sensor driver.
 
-Best regards,
-Namhyung
+Patch 1 fixes data->reg_conf being incorrectly initialized with the 
+return value of the i2c_smbus_write_word_data() instead of the actual 	
+register value. Tested with i2c-stub on a Raspberri Pi 3B.
 
+Patch 2 converts dev_err() to dev_err_probe() in the probe path.
+
+Changes in v2:
+- Patch 1: fix typos in commit message
+- Patch 2: add struct device *dev to shorten dev_err_probe() calls
+  to one-liners (suggested by Andy Shevchenko)
+
+Aldo Conte (2):
+  iio: light: cm3323: fix reg_conf not being initialized correctly
+  iio: light: cm3323: use dev_err_probe() in probe path
+
+ drivers/iio/light/cm3323.c | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
+
+-- 
+2.53.0
 
