@@ -1,95 +1,157 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53491344D8C
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Apr 2026 13:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670302641FC
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Apr 2026 15:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775394148; cv=none; b=jEZ+/kSpX5d0VaFQyuuFOWazmByWhGiU15QByrUY8Sy59jDt4Ty4l4UGBKHWEDCZWYWDjcFoC5uL6NGvXPA6RFD65Qu0v47HUmv+03AmUlzC3vxRFKXVSNXjLNXUw6ik0g3BezRgf+eVZUERxHD/jW5qPwnCUXTj6i0YmusmnX4=
+	t=1775401953; cv=none; b=fH4rtzcpduKz2VX3ZlGDhMiD+odUIaES1yiL6Q+f/jvJwBdr6kq7T+1RXAriv+oVWIq8xP94H5590nT84kq96o6ZJzlk/61b1IYGGN/pg2/ffmniLaiZMf39moQOhKJuJKiELpgxOfobX59RP/5SHDNFleG3N/QpYA4VasY+aj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775394148; c=relaxed/simple;
-	bh=eYr6+osP1En0FVWvyebOZn/HOdQMPYeCTAmeuADcDfU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=HXV12d+0fZfXLDwI+kEkhBGcgyoQxuX5/Wh6awAx02ROFcUkLiPJVp5f0m0FEp4gTJ2tWRozVXQEPJXNGY9p5o/nFAQ9qSNxqf4uYXOZLAQk6TxvT5yQ5+dg66Y59VfVIr+rsmEKmcR3IFGAaaeX724M8gLsrGmbbjtfcF8/KC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fYhmksT9; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775401953; c=relaxed/simple;
+	bh=Clxc1TNqdtfpEHL/HS2PI3FNSIwolS3sq/7BAEx+TJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c64A0PXQFiy9nFRbdX2TPRhODl/gqUy8d73lFw0PivB7dUG2vYRGyCTDuu0crlo7RXE7zu7yvfj2o4zMjIQUV7cdRHS4PahdEGbld+l+QQNXas424SY995tslckR5xaxqULtFp3p7+wAbyNrvBX2GMAiH+Jbd61LLt0blilPyQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=xg4PDt4J; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fYhmksT9"
-Date: Sun, 05 Apr 2026 14:57:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775394135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CLrBI3xHnqTwBT+rIhcBHjQ33vFk37Hl8TapPzd4JJc=;
-	b=fYhmksT9dND1Y5fqYvCBUnnmAEI7Xgu9ZkB1CKnH9QmlUyVYKqVi4MF8ibaIM0oUTidfDS
-	0cArar7XD1mAyIUrxBEyiYISYmtMAKAYEGfdLZ01VtpA0/oX8wv2+ODT/CNolCNgUozsmb
-	kd8UoLMNweRz8rffrghowkaWlbHKlpo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Prithvi Tambewagh <activprithvi@gmail.com>, gregkh@linuxfoundation.org,
- abrahamadekunle50@gmail.com, b9788213@gmail.com, straube.linux@gmail.com,
- ethantidmore06@gmail.com, andriy.shevchenko@linux.intel.com,
- dan.carpenter@linaro.org, weibu@redadmin.org, knavaneeth786@gmail.com,
- ignacio.pena87@gmail.com, dharanitharan725@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, suunj1331@gmail.com, ysinghcin@gmail.com
-CC: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- david.hunter.linux@gmail.com, khalid@kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BRFT_PATCH_v3_5/5=5D_staging=3A_rtl8723bs=3A_remove_?=
- =?US-ASCII?Q?duplicate_rate_checks_in_PHY=5FGetTxPowerIndexBase=28=29?=
-In-Reply-To: <20260405114132.310774-6-activprithvi@gmail.com>
-References: <20260405114132.310774-1-activprithvi@gmail.com> <20260405114132.310774-6-activprithvi@gmail.com>
-Message-ID: <B3F00249-F9E5-4077-B863-EC809A556296@linux.dev>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="xg4PDt4J"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-40ea611d1a4so1340544fac.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 05 Apr 2026 08:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775401949; x=1776006749; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8BANRRy4E4zRqxqgNimKW4aaAELzYPRotrVokPpoURw=;
+        b=xg4PDt4Jzjoh4ga5JlR5Lprlhz2NuPO2fPrHDoiCTd5GIMxNs/sMd6fp/ffhvgSHBj
+         sKtvsBlZIfcOCOLgAEy/0v3p8ApxmKW+X49dtv6scab+0R74D+kHrCuaVKJZHh6iHdGZ
+         aFnSRDLMcFMu/ivBt8M4sXOhV9jN4AXZc5DNX8IzdSJMFjWlCTJ089ijFeIzUjRku1n7
+         eRfOppfndwc0lopv9aCVG2DVvYDYne1yS6Vc+BgHmd8JBkSdnZTxv9pl7S2GnEucK/zI
+         TsL6cMkxJR6XSMsmoyeYe09/ciiY5EjwoCZlwHGxUXcTNAgI/HMG2zXPnPcnN031dkWE
+         A6qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775401949; x=1776006749;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8BANRRy4E4zRqxqgNimKW4aaAELzYPRotrVokPpoURw=;
+        b=kFx5Yl16a51P6UVud0q8Hym9iVr842iXhAFGGeYl6CXyViYnBQ1fv6uO1RbH9BUM/f
+         Sc0mvCDPbuGWx6vSPyXPK0IPGUdr3jE2yT8kcBqUA5w8Ml1PVtrODGbAPSJ+SSPYy/iw
+         djZWC98jD/4J/LIQuKWWhecHwxdztnrkubWS5ig85d8P/pnUsprUdh0G37eJCfE7/0o+
+         XDKBiIqYNLqNMip95OAMK+B1K2eMJEAbS+9F7jZOpiXqcqfisV4SRYK9NnGQINnDxuJU
+         DZvLhiRsV5zwyt6L9K+BxZHkQbNOPd3fqnschN+bfi9/CMVNy2EdblVHGwT9ZwG95/+j
+         Ipcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdiklHDQjVVgQmdc1K30XnRzZ3cabGkBSJnXBoU2RLzIuukRV/l2Fzzj1U9ZkS8w0YqfYUwNM/bfaVdMNmSxeE18oBJg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmAqM2Q3/tax+ovOWsMZ/t+ymunNWWWcXGcz68O1yXxTNx9FDX
+	HSlMX+6p1oxmf0o4GUh/gKMFj755vuN4Kc/XehtKf+T96Q6QPPFl1rMGwxu6MfugeQA=
+X-Gm-Gg: AeBDievNm1SjNGGTnizIT+AZJ+ac+JlLOzpZBnWlSvwXDBylPaP3pcm/9vy9yNjJsLv
+	S0Mz2reAr4NcTKVeMkWqUQLohxkl9kvLe+UCXHhCKdajOPJZ+LFQaVGYw31FaNqjYeFZInjjZj/
+	gktTqAVpclmmnktxkqt9IkRq3/WEPr3tBBzIuz7+CXfm5IuQ3ZyVRYrg39c+7fCGm1x2ObZECM1
+	KHCSKztmU2RYR0GYwHmWR/zaZBx3jqKYgVmVrCdvbA1+fmn12WlveVW5Uy+4f9XBualDNbJBBK6
+	5mGKmF2l02RDZxfxts2qs1TpaOPikjaYim387WT//CDL7E4L0QrExyVP2h3G+Y9SwWa22WhHUCn
+	yjabVQ6S7hNuXKG5Axaik2O/5G+tuvxJmJnZi866e2SLtIJVp6nhRPHJ7btcNkgkx5Cup0dFmqi
+	BxvsasWTPyn7NhyCSx0b0xGQrZ/2Gobs2EcxgYhSeWwiQXt4S6uN5j1KOzIy5dgIAuLSpjqErJt
+	Q==
+X-Received: by 2002:a05:6820:1686:b0:685:5300:f1ab with SMTP id 006d021491bc7-68553103d5dmr897234eaf.34.1775401949238;
+        Sun, 05 Apr 2026 08:12:29 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:e80f:4ea3:56f4:bada? ([2600:8803:e7e4:500:e80f:4ea3:56f4:bada])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-422eb25a55asm9790995fac.10.2026.04.05.08.12.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Apr 2026 08:12:27 -0700 (PDT)
+Message-ID: <bb46e400-4d1f-475e-bf36-7035554b453a@baylibre.com>
+Date: Sun, 5 Apr 2026 10:12:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] iio: light: cm3323: use dev_err_probe() in probe
+ path
+To: Aldo Conte <aldocontelk@gmail.com>, jic23@kernel.org
+Cc: ktsai@capellamicro.com, nuno.sa@analog.com, andy@kernel.org,
+ daniel.baluta@intel.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev
+References: <20260404205853.18559-1-aldocontelk@gmail.com>
+ <20260404205853.18559-3-aldocontelk@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260404205853.18559-3-aldocontelk@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On April 5, 2026 1:41:32 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gmai=
-l=2Ecom> wrote:
->The code previously checked (Rate >=3D MGN_MCS0 && Rate <=3D MGN_MCS7)
->condition twice - once for the (BandWidth =3D=3D CHANNEL_WIDTH_20) check =
-and
->once for the (BandWidth =3D=3D CHANNEL_WIDTH_40) check=2E Fix if statemen=
-t
->formatting to move that if check as an outer if check to improve code
->formatting=2E
->
->Signed-off-by: Prithvi Tambewagh <activprithvi@gmail=2Ecom>
->---
-> drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec | 7 +++----
-> 1 file changed, 3 insertions(+), 4 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec b/drivers/s=
-taging/rtl8723bs/hal/hal_com_phycfg=2Ec
->index 9e523491a008=2E=2Eefd1c76f2953 100644
->--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec
->+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg=2Ec
->@@ -469,11 +469,10 @@ u8 PHY_GetTxPowerIndexBase(
-> 	if ((Rate >=3D MGN_6M && Rate <=3D MGN_54M) && !IS_CCK_RATE(Rate))
-> 		txPower +=3D pHalData->OFDM_24G_Diff[RFPath][TX_1S];
->=20
->-	if (BandWidth =3D=3D CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
->-		if (MGN_MCS0 <=3D Rate && Rate <=3D MGN_MCS7)
->+	if (Rate >=3D MGN_MCS0 && Rate <=3D MGN_MCS7) {
->+		if (BandWidth =3D=3D CHANNEL_WIDTH_20) /*  BW20-1S, BW20-2S */
-> 			txPower +=3D pHalData->BW20_24G_Diff[RFPath][TX_1S];
->-	} else if (BandWidth =3D=3D CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
->-		if (MGN_MCS0 <=3D Rate && Rate <=3D MGN_MCS7)
->+		else if (BandWidth =3D=3D CHANNEL_WIDTH_40) /*  BW40-1S, BW40-2S */
-> 			txPower +=3D pHalData->BW40_24G_Diff[RFPath][TX_1S];
-> 	}
->=20
+On 4/4/26 3:58 PM, Aldo Conte wrote:
+> Replace dev_err() calls with dev_err_probe() in cm3323_init() and
+> cm3323_probe(). cm3323_init() is called by cm3323_probe(),  so using
+> dev_err_probe() ensures that deferred probing is handled
+> correctly and simplifies error paths.
+> 
+> Remove the redundant error message in cm3323_probe().
+> 
+> Tested on a Raspberry Pi 3B using i2c-stub. The driver probes
+> successfully and successfully read integration_time after this change.
+> 
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+> ---
+> Changes in v2:
+> - Add struct device *dev local variable to shorten dev_err_probe()
+>   calls to one-liners (suggested by Andy Shevchenko)
+>   
+>  drivers/iio/light/cm3323.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/iio/light/cm3323.c b/drivers/iio/light/cm3323.c
+> index 0fe61b8a7029..5b36fc265c6c 100644
+> --- a/drivers/iio/light/cm3323.c
+> +++ b/drivers/iio/light/cm3323.c
+> @@ -80,22 +80,19 @@ static int cm3323_init(struct iio_dev *indio_dev)
+>  {
+>  	int ret;
+>  	struct cm3323_data *data = iio_priv(indio_dev);
+> +	struct device *dev = &data->client->dev;
+>  
+>  	ret = i2c_smbus_read_word_data(data->client, CM3323_CMD_CONF);
+> -	if (ret < 0) {
+> -		dev_err(&data->client->dev, "Error reading reg_conf\n");
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Error reading reg_conf\n");
+>  
+>  	/* enable sensor and set auto force mode */
+>  	ret &= ~(CM3323_CONF_SD_BIT | CM3323_CONF_AF_BIT);
+>  	data->reg_conf = ret;
+>  
+>  	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, data->reg_conf);
+> -	if (ret < 0) {
+> -		dev_err(&data->client->dev, "Error writing reg_conf\n");
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Error writing reg_conf\n");
+>  
+>  	return 0;
+>  }
+> @@ -236,10 +233,9 @@ static int cm3323_probe(struct i2c_client *client)
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+>  
+>  	ret = cm3323_init(indio_dev);
+> -	if (ret < 0) {
+> -		dev_err(&client->dev, "cm3323 chip init failed\n");
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+> +
+>  
 
-LGTM,
-Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
+checkpatch.pl should have warned about having to blank lines here
+now. Prefer only one.
+
+>  	ret = devm_add_action_or_reset(&client->dev, cm3323_disable, indio_dev);
+>  	if (ret < 0)
+
