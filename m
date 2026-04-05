@@ -1,66 +1,34 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3812C296BBC
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Apr 2026 12:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6D629E117
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Apr 2026 12:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775393408; cv=none; b=FPs22uWjDhY0gCIbXLmXJT4NHji1lD+KfvDG5xTJvlJkgHRjOIgq6rym9Ghb9CTXzjZi8WzvK2fs9oU8PNgZV60bPfxnvKcY8kbDbwaT2t8RJdQmbk+qkAtJh9GE/InMJAj+aPhQbxLH4S4VFrZEyEwZK8uWED815UTo3rfRlas=
+	t=1775393517; cv=none; b=AyytTlHzGszDiG4ax2neub92Sfsesn2IZ6LWE3/IVdajQo3Rv8AFDVLQyTvYlX/vR8gsOjt6b3gYZzfgHLOH6qKhWDcQgMwJoAU2r4ZU523ov/3FqTklA/iUdRfn0xZmosjf9u9T+9hSfXl/6exdmYYCJUC+RN+kRFC9aRPqKkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775393408; c=relaxed/simple;
-	bh=LcpEC3rE6zBteaE48WUPFXLhegLAKydIJJU5eVjF05k=;
+	s=arc-20240116; t=1775393517; c=relaxed/simple;
+	bh=IDN5nn71QPGJYXFnv4aV/yZXnUY6loF8IQa17Lz61Q8=;
 	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=iXZ709EZbRHwR2VQLX4MFbwMy6cRWx1GJFBhWRh0aiQFKDDbS/Jc8IviSkb/SUaW64RsrxhxC42QBw7VLsEYPwUNKAuTJzmS2iU3WncZDq4+2t5sAMW+op5++azIyyVn6gT3tjkbdeaOqwwqQiNybD1vxVQyUKmeFRY2PzLiqUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BrGzcDkz; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=rlfn25TYXqc7jChwlVrpI8H1ILtyy6Ui4qhOTveZZv/AieTyyyj0wyLpTyDszczb5uJt4sHEqKQacQQOTVK9SIWPWPfvINy0qoPbBV7QYt9eXoczHnlDjMkRn53xmDVc2Y6JXZ6JN+6ksKPt8JHa4JsdOFNWG6QQO+I3bYPABNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WoqErsmt; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BrGzcDkz"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b949bf4easo2848142f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 05 Apr 2026 05:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775393404; x=1775998204; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c1nOmdjGmdisPsJolJO/R2r/fUOnUgCGQrzxTPrfNdA=;
-        b=BrGzcDkzcvelMhh0ddva5ngJzuA0Mc06JNvy8jecdyDAcpNa6JeLGlXAmnNarzdIGm
-         r3pDUOJ0iJ8wLjH2St+xpxwgNrgD6fFIySA4wQRYxx6Kl/tLi7+Lbp31wW9GYiwmnkGp
-         uy+ThcplXdJByU/Upb/4cWphXhl3AfLhDhGlbqQsiKt4jhBBJ8rNu6PavReN4GYna77a
-         GgsQqHPb0RULeuji/9OGSBSAYZNd3Pm3NFSv3WGp7gLscSZHorUSFyqqQjM3RE02Gl5h
-         G64cTLFKFVCAF75S+kGtxIw4KhjjG2Vlmojzu7tMY2PB79DPa1KT8m1yHbibsGXZ7Tuq
-         UAfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775393404; x=1775998204;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c1nOmdjGmdisPsJolJO/R2r/fUOnUgCGQrzxTPrfNdA=;
-        b=Cn/bdvjkvaRI9U6lR6vrs/MW2H0WEAqjcr5Yjbnj4lCEXZVL7jMVfysn89Qk06kX8X
-         XUdXa+7n/a8TAS89QBRyWmSLgAwhbCeZ0Las5Om4e2QEnki4ZqUSYG1T2ya3Z0h+9tzO
-         VwFi7ZfTW+uYZXqWrLwxB2QVgT+Yql4WnPEz1pDOvDG6o4AsooXaPF6IczqlvRceEepD
-         lxuvyG6wD7fPz/xiMgGscJYwxNxxMsbJrzjsA3JflKy5L+gH2nadsMBAU+wSyqcX8rfk
-         NmqrwAfpQjbcIHZeoJ/poFld9lPZn+SNA5BGnaui1ccYcma+mg6F2OzHHaVyEe92ldVY
-         ZllA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfbYaVZBKQvmHclKvoiTBjYYRnPQ44O1hKdUKn2FcXIQUwXZzRwPnqGtqmqW4AzAl9hQ6M5CvIkyAtUu0srHM8iTbLuQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhutMk8KKJ9RtqbQpbSQEtF/A3CW0eZL8R2RNloV+D1Rcr00DG
-	E6eTi63TKUZJWPFRy/LhzD/+4oeozhc1dvY/AXZjhPu7TbBXZHYUbUM=
-X-Gm-Gg: AeBDiev3PbX9M7Sd94z8lTJqeKBuYcFonsABAE09VBa8z8CL1MakT4M1y6LWZxnveMg
-	xa70TTYs4CABjTdIsIClLz1Prcfwh3YT6Gnxm16NPbt1sOajwOgN42i5AhfTORVuqj4kmjmDGUG
-	bo6Zhq9ypnRJ3FOkUL/SuWxHJ/WFygoT3LXibod0E2KURdHz51n15KPicnzgGAzF9S2I3e3LvJQ
-	tXG8P+tFGV1HVgZa6ZIX35VWmm/wCPUT5pPOy2HvjlD0MBQUL2JC3NwBn0Hkr13m3TY0mf65VCF
-	BX1e7x3KusfDHuv5wIimc9bGriJhMRdKWRU9w+2wadvulHRzmelDWfi9rDVGDLnVguWw3xXecR6
-	Nnxs9re0b8HA4oU60b10GpZfxp9roOd3svwJbWAxNm1azY/KeSbWFsp7BtyuZdfcVOS56fPyI3k
-	dxRY1eMjNRzk86nkK5JbvVCyYO+6APc54+gGWcVPv4TniFyPuPebn3yLP+diIHQ8xzSepYNp6ZU
-	zxiwRvPx4YHw0hGmgA32g==
-X-Received: by 2002:a05:6000:24c5:b0:43d:33a0:f5b6 with SMTP id ffacd0b85a97d-43d33a0f5d0mr7913845f8f.2.1775393404150;
-        Sun, 05 Apr 2026 05:50:04 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([46.239.6.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f5294sm29873755f8f.35.2026.04.05.05.50.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Apr 2026 05:50:02 -0700 (PDT)
-Date: Sun, 05 Apr 2026 14:49:59 +0200
-From: Luka Gejak <lukagejak5@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WoqErsmt"
+Date: Sun, 05 Apr 2026 14:51:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775393512;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rfzvaaJeB4oJdrwLmCgdtIvJBN9ifNKfUkMX0vMKvTA=;
+	b=WoqErsmtd2ddw72QDaja29+f9Zh5b7u/t9IlO4HrT7oGGp0yMk3J6FP+TOUwExZE4TKi8Z
+	nVdbgemtW4a8/F/BbS3D3y9UVxsrEHb1Cxbzw4rL+dT37gzIaTixEdZVHCPES3q4Waqy6b
+	a88A8uI+XB1QlfkX710zrUQD/mCJE3k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
 To: Prithvi Tambewagh <activprithvi@gmail.com>, gregkh@linuxfoundation.org,
  abrahamadekunle50@gmail.com, b9788213@gmail.com, straube.linux@gmail.com,
  ethantidmore06@gmail.com, andriy.shevchenko@linux.intel.com,
@@ -73,10 +41,9 @@ CC: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  david.hunter.linux@gmail.com, khalid@kernel.org
 Subject: =?US-ASCII?Q?Re=3A_=5BRFT_PATCH_v3_1/5=5D_staging=3A_rtl8723bs=3A_mov?=
  =?US-ASCII?Q?e_constant_to_right_side_of_test_in_comparison?=
-User-Agent: Thunderbird for Android
 In-Reply-To: <20260405114132.310774-2-activprithvi@gmail.com>
 References: <20260405114132.310774-1-activprithvi@gmail.com> <20260405114132.310774-2-activprithvi@gmail.com>
-Message-ID: <09A5A0B6-B1FB-49CD-821A-7EFC2224101D@gmail.com>
+Message-ID: <F31C7F72-D267-450E-81FA-DAA3F14FDEE9@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -86,12 +53,10 @@ MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-LGTM,
-Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
-
-On April 5, 2026 1:41:28 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gma=
-il=2Ecom> wrote:
+On April 5, 2026 1:41:28 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gmai=
+l=2Ecom> wrote:
 >Move constant from the left side to the right side of the test in a
 >comparison, where =3D=3D, !=3D, <=3D, >=3D, <, > operators are used, fixi=
 ng the
@@ -281,3 +246,8 @@ M || _rate =3D=3D MGN_5_5M || _rate =3D=3D MGN_11M)
 >=20
 > /* NOTE: This data is for statistical purposes; not all hardware provide=
 s this
+
+Sorry, I sent it from the wrong email=2E
+Please use luka=2Egejak@linux=2Edev instead of lukagejak5@gmail=2Ecom=2E
+LGTM,
+Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
