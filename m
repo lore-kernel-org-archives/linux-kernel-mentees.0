@@ -1,63 +1,63 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56556391E50
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Apr 2026 07:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B92D38A71E
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Apr 2026 07:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775545271; cv=none; b=hpTL7BcTqgeE4t5Xa9gkq/1DfKOktALGavehDrwLwmrv5QD3RX4jav9Pp3i9dDdRhW8GD30VGQoGwWN6a1HY9sgzuCJ0B+0ndAc0JgBU69y579EHlc2x85puz5f3O48eV4Ic28hmrXgApmd08qJAtLcC2jn1KtYXXNmDom1V7mM=
+	t=1775545277; cv=none; b=KZJdhscFAhAX/YKQq+PbE2nFTB3WurvMQkWcL1xJ/RhoKQfeel5SQctuCedMuP1Vyg4yDsguEqsFG7A5raKjLbMQFZHtw5+Njd+kj1jFKZ+1V8wHYv865UPrsNe+cF40RPOy8baxuhWYFNaDElLBec3cYDB1+P1Wb8QkCO0jfX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775545271; c=relaxed/simple;
-	bh=bMBU/Sp/Hd+8dWJzIBSChhEWAq6h8QnFVVi6t0Td8CM=;
+	s=arc-20240116; t=1775545277; c=relaxed/simple;
+	bh=iwbsvmn3sjRQhDJhAvMknBCPz/j6ukdKjlnQ+9EnffU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GSGTUK2cymTFd310b33EnCSovIEHVA7IMaNJ8vuCp8XE9DFo8o1i3sVVn30G1k1vVIyOSc4GAwqIfHu4tSZDZbdIGroIum6qhoVV1L8f951bqJ618J5iog5EesO7CPVqb6E0eDx3z9YngW53gY8J+uYoqP61az/SJqxd65R7rqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKA+2zmw; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=Au7GCt2PU5J67c43NOT4ZhecHgUJklgzDWy6HWCTSYh+tOfOaSeVCt8w1PJCgGcYYr3mL59xgQKZjoyMchBUYKGk7YSYsqUty1vQtZXxkIAFlEW38Vd0AWmE7LGSGJI+6vmcU5K5urIkzDMHJNMxOMCaV8gfjD4fx2dMAXqeD+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RuSrYhdf; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKA+2zmw"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48374014a77so61949845e9.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Apr 2026 00:01:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RuSrYhdf"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso4367514f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Apr 2026 00:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775545269; x=1776150069; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775545274; x=1776150074; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I7ul7R4AdJ4kZnhxBsfC1ozDk40Au8wWcQ7o5oSGrE0=;
-        b=JKA+2zmwUplma8nawNguBKDXF6Ji1/zn22DT/7nMBQK5hVi6udwEkOSOVOCdW0NpsT
-         8t1DzqHXLbwELV1woceZdQLMBeE8attG7lHhMx9NC44LdSbS1/Qb1S9C0VfbdypSzPMx
-         wWEQr3JFeFGp5VcQPbhNScBgwLoJd4m56Wrc0yZHKZRTaO9g0ppkbb2T1slpqTVtshak
-         gdnA1tmPPMY4Qe5VWaEVrg6M/jbNSKfm9TJFHeG5f+Hcitdd3nxhGGON1bBaRde7sW/o
-         fFs2ayQle31brPPUV8e1l3v/9q5apLzLa5QUAgKamUARigmh+HJfTSS2VL+cXtMBnXQE
-         3k6Q==
+        bh=Pbshjy6ArGT5S+r1Sisv2NuM+Q/whiMd15xYasDn+5I=;
+        b=RuSrYhdfinVQ7yVQmJRgJuswF4bmVLfLYzJUTO9Uepr7RKVfTGGyZe6JG8hb3QkzRx
+         kcAJC+LggN7D4GMTMbh4wBb2FLDX/Wf9Zz9HZWFOSUh1dgs82Z19SpQdVSea9d/HfsKM
+         0yWpBveX2T+OaWJANv6lKAkhqOo+rIfUT+auWf7UZnHeR3o4+/hA2GKaQg0I5YUChHNz
+         dJ3VT0YL5c3oY6MAHZ3pvDElTbygHWfcWMfjeuelNrn/H8kDUa42RZWbCxjEU902WZO7
+         ztUEaKOliMawP1CFG/YYdApNFeEh64DRAPc4GHjzD+rpa6iei5xbDJTzODBtvj2layOH
+         Ic/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775545269; x=1776150069;
+        d=1e100.net; s=20251104; t=1775545274; x=1776150074;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=I7ul7R4AdJ4kZnhxBsfC1ozDk40Au8wWcQ7o5oSGrE0=;
-        b=PREEMZxSJrYhRvNDJBmwRiSm1HEn8IL3A/0H+i0IXizJxuTYOtry3P9GkT3H8MszEX
-         ZlLZa7bNwfRH4s2u3UXIfrGVha/XR1C6gxlgcA9j6GmDPuNLfdmz6oeJo/TTVO9m2kvf
-         hRxPc/n36H/s4nwc4/pB0kcR6KPmjO8OHZA+OcfXs8Nd+ZlWql2p/W1aQNnc6GENNQsB
-         40aLBFq8SuH2zdC8BTtRJypaBBFjfUGKP7nL3WEtgBoTT3pjfgu4+IcJjpWPyaFiIyWi
-         M1lDU52ROHA6tkF3oPAows5jY9wF18Egwu46ty0gOEE8ZyI7dyOn9gfM0OC4OKoXZ9KL
-         kASQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/r9XagKkdj5qxpQaZSULv/MOyKR3abFPR1frICzW3hQmrc2v5WctA3DBFy8ZFDST5yGoTG+q+lRK8Jwi8TV1gknFCHQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOIYO1wrdqLuFwJe1Dhz1Z1G3AgIOP9mcP5wjktHWim3DDt2Lj
-	f+CxXYjTwG+OizunJsHOALpd3wVJmCdFjrKTjO2yCV83epiZQeYFd4e8
-X-Gm-Gg: AeBDieswvfhSFVFfnVOLVZCjs90fV1oDuP5qdZCpJL2956ts778SL41WxRfOfZ7oxiV
-	QpgfS+EtllfFVR7hI6eDCtAXUhqlJOgBGFe66dqMJVfinwIYWHdEWLthaz4DcodOwjJWPU0YI5u
-	GkjmogBy2ghi2BQdqSq+cgY42MOqRE0la2GXYN18t/S9ikAkJc4h4ICDNCxjd5s4aqN3Wjzj+5V
-	TiUC+qnO4Q+Ckym+XcMEMjTM14nUyIblmjuw2V01ECb0boBVO8dITJV+AaWUTolAY6+nypEwdqn
-	elD/R7+ywf+1KRN1IqZwZopSGgMzxI7T0cV8CSqGT0uDQcrlsiT9Chgd4GGZhDkr47uH1Es2ceV
-	l5509ISwYG+k0Wtv4PatzEaoLVZeeRx6u52eUyuFIqb9VTFrChVWzLA0ILmbij8odzCvNpnjbi7
-	yE/KuBPxX2s8x5K7N4Vuk3bP/BzwoO8fdffJ4Un4fy4z+TslyAJKWi
-X-Received: by 2002:a05:6000:400e:b0:43c:ef4f:79dc with SMTP id ffacd0b85a97d-43d2927ff7bmr22786558f8f.8.1775545268585;
-        Tue, 07 Apr 2026 00:01:08 -0700 (PDT)
+        bh=Pbshjy6ArGT5S+r1Sisv2NuM+Q/whiMd15xYasDn+5I=;
+        b=dk7sj0eSVsXwaM0jHOZqGL8voXTxEbZqkyVcdGtyq3oBNAWyn/E6rpivve/+0uGaEx
+         wgKCYgEZrnAeKNSfjoCoKlxy8/6Py47Lmh9J7TSD1bY35N7vQUhq8FopquGqsxnIHWC4
+         5TqXTVc9/5Z8gjK+Y3/rEodjcx+7DUdH9Q8aKrN1OdRbxNE2B7TNfPkQyYTZ5KOVhPDf
+         kts2Aa4R+xYlCMM+KmzaRxc2RMlVMY7IOSyeZxStEXSCTaLvIvut6pYPVLg9KkVjzJy2
+         nzlM7/KXAF4Ggo6iQH7YlRVXGZVPDTlWTiIuNJEGBH4yAIgKTBkFVoZC7DAgj/sAoJv8
+         Jx3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVV37rZzAEHL2Ay/r6s3e8zNfRPFP7Yg1ZZS1znyY/WBMDhZ5vfrAmR53uER51R+MHT5uZm6KSZK9jtvZMUsSIbaf6pbQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypzKziSQXcfJLUetl9H//ZiDPd6DA5/8DYdlgz1SCC8fw4eCd9
+	W+KPYmg6XYtep98xFzpqIzxEHjZFTYo2BZdAakGoljmlGcM/AYmVFN4u
+X-Gm-Gg: AeBDievMkJ3MUNr/4Te5h6B2h7Ou/Sp4BQZQWG7fwTEcAeMhppY8zXPmn9sDP4dtxxF
+	LeLHqEKms1QqTVv6aA0N/xXA9YrKcGsgcUji/s/IWAOleos5W7Jfqk7vQM4JGpsDGT69ag+Oo81
+	IAStHl1fomN52pyiMzDgrOl92Saxt0yOJhkFjJnN+tKqKDQjJm5gNRNXKgyxnTRvFYTn3ra5/Av
+	pQdo0yn/Xv/wHWP5zX0TurAd3O8c06JAXCNZy/7JmrQUs22/d8Xn3C/cNaGONThwkOXFzARbUP2
+	HV0EutpfKOoGuj63izszD9sCnsRGqBQb/lyevzq7plA4Abnn71Fsu47AghB+MzDSP6bE79B7Yz0
+	svwYzr5DzXiDrL9VUV7b1SxqsCRUiaE3nl8VIX0N0tYv4da2VnWWY3vHniA/+0IabB7eFabLzfS
+	x/n4bCCAMhda3tC9/2fC7iRngB/v2Qx3iZSG1zAG+dhvZ6IzRzGQ6quS6S5SYHqTo=
+X-Received: by 2002:adf:fc4d:0:b0:43d:3083:4ea0 with SMTP id ffacd0b85a97d-43d30834f01mr11736517f8f.8.1775545273582;
+        Tue, 07 Apr 2026 00:01:13 -0700 (PDT)
 Received: from aldo-conte-t14.tailf68ad9.ts.net ([217.61.173.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c5253sm42167576f8f.9.2026.04.07.00.01.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c5253sm42167576f8f.9.2026.04.07.00.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 00:01:08 -0700 (PDT)
+        Tue, 07 Apr 2026 00:01:13 -0700 (PDT)
 From: Aldo Conte <aldocontelk@gmail.com>
 To: jic23@kernel.org
 Cc: ktsai@capellamicro.com,
@@ -70,9 +70,9 @@ Cc: ktsai@capellamicro.com,
 	skhan@linuxfoundation.org,
 	me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v3 1/2] iio: light: cm3323: fix reg_conf not being initialized correctly
-Date: Tue,  7 Apr 2026 09:00:52 +0200
-Message-ID: <20260407070053.9359-2-aldocontelk@gmail.com>
+Subject: [PATCH v3 2/2] iio: light: cm3323: use dev_err_probe() in probe path
+Date: Tue,  7 Apr 2026 09:00:53 +0200
+Message-ID: <20260407070053.9359-3-aldocontelk@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260407070053.9359-1-aldocontelk@gmail.com>
 References: <20260407070053.9359-1-aldocontelk@gmail.com>
@@ -84,63 +84,74 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The code stores the return value of i2c_smbus_write_word_data()
-in data->reg_conf; however, this value represents the result
-of the write operation and not the value actually written to
-the configuration register. This meant that the contents of
-data->reg_conf did not truly reflect the contents
-of the hardware register.
+Replace dev_err() calls with dev_err_probe() in cm3323_init() and
+cm3323_probe(). cm3323_init() is called by cm3323_probe(),  so using
+dev_err_probe() ensures that deferred probing is handled
+correctly and simplifies error paths.
 
-Instead, save the value of the register before the write
-and use this value in the I2C write.
+Remove the redundant error message in cm3323_probe().
 
-The bug was found by code inspection: i2c_smbus_write_word_data()
-returns 0 on success, not the value written to the register.
+Tested on a Raspberry Pi 3B using i2c-stub. The driver probes
+successfully and successfully read integration_time after this change.
 
-Tested using i2c-stub on a Raspberry Pi 3B running a custom 6.19.10
-kernel. Before loading the driver, the configuration register 0x00
-CM3323_CMD_CONF was populated with 0x0030 using
-`i2cset -y 11 0x10 0x00 0x0030 w`, encoding an integration time of 320ms
-in bits[6:4].
-
-Due to incorrect initialization of data->reg_conf in
-cm3323_init(), the print of integration_time returns 0.040000
-instead of the expected 0.320000. This happens because the read of the
-integration_time depends on cm3323_get_it_bits() that is based on the
-value of data->reg_conf, which is erroneously set to 0.
-
-With this fix applied, data->reg_conf correctly saves 0x0030 after init
-and the successive integration_time reports 0.320000 as expected.
-
-Fixes: 8b0544263761 ("iio: light: Add support for Capella CM3323 color sensor")
-Cc: stable@vger.kernel.org
+Suggested-by: Andy Shevchenko <andy@kernel.org>
 Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
 ---
- drivers/iio/light/cm3323.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Changes in v3:
+- Remove extra blank line after cm3323_init() error path
+  in cm3323_probe()
+  
+Changes in v2:
+- Add struct device *dev local variable to shorten dev_err_probe()
+  calls to one-liners (suggested by Andy Shevchenko)
+  
+ drivers/iio/light/cm3323.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/iio/light/cm3323.c b/drivers/iio/light/cm3323.c
-index 79ad6e2209ca..0fe61b8a7029 100644
+index 0fe61b8a7029..c8112685e415 100644
 --- a/drivers/iio/light/cm3323.c
 +++ b/drivers/iio/light/cm3323.c
-@@ -89,15 +89,14 @@ static int cm3323_init(struct iio_dev *indio_dev)
+@@ -80,22 +80,19 @@ static int cm3323_init(struct iio_dev *indio_dev)
+ {
+ 	int ret;
+ 	struct cm3323_data *data = iio_priv(indio_dev);
++	struct device *dev = &data->client->dev;
+ 
+ 	ret = i2c_smbus_read_word_data(data->client, CM3323_CMD_CONF);
+-	if (ret < 0) {
+-		dev_err(&data->client->dev, "Error reading reg_conf\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Error reading reg_conf\n");
  
  	/* enable sensor and set auto force mode */
  	ret &= ~(CM3323_CONF_SD_BIT | CM3323_CONF_AF_BIT);
-+	data->reg_conf = ret;
+ 	data->reg_conf = ret;
  
--	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, ret);
-+	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, data->reg_conf);
- 	if (ret < 0) {
- 		dev_err(&data->client->dev, "Error writing reg_conf\n");
- 		return ret;
- 	}
+ 	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, data->reg_conf);
+-	if (ret < 0) {
+-		dev_err(&data->client->dev, "Error writing reg_conf\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Error writing reg_conf\n");
  
--	data->reg_conf = ret;
--
  	return 0;
  }
+@@ -236,10 +233,8 @@ static int cm3323_probe(struct i2c_client *client)
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
  
+ 	ret = cm3323_init(indio_dev);
+-	if (ret < 0) {
+-		dev_err(&client->dev, "cm3323 chip init failed\n");
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	ret = devm_add_action_or_reset(&client->dev, cm3323_disable, indio_dev);
+ 	if (ret < 0)
 -- 
 2.53.0
 
