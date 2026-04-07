@@ -1,81 +1,73 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B92D38A71E
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Apr 2026 07:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83DE391E45
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Apr 2026 13:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775545277; cv=none; b=KZJdhscFAhAX/YKQq+PbE2nFTB3WurvMQkWcL1xJ/RhoKQfeel5SQctuCedMuP1Vyg4yDsguEqsFG7A5raKjLbMQFZHtw5+Njd+kj1jFKZ+1V8wHYv865UPrsNe+cF40RPOy8baxuhWYFNaDElLBec3cYDB1+P1Wb8QkCO0jfX4=
+	t=1775568868; cv=none; b=Tx411COb2BNoZyzrhneqUmEHvbxurILViH64qZ3dPxlXM5d1j2LbaHu8YizYjo6EgtggcSnQbu0R6RnwgpISgRhuX2nelhALL3PjD5AT8SuuL+T8JZRsZsKPFjKSFwR/+CXMB4d8Nip8xYT4CAWMvbYr0y8r1El27Rhn60DnLEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775545277; c=relaxed/simple;
-	bh=iwbsvmn3sjRQhDJhAvMknBCPz/j6ukdKjlnQ+9EnffU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Au7GCt2PU5J67c43NOT4ZhecHgUJklgzDWy6HWCTSYh+tOfOaSeVCt8w1PJCgGcYYr3mL59xgQKZjoyMchBUYKGk7YSYsqUty1vQtZXxkIAFlEW38Vd0AWmE7LGSGJI+6vmcU5K5urIkzDMHJNMxOMCaV8gfjD4fx2dMAXqeD+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RuSrYhdf; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1775568868; c=relaxed/simple;
+	bh=HlU87euuBGUAn5caArfz/j03nMokMW9Lsh5piLGHEOE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PBCeVmhRZU3tZ/yBSAJX4ouvig5BsZhXnNOAZGKzD6ylM7zyKu3+gFo+yYIqca1CS8zjZcHPaHgnX1B/tNsY3teVuwXpTVHShsyE48tpKD1OpTRerHM6JhXQEf84Rhv6jHx8bGMFu7I9FG6HCyxAPRsiKVkhXhtyEgfuRqkAFjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OlI1BcvU; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RuSrYhdf"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso4367514f8f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Apr 2026 00:01:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlI1BcvU"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c15849aa2cso6652383eec.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Apr 2026 06:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775545274; x=1776150074; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pbshjy6ArGT5S+r1Sisv2NuM+Q/whiMd15xYasDn+5I=;
-        b=RuSrYhdfinVQ7yVQmJRgJuswF4bmVLfLYzJUTO9Uepr7RKVfTGGyZe6JG8hb3QkzRx
-         kcAJC+LggN7D4GMTMbh4wBb2FLDX/Wf9Zz9HZWFOSUh1dgs82Z19SpQdVSea9d/HfsKM
-         0yWpBveX2T+OaWJANv6lKAkhqOo+rIfUT+auWf7UZnHeR3o4+/hA2GKaQg0I5YUChHNz
-         dJ3VT0YL5c3oY6MAHZ3pvDElTbygHWfcWMfjeuelNrn/H8kDUa42RZWbCxjEU902WZO7
-         ztUEaKOliMawP1CFG/YYdApNFeEh64DRAPc4GHjzD+rpa6iei5xbDJTzODBtvj2layOH
-         Ic/Q==
+        d=gmail.com; s=20251104; t=1775568865; x=1776173665; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJ5UGvzlNyGAgIzX2gahc4byA8+M/F6HMi4wZ7/WiGI=;
+        b=OlI1BcvU//Yv/g8r43zm0SyAEolY8hjEk/HTz3gLzH3wwUjRSF/dY2gUzJUBtte6FY
+         edswfrBXOSVqPVtjtKotXmadMC6l4xgfy2lLLdIezBgq7/d89v2SpaD4MQj/ixgmlNKt
+         mQyRlLT0Sr4W+Ax7xOUlox8GIHFpzYAd+DPLP32uC2AmQtPDVJzI6+/8kCe/MSMwph/v
+         jamsqBrvJhHY+j99+yqQvmgDLeAzv+SaN7SH+LiGyexpKh4f7rpyQmeXTP40dbgj9aCK
+         lRPED8mcyJL5qg3meBiaIUGa8+5cs1kUl8itIfhAcuynSnyZB6DJ/WeCmL94L1zGe7tE
+         4cmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775545274; x=1776150074;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Pbshjy6ArGT5S+r1Sisv2NuM+Q/whiMd15xYasDn+5I=;
-        b=dk7sj0eSVsXwaM0jHOZqGL8voXTxEbZqkyVcdGtyq3oBNAWyn/E6rpivve/+0uGaEx
-         wgKCYgEZrnAeKNSfjoCoKlxy8/6Py47Lmh9J7TSD1bY35N7vQUhq8FopquGqsxnIHWC4
-         5TqXTVc9/5Z8gjK+Y3/rEodjcx+7DUdH9Q8aKrN1OdRbxNE2B7TNfPkQyYTZ5KOVhPDf
-         kts2Aa4R+xYlCMM+KmzaRxc2RMlVMY7IOSyeZxStEXSCTaLvIvut6pYPVLg9KkVjzJy2
-         nzlM7/KXAF4Ggo6iQH7YlRVXGZVPDTlWTiIuNJEGBH4yAIgKTBkFVoZC7DAgj/sAoJv8
-         Jx3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVV37rZzAEHL2Ay/r6s3e8zNfRPFP7Yg1ZZS1znyY/WBMDhZ5vfrAmR53uER51R+MHT5uZm6KSZK9jtvZMUsSIbaf6pbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YypzKziSQXcfJLUetl9H//ZiDPd6DA5/8DYdlgz1SCC8fw4eCd9
-	W+KPYmg6XYtep98xFzpqIzxEHjZFTYo2BZdAakGoljmlGcM/AYmVFN4u
-X-Gm-Gg: AeBDievMkJ3MUNr/4Te5h6B2h7Ou/Sp4BQZQWG7fwTEcAeMhppY8zXPmn9sDP4dtxxF
-	LeLHqEKms1QqTVv6aA0N/xXA9YrKcGsgcUji/s/IWAOleos5W7Jfqk7vQM4JGpsDGT69ag+Oo81
-	IAStHl1fomN52pyiMzDgrOl92Saxt0yOJhkFjJnN+tKqKDQjJm5gNRNXKgyxnTRvFYTn3ra5/Av
-	pQdo0yn/Xv/wHWP5zX0TurAd3O8c06JAXCNZy/7JmrQUs22/d8Xn3C/cNaGONThwkOXFzARbUP2
-	HV0EutpfKOoGuj63izszD9sCnsRGqBQb/lyevzq7plA4Abnn71Fsu47AghB+MzDSP6bE79B7Yz0
-	svwYzr5DzXiDrL9VUV7b1SxqsCRUiaE3nl8VIX0N0tYv4da2VnWWY3vHniA/+0IabB7eFabLzfS
-	x/n4bCCAMhda3tC9/2fC7iRngB/v2Qx3iZSG1zAG+dhvZ6IzRzGQ6quS6S5SYHqTo=
-X-Received: by 2002:adf:fc4d:0:b0:43d:3083:4ea0 with SMTP id ffacd0b85a97d-43d30834f01mr11736517f8f.8.1775545273582;
-        Tue, 07 Apr 2026 00:01:13 -0700 (PDT)
-Received: from aldo-conte-t14.tailf68ad9.ts.net ([217.61.173.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2c5253sm42167576f8f.9.2026.04.07.00.01.08
+        d=1e100.net; s=20251104; t=1775568865; x=1776173665;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FJ5UGvzlNyGAgIzX2gahc4byA8+M/F6HMi4wZ7/WiGI=;
+        b=o/HO+AAfqCXIfMG1WDKWhRGNbw9TO6dyn3l4OuF0+OjFT5tRJ40/s8OI3mU+3GjVK6
+         EPGTIhRqmZ93M9O14FL4rzFgcP65A/M0oGz8dQCJdrUT0KYKD62hQRTbfhpqy2H42yp2
+         RaSAF1xEzL8XS40chsZwE5pSdvw+bMoHRMcohIfFTwc5g2m5mFqqkOv1bcNgldzw1E6W
+         wpMipHMYhYBbrqiaJu56JXLKk/UJrV9YaEJ6Zs1jAWvAUl+7NfxGkrzIcBxFBuvLU2kT
+         TGNrWyMUNqWP1H+jemNYtlb4OYvWCCkGR/brvofrVZE6VzPZzlWiXDKNME5GIkaZspoB
+         JSRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWX0fGMnl4PPxiZRrJfnoN83OPfH4M6/7WZB0d2vqPvmINMDVr1GigaYGx1hGPdfdYmh/TSQXqu2QpNXhyoJjj7mtQeQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZXw/TUdk0ZBppVW3MFDy85HCElaIvSnm/uJ6rC2Mw0byHl065
+	Vgwju4cjlrMbuWHDTQKBwOHVaod2+FgZEn1U4kD1SZBfWzf3Tsu9l1gx
+X-Gm-Gg: AeBDiesVzEa+78pNenIrfdgbw2YeybOtR01a6T7bsBKFBp+FBAvFS2/kz01lkiN2VOM
+	SsNLBP9jrNCc/+h9hToD2HoqB6haIBl0omWa3CH910/CQq6Mmuw9QZ0gBlphdgfP5zegCQnKa3f
+	llk+aGlRx5VUX0ahlbDTH7f3mdn5vVNyNUNbBUArXZ3lcC80hsDoANHyLIj4DRqSzy2yzKq9k/I
+	xc6ad/1H5/ujDGc+IR9lFUdWBWcL/GOOiqMTwrQgST9elcg/Sz5h2fA3+06lAqHofbKv5uEr6c4
+	+bdGBodTRLZAyPgXG/izJGbqgeiOBTO6LPte7jLVZS7ZcADsK11Wuo/8VgHmkDi/aA3eSTzlUPU
+	/eVHCp//Kn9RZgDSr2NxsktwOasm4+zcUknrn1+4Uj9b/D3hvrZxZPEIjy32p05Z1RTwlygb9oL
+	x9hk98QaEm0xOwFGKrwVsO7pnhaQdIBeKEG+uC8YFpO/bdgKOUL/O84pD71Bl8+uonzLvnoLBCt
+	ZOX2Q==
+X-Received: by 2002:a05:7300:8c04:b0:2c4:4363:3742 with SMTP id 5a478bee46e88-2cbf9fe1c97mr8797529eec.9.1775568864869;
+        Tue, 07 Apr 2026 06:34:24 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:82a2:a160:4978:2ff1:7409])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d1e4ad4cc7sm1906367eec.7.2026.04.07.06.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 00:01:13 -0700 (PDT)
-From: Aldo Conte <aldocontelk@gmail.com>
-To: jic23@kernel.org
-Cc: ktsai@capellamicro.com,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	daniel.baluta@intel.com,
-	linux-iio@vger.kernel.org,
+        Tue, 07 Apr 2026 06:34:24 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v3 2/2] iio: light: cm3323: use dev_err_probe() in probe path
-Date: Tue,  7 Apr 2026 09:00:53 +0200
-Message-ID: <20260407070053.9359-3-aldocontelk@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407070053.9359-1-aldocontelk@gmail.com>
-References: <20260407070053.9359-1-aldocontelk@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	a.nasrolahi01@gmail.com
+Subject: [PATCH] staging: rtl8723bs: fix unnamed parameters warning detected at checkpatch
+Date: Tue,  7 Apr 2026 10:27:21 -0300
+Message-ID: <20260407133416.13983-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -84,74 +76,97 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace dev_err() calls with dev_err_probe() in cm3323_init() and
-cm3323_probe(). cm3323_init() is called by cm3323_probe(),  so using
-dev_err_probe() ensures that deferred probing is handled
-correctly and simplifies error paths.
+Detected the following WARNING: function definition argument
+'struct adapter *' should also have an identifier name.
+Add explicit names on those definitions.
 
-Remove the redundant error message in cm3323_probe().
-
-Tested on a Raspberry Pi 3B using i2c-stub. The driver probes
-successfully and successfully read integration_time after this change.
-
-Suggested-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 ---
-Changes in v3:
-- Remove extra blank line after cm3323_init() error path
-  in cm3323_probe()
-  
-Changes in v2:
-- Add struct device *dev local variable to shorten dev_err_probe()
-  calls to one-liners (suggested by Andy Shevchenko)
-  
- drivers/iio/light/cm3323.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+Hi, all,
 
-diff --git a/drivers/iio/light/cm3323.c b/drivers/iio/light/cm3323.c
-index 0fe61b8a7029..c8112685e415 100644
---- a/drivers/iio/light/cm3323.c
-+++ b/drivers/iio/light/cm3323.c
-@@ -80,22 +80,19 @@ static int cm3323_init(struct iio_dev *indio_dev)
- {
- 	int ret;
- 	struct cm3323_data *data = iio_priv(indio_dev);
-+	struct device *dev = &data->client->dev;
+Found a set of these warnings with checkpatch:
+
+drivers/staging/rtl8723bs/include/hal_btcoex.h:25: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/hal_btcoex.h:49: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/hal_btcoex.h:50: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/hal_btcoex.h:51: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/hal_intf.h:255: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_btcoex.h:18: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_btcoex.h:19: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_btcoex.h:24: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_btcoex.h:25: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_btcoex.h:26: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_pwrctrl.h:218: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+drivers/staging/rtl8723bs/include/rtw_pwrctrl.h:219: WARNING: function definition argument 'struct adapter *' should also have an identifier name
+
+...the ones from hal_btcoex.h is already ongoing at [1].
+Fixed the rest of them following the pattern of each file like:
+
+struct adapter *padapter
+or 
+struct adapter *adapter
+
+Tks and regards.
+
+[1] https://lore.kernel.org/all/20250720145524.9733-4-A.Nasrolahi01@gmail.com/
+---
+ drivers/staging/rtl8723bs/include/hal_intf.h    |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_btcoex.h  | 10 +++++-----
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index b193854bfe6e..10762ffbafb6 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -252,7 +252,7 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
+ s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
+ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
  
- 	ret = i2c_smbus_read_word_data(data->client, CM3323_CMD_CONF);
--	if (ret < 0) {
--		dev_err(&data->client->dev, "Error reading reg_conf\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Error reading reg_conf\n");
+-s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
++s32 rtw_hal_fill_h2c_cmd(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
  
- 	/* enable sensor and set auto force mode */
- 	ret &= ~(CM3323_CONF_SD_BIT | CM3323_CONF_AF_BIT);
- 	data->reg_conf = ret;
+ void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+index 19764c80b8ba..cb566825e77f 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
++++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+@@ -15,14 +15,14 @@
+ #define	PACKET_ARP				2
+ #define	PACKET_EAPOL			3
  
- 	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, data->reg_conf);
--	if (ret < 0) {
--		dev_err(&data->client->dev, "Error writing reg_conf\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Error writing reg_conf\n");
+-void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
+-void rtw_btcoex_HaltNotify(struct adapter *);
++void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus);
++void rtw_btcoex_HaltNotify(struct adapter *padapter);
  
- 	return 0;
- }
-@@ -236,10 +233,8 @@ static int cm3323_probe(struct i2c_client *client)
- 	indio_dev->modes = INDIO_DIRECT_MODE;
+ /*  ================================================== */
+ /*  Below Functions are called by BT-Coex */
+ /*  ================================================== */
+-void rtw_btcoex_RejectApAggregatedPacket(struct adapter *, u8 enable);
+-void rtw_btcoex_LPS_Enter(struct adapter *);
+-void rtw_btcoex_LPS_Leave(struct adapter *);
++void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable);
++void rtw_btcoex_LPS_Enter(struct adapter *padapter);
++void rtw_btcoex_LPS_Leave(struct adapter *padapter);
  
- 	ret = cm3323_init(indio_dev);
--	if (ret < 0) {
--		dev_err(&client->dev, "cm3323 chip init failed\n");
-+	if (ret < 0)
- 		return ret;
--	}
+ #endif /*  __RTW_BTCOEX_H__ */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index c27d07861b8c..df5dbcceea06 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -215,8 +215,8 @@ struct pwrctrl_priv {
+ extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
+ extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
  
- 	ret = devm_add_action_or_reset(&client->dev, cm3323_disable, indio_dev);
- 	if (ret < 0)
+-s32 rtw_register_task_alive(struct adapter *, u32 task);
+-void rtw_unregister_task_alive(struct adapter *, u32 task);
++s32 rtw_register_task_alive(struct adapter *adapter, u32 task);
++void rtw_unregister_task_alive(struct adapter *adapter, u32 task);
+ extern s32 rtw_register_tx_alive(struct adapter *padapter);
+ extern void rtw_unregister_tx_alive(struct adapter *padapter);
+ extern s32 rtw_register_cmd_alive(struct adapter *padapter);
 -- 
-2.53.0
+2.48.1
 
