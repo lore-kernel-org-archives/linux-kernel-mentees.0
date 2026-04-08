@@ -1,161 +1,386 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65314364022
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Apr 2026 15:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82B834252D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Apr 2026 19:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775575031; cv=none; b=uPDGs5M7TZBxwcKe40FOltS0GQ4+Xjyy0ikjkDBoGlX2ud6Ccxz+aNflRWm0lSgawZIhdP08/QdOCiYMH2On5Ua/zP4qT84nhxeohHSrAaddQDSFtWunVfI5+Z1762/Mpab/o1OC0IjM1sU0lGV6QSIEoY53TLasUtyvuUtAJmo=
+	t=1775676721; cv=none; b=sT0tuYsFezWC04+d5EETkaZF1lO6jz94zdjXh0XUpt8VpFDAYiJKgc6aLdYrSnvN/KOTjtMfKAf23dla22WHV/XWBJdNOxMnaiQaSpU+qUq9hmBlG4/ebk86Ql9cP5+yewB8lRiVNyBrPDgf9UxxxPQKVpPL8CEvWDBaTCLvQQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775575031; c=relaxed/simple;
-	bh=UpzQeOIgo32bTfZF9bCVO05d7AFWMI6EAflnf4kcCto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=De9fsZZW0y5qBB92p6BxzZgWWTHGGQwd3QbYvJrUemT0pwgQH6ikoaAP03QlRTaG99Sm5M3wR6/mJ/4h+v93FjUhk0RBKRsMNmacApka0WXPcL4y47K+MbiJMxQXyCFRm06OdX5m9bz/NOtvli3NexCAPFMQ14bJRN9tJ1gDLyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8++OQNY; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1775676721; c=relaxed/simple;
+	bh=vZrf20GKAPFUKLVSFlUjVLL4jly5kgKFKHr7XbMl1XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=afDFcMbVARUBC3JFFYt3ATA3AsKR9DHppVNBGMwriuX2MhovDZBTKOBHUKdcSdTLH8/B5GgoTz9q4bV9gY/5rGS7QAMxg6nzfgbWS2vYzGjY3Y5111b0o67aw8WFkGshYqO5JXytN0bHV1XrkKltTPXd9WBDCDmMr/ZJvzYT98w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n3I0NSoU; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8++OQNY"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d029f346eso4420887f8f.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Apr 2026 08:17:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n3I0NSoU"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82ce09b61beso73585b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 08 Apr 2026 12:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775575029; x=1776179829; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WDXxiHNfIFx/blBavOrxi008CsS+1VUvxTy8fmtLmJo=;
-        b=d8++OQNYNojUlSnpPSedGT/kxMUiJDO9aUTFoqqgQmxZQPj/mPcijK8pg7VJmmPHtb
-         yH/fTf/J4PTKdsO161aBhT4sX7kEs4c3QovwSEOvPzIgsaio1Wr5mGQu63shOy2cemqq
-         QoY1scUbdipsiDo1F+N5iC031WB/7eQhgENWkWdAwsZ6VT5MAz5vcIAsBFiLB0yoEVV2
-         QyaPf+KughM+RtQyy7ud0pX3Z8Z5lkCeI+Z6kp6/7ESP6Y88n8Dr7vo922RH5hI6+XM+
-         cPLlnWgG3DHilxHirOdA2lpYsoouRHeMRJFB/0kGZJ8MG7hfd43LSa1YUzolVFSOWkkW
-         CA4g==
+        d=gmail.com; s=20251104; t=1775676719; x=1776281519; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CPaJ+H7LBZA4DJEQT1k+JmDVy1NMUCuI/xA7eobHm5Y=;
+        b=n3I0NSoUsP/JyDCwFktRSrl9DSSFO2GsdTc9z42x0suxZz0dl/HDppvXFGbC7AOSbx
+         GT/wsT6GAgB1c9oq2t3gGIcUh2i6h6k2NpI9fGENx0iLeEAUqEhvimhaei0FzmxgJPwu
+         bNUUCGmNchJP7xu5Nj05HRlmm/kReVoUyZOeLwaJp/Da5oJwH1sUbETabfY8qSBHdiMF
+         ZQavfKmGe7E7XaUW/b9fZFGKrRhXYXHt6FWriFdJ7IHynHfAPCzXXkq0nXzKYAzGuK0i
+         2bGxtK1LSlPNB4Jv8OZ3cDRQ6dHLwXAkaaKv8yznzA9MVpboWjjRFrT59F4xhWACBaNT
+         z6/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775575029; x=1776179829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WDXxiHNfIFx/blBavOrxi008CsS+1VUvxTy8fmtLmJo=;
-        b=lm2/RrLKKuFdmjJYyibT1aCP095hGXQFFzteYuAboQhIKZTKUsdk44qQ1r9ZxYu2Nb
-         7etkcgx/oMTAVrrJk0XLl4FULSkZS1PlFHgQNiInkatd+wYfdNvlMPXxpS0qhTr50L2O
-         wMfH0oXPn0mWdVQtBEjTuYbg9tnlK01oHKO2tfucSMU435fdDv6/RNgpj2KfwYhjOgdE
-         ENUNrUPjtnponIyWKYW70XDVtSkGvzdzHPveO9liieMswBfCs1y2MPCjnf6UJxfePxJN
-         /Ze20Lk6bZsnBmJ2p68hOzxQaP3yawxuVlF4kv6E06FUEEE5S/chVYV+E27hOJ8C/wca
-         jjaA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/OniQ6RPubivCFwHgdJvF8b5xc/rLGEQq5EJf3OagsgGejkQ9RKroFYGF6IMWVxd+ZoJ5zGLJhyhvxrXvB24MPueIDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKJQZdPBLmzeVgNAtirsc/d0W5CTILPVibYcRIggUeAW2n5XRy
-	Qy7gsPIxfCWTcdeLvL8ebq3/MXSOHGUSY6Cue5G7BeSB8YCNG06QODAVfB9NCx1z
-X-Gm-Gg: AeBDieum9CChNuqoys2Hrlo0vpTFP+1BagF1v4lQ/HTlbcEAs3CX3LQ7O2LxVe0D8ix
-	X7wBGnKVbBsTxfbVBHvlTeMA0B6dbHnXVvrWDpgo6F6kyBrTTEno9g58w7ZC33GN7gdBXMtwfup
-	u4j/MBrE9muSahxEhVjjgz+Pukp7bos2iAi+7u/omMRwgP4AkBS0/FB8dCi/yimEUw6H+AZ3Fuw
-	HiDMV+1BhSEP0aU4yTiOzGGQD1+XAVETJQIdsWkQQSgs/ie78vmuySUZkG6jscT31vhzfBCuUoo
-	PDDYh3YC61mW7K8Y7mp06uNPit6OHw90RLyv+LjWo6V0fNHaX7Q1YMgJhQAI38WZOuqe6ja4Eo4
-	JCTLYZXT9oc5GpWcbQQ9/6JUpMr8SuRdGd3WCu3EhuAWR1BU6D9sKSTB9Ll/lPThW92vDjwC0lc
-	b+XmB9ihmOXpnMxyfWy96L6mXr8wLLDz1UD1ykB88HRYJf5xIGdNo=
-X-Received: by 2002:a05:6000:2303:b0:439:bd70:6114 with SMTP id ffacd0b85a97d-43d292ec01cmr23778032f8f.38.1775575028749;
-        Tue, 07 Apr 2026 08:17:08 -0700 (PDT)
-Received: from aldo-conte-t14.tailf68ad9.ts.net ([37.163.52.91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a6f13sm51924922f8f.3.2026.04.07.08.17.07
+        d=1e100.net; s=20251104; t=1775676719; x=1776281519;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CPaJ+H7LBZA4DJEQT1k+JmDVy1NMUCuI/xA7eobHm5Y=;
+        b=iiK9wQJn8PAz9HV3KGeYydMDSjb7QXASOtHd0X0WF9oiRN6Tw13TvEPtJ6iBMCqvJ5
+         GfeVbXQqIKGg1Lw+A/k4wvM6hvjhncN6Ote4J86c2TmSj0slyKQ5zRPvDqEWcp7FaqBY
+         r4tS6vpXx3KlXIVFnAFoupRMp1ysHgwEVtIFShG8u9wDOCL0OtytKko3UrZqfhKhQ+pL
+         flHf1OYmNfWOMQLrS7LjA4w6JY2E7eVs1elPXQcQVXKIVviQ60AEziB8j9jhRKmW9xuP
+         Y8Ym5sNDClLBwlzITCeoNT+iqdV2cKscqXMPQBGQ4AOIyEcQizSQ7vdGqctJBCkXR3DF
+         J5eA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQcvZK57axPhFMJhMoevPdKqNhLYjoAULVYnRCtZ9mxZD4cosLbf/3cgGCmq/hTm/FvPR3Bz9Nvr+VXvhbwhq2dKvTqg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy/iCXv7/jAPEF1dhno7PKrpIVajJJE5yWUhYWjOHV9tMPISGM
+	hdOQZGG/NXw40x6qo+7tTgT/fBozG1OisU0KX7Z+KH64CGwVTsniQF9y
+X-Gm-Gg: AeBDievIPnF3Wlw1MOv/R2HGPdjx5E/9a4rCbzasKZsu7s/9WXEvvnGTnE4JLataJGk
+	r0d+Y9ERG6cH5v0u8ruRJ5b9P/XwXGM2zKTBLzSrToU4cE6YDFF9ZmwTbdkm7wE/nwJTa+GcSGR
+	cpLuk+ZxywnMKGeG1H7Y5F1U1N2jH3k9sHnZqyEZnk4CuMOOcbMWfIJ0w7MOVupZYBvOgP38cVn
+	TExqBVs1ALg0I7z5Q2hREb/JsK9gRJXq8EbD4lK8faPmfxiwIWa6nmvacVrFe04buSjBtYjazVE
+	EO7cCKg3qyEtzSSB6ImoqGOUOEcWzKn5Dr3OkYkLgeGazKeFgNHbLkzJ1/wYSYs1fbvFWnFnGs6
+	tOZQB/x6kE+JYY5kF9e0QkU3i1u1i2nvmGEkUiJ1CUwJAg/10D/fGX9YtB49Fwna+kYYJrn0hkb
+	R4uVxmfXWnIngdEThszfuP294=
+X-Received: by 2002:a05:6a00:181f:b0:82d:29f:d003 with SMTP id d2e1a72fcca58-82d0da2af95mr22092466b3a.12.1775676718903;
+        Wed, 08 Apr 2026 12:31:58 -0700 (PDT)
+Received: from inspiron ([111.125.237.246])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9ca4efesm22248366b3a.61.2026.04.08.12.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2026 08:17:08 -0700 (PDT)
-From: Aldo Conte <aldocontelk@gmail.com>
-To: jic23@kernel.org
-Cc: ktsai@capellamicro.com,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	daniel.baluta@intel.com,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v4 2/2] iio: light: cm3323: use dev_err_probe() in probe path
-Date: Tue,  7 Apr 2026 17:17:02 +0200
-Message-ID: <20260407151702.15208-3-aldocontelk@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407151702.15208-1-aldocontelk@gmail.com>
-References: <20260407151702.15208-1-aldocontelk@gmail.com>
+        Wed, 08 Apr 2026 12:31:58 -0700 (PDT)
+Date: Thu, 9 Apr 2026 01:01:47 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: Luka Gejak <luka.gejak@linux.dev>
+Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
+	b9788213@gmail.com, straube.linux@gmail.com,
+	ethantidmore06@gmail.com, andriy.shevchenko@linux.intel.com,
+	dan.carpenter@linaro.org, weibu@redadmin.org,
+	knavaneeth786@gmail.com, ignacio.pena87@gmail.com,
+	dharanitharan725@gmail.com, samasth.norway.ananda@oracle.com,
+	karanja99erick@gmail.com, s9430939@naver.com, suunj1331@gmail.com,
+	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: Re: [RFT PATCH v3 0/5] staging: rtl8723bs: Code cleanup in
+ drivers/staging/rtl8723bs
+Message-ID: <20260408193147.lpaswxqvkoyo7uqr@inspiron>
+References: <20260405114132.310774-1-activprithvi@gmail.com>
+ <7E2F475C-4B51-4D5A-B110-A8A796124A0B@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7E2F475C-4B51-4D5A-B110-A8A796124A0B@linux.dev>
 
-Replace dev_err() calls with dev_err_probe() in cm3323_init() and
-cm3323_probe(). cm3323_init() is called by cm3323_probe(),  so using
-dev_err_probe() ensures that deferred probing is handled
-correctly and simplifies error paths.
+On Sun, Apr 05, 2026 at 03:01:51PM +0200, Luka Gejak wrote:
+> On April 5, 2026 1:41:27 PM GMT+02:00, Prithvi Tambewagh <activprithvi@gmail.com> wrote:
+> >This patch series focuses on code cleanup in drivers/staging/rtl8723bs,
+> >majorly focusing on fixing checkpatch warnings of constant being on right
+> >side of test in comparisons, deletion of empty if block ,use of 
+> >read_poll_timeout_atomic(), and other code simplifications.
+> >
+> >v2 link: https://lore.kernel.org/linux-staging/20260403094647.fmgop6xh2cjpit3s@inspiron/T/#m3d08fd012119772e>
+> >v1 link: https://lore.kernel.org/linux-staging/20260323145214.ubhshy2gwp52j5zh@inspiron/T/#mc3b693b37c49fbdd>
+> >
+> >Note:
+> >1. I found that for this change in v2:
+> >
+> >-       if (
+> >-               (false == pHalData->bDisableSWChannelPlan) &&
+> >-               rtw_is_channel_plan_valid(sw_channel_plan)
+> >-       )
+> >+       if (!pHalData->bDisableSWChannelPlan &&
+> >+           rtw_is_channel_plan_valid(sw_channel_plan))
+> >
+> >for this code, checkpatch gave the check:
+> >
+> >CHECK: Using comparison to false is error prone
+> >#126: FILE: drivers/staging/rtl8723bs/hal/hal_com.c:126:
+> >+               (false == pHalData->bDisableSWChannelPlan) &&
+> >
+> >which is a different logical change than the ones covered in this patch series.
+> >Hence, to keep the patch series to a reasonable length and since this is RFT
+> >path series, I did not consider this change right now.
+> >
+> >2. This change in v2:
+> >
+> >        if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+> >-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
+> >+               if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+> >                        txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+> >        } else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+> >-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
+> >+               if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7)
+> >                        txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+> >        }
+> >
+> >can be reformatted as:
+> >
+> >diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> >index 9e523491a008..efd1c76f2953 100644
+> >--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> >+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+> >@@ -469,11 +469,10 @@ u8 PHY_GetTxPowerIndexBase(
+> >        if ((Rate >= MGN_6M && Rate <= MGN_54M) && !IS_CCK_RATE(Rate))
+> >                txPower += pHalData->OFDM_24G_Diff[RFPath][TX_1S];
+> > 
+> >-       if (BandWidth == CHANNEL_WIDTH_20) { /*  BW20-1S, BW20-2S */
+> >-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
+> >+       if (Rate >= MGN_MCS0 && Rate <= MGN_MCS7) {
+> >+               if (BandWidth == CHANNEL_WIDTH_20) /*  BW20-1S, BW20-2S */
+> >                        txPower += pHalData->BW20_24G_Diff[RFPath][TX_1S];
+> >-       } else if (BandWidth == CHANNEL_WIDTH_40) { /*  BW40-1S, BW40-2S */
+> >-               if (MGN_MCS0 <= Rate && Rate <= MGN_MCS7)
+> >+               else if (BandWidth == CHANNEL_WIDTH_40) /*  BW40-1S, BW40-2S */
+> >                        txPower += pHalData->BW40_24G_Diff[RFPath][TX_1S];
+> >for which it is sent as a separate patch - patch 5 in this series.
+> >
+> >3. I found, in drivers/staging/rtl8723bs/hal/odm.h:
+> >
+> >struct odm_rate_adaptive {
+> >        u8 Type;                                /*  DM_Type_ByFW/DM_Type_ByDriver */
+> >        u8 LdpcThres;                   /*  if RSSI > LdpcThres => switch from LPDC to BCC */
+> >        bool bUseLdpc;
+> >        bool bLowerRtsRate;
+> >        u8 HighRSSIThresh;              /*  if RSSI > HighRSSIThresh    => RATRState is DM_RATR_STA_HIGH */
+> >        u8 LowRSSIThresh;               /*  if RSSI <= LowRSSIThresh    => RATRState is DM_RATR_STA_LOW */
+> >        u8 RATRState;                   /*  Current RSSI level, DM_RATR_STA_HIGH/DM_RATR_STA_MIDDLE/DM_RATR_>
+> >
+> >};
+> >
+> >and based on the explanation of parameters HighRSSIThresh & LowRSSIThresh 
+> >I thought this change:
+> >
+> >diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+> >index 639b6da2302b..ca4495f101fd 100644
+> >--- a/drivers/staging/rtl8723bs/hal/odm.c
+> >+++ b/drivers/staging/rtl8723bs/hal/odm.c
+> >@@ -343,9 +343,9 @@ bool ODM_RAStateCheck(
+> >        }
+> > 
+> >        /*  Decide RATRState by RSSI. */
+> >-       if (RSSI > HighRSSIThreshForRA)
+> >+       if (HighRSSIThreshForRA < RSSI)
+> >                RATRState = DM_RATR_STA_HIGH;
+> >-       else if (RSSI > LowRSSIThreshForRA)
+> >+       else if (LowRSSIThreshForRA < RSSI) 
+> >                RATRState = DM_RATR_STA_MIDDLE;
+> >       else
+> >                RATRState = DM_RATR_STA_LOW;
+> >
+> >doesn't seem to be right, thats why I dropped this change as well.
+> >
+> >4. This patch series is compile tested using the following commands, which
+> >   include setting the necessary configurations:
+> >        1. make defconfig
+> >        2. scripts/config --enable CONFIG_STAGING
+> >        3. scripts/config --module CONFIG_MMC
+> >        4. scripts/config --module CONFIG_RTL8723BS
+> >        5. make olddefconfig
+> >        6. make -j$(nproc)
+> >        7. git rebase -i --exec "make -j$(nproc) M=drivers/staging/rtl8723bs" HEAD~5 
+> >
+> >The final rebase --exec gave a successful output:
+> >
+> >Executing: make -j12 M=drivers/staging/rtl8723bs
+> >make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >  CC [M]  core/rtw_ap.o
+> >  CC [M]  core/rtw_btcoex.o
+> >  CC [M]  core/rtw_cmd.o
+> >  CC [M]  core/rtw_efuse.o
+> >  CC [M]  core/rtw_io.o
+> >  CC [M]  core/rtw_ioctl_set.o
+> >  CC [M]  core/rtw_ieee80211.o
+> >  CC [M]  core/rtw_mlme.o
+> >  CC [M]  core/rtw_mlme_ext.o
+> >  CC [M]  core/rtw_pwrctrl.o
+> >  CC [M]  core/rtw_recv.o
+> >  CC [M]  core/rtw_security.o
+> >  CC [M]  core/rtw_sta_mgt.o
+> >  CC [M]  core/rtw_wlan_util.o
+> >  CC [M]  core/rtw_xmit.o
+> >  CC [M]  hal/hal_intf.o
+> >  CC [M]  hal/hal_com.o
+> >  CC [M]  hal/hal_com_phycfg.o
+> >  CC [M]  hal/hal_btcoex.o
+> >  CC [M]  hal/hal_sdio.o
+> >  CC [M]  hal/hal_pwr_seq.o
+> >  CC [M]  hal/HalPhyRf.o
+> >  CC [M]  hal/HalPwrSeqCmd.o
+> >  CC [M]  hal/odm_CfoTracking.o
+> >  CC [M]  hal/odm.o
+> >  CC [M]  hal/odm_DIG.o
+> >  CC [M]  hal/odm_DynamicBBPowerSaving.o
+> >  CC [M]  hal/odm_DynamicTxPower.o
+> >  CC [M]  hal/odm_EdcaTurboCheck.o
+> >  CC [M]  hal/odm_HWConfig.o
+> >  CC [M]  hal/odm_RegConfig8723B.o
+> >  CC [M]  hal/rtl8723b_cmd.o
+> >  CC [M]  hal/rtl8723b_dm.o
+> >  CC [M]  hal/rtl8723b_hal_init.o
+> >  CC [M]  hal/rtl8723b_phycfg.o
+> >  CC [M]  hal/rtl8723b_rf6052.o
+> >  CC [M]  hal/rtl8723b_rxdesc.o
+> >  CC [M]  hal/rtl8723bs_recv.o
+> >  CC [M]  hal/rtl8723bs_xmit.o
+> >  CC [M]  hal/sdio_halinit.o
+> >  CC [M]  hal/sdio_ops.o
+> >  CC [M]  hal/HalBtc8723b1Ant.o
+> >  CC [M]  hal/HalBtc8723b2Ant.o
+> >  CC [M]  hal/HalHWImg8723B_BB.o
+> >  CC [M]  hal/HalHWImg8723B_MAC.o
+> >  CC [M]  hal/HalHWImg8723B_RF.o
+> >  CC [M]  hal/HalPhyRf_8723B.o
+> >  CC [M]  os_dep/ioctl_cfg80211.o
+> >  CC [M]  os_dep/osdep_service.o
+> >  CC [M]  os_dep/os_intfs.o
+> >  CC [M]  os_dep/sdio_intf.o
+> >  CC [M]  os_dep/sdio_ops_linux.o
+> >  CC [M]  os_dep/wifi_regd.o
+> >  CC [M]  os_dep/xmit_linux.o
+> >  LD [M]  r8723bs.o
+> >  MODPOST Module.symvers
+> >  CC [M]  r8723bs.mod.o
+> >  CC [M]  .module-common.o
+> >  LD [M]  r8723bs.ko
+> >make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >Executing: make -j12 M=drivers/staging/rtl8723bs
+> >make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >  CC [M]  hal/HalPhyRf_8723B.o
+> >  LD [M]  r8723bs.o
+> >  MODPOST Module.symvers
+> >  CC [M]  r8723bs.mod.o
+> >  LD [M]  r8723bs.ko
+> >make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >Executing: make -j12 M=drivers/staging/rtl8723bs
+> >make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >  CC [M]  core/rtw_ap.o
+> >  CC [M]  core/rtw_btcoex.o
+> >  CC [M]  core/rtw_cmd.o
+> >  CC [M]  core/rtw_efuse.o
+> >  CC [M]  core/rtw_io.o
+> >  CC [M]  core/rtw_ioctl_set.o
+> >  CC [M]  core/rtw_ieee80211.o
+> >  CC [M]  core/rtw_mlme.o
+> >  CC [M]  core/rtw_mlme_ext.o
+> >  CC [M]  core/rtw_pwrctrl.o
+> >  CC [M]  core/rtw_recv.o
+> >  CC [M]  core/rtw_security.o
+> >  CC [M]  core/rtw_sta_mgt.o
+> >  CC [M]  core/rtw_wlan_util.o
+> >  CC [M]  core/rtw_xmit.o
+> >  CC [M]  hal/hal_intf.o
+> >  CC [M]  hal/hal_com.o
+> >  CC [M]  hal/hal_com_phycfg.o
+> >  CC [M]  hal/hal_btcoex.o
+> >  CC [M]  hal/hal_sdio.o
+> >  CC [M]  hal/hal_pwr_seq.o
+> >  CC [M]  hal/HalPhyRf.o
+> >  CC [M]  hal/HalPwrSeqCmd.o
+> >  CC [M]  hal/odm.o
+> >  CC [M]  hal/odm_CfoTracking.o
+> >  CC [M]  hal/odm_DIG.o
+> >  CC [M]  hal/odm_DynamicBBPowerSaving.o
+> >  CC [M]  hal/odm_DynamicTxPower.o
+> >  CC [M]  hal/odm_EdcaTurboCheck.o
+> >  CC [M]  hal/odm_HWConfig.o
+> >  CC [M]  hal/odm_RegConfig8723B.o
+> >  CC [M]  hal/rtl8723b_cmd.o
+> >  CC [M]  hal/rtl8723b_dm.o
+> >  CC [M]  hal/rtl8723b_hal_init.o
+> >  CC [M]  hal/rtl8723b_phycfg.o
+> >  CC [M]  hal/rtl8723b_rf6052.o
+> >  CC [M]  hal/rtl8723b_rxdesc.o
+> >  CC [M]  hal/rtl8723bs_recv.o
+> >  CC [M]  hal/rtl8723bs_xmit.o
+> >  CC [M]  hal/sdio_halinit.o
+> >  CC [M]  hal/sdio_ops.o
+> >  CC [M]  hal/HalBtc8723b1Ant.o
+> >  CC [M]  hal/HalBtc8723b2Ant.o
+> >  CC [M]  hal/HalHWImg8723B_BB.o
+> >  CC [M]  hal/HalHWImg8723B_MAC.o
+> >  CC [M]  hal/HalHWImg8723B_RF.o
+> >  CC [M]  hal/HalPhyRf_8723B.o
+> >  CC [M]  os_dep/ioctl_cfg80211.o
+> >  CC [M]  os_dep/osdep_service.o
+> >  CC [M]  os_dep/os_intfs.o
+> >  CC [M]  os_dep/sdio_intf.o
+> >  CC [M]  os_dep/sdio_ops_linux.o
+> >  CC [M]  os_dep/wifi_regd.o
+> >  CC [M]  os_dep/xmit_linux.o
+> >  LD [M]  r8723bs.o
+> >  MODPOST Module.symvers
+> >  LD [M]  r8723bs.ko
+> >make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >Executing: make -j12 M=drivers/staging/rtl8723bs
+> >make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >  CC [M]  hal/rtl8723b_cmd.o
+> >  LD [M]  r8723bs.o
+> >  MODPOST Module.symvers
+> >  CC [M]  r8723bs.mod.o
+> >  LD [M]  r8723bs.ko
+> >make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >Executing: make -j12 M=drivers/staging/rtl8723bs
+> >make[1]: Entering directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >  CC [M]  hal/hal_com_phycfg.o
+> >  LD [M]  r8723bs.o
+> >  MODPOST Module.symvers
+> >  CC [M]  r8723bs.mod.o
+> >  LD [M]  r8723bs.ko
+> >make[1]: Leaving directory '/home/prithvi/linux/drivers/staging/rtl8723bs'
+> >Successfully rebased and updated refs/heads/staging-realtek-patch-series.
+> >
+> >However, since I currently don't have rtl8723bs hardware I am unfortunately
+> >unable to do runtime testing for this patch series.
+> >
+> >Prithvi Tambewagh (5):
+> >  staging: rtl8723bs: move constant to right side of test in comparison
+> >  staging: rtl8723bs: remove empty if statement block
+> >  staging: rtl8723bs: simplify boolean return in IsFrameTypeCtrl()
+> >  staging: rtl8723bs: use read_poll_timeout_atomic in
+> >    _is_fw_read_cmd_down
+> >  staging: rtl8723bs: remove duplicate rate checks in
+> >    PHY_GetTxPowerIndexBase()
+> >
+> > .../staging/rtl8723bs/hal/HalBtc8723b2Ant.c    |  4 ++--
+> > drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c |  5 +----
+> > drivers/staging/rtl8723bs/hal/hal_com.c        |  2 +-
+> > drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 11 +++++------
+> > drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c   | 18 +++++++-----------
+> > .../staging/rtl8723bs/hal/rtl8723b_hal_init.c  | 18 +++++++++---------
+> > drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c |  2 +-
+> > drivers/staging/rtl8723bs/include/ieee80211.h  |  4 ++--
+> > drivers/staging/rtl8723bs/include/wifi.h       |  5 +----
+> > 9 files changed, 29 insertions(+), 40 deletions(-)
+> >
+> 
+> Hi Prithvi,
+> You do not need to provide compilation output in cover letter, also 
+> since these are only style changes, I believe testing is not 
+> necessary. Furthermore, it would be better to list changes in v2/v3 
+> rather than pasting code snippets here.
+> Best regards,
+> Luka Gejak
 
-Remove the redundant error message in cm3323_probe().
+Hi Luka,
 
-Tested on a Raspberry Pi 3B using i2c-stub. The driver probes
-successfully and successfully read integration_time after this change.
+Thanks for the feedback - I will incorporate it in v4 patch series; also 
+since you said these are only style changes and testing isn't necessary I 
+will remove the RFT tag from v4 patch series. 
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Suggested-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
----
-Changes in v4:
-- Add Reviewed-by tag from Andy Shevchenko
-
-Changes in v3:
-- Remove extra blank line after cm3323_init() error path
-  in cm3323_probe()
-  
-Changes in v2:
-- Add struct device *dev local variable to shorten dev_err_probe()
-  calls to one-liners (suggested by Andy Shevchenko)
-  
- drivers/iio/light/cm3323.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/iio/light/cm3323.c b/drivers/iio/light/cm3323.c
-index 0fe61b8a7029..c8112685e415 100644
---- a/drivers/iio/light/cm3323.c
-+++ b/drivers/iio/light/cm3323.c
-@@ -80,22 +80,19 @@ static int cm3323_init(struct iio_dev *indio_dev)
- {
- 	int ret;
- 	struct cm3323_data *data = iio_priv(indio_dev);
-+	struct device *dev = &data->client->dev;
- 
- 	ret = i2c_smbus_read_word_data(data->client, CM3323_CMD_CONF);
--	if (ret < 0) {
--		dev_err(&data->client->dev, "Error reading reg_conf\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Error reading reg_conf\n");
- 
- 	/* enable sensor and set auto force mode */
- 	ret &= ~(CM3323_CONF_SD_BIT | CM3323_CONF_AF_BIT);
- 	data->reg_conf = ret;
- 
- 	ret = i2c_smbus_write_word_data(data->client, CM3323_CMD_CONF, data->reg_conf);
--	if (ret < 0) {
--		dev_err(&data->client->dev, "Error writing reg_conf\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Error writing reg_conf\n");
- 
- 	return 0;
- }
-@@ -236,10 +233,8 @@ static int cm3323_probe(struct i2c_client *client)
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 
- 	ret = cm3323_init(indio_dev);
--	if (ret < 0) {
--		dev_err(&client->dev, "cm3323 chip init failed\n");
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	ret = devm_add_action_or_reset(&client->dev, cm3323_disable, indio_dev);
- 	if (ret < 0)
--- 
-2.53.0
-
+Best Reagrds,
+Prithvi
