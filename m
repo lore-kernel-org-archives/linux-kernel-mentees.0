@@ -1,21 +1,21 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B0C3264FA
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Apr 2026 14:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF3133E368
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Apr 2026 14:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775743849; cv=none; b=SgmmYy61Hh352/dZ8p377BJYnEHsbOdF5gsgvCF3uTAM8Dvnt7FiftsbCqZdvEYj4ji6vBgYN28biZtfHv0GHaTzPyv6XWO2i8HaRpnLOZZtkffnCYFDx6cvBWWboMR+GijJ0IPaDpZmLl9KFbyx1hUR9xsusdRlREVySKsyNLI=
+	t=1775743852; cv=none; b=V6RuTHsfOToLHICNF0zc8o8vuI09136xvurS7mDlnqfjszHnf1Ws6CY10NZkNz7Qt1mkc587zDFNn31N76wXKMMz0rsDPEGx3SDjldyxyAohI7ZWEF1E/w1yQ3zQmRVIp8aGAMxvq7p9FB8umKVbCEAB0gx2pLsTbt3OWOe3WFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775743849; c=relaxed/simple;
-	bh=+S5V77JjvcFyHnQUaBrmreqFxuSoVNFTzdSuzZbQfyc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=hab4gXTMnnvdUpmVAdCjjQ0ssXHTegKhdQfCPDxoP+EkTJ4br62QMoKzidMn7pMxFrvhBu6RYD9Y0btQ/9sjILSANBkUzqCWKQiSUAMKwz546o4HZ8FoeALWRMya9cB8u+MSpzj3g/IvpXQV9EuM+Mi0jdO9h5Ww7Q39MgYRZI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D6Ia4stE; arc=none smtp.client-ip=95.215.58.171
+	s=arc-20240116; t=1775743852; c=relaxed/simple;
+	bh=gozbqWDIeceUFzji/F5sgeVvUXFmeST/cwqLONvK2HU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=ksLjsnjhnrccshQQJFuxqnMK6olxrpAcMqAcEoTuanravt4+5kxLPj3qVFEvsOuAKWiqW1e4/+jQz52u+oRHH9BdAE5LdfwSoxx9WVeytOIIDeFgB/lwsXIfMIsPhVynWYS9KTr1Imt510L5K5TAp3HU+K4zCMChqL8flo8wTlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BUWADjri; arc=none smtp.client-ip=91.218.175.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D6Ia4stE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BUWADjri"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -23,26 +23,19 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775743830;
+	t=1775743845;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+S5V77JjvcFyHnQUaBrmreqFxuSoVNFTzdSuzZbQfyc=;
-	b=D6Ia4stEMIdnHqSuyaEXjMrO7TORj12ZNG7CrIfBD0rAH1wLgh2vU1xRnnlw9zhCCpvEcc
-	8WAvwNGXW8RyouYKoAKlgtC4dcbMvzeBqCK1A2MxbOQ9+4rW5E4ppU9Y4zdpJUzBJKVbw3
-	2DKZAlC4ElTbR+FmjENLC4jXpr+2PKk=
+	bh=CWysnD7Qsz+ohY/Yw1BRwCqIaZ8CRFff8UOEftSFA88=;
+	b=BUWADjri1pj4BjgnYP/1He+UYIOS/emJcXSruMVUBUpFBok/rTDP/My3OHnYx0zmZigN1B
+	SG89SWtGZAHJ4KYiOZ9NYFO5KKknir8TVXQ+86GIWRtNKm9N4z7qf7V5K0/ABPlXx5RncL
+	AZA2GhIbYYBXmP8m/Iy3YLdPI0JnaqQ=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 09 Apr 2026 16:10:02 +0200
-Message-Id: <DHOON505D3ZM.1AA36SQK4WOXO@linux.dev>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>,
- <david.hunter.linux@gmail.com>, <khalid@kernel.org>
-Subject: Re: [PATCH v4 1/5] staging: rtl8723bs: move constant to right side
- of test in comparison
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
+Date: Thu, 09 Apr 2026 16:10:33 +0200
+Message-Id: <DHOONJJPBQQY.42HRXDTSSRB8@linux.dev>
 To: "Prithvi Tambewagh" <activprithvi@gmail.com>,
  <gregkh@linuxfoundation.org>, <abrahamadekunle50@gmail.com>,
  <b9788213@gmail.com>, <straube.linux@gmail.com>, <tmimiharoen@gmail.com>,
@@ -54,22 +47,50 @@ To: "Prithvi Tambewagh" <activprithvi@gmail.com>,
  <luka.gejak@linux.dev>, <khushalchitturi@gmail.com>, <suunj1331@gmail.com>,
  <s9430939@naver.com>, <nikolayof23@gmail.com>,
  <bryant.boatright@proton.me>, <ysinghcin@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, <skhan@linuxfoundation.org>,
+ <david.hunter.linux@gmail.com>, <khalid@kernel.org>
+Subject: Re: [PATCH v4 3/5] staging: rtl8723bs: simplify boolean return in
+ IsFrameTypeCtrl()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
 References: <20260409135026.137904-1-activprithvi@gmail.com>
- <20260409135026.137904-2-activprithvi@gmail.com>
-In-Reply-To: <20260409135026.137904-2-activprithvi@gmail.com>
+ <20260409135026.137904-4-activprithvi@gmail.com>
+In-Reply-To: <20260409135026.137904-4-activprithvi@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 
 On Thu Apr 9, 2026 at 3:50 PM CEST, Prithvi Tambewagh wrote:
-> Move constant from the left side to the right side of the test in a
-> comparison, where =3D=3D, !=3D, <=3D, >=3D, <, > operators are used, fixi=
-ng the
-> checkpatch warning: Comparisons should place the constant on the right
-> side of the test.
+> Replace the simple if-else statement which checked value of
+> GetFrameType(pframe), if equal to WIFI_CTRL_TYPE, function
+> IsFrameTypeCtrl() returned true else false, with a single return
+> statement returning true only if GetFrameType(pframe) =3D=3D WIFI_CTRL_TY=
+PE
+> otherwise returns false.
 >
 > Signed-off-by: Prithvi Tambewagh <activprithvi@gmail.com>
 > ---
-
-...
+>  drivers/staging/rtl8723bs/include/wifi.h | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/r=
+tl8723bs/include/wifi.h
+> index 230b2c4ffd3b..2876f15f13d1 100644
+> --- a/drivers/staging/rtl8723bs/include/wifi.h
+> +++ b/drivers/staging/rtl8723bs/include/wifi.h
+> @@ -275,10 +275,7 @@ static inline unsigned char *get_hdr_bssid(unsigned =
+char *pframe)
+> =20
+>  static inline int IsFrameTypeCtrl(unsigned char *pframe)
+>  {
+> -	if (WIFI_CTRL_TYPE =3D=3D GetFrameType(pframe))
+> -		return true;
+> -	else
+> -		return false;
+> +	return GetFrameType(pframe) =3D=3D WIFI_CTRL_TYPE;
+>  }
+>  /*----------------------------------------------------------------------=
+-------
+>  			Below is for the security related definition
 
 LGTM.
 Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
