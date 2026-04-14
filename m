@@ -1,239 +1,129 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3BB1A9F83
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Apr 2026 01:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C37C1E8332
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Apr 2026 06:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776128881; cv=none; b=KJ4Xy2C6HVAlIiBmzEteqsG3lm7HdMshxcPWGIuzyU8yRIBEtw3+aPmmtGtYNI4v2K6KEaE4vQ13mbD1j62ePsABRidv74uWtOSQ+Vug87Re/DLoC5PZgEIrwZ0pyp0eSQHNw3HRii3bY2FYE3HLF2o8WmupAzFGJQk62pOpb9g=
+	t=1776147346; cv=none; b=i7BaspQCukg3Nrv7QOrN4EVBpB7oxj9RaC1LIILXUIVGWehqKrrmhdr3WfE/uA5D+iwulJ13lLDv45dd1EZ74GqSYNHW+cidDalShNf6dZYTnCDvSCDV9sicAypfTbikv5R3u1L9b9oBzseQyEkCvXpTjHxFlBffYtMSI2sBr80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776128881; c=relaxed/simple;
-	bh=X2stRK6BzVJ6STaMrFyFvTkg+1K5bRk267jpYZn6laQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=inJ72DvaGrHfSmLCnY3OqsVDgVqncYO8sweX1WcnwgUUnBjEpY22HsWOmALrszrYZ679p/lWqqmcf+zzVz9RjCS/W8yhvoorPy6LR5BCC9kSTinFwrF2nFpFD3wZHcjLGSwWnrVC3IOvHK0VhftEan4MfAYCFkSF8oJxQQdabAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pKdf9NBN; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1776147346; c=relaxed/simple;
+	bh=UB6igvCFPBsEsTpwZZL1dQgZvlFXY9qh1IJBhfoBaKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUptgFnI7qi57+Nirp/BuLZYOvetyanG8HCRppYGlHbtNp//Od0qGuszGgYkyu+kam8JjUC/uK3Y4BC1knvQb0TIw1MbbEuj2T/JTnNUQDm2/nR81XOrrtYvXBTkOcZOLe1nkJ5d2S31LvMQOPXWKTKxAb422JaiNkAhXIcaQIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfmK/3ZF; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pKdf9NBN"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso2704182a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Apr 2026 18:07:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfmK/3ZF"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82f1f6103afso1378825b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Apr 2026 23:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776128879; x=1776733679; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fSOBQXbJwd+/LjKElFzLkgeeqFY61/pHJa45E1A6Tmg=;
-        b=pKdf9NBNlWuzC96RFLc8EjEDMc8ygQjnXQCwJVesl/dS0YTiYX6aQC5cCNRekftZtl
-         0J/ZAdGJQ7OFoIWXkZFeuePY81rIh/x9lrAgmDY8RGMLskaWuzGdAX0ePDhoPvseMprV
-         vyDZZ2JR86ZkNPFbG4tzaq0PM6DxuPh0GDxd0t+doTmKbz+FFdl/4ksZGS2njOdG23et
-         asn5ssMwmfqL9VBErJ/HX2lugjZP+E9FDwdjrAnqS4EgfxtMKF/oUKtfUR4ydqGqsykS
-         LvGC0KYWdPbNBDKwb2HfaIoX3GkyGcpRe8Z8uFjljANQw29W54YncSesCRNxy0jYEwQy
-         WCWw==
+        d=gmail.com; s=20251104; t=1776147344; x=1776752144; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kep5pupCMO+SdCzjkbNvuCXzJJsxubzVF6JFzj92rXI=;
+        b=gfmK/3ZFL6x4OFhlPBLCWehL0h/EsVEQvJdcDlIGFbA6QH78B/ZWdS9Naht/eiDsb3
+         d2t3g+XidZTFq4vBTIaOJOXxHT3uoiCejIoloU3xbj8aC15elrFqKZRxHmacmcuPZtdT
+         mZdTnTk75CuSh6m7tyUUDF/07ZZc+jfIBjjQJrBhDI8ZbxwdQWEom2H/HgEZPLdAR1k0
+         lewCRGsaWH9lFrl6ZPfGcPwXUCk4d4aCF088Wgi+9r6KEGERd4a2Q/lHJLIhtxH0tb5+
+         huuFjPV1oGvqgt3t9PnGEgQGWN3rPNK2EHUlD/l1V7aOTUR6shPuBrHD6RyqUYEvG8p2
+         wimA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776128879; x=1776733679;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fSOBQXbJwd+/LjKElFzLkgeeqFY61/pHJa45E1A6Tmg=;
-        b=ECHHgoucbmwCKa5G5fFJrNfWvdToWsRre5CK+8GJddeCSrC0b5K1/x/Eov9ppN6h9p
-         sU1ao1HyF712iCZtBEnKqeuStqJBOBU/Nh9l8zi/w2XMs/AL7FQHlqoEp2EkmCi/y7Do
-         hLdmv0Iar7DMqPv7A/5XXV8Q2XOI3UXZdkV57QGsxLq2RouXqmN0IQJH6j/tX1O8JyCx
-         s8r1XA2Vhb8dsrcSgQKqUE/tg6oSKY7l5sEuFNOJ/anD/9DDokCYyxIOWJ7cguekBJNg
-         uAPnPE+n8pqMdmyuakL9o+7SEz4gTX93UZ0znKJ1IIgj/yXSid68qwvelPzDhsHBLIz4
-         8NKg==
-X-Forwarded-Encrypted: i=1; AFNElJ93hcRIcONaopcggjWvXfu/TMpt3LuoosXakARdCXEoVbj/lRMkTbsmtqNGPI5Tt0XzHud66l1MjSFQji0IAevMC1WBbg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLHRZpu1m6vLk21SyFXP4BanGPd1DTZJZRSxV5ktVX/fopmy1K
-	6e/coK2z2c638yQtBdbL6iXJBOwBkhirZU7YCB4re2ILc2DKOPe6DcUA
-X-Gm-Gg: AeBDiesNP+mySI5F003Xnb0GrPue38L3kKmL9eEjh1ilyk/n5T7Sp0lsq9Zf0GRTIN6
-	wPv9aTrP5k9sFcWV855OrG9sOSKQltTn37WP11mE/SQOf9r5ojlY5xJO84v6E78TjjWofLTVfuc
-	6p86w1jQUcYScIw1DkC9RTF6vgDY/tkNiovqoacvartylT02lZVdr0jHiiTy01pCJzBm9IsdQol
-	Mp+weV7eC+5Eyq7IVUKRPvmm8fYws7qMbqmCmrDrgJ5SDGxFdjggdcQp6VT6U9v+RkTuZXWl4zM
-	hFYW0X/9zbWYsi4i3GbfymVlhquFWf3fpt2XLEovAmj35r+sU2jjRIwgeHtgD0OBj7ZsAI+jzTM
-	pMleDyT8sfMx5IHHuXXBV0+s/9d4TvnfNY0PJ9QZ3HndarKqkIZVaeDH+q59GK17icm3ZkasLUw
-	zwceUs0Nx8RA44ruNUbFcQtTghW2YZtWDMJZpDnjEFKd62/8w=
-X-Received: by 2002:a17:90b:5292:b0:35c:29ba:bf92 with SMTP id 98e67ed59e1d1-35e4278b94bmr16069292a91.5.1776128879162;
-        Mon, 13 Apr 2026 18:07:59 -0700 (PDT)
-Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35fc6eabb29sm222009a91.6.2026.04.13.18.07.56
+        d=1e100.net; s=20251104; t=1776147344; x=1776752144;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kep5pupCMO+SdCzjkbNvuCXzJJsxubzVF6JFzj92rXI=;
+        b=J4rSWZgNQxFh/0PP77AGN2axZ+3bbZXLcPDLXpHodaW5TMSCSEA2GS86wGqMZ1aMJj
+         O+80lNkG7GzZG2Cn6wovnnEYSFDojDaNNI4VBw1PU94zrLLJ4jiz0qQUq75ETPxVkXB3
+         gMXIL9yASKETBbTbzmOPBKJtXQsjKpTJqWxHSbdhkEjZPdM6Cz+mAik4JXYAwAkd1mU/
+         /lK4PcXO7o0iy9Le3h+xwyLkhfiUGp4cbtPQXEwnCPuqrTOp9E2YzpKJw//FM4g587UT
+         jvyvBqxX2wdZtW811UOjxPCv7C3ni3y1lkCRk5UA9YwxUwrdSA0dB2GpmGer6jrAKNCW
+         6Afg==
+X-Forwarded-Encrypted: i=1; AFNElJ/pBMRVJQwn/XWbwHpBo1WCVMp/YnEh+29YSEvWwba1KxyM6xU5626cmi7f3bsUbhyo2LFrG32wJWJC/8HgE3tjZKdAvg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyN6j71vWQpKF+MYz4rmcnApB4dwcNauEu60D+o+HUzOTMZU3L2
+	WdqyzDjyUW7AnwIAkz8mQPZ8N2NW8uRE4gx0H4SxM9tKk1Cu6d3tFmAv
+X-Gm-Gg: AeBDiesGkjBn9i/fhpHOookLNEnJeWX/F0tlmm2YFsKNg/LKIWaO2PJgy/fVT6jwBUN
+	T3FVQKgxOJLh06YKi23UJgKXpyGN96zMSKCbuqOseSmQrQ4jL80bF8oZn+DsgdC9OrB1C09SAKu
+	NjtjSKa+8c4GJVtCsL/57EeBv9QmkOLgrQ0++Dq1KMefqXn6+S1fUAcS66V35dnwSYrfYNZTpXm
+	N0cZUC79U6pUUbWUc124/CVU03q3R32lZcBBvP9B9fD8nlLFoF56N+icUpqvkhe73zVyU78ALCP
+	wWpksuwVv5//ampu0dVdLyESQfyywg6opLVEyF+NVt0Dd/PQKs8KiE623x5Ip+1MvTH7joOrZlD
+	3WAXyeg2NEdFkPeVJmJc6mdHHqoSgJiD2B7Z12LLaz4gmN2IYvVDjKqUFbkJjDaLqnamEBIm8e4
+	1TvwOOX7/AcHfK75S89ApMFRp9xtkn7M4=
+X-Received: by 2002:a05:6a00:4b01:b0:82c:ebbd:9eca with SMTP id d2e1a72fcca58-82f0c26b435mr15986383b3a.11.1776147344460;
+        Mon, 13 Apr 2026 23:15:44 -0700 (PDT)
+Received: from inspiron ([114.79.178.93])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4b5a79sm14016412b3a.30.2026.04.13.23.15.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 18:07:58 -0700 (PDT)
-From: SeungJu Cheon <suunj1331@gmail.com>
-To: linux-bluetooth@vger.kernel.org
-Cc: marcel@holtmann.org,
-	luiz.dentz@gmail.com,
-	pmenzel@molgen.mpg.de,
-	kees@kernel.org,
-	kuba@kernel.org,
-	me@brighamcampbell.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH v2] Bluetooth: RFCOMM: validate skb length in MCC handlers
-Date: Tue, 14 Apr 2026 10:07:41 +0900
-Message-ID: <20260414010741.233892-1-suunj1331@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        Mon, 13 Apr 2026 23:15:44 -0700 (PDT)
+Date: Tue, 14 Apr 2026 11:45:31 +0530
+From: Prithvi <activprithvi@gmail.com>
+To: andriy.shevchenko@linux.intel.com, luka.gejak@linux.dev
+Cc: gregkh@linuxfoundation.org, abrahamadekunle50@gmail.com,
+	b9788213@gmail.com, straube.linux@gmail.com, tmimiharoen@gmail.com,
+	filippo.muschera@gmail.com, ethantidmore06@gmail.com,
+	rayfraytech@gmail.com, david@cardinalsystem.net, weibu@redadmin.org,
+	dharanitharan725@gmail.com, ignacio.pena87@gmail.com,
+	dan.carpenter@linaro.org, karanja99erick@gmail.com,
+	khushalchitturi@gmail.com, suunj1331@gmail.com, s9430939@naver.com,
+	nikolayof23@gmail.com, bryant.boatright@proton.me,
+	ysinghcin@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	khalid@kernel.org
+Subject: Re: [PATCH v4 0/5] staging: rtl8723bs: Code cleanup in
+ drivers/staging/rtl8723bs
+Message-ID: <20260414061531.ftq43mqv7evyduc3@inspiron>
+References: <20260409135026.137904-1-activprithvi@gmail.com>
+ <DHOOTLM62TV2.2JOOAA5UQG410@linux.dev>
+ <20260409145045.44r4f5bleklkk4ha@inspiron>
+ <2026040942-slicer-rake-4056@gregkh>
+ <20260409153958.6wmjiu4jcghtyeom@inspiron>
+ <D767F902-D249-4F93-A230-D432DB0423F9@linux.dev>
+ <adfL8CHDT6UdKppU@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adfL8CHDT6UdKppU@ashevche-desk.local>
 
-The RFCOMM MCC handlers cast skb->data to various protocol structs
-without validating skb->len first. A malicious remote device can send
-short MCC frames to trigger out-of-bounds reads in these handlers.
+On Thu, Apr 09, 2026 at 06:55:28PM +0300, Andy Shevchenko wrote:
+> On Thu, Apr 09, 2026 at 05:44:24PM +0200, Luka Gejak wrote:
+> > On April 9, 2026 5:39:58 PM GMT+02:00, Prithvi <activprithvi@gmail.com> wrote:
+> > >On Thu, Apr 09, 2026 at 05:02:16PM +0200, Greg KH wrote:
+> > >> On Thu, Apr 09, 2026 at 08:20:45PM +0530, Prithvi wrote:
+> 
+> ...
+> 
+> > >> But next time, trim your "who do I cc:" list, as it is _way_ too big,
+> > >> how did you generate it?
+> > >
+> > >Understood...here I used all the email addresses generated from the 
+> > >get_maintainer.pl script. Next time, I'll be sure to trim it down just to 
+> > >maintainers and reviewers.
+> > 
+> > Upon testing myself, get_maintainer.pl doesn't list all of those 
+> > people when ran on a directory or a file in staging.
+> 
+> Also you may check my script [1] that I use on everyday basis to send patches
+> to Linux kernel. It has some heuristics that showed to be almost suitable.
+> 
+> [1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
 
-Fix this by using skb_pull_data() to safely validate and access the
-required data in each handler. Return -EINVAL if the skb does not
-contain enough data.
+Yes I directly ran the get_maintainer.pl script on the patches, without any 
+flags due to which I got a very long 'to' and 'cc' list for the patches.
 
-rfcomm_recv_rpn() requires special handling since 1-byte RPN requests
-are valid per ETSI TS 07.10. Handle this by first pulling a single byte
-for the DLCI field, and only validating the full struct when len > 1.
+Thanks Andy for sharing the script - it is indeed optimized for this purpose :)
 
-Also add a length check in rfcomm_recv_mcc() before accessing the MCC
-header fields.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
----
-v2:
-  - Use skb_pull_data() instead of manual length checks (Luiz)
-  - Add a length check in rfcomm_recv_mcc() before accessing the MCC header (Paul)
-  - Allow 1-byte RPN requests in rfcomm_recv_rpn() as per ETSI TS 07.10 (Paul)
----
- net/bluetooth/rfcomm/core.c | 66 ++++++++++++++++++++++++++++---------
- 1 file changed, 50 insertions(+), 16 deletions(-)
-
-diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
-index 611a9a94151e..a2dfbff816d3 100644
---- a/net/bluetooth/rfcomm/core.c
-+++ b/net/bluetooth/rfcomm/core.c
-@@ -1431,10 +1431,15 @@ static int rfcomm_apply_pn(struct rfcomm_dlc *d, int cr, struct rfcomm_pn *pn)
- 
- static int rfcomm_recv_pn(struct rfcomm_session *s, int cr, struct sk_buff *skb)
- {
--	struct rfcomm_pn *pn = (void *) skb->data;
-+	struct rfcomm_pn *pn;
- 	struct rfcomm_dlc *d;
--	u8 dlci = pn->dlci;
-+	u8 dlci;
-+
-+	pn = skb_pull_data(skb, sizeof(*pn));
-+	if (!pn)
-+		return -EINVAL;
- 
-+	dlci = pn->dlci;
- 	BT_DBG("session %p state %ld dlci %d", s, s->state, dlci);
- 
- 	if (!dlci)
-@@ -1483,8 +1488,8 @@ static int rfcomm_recv_pn(struct rfcomm_session *s, int cr, struct sk_buff *skb)
- 
- static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_buff *skb)
- {
--	struct rfcomm_rpn *rpn = (void *) skb->data;
--	u8 dlci = __get_dlci(rpn->dlci);
-+	struct rfcomm_rpn *rpn;
-+	u8 dlci;
- 
- 	u8 bit_rate  = 0;
- 	u8 data_bits = 0;
-@@ -1495,15 +1500,16 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
- 	u8 xoff_char = 0;
- 	u16 rpn_mask = RFCOMM_RPN_PM_ALL;
- 
--	BT_DBG("dlci %d cr %d len 0x%x bitr 0x%x line 0x%x flow 0x%x xonc 0x%x xoffc 0x%x pm 0x%x",
--		dlci, cr, len, rpn->bit_rate, rpn->line_settings, rpn->flow_ctrl,
--		rpn->xon_char, rpn->xoff_char, rpn->param_mask);
-+	if (len == 1) {
-+		rpn = skb_pull_data(skb, 1);
-+		if (!rpn)
-+			return -EINVAL;
- 
--	if (!cr)
--		return 0;
-+		dlci = __get_dlci(rpn->dlci);
-+
-+		if (!cr)
-+			return 0;
- 
--	if (len == 1) {
--		/* This is a request, return default (according to ETSI TS 07.10) settings */
- 		bit_rate  = RFCOMM_RPN_BR_9600;
- 		data_bits = RFCOMM_RPN_DATA_8;
- 		stop_bits = RFCOMM_RPN_STOP_1;
-@@ -1514,6 +1520,19 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
- 		goto rpn_out;
- 	}
- 
-+	rpn = skb_pull_data(skb, sizeof(*rpn));
-+	if (!rpn)
-+		return -EINVAL;
-+
-+	dlci = __get_dlci(rpn->dlci);
-+
-+	BT_DBG("dlci %d cr %d len 0x%x bitr 0x%x line 0x%x flow 0x%x xonc 0x%x xoffc 0x%x pm 0x%x",
-+		dlci, cr, len, rpn->bit_rate, rpn->line_settings, rpn->flow_ctrl,
-+		rpn->xon_char, rpn->xoff_char, rpn->param_mask);
-+
-+	if (!cr)
-+		return 0;
-+
- 	/* Check for sane values, ignore/accept bit_rate, 8 bits, 1 stop bit,
- 	 * no parity, no flow control lines, normal XON/XOFF chars */
- 
-@@ -1589,9 +1608,14 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
- 
- static int rfcomm_recv_rls(struct rfcomm_session *s, int cr, struct sk_buff *skb)
- {
--	struct rfcomm_rls *rls = (void *) skb->data;
--	u8 dlci = __get_dlci(rls->dlci);
-+	struct rfcomm_rls *rls;
-+	u8 dlci;
-+
-+	rls = skb_pull_data(skb, sizeof(*rls));
-+	if (!rls)
-+		return -EINVAL;
- 
-+	dlci = __get_dlci(rls->dlci);
- 	BT_DBG("dlci %d cr %d status 0x%x", dlci, cr, rls->status);
- 
- 	if (!cr)
-@@ -1608,10 +1632,15 @@ static int rfcomm_recv_rls(struct rfcomm_session *s, int cr, struct sk_buff *skb
- 
- static int rfcomm_recv_msc(struct rfcomm_session *s, int cr, struct sk_buff *skb)
- {
--	struct rfcomm_msc *msc = (void *) skb->data;
-+	struct rfcomm_msc *msc;
- 	struct rfcomm_dlc *d;
--	u8 dlci = __get_dlci(msc->dlci);
-+	u8 dlci;
-+
-+	msc = skb_pull_data(skb, sizeof(*msc));
-+	if (!msc)
-+		return -EINVAL;
- 
-+	dlci = __get_dlci(msc->dlci);
- 	BT_DBG("dlci %d cr %d v24 0x%x", dlci, cr, msc->v24_sig);
- 
- 	d = rfcomm_dlc_get(s, dlci);
-@@ -1644,9 +1673,14 @@ static int rfcomm_recv_msc(struct rfcomm_session *s, int cr, struct sk_buff *skb
- 
- static int rfcomm_recv_mcc(struct rfcomm_session *s, struct sk_buff *skb)
- {
--	struct rfcomm_mcc *mcc = (void *) skb->data;
-+	struct rfcomm_mcc *mcc;
- 	u8 type, cr, len;
- 
-+	if (skb->len < sizeof(*mcc))
-+		return -EINVAL;
-+
-+	mcc = (void *) skb->data;
-+
- 	cr   = __test_cr(mcc->type);
- 	type = __get_mcc_type(mcc->type);
- 	len  = __get_mcc_len(mcc->len);
--- 
-2.52.0
-
+Best Regards,
+Prithvi
