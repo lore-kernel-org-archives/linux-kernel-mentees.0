@@ -1,298 +1,421 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE170345752
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Apr 2026 05:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5B81A8F84
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 18 Apr 2026 09:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776490476; cv=none; b=tTHk1st8S5OpofKi3vgqO7evC45M5lNmycGF6t2jkNafXfk3AmZjrole/3xDqBeBB5DjDnqXaffMWUCnV//IfPJphJsP+EsO+OoM/6MMUGUD1UG9nwkO4oXnsoXf3Myyj98QWTDFo/267c2uUJxVb4PnD0KwU7hNVK+/ZD5vVCA=
+	t=1776505847; cv=none; b=jM5p1XKryb3dkaD6dKgqak6HD8lqVRWOH+w3jZrpvM2CpQxan7HcoeCI6FzHPmWp2PY071O9gqImJa93mgQ87lm9uPz1CfPEQ1kH6iUtiuUJeaKT9AOgA9/haK5mZHcC5lOWsl+jC7iKu4rmYuJWs4tSt0mQXZQK8ZZb2M7N6TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776490476; c=relaxed/simple;
-	bh=ZnOAyes5CApyxa4LVMptpnmk61/+ReVizQGGbcTr3UM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BwgZ964BYqHQmQLudMHNba07XkMmUG7h0x++fcKSvvMW4au32+QhTd8DFEgCneQro8zWrG1fL0VLuITxsfKf2SrBgCyrxJ5Db7uZGkWjob9RILB2IJfHwe/HfImH6c5YoZtodd/yIGplnx5yOydgz3pScFAtlYb3iJmu7NusQ98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AXC/xcvc; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776505847; c=relaxed/simple;
+	bh=E914gY/lsGUt2Yd17F5pS9o9CW3nXFjH3/m7cg1OVuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WvBnWAmGyi496W+bQfnr8nvlS8GqvkpHsuzmGYCaWeR/JfJcA3C2KAwlHX3jLQfk7G9vtgJlnIa59n4vzP8G2EEzyHJjxMThebbVRnoXLHJGtBQZab/Qvg3QEE77R+B0i/zkM4xifDjhR8hphaKd8Bi0lR1+eI6yJcj82df9nH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=px3Cg21X; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Yx9P/f/c; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AXC/xcvc"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b24fcc2b5dso9168975ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Apr 2026 22:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776490474; x=1777095274; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=moJK8j1PeysA2HLtwd4ur3AEjzXIvTcplo5qR2WzdzM=;
-        b=AXC/xcvcqCeu6Yt1DOzLo9NlWRj7s0p4TyE7YkJlNoGoErHISt7585VRe19v1r/6qs
-         V1X4kEMuSe8VZjzQafyLX7oP7xlqcz3qt4f+qQNKpUb8sjIGnOC19Lkwah+CmBnoaJu4
-         ze404NQxSGK6KF6yOvJZ88hIJWDvRcqg01E6uNBjeE79mJW9hCstVYz98U4A4oOOMYGI
-         9WJs6GFiaXWY2ZHQFNpEHiYwZc/+1Ns+wx0HuxkVzTWCf+x1EGxVbmzBuGkXEnxUo2Kc
-         Bzb9BymclI9Rihbjr3D69AMx61UQ1GUpv062Hgul+MaLXw/lGlJ0YSX0Z5tzJsvvBpS4
-         IDXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776490474; x=1777095274;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=moJK8j1PeysA2HLtwd4ur3AEjzXIvTcplo5qR2WzdzM=;
-        b=MRS+4FaxGLodurykpMUwFAyBeyDB6AGsWn2B/VJLsuro08IwRKmbRuwQEPi6vsO1QM
-         kFT0gDbIuRqSH5DP8kh0fJ3La1cWvrtYZvOK3oh1zBkgHNvzQPd8p8/TnsfLKHTLhM93
-         crIK1bMbPaA1GKntYFp66wqeozMoPbfUuSJurJTqKPBaBSp+mW2jNCRYKcNF6kXcJMQn
-         OuCDJktqzrSIvdhV92EA8PrOoNg/K7xxxpbiWV7Y4XRIgK9F+0C4YSKUsJ0O4CgRYpbw
-         J13uNRu4gGRkl2B6xJPK5fnSCG4e8W1zrPlAiMiFqDIzTUqUdJEB4syf+QmRnd6vW9Uf
-         VUBg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4+pFtTEke2cWuwaCWMoBPaSQyMsW+a+dttSA8rBvxMcJEm5vJVVOabeohquiO8VXwETdFcN/DjATpo47MW0MCbiHU3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWh9njG5wQ9dM/pGbIICiuWo3+OPJ0TMYrf9pE4OB079k/HbVk
-	JI+iJSVx5LS3Ln4IyAyOwLTZLG66juGjNSooJPAyH0qh3Ylbo0QYOMQ/
-X-Gm-Gg: AeBDievb8jVvreIozJ3I/rbOjklDfA2HLdZX0DuJom2ewppj9PdUaITqm4g9xlRqkAF
-	+ZUJSexwvHO9VNeHlEZGNbQ3JAziF71n/SCTHAhdNQIGKNEOe4sHIYXtDvr5FXNrG7hbNKLtEQh
-	BiYq2GhvKrB6eViBxb8ekrRa0Togy9YQox4wFNV4M4unps4t+EV7tcc+UVZVtvDMUc3Ku3uRK7a
-	BZRMqJuC0BonyizOwyGFRiU5Qgahp8sG3G2Hh1iGx4Hm7Gr26NpppZh7oYRF2LyUcm2pREWZyFC
-	O7K7Pp5N3QdH+/XW2gf9nbF6Qg8Wnb/mOoBt0KeKBjUY5X4Km1DgJ1wURQlBvLrxCHpu5qPYWlq
-	TUEudG1IHMC7eRVO8r+FnP9EQUs8lY/qflW/S4Tv2dfTqCDaZ2wXNDLqB9wS4HVBenCCHDsuh8z
-	vk6JwNRLy/z91VtP3CVOrdo9YjMxEkD68SB0xSe4T79Fyteal5dEkBH9amMw==
-X-Received: by 2002:a17:903:890:b0:2b0:5968:a6d5 with SMTP id d9443c01a7336-2b5f9ef3e8fmr41044065ad.18.1776490474181;
-        Fri, 17 Apr 2026 22:34:34 -0700 (PDT)
-Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff3bfsm46251885ad.7.2026.04.17.22.34.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 22:34:33 -0700 (PDT)
-From: SeungJu Cheon <suunj1331@gmail.com>
-To: luiz.dentz@gmail.com,
-	marcel@holtmann.org
-Cc: linux-bluetooth@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com,
-	skhan@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="px3Cg21X";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Yx9P/f/c"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4fyRnt6qHpz9v0F;
+	Sat, 18 Apr 2026 11:50:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776505843;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DWBZaAc+4VTRwYv+GjHbkwgVP0bhQqmHL24PT1/7NTA=;
+	b=px3Cg21XGzjWvgvITXx2WXybkoqzXrd4aCfLdUlddrNIMQNfYJ5jyJrd2dvDb9Wv2HH9DB
+	NW+c0dd4aw/4mjNUHkaItsHQ1hBeom1OEWUJI2S5HFmXbc6UQ6PF90oAKJduoB48M5Auzy
+	OAe7fyqHJSp2dOCgwG83hhT1RWcyALFeh3cpiG2xjNNFObRBs2uNOAMZTnnePG1z/icBWK
+	y87yT9bgn9tUFc5y+5KAo1Lm8tYip1t5fSd70vWKb2StoJjXCD1rApEPf1W+UaEUdJ3d75
+	SZBHtB5+7BTvipU6qsY0fOSFkAt4v7oXIGyRq3oHVHz0/s5q0O/vLgZ8ZdfPmw==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776505841;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DWBZaAc+4VTRwYv+GjHbkwgVP0bhQqmHL24PT1/7NTA=;
+	b=Yx9P/f/ccsEJDOlsl0bZdwkbbJX1Nw5R0SWF7XU4dj6UrmqZaLUBKcKACKGQb7v620Pzi8
+	8GWmh1Toz38hHHSexOVjc9C+b/KVefC/D1FMgtvYlWnDwviBzrXysTa61JrHMTPufdQRx+
+	4pvN4L4Get4LEnYXOFCQ6TdAgEoEh4TVJZLr6lUBu6tfH53C17vemJpooCgVQ5MAnWuoJW
+	M1/IHu8DukiQvjaRvku85y3AnwrsuyseqxLzpSgl3PPy11esqkdW1Q4Y5Di7E/Azj54p+4
+	WciruB6Tq3tfvR/k0D/Pxj0z9VDvWnrgyNqYkqLzXdpnmGQuAowzcJlCTjAm4w==
+To: kernel-janitors@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH 2/2] Bluetooth: ISO: Fix data-race on iso_pi(sk) in socket and HCI event paths
-Date: Sat, 18 Apr 2026 14:34:01 +0900
-Message-ID: <20260418053401.128483-3-suunj1331@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260418053401.128483-1-suunj1331@gmail.com>
-References: <20260418053401.128483-1-suunj1331@gmail.com>
+	linux-newbie@vger.kernel.org
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Sat, 18 Apr 2026 11:30:48 +0200
+Message-ID: <20260418093101.130335-6-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 31sgmc7qtm94baubtgrfsi146pc876sw
+X-MBO-RS-ID: ab88c90ff7b13a2eea9
 
-Several iso_pi(sk) fields (qos, qos_user_set, bc_sid, base, base_len,
-sync_handle, bc_num_bis) are written under lock_sock in
-iso_sock_setsockopt() and iso_sock_bind(), but read and written under
-hci_dev_lock only in two other paths:
+Would a patch like this one make sense?
+I think i need help with the change log. Is there something to much or missing?
 
-  - iso_connect_bis() / iso_connect_cis(), invoked from connect(2),
-    read qos/base/bc_sid and reset qos to default_qos on the
-    qos_user_set validation failure -- all without lock_sock.
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
 
-  - iso_connect_ind(), invoked from hci_rx_work, writes sync_handle,
-    bc_sid, qos.bcast.encryption, bc_num_bis, base and base_len on
-    PA_SYNC_ESTABLISHED / PAST_RECEIVED / BIG_INFO_ADV_REPORT /
-    PER_ADV_REPORT events. The BIG_INFO handler additionally passes
-    &iso_pi(sk)->qos together with sync_handle / bc_num_bis / bc_bis
-    to hci_conn_big_create_sync() while setsockopt may be mutating
-    them.
+ This one is done. The ones below are not done yet.
 
-Acquire lock_sock around the affected accesses in both paths.
+ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
+ptr = kzalloc(sizeof(*ptr), gfp);
+ > ptr = kzalloc_obj(*ptr, gfp);
+ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+ -> ptr = kmalloc_objs(*ptr, count, gfp);
+ptr = kcalloc(count, sizeof(*ptr), gfp);
+ -> ptr = kzalloc_objs(*ptr, count, gfp);
 
-The locking order hci_dev_lock -> lock_sock matches the existing
-iso_conn_big_sync() precedent, whose comment documents the same
-requirement for hci_conn_big_create_sync(). The HCI connect/bind
-helpers do not wait for command completion -- they enqueue work via
-hci_cmd_sync_queue{,_once}() / hci_le_create_cis_pending() and
-return -- so the added hold time is comparable to iso_conn_big_sync().
+change log:
+[PATCH] Documentation: adopt new coding style of type-aware kmalloc-family
 
-KCSAN report:
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
 
-BUG: KCSAN: data-race in iso_connect_cis / iso_sock_setsockopt
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
 
-read to 0xffffa3ae8ce3cdc8 of 1 bytes by task 335 on cpu 0:
- iso_connect_cis+0x49f/0xa20
- iso_sock_connect+0x60e/0xb40
- __sys_connect_file+0xbd/0xe0
- __sys_connect+0xe0/0x110
- __x64_sys_connect+0x40/0x50
- x64_sys_call+0xcad/0x1c60
- do_syscall_64+0x133/0x590
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-write to 0xffffa3ae8ce3cdc8 of 60 bytes by task 334 on cpu 1:
- iso_sock_setsockopt+0x69a/0x930
- do_sock_setsockopt+0xc3/0x170
- __sys_setsockopt+0xd1/0x130
- __x64_sys_setsockopt+0x64/0x80
- x64_sys_call+0x1547/0x1c60
- do_syscall_64+0x133/0x590
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Reported by Kernel Concurrency Sanitizer on:
-CPU: 1 UID: 0 PID: 334 Comm: iso_setup_race Not tainted 7.0.0-10949-g8541d8f725c6 #44 PREEMPT(lazy)
-
-The iso_connect_ind() races were found by inspection.
-
-Fixes: ccf74f2390d6 ("Bluetooth: Add BTPROTO_ISO socket type")
-Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- net/bluetooth/iso.c | 54 +++++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 24 deletions(-)
+ Documentation/RCU/Design/Requirements/Requirements.rst      | 6 +++---
+ Documentation/RCU/listRCU.rst                               | 2 +-
+ Documentation/RCU/whatisRCU.rst                             | 4 ++--
+ Documentation/core-api/kref.rst                             | 4 ++--
+ Documentation/core-api/list.rst                             | 4 ++--
+ Documentation/kernel-hacking/locking.rst                    | 4 ++--
+ Documentation/locking/locktypes.rst                         | 4 ++--
+ Documentation/process/coding-style.rst                      | 2 +-
+ Documentation/sound/kernel-api/writing-an-alsa-driver.rst   | 4 ++--
+ Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 ++--
+ Documentation/translations/it_IT/locking/locktypes.rst      | 4 ++--
+ Documentation/translations/it_IT/process/coding-style.rst   | 2 +-
+ Documentation/translations/sp_SP/process/coding-style.rst   | 2 +-
+ Documentation/translations/zh_CN/core-api/kref.rst          | 4 ++--
+ Documentation/translations/zh_CN/process/coding-style.rst   | 2 +-
+ Documentation/translations/zh_TW/process/coding-style.rst   | 2 +-
+ 16 files changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/net/bluetooth/iso.c b/net/bluetooth/iso.c
-index 14963ba68597..3ba13769be3a 100644
---- a/net/bluetooth/iso.c
-+++ b/net/bluetooth/iso.c
-@@ -347,6 +347,7 @@ static int iso_connect_bis(struct sock *sk)
- 		return -EHOSTUNREACH;
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index b5cdbba3ec2e..faca5a9c8c12 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
  
- 	hci_dev_lock(hdev);
-+	lock_sock(sk);
+        1 bool add_gp_buggy(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -228,7 +228,7 @@ their rights to reorder this code as follows:
  
- 	if (!bis_capable(hdev)) {
- 		err = -EOPNOTSUPP;
-@@ -399,13 +400,9 @@ static int iso_connect_bis(struct sock *sk)
- 		goto unlock;
- 	}
+        1 bool add_gp_buggy_optimized(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -264,7 +264,7 @@ shows an example of insertion:
  
--	lock_sock(sk);
--
- 	err = iso_chan_add(conn, sk, NULL);
--	if (err) {
--		release_sock(sk);
-+	if (err)
- 		goto unlock;
--	}
+        1 bool add_gp(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index d8bb98623c12..48c7272a4ccc 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -276,7 +276,7 @@ The RCU version of audit_upd_rule() is as follows::
  
- 	/* Update source addr of the socket */
- 	bacpy(&iso_pi(sk)->src, &hcon->src);
-@@ -421,9 +418,8 @@ static int iso_connect_bis(struct sock *sk)
- 		iso_sock_set_timer(sk, READ_ONCE(sk->sk_sndtimeo));
- 	}
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+-				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
++				ne = kmalloc_obj(*entry, GFP_ATOMIC);
+ 				if (ne == NULL)
+ 					return -ENOMEM;
+ 				audit_copy_rule(&ne->rule, &e->rule);
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index a1582bd653d1..770aab8ea36a 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -468,7 +468,7 @@ uses of RCU may be found in listRCU.rst and NMI-RCU.rst.
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
  
--	release_sock(sk);
--
- unlock:
-+	release_sock(sk);
- 	hci_dev_unlock(hdev);
- 	hci_dev_put(hdev);
- 	return err;
-@@ -444,6 +440,7 @@ static int iso_connect_cis(struct sock *sk)
- 		return -EHOSTUNREACH;
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+@@ -570,7 +570,7 @@ The foo_update_a() function might then be written as follows::
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
  
- 	hci_dev_lock(hdev);
-+	lock_sock(sk);
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
+index 8db9ff03d952..1c14c036699d 100644
+--- a/Documentation/core-api/kref.rst
++++ b/Documentation/core-api/kref.rst
+@@ -40,7 +40,7 @@ kref_init as so::
  
- 	if (!cis_central_capable(hdev)) {
- 		err = -EOPNOTSUPP;
-@@ -498,13 +495,9 @@ static int iso_connect_cis(struct sock *sk)
- 		goto unlock;
- 	}
+      struct my_data *data;
  
--	lock_sock(sk);
--
- 	err = iso_chan_add(conn, sk, NULL);
--	if (err) {
--		release_sock(sk);
-+	if (err)
- 		goto unlock;
--	}
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -100,7 +100,7 @@ thread to process::
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
+index 241464ca0549..86cd0a1b77ea 100644
+--- a/Documentation/core-api/list.rst
++++ b/Documentation/core-api/list.rst
+@@ -112,7 +112,7 @@ list:
  
- 	/* Update source addr of the socket */
- 	bacpy(&iso_pi(sk)->src, &hcon->src);
-@@ -520,9 +513,8 @@ static int iso_connect_cis(struct sock *sk)
- 		iso_sock_set_timer(sk, READ_ONCE(sk->sk_sndtimeo));
- 	}
+           /* State 1 */
  
--	release_sock(sk);
--
- unlock:
-+	release_sock(sk);
- 	hci_dev_unlock(hdev);
- 	hci_dev_put(hdev);
- 	return err;
-@@ -2259,8 +2251,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
- 		sk = iso_get_sock(hdev, &hdev->bdaddr, bdaddr, BT_LISTEN,
- 				  iso_match_sid, ev1);
- 		if (sk && !ev1->status) {
-+			lock_sock(sk);
- 			iso_pi(sk)->sync_handle = le16_to_cpu(ev1->handle);
- 			iso_pi(sk)->bc_sid = ev1->sid;
-+			release_sock(sk);
- 		}
+-          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
++          grock = kzalloc_obj(*grock, GFP_KERNEL);
+           if (!grock)
+                   return -ENOMEM;
+           grock->name = "Grock";
+@@ -123,7 +123,7 @@ list:
  
- 		goto done;
-@@ -2271,8 +2265,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
- 		sk = iso_get_sock(hdev, &hdev->bdaddr, bdaddr, BT_LISTEN,
- 				  iso_match_sid_past, ev1a);
- 		if (sk && !ev1a->status) {
-+			lock_sock(sk);
- 			iso_pi(sk)->sync_handle = le16_to_cpu(ev1a->sync_handle);
- 			iso_pi(sk)->bc_sid = ev1a->sid;
-+			release_sock(sk);
- 		}
+           /* State 2 */
  
- 		goto done;
-@@ -2299,27 +2295,35 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
- 					  ev2);
+-          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
++          dimitri = kzalloc_obj(*dimitri, GFP_KERNEL);
+           if (!dimitri)
+                   return -ENOMEM;
+           dimitri->name = "Dimitri";
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index dff0646a717b..d02e62367c4f 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
+     {
+             struct object *obj;
  
- 		if (sk) {
--			int err;
--			struct hci_conn	*hcon = iso_pi(sk)->conn->hcon;
-+			int err = 0;
-+			bool big_sync;
-+			struct hci_conn *hcon;
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
  
-+			lock_sock(sk);
-+
-+			hcon = iso_pi(sk)->conn->hcon;
- 			iso_pi(sk)->qos.bcast.encryption = ev2->encryption;
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
+              struct object *obj;
+     +        unsigned long flags;
  
- 			if (ev2->num_bis < iso_pi(sk)->bc_num_bis)
- 				iso_pi(sk)->bc_num_bis = ev2->num_bis;
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+index 37b6a5670c2f..ac1ad722a9e7 100644
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
+ works perfectly::
  
--			if (!test_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags) &&
--			    !test_and_set_bit(BT_SK_BIG_SYNC, &iso_pi(sk)->flags)) {
-+			big_sync = !test_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags) &&
-+				   !test_and_set_bit(BT_SK_BIG_SYNC, &iso_pi(sk)->flags);
-+
-+			if (big_sync)
- 				err = hci_conn_big_create_sync(hdev, hcon,
- 							       &iso_pi(sk)->qos,
- 							       iso_pi(sk)->sync_handle,
- 							       iso_pi(sk)->bc_num_bis,
- 							       iso_pi(sk)->bc_bis);
--				if (err) {
--					bt_dev_err(hdev, "hci_le_big_create_sync: %d",
--						   err);
--					sock_put(sk);
--					sk = NULL;
--				}
-+
-+			release_sock(sk);
-+
-+			if (big_sync && err) {
-+				bt_dev_err(hdev, "hci_le_big_create_sync: %d",
-+					   err);
-+				sock_put(sk);
-+				sk = NULL;
- 			}
- 		}
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
  
-@@ -2373,8 +2377,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
- 			if (!base || base_len > BASE_MAX_LENGTH)
- 				goto done;
+ But this code fails on PREEMPT_RT kernels because the memory allocator is
+ fully preemptible and therefore cannot be invoked from truly atomic
+@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
+ preemption on PREEMPT_RT kernels::
  
-+			lock_sock(sk);
- 			memcpy(iso_pi(sk)->base, base, base_len);
- 			iso_pi(sk)->base_len = base_len;
-+			release_sock(sk);
- 		} else {
- 			/* This is a PA data fragment. Keep pa_data_len set to 0
- 			 * until all data has been reassembled.
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ 
+ bit spinlocks
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 35b381230f6e..6bf71ea67744 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ The alternative form where struct name is spelled out hurts readability and
+ introduces an opportunity for a bug when the pointer variable type is changed
+diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+index 895752cbcedd..b79e3ed16dc5 100644
+--- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
++++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+@@ -1737,7 +1737,7 @@ callback::
+   {
+           struct my_pcm_data *data;
+           ....
+-          data = kmalloc(sizeof(*data), GFP_KERNEL);
++          data = kmalloc_obj(*data, GFP_KERNEL);
+           substream->runtime->private_data = data;
+           ....
+   }
+@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
+ assign private data, you should define a destructor, too. The
+ destructor function is set in the ``private_free`` field::
+ 
+-  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
++  struct mydata *p = kmalloc_obj(*p, GFP_KERNEL);
+   hw->private_data = p;
+   hw->private_free = mydata_free;
+ 
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+index 4c21cf60f775..acca89a3743a 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
+     {
+             struct object *obj;
+ 
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
+ 
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
+              struct object *obj;
+     +        unsigned long flags;
+ 
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
+index 1c7056283b9d..d5fa36aa05cc 100644
+--- a/Documentation/translations/it_IT/locking/locktypes.rst
++++ b/Documentation/translations/it_IT/locking/locktypes.rst
+@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
+ memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
+ 
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
+ memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
+@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
+ PREEMPT_RT::
+ 
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ 
+ bit spinlocks
+diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
+index c0dc786b8474..2a499412a2e3 100644
+--- a/Documentation/translations/it_IT/process/coding-style.rst
++++ b/Documentation/translations/it_IT/process/coding-style.rst
+@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa, dove il nome della struttura viene scritto interamente,
+ peggiora la leggibilità e introduce possibili bachi quando il tipo di
+diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
+index 7d63aa8426e6..44c93d5f6beb 100644
+--- a/Documentation/translations/sp_SP/process/coding-style.rst
++++ b/Documentation/translations/sp_SP/process/coding-style.rst
+@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa donde se deletrea el nombre de la estructura perjudica
+ la legibilidad, y presenta una oportunidad para un error cuando se cambia
+diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
+index b9902af310c5..fcff01e99852 100644
+--- a/Documentation/translations/zh_CN/core-api/kref.rst
++++ b/Documentation/translations/zh_CN/core-api/kref.rst
+@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
+ 
+      struct my_data *data;
+ 
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -106,7 +106,7 @@ Kref规则
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
+index 5a342a024c01..55d5da974d89 100644
+--- a/Documentation/translations/zh_CN/process/coding-style.rst
++++ b/Documentation/translations/zh_CN/process/coding-style.rst
+@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
+ 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index e2ba97b3d8bb..63c78982a1af 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
+ 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
 -- 
-2.52.0
+2.53.0
 
