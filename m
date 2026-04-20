@@ -1,74 +1,91 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9516382395
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Apr 2026 06:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428E83603FA
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Apr 2026 16:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776667670; cv=none; b=FJHGILd3wVklsI1yxGrEiApG9dKZkqKYdPvF/peapOVZXWz1ZZA5SP/qLbqcyC0isXJstbEDjA9sVISKRk2nkdhYuyw3XDWdWbuFSDrofi91DqRnZ6dkkG92awWX6I3wCd5KW+UCIx1cXEKeqRiourtz8+6Wihdw7TLzeipjD34=
+	t=1776703413; cv=none; b=YGP0dDecEdPvUTJD2UsuQYt6dtN6gDEE4Ee0jL6ppNyt+5hjtEklW9G/65PIuaE0Uwx/pxDa57pGoLqdLDYkYuR5eyZuL0OIjpgLEhJ8AlD5yiq6IokTWhMLJR9/LcImpxg+DfY20/PQX/Xd//8CiS7PjUOEKJSZ+mIEus6IsIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776667670; c=relaxed/simple;
-	bh=dDxqaIpXl8IU90dprHiFQaMd1LW33EZrRRzof1h3aW4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OS/sCMJJQcxONTWUWEMcmFgHVhhj9U7f9up9xy08PPVGw2XtmgeeNsI4rhcsTDmziWi0eA08RzMB5PcX4xcHEZgiI4plSWn1pOz4C2GvBUobbC6LDJf47410S0O1l6ozm82M8Yt2J9dUiyC+GjxPPxFg3Y3rXKdLofwZCXOSzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rgP934gZ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776703413; c=relaxed/simple;
+	bh=E4bRTQ3aK44yLjKyfT1OH4NindW495kH0SG3yICneSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tvtJhwyv10pAoDK3YDP8vUeUnzmtiUBoaqzCZAc0Vw1o8ArOvMTcmAX9Db6JCFYAyGl9Tli3Qa0kbIncuB6P9vYldDN74oomZbZUb2ibZvl8Py45zJcZgvD2qF3Vm9TQ6zVCFUwlb3Uz4FgVQPeDc2d6vmalS2bk13/p/I+Itzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=g1nxdP3F; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=l66Lx/2Q; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rgP934gZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7097740B0C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776667669; bh=PieXwmhelCRNgShPmCotsV7L6Glc/4XyC9e+/Os+ghA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=rgP934gZ3O6CiZ/43sfHGrv2cnvTQpyVFvcUg1vfuyuXslIJvyTPmPKSWVTRwP69P
-	 g0UmY/HgQYyS7vItMDavi85UCZcP1MtTskDdRudPjwxSM1+bVo6vSKq/PAa7gV///h
-	 DLiEpYbxIAO9CnjYAzWZmoOwOB5HVam4jgFccoywROp1jitAfqGmxXYo67nxaYc84n
-	 iR8w3h9rgrMy3dMpVzy8D79Ol/YUX9BBjq7wWcRIv1ruErKR7on0M4V83JnresQz9f
-	 osesOAv/+ZTxfGvLUK58/fUkCNQ6dOqma6ic8AZrUPfBA5rGzr8x5kH7inu3aewUGS
-	 RdgcmRdYxFRrA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="g1nxdP3F";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="l66Lx/2Q"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7097740B0C;
-	Mon, 20 Apr 2026 06:47:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>, Mark Pearson
- <mpearson-lenovo@squebb.ca>, Ninad Naik <ninadnaik07@gmail.com>, Armin
- Wolf <W_Armin@gmx.de>, skhan@linuxfoundation.org
-Cc: "platform-driver-x86@vger.kernel.org"
- <platform-driver-x86@vger.kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] Documentation: fix spelling mistake "Minumum" -> "Minimum"
-In-Reply-To: <BAA4F3A7-E892-4904-95A6-64B177CDA7AD@gmail.com>
-References: <20260419170835.347910-1-ninadnaik07@gmail.com>
- <b94cef14-d02d-4544-abb5-ead7db6eaa72@app.fastmail.com>
- <BAA4F3A7-E892-4904-95A6-64B177CDA7AD@gmail.com>
-Date: Mon, 20 Apr 2026 00:47:45 -0600
-Message-ID: <87fr4qw2jy.fsf@trenco.lwn.net>
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fzrs61f01z9tNn;
+	Mon, 20 Apr 2026 18:43:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776703402;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=E4bRTQ3aK44yLjKyfT1OH4NindW495kH0SG3yICneSc=;
+	b=g1nxdP3F3SoElj9Ayc9Nc/T4mAYRfzpoI05B1P/p3/gXGVlNhoyLLjlnDXRylDmH3tBkLn
+	Y2H+5tEik5LUebWdvayvZ8ipDqgoOfIbY+z4ayfiBQchdxdlAIwss1cyEnc/nUbuG40ZPS
+	t9pSP4E/W+gMWi3IcN8IVRz81VwqHFhhPbvmL+pqGFTphuKMmDP+E8B6I6badCEihMLb8r
+	Panj7egUNk8qcjV1ewvgP412bi1wgrU/FxNWBOIGvT5jjdidozYMV8YaaCM1iVRV3UkBhQ
+	E5NJi9mjQRqxw2YiUIjfhOJJ+0tP9BiiQfqXCH6MIirqoNMffNC9N9v6xOvvXw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="l66Lx/2Q";
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776703400;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=E4bRTQ3aK44yLjKyfT1OH4NindW495kH0SG3yICneSc=;
+	b=l66Lx/2Qrl/eMTXr6hun+WbH8oY57tfs91xU5A/uWq3Wc/+vK7IhoTkZVs6N1mw0WUbLUY
+	WNKxjsyL+qF+cb3ZuS9ui7K8RKpPwEbaVvlunDuVq9WDXdVZHl1tz7Q+e45lmcKUizJC0j
+	MXyq2xomcgdDXD88hakO502O6r/icAUHpptpD0F19BCUudm+WXX09LW/M2Bj5+UEbI31LH
+	XuesZuTnhrgKOEn+5gn2R8Fs0QXM/VgU8Xii5FNBPu9LXB5Zqla+hf/gPo2atfqlOT7t4K
+	dRsA2nL2+oQ5CpsCURIDY/W6dnyfdj9yQ5vG76DmdPSoqmCFEDl0yVE76eRzJA==
+To: kernel-janitors@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-newbie@vger.kernel.org
+Cc: Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v2 0/3] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Mon, 20 Apr 2026 18:42:35 +0200
+Message-ID: <20260420164234.217133-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 9btyoubag4po9sx5b9bsh3dwebya8o1h
+X-MBO-RS-ID: faa2ffa49eb93135954
+X-Rspamd-Queue-Id: 4fzrs61f01z9tNn
 
-"Derek J. Clark" <derekjohn.clark@gmail.com> writes:
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
 
-> The MOF spelling mistakes are well known. We've left them is as to
-> ensure match with what the hardware actually reports.
->
-> See: https://lore.kernel.org/platform-driver-x86/cfd7977e-d612-4e08-a68a-65fed8e164b6@gmx.de
->
-> I suppose if we're going to continue getting these types or PR I
-> should add a note to the documentation. I'll add that soon.
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr);
+ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+ -> ptr = kmalloc_obj(*ptr);
+ptr = kzalloc(sizeof(*ptr), gfp);
+ -> ptr = kzalloc_obj(*ptr);
+ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+ -> ptr = kmalloc_objs(*ptr, count);
+ptr = kcalloc(count, sizeof(*ptr), gfp);
+ -> ptr = kzalloc_objs(*ptr, count);
 
-Perhaps worth adding, but I'm not sure I would expect it to help.  The
-people generating these patches aren't putting much attention into the
-context surrounding them.
+I have also thought about adding a few cases to checkpatch.pl, but this
+will take me more time, and i want to get this series finished.
 
-Thanks,
+ [v1] -> [v2]:
+put RCU/* in a seperate patch [Patch 2/3]
+Remove GFP_KERNEL as suggested by https://lwn.net/Articles/1062856/
+deprecated.rst: change the argument gfp to optional [Patch 3/3]
 
-jon
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
