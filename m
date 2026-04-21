@@ -1,63 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B41B282F02
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 21 Apr 2026 02:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C756D265CA2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 21 Apr 2026 02:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776739894; cv=none; b=pYTDUo7eVncXVFqYb6FIdonGxcdLgaZ/2icZaZ7PDPEropd+cypQDZ+yNn5hqYKlFxSQo/OYglBbMx2iBstu2SksT7WVkRQ9r5BDSPygcCcd56Ub0J8Fe2np91z3htWGRnChyuMaqx9iGBITcKXOfFPuuU/DC+Z3R7Br3O+CdzM=
+	t=1776739900; cv=none; b=WVSYSrYbcWdd4hrKJj7ca1lUn9JMaDTtk9npKDrDmLLnAsD2tt8CuLl96RM0qqpVlAYSIjcI9zkU41rZUeIzqn9vF2rP8YKmtQ64C8LoIBLTUk8G/irMMBFuaSgGGzpPVAVWJAOaVkoqsi4LmQoqYo/F276YAt4ulZxnv29h0J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776739894; c=relaxed/simple;
-	bh=2GmeUgsVld79fKl1iNI45/UB/0MUWB93JcGKPSGrmas=;
+	s=arc-20240116; t=1776739900; c=relaxed/simple;
+	bh=G6EucweGipD57HLWUEZy8wLPFm0RSeFlWDd+/DdrBh4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uY4MGVdAxJMFvOwS5HLpi51+2YqcoRXxOcevBorKPBsO0L9wG6/dZq2s9oU8o/bJtTwIFGnWUQyXTDdqQhsg5BP/zdpcSOipWcPQDICph8AHtxXNcHqanSUiuAjhWLi48aeHCOZFm7uE04YEMJRXOZA4yr85W3H3xgl/HbB5DhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HMP6gj2R; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version; b=L+oA6zYxPAreZJ7hJt38SHxPWmYmb9g0ySmZxUu3X0YmuYc+UxJt84SLl0iu5KRVR4QjfJGpdnagQfap2KNQsPH00kV1WIe7YeX7IZFiQg79yfRJrpJeITxev+eXwL6gj9K/rZtpfskGv8kg0MRBEr5LeXkpYo7+x8E08ZEQtYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZIr7RbN7; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HMP6gj2R"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82418b0178cso2287617b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Apr 2026 19:51:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZIr7RbN7"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f69adeecbso1657216b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 20 Apr 2026 19:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776739893; x=1777344693; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776739896; x=1777344696; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uJ95cJBTtwe/Q3ftFYdsD7Mm/4M8Wg0mB6kbaOeJjWI=;
-        b=HMP6gj2R4ppg+i53pTCz59HGIQend1dG4GYjYy3KKfP6uA8EbFkGdIT3sf1jXrXcGj
-         4WZbg+TkI3nlpKNF2aDpUD3Cj2K9bt9sXAptr3Yhc419lw+aPSo5pvXz3a4jNUDQc1EL
-         4lTIgC8ILaWMnZPB0zYdUXpQpSMDYapApFoRlhcTSLSJsyRzQlEE7gwA0pWVINf6RbPg
-         +CCAQJJe3e66Pi9GF1OU95RM3CEL81sF7AZvW6Gjsuh0uj7gdl40dLPe6DDUvT4betCj
-         JaNtlSsz54oP9Ay9qWq90vwlUANV9IyA5e/geqObU6LfOBJuyT20Ksd5t0A2kSCgaYgQ
-         Eh3Q==
+        bh=r6CkX1W+ZbhTJntNCnbZ/XkAbWDrFK0aGMkks9U/5UI=;
+        b=ZIr7RbN7Gusa4CqyAE3AKAVPD81n+mPZzh6jn3SYc43XvjKsrFNtjBauJPPaRiQd4o
+         2ptTb1dA1oTWW6YKRbPLhZIWLkT63MXlOOlQ7+twSwwSkAd5yjF2qapBMMMpbSMD2PRU
+         anlgciKjFw3nwWxHaYt54Z8grJak82/N9vCmo+OQsQCwxXmLZMoQLKNf9MeBpfLR5z0c
+         0ztHPjHwCZaAGRQPtOICdvSyBEA40yx2GBr/nk5xpYwrQPlTFLmFQXqnC6ccB1einfqv
+         04LncFlOYqVAp3xBgl23ffDIBAHMI+POPjLoY1spp+nk+EYec5bf2pT+PzuDZcVrHlYD
+         1akw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776739893; x=1777344693;
+        d=1e100.net; s=20251104; t=1776739896; x=1777344696;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uJ95cJBTtwe/Q3ftFYdsD7Mm/4M8Wg0mB6kbaOeJjWI=;
-        b=jamIQ1/Q78mnDElZ+m3vjDeKT1snwugSmbXroMUwuTFqTuA52Zc8JjXyDYl2zpn65w
-         ILmSPHx307Jk8d+phk4Jj/IR9iW7uQWGrUPZ+IZdZohu8bJhDJtBgF7DicKoWHaNEX2F
-         JBJkyBaqa6tjyeBoPtWFes1MTDUzZB27/2MvKnyUnxqnWo5SiEfV7pxj/y3U5uTCbFUK
-         CQvFs97d7Pz9YrajRrK4Qyx3aECIiUBWI5PNsWyvgiO6E+1fjSYKzbOOiG8a+Skj/Fk8
-         pSNjGD6eWzPcfgUDB35ng+T4pvkLjriOGilbLxpga3nyc+iXTliNE9SKNbhWXwUAD0IT
-         swMg==
-X-Forwarded-Encrypted: i=1; AFNElJ/94d3bW8vzNVh+ztOSmJKI/x+ssCfDDc31yfvwPAZukcGXWB1Q2vjP72doD3G4DZmcSG9wXOl7DxPa6VNXpUlSUV2EEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1RwuXTC/kan64hGN6iIGybffkT/1ksxk3gwTlNhl1zEXeLo+P
-	7YcgasRH3O9y64hcfmaW1DfjNOnq/TxQpYffx6kbQT65bbZeUH0lzOw1
-X-Gm-Gg: AeBDiesPRqcjQ2VO0tL9/qLjp3eHRNgYokAhZBADK5wsAzpgQv2l9UdIdxpFqsW8F5l
-	Y63Py4/E0k9L74nvPVmkcBSWfAbvQyB80MYBXoETUPNwIrgn22vu9tEplgy14nYYQbIzBl/Yhln
-	u15hkOb8RRNO/IUl1kUTCGdJS2hQafpKwaj4sxW18DYHJ3AtXaInDr4GrqCzcBVYAdohb5zAVP8
-	ufEYxS55UlnER3IU6WI9IzFCu4APap6qq8Z9QlM3Iet5mYcLRM7wlCruiabNuhQOPxotLMHOplC
-	0OCL6Em2wIlTZdIhOhx9YcoofzSdjVzbMdjhFNjCaBuOfjocU70UwrU42gm8ajeSptcOviyLmkr
-	Q+fIyh0QnHMidnFtnE0KwQ+HF8rIVaaiNbrao8QH4RA7YYGZ1H2CygZebuEzEkcKrX3rWHWgnlv
-	IuOza2AQi7Mf5Kobzd6XWol0ZiVdc4RD0ZQd1/pXHac2k3iJIDe77DDMWg2g==
-X-Received: by 2002:a05:6a00:aa08:b0:82c:66f2:1226 with SMTP id d2e1a72fcca58-82f8c8e4febmr15916913b3a.38.1776739892565;
-        Mon, 20 Apr 2026 19:51:32 -0700 (PDT)
+        bh=r6CkX1W+ZbhTJntNCnbZ/XkAbWDrFK0aGMkks9U/5UI=;
+        b=QtsXGs4/wAVWUdgJQxF32jnSO0UfyhbgKunhO0RyLXUXw/1K2usQomWfcAJik2opsX
+         hkl3J5RapsiwN+Sahx3A5oRthguueIbxSKcvSRn2i6CtZSWS7t4YHgJ3MZReuyzrse1h
+         3A7marDwUlksSq5RX8tswNH424F/kl9xPvhWaNlQkav9SwmhKoT64NFAi3WcZfwboVTs
+         m0dpGT04gJTyqCJzxQ9Ht5GZQbKAR6OJ6gwZpMqaOgmJ+a5IWactqywrRv2uoMQFBK26
+         eFEej3MIuNPqRXN/jU2yvOia5aJG6OL/LoWzSlsX1uij2WiNm4mgGkGueCLZCxGmOEi/
+         fsHg==
+X-Forwarded-Encrypted: i=1; AFNElJ+XHoY9K+bI6/v6fNEUhoil51iiTTHlwDz/N+DE6nAnjMhc1A/IW3t8hxyO8HHcwZ3mLcmQj+1IWU+VhvP8J6n28o88pw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxStS+LmYknUwt6QA7+VTceOnEStLQUTQvGwPuwQgvsvcafiF9T
+	zvuWv8ptdOBcnkUbV2SpHvb69nRJPZj05gsbDP9u10lb43/xpGaP+1sx
+X-Gm-Gg: AeBDietVGoRjBKPxyYUovpdlxm8NxizOn1es9rhBjo8EJpQDROT7eqQIJHBy7id2ok7
+	KeX7lGI+ouEAivxn/m+DBtgAr5S3SAu//Z/EbRDfsHyJvG3CQVF1bHUwTstslCBp3cawTs4D7Ik
+	MRJ1dmnYNYQwNDnwOT56R55aGkYwvAnO1BviPDqCoWG50CBBwFmkbNtfj24NvGun2SZTQcmU/oR
+	9DM5ZQYjZeAiqLsUWnm5NHQzc52rJW0GOuB4CuxrNQFBs89+R44Y+S+vEcIrJIUIZb269vezfb+
+	v1ja9MqrmUcuMStY5FEdQ4pb428iGJ/VW4m43//HPAf3V+pmyPaS0bYbY6O1ODn2reYtqHa8q1S
+	2Gzu9r/W/JLSx+uh92ku8OultrLCvmh4yWKgrpBc7mwspk59hlFFXpQJfUciZex+JUalEV3GBRO
+	U9Eb74ktWZck44yOr7OjT8A9GtgRFH9oRJeURHYUkimHvQ9vNtNPwQ+wJ4TA==
+X-Received: by 2002:a05:6a00:92a7:b0:827:4bca:f1a2 with SMTP id d2e1a72fcca58-82f8c87e27fmr16393573b3a.10.1776739896103;
+        Mon, 20 Apr 2026 19:51:36 -0700 (PDT)
 Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9d9a1csm12823502b3a.20.2026.04.20.19.51.30
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9d9a1csm12823502b3a.20.2026.04.20.19.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 19:51:32 -0700 (PDT)
+        Mon, 20 Apr 2026 19:51:35 -0700 (PDT)
 From: SeungJu Cheon <suunj1331@gmail.com>
 To: luiz.dentz@gmail.com,
 	marcel@holtmann.org
@@ -68,9 +68,9 @@ Cc: linux-bluetooth@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH v2 1/2] Bluetooth: ISO: Fix data-race on dst in iso_sock_connect()
-Date: Tue, 21 Apr 2026 11:51:21 +0900
-Message-ID: <20260421025122.55781-2-suunj1331@gmail.com>
+Subject: [PATCH v2 2/2] Bluetooth: ISO: Fix data-race on iso_pi(sk) in socket and HCI event paths
+Date: Tue, 21 Apr 2026 11:51:22 +0900
+Message-ID: <20260421025122.55781-3-suunj1331@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260421025122.55781-1-suunj1331@gmail.com>
 References: <20260421025122.55781-1-suunj1331@gmail.com>
@@ -82,37 +82,39 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-iso_sock_connect() copies the destination address into
-iso_pi(sk)->dst under lock_sock, then releases the lock and reads
-it back with bacmp() to decide between the CIS and BIS connect
-paths:
+Several iso_pi(sk) fields (qos, qos_user_set, bc_sid, base, base_len,
+sync_handle, bc_num_bis) are written under lock_sock in
+iso_sock_setsockopt() and iso_sock_bind(), but read and written under
+hci_dev_lock only in two other paths:
 
-    lock_sock(sk);
-    bacpy(&iso_pi(sk)->dst, &sa->iso_bdaddr);
-    iso_pi(sk)->dst_type = sa->iso_bdaddr_type;
-    release_sock(sk);
+  - iso_connect_bis() / iso_connect_cis(), invoked from connect(2),
+    read qos/base/bc_sid and reset qos to default_qos on the
+    qos_user_set validation failure -- all without lock_sock.
 
-    if (bacmp(&iso_pi(sk)->dst, BDADDR_ANY))  // <- no lock held
+  - iso_connect_ind(), invoked from hci_rx_work, writes sync_handle,
+    bc_sid, qos.bcast.encryption, bc_num_bis, base and base_len on
+    PA_SYNC_ESTABLISHED / PAST_RECEIVED / BIG_INFO_ADV_REPORT /
+    PER_ADV_REPORT events. The BIG_INFO handler additionally passes
+    &iso_pi(sk)->qos together with sync_handle / bc_num_bis / bc_bis
+    to hci_conn_big_create_sync() while setsockopt may be mutating
+    them.
 
-This read after release_sock() races with any concurrent write to
-iso_pi(sk)->dst on the same socket.
+Acquire lock_sock around the affected accesses in both paths.
 
-Fix by reading the destination address directly from the local
-sockaddr argument (sa->iso_bdaddr) instead of iso_pi(sk)->dst.
-Since sa is a function-local argument, reading it requires no
-locking and avoids the race.
-
-This patch addresses only the bacmp() race in iso_sock_connect();
-other unprotected iso_pi(sk) accesses are fixed separately in the
-next patch.
+The locking order hci_dev_lock -> lock_sock matches the existing
+iso_conn_big_sync() precedent, whose comment documents the same
+requirement for hci_conn_big_create_sync(). The HCI connect/bind
+helpers do not wait for command completion -- they enqueue work via
+hci_cmd_sync_queue{,_once}() / hci_le_create_cis_pending() and
+return -- so the added hold time is comparable to iso_conn_big_sync().
 
 KCSAN report:
 
-BUG: KCSAN: data-race in memcmp+0x39/0xb0
+BUG: KCSAN: data-race in iso_connect_cis / iso_sock_setsockopt
 
-race at unknown origin, with read to 0xffff8f96ea66dde3 of 1 bytes by task 549 on cpu 1:
- memcmp+0x39/0xb0
- iso_sock_connect+0x275/0xb40
+read to 0xffffa3ae8ce3cdc8 of 1 bytes by task 335 on cpu 0:
+ iso_connect_cis+0x49f/0xa20
+ iso_sock_connect+0x60e/0xb40
  __sys_connect_file+0xbd/0xe0
  __sys_connect+0xe0/0x110
  __x64_sys_connect+0x40/0x50
@@ -120,30 +122,177 @@ race at unknown origin, with read to 0xffff8f96ea66dde3 of 1 bytes by task 549 o
  do_syscall_64+0x133/0x590
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-value changed: 0x00 -> 0xee
+write to 0xffffa3ae8ce3cdc8 of 60 bytes by task 334 on cpu 1:
+ iso_sock_setsockopt+0x69a/0x930
+ do_sock_setsockopt+0xc3/0x170
+ __sys_setsockopt+0xd1/0x130
+ __x64_sys_setsockopt+0x64/0x80
+ x64_sys_call+0x1547/0x1c60
+ do_syscall_64+0x133/0x590
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
 Reported by Kernel Concurrency Sanitizer on:
-CPU: 1 UID: 0 PID: 549 Comm: iso_race_combin Not tainted 7.0.0-08391-g1d51b370a0f8 #40 PREEMPT(lazy)
+CPU: 1 UID: 0 PID: 334 Comm: iso_setup_race Not tainted 7.0.0-10949-g8541d8f725c6 #44 PREEMPT(lazy)
+
+The iso_connect_ind() races were found by inspection.
 
 Fixes: ccf74f2390d6 ("Bluetooth: Add BTPROTO_ISO socket type")
 Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- net/bluetooth/iso.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/bluetooth/iso.c | 54 +++++++++++++++++++++++++--------------------
+ 1 file changed, 30 insertions(+), 24 deletions(-)
 
 diff --git a/net/bluetooth/iso.c b/net/bluetooth/iso.c
-index be145e2736b7..290a1b9a9daa 100644
+index 290a1b9a9daa..7cb2864fe872 100644
 --- a/net/bluetooth/iso.c
 +++ b/net/bluetooth/iso.c
-@@ -1193,7 +1193,7 @@ static int iso_sock_connect(struct socket *sock, struct sockaddr_unsized *addr,
+@@ -347,6 +347,7 @@ static int iso_connect_bis(struct sock *sk)
+ 		return -EHOSTUNREACH;
  
- 	release_sock(sk);
+ 	hci_dev_lock(hdev);
++	lock_sock(sk);
  
--	if (bacmp(&iso_pi(sk)->dst, BDADDR_ANY))
-+	if (bacmp(&sa->iso_bdaddr, BDADDR_ANY))
- 		err = iso_connect_cis(sk);
- 	else
- 		err = iso_connect_bis(sk);
+ 	if (!bis_capable(hdev)) {
+ 		err = -EOPNOTSUPP;
+@@ -399,13 +400,9 @@ static int iso_connect_bis(struct sock *sk)
+ 		goto unlock;
+ 	}
+ 
+-	lock_sock(sk);
+-
+ 	err = iso_chan_add(conn, sk, NULL);
+-	if (err) {
+-		release_sock(sk);
++	if (err)
+ 		goto unlock;
+-	}
+ 
+ 	/* Update source addr of the socket */
+ 	bacpy(&iso_pi(sk)->src, &hcon->src);
+@@ -421,9 +418,8 @@ static int iso_connect_bis(struct sock *sk)
+ 		iso_sock_set_timer(sk, READ_ONCE(sk->sk_sndtimeo));
+ 	}
+ 
+-	release_sock(sk);
+-
+ unlock:
++	release_sock(sk);
+ 	hci_dev_unlock(hdev);
+ 	hci_dev_put(hdev);
+ 	return err;
+@@ -444,6 +440,7 @@ static int iso_connect_cis(struct sock *sk)
+ 		return -EHOSTUNREACH;
+ 
+ 	hci_dev_lock(hdev);
++	lock_sock(sk);
+ 
+ 	if (!cis_central_capable(hdev)) {
+ 		err = -EOPNOTSUPP;
+@@ -498,13 +495,9 @@ static int iso_connect_cis(struct sock *sk)
+ 		goto unlock;
+ 	}
+ 
+-	lock_sock(sk);
+-
+ 	err = iso_chan_add(conn, sk, NULL);
+-	if (err) {
+-		release_sock(sk);
++	if (err)
+ 		goto unlock;
+-	}
+ 
+ 	/* Update source addr of the socket */
+ 	bacpy(&iso_pi(sk)->src, &hcon->src);
+@@ -520,9 +513,8 @@ static int iso_connect_cis(struct sock *sk)
+ 		iso_sock_set_timer(sk, READ_ONCE(sk->sk_sndtimeo));
+ 	}
+ 
+-	release_sock(sk);
+-
+ unlock:
++	release_sock(sk);
+ 	hci_dev_unlock(hdev);
+ 	hci_dev_put(hdev);
+ 	return err;
+@@ -2256,8 +2248,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
+ 		sk = iso_get_sock(hdev, &hdev->bdaddr, bdaddr, BT_LISTEN,
+ 				  iso_match_sid, ev1);
+ 		if (sk && !ev1->status) {
++			lock_sock(sk);
+ 			iso_pi(sk)->sync_handle = le16_to_cpu(ev1->handle);
+ 			iso_pi(sk)->bc_sid = ev1->sid;
++			release_sock(sk);
+ 		}
+ 
+ 		goto done;
+@@ -2268,8 +2262,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
+ 		sk = iso_get_sock(hdev, &hdev->bdaddr, bdaddr, BT_LISTEN,
+ 				  iso_match_sid_past, ev1a);
+ 		if (sk && !ev1a->status) {
++			lock_sock(sk);
+ 			iso_pi(sk)->sync_handle = le16_to_cpu(ev1a->sync_handle);
+ 			iso_pi(sk)->bc_sid = ev1a->sid;
++			release_sock(sk);
+ 		}
+ 
+ 		goto done;
+@@ -2296,27 +2292,35 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
+ 					  ev2);
+ 
+ 		if (sk) {
+-			int err;
+-			struct hci_conn	*hcon = iso_pi(sk)->conn->hcon;
++			int err = 0;
++			bool big_sync;
++			struct hci_conn *hcon;
+ 
++			lock_sock(sk);
++
++			hcon = iso_pi(sk)->conn->hcon;
+ 			iso_pi(sk)->qos.bcast.encryption = ev2->encryption;
+ 
+ 			if (ev2->num_bis < iso_pi(sk)->bc_num_bis)
+ 				iso_pi(sk)->bc_num_bis = ev2->num_bis;
+ 
+-			if (!test_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags) &&
+-			    !test_and_set_bit(BT_SK_BIG_SYNC, &iso_pi(sk)->flags)) {
++			big_sync = !test_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags) &&
++				   !test_and_set_bit(BT_SK_BIG_SYNC, &iso_pi(sk)->flags);
++
++			if (big_sync)
+ 				err = hci_conn_big_create_sync(hdev, hcon,
+ 							       &iso_pi(sk)->qos,
+ 							       iso_pi(sk)->sync_handle,
+ 							       iso_pi(sk)->bc_num_bis,
+ 							       iso_pi(sk)->bc_bis);
+-				if (err) {
+-					bt_dev_err(hdev, "hci_le_big_create_sync: %d",
+-						   err);
+-					sock_put(sk);
+-					sk = NULL;
+-				}
++
++			release_sock(sk);
++
++			if (big_sync && err) {
++				bt_dev_err(hdev, "hci_le_big_create_sync: %d",
++					   err);
++				sock_put(sk);
++				sk = NULL;
+ 			}
+ 		}
+ 
+@@ -2370,8 +2374,10 @@ int iso_connect_ind(struct hci_dev *hdev, bdaddr_t *bdaddr, __u8 *flags)
+ 			if (!base || base_len > BASE_MAX_LENGTH)
+ 				goto done;
+ 
++			lock_sock(sk);
+ 			memcpy(iso_pi(sk)->base, base, base_len);
+ 			iso_pi(sk)->base_len = base_len;
++			release_sock(sk);
+ 		} else {
+ 			/* This is a PA data fragment. Keep pa_data_len set to 0
+ 			 * until all data has been reassembled.
 -- 
 2.52.0
 
