@@ -1,105 +1,84 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9787F3D47B8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Apr 2026 14:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390D24C6C;
+	Tue, 21 Apr 2026 17:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776782377; cv=none; b=JesmFtCgJS9WT/Jw+CRQb5CJNQr0dx6YpM+jX4x9tmmuZx8x0wVaPOoWASXHvhdZakOWvl19lSa4DvfuHoKFLUb23BnY/PYqXGWWtxkRaKK/yjkp45chsSFeh24RbGYHEyeAZCJEYo351QUkgoirhFCQO72asGwA0Xh98ljU2Jg=
+	t=1776793243; cv=none; b=RRBI0t/4xyYn8MykeepdkPwxAII3mL13H421spTL/kikMMwhdQmYt65v6EPmgw0GzDsZ7IPdBIeFHjS1mjgSbMEcCbGEQtBhBavxpXo6Z+INgYHsSRsGAwNgrtsYhAa8QwWfAEFgJdZNJ3UEUcMy9fL4m47lc80DYEda/jBR4eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776782377; c=relaxed/simple;
-	bh=vzCTLudpF4C01RWtxD6HaTmInReorM3mZfiuLXhUbls=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=EqglFD7LoQWKlKMYIumtAjF79BEhhuPlJnF0RNJhuUR0l9rSKbXJmlJTzs55q2uBSNDjS1DyTBTTf6iDdfONWkvcLgQcbEnqEYuYYaqw9mrwMSnXYjasKbZlaOcSlNaiQFCmaXjPg0+ikt0xLrAikXacrCsZQJCEcyZ20nx38T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VL370Xbd; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1776793243; c=relaxed/simple;
+	bh=zSo34kjP8pafihdertQW/cXjfDj2lQafQswq2RgbTK8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=GKBfbRQG4uXH5c+BXU8tfzYK7rEDdfHN93j+NgKsB6WyYG7vvVBORDmkUCvIwSV4wCUpzpbyRebCf3J8y7K/iLlcGZETf50FkRRQjtUFSUNnYiYWwUE3hd9IjDe0rzhRkqjNZWGkXf0UwTJNpvwX2fbdnTvG+1t6d1e0gdywEB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iw22hRcw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VL370Xbd"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 327AB42021
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Apr 2026 14:39:36 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.493
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 89GfCE-Z7mdW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 21 Apr 2026 14:39:35 +0000 (UTC)
-X-Greylist: delayed 370 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 21 Apr 2026 14:39:34 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0FC7842018
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0FC7842018
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VL370Xbd
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=95.215.58.189; helo=out-189.mta1.migadu.com; envelope-from=luka.gejak@linux.dev; receiver=<UNKNOWN> 
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0FC7842018
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Apr 2026 14:39:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iw22hRcw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4CF2C2BCB0;
+	Tue, 21 Apr 2026 17:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776793242;
+	bh=zSo34kjP8pafihdertQW/cXjfDj2lQafQswq2RgbTK8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Iw22hRcwxd06CYUyi13WG0ar05JMor6NzWnWqXk1Oq+MF+zPaaxRKG3R0X0gp4NuQ
+	 KhYhX8Xyh2AYJagUtMjBfFkTtRYxDochH48PEsWsy107Jt2qn1BWWadHZC2/4Mtxzv
+	 CjoiKT5KsCW7SNZOfpyL5g77H5Lor8l+5+w6OtuKM3Z88ME+prrhbysLcYA/Q+on5p
+	 U28U/Dm2wF8VlK6CgBf9rtclKD3Bw0xQjQTz7My3PgUrNO9dLnA+A0NLj4B8y1N30P
+	 7MXoA8wzKf8bqB/nsoDSAHj5WQIQznz72Qbkg2e1StXs+DO8RCez6sJqzPe2uhLabN
+	 mwkRH3j25JGcQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CD3239301B9;
+	Tue, 21 Apr 2026 17:40:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776782000;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9d+Zf4HN1ZVE9Pso1ZaDrVaSQboLdNoIcrritVKuxDg=;
-	b=VL370XbdxPajJb7/FRmX2ZBqK76HHL/kQ6Uyl+4CYipra3PmPs9RgstBiGc2eE8KqoUj5f
-	LTrj+3jp/lFimMhCYIsLhzYm0XUheZmoJBH0acqz6+rXcUh7mg8pRVGdaWdxInBeTjd2WO
-	Dxt56hbP31S4SQqneBxIi3LY0VZS1Kc=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 21 Apr 2026 16:33:08 +0200
-Message-Id: <DHYWNCY622RH.J9Z0VTVKXYX1@linux.dev>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- <skhan@linuxfoundation.org>, <me@brighamcampbell.com>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused offset in phase 2
- _BlockWrite()
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Robertus Diawan Chris" <robertusdchris@gmail.com>,
- <gregkh@linuxfoundation.org>
-References: <20260420044651.164450-1-robertusdchris@gmail.com>
-In-Reply-To: <20260420044651.164450-1-robertusdchris@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/2] Bluetooth: ISO: Fix KCSAN data-races on iso_pi(sk)
+From: patchwork-bot+bluetooth@kernel.org
+Message-Id: 
+ <177679320605.2928707.16734719453361782576.git-patchwork-notify@kernel.org>
+Date: Tue, 21 Apr 2026 17:40:06 +0000
+References: <20260421025122.55781-1-suunj1331@gmail.com>
+In-Reply-To: <20260421025122.55781-1-suunj1331@gmail.com>
+To: SeungJu Cheon <suunj1331@gmail.com>
+Cc: luiz.dentz@gmail.com, marcel@holtmann.org,
+ linux-bluetooth@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
 
-On Mon Apr 20, 2026 at 6:46 AM CEST, Robertus Diawan Chris wrote:
-> Commit c1314fe4d28f ("staging: rtl8723bs: remove all RT_TRACE logs
-> in hal/ and os_dep/") removed the unnecessary RT_TRACE logs in hal/
-> and os_dep/ files, but left the variable "offset" in the Phase 2
-> _BlockWrite() function unused, so delete it.
->
-> This is reported by Coverity Scan with CID 1408950 as UNUSED_VALUE.
->
-> Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/=
-staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index e794fe3caf9d..988829d5f3c3 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -68,8 +68,6 @@ static int _BlockWrite(struct adapter *padapter, void *=
-buffer, u32 buffSize)
-> =20
->  	/* 3 Phase #2 */
->  	if (remainSize_p1) {
-> -		offset =3D blockCount_p1 * blockSize_p1;
-> -
->  		blockCount_p2 =3D remainSize_p1/blockSize_p2;
->  		remainSize_p2 =3D remainSize_p1%blockSize_p2;
->  	}
+Hello:
 
-LGTM.
+This series was applied to bluetooth/bluetooth-next.git (master)
+by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
 
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
+On Tue, 21 Apr 2026 11:51:20 +0900 you wrote:
+> Found while auditing iso_pi(sk) field accesses after a KCSAN report.
+> Patch 1/2 is the reported race on iso_pi(sk)->dst in iso_sock_connect();
+> patch 2/2 covers related races on other iso_pi(sk) fields accessed in
+> iso_connect_{bis,cis}() and iso_connect_ind() that were found by
+> inspection during the same audit.
+> 
+> Changes in v2:
+>  - Patch 1/2: Use sa->iso_bdaddr directly instead of caching the
+>    bacmp() result in a local variable, as suggested by Luiz [1].
+>    This avoids reading from iso_pi(sk) entirely for the broadcast
+>    check.
+> 
+> [...]
 
-Best regards,
-Luka Gejak
+Here is the summary with links:
+  - [v2,1/2] Bluetooth: ISO: Fix data-race on dst in iso_sock_connect()
+    https://git.kernel.org/bluetooth/bluetooth-next/c/20ca2749b31a
+  - [v2,2/2] Bluetooth: ISO: Fix data-race on iso_pi(sk) in socket and HCI event paths
+    https://git.kernel.org/bluetooth/bluetooth-next/c/66d4d518020b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
