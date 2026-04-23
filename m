@@ -1,93 +1,115 @@
-Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C14B2F5485
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Apr 2026 10:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776940883; cv=none; b=tSAdjAL9kk+gaQIuD8CfOTqsFyV0grl5+DVHGpU9qdFEz59lPiSVgMrT6Dk/7pSlIrN6VmvNpVggJDtsRckuVaZ9BiWBmv9zKnOWGGHIfWW0pfzCjW3hgo93N//Ywkjao/dsdcVaIzZ0gzJifvarqpGCD2Mb7WDAm4SHgbbwTo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776940883; c=relaxed/simple;
-	bh=po071TqikIKm9CQCeD171LLg0dCz9/Use+Rf28f8az8=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=Jeum8UTcLXWJZsPvHgt8r231aaMFJCMR7ueku0AYLBwhdkGm61Sw4aK8x2800Cskk9dTPhCLt1vnfHC2ZbluBLXFUuEm8XtAiyEeHDzY/uS1mY4Qmpbn/ZCP2DCDYhLTWMrEA7rSGH4BGHZcpoAdwM1x2vzD/UHcWfJF0vIAfkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=le6NXFyj; arc=none smtp.client-ip=203.205.221.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2BA342C88
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Apr 2026 15:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776958173; cv=pass; b=RecfSG00Kp50ihqTAXETq3v/zlkaJPfVcFMguBafATgcdNsDGTegIk9U2If16JUIzF1pW500UMLlaZCcal2n5UneJRWD+KcMFspP9QTwcp/kICzicWhBDeoo25Ti/wgRHKGMcKxhdUBMQCXOvLrATdzcMFGfEEsw7R24bJXxqQk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776958173; c=relaxed/simple;
+	bh=esi4JAFZY7P14gamD3fgFViEQxYA2w73zBbzZV45vsQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GvH8wm4GO0b+11xgPEgnIEK8JTf9+/bzxgpAZwyNgJTCFnY5ecP5gY7p0FpZqSwVzLrLEyPNHfDl6Pa/c6yH5xHIGNPVxbxsPCKEPsPufWmHc2Sg8AJ6wSqv9hV56JeLoCjtiHTh+a+pOmbSvMInt4OGuVr9UcDEAImjOzGIC28=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hA+Wmd32; arc=pass smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="le6NXFyj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1776940870;
-	bh=2IMbY+i3cO6RwlIy78bRdWYWlk0o/dAReqPEJEy+b4U=;
-	h=From:To:Cc:Subject:Date;
-	b=le6NXFyj09Wp8sY5L3GbrbCKvckhQiJitCvnCz9fISLTNbFIQOV/Z2Ze7yaEp7bv5
-	 qxTdfIcVCNORovLR4VJsxqfIipuoXLoHdoJSLK7fGPKLXx5eKcA7IhKrgxIzHVYfad
-	 9d7B966FGWTty6VzEObT6c9/tOaBxQDPSspLlnFk=
-Received: from DESKTOP-M81V2AK.localdomain ([221.214.70.47])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id A1607EC9; Thu, 23 Apr 2026 18:40:22 +0800
-X-QQ-mid: xmsmtpt1776940822tevugamih
-Message-ID: <tencent_26F6155ED10CA20CC65F62FD659218853809@qq.com>
-X-QQ-XMAILINFO: Nte9/BsRzcszwS17R4aXJSidY3qjVdh6enLVdMpRwZd8xMuWrh0B5HGVDY6ovE
-	 HTj6poOZQFZXCPV1+5H51u4zboepHfnTfoi/lcuBZDNrhl1hl9hldNeFiyeqfWFeBV2VBlKvrDVR
-	 kAciS3aWJ8K3YJngf+kpxvvqqSIzFkPLHD6DdUwJ1pJ+KYRr1hg8X9FvLqMEVNhlKtv7Va7oQI0F
-	 qH7po68GlajoXIclmk3Jy7pNI0UcBAWoq7fc1P1knwXjjTrBxeYLDxQrV/LegQ6YO8sGdFTGbKu8
-	 CY8gDvHw4C6NmSfErncv9va9FNwVEbxD8idfpgNA9KXYIj45lRv5mM4hw0eJ5CLHy/UuNWgzdRMT
-	 HA3KwKeRROqDxJrPtiUNRpp8GRrQR9CjkSqmjJgx+apcN7TKrw2QEzs4dtWx/aW6b4PDyv4MvEe3
-	 YOqKRTQxYHbuLpuSx/bG72xKoL7aIWvW8voPaYBdYuGGv7D3dpaWtprGYG6d9ywX9UZHLDhW7OeY
-	 y04dXnDvjUEF9dK2b0o2GlCCzdN4fpO9yR5OLfz5b04UiK0817PyQPv8xNU19QPTj35/O6MrmLgH
-	 HOA/LBncumHjMQXI+2huUZZQAlTCE3IcokGT7K7q9ZzFlWepCdWcmMQb3Fno2Wo6m/ZLF9T7k6Ls
-	 ZksDY7OkNnfZVZTNPOahELOjBgSS36uVWKb8pGgj3xXUgmWeQjZgDWHkcdLG0msFI7zQu2hsHm8H
-	 vKl8e5g26sE1QuaxW4mFNHxbmvgxO5rKWx1toe8w6ucdPOnVTZKdRAOw7nvtYI3vhueUHTcmZLXq
-	 jYtCMLMKF7offMGPP2FFUlEtERqYQGPaVmIRjAAe9frWZ4en8lDjbIV/WhCOKHsAoDMl4IEoMKyA
-	 ZiNZqi3vbA4352Rx2NJH6h+4hgGQNBsLkXQ1eF2xN5jL7M2ysdJCEqVuGGfsHixV+b/IUUlICPXq
-	 DY7TTr4qfmdsyD1CXK5p/hoFt7V+0NB1AT27IVeo1Hp/RaGdzd5l+21Oc+LBT0/77VuZYAAKoTUn
-	 sbh1kbyDtZOXELIYBvvnG5pqE4l+U4zFmBKBuYR0tMagU6IWIc
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Xinhong Hu <tp5092@foxmail.com>
-To: linux-leds@vger.kernel.org
-Cc: lee@kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	jkoolstra@xs4all.nl,
-	me@brighamcampbell.com,
-	Xinhong Hu <tp5092@foxmail.com>
-Subject: [PATCH] docs: leds: fix sysfs ABI reference in lp5812.rst
-Date: Thu, 23 Apr 2026 18:39:10 +0800
-X-OQ-MSGID: <20260423103910.10468-1-tp5092@foxmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hA+Wmd32"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-415c8a4d2e6so2713592fac.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Apr 2026 08:29:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776958171; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kf34m38WlA45NXytONxr0jy0CHGQrBsVfmvVAWiJFDrSrnizCouab0+JB3nRE79gj3
+         7ZRkoksVAW/l+hOkQfhXUY6Xn30ETfZdKTrwDlMYXf8pdga1sbX/6zIFTJopF33yukE3
+         bM8FABD8aAJBQ1zN5ZndplwudBYFgYX4S++Ob70CQsSm22gYDJ64sbeQbbITqyjHEzsw
+         kFqXihX6ITeH6WpDpDo71azm9xczd2WNBf4IaIUo5aSy5rzUZsijU8ZNdgRVCm1REnSW
+         rnBWn38dXBlSP2WcdlKG8vdGXmj7VtnqGReyb4y2LG5S2fznYWE9xzXCqkljMzP+Au7b
+         WuQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=esi4JAFZY7P14gamD3fgFViEQxYA2w73zBbzZV45vsQ=;
+        fh=Mfc2Tohd4L6RAczuAYNtYYVidd3eCchGZJdVz595AJo=;
+        b=iZonBzHfwNh2ghawsmnAQDDHTXAtN4RYBem2BRwHgcRpKjMFCoQ1DMGk1fGEBSTMXX
+         rOllcpPlWKNuKBQ1FYwWg2c5NF7W008UyKemqk2p2G5DLK3NiFMZQHjHWSbn7KHlH4cb
+         EJ80hsAWGvSgdZaPqxpbciTE8ePZ30VIj6UqOpBpgBbXz4wIQUBcO2Ax9IBvDFWxwgAx
+         eqeOSrVIRlain0HwEOWEw7jLCZlrI1+pJy0fC7CJeUn5t2YRqFOu6I4Vr2lBhEdUJ8vq
+         yrBEugdwZukvSyKlPTiMQdN2cTuv5k86hNOaOeQkOUCykwBZMnPAS4i/xRXdHf9KTp5e
+         xtiA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776958171; x=1777562971; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=esi4JAFZY7P14gamD3fgFViEQxYA2w73zBbzZV45vsQ=;
+        b=hA+Wmd32V/HAOgMsTayc3d6971J19Kcgpo4kJ4xvpPYDxbATOsXmXo/li1TffRTkiH
+         GFsScNlTmwINgd45Nkkgg5orjlnjYTVq18aGhjkLb6xjDncUMJjPD+684RDvILp+0+qz
+         SHoTBqdGPk7u+AS0OI8WzM39y2VE+TuaEHqkuA+eJLPbtE4yftzdoe7YhnxKL6XvmMur
+         FE/2gytAP9GINSvbY5x8yZGWbIm/93yJ16BE9N4irmfEmtvTPcG4HhHO9sTju76diu1W
+         9aFRMnzxvSUrPzbsfLOn4/vSsl1W5Odz8meCvFWfw5pq3vfhnzVTQQ8hIegWVheiUgNP
+         a1Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776958171; x=1777562971;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=esi4JAFZY7P14gamD3fgFViEQxYA2w73zBbzZV45vsQ=;
+        b=X5YgZexSnamWJYlI2iZM7bNL6+7gXZ6lZfkoHSpwRI+Dna607yIt/zu+suWte2Tsg0
+         oyV7q6xFQiJz1ziGZ4QW3odkLV8E3EATod3sKQGHMJLOD61otFK2yQCTAO+cQeqLp8Hg
+         pja28QoyboY1DbVOfcGwOv7QE6vFMMW5mJ2/fS0R7n5UaQYUd7e0aSuN6zB3AH8teofw
+         2Z0D4iczMUMhHgQfFpuWNBjsFkUNdjM61favDE3hZZcmRH8MYoKeG67eCwPkMRWPSisA
+         LC2EboGAxQ5Kp0TqjvlY5I6xMNFmk6cAXrOpZZ2TUQF6UWDeU+zvi7Zem71yN3W7fDrg
+         geQg==
+X-Forwarded-Encrypted: i=1; AFNElJ++af1CpAWJuTxgEELC7xjSMXC4SHuM0p1lBa4qZGULrlVbUmXfhgO1zhZMQxO94OBy2J9poYeqFt629NnBzIxKpKExrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKGhUdx0Sam+ExD4fobOq24NBrcv0R+gLoOc7xHIWSSgmTeXO3
+	bClK6d9m09fnHgp3H72XKvlvFLTMDeb/7z5KR5J4v60vXHBODx/sm72ofluJvXrW8tePqP0EuAJ
+	Sy6e5R8D2V6PF2bMMvNmlvCxkcwcSNUo=
+X-Gm-Gg: AeBDievn+7teBNgU4Rd7y9co8aGgnNDCf+90DfSgnL/xGXymJPeffovVPjXW4ZmHTza
+	fCDNMPH1WeUWsgN6D+OIuD9rypzoqL+MAkc+WJwNz9IfY8IS1/cuowexP4pbtORLmOKxtZvzfzn
+	twCtao4g/bCKGq4NMa4eYazOnQGN8dS7CdNO9Ubx5r9tgwM2yIH1tB9CQ2LKX2v/lXFk71rLcRW
+	7l4V82JIwrlpzvnM4TH2hlxcpOLJus4VpJMpw01593NClHROxIHi54BQjzmXbBXeInrICwSHEUg
+	rId4updlvrv7Fz6tH0FSmycUgCiByB0gU3BFmA0CsUh4GYn4aYDkZL2JhyrL6gFtE6rEF+CJ9Lx
+	SpFUkee+h55XvxVzpODpMYYnr1zR0Ghd+2oDCIA==
+X-Received: by 2002:a05:6870:659f:b0:41b:e72e:c115 with SMTP id
+ 586e51a60fabf-42abf21185emr16932734fac.1.1776958170691; Thu, 23 Apr 2026
+ 08:29:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260405011920.28622-1-adinata.softwareengineer@gmail.com>
+ <87y0j2m1d0.fsf@mail.parknet.co.jp> <877bqbeez4.fsf@mail.parknet.co.jp>
+ <877bq9lyk7.fsf@mail.parknet.co.jp> <87mrz25hnz.fsf@mail.parknet.co.jp>
+In-Reply-To: <87mrz25hnz.fsf@mail.parknet.co.jp>
+From: Adi <adinata.softwareengineer@gmail.com>
+Date: Thu, 23 Apr 2026 23:29:16 +0800
+X-Gm-Features: AQROBzBmnL-JC9cNkWVdzYxtZCb8HXTQ2QUuUaVK4XGTPvBwS-tLU0t1ditvZFY
+Message-ID: <CABZ6vuD8TWGj0RZ8j21VJ0mvQvzcXE0Tr0bWnYENHDUwQ=Pxtw@mail.gmail.com>
+Subject: Re: [PATCH] kunit: fat: test cluster and directory i_pos layout helpers
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Documentation/ABI/testing/sysfs-class-led-multicolor is a plain ABI
-description without a .rst suffix. The lp5812 documentation incorrectly
-referred to sysfs-class-led-multicolor.rst, which does not exist.
+> OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
+>
+> Hi, Andrew
+>
+> Could you pick fat patches again? Christian's path didn't work for fat
+> (no response for 10 days).
+>
+> Thanks.
 
-This was reported by documentation-file-ref-check (make refcheckdocs).
+Hi Hirofumi,
 
-Signed-off-by: Xinhong Hu <tp5092@foxmail.com>
----
- Documentation/leds/leds-lp5812.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for confirming the commit and chasing for the merge. I will
+loop in the linux kernel mentees mailbox for the Mentorship programme
+requirement. I hope this can help with merging fat code updates too.
 
-diff --git a/Documentation/leds/leds-lp5812.rst b/Documentation/leds/leds-lp5812.rst
-index c2a6368d5149..12e757d45c3a 100644
---- a/Documentation/leds/leds-lp5812.rst
-+++ b/Documentation/leds/leds-lp5812.rst
-@@ -20,7 +20,7 @@ Sysfs Interface
- ===============
- 
- This driver uses the standard multicolor LED class interfaces defined
--in Documentation/ABI/testing/sysfs-class-led-multicolor.rst.
-+in Documentation/ABI/testing/sysfs-class-led-multicolor.
- 
- Each LP5812 LED output appears under ``/sys/class/leds/`` with its
- assigned label (for example ``LED_A``).
--- 
-2.43.0
-
+Regards,
+Adi Nata
