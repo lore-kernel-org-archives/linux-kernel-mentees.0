@@ -1,79 +1,79 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2951F2BEC5E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5873CF688
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777045414; cv=none; b=u4uTPhty0fqDsv7OUhSTi3NbiYy/lBD1JRWFQUsNmRd22fjctk53G4DiMXwsuVreU3SaHPCMEmoKipDU6Vf+WrVr3hUuD62nsfB6wZO0pz81WHTA+93KknWJYyZ2wQF6AuzcJJyspNgGcYc2hP+x2fJTTvpoDRz28nDnYbxAXDs=
+	t=1777046127; cv=none; b=ZnQ3qriDihE+vC7BeJTg8zI2syaWlMqH8TwxWTDwmKxQyCGV5d52kx1a8ndBYnQPy5bmqbhgCq03JYPiF3hCOboO0C3HNTcVmaTWL2XyeHgdHXwMHAb/GCn+1shw+NQrL50x/0nX5D1cxxlZTReXvV34LV2jy9/6pQyijVTav8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777045414; c=relaxed/simple;
-	bh=YW0/RKuW7VWXIMDjTSpW6NyYty4VDl5lMgaa0I42uEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EvGQnMHH0GjzfZurida0uC8xNujIRcGHLUrcwUyznIXFqejAf1P1QPelZRKMSRsdjUmcM9mL2sdwBA/4w2ij+KIBHH2ZDzQhZEwv/FTWZ5rTbeLKgeUrZp4oWYL4Dgfbe6LzWpmT/WFFORHxKUYUfR0f/fnrA9Xzl1AHeiaBI7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+2dyREd; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1777046127; c=relaxed/simple;
+	bh=O+NwYZPZmuaZ8yiQJeSyI2dWI3z7BpsQ3W3NvgGRxsU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cDk9t6GFORw735WAEkCbTagn/4IopkFYaQ4rIfqwGcQQKrqu2P4P2tKpMjzVKg1nc5YIM/bkMaFc4Xm2Q54lBZ/YUX2sms2U9YRKsScB5D4VBzCed292q/9x0tut0W0SQVFmqZ3qN0ei58v7JiaIK2KlfxNAIdOtWeSYs0Nyl5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aVyb2hZH; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+2dyREd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aVyb2hZH"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D9BEA84CC6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:43:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 263A78468E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:55:26 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id j99DV5c1f1Vn for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Apr 2026 15:43:32 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=abdououhbi1@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org F11F284CC2
+ id l4yERsmOBlkN for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Apr 2026 15:55:25 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42f; helo=mail-wr1-x42f.google.com; envelope-from=abdououhbi1@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4C1B184687
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F11F284CC2
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4C1B184687
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=I+2dyREd
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F11F284CC2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:43:31 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-4891cd41959so61361915e9.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 08:43:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aVyb2hZH
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4C1B184687
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 15:55:25 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-44136f7a169so242481f8f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 08:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777045410; x=1777650210; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20251104; t=1777046123; x=1777650923; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8wUdieFdZi5XDyPTiCxzwYVa2/zVVbZ+K+hznFHM+5c=;
-        b=I+2dyREdzYvwdkW0Baq1pvBTO7moEu1amw5vC7BT180AgsgPcGVG1sQ3pTNvHp0Jr3
-         czfZIzktNFDX5UyPxbe6WQDNbQcB3N1+/6cgBmphQp5cjTU82N+aIz5U5vSP5txocUxN
-         nCts+WpheYKE6JKRdgv45otolEKL6bDCrdW43brDGEMlJf0zbmknO4otFGHzDb5xsyxY
-         wqfApUzqj07FDlW9Z5VXPEh1qP7TGh/a3EM9+JWdq1Jre4w71PEbcb57nl9nGsmVupR1
-         wdqEL0KFLBKR2D48yfA8wv97HDtD6OAg4a0VkAf1OQ+o01Op5p0E8IDU6Os/uFDKfa1L
-         h9Rw==
+        bh=EHfaM41/Ticte7TagLJMtblky2w2uHhJquIVzUhFxa4=;
+        b=aVyb2hZHNmvrPEr+UxCbqMTwDlH45Ku3tBYSUNcHqdBCWCfEVE5a7yIEpWxCgIz2bA
+         bxu0SsZNFKKtjVTL7moBNXblnlt0KEZgxVqfZqN34sIdTbw4TDuwrWyeGdGBY5fRZI75
+         FmTRmJfLecJL6+ybwbj6Wde7f6GAXgylc150Tjo/1MRWkeS4I2laxarFUBa0uZKGvneu
+         prarGnkXFKYgh8sV4shIN5aNIQu0VA3cbHTFn/DUyLkLlDE1Hdmwkl9nT83o754tMsVP
+         hyXHv/Nyv6KOUJmR4RBJs4BB7U5eDBsRgxg3GFkXoz8TSQpLBkvm1DEJl9gFQNQKA5gZ
+         6RSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777045410; x=1777650210;
+        d=1e100.net; s=20251104; t=1777046123; x=1777650923;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8wUdieFdZi5XDyPTiCxzwYVa2/zVVbZ+K+hznFHM+5c=;
-        b=VEdoKhsl6kQS5jJAsBgA32PMTMTKZ1KksQm5sk6n4eJ0WCr/p+2NF++QhMSU0Pref0
-         wDf/uqhbvWAys5YwHkV4p14eKgNjQG2XGim3duk9/7e8loDAh+zbPoDAQd6bpwr7bdMi
-         RPr+OxcBgtGjlEMOSBmgY8U3IpN1ZfXnzqBaDddL4UiowEYYxdqWWz/0ChQ42cThF0Lv
-         8KLmQK2TdkiepK1qoVzWIN7528VvkoF47QtAJm7BPw9A3YUJuksjE92gywTpIueaYRas
-         7kNF2veFB6RWa08PnY+qiVX1WW9CxWUs/DoJqSACUEPRMMXu7lc5tWhaxxfrilOXUE+r
-         ROvQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8Jr8nTbnKxZqaQKx6wTPoE6qlKDQjtC/0uoEtxkjTz0sE/CK4/woujbFx6r6v4/yp/F6mnHYpA3+uhkGaAgMH0neLmGA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yy4az/V7BttvY4he7TJYNMf/YnAq/ff+cz2YpW3rktXpqiNnsaA
-	9J2yqr8+rcY4UkGLm7aXq9HcPW5CQkre7PFbJa1SQBzF3X0eT7c5eKIo
-X-Gm-Gg: AeBDieuUKYT0MHeMELZAXL6Q8FOHpVG8VGviYcU621mJafKprKYD9i7Cb0f38mAKHwO
-	YcsURgnKLTg6VYFOfqX9NRG4JLtuGu2zHBPTPV/sMnT18Zhud5AL4qI8dU40IR2PDP3oW9VB8en
-	ZSDvggmEZDbWbCXu1j+hac/ANrp5nMvm3wG2/3+92azS84jnE/J6bC7oPc9HvEb3WgAiWt2ll1c
-	Uw6sDRPJMR3KPGh3nYrQMW4m0zkZnACkku/wuwpd8cUz4vFNJCz+FeoINNAKWyrvw1q+0tkHXs6
-	eGFDEq2XesXNMPvEwNkjVZUzi/iRARG7UFVTVPDYDpJjNc0u7cdVLWkY7cbpFHqXSmphfzLfAMS
-	28YYaDKWy0ePPAg9EuAEBQlI+Zp/IoRLXSofMLGaEtGSJCfSKgCaD0L+51CMMPUiRqictsxNsZ3
-	SvZQ2Nf+zMGIvgFFLjisijj+wRlQ==
-X-Received: by 2002:a05:600c:4e4f:b0:488:d6eb:e63c with SMTP id 5b1f17b1804b1-488fb778703mr461070845e9.15.1777045409744;
-        Fri, 24 Apr 2026 08:43:29 -0700 (PDT)
+        bh=EHfaM41/Ticte7TagLJMtblky2w2uHhJquIVzUhFxa4=;
+        b=NfZITABIGF4WPf+TSplwT/CNgGAytojDFLGlP9M2M3RgNQ99kyzVQFm9VJtGtuiaWH
+         teIhDieBgl77St5TWrKnNwNR94xWkIJi58EcUwuw5GE5PIv1JgrDgic6Qo76XZ5mMVq0
+         d8zj4JYSVaTR7Pph2hSnCQYvhklLvXlFCWzpv7Wzpl/BE6XUD+puMM1pUdOE1sfXh7UQ
+         0H1XzmbUhb0FZFfxEe8qItCbFhCacCl0Q5ShPFe4bKUGHSSuHsetTq1RZC3xgJrXVSF0
+         Cg8kHfebLC7oqPLxcJ5APt/NiPAgOoIr4RkjXvXWRPWtiBUrQBWU6Bs35ZNUD1KTEDjQ
+         6GIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+CW580+yUbie9M+z9pfx/7SNFPlFl8Neasrp1jMZsGa2hfPryVDJOjmE08SlXT1eiC0YGp8/nNdv1eRZIqaTDPlzRQMg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy8SZvSpx66s8fnURkR+qpq6MgdSAjwFeyF1xhSb1XGZ++h1jbt
+	a2Z5o3a0+n8sqj5KK7oqG9oUdt3pAQNcBfLscfxC937WaTQ2Hgvp+sme
+X-Gm-Gg: AeBDieun/IRb7XAxq5FWdzKL7b71c+ASm5z2UkgkTNtJcbpHzfWPmtRyjFAsA3J/KVM
+	SSvhnYLmy+Edmq2TxPyviT6XGZ7TiaZkJxFpItiFDoqoPC1dbTjnTae/3/C8xC6SK0wAtPENTBr
+	HRoZWKQMIgXThCOHNYeyq4OFkOtaHBdHRJ6d/NUrEG8f83z39ytXe56lT0DuYVKCYm1LEYIjvh1
+	rE5OSZELvlpRSI3wW35FViMLECGmujlXUeU8yiSJbCp08mBQo/oSEYZ/FSumdJRqdPtXeRlPTFY
+	Nl6IuCUOnotu6vHQxhkqd0fbarnhufBjHp+t+bX+soph30ciFWQ+jzzb4kBbq9dlu+tBg1yp+u3
+	Lz56PBHB04hZaGkJYaD8BX2zNChOhtBegj2JMs5u2OXpnVZFHZgCHzSmknByAXR7iUWKtW/j0JL
+	sO9UEN5KENEttgUxaJGnCxquHJ3g==
+X-Received: by 2002:a05:6000:2888:b0:43d:7b90:fa21 with SMTP id ffacd0b85a97d-43fe3dcaefamr52255092f8f.12.1777046123044;
+        Fri, 24 Apr 2026 08:55:23 -0700 (PDT)
 Received: from kali ([41.142.67.157])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a5c4b9e8dsm55702905e9.7.2026.04.24.08.43.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1365sm65244521f8f.7.2026.04.24.08.55.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 08:43:29 -0700 (PDT)
+        Fri, 24 Apr 2026 08:55:22 -0700 (PDT)
 From: Abdellah Ouhbi <abdououhbi1@gmail.com>
 To: tytso@mit.edu
 Cc: linux-ext4@vger.kernel.org,
@@ -82,9 +82,9 @@ Cc: linux-ext4@vger.kernel.org,
 	me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Abdellah Ouhbi <abdououhbi1@gmail.com>
-Subject: [PATCH] ext4: Use %pe to print PTR_ERR() in extents.c
-Date: Fri, 24 Apr 2026 16:43:07 +0100
-Message-ID: <20260424154307.169881-1-abdououhbi1@gmail.com>
+Subject: [PATCH] ext4: Use %pe to print PTR_ERR() in super.c
+Date: Fri, 24 Apr 2026 16:55:08 +0100
+Message-ID: <20260424155508.186235-1-abdououhbi1@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -95,30 +95,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Fix coccicheck warning
-./extents.c:3272:12-19: WARNING: Consider using %pe to print PTR_ERR()
+./super.c:5981:32-39: WARNING: Consider using %pe to print PTR_ERR()
 
-Replace %ld with %pe and PTR_ERR(path) with path pointer.
+Replace %ld with %pe and PTR_ERR(bdev_file) with bdev_file pointer.
 The %pe specifier automatically converts error pointers to
 human-readable error names instead of raw error codes.
 
 Signed-off-by: Abdellah Ouhbi <abdououhbi1@gmail.com>
 ---
- fs/ext4/extents.c | 4 ++--
+ fs/ext4/super.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index 125f628e738a..91c97af64b31 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -3268,8 +3268,8 @@ static struct ext4_ext_path *ext4_split_extent_at(handle_t *handle,
- 	 */
- 	path = ext4_find_extent(inode, ee_block, NULL, flags | EXT4_EX_NOFAIL);
- 	if (IS_ERR(path)) {
--		EXT4_ERROR_INODE(inode, "Failed split extent on %u, err %ld",
--				 split, PTR_ERR(path));
-+		EXT4_ERROR_INODE(inode, "Failed split extent on %u, err %pe",
-+				 split, path);
- 		goto out_path;
+diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+index 6a77db4d3124..4b69e0879731 100644
+--- a/fs/ext4/super.c
++++ b/fs/ext4/super.c
+@@ -5977,8 +5977,8 @@ static struct file *ext4_get_journal_blkdev(struct super_block *sb,
+ 		sb, &fs_holder_ops);
+ 	if (IS_ERR(bdev_file)) {
+ 		ext4_msg(sb, KERN_ERR,
+-			 "failed to open journal device unknown-block(%u,%u) %ld",
+-			 MAJOR(j_dev), MINOR(j_dev), PTR_ERR(bdev_file));
++			 "failed to open journal device unknown-block(%u,%u) %pe",
++			 MAJOR(j_dev), MINOR(j_dev), bdev_file);
+ 		return bdev_file;
  	}
  
 -- 
