@@ -1,153 +1,122 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C5E1A682E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Apr 2026 04:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBB9355F54
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Apr 2026 11:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777090297; cv=none; b=gG3e5RbAUQ7p5iAFp1AAo4Y2aa70jjGVIKH27MH3U6S5WjsCvA2Eq0vRyM6iUzWeH5XMll1604IyPHifbWSWdpXj+kFz3gy3B8ITzDzsf9Bz+/iDYrFdrC3Ue0AStArCHSZJXUfmTgKArCanJTxd7kcJPxB2HQCQr502/905Ykk=
+	t=1777201994; cv=none; b=Iic5Rqsz4rTH22D7a+DIcLsGrkW50E9kU7xQcACsIiyUictCSJ2pRwqZDto+/iejoMysZL3icLN+to87Jd7RaFz2YPmuZ3JCaxHWfXDhvHoIlpxRl/qPiYT5ye+LgUqyiLlnWU3MuHx9yMT9OUUClHHIzyuJOqW4z4LpVSUmBs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777090297; c=relaxed/simple;
-	bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s08muSoiZphdQvvej69J3fV327ZDiSgvAxhKly01k8rCdJuMAOUJHXfY4uZ7unwDmNd29qGaOhJwwx0Uka2ZEOULJZ7IxrAhHcLh+pTu/UQs11KRD2PMu6Ny4IfGR6Hwe3zn7h5549bGE38A18bQVHq2zwPnZA8MrzFv6JDwaVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TT402cnl; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1777201994; c=relaxed/simple;
+	bh=B/9eEE6B2PxEEwz8XP6be4i93RoXNRJ69P6xJrqTv8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dkfprj2hc7A7YHz1lwpZmyhGF8duI8PfhUOlyQp2jzpQT3nmggCJEiZKJfgrmKw8BdJIfUw6Oww44jaHLthNgXoZ3fm2egSUrqgc8zVJVR43SVp3chOFN8qmiiOrNZcQYlmDp3kSkFLo9ZbvY6MyqynbBcKEGKAu4X7jwREA4CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmqbKJrW; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TT402cnl"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 173E940F53
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Apr 2026 04:11:36 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 8ks7a06ogHQ3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Apr 2026 04:11:35 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1035; helo=mail-pj1-x1035.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 399EA40F52
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 399EA40F52
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TT402cnl
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 399EA40F52
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Apr 2026 04:11:34 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-35fc2b18363so9488818a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Apr 2026 21:11:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmqbKJrW"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b2503753efso96762335ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Apr 2026 04:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777090294; x=1777695094; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-        b=TT402cnltrVyYmb0f+cxl5NPBxfX1FXtMKgaX/5wrUsyYzAlexoQm+0UtM52ll175E
-         DBvhEc0R+3tYB/SWfE6miFZ5PANXlGWf3otRQ99a93zXEZX0Mb2/pMHNZHiPfWsAhQgm
-         Kft63FgBIFzi3Gp2hxfbWUDgA1PA7LJdppeHbhpPt+ihJV9LwjQYN6oM7uEp8uxQ5dDj
-         QL5eIVvhhziSR6ScHmR+nl4DaOKrqTVz3Uo1yJdBz0XpI+lcW5VpSuOjC9w2lXfpqCKK
-         pZCKV9mUskqsMGAlpEngJlSxEgUlDJNZQPjmiz7wKKVLrTJvnO7sQEfT1w4k7ns7BSdZ
-         IGvw==
+        d=gmail.com; s=20251104; t=1777201992; x=1777806792; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9JOiMw/TUHAEKpVZ4imVP6XP0XS06uXgFI4h8oSnkI=;
+        b=OmqbKJrW92nVDme2wW2/6QExs1lEYSJwPmRZ0VFefMnm8ZTVgca5nfKlnhl+Uag5jn
+         YhyFF5tNTymw9C1ow2bzQwWtHyW89cE6BhMtl9VsakNZTfT/9f1kcrXgx5Lw/hYO/3A5
+         JmS7EjSL0JWb4G3DaHe1w/NgOdl1b1vUJIajYe7vs2JMffPJt4m3oCYMXKA3cHz64fL7
+         Ba2JP2PeZhz6HXJJW4ZCyjKL4LvmP/jB+h0XwSc0eevJLPV04tWq5EvS+xUkCRmCnqbQ
+         ixpu/boZEVqKcktR1nZ9lyipbuy340p8PL9U8Ie8tpKl+e10VY1EWXD16rllflMbpoWi
+         T2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777090294; x=1777695094;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GW4l/R38TjNz3L8O5Art7qT+FhN1yKPsNIVdCQ5t2QU=;
-        b=Bk+8RSoBPRfGef1MlplnXl6VmX5B0bU2L6AbF75KsRjo0GLPjj5RvXatfDYU0L03UD
-         Cnv4FSkWhhQcpFKgLkrLcqEHUys/1Y3LKyxCxRsNNUAJ68Nf11YB+S0UwxA6QHTGWQMm
-         2eQp9eSACorEJGTInkV8n3sQzxNwdBLl3AgEiWgLJqz76XePHDrYiXW43gFPwXcX248Y
-         ckgYjAEimplzZXklTdWN5Rq5dpGp/8Z2QOLvciPEJaGyZZak4B4GR+6RCexGdwjBr1cY
-         Dst5q3H4hpNQJj3e5QQmpPR0o8HunNupE5g/hH2KyXL1ncuLewq3okzTpw2b/WJoQoqg
-         o2Jg==
-X-Forwarded-Encrypted: i=1; AFNElJ+dz4OPRjl9OqsmUHK0nuKj2/o/YYurKPNjIyJRho0yhE0YEcp2OuR48sVlmpLCMZ5tKz6tg9SHhbaBV3L6Pe76FxTW3A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yzso5fkjq2rB0MU3KAtLI+qLmQE92ciQNxNtlX/CaHUUZqM/EZz
-	XtW9xP7KKme+QgUBxqavCJFQ5L1ZTzszFbidGa6UKmmTYuRvtgZBNlGh
-X-Gm-Gg: AeBDiet+9bS+ZIQ83ImCCCXmVwR2QJHrQa7VNiThjivlqAmHlwMOV/e82mzQwGdw1VN
-	riOH903hw0tdaze/EZnjo0z4SPADPX7KPA66E0Mm4nWgtHY/dXzoBaW/OVoQBiQgmYsRlzHP1FD
-	GoFhJKCV9zHwuxq4nhyozdIKMnP8qVUl5LsBWtZqvOZIsPILrFC48PzgubjYrfTIArlH/NwAwei
-	IaHAb3FiIZxwpHxFH6XuPxHaLEFiC+YuY9J4bV4aKKa5pnwD+kx3iO/Ox6+rfG/t5erBT3N17v3
-	HesUbZ1iBSsYkHjmbznqYtxd3xqpe5stL6fWV8wdnQnoF0QT8xwba2MrAUnF/A+SCSE1RPTiRLw
-	8jd0AnbuqJseLcnE9fLNWFXnCpHxI0Rfkvno9tJeZAbfv+HwrokABrY+jYOo7U49Qt5kMal91dj
-	eudL1NWmKLYSIm5iBsaY4vXioaX6GZdrYKBg==
-X-Received: by 2002:a17:90b:3504:b0:35f:b6a1:8d27 with SMTP id 98e67ed59e1d1-3614046f76amr38398081a91.18.1777090294301;
-        Fri, 24 Apr 2026 21:11:34 -0700 (PDT)
-Received: from soyboi ([158.140.167.74])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361417748aesm24262122a91.0.2026.04.24.21.11.30
+        d=1e100.net; s=20251104; t=1777201992; x=1777806792;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/9JOiMw/TUHAEKpVZ4imVP6XP0XS06uXgFI4h8oSnkI=;
+        b=BCnaf/fX+zjEEbKQdRVsmQsrQJaN5x3sBc1IrKo7w2klD2Rn9h4rSbE4/VCLLjgnMu
+         t6v9i7bRCK9bOvkZABZ39aUVBcMAO8pYoVFF/zV/l6yRuhRqs0c/bAz6H/eEcpL3YtSg
+         y0RyBy/Il99hTqPRoKp8gcnyj2eaJQWmJ3A5qX7x/VoiDLFdKDufdTfbrNtXW3N83oaf
+         WI9rFcPF3e3P06KnAR6DD6vjnIKICH0ZYXALm0fLcsAIWbg24tbzPYFsrSm+POrjf9wq
+         bZDgRi7I/6PXMTp9an7nRF2qBFIeepDoGC+PFFdv81OJ7b+FB6BDo2d8gCbpQpi1ji4j
+         h77g==
+X-Forwarded-Encrypted: i=1; AFNElJ+AQ4uRlB/VyFE6zHBereVL3npigtNJ6WeaCaxYW2Az4Nx2eBuTmp408ZVa4IgVC33r1xQU/T7XZ8cOvl6bU9KXf1RtEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYQz2jnfLBtAviG4/a7bid1Dc7PL8GGFZtHQx97X1P4k6CAoAu
+	pCr7K2DmSLDnvB49ew+jgCVPUtndPHcgMKDnV2XT1g+R+zVF8vx7FU09
+X-Gm-Gg: AeBDieuWL5F3B72sLgaQIfhvc8aq7QE7KlKfFk5Wpzw2hhHvEdNp7Xo8t18GqPVxkzR
+	rORr1CY0MvwWoSB0LXCm2wIABMwAtl6dLoAlww3WV+QTBRMomXGajkXfkaBO6XAC9mEzcQwtuAj
+	XaDaTbirues4DxUrhcD8Af3nihQ8S6hwtKtoYH/yxeMQAh5ZiNMNpH2HbRBsu/QTmaH7pIinU9b
+	+8b1BF0Rjqk+13mKRrUkpaKO7eF/F/nNmv5Rkd8BizyDM2HvbB8TTItBQufbTY9VlzJfG0XnQne
+	A/8luAa8S4BxYT28zaCcwlCilsTpMwkK/jP8N6jJxZxBm6xI9RGRnTwMLAjUgQk5fDNVR5LvlGt
+	nSD1tS7YgGpLLSJJtmt28EFnOgB1AomDcav7FOpFLmFcdorBTDHkk3Q7/NvdRhEoE2zX6OKfOaI
+	Hd5D9CgioVXH/Br6KhpSwn/NctPT8rYYcvASncQBiOXZ3vTnxImhrcAQ+Gvg==
+X-Received: by 2002:a17:903:2654:b0:2b4:5d51:ce96 with SMTP id d9443c01a7336-2b5f9f4e6damr310434855ad.24.1777201992565;
+        Sun, 26 Apr 2026 04:13:12 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab32cfasm351390385ad.69.2026.04.26.04.13.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 21:11:33 -0700 (PDT)
-Date: Sat, 25 Apr 2026 11:11:25 +0700
-From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, me@brighamcampbell.com
-Subject: Re: [PATCH RFT v2] media: atomisp: Add error check in
- create_host_regular_capture_pipeline()
-Message-ID: <aew-7ecz_4MCfu4t@soyboi>
-References: <20260424081538.459564-1-robertusdchris@gmail.com>
- <aesudPcQ8Fec0_VU@ashevche-desk.local>
+        Sun, 26 Apr 2026 04:13:12 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: clemens@ladisch.de,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	me@brighamcampbell.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	SeungJu Cheon <suunj1331@gmail.com>
+Subject: [PATCH] sound: ua101: fix division by zero at probe
+Date: Sun, 26 Apr 2026 20:12:39 +0900
+Message-ID: <20260426111239.103296-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aesudPcQ8Fec0_VU@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-Hello Andy,
+Add a missing sanity check for bNrChannels in detect_usb_format()
+to prevent a division by zero in playback_urb_complete() and
+capture_urb_complete().
 
-On Fri, Apr 24, 2026 at 11:48:52AM +0300, Andy Shevchenko wrote:
-> On Fri, Apr 24, 2026 at 03:15:38PM +0700, Robertus Diawan Chris wrote:
-> > When calling ia_css_pipeline_create_and_add_stage() function, there's no
-> > condition to check whether ia_css_pipeline_create_and_add_stage() throw
-> > an error or not. So add conditional check for the return value of
-> > ia_css_pipeline_create_and_add_stage() function.
->
-> > This is reported by Coverity Scan with CID 1408952 as UNUSED_VALUE.
->
-> Unneeded detail in the commit message. Use the comment block for that (as there
-> changelog right now and other stuff you explained).
+USB core does not validate class-specific descriptor fields such
+as bNrChannels, so drivers must verify them before use. If a
+device provides bNrChannels = 0, frame_bytes becomes zero and is
+later used as a divisor in the URB completion handlers, leading
+to a kernel crash.
 
-Alright, I will keep that in mind for future patches.
+Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
+Cc: stable@vger.kernel.org
+Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
+---
+Testing:
+- dummy_hcd + raw_gadget emulating a UA-101 with bNrChannels=0.
 
-> > Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-> > Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
-> > ---
-> > v1 -> v2: Add Fixes tag (suggested by Dan Carpenter).
-> >
-> > v1:
-> > https://lore.kernel.org/all/20260423060246.296986-1-robertusdchris@gmail.com/
-> >
-> > I am not sure if omitting the error check is intentional or not, but from
-> > what I see from another ia_css_pipeline_create_and_add_stage() usage
-> > in the same function, we check the return value after the call and return
-> > the error code if it's non-zero.
->
-> Okay, while this observation sounds like a +1 to the suggested change,
-> you still need to dive into the code and try to get if
-> ia_css_pipeline_create_and_add_stage() failure is fatal or not for
-> create_host_regular_capture_pipeline().
+ sound/usb/misc/ua101.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-After diving further into the code, I am not confident enough to
-continue this patch. I lack the context and not sure if this _seemingly_
-small change can have a big side effect for the overall driver.
+diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
+index 49b3dd8d827d..d129b42eb979 100644
+--- a/sound/usb/misc/ua101.c
++++ b/sound/usb/misc/ua101.c
+@@ -974,6 +974,13 @@ static int detect_usb_format(struct ua101 *ua)
+ 
+ 	ua->capture.channels = fmt_capture->bNrChannels;
+ 	ua->playback.channels = fmt_playback->bNrChannels;
++	if (!ua->capture.channels || !ua->playback.channels) {
++		dev_err(&ua->dev->dev,
++			"invalid channel count: capture %u, playback %u\n",
++			ua->capture.channels, ua->playback.channels);
++		return -EINVAL;
++	}
++
+ 	ua->capture.frame_bytes =
+ 		fmt_capture->bSubframeSize * ua->capture.channels;
+ 	ua->playback.frame_bytes =
+-- 
+2.52.0
 
-With that in mind, I will not continue with this patch. I will try to take a
-look at another driver.
-
-> > I also don't have the device to test this change.
->
-> It's a pity as this driver is quite complicated thing...
-
-Yeah... Let's just say it is _a sight to behold_ for newcomer like
-myself :)
-
-Thank you for taking the time to check this patch.
-
-Best regards,
-Robertus Diawan Chris
