@@ -1,93 +1,149 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4897E30E0F1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 11:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BD23B895A
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 27 Apr 2026 12:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777289895; cv=none; b=LX7lNVHvAVA/FlVIDp/YvVECPRunvFgmJuCfzI3SOiJDfBnIp8fkSh9z0hz7wCTxJjjSYrmnEuKmMxQSTaQFoi7O0Okd2DQ2voTZ67PCe7CN2Gg7EpoUqPRgFimASKSqolDO93mGYoo33rfUa9NAULi3Ij+czNl68l+NB8JF5qQ=
+	t=1777292698; cv=none; b=I0fQrEGc/u5AmD6MmAk3RYZM3XohmYFiGavx8gzF+I/nwk7vN8EeYMUBVhcrpxkj5K+3OWfFuyXfeqUXVjAKL7pH5Cna8hTUopre4jxOQ91AsNFSHetS9PR1sGJVJXlmCfa3UdN76fQlalD7BmxB2gEQzE/xhsUNqC6/lpywpZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777289895; c=relaxed/simple;
-	bh=gr87vO7k7YMlZdUQFWylGoPaj0SUoVjElzGyliKmBIY=;
-	h=From:To:Cc:Subject:Message-ID:Date:MIME-Version:Content-Type; b=UHtaPszNOVv35muVLJZ0jMnkzUhi+KPqheI5p67HoaulmBrj5squx8h9Qk6EGJ30S/TFpZ1krCNBdYAK/2CK6fzikRbLm9sa2pcKQrwquwoBNxUWXmKucmEDpgQZhpJy2wUzrhD+C0LEG87uEwtvTV+7ODOAMmIv5I6LuQpdg9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=plos.edu.ci header.i=@plos.edu.ci header.b=MuzvRexy; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=iW9CeCUA; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1777292698; c=relaxed/simple;
+	bh=bq6AYtThQM/BlyMoFtz9xPHlbmi6l0J3KGctBQ2eILM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RjTbzlNAznjI4C0EvqnfxnHE/tfeEho57NjxF1x3hYBf+AJM9peI6XmUYT4hCg+3o1S8mDu5U8+rU4lba39iyu5ubpchR7kieLPLCXFGxnAOX5THqqq6Wqtw5DJdake9AoBLLdV0YyUANp/1E4mmdySyV2QJjFMzXAhw9Teu14o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i3eee9wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lCab5OKS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i3eee9wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lCab5OKS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=plos.edu.ci header.i=@plos.edu.ci header.b="MuzvRexy";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="iW9CeCUA"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B141A6F69A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 11:38:13 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.694
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id c0hrt_ggqBRp for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Apr 2026 11:38:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=23.251.234.52; helo=e234-52.smtp-out.ap-northeast-1.amazonses.com; envelope-from=0106019dcebb86ea-79eaa26b-e4e5-4b14-b6ef-0d546b49ee9b-000000@send.plos.edu.ci; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 665896F699
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=plos.edu.ci
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 665896F699
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=plos.edu.ci header.i=@plos.edu.ci header.a=rsa-sha256 header.s=resend header.b=MuzvRexy;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=suwteswkahkjx5z3rgaujjw4zqymtlt2 header.b=iW9CeCUA
-Received: from e234-52.smtp-out.ap-northeast-1.amazonses.com (e234-52.smtp-out.ap-northeast-1.amazonses.com [23.251.234.52])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 665896F699
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 11:38:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=plos.edu.ci; t=1777289889;
-	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=gr87vO7k7YMlZdUQFWylGoPaj0SUoVjElzGyliKmBIY=;
-	b=MuzvRexy0q/Hf1UkbqVL6Cc+XTtdNMTn341+gsONnCobEclByd7cx6CV1jVnZ0C6
-	PQN3X6iamQPzTBynvl2XCfaI4VNbsS9h7IBvdOEo+ZmKoQHT4ILp8O6Vx1cBistS4OX
-	z3F4k7xPDwB+QaJgAfqSXrIeG/ROV5l7QcJ/V4+4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=suwteswkahkjx5z3rgaujjw4zqymtlt2; d=amazonses.com; t=1777289889;
-	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=gr87vO7k7YMlZdUQFWylGoPaj0SUoVjElzGyliKmBIY=;
-	b=iW9CeCUASEPkmUoGSb+E0cWMOi1Wr8qNFBUdWtXlpphMgKw5qbScqclspuVN8nIU
-	kvCCHkLKLII3R8WSkJoU1E2wuvjctkyIjNE6299OqW2SRiVv7leS3obOdZrL5Ed7/oz
-	SagsHxYqRztQld9jOwtEpB0T1Kl2tdo0IjkJ2uGo=
-X-Mailer: git-send-email 2.54.0
-From: Xuanjun Wen <wendster@plos.edu.ci>
-To: skhan@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, wendster@plos.edu.ci
-Subject: [PATCH] kbuild: add custom EXTRAVERSION for LFX mentorship
-Message-ID: <0106019dcebb86ea-79eaa26b-e4e5-4b14-b6ef-0d546b49ee9b-000000@ap-northeast-1.amazonses.com>
-Content-Transfer-Encoding: 7bit
-Date: Mon, 27 Apr 2026 11:38:09 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3eee9wh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lCab5OKS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3eee9wh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lCab5OKS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 269C55BCCC;
+	Mon, 27 Apr 2026 12:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777292694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
+	b=i3eee9whuNSVKYnsga7ebZmEC50ZU8QpRUEvEq9By2uC+tq6hpiE3Gkz03L2m6hVVAf9oe
+	LU1rwDrlcnLah6j5rdZp8vTTniIygo6l9lqxDNnvGIt72ALU2Iyzjxvn3szq9pT1iwotXb
+	dGy/77yZ0D2SG1nKfnaZEYM/XLoucYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777292694;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
+	b=lCab5OKSGMIwWA2jBbG7OtHd8/LVA7D25eWdMu9l5QNOVhU31lIver6heyeqDvhnmy+p2F
+	35/OORK9MaqYwsAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i3eee9wh;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lCab5OKS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777292694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
+	b=i3eee9whuNSVKYnsga7ebZmEC50ZU8QpRUEvEq9By2uC+tq6hpiE3Gkz03L2m6hVVAf9oe
+	LU1rwDrlcnLah6j5rdZp8vTTniIygo6l9lqxDNnvGIt72ALU2Iyzjxvn3szq9pT1iwotXb
+	dGy/77yZ0D2SG1nKfnaZEYM/XLoucYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777292694;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
+	b=lCab5OKSGMIwWA2jBbG7OtHd8/LVA7D25eWdMu9l5QNOVhU31lIver6heyeqDvhnmy+p2F
+	35/OORK9MaqYwsAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D20CC593B0;
+	Mon, 27 Apr 2026 12:24:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id r6T7MZVV72myFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 12:24:53 +0000
+Date: Mon, 27 Apr 2026 14:24:53 +0200
+Message-ID: <877bpszj3e.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: SeungJu Cheon <suunj1331@gmail.com>
+Cc: clemens@ladisch.de,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	me@brighamcampbell.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] sound: ua101: fix division by zero at probe
+In-Reply-To: <20260426111239.103296-1-suunj1331@gmail.com>
+References: <20260426111239.103296-1-suunj1331@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.ap-northeast-1.Q7iknRDCKgadjJP5k3mWOzW4msDp9B7of1cg7Uf4R52cgtm5G0IOaaxbwD/z0fL9/JBADdmTHFn8c+pLvs1r3Pgzx10ekVLuyuFPbrNs1lXNhD10Z1GgoKFs1dKNa5AZ3FLu2DfV+7YS/5lBaADSPKsHoczLfGjIYo+CmwM/VHJK8tz0c+75BL3rjm2MKRpF:1.ap-northeast-1.TOS0vxEE3Ar6ai29fkp2i/jb+l2iigajCGeLfF7S3sk=:AmazonSES
-X-SES-Outgoing: 2026.04.27-23.251.234.52
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 269C55BCCC
 
-Modify the EXTRAVERSION field to include the '-wendster-lfx'
-suffix as a demonstration of the LFX mentorship application task.
+On Sun, 26 Apr 2026 13:12:39 +0200,
+SeungJu Cheon wrote:
+> 
+> Add a missing sanity check for bNrChannels in detect_usb_format()
+> to prevent a division by zero in playback_urb_complete() and
+> capture_urb_complete().
+> 
+> USB core does not validate class-specific descriptor fields such
+> as bNrChannels, so drivers must verify them before use. If a
+> device provides bNrChannels = 0, frame_bytes becomes zero and is
+> later used as a divisor in the URB completion handlers, leading
+> to a kernel crash.
+> 
+> Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 
-Signed-off-by: Xuanjun Wen <wendster@plos.edu.ci>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, applied now.
 
-diff --git a/Makefile b/Makefile
-index e27c91ea56fc..e398b043e822 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION = 7
- PATCHLEVEL = 1
- SUBLEVEL = 0
--EXTRAVERSION = -rc1
-+EXTRAVERSION = -rc1-wendster-lfx
- NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
--- 
-2.54.0
 
+Takashi
