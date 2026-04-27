@@ -1,29 +1,48 @@
-Received: from outbound.qs.icloud.com (qs-2003f-snip4-10.eps.apple.com [57.103.86.62])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1EA2FD69D
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 27 Apr 2026 12:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4978C2AD37
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 13:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777293994; cv=none; b=uDgfFZNt/nMLzhvwidICXk+QoOJ6tlW8VApZNjz8dPLgL9bvq1ZH5cxVIcPmNQUMwJ8PXvzTdu0/2n5aRYfruTBe+5DjW/XaPRUJI0jbQgSBOe2IDokkdjyrruPTxTPUBn7iHuglfetM7XWyD4M67MCQxxM8ahcxqLT9+bI7y20=
+	t=1777297140; cv=none; b=CC0HJKI6Hou6QgxepUxqyhyHOTp5xrZjPJmXcwr2d+32Tu4LGDeSyPdo8BZFC8ltB90OmJNodsIQBRsQ6TF/MwwRP3Vrfxz7MJUvQzAxJey3f5gZZauFxFIzIHQ41HOV5JOXpq4OlWAIoXCWMsxqXyOMx7yYJdX+6ToyZuu3Ygw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777293994; c=relaxed/simple;
-	bh=pz1LSk+NHZO+/MDxDD2egHtfq3bKoHCp2g2ZCMelh9A=;
+	s=arc-20240116; t=1777297140; c=relaxed/simple;
+	bh=t3uohXcbm2Yzyewy7czvhskog9lWn+WVMgOyDMQg/Do=;
 	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=ssokAsnUhUfQAvvaJrCFgU+mS0Yg48Wj80Xl15nzKGBdvbPNy5Mtoj4F3GRCW7HCdDpEODSZhukphuoOZ5XSt5ndhvoSsdnuaXXagZw3SALf6r+N3S3ZzHaYbCdksEmvSxHbSpkXf2gB262e3ZIyjLzi2N0fHH5CRnkaD191EiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=rKlH+HiN; arc=none smtp.client-ip=57.103.86.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	 Cc:In-Reply-To:To; b=Q2d2ILIBMQCcaFoix+ADs7k+O2/ITauEwuMjCGmJTFS3FOgwDQCy4qcTYq2+viJVIANtOjbxU3SXmbKa9LugeiO4wUTYj0Bw+Wt0fiUR8bgW7BqcFuQ0BTJknVyr56ULPqcMfan8RQKCookvLF2b30MH7UwS4euxNC3jtFn8lzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=JftkuMjH; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="rKlH+HiN"
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="JftkuMjH"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id E43BA6F69B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 13:38:58 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id i6OZPXFamrHa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Apr 2026 13:38:58 +0000 (UTC)
+X-Greylist: delayed 2700 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 27 Apr 2026 13:38:57 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 1B1206F699
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1B1206F699
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=JftkuMjH
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=57.103.87.41; helo=outbound.qs.icloud.com; envelope-from=dumanmehmetsamet@icloud.com; receiver=<UNKNOWN> 
+Received: from outbound.qs.icloud.com (qs-2001d-snip4-8.eps.apple.com [57.103.87.41])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1B1206F699
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 13:38:57 +0000 (UTC)
 Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-10 (Postfix) with ESMTPS id 506A718000B8;
-	Mon, 27 Apr 2026 12:46:29 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQxWB1sZUgNeCEoBTVIPDxRMFVIDWg5aHVwMQAxaDkYwUBtfAkIPHBNWFRMLU1ZWBVQZXQBSA18VTQtSAFIfchlaFFwYU0VRH1RYQQ4KWgJQUR1fAgoERwRbF0YDU0VDAxcRUAFYHlZeWhdeTUcfQE1iSQFaGVscQBdKbk1TDw8ZWhRcGFNFUR9UWF4EU1YONQE5C1R2XAtdfU0DKRpfcEJ8VQtYD1sfR31AdlV1KAQzCkELLV4IXh9MHB0OWAYMUE0BQwgKAlEcVg1X
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1777293992; x=1779885992; bh=1JjJX69TRR3VhZD0JKqvCm2eFzxQiSfDhxLHuDIQK80=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=rKlH+HiN19v1nBT4pJgST6+EpSCqv78GhPrm6I43XUZdu0OkuaLRAxB81EaRS8VXOjTmMf9k496M0w2Mi8eWSCniTa4HjW3crFcwbY1vP4cDKYsSUeboik00J3o8GWTLdyiGnDs+SSNMj4pfbB9qMwaDMPQTJg2yZbK+2CIxmBjNxK1qMnOfrJkcgWLZHszVli+UCayZV5BzbepAfvDzukcVSezvqsdRzOgntMB5XV4PtvhYk9jMBNAHYsKAcz8/dgApWvQ34pP8/wO6fxT8bcbWtJZhehMNjg9A3Xhpx9ygYn0gv6e7Z0LLop6AiEAvr74ZulNhmHdFfD42pUdTig==
+	by p00-icloudmta-asmtp-us-east-2d-60-percent-1 (Postfix) with ESMTPS id 76DEC1800152;
+	Mon, 27 Apr 2026 12:43:59 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQxWB1sZUgNeCEoBTVIPDxRMFVIDWg5aHVwMQAxaDkYwUBtfAkIPHBNWFRMLU1ZWBVQZXQBSA18VTQtSAFIfchlaFFwYU0VRH1RYQQ4KWBIYXBRcUFgeRhJWDV0JGRpBXlAbXwJCDxwTVhUTHUMZDysISgRDB0UCXgslEwlTVlsTVRdGCRkIXR0ZFVoJClcKR3xNAi8PLR8zAT0GQANdCzEUOXVedUYCRAFIAiwPXQJJfEBzBFQHXQVdVlACWlUSBEAIVlBeCF4fTBw=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1777293841; x=1779885841; bh=t3uohXcbm2Yzyewy7czvhskog9lWn+WVMgOyDMQg/Do=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=JftkuMjHKnbEiFaUDj4DLR8Q2RgTgyKdlKQfOxKKdJavpf2X4Xf05nMIhMp5h7croWGRkOecuWlfly5OPHB1a07XDeIa/SlbhI4dhmHu9u8kUgOdoCL90Jtuc6h+sVElWIjCiJQ+NYmDvDdqeIYSWMysIeaIoC3TtTMn0PMhod6zsN6P1XijZIt6TbkWVnKWH/6UzIxnzi9GbWYp2k/XozR3feZM3yaJ7lhOP6FDUFoH8kqwe3o0BtJmoKVA3+jzwiew/CPAu1yCE8MnF2blxZGnAkbEIvn4lfmdpmwnMUazI6IP0c3Fo0yorutghTOF8gG7SfVrsbZC/BtCdWB3ag==
 Received: from smtpclient.apple (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-10 (Postfix) with ESMTPSA id 6B6061800104;
-	Mon, 27 Apr 2026 12:46:28 +0000 (UTC)
+	by p00-icloudmta-asmtp-us-east-2d-60-percent-1 (Postfix) with ESMTPSA id 3D88D1801116;
+	Mon, 27 Apr 2026 12:43:58 +0000 (UTC)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 From: "M.samet Duman" <dumanmehmetsamet@icloud.com>
@@ -33,77 +52,58 @@ List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] sound: ua101: fix division by zero at probe
-Date: Mon, 27 Apr 2026 15:46:16 +0300
-Message-Id: <E8A89A79-D50D-4B2E-8580-7D8E8BC6C398@icloud.com>
-References: <20260426111239.103296-1-suunj1331@gmail.com>
-Cc: clemens@ladisch.de, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, me@brighamcampbell.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, SeungJu Cheon <suunj1331@gmail.com>
-In-Reply-To: <20260426111239.103296-1-suunj1331@gmail.com>
-To: SeungJu Cheon <suunj1331@gmail.com>
+Subject: Re: [PATCH] kbuild: add custom EXTRAVERSION for LFX mentorship
+Date: Mon, 27 Apr 2026 15:43:46 +0300
+Message-Id: <87E51B8F-C8E5-469A-AF3B-04801A8609E8@icloud.com>
+References: <0106019dcebb86ea-79eaa26b-e4e5-4b14-b6ef-0d546b49ee9b-000000@ap-northeast-1.amazonses.com>
+Cc: skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, wendster@plos.edu.ci
+In-Reply-To: <0106019dcebb86ea-79eaa26b-e4e5-4b14-b6ef-0d546b49ee9b-000000@ap-northeast-1.amazonses.com>
+To: Xuanjun Wen <wendster@plos.edu.ci>
 X-Mailer: iPhone Mail (23D8133)
-X-Authority-Info-Out: v=2.4 cv=BqeQAIX5 c=1 sm=1 tr=0 ts=69ef5aa6
+X-Proofpoint-GUID: 0uWPhl4nbQbW8j2EdWcFpfWCGkOkdSWk
+X-Proofpoint-ORIG-GUID: 0uWPhl4nbQbW8j2EdWcFpfWCGkOkdSWk
+X-Authority-Info-Out: v=2.4 cv=ZfcQ98VA c=1 sm=1 tr=0 ts=69ef5a0f
  cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
  a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
  a=x7bEGLp0ZPQA:10 a=aRhIMoA-k8UA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=btXWqEsxm-dyBczr72gA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEzNSBTYWx0ZWRfXxT1ISacbIVya
- N2OjFkwEXpKv2DFSCeTr3IRCpPpWie0zxZBsQttKnxDpfTJz4VvkJhhl36BpBotcGyjH0uKjy9N
- 1E1XcmHNIGK5VVrf69+yl/dFQbEiGhC9hkfOUUObOrIBPTMi4owIkgQENJxLkd7f/XKwZT7bKy9
- sXSjxVA5BW+1c0wdca3NNzrdS5mpvHDmHZ6ZirGHHXEaBXYlpJvV896Wz5N+Cu+3lgYHCru9Y7Z
- S+m+lcmwMwv2BCNM/phGagQGBkCinMorGmoD+1jORA+CwrorUvxVC1fctOo18ePKAuS2T6YARrI
- k9fZqh0wT+2XiZwNZGy6P7+3pku3ysFuQzMWSVLJrwuwMMCnbPXkVIcjPlnZVs=
-X-Proofpoint-GUID: V9u_EDqCM_eQ5VhdUZxvBDDtBWxxeo1u
-X-Proofpoint-ORIG-GUID: V9u_EDqCM_eQ5VhdUZxvBDDtBWxxeo1u
+ a=7xmnyIY6nRCZLTRB5yEA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEzNSBTYWx0ZWRfX0EDuJD9WnPQs
+ YQ/UFH26TLI3S7QQG0s56JYsGTRu/UbqksQEJb8PbWUomk2GmxJbfTnDPD8m/rHd5HkiOvkwXRu
+ 1T2IROY0ZpIyeBxkdMrva4NL/gZOVkNaEhkK5W8NQDUJs35Jq7UA0n8XZAqs4jLdgylTSec6H9s
+ zXtzJmeMs4p2SqjyauwzcPQ23Mi9iWRAKVLOHNka2opPQxtPBMk6brGGmQGXjxwZh1vQEWyQY9d
+ R2LEyByz6H5nooPRnBntWuL8kHFz+zsn5QVwz7Ku9i3S3IpjSGHWBsPJLkqgvWTeUIZwgelKfjX
+ RC7MouAIEexKGPA9BECNnNfgr0+HGoXNqzJl4+SeJfD5UgZMXtTRjaCTQWTjGo=
 
-This looks reasonable to me.
+Okay.
 
 Samet
-> 2026. 4. 26. =EC=98=A4=ED=9B=84 2:13, SeungJu Cheon <suunj1331@gmail.com> =EC=
+
+> 2026. 4. 27. =EC=98=A4=ED=9B=84 2:41, Xuanjun Wen <wendster@plos.edu.ci> =EC=
 =9E=91=EC=84=B1:
 >=20
-> =EF=BB=BFAdd a missing sanity check for bNrChannels in detect_usb_format()=
-
-> to prevent a division by zero in playback_urb_complete() and
-> capture_urb_complete().
+> =EF=BB=BFModify the EXTRAVERSION field to include the '-wendster-lfx'
+> suffix as a demonstration of the LFX mentorship application task.
 >=20
-> USB core does not validate class-specific descriptor fields such
-> as bNrChannels, so drivers must verify them before use. If a
-> device provides bNrChannels =3D 0, frame_bytes becomes zero and is
-> later used as a divisor in the URB completion handlers, leading
-> to a kernel crash.
->=20
-> Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
+> Signed-off-by: Xuanjun Wen <wendster@plos.edu.ci>
 > ---
-> Testing:
-> - dummy_hcd + raw_gadget emulating a UA-101 with bNrChannels=3D0.
+> Makefile | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> sound/usb/misc/ua101.c | 7 +++++++
-> 1 file changed, 7 insertions(+)
+> diff --git a/Makefile b/Makefile
+> index e27c91ea56fc..e398b043e822 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -2,7 +2,7 @@
+> VERSION =3D 7
+> PATCHLEVEL =3D 1
+> SUBLEVEL =3D 0
+> -EXTRAVERSION =3D -rc1
+> +EXTRAVERSION =3D -rc1-wendster-lfx
+> NAME =3D Baby Opossum Posse
 >=20
-> diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
-> index 49b3dd8d827d..d129b42eb979 100644
-> --- a/sound/usb/misc/ua101.c
-> +++ b/sound/usb/misc/ua101.c
-> @@ -974,6 +974,13 @@ static int detect_usb_format(struct ua101 *ua)
->=20
->    ua->capture.channels =3D fmt_capture->bNrChannels;
->    ua->playback.channels =3D fmt_playback->bNrChannels;
-> +    if (!ua->capture.channels || !ua->playback.channels) {
-> +        dev_err(&ua->dev->dev,
-> +            "invalid channel count: capture %u, playback %u\n",
-> +            ua->capture.channels, ua->playback.channels);
-> +        return -EINVAL;
-> +    }
-> +
->    ua->capture.frame_bytes =3D
->        fmt_capture->bSubframeSize * ua->capture.channels;
->    ua->playback.frame_bytes =3D
+> # *DOCUMENTATION*
 > --
-> 2.52.0
+> 2.54.0
 >=20
 >=20
