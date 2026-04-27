@@ -1,149 +1,109 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.qs.icloud.com (qs-2003f-snip4-10.eps.apple.com [57.103.86.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BD23B895A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 27 Apr 2026 12:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1EA2FD69D
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 27 Apr 2026 12:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777292698; cv=none; b=I0fQrEGc/u5AmD6MmAk3RYZM3XohmYFiGavx8gzF+I/nwk7vN8EeYMUBVhcrpxkj5K+3OWfFuyXfeqUXVjAKL7pH5Cna8hTUopre4jxOQ91AsNFSHetS9PR1sGJVJXlmCfa3UdN76fQlalD7BmxB2gEQzE/xhsUNqC6/lpywpZY=
+	t=1777293994; cv=none; b=uDgfFZNt/nMLzhvwidICXk+QoOJ6tlW8VApZNjz8dPLgL9bvq1ZH5cxVIcPmNQUMwJ8PXvzTdu0/2n5aRYfruTBe+5DjW/XaPRUJI0jbQgSBOe2IDokkdjyrruPTxTPUBn7iHuglfetM7XWyD4M67MCQxxM8ahcxqLT9+bI7y20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777292698; c=relaxed/simple;
-	bh=bq6AYtThQM/BlyMoFtz9xPHlbmi6l0J3KGctBQ2eILM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RjTbzlNAznjI4C0EvqnfxnHE/tfeEho57NjxF1x3hYBf+AJM9peI6XmUYT4hCg+3o1S8mDu5U8+rU4lba39iyu5ubpchR7kieLPLCXFGxnAOX5THqqq6Wqtw5DJdake9AoBLLdV0YyUANp/1E4mmdySyV2QJjFMzXAhw9Teu14o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i3eee9wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lCab5OKS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i3eee9wh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lCab5OKS; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777293994; c=relaxed/simple;
+	bh=pz1LSk+NHZO+/MDxDD2egHtfq3bKoHCp2g2ZCMelh9A=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=ssokAsnUhUfQAvvaJrCFgU+mS0Yg48Wj80Xl15nzKGBdvbPNy5Mtoj4F3GRCW7HCdDpEODSZhukphuoOZ5XSt5ndhvoSsdnuaXXagZw3SALf6r+N3S3ZzHaYbCdksEmvSxHbSpkXf2gB262e3ZIyjLzi2N0fHH5CRnkaD191EiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=rKlH+HiN; arc=none smtp.client-ip=57.103.86.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3eee9wh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lCab5OKS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3eee9wh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lCab5OKS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 269C55BCCC;
-	Mon, 27 Apr 2026 12:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777292694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
-	b=i3eee9whuNSVKYnsga7ebZmEC50ZU8QpRUEvEq9By2uC+tq6hpiE3Gkz03L2m6hVVAf9oe
-	LU1rwDrlcnLah6j5rdZp8vTTniIygo6l9lqxDNnvGIt72ALU2Iyzjxvn3szq9pT1iwotXb
-	dGy/77yZ0D2SG1nKfnaZEYM/XLoucYQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777292694;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
-	b=lCab5OKSGMIwWA2jBbG7OtHd8/LVA7D25eWdMu9l5QNOVhU31lIver6heyeqDvhnmy+p2F
-	35/OORK9MaqYwsAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i3eee9wh;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lCab5OKS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777292694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
-	b=i3eee9whuNSVKYnsga7ebZmEC50ZU8QpRUEvEq9By2uC+tq6hpiE3Gkz03L2m6hVVAf9oe
-	LU1rwDrlcnLah6j5rdZp8vTTniIygo6l9lqxDNnvGIt72ALU2Iyzjxvn3szq9pT1iwotXb
-	dGy/77yZ0D2SG1nKfnaZEYM/XLoucYQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777292694;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C41jj0nCRnj394j8mWu8Q6MF3z5QE/59gKEsW6WY6GU=;
-	b=lCab5OKSGMIwWA2jBbG7OtHd8/LVA7D25eWdMu9l5QNOVhU31lIver6heyeqDvhnmy+p2F
-	35/OORK9MaqYwsAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D20CC593B0;
-	Mon, 27 Apr 2026 12:24:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r6T7MZVV72myFQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 12:24:53 +0000
-Date: Mon, 27 Apr 2026 14:24:53 +0200
-Message-ID: <877bpszj3e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: SeungJu Cheon <suunj1331@gmail.com>
-Cc: clemens@ladisch.de,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	me@brighamcampbell.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] sound: ua101: fix division by zero at probe
-In-Reply-To: <20260426111239.103296-1-suunj1331@gmail.com>
-References: <20260426111239.103296-1-suunj1331@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="rKlH+HiN"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-10 (Postfix) with ESMTPS id 506A718000B8;
+	Mon, 27 Apr 2026 12:46:29 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQxWB1sZUgNeCEoBTVIPDxRMFVIDWg5aHVwMQAxaDkYwUBtfAkIPHBNWFRMLU1ZWBVQZXQBSA18VTQtSAFIfchlaFFwYU0VRH1RYQQ4KWgJQUR1fAgoERwRbF0YDU0VDAxcRUAFYHlZeWhdeTUcfQE1iSQFaGVscQBdKbk1TDw8ZWhRcGFNFUR9UWF4EU1YONQE5C1R2XAtdfU0DKRpfcEJ8VQtYD1sfR31AdlV1KAQzCkELLV4IXh9MHB0OWAYMUE0BQwgKAlEcVg1X
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1777293992; x=1779885992; bh=1JjJX69TRR3VhZD0JKqvCm2eFzxQiSfDhxLHuDIQK80=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=rKlH+HiN19v1nBT4pJgST6+EpSCqv78GhPrm6I43XUZdu0OkuaLRAxB81EaRS8VXOjTmMf9k496M0w2Mi8eWSCniTa4HjW3crFcwbY1vP4cDKYsSUeboik00J3o8GWTLdyiGnDs+SSNMj4pfbB9qMwaDMPQTJg2yZbK+2CIxmBjNxK1qMnOfrJkcgWLZHszVli+UCayZV5BzbepAfvDzukcVSezvqsdRzOgntMB5XV4PtvhYk9jMBNAHYsKAcz8/dgApWvQ34pP8/wO6fxT8bcbWtJZhehMNjg9A3Xhpx9ygYn0gv6e7Z0LLop6AiEAvr74ZulNhmHdFfD42pUdTig==
+Received: from smtpclient.apple (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-100-percent-10 (Postfix) with ESMTPSA id 6B6061800104;
+	Mon, 27 Apr 2026 12:46:28 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: "M.samet Duman" <dumanmehmetsamet@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 269C55BCCC
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] sound: ua101: fix division by zero at probe
+Date: Mon, 27 Apr 2026 15:46:16 +0300
+Message-Id: <E8A89A79-D50D-4B2E-8580-7D8E8BC6C398@icloud.com>
+References: <20260426111239.103296-1-suunj1331@gmail.com>
+Cc: clemens@ladisch.de, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, me@brighamcampbell.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, SeungJu Cheon <suunj1331@gmail.com>
+In-Reply-To: <20260426111239.103296-1-suunj1331@gmail.com>
+To: SeungJu Cheon <suunj1331@gmail.com>
+X-Mailer: iPhone Mail (23D8133)
+X-Authority-Info-Out: v=2.4 cv=BqeQAIX5 c=1 sm=1 tr=0 ts=69ef5aa6
+ cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
+ a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10
+ a=x7bEGLp0ZPQA:10 a=aRhIMoA-k8UA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=btXWqEsxm-dyBczr72gA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEzNSBTYWx0ZWRfXxT1ISacbIVya
+ N2OjFkwEXpKv2DFSCeTr3IRCpPpWie0zxZBsQttKnxDpfTJz4VvkJhhl36BpBotcGyjH0uKjy9N
+ 1E1XcmHNIGK5VVrf69+yl/dFQbEiGhC9hkfOUUObOrIBPTMi4owIkgQENJxLkd7f/XKwZT7bKy9
+ sXSjxVA5BW+1c0wdca3NNzrdS5mpvHDmHZ6ZirGHHXEaBXYlpJvV896Wz5N+Cu+3lgYHCru9Y7Z
+ S+m+lcmwMwv2BCNM/phGagQGBkCinMorGmoD+1jORA+CwrorUvxVC1fctOo18ePKAuS2T6YARrI
+ k9fZqh0wT+2XiZwNZGy6P7+3pku3ysFuQzMWSVLJrwuwMMCnbPXkVIcjPlnZVs=
+X-Proofpoint-GUID: V9u_EDqCM_eQ5VhdUZxvBDDtBWxxeo1u
+X-Proofpoint-ORIG-GUID: V9u_EDqCM_eQ5VhdUZxvBDDtBWxxeo1u
 
-On Sun, 26 Apr 2026 13:12:39 +0200,
-SeungJu Cheon wrote:
-> 
-> Add a missing sanity check for bNrChannels in detect_usb_format()
+This looks reasonable to me.
+
+Samet
+> 2026. 4. 26. =EC=98=A4=ED=9B=84 2:13, SeungJu Cheon <suunj1331@gmail.com> =EC=
+=9E=91=EC=84=B1:
+>=20
+> =EF=BB=BFAdd a missing sanity check for bNrChannels in detect_usb_format()=
+
 > to prevent a division by zero in playback_urb_complete() and
 > capture_urb_complete().
-> 
+>=20
 > USB core does not validate class-specific descriptor fields such
 > as bNrChannels, so drivers must verify them before use. If a
-> device provides bNrChannels = 0, frame_bytes becomes zero and is
+> device provides bNrChannels =3D 0, frame_bytes becomes zero and is
 > later used as a divisor in the URB completion handlers, leading
 > to a kernel crash.
-> 
+>=20
 > Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
-
-Thanks, applied now.
-
-
-Takashi
+> ---
+> Testing:
+> - dummy_hcd + raw_gadget emulating a UA-101 with bNrChannels=3D0.
+>=20
+> sound/usb/misc/ua101.c | 7 +++++++
+> 1 file changed, 7 insertions(+)
+>=20
+> diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
+> index 49b3dd8d827d..d129b42eb979 100644
+> --- a/sound/usb/misc/ua101.c
+> +++ b/sound/usb/misc/ua101.c
+> @@ -974,6 +974,13 @@ static int detect_usb_format(struct ua101 *ua)
+>=20
+>    ua->capture.channels =3D fmt_capture->bNrChannels;
+>    ua->playback.channels =3D fmt_playback->bNrChannels;
+> +    if (!ua->capture.channels || !ua->playback.channels) {
+> +        dev_err(&ua->dev->dev,
+> +            "invalid channel count: capture %u, playback %u\n",
+> +            ua->capture.channels, ua->playback.channels);
+> +        return -EINVAL;
+> +    }
+> +
+>    ua->capture.frame_bytes =3D
+>        fmt_capture->bSubframeSize * ua->capture.channels;
+>    ua->playback.frame_bytes =3D
+> --
+> 2.52.0
+>=20
+>=20
