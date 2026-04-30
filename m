@@ -1,107 +1,91 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DC62C2346
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Apr 2026 05:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA4147A0B7
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Apr 2026 17:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777525336; cv=none; b=VqhVYTCiCy2UHS53DM7Tt9kqXV8ZAP3pCfNnnivQ7M0VCnHeAdTuMT19qVujUb1cU2HKKQZI/83KTmfgHSsLWtHfvvjcK8EZ9Ggd2K+godDSZfNejABBj+8Br8LWEmcdfHcy09LmiKYBVoi1d8YBuhoUMwyPNuve0JaqzEiKObg=
+	t=1777571828; cv=none; b=Sjd02Th/DXYAHu/K7zcQxOsXsGBbIcBBuC8PytDcXUd23xsqR+pl1uVe2eR24VY4qVB5dJpPQHWn5eura0ODsZ5s0iEG7nwhTOGa7xbfXVmoM/9qt4QobAK1U0MtxAYU5b5+Q3sGgfJX+rNzBC+BQ0F08Ul1wFdBZtGiH5q7sjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777525336; c=relaxed/simple;
-	bh=TR4+KWCOdo2siZsIgVHMmzJqyS1W6LHST1zWivtIu6A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bAH2U2m9PpnbenHuB/pgx2qZBJpsHWfPAs/Uujx+Is1ShbHU6JJjEmwGbMrksGJ4cumgKXQDhEqcBpkF3TE58lDoLTVaycdq7pqUDTnDjwqB0krkcHxmaZhoHF+MhasooogKGpk2q6MQyU0d1EyRNIEGschySrD9if/xcxBvsEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=e4e75wZd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oyEXV7v4; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
+	s=arc-20240116; t=1777571828; c=relaxed/simple;
+	bh=Si9XWxBGvLrdQNvQasBTMwVASAqKP5AP7jxdKns8/7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JjMbVs1SqyBURBfM2oIBjbxbPfAVONmqD0341Sr7da/ycTr08G0tVb6vj9MZ+qU0HuCU279Dgm7ZONC50gLDy7aOritdlgy3LWPUzbR8CVkAzyUZB+uUWzGFX0fCUeCe3jAdvp+5U8TnwSdPHrAdV/cigBgr1ww2KGMfzUHTGFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LI7fk/gl; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="e4e75wZd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oyEXV7v4"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5BC8A1D00052;
-	Thu, 30 Apr 2026 01:02:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Thu, 30 Apr 2026 01:02:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm1; t=1777525333; x=1777611733; bh=ipm6n9HA+PFykpbkIG4t3
-	dXePSJNkvoPGsvwrwTmGXU=; b=e4e75wZd+50jtWZWe0Hizxyf4c3KZC3ZoH6IX
-	JvKd/q6hawXxBFu9kzNVjWrHjB9C/nG0bZfsNbGSV6hJAdOxRU6y3Rxx3mbR/pJS
-	hf5A4EabARB7qLE3ATfRvn8gONeVcbb1EnwwCXKp2Qpu/1gue58cgRLyEKTascPm
-	Zwt6UgWVadyUUHsJLww/xIJgBiFOE94QvmtAbRT6YrovpqU7zlQIKwc89blaoEJq
-	esU2TE9OzaGjQc9N0TpG8y0467hvg7LWToWhZkBucGOfhLPc3u3HxXGh2TAbZvF2
-	zJVQ0CsEEHAi/G1NhbqUpTdDyaDrPntnLtW9mKoibsSDgKhIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777525333; x=1777611733; bh=ipm6n9HA+PFykpbkIG4t3dXePSJNkvoPGsv
-	wrwTmGXU=; b=oyEXV7v4RrNLwgLR37H4agsoSqQgeQrjmrhTpjQseLq9fpW98Bi
-	4WDFpUnjbQOd4XMR+dWqMwzuoRyWmhPC1NR0O1gjn6Sx4W/dOZPMxyvBYCT6f/T/
-	5OX6ZyxInYaHaaXawPwjEhz5FcOiQy4lFLiAeohe03ECxgt8vqLNHIPWYj3LFqaf
-	qZ1ckhjLc2RB/tRebczvJZ2aN2AOK83Bxi3y70D538MRyH8ZBRnnp6oqihXulOu6
-	DA4NrNVgXDbMY6iSkABmSDGUNyXsNiOs3qWUa7OQfGk58kR0n75tnK5Bb6ApctHM
-	2PM4nJXdAXh4gxbWYKo8DzIJEggECkQt7kg==
-X-ME-Sender: <xms:VOLyaR_1cgBb-Kjwlky8nEm3DB5BERLw6oJn0uyLsTPHgCg3nRjpeg>
-    <xme:VOLyadIvkgVZNBW27ZLHjGGX91XOUcSJeQltR1QT-Mvls2bC7VYdNLDag4vp6LMM8
-    u-ReVbe2MX-qRtdkNCJK1y_PpX8zYkoN3C9Z_wkYTXNAJt54bXPE8Y>
-X-ME-Received: <xmr:VOLyacYQSxxZOIsVb5rH8Vu82-Cv-L-35EKST9JMKeWYfDhiKFu1HNKvRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekieegfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
-    enucfhrhhomheplfgvohhnghhinhcujggvohcuoehjvghonhhgihhnrdihvghosehluhgr
-    sggvrhhrhidrtghomheqnecuggftrfgrthhtvghrnhepieevfeejhfeileefgefhheettd
-    ehheehueeuhedttdegtedvieehteeigfefueeinecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepjhgvohhnghhinhdrhigvoheslhhurggsvghrrh
-    ihrdgtohhmpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
-    eplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdgu
-    vghvpdhrtghpthhtohepjhgvohhnghhinhdrhigvoheslhhurggsvghrrhihrdgtohhm
-X-ME-Proxy: <xmx:VeLyafKLWpCxqMXLMBOTJYDect00QwAwhXYyB8DJHVQFzH8Sbk7X1A>
-    <xmx:VeLyaaB9whmkcZdlgfL3yLbTZO24dF-3-NG_Ek6pejawF9warbu8QA>
-    <xmx:VeLyaUq-vk623Tvg5x-Gm1A8xm-uM_Wc4eG2guTJa8mpZFywVop69w>
-    <xmx:VeLyaViLOOzfIH90bL89CxxNlD_N4UtnUUqUCtu5zVa3LGRUwM5A1Q>
-    <xmx:VeLyaf2ZbMNmff24iUgzIHDfZpRcGu52Ls4ct6wB4n93Zh0o5skv7gAF>
-Feedback-ID: i372e487a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Apr 2026 01:02:11 -0400 (EDT)
-From: Jeongin Yeo <jeongin.yeo@luaberry.com>
-To: skhan@linuxfoundation.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	Jeongin Yeo <jeongin.yeo@luaberry.com>
-Subject: [PATCH] Makefile: Add EXTRAVERSION for LKMP Summer 2026
-Date: Thu, 30 Apr 2026 05:01:43 +0000
-Message-ID: <20260430050204.5083-1-jeongin.yeo@luaberry.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LI7fk/gl"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35fc0d7c310so870692a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Apr 2026 10:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777571827; x=1778176627; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LEldV7foT5A232kDq0rnyRxuh4l0nSkVnRNp+w8Vwlc=;
+        b=LI7fk/glPfG+nrlXH9sk04HsuuMQ3qTDTUWFkGgHgmJz9vorXONfKBn0j5Xj7kIt6T
+         hy91WJwayzfLItjE3JhcobjbgzJOytI4L6RXraZACTnXLgk1TctdC53Xwhgpol9OBkGC
+         psuWu+ssvwzy/p5E/uuGlMEOIi+SyhE3f3ipgOoyNiLyRVRI9keSgmWMO/ZBmG/T/Uki
+         LYBQFefmzPjFCiaBvglRv46/vC+jdHvVFqmu95GOdpaf3jfalbxQuwx/Z2/P4ZPwassa
+         KlbDse2+Sg5aU9OWjOVjuvPG7MzW3bGvHdueDBZoRH1Yqc8jr//S1hwvbVXdkHJQaSff
+         Uj6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777571827; x=1778176627;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LEldV7foT5A232kDq0rnyRxuh4l0nSkVnRNp+w8Vwlc=;
+        b=Q6handKb0B3nduHGRrKdQdqGXAqRvcoEbiQLRizPJtyU72ZoJwkPgFXNnUORxk9oAn
+         bH/VLNNb6J3m0x35G7AroTr4v0KTvdn3cz9TGReuLQjMGs6wBCEMniRmdIv9iUZcncEN
+         2Exzw9e1at9sHnCbunUCel1omQrZXG0ur1l0hs09JTg2kq540Dj3R8eDab18qRSUWxWy
+         464wtVZvDR/IdBF382WiUZ56N4KYOAPROHr6kQ0ngELgSmTRhXyUadQqak5iT6LYfHSs
+         k2mydcXAIPJXR61ov3x9XqkLpNaisqwRZiiEToqt4epIkL53K/U7VpQoUXSdwlpSgMCg
+         d9Kw==
+X-Forwarded-Encrypted: i=1; AFNElJ8s6dmwtvwaN9tH50Z0B4xi289OXV5HfHkzQcAuo7XOGkvLqYJVovU4J4fSqqteF/wOgV/HQwVe4itK0vb9gtIhhsaMRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2Di+u/Z60NZFYvyVJWvk6rwdzyK7YmocEsbfrmSpyNHOhM0vK
+	9Vx0hS7uLa1ovHP4n0sGbxMNVreoTHtQXJGvbeehxe8ugnnn7qCna2NI
+X-Gm-Gg: AeBDietSoHIC1pn0kkTbPVb0fRoO8AdWG1SWcBtpbX780bqI5k0zjrqgN21PI+esm6k
+	YDvqP1KegG+b1DpJ5yf3Vb5Cnjh/K9z52n55zwKUjbcfPl8bujKVZ44YcjPZbO5bkkCMBhxD1FF
+	pmDIpkufgDqziWjt8r1fQ5g4DR+3xtwBoR5YLMQpjLPE5vtUuNV7WOBZZyKX/z41q4INirIqOds
+	0d5IjPXl93Ze6zKQVCmTHRLN/JWa2eZGM06eQcAGK5CGsS7scIQAzZyyS5tfiUdy+EB/wwd3+Cq
+	4GZux27DXa0nq4eyTXlREtzQSCicOTqwSJYRDAENQBt0K8x5vXyucQyVcKIxNouITT3Nbbfac7S
+	OHlen1YT/KXrozt8i7DJOaTOqbqpilFju2KsCvIUziclS9mEi8aqEKuUPpnfWu/LsKb/s2MPTBJ
+	D+4hp0So8QhTRLm3hscCRIyo1USXrbsPGtrSGBOQa2SHtsRmM=
+X-Received: by 2002:a17:90a:d444:b0:35d:a0b7:9608 with SMTP id 98e67ed59e1d1-364c2f8bf3dmr4137344a91.7.1777571826829;
+        Thu, 30 Apr 2026 10:57:06 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364ec00a280sm53136a91.10.2026.04.30.10.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 10:57:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 30 Apr 2026 10:57:05 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ninad Naik <ninadnaik07@gmail.com>
+Cc: sergiomelas@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] Documentation: hwmon: fix link to ideapad-laptop.c file
+Message-ID: <30d60aab-911a-4009-a8ad-393591baec58@roeck-us.net>
+References: <20260417191411.713958-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417191411.713958-1-ninadnaik07@gmail.com>
 
-Add EXTRAVERSION for the LKMP Basic kernel skills task.
+On Sat, Apr 18, 2026 at 12:44:11AM +0530, Ninad Naik wrote:
+> The ideapad-laptop.c file now exists inside drivers/platform/x86/lenovo/
+> directory. Updating the GitHub link to the correct path.
+> 
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 
-Signed-off-by: Jeongin Yeo <jeongin.yeo@luaberry.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied.
 
-diff --git a/Makefile b/Makefile
-index e27c91ea56fcf..3c1f8c4a3bdb1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION = 7
- PATCHLEVEL = 1
- SUBLEVEL = 0
--EXTRAVERSION = -rc1
-+EXTRAVERSION = -rc1-jeongin-yeo-LKMP
- NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
--- 
-2.43.0
-
+Thanks,
+Guenter
