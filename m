@@ -1,91 +1,79 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D691D238D27
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DC62C2346
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Apr 2026 05:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777521926; cv=none; b=gXa20VF7l8/UpUWR+hXblKQcryasDu9BS2gLIa+paf8j3d5o4/SVLuFbaxndaIcXNDOOudR8Ehk1p8qwqGn7fF6Df20JMwvB5JytLEqQjEjpVyLJtEYeZvi5LY+6P3korjJZnqDzAI/GrWuTmPrGA8d/O8C5R5CCLF6yMFOFFNI=
+	t=1777525336; cv=none; b=VqhVYTCiCy2UHS53DM7Tt9kqXV8ZAP3pCfNnnivQ7M0VCnHeAdTuMT19qVujUb1cU2HKKQZI/83KTmfgHSsLWtHfvvjcK8EZ9Ggd2K+godDSZfNejABBj+8Br8LWEmcdfHcy09LmiKYBVoi1d8YBuhoUMwyPNuve0JaqzEiKObg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777521926; c=relaxed/simple;
-	bh=Pz1lBBVHgNHxzgHQuvaf765l8g2Vci0J0xiHJ7n510c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JzVQt2YNN715jJZmWSh7hNzrEEcQ9M63VA8bGc9NmjOaWc4uKja20Vk+z3604GJIX0UbadKWa2xA55RF5dh9vddr5FigS9Fcdgzv8cN4vWBZrI+MwLU7GeB/kOMRdVpDGjg5UhiZ27BVEXz9DtoOfovdKXB2RcPxR9DkGM9AP4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkqlhWNB; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1777525336; c=relaxed/simple;
+	bh=TR4+KWCOdo2siZsIgVHMmzJqyS1W6LHST1zWivtIu6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bAH2U2m9PpnbenHuB/pgx2qZBJpsHWfPAs/Uujx+Is1ShbHU6JJjEmwGbMrksGJ4cumgKXQDhEqcBpkF3TE58lDoLTVaycdq7pqUDTnDjwqB0krkcHxmaZhoHF+MhasooogKGpk2q6MQyU0d1EyRNIEGschySrD9if/xcxBvsEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=e4e75wZd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oyEXV7v4; arc=none smtp.client-ip=202.12.124.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkqlhWNB"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 93FC5846AE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id OJrI5uDfHu0j for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1334; helo=mail-dy1-x1334.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E1A3A846AC
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E1A3A846AC
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jkqlhWNB
-Received: from mail-dy1-x1334.google.com (mail-dy1-x1334.google.com [IPv6:2607:f8b0:4864:20::1334])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E1A3A846AC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:24 +0000 (UTC)
-Received: by mail-dy1-x1334.google.com with SMTP id 5a478bee46e88-2d832f2f44cso496336eec.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Apr 2026 21:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777521924; x=1778126724; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kL/durcApuyyvG/J8kYo2FRmpv1/5uzdjUy9U58qkLw=;
-        b=jkqlhWNBoVlBBSEbpOHWW4sZCJlf1PJvp/zGUP1ZEmJBgjFIaKZBuqu7rcx1uaCoGy
-         UmcWnhMU629KjpFU9qc9ZdfLBZB+Kg9rcHYM4ZwkxrudWSKIrNzG2zV5p2zYMXQPoxYb
-         16jHJ2n80tMOmGv8YjMkEm4cIMY4SpNYdwa5WOJtcUrlmpzRFHwuxsRr8kDrcjVKBShE
-         7Dbq6l1PlEm3fVGHueFhko99FxD+cOMraLK/j/U2J+IQbJfV5iWCeZFgm5tavGNu76L3
-         XbQKRZ5rBPY+AfGAEAILiZBmiPWnCf/5MHLdZ2mlqG/etVxYPcM543/SZzxeO+NG/2pC
-         XKCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777521924; x=1778126724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kL/durcApuyyvG/J8kYo2FRmpv1/5uzdjUy9U58qkLw=;
-        b=JKogFKFQOmpM2iEST8Z3ywcTvsqTrkpuz38IfFi59D76yjhVPz7hBxLn/9qyNfqkRR
-         4NF6f1TcArE52r+1mypp/jVZiHab1oFqkWgdgkc7dAsrESqoWnOFwFJYwsmj87QsTpV0
-         eiw7BhJg+mKwn6lX7CbakUAFn/mJJkmey/AaVU4DjfQNXA2os4yTjsWbxPYGlBtxGo+c
-         tWdV8HtbxZn+5AUuUdnrpCzttQCRiWmoUa77z994BVLDfY/A9CnkNtXT2moEksBpUrSW
-         PeYShblp7Jq9r2ocpUFv5fiQS5mFoR+qLGgewkdc0FiMT2ARBkKmA5QyI12j3WIi4nqF
-         U+Ug==
-X-Forwarded-Encrypted: i=1; AFNElJ+VJzLP3tl9Uz/uaQJ9CpBF4OBFwNZVbMZSg8PUThwULFyKhKOZxfHGcXPXcgBkmenOfMcQmceWj3BtnCr3IFDjW5IpjA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyuRx/MH5QFn7wFt5RUHjMHhHMSOKxR9WzvG9qfsBebQI0fG3RL
-	7aGtQBfcX8WnVhGNSxTPx+27yNEQVsCQePdulfkq+mu9kb0oMLNCyLLh
-X-Gm-Gg: AeBDieuxKaSnWCwCsWLW0NsmmACuWYp2gp8JAfE9oTC1zCqxiyaQZF0XlQNtU3405wy
-	sfFL7H5eX6cFjBPoFtnlSijp8F0fLpMp3mWTubt++Z4zHLG9GCbz4H/4/fVYWH1sluI6E+GXq8s
-	gZv8km5C54cdV69yBbFXlAVbU3U83pNgwyExKWmUR/U9VBbHnuMkF8aqi/d4WTHKR97oWjzVPqZ
-	qqRlxVxjKeg/hHLRLuf8q86D8f9kK7ofkLyPdKmDFpAH708L9jnrQwps2LH2YF3Wz2TDHBjaoOV
-	0mwSj4P/gkEfnmiHnuCKfaIZWeZgh0wBta/rNEg9luZ9UXus7XY7E7kUxT6oQSiSvcbvXaIEneY
-	M5LG2wJ4iW4dNhkSVJGlqdY3Kfyy5Qk8ayP5n9Jcleub+a3ivseUithNdWGBDERWi2KQsGNsCXq
-	g+8+WoueLnuR1A1Q0oj/KYDYvUA1ibaOnZqnkP
-X-Received: by 2002:a05:7300:fd03:b0:2ed:27a3:eae3 with SMTP id 5a478bee46e88-2ed3dea5710mr479771eec.26.1777521923549;
-        Wed, 29 Apr 2026 21:05:23 -0700 (PDT)
-Received: from soyboi ([2402:8780:1073:993:9321:304a:9347:5e0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed1c0e9a89sm7474669eec.31.2026.04.29.21.05.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 21:05:23 -0700 (PDT)
-From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: marcel@holtmann.org,
-	luiz.dentz@gmail.com
-Cc: linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com
-Subject: [PATCH] Bluetooth: btintel_pcie: Remove unused ret in btintel_pcie_submit_rx_work()
-Date: Thu, 30 Apr 2026 11:05:18 +0700
-Message-ID: <20260430040518.163212-1-robertusdchris@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="e4e75wZd";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oyEXV7v4"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5BC8A1D00052;
+	Thu, 30 Apr 2026 01:02:13 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Apr 2026 01:02:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1777525333; x=1777611733; bh=ipm6n9HA+PFykpbkIG4t3
+	dXePSJNkvoPGsvwrwTmGXU=; b=e4e75wZd+50jtWZWe0Hizxyf4c3KZC3ZoH6IX
+	JvKd/q6hawXxBFu9kzNVjWrHjB9C/nG0bZfsNbGSV6hJAdOxRU6y3Rxx3mbR/pJS
+	hf5A4EabARB7qLE3ATfRvn8gONeVcbb1EnwwCXKp2Qpu/1gue58cgRLyEKTascPm
+	Zwt6UgWVadyUUHsJLww/xIJgBiFOE94QvmtAbRT6YrovpqU7zlQIKwc89blaoEJq
+	esU2TE9OzaGjQc9N0TpG8y0467hvg7LWToWhZkBucGOfhLPc3u3HxXGh2TAbZvF2
+	zJVQ0CsEEHAi/G1NhbqUpTdDyaDrPntnLtW9mKoibsSDgKhIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1777525333; x=1777611733; bh=ipm6n9HA+PFykpbkIG4t3dXePSJNkvoPGsv
+	wrwTmGXU=; b=oyEXV7v4RrNLwgLR37H4agsoSqQgeQrjmrhTpjQseLq9fpW98Bi
+	4WDFpUnjbQOd4XMR+dWqMwzuoRyWmhPC1NR0O1gjn6Sx4W/dOZPMxyvBYCT6f/T/
+	5OX6ZyxInYaHaaXawPwjEhz5FcOiQy4lFLiAeohe03ECxgt8vqLNHIPWYj3LFqaf
+	qZ1ckhjLc2RB/tRebczvJZ2aN2AOK83Bxi3y70D538MRyH8ZBRnnp6oqihXulOu6
+	DA4NrNVgXDbMY6iSkABmSDGUNyXsNiOs3qWUa7OQfGk58kR0n75tnK5Bb6ApctHM
+	2PM4nJXdAXh4gxbWYKo8DzIJEggECkQt7kg==
+X-ME-Sender: <xms:VOLyaR_1cgBb-Kjwlky8nEm3DB5BERLw6oJn0uyLsTPHgCg3nRjpeg>
+    <xme:VOLyadIvkgVZNBW27ZLHjGGX91XOUcSJeQltR1QT-Mvls2bC7VYdNLDag4vp6LMM8
+    u-ReVbe2MX-qRtdkNCJK1y_PpX8zYkoN3C9Z_wkYTXNAJt54bXPE8Y>
+X-ME-Received: <xmr:VOLyacYQSxxZOIsVb5rH8Vu82-Cv-L-35EKST9JMKeWYfDhiKFu1HNKvRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekieegfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
+    enucfhrhhomheplfgvohhnghhinhcujggvohcuoehjvghonhhgihhnrdihvghosehluhgr
+    sggvrhhrhidrtghomheqnecuggftrfgrthhtvghrnhepieevfeejhfeileefgefhheettd
+    ehheehueeuhedttdegtedvieehteeigfefueeinecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepjhgvohhnghhinhdrhigvoheslhhurggsvghrrh
+    ihrdgtohhmpdhnsggprhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
+    eplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdgu
+    vghvpdhrtghpthhtohepjhgvohhnghhinhdrhigvoheslhhurggsvghrrhihrdgtohhm
+X-ME-Proxy: <xmx:VeLyafKLWpCxqMXLMBOTJYDect00QwAwhXYyB8DJHVQFzH8Sbk7X1A>
+    <xmx:VeLyaaB9whmkcZdlgfL3yLbTZO24dF-3-NG_Ek6pejawF9warbu8QA>
+    <xmx:VeLyaUq-vk623Tvg5x-Gm1A8xm-uM_Wc4eG2guTJa8mpZFywVop69w>
+    <xmx:VeLyaViLOOzfIH90bL89CxxNlD_N4UtnUUqUCtu5zVa3LGRUwM5A1Q>
+    <xmx:VeLyaf2ZbMNmff24iUgzIHDfZpRcGu52Ls4ct6wB4n93Zh0o5skv7gAF>
+Feedback-ID: i372e487a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Apr 2026 01:02:11 -0400 (EDT)
+From: Jeongin Yeo <jeongin.yeo@luaberry.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	Jeongin Yeo <jeongin.yeo@luaberry.com>
+Subject: [PATCH] Makefile: Add EXTRAVERSION for LKMP Summer 2026
+Date: Thu, 30 Apr 2026 05:01:43 +0000
+Message-ID: <20260430050204.5083-1-jeongin.yeo@luaberry.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -94,35 +82,26 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The variable ret assigned to -EINVAL, however, this value is never read
-and re-assigned a new value when the code jumps to label resubmit.
-The assignment is redundant and can be removed.
+Add EXTRAVERSION for the LKMP Basic kernel skills task.
 
-This is reported by Coverity Scan with CID 1598882 as UNUSED_VALUE.
-
-Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
+Signed-off-by: Jeongin Yeo <jeongin.yeo@luaberry.com>
 ---
- drivers/bluetooth/btintel_pcie.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/bluetooth/btintel_pcie.c b/drivers/bluetooth/btintel_pcie.c
-index 2f59c0d6f9ec..ac4f5b45a6af 100644
---- a/drivers/bluetooth/btintel_pcie.c
-+++ b/drivers/bluetooth/btintel_pcie.c
-@@ -1376,10 +1376,8 @@ static int btintel_pcie_submit_rx_work(struct btintel_pcie_data *data, u8 status
- 	rfh_hdr = buf;
+diff --git a/Makefile b/Makefile
+index e27c91ea56fcf..3c1f8c4a3bdb1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 7
+ PATCHLEVEL = 1
+ SUBLEVEL = 0
+-EXTRAVERSION = -rc1
++EXTRAVERSION = -rc1-jeongin-yeo-LKMP
+ NAME = Baby Opossum Posse
  
- 	len = rfh_hdr->packet_len;
--	if (len <= 0) {
--		ret = -EINVAL;
-+	if (len <= 0)
- 		goto resubmit;
--	}
- 
- 	/* Remove RFH header */
- 	buf += sizeof(*rfh_hdr);
-
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+ # *DOCUMENTATION*
 -- 
-2.54.0
+2.43.0
 
