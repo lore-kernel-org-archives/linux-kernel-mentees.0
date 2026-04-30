@@ -1,89 +1,90 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40721FE44A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Apr 2026 04:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D691D238D27
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777350634; cv=none; b=NGQ8POuWnD5OmYJm/GSHApJJY4Ghf5EnslWSP01LlY+LFHD8jUnBPECSGdFXa0FkP7md0jED8UU6e1HHCkPj1bed3E5jCG250NQiQqT/Z/HEQBgtaLmQGaw2VMspnnlfKmByJlLA+AQ4JBg3qGqD6hYa9rnsMg8yOw2ANwLS6FA=
+	t=1777521926; cv=none; b=gXa20VF7l8/UpUWR+hXblKQcryasDu9BS2gLIa+paf8j3d5o4/SVLuFbaxndaIcXNDOOudR8Ehk1p8qwqGn7fF6Df20JMwvB5JytLEqQjEjpVyLJtEYeZvi5LY+6P3korjJZnqDzAI/GrWuTmPrGA8d/O8C5R5CCLF6yMFOFFNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777350634; c=relaxed/simple;
-	bh=lAw7ByP8NQVMmaHIXOiQsoholucbwdEXesa5oUVmQ8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D1D0eTnInZlH3JSyfY5fMCb6YsDkvDs3me5GQQE1x2rCvigdB79lXDE/U65HAkinPxc1AITSSs1X8HnwBkTLBkVFUXAVFUBwMyNOE/HLUOIt4IZ0A7yY7fiwa7q4DoO8ptd8vp1WfRnbtLGItNSYMPbR0KAlIzvcruKd47Bu/q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=josqMqLm; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1777521926; c=relaxed/simple;
+	bh=Pz1lBBVHgNHxzgHQuvaf765l8g2Vci0J0xiHJ7n510c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JzVQt2YNN715jJZmWSh7hNzrEEcQ9M63VA8bGc9NmjOaWc4uKja20Vk+z3604GJIX0UbadKWa2xA55RF5dh9vddr5FigS9Fcdgzv8cN4vWBZrI+MwLU7GeB/kOMRdVpDGjg5UhiZ27BVEXz9DtoOfovdKXB2RcPxR9DkGM9AP4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkqlhWNB; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="josqMqLm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkqlhWNB"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 586BD60E3C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Apr 2026 04:30:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 93FC5846AE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id tJnvKaAp9S8U for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Apr 2026 04:30:32 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id OJrI5uDfHu0j for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 Apr 2026 04:05:25 +0000 (UTC)
 Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1334; helo=mail-dy1-x1334.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9602460E1E
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9602460E1E
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=josqMqLm
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E1A3A846AC
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E1A3A846AC
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jkqlhWNB
 Received: from mail-dy1-x1334.google.com (mail-dy1-x1334.google.com [IPv6:2607:f8b0:4864:20::1334])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9602460E1E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Apr 2026 04:30:32 +0000 (UTC)
-Received: by mail-dy1-x1334.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso11104518eec.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Apr 2026 21:30:32 -0700 (PDT)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E1A3A846AC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Apr 2026 04:05:24 +0000 (UTC)
+Received: by mail-dy1-x1334.google.com with SMTP id 5a478bee46e88-2d832f2f44cso496336eec.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Apr 2026 21:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777350631; x=1777955431; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20251104; t=1777521924; x=1778126724; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ncax1hLXhL4s1JyqOrJU1m4Lr9wzrisl50UIYascFK0=;
-        b=josqMqLm52YvqCqjzAUtv50jd2GSR1kVlVtiBk49a7Yru6nWJmvAagDcsjETQnZLfo
-         X5OM6athBCvU48VWeMCa0SQFtVxkaPnJ6NLkDl+KxYC6WcW5MRj/nfbAB0n+2sfWccWm
-         Bf0Er2MYHbXf+sRPvHLj6iF0MAin8f0LBkGFwvUtI5a9Geg7MwzkmXnL5lVK98RGRvib
-         X3lZN6szI8lZbWka/jjcxq72FV3dFOMoBXWxERZqdYJl2AXcIiC76H78MGXszyF1uxAK
-         hqgfnS44rPc5gw4ZX6zb24sjzkK1unx8JtsYMeyeihqL3U2ksP3LP7GYIaGSlC0Z60N4
-         CXbQ==
+        bh=kL/durcApuyyvG/J8kYo2FRmpv1/5uzdjUy9U58qkLw=;
+        b=jkqlhWNBoVlBBSEbpOHWW4sZCJlf1PJvp/zGUP1ZEmJBgjFIaKZBuqu7rcx1uaCoGy
+         UmcWnhMU629KjpFU9qc9ZdfLBZB+Kg9rcHYM4ZwkxrudWSKIrNzG2zV5p2zYMXQPoxYb
+         16jHJ2n80tMOmGv8YjMkEm4cIMY4SpNYdwa5WOJtcUrlmpzRFHwuxsRr8kDrcjVKBShE
+         7Dbq6l1PlEm3fVGHueFhko99FxD+cOMraLK/j/U2J+IQbJfV5iWCeZFgm5tavGNu76L3
+         XbQKRZ5rBPY+AfGAEAILiZBmiPWnCf/5MHLdZ2mlqG/etVxYPcM543/SZzxeO+NG/2pC
+         XKCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777350631; x=1777955431;
+        d=1e100.net; s=20251104; t=1777521924; x=1778126724;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ncax1hLXhL4s1JyqOrJU1m4Lr9wzrisl50UIYascFK0=;
-        b=EZzI2cgL2tNIrv6tJ2joB9qcELAdObvy42HgLVKbq3dbtb0YFsJ3x4PHGCBJEm2Cw+
-         ltMQNz33Qyna26pS9HSWhCkwadDVdX1yl7RHtVrEl3Cur398Ar0yjmN8sGC6KN6+MluE
-         QuZnETtoycBbgvqAK7cMk1uBeXa0gTUIXSziZ6Sm8IQUcWhopWUH3YnXGKYlA0FVbJaB
-         7OjYQ2m8NQ5rfVsrAc5Q1fEnIbNKmn/+nLV+P3/kxaSeaF4qVqD8KAwDkgjg94Q+OQfq
-         prEkYIwySyGwmTVgMRzwcarmJgHPeg8UPOQhvqAjrqOpY2DWfg+t/cok6OFN4zEet/7a
-         OzCg==
-X-Forwarded-Encrypted: i=1; AFNElJ8cDebQX7ik/BmXTBK2h9oejIfPY7mMWPZr0Eom446Mt796zr+mYxRoIOJGLd/CD9ZCj6q89xfAhtRE74DbiKXdK8IYRw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz16OrgTzTjLfB/nM/180AD/oh0niT+fPSmUmvchf3ZbAwKdY4J
-	cj6lgfRnDfIXfhshi5j3PbaouLm6Big3kLA5Zq/PiIdjgFlyroh97kHE
-X-Gm-Gg: AeBDievJqiRr6tJVr/tahvGy6eTN9l56qlCWav/d48lB9qnXVXG6bGJjivnSDv0rqIY
-	QK8BajhS2yHX+PvlrtzmTQQYIL2Ot1AiWNVII8ExIAc+449np9IJz9LVTxDLOyZul+vAcyPWDN8
-	TkEG2kwxpYSK9rOrPvdyLHYSs8DVNWL7sbPeg0DXgyQ5gnhj1aOHl3o+hHnqUi60DrAGXb6QvgW
-	2sh9nreD5axqKWjnuCLm+Leke/XRuaWbdOic3da64aXnc/NWiWTp3L2CLzCbM6zBm4QQhCgNBPd
-	jEe9NRYXyZFE2028Sz/F1+mkqSEzih/GCvaZuNEjHaYc+4rkN+ke8LOXHSMcn0si89YaVRjw6yR
-	Z/I+aDV8afpA3Q3g5utl76EFmARw2TpStdjDqmxlQi7MHkHQA2jGNYy01zyhir1YyxBsaQpZU3J
-	fYNeBjhs/ApTdBDYLhMixcz2zKGM5GeGU7X5Th
-X-Received: by 2002:a05:7300:f18f:b0:2ea:4228:ab11 with SMTP id 5a478bee46e88-2ed09fde4cbmr702624eec.3.1777350631199;
-        Mon, 27 Apr 2026 21:30:31 -0700 (PDT)
+        bh=kL/durcApuyyvG/J8kYo2FRmpv1/5uzdjUy9U58qkLw=;
+        b=JKogFKFQOmpM2iEST8Z3ywcTvsqTrkpuz38IfFi59D76yjhVPz7hBxLn/9qyNfqkRR
+         4NF6f1TcArE52r+1mypp/jVZiHab1oFqkWgdgkc7dAsrESqoWnOFwFJYwsmj87QsTpV0
+         eiw7BhJg+mKwn6lX7CbakUAFn/mJJkmey/AaVU4DjfQNXA2os4yTjsWbxPYGlBtxGo+c
+         tWdV8HtbxZn+5AUuUdnrpCzttQCRiWmoUa77z994BVLDfY/A9CnkNtXT2moEksBpUrSW
+         PeYShblp7Jq9r2ocpUFv5fiQS5mFoR+qLGgewkdc0FiMT2ARBkKmA5QyI12j3WIi4nqF
+         U+Ug==
+X-Forwarded-Encrypted: i=1; AFNElJ+VJzLP3tl9Uz/uaQJ9CpBF4OBFwNZVbMZSg8PUThwULFyKhKOZxfHGcXPXcgBkmenOfMcQmceWj3BtnCr3IFDjW5IpjA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyuRx/MH5QFn7wFt5RUHjMHhHMSOKxR9WzvG9qfsBebQI0fG3RL
+	7aGtQBfcX8WnVhGNSxTPx+27yNEQVsCQePdulfkq+mu9kb0oMLNCyLLh
+X-Gm-Gg: AeBDieuxKaSnWCwCsWLW0NsmmACuWYp2gp8JAfE9oTC1zCqxiyaQZF0XlQNtU3405wy
+	sfFL7H5eX6cFjBPoFtnlSijp8F0fLpMp3mWTubt++Z4zHLG9GCbz4H/4/fVYWH1sluI6E+GXq8s
+	gZv8km5C54cdV69yBbFXlAVbU3U83pNgwyExKWmUR/U9VBbHnuMkF8aqi/d4WTHKR97oWjzVPqZ
+	qqRlxVxjKeg/hHLRLuf8q86D8f9kK7ofkLyPdKmDFpAH708L9jnrQwps2LH2YF3Wz2TDHBjaoOV
+	0mwSj4P/gkEfnmiHnuCKfaIZWeZgh0wBta/rNEg9luZ9UXus7XY7E7kUxT6oQSiSvcbvXaIEneY
+	M5LG2wJ4iW4dNhkSVJGlqdY3Kfyy5Qk8ayP5n9Jcleub+a3ivseUithNdWGBDERWi2KQsGNsCXq
+	g+8+WoueLnuR1A1Q0oj/KYDYvUA1ibaOnZqnkP
+X-Received: by 2002:a05:7300:fd03:b0:2ed:27a3:eae3 with SMTP id 5a478bee46e88-2ed3dea5710mr479771eec.26.1777521923549;
+        Wed, 29 Apr 2026 21:05:23 -0700 (PDT)
 Received: from soyboi ([2402:8780:1073:993:9321:304a:9347:5e0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed0a13eaafsm1283826eec.28.2026.04.27.21.30.29
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed1c0e9a89sm7474669eec.31.2026.04.29.21.05.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 21:30:30 -0700 (PDT)
+        Wed, 29 Apr 2026 21:05:23 -0700 (PDT)
 From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: jpoimboe@kernel.org,
-	peterz@infradead.org
-Cc: linux-kernel@vger.kernel.org,
+To: marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	me@brighamcampbell.com
-Subject: [PATCH RFT] objtool: Validate find symtab in elf_create_rela_section()
-Date: Tue, 28 Apr 2026 11:30:26 +0700
-Message-ID: <20260428043026.160465-1-robertusdchris@gmail.com>
+Subject: [PATCH] Bluetooth: btintel_pcie: Remove unused ret in btintel_pcie_submit_rx_work()
+Date: Thu, 30 Apr 2026 11:05:18 +0700
+Message-ID: <20260430040518.163212-1-robertusdchris@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -93,52 +94,33 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-find_section_by_name() will return NULL if the section is not found. If
-the symtab section is not found, using the return value of
-find_section_by_name() directly will cause null pointer dereference. So
-check the return value from find_section_by_name() when finding symtab
-section before using the information.
+The variable ret assigned to -EINVAL, however, this value is never read
+and re-assigned a new value when the code jumps to label resubmit.
+The assignment is redundant and can be removed.
 
-This is reported by Coverity Scan with CID 1445573 as NULL_RETURNS.
+This is reported by Coverity Scan with CID 1598882 as UNUSED_VALUE.
 
-Fixes: 627fce14809b ("objtool: Add ORC unwind table generation")
 Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
 ---
-Currently still not sure _when_ symtab section is not found. This is
-reported by static analysis tool, which can be wrong. I apologize if
-this turns out to be false positive.
+ drivers/bluetooth/btintel_pcie.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
- tools/objtool/elf.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
-index f3df2bde119f..ce7246d3b302 100644
---- a/tools/objtool/elf.c
-+++ b/tools/objtool/elf.c
-@@ -1625,7 +1625,7 @@ static int elf_alloc_reloc(struct elf *elf, struct section *rsec)
- struct section *elf_create_rela_section(struct elf *elf, struct section *sec,
- 					unsigned int nr_relocs)
- {
--	struct section *rsec;
-+	struct section *rsec, *symtab;
- 	char *rsec_name;
+diff --git a/drivers/bluetooth/btintel_pcie.c b/drivers/bluetooth/btintel_pcie.c
+index 2f59c0d6f9ec..ac4f5b45a6af 100644
+--- a/drivers/bluetooth/btintel_pcie.c
++++ b/drivers/bluetooth/btintel_pcie.c
+@@ -1376,10 +1376,8 @@ static int btintel_pcie_submit_rx_work(struct btintel_pcie_data *data, u8 status
+ 	rfh_hdr = buf;
  
- 	rsec_name = malloc(strlen(sec->name) + strlen(".rela") + 1);
-@@ -1654,7 +1654,13 @@ struct section *elf_create_rela_section(struct elf *elf, struct section *sec,
- 		}
- 	}
+ 	len = rfh_hdr->packet_len;
+-	if (len <= 0) {
+-		ret = -EINVAL;
++	if (len <= 0)
+ 		goto resubmit;
+-	}
  
--	rsec->sh.sh_link = find_section_by_name(elf, ".symtab")->idx;
-+	symtab = find_section_by_name(elf, ".symtab");
-+	if (!symtab) {
-+		ERROR("can't find .symtab");
-+		return NULL;
-+	}
-+
-+	rsec->sh.sh_link = symtab->idx;
- 	rsec->sh.sh_info = sec->idx;
- 
- 	sec->rsec = rsec;
+ 	/* Remove RFH header */
+ 	buf += sizeof(*rfh_hdr);
 
 base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
 -- 
