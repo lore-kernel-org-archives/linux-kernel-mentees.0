@@ -1,125 +1,120 @@
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57555202997
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  2 May 2026 02:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B5F215075
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 May 2026 15:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777690622; cv=none; b=GMokVfqtspilkSgzz48uPhW5GIJjQEs19h6YEu2w3d6Jw27itJHQZdGpneGs4u1d3QdRz6KQGtb6s2HTaXI2AxeePTJyAZdWbcP8pYxNKvOr8E2uVHqIn21Qw9LxGs3fGJMQzSsD4RTdK+mq2GyrfqfO2DI2Qz/mc5ThrZXebDA=
+	t=1777735688; cv=none; b=kJ5HoSolf/FRQlzZScx/nPiJ3HeUq8DiCcNynKgwJjLD4/PiqSTUkDEu+JW835Lt3a0LF1rEFxRrGkKvkgDU+1Gyz0YiJt+PK3w8Jx+i1V1I5bA9BjipLP69n2jMqiqfHiig0wbYeGqT2wEEg1zSy/BITvLlPgMJhn/wUVn80xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777690622; c=relaxed/simple;
-	bh=6MVjPCNpgQqVU9SXicKa3l3PnR35h9jy7An9u7iWfZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dt0R+HJZRsXu0hy/3VnFPyEwRH59oibsrEQhnYviyih8zXm7BDWvte+GMFCB7rOXiQG1tksOKQScNrmNG7iv+A44bA3fafKEFQ9Kx/1tN4ZA2cZuh0SRuIFUO3fXZnOad/D0ZKpRAV2skF/KdhR62+OA7jlg0wayzaeTrcWBhfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=Pk3Ody+O; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=GpCV5M8K; arc=none smtp.client-ip=203.29.242.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+	s=arc-20240116; t=1777735688; c=relaxed/simple;
+	bh=Ur7q02NeVtJSOy7orK58kqJ4WuABGh+N2Y2Mne3aKDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XYcGV1zhSsbWOfCivuWeE2RtrBZx0ou62gZG7fR+aTS1QE1nWFIZvtU3lN3o+MX2k+k1B1RdqA5atfTHiFt+eVys2LqrgF6T2pTwK/B+LvOCf0h2pKiED8CJGKd2eTqS36hCmcs3IBhJarPtWfBzk4X1+BcTANpXvABe3sBHA2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vap8VaL9; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="Pk3Ody+O";
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="GpCV5M8K"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1777690617;
-	bh=6MVjPCNpgQqVU9SXicKa3l3PnR35h9jy7An9u7iWfZc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pk3Ody+OxuIizQ5+4H6BoeB7UUCyoULAslHzCUi+UBmfAa8BFa9Pqt+XmXJvcVq8b
-	 XTqs+nUbnQNKvHp7etFowG3JafSJV0LqG6FxRU7VcNOOmwxv6eg6lQwMn36TiU27dY
-	 coM0GhCxyaY3Ow8Uxml1A910GU/ip0iqr9Ob4LYeBbw6gErH4z9enLvjdiVliwiXdS
-	 jrdQ0O/8ACXdesAG1Tyj3rsAPZCO5N7BQAHkFDjQLkPV17MNBWiPBhJ3aBeDN7GpJ1
-	 5v6jsA//9l7rMs33yAVdsKLJqtQbniA8vFDRmGqnqGZR2HHW9SZb94H8lv36RMvN29
-	 cuJHO5JFUj0yZJIGhbG4gDE684hOMt/8F35MujYXSeYs4aAfT1hMXX9PzFKO7ADGP2
-	 qmJ2opeWoKTkAz/ZaC140Wl+Nuf6AqfAQA2/HdSoGj4vka14Qg5g94KI2VYTyHGvyL
-	 Boh37yj+jBeDiJ9iBD2cPn/7/qWcwFAkKbqju5/uzEYG/tLFOnQvKV4Ey12KoQDbj0
-	 weWi2/HNaWgbcZmPPi9zFqWymYxx70yFjyWyaliIm4+0UqOSeFxPxafU8atWOpu5OC
-	 1ll6xZVEqowV5FCXwCpgQq1GOWJYuMg0Sw9b/IffZmaE2y8VTU+1c3F6SRpsnIX5wU
-	 wDzPcxABQLV1N5wgNKPhMtH0=
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id 808551E86C3; Sat,  2 May 2026 10:56:57 +0800 (AWST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1777690571;
-	bh=6MVjPCNpgQqVU9SXicKa3l3PnR35h9jy7An9u7iWfZc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GpCV5M8KytOSRYZEcsfpG1el6yvUhHegPvKUlO7CJ3xHuUKXp8YfCqMXvim979lSc
-	 3c7L0VVhPGgw6Cu0+SSXWtOxXmcDSQXBXxeH3ONN21fZHRZx5IXtgEBzzVJB5fNcdq
-	 jugkCDcjNmJkYN9vZ9cgbKYKygLOLhtFNoHYFYjPRDoYGjJealhGhbYAeU3dbR0DBq
-	 bz7f1+k1YMW8HlNM43XCqHceEkXhrJ7ubCFv13MU91LplybtnlSfo2y8vR/J4yK5yi
-	 qBscx8XHMkj8utNbWvOt4x8MqddZ8c5uXQYpHT+16tZrEtYTobuyR1CvWIiUABsskY
-	 pOG73lrQ42VzKkc6TMcjNpY6h6ZvYjS5U1xTFT8TUr+oXht8Gb6CCh9mVCcu/APFPm
-	 7ixxSaBh5vJGLoxRTrybBwcaTcVeNg72z/fu7cVG/0GiTA+0GDTPyrg1mtKJqadvla
-	 2ZSs1ePqPWoYBcWjQLoq/smBRkni7ZmLcHgOi4GsUSd5hueKFcTQz9uCtFlcGcaAp7
-	 xhiPKDXJWwBDiHmxtOeZJRVpOnL+95Og8qUZ61I9tnec5XWVyz3DtEtOzzK+CVMaqe
-	 VlxlMj79vIs+MGV0Q6HCGdjHCWvVVuCsw/fQzKqGI1IDF7tWbqvjob5hi+i5xpUQh4
-	 95m5OHJOrN22QwZ/9dYIVeyM=
-Received: from [IPV6:2001:8003:8810:ea00:ed87:ca88:5326:e11d] (unknown [IPv6:2001:8003:8810:ea00:ed87:ca88:5326:e11d])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id D6B501E86C0;
-	Sat,  2 May 2026 10:56:11 +0800 (AWST)
-Message-ID: <131e1ff1-4d29-4e45-8f85-33e2a8983b2b@davidgow.net>
-Date: Sat, 2 May 2026 10:56:09 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vap8VaL9"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6264083BC8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 May 2026 15:28:07 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 4N8__pAsvaF9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  2 May 2026 15:28:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42d; helo=mail-pf1-x42d.google.com; envelope-from=pavankumaryalagada@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org A562583D60
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A562583D60
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Vap8VaL9
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id A562583D60
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  2 May 2026 15:28:06 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-82f8bf96b46so1238422b3a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 02 May 2026 08:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777735686; x=1778340486; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4lEXXuT8fkR0sExnwAQD96U0WZzRZr6E+8Jzs4vSM+Y=;
+        b=Vap8VaL9flMVrCghJvHnGimG3VBFLlI92W2z7gEraPC3eefYRWR7zNbmbuKe5RQMwv
+         vhHPb20yDYKmoX+Fh9BV0fBw6a1hb817TELgd1b6JWCFbxDRP3SMEkISxFmIvJujDIGX
+         L2fXUC/Uq1e2XjijwSBOTszyhKe9lbYgtZpZVc/VnwWjLolr7mAl8HLH8M7qo+3WqSNm
+         spV2NoZ4XfX1XOU7d9KdDic7C72ON+jyAo+LY1jpvprlAiRbVRgw/UqEoLt5R9nb/H2T
+         ugD6CQ0Yqa1vi43KfD4ZoJxruGXIfv2mrhCDDrNrZ9b5M9pF9sHM7CaF/SCPbVRM7FgY
+         CyfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777735686; x=1778340486;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4lEXXuT8fkR0sExnwAQD96U0WZzRZr6E+8Jzs4vSM+Y=;
+        b=VMoU9UAjKc0ZEiIo2EebPkp5JCFLI7yw7g5ZRr4Wq/Gg1QrufMRr1gUNxQaFpamgRx
+         zvRofFwACEI4YTSxWF2Q53NjarQzJyHfRMRGsnhXkF+GVCgVrENgwcxXIhvv2b2UEPxE
+         39DUt78V6pR2XgE7hcA6um7Q/DxTqO6zQmE1UPb/zHHQakpchMSnEKr+ztipk6Ym3YAn
+         sPXeJ7dZEtZx9RwoNoDPM0idlNfvW84OY7fUQwgRdLDx6BgvdsBuXNRPasSTh6UIPH+e
+         tirBJdnAhhEqXAcVtAv5Q5J4LV+/9nSypSaQvMegDxtXkvugXS5+VK2jQZwEWH823bly
+         tMnQ==
+X-Gm-Message-State: AOJu0YwZtdy4Pe/+le/yVnwMS2rtyi3NnMWl8nVCwWnxkL6LGpJ/7pQN
+	DR27HVqZ8iBVPmA/Z9T+RlL7LzlIzwJWKBlybGjGgDmDLZAcbu3uUOrT
+X-Gm-Gg: AeBDievUOUL6qXW5m4em7c/DoXH+V04Uv4Cj80x0EtHyqazcExrpUJIWlaT9qOXzWf9
+	gUL4ug/HR2VZYnyWLoKOMZFySRLJf44Fi8P8vUT+iHuvLBupzIw4i/jTBIsSkvPJcX8GHJKI1Qf
+	l2YwsmfceYFUWuYlpi+OSjfeH/S2yaUCEfNRQFD06MYkWgkI/PDWyrj3s7x/4dTm13YJBIN1i3H
+	hyGKaHrKVsvAe+0692Ct9DZb4EbDdgREoTs/2+zd8CXh9inZWGG442QGNyE4y/iIyFtk3BKrmY3
+	z+LTZlQ6II459IMRAshxN/MlsU35Upyv8XLvpjdqj6k34FmIfKkqntVTzwVi47RP1oIUQF4GXOa
+	/1PZ3cI/v495jsFUavLyBf38H8LNkj0xaJBaac32xjWMT2cA7LM3xmCUfIZvRg9FkpjXthYm+jl
+	qI6z8BAPWD8PMHSMqL+eeZ6vUbSJYyCLs7WsQM1CpFlw72vtFacPRS
+X-Received: by 2002:a05:6a00:2993:b0:827:28ba:ff00 with SMTP id d2e1a72fcca58-8352d160370mr3025657b3a.18.1777735685711;
+        Sat, 02 May 2026 08:28:05 -0700 (PDT)
+Received: from user.. ([2405:201:c052:b00b:c985:2bbf:bf0b:3786])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-835158bc863sm5646991b3a.26.2026.05.02.08.28.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2026 08:28:05 -0700 (PDT)
+From: pavankumaryalagada@gmail.com
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	pavankumaryalagada@gmail.com
+Subject: [PATCH] kbuild: add pavan-lfx suffix to EXTRAVERSION
+Date: Sat,  2 May 2026 20:57:55 +0530
+Message-ID: <20260502152755.95805-1-pavankumaryalagada@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kunit: Fix spelling mistakes in comments and messages
-To: Jinseok Kim <always.starving0@gmail.com>, brendan.higgins@linux.dev
-Cc: raemoar63@gmail.com, skhan@linuxfoundation.org, me@brighamcampbell.com,
- jkoolstra@xs4all.nl, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20260501162739.3861-1-always.starving0@gmail.com>
-Content-Language: fr
-From: David Gow <david@davidgow.net>
-In-Reply-To: <20260501162739.3861-1-always.starving0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 02/05/2026 à 12:27 AM, Jinseok Kim a écrit :
-> Fix two spelling mistakes in kunit tooling:
->    Bascially -> Basically
->    higer     -> higher
-> 
-> Signed-off-by: Jinseok Kim <always.starving0@gmail.com>
-> ---
+From: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
 
-Thanks!
+Modify the EXTRAVERSION field in the top level Makefile to
+include the "pavan-lfx" suffix.
 
-Reviewed-by: David Gow <david@davidgow.net>
+This change is done as part of the LFX Mentorship application
+task to demonstrate kernel build and version customization.
 
-Cheers,
--- David
+Signed-off-by: Yalagada Pavan Kumar <pavankumaryalagada@gmail.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->   tools/testing/kunit/kunit_kernel.py | 2 +-
->   tools/testing/kunit/kunit_parser.py | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> index 2869fcb19..58557c47d 100644
-> --- a/tools/testing/kunit/kunit_kernel.py
-> +++ b/tools/testing/kunit/kunit_kernel.py
-> @@ -218,7 +218,7 @@ def _get_qemu_ops(config_path: str,
->   	# exists (I learned this through experimentation and could not find it
->   	# anywhere in the Python documentation).
->   	#
-> -	# Bascially, we completely ignore the actual file location of the config
-> +	# Basically, we completely ignore the actual file location of the config
->   	# we are loading and just tell Python that the module lives in the
->   	# QEMU_CONFIGS_DIR for import purposes regardless of where it actually
->   	# exists as a file.
-> diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
-> index 1c61a0ed7..0e1d2f498 100644
-> --- a/tools/testing/kunit/kunit_parser.py
-> +++ b/tools/testing/kunit/kunit_parser.py
-> @@ -268,7 +268,7 @@ def check_version(version_num: int, accepted_versions: List[int],
->   	if version_num < min(accepted_versions):
->   		test.add_error(printer, f'{version_type} version lower than expected!')
->   	elif version_num > max(accepted_versions):
-> -		test.add_error(printer, f'{version_type} version higer than expected!')
-> +		test.add_error(printer, f'{version_type} version higher than expected!')
-> 
->   def parse_ktap_header(lines: LineStream, test: Test, printer: Printer) -> bool:
->   	"""
-> --
-> 2.43.0
+diff --git a/Makefile b/Makefile
+index e27c91ea56fc..16d1312686b7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 7
+ PATCHLEVEL = 1
+ SUBLEVEL = 0
+-EXTRAVERSION = -rc1
++EXTRAVERSION = -rc1-Pavan-lfx
+ NAME = Baby Opossum Posse
+ 
+ # *DOCUMENTATION*
+-- 
+2.43.0
 
