@@ -1,96 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF075466B72
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  6 May 2026 15:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECEC175A99;
+	Wed,  6 May 2026 18:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778082359; cv=none; b=YZ8eTC2Oh5ucWTMW5dY/cnyn2kYXtbazq2aFfxRb1zglXYnVHAzB3ShOd4YZ1pLmyhCMHCLYidJpQPkAwlGXEBRCVsMjusClzEcXF8L6xZb/kI12BelHWErqng+4xMi7oQHD0OHEO2k2Mt/wKv6NnNLauNtw5gJZ/uzPPEMFhbk=
+	t=1778091444; cv=none; b=CmrZchu09a6gtmZi1AfNBLxpt5LRpcNiW6pND5V8PYfgDoMctQ/Hs+H+iVXhovbo3smr+nawkNGNEsFDBIQm5/MN30B9ppQ424OKI6YHKPiPeVAqSTvc37UmIVdEBx3tWIW1OWdRDSmloHH/MIV7bj02XyDu7q8lCElthfFc9Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778082359; c=relaxed/simple;
-	bh=QqlCtMiLAL4XeX46Zata65qWqC9bXCCftFoa0e9dJ60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ti30Bnyn5X7+YVCBF0ctC2GzGHdLyIHHYnyVxBqpwJ5zbtvLQ9ToE94mSiXN8vIpnt8e2qf/CGTQS0T2pfnC3dMkaVXQKm7Si7f8W5uEVbXPY4I1fdwyYzU/pPo7ZfxlPCJW4y4NXMTQWq6M2ZI5dytHxWAyBCO7KggHF41jMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gGl1U2uO; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778091444; c=relaxed/simple;
+	bh=wZcS3zPDTogbCCquvTJ9KNSoNvqqTQ3UtT6v+t8RYWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mfeAv5cCjT+V40SU9A1iIK6hySWQ5iRSUeR4T62ZAzdKuohJQqf46B58YvLRrLwISeduORhwyBjbUMbHzqgwe6LNU34RFInTMStqrPfarWoXPq85K/xd79xjQVvefQ2e08IGzlFktjgRVFuqLEfozXSayBzVauEXK9zjOMi9iLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NWffUwtG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGl1U2uO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778082357; x=1809618357;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QqlCtMiLAL4XeX46Zata65qWqC9bXCCftFoa0e9dJ60=;
-  b=gGl1U2uObBhD8Lcy69t5aSxhxX16c4f7ExHqSXdMVcBfILPC8JVebomu
-   vGFwxFfsI7jgK8hS1L0yiVhpmxXYBM5dj6hYV93QmgWP6+GF0+uAisien
-   /hB7aQK80eOnCFlXAiw9yLMrafA1frHlThiFSoxF4aEGUa0tw7T4JNBs/
-   DJU1qxWWD9Zb6qk8UiCAOm9z5DeGZM/f95Oi3SPHlCKISYvuSAX9T8WGk
-   A271hSNps+NUYVRgWyjYLpkaggTPG9Hk0yAhxRFzw6WxDcQAcqyNuJCzb
-   iZnwvekZ6qkj4XvCg0prYS9p747Cuf/qsxktjjtSDXIgHFhVi6Nuw2SPj
-   Q==;
-X-CSE-ConnectionGUID: Fk9Kky2MRh+fvE5MhEddXw==
-X-CSE-MsgGUID: 8Hw8DkVNRq6rsyDtsmQitQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11778"; a="78868513"
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="78868513"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 08:45:55 -0700
-X-CSE-ConnectionGUID: EB6Awzv6Q2uxLwImnseoaA==
-X-CSE-MsgGUID: 72n2t8MaTtizOWhOgSCeKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="235174633"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.183])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 08:45:53 -0700
-Date: Wed, 6 May 2026 18:45:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Aldo Conte <aldocontelk@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 0/3] iio: light: tcs3472: devm conversion, wait time,
- locking cleanup
-Message-ID: <aftiLlKIdT89cpi2@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NWffUwtG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A53FC2BCB0;
+	Wed,  6 May 2026 18:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778091444;
+	bh=wZcS3zPDTogbCCquvTJ9KNSoNvqqTQ3UtT6v+t8RYWE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NWffUwtGBDqVB30Rh/y78YDGyywGqCY00++tlXRVJYuLLUvfU79K6k4ODPVbDVGaf
+	 tlb+klh6ixf+8kG0vin2lV+HZlTNtrfVFaydkKv9oyuH1rGekGGgKNwEx+36JLl2BN
+	 PvYMh6c8TRt/diEXl9ThfOxTvgtjh747b9cMTJnMBMH6wGTk/VXqEDvet6VZ0pE5OP
+	 OJbCqe6k7VoSmhjihZKfHAP/0Mq2Vwbvx2ce1o8tXEvDO+tgU8CgSvQExZ5t3BaTOM
+	 0af7wlLtLyQd7sPnU5MptKJLOARy+Ujtkno0JhXs0ykDR0kpkttugMgK5MTYCTIyJv
+	 5MVwhKR7jbb6g==
+Date: Wed, 6 May 2026 19:17:15 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Aldo Conte <aldocontelk@gmail.com>, dlechner@baylibre.com,
+ nuno.sa@analog.com, andy@kernel.org, shuah@kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH 2/3] iio: light: tcs3472: implement wait time and
+ sampling frequency
+Message-ID: <20260506191715.4a943d60@jic23-huawei>
+In-Reply-To: <afsVzTytyLsNcAi0@ashevche-desk.local>
 References: <20260506094311.222500-1-aldocontelk@gmail.com>
- <afsWI3MKoWZS4mL3@ashevche-desk.local>
- <16c08754-840f-440e-a252-b14172393394@gmail.com>
+	<20260506094311.222500-3-aldocontelk@gmail.com>
+	<afsVzTytyLsNcAi0@ashevche-desk.local>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16c08754-840f-440e-a252-b14172393394@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 06, 2026 at 05:35:42PM +0200, Aldo Conte wrote:
-> On 5/6/26 12:21, Andy Shevchenko wrote:
-> > On Wed, May 06, 2026 at 11:43:08AM +0200, Aldo Conte wrote:
-
-...
-
-> Thanks a lot for the detailed review. I'll address all the points in v2.
 > 
-> Regarding the series structure, I need to clarify the correct order:
-> 1) Guard (mutex) conversion
+> > +static unsigned int tcs3472_cycle_time_us(struct tcs3472_data *data)
+> > +{
+> > +	unsigned int atime_us = (256 - data->atime) * 2400;
+> > +	unsigned int init_us = 2400;
+> > +	unsigned int wtime_us;
+> > +
+> > +	if (!(data->enable & TCS3472_ENABLE_WEN))
+> > +		wtime_us = 0;
+> > +	else if (data->wlong)
+> > +		wtime_us = (256 - data->wtime) * 28800;
+> > +	else
+> > +		wtime_us = (256 - data->wtime) * 2400;  
+> 
+> This is the same as atime_us.
+Similar form but not the same unless data->wtime == data->atime
+Probably not worth defining anything common for that.
 
-Since this most likely wants a new cleanup.h to be added, the 2) Header sorting
-should go before even this one.
-
-> 2) Header sorting
-> 3) Devm conversion (with the new TCS3472_Powerdown using Guard (mutex)
-> directly)
-> 4) Wait time implementation
-> Would this be OK?
-
-Otherwise sounds good, but I can't be 100% sure until I see a v2.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> 
+> > +	return wtime_us + init_us + atime_us;
