@@ -1,62 +1,64 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CDD3C3456
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  7 May 2026 10:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0113BC673
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  7 May 2026 10:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778148776; cv=none; b=PCZu7dcXvp69kMDcaCJj1iMIdGnYXlPzsux88xGTauwrkDcMT+TSwyU+xfBWqdCG1lG0IzLfF+fG1NNKzxQk4OC4DYghqpbwHdWzKivm1YFL7cbaDw119DzTzVlG67kDQLK3UMtMO1+2EhRvwkXfPnD7k4MqHIq/m3UHwZg9hy4=
+	t=1778148792; cv=none; b=Bds2psS14ztttRpdfhEp8Orui7DjkIkkHOrKgnlDuFIE4/jOGs5/k0cJq37oy+c8hFsQuxrSqo1bJMlVUW22lcMrXBQry3VdN+/xrKAKUSp5j3N8RYkTYsJ+0Uez2FqPxy++GYBnMipBZYLTlKWbInAOdywdcIlOwtgMg+5d9hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778148776; c=relaxed/simple;
-	bh=3xfA1DkquYuRG5e/fkJPGHmYNlnl2sMR1OxKC/FswyQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AM6/t/i07HgaDMyhDAZNpj0/hzshft0Qp8p65ZAD/AP9ypyobhc7ydrHtukdTuITwtn80IDOC/ierP/0DRdXtll1hjz2LpFAR6Toy65bMkEub4kdWSGzWh63J0yOFZn7PD1llQAm03cxQloNKuyHP72Sr+twWg2uIshMqiM6zfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eh/+3cnm; arc=none smtp.client-ip=209.85.210.182
+	s=arc-20240116; t=1778148792; c=relaxed/simple;
+	bh=6KYWZrOtJuCtmkc6oXa80aIw5oQTa7O99g3ALeNngJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X22vFnb6bNpVfqCSSgBFEfp4D1vUQE85GJ5fOC1n1QFOI4ll6YOTTedbLvKx4qvOFCW9DV8TR35Qp21rphCHUHIE43XPkPHTkFDwl6JbMLtIZlFDOwGjbIe09eoWBxjq/TZPHoJAo1rU+U2UnI0ceIS8y611esadV9OCc0Tc0v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J62ikcrF; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eh/+3cnm"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-838d0b7c950so382603b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 07 May 2026 03:12:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J62ikcrF"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-835c98b659eso406915b3a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 07 May 2026 03:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778148774; x=1778753574; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3TsBqtt18Cwy3ovtqkmoggUEtnSub60FoPA8LRbU20A=;
-        b=eh/+3cnmIWaZvbA0PhBm7SX5U1X4kGRAS5h/wPCDpzbZUbYJ9ZGklBNtmoICN9YUBD
-         ro6DxT3mRjroWEL49K/fSvqJoUkAg5YiqW63o/IK7MLop2KgiQ76NIRZFuLiGVeB63xg
-         I6HYBVqNzourGMoF4uy+lqaWke9TZEDtzds2538YBZQWaa3AqPYpJAoZkNnSlAsTpa3K
-         wLWpQ6DZqtmOE+kYdEkGnbFHGUEox1ST/3UzMD0vY2n8rAol2lbRKUoLfp8bkqeb+VDV
-         i0ttsz5JdsjiagXU2jMBVtZz581ndP/Dp/PLTsrfbh0Ag7pmib0sbxNacV9noABFauEI
-         prYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778148774; x=1778753574;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778148790; x=1778753590; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3TsBqtt18Cwy3ovtqkmoggUEtnSub60FoPA8LRbU20A=;
-        b=KaQaM5ZBPqxZuf9NkELRO6PksV5u/afdxXAG+hxSZJ4Y0IIag2w55nwnl4KMsEU2J4
-         6UVmadnSlO112R1Ngiq5mGhoPfOrMcag05LYw3IWOGccNbM9EGJAwtYmgvXlTHn5rp4I
-         qcJLawd9eoQpV9UHcv5CT6dZKkRsEIw58W5XveFphhGNlT0IXvVTyUGH5mZEM1+gSsjF
-         3xHbEH0xy0m1Nyumeb8MUXar5sdeULR61MA15Nrzyr2qWwuu+1BcLaBdkszsWEqR7He5
-         eZ+8EYS+/scfNFOmOMc3vuu0gQekNV2/ZhatrLFY8znUd5D1Pmqn6IqtWs2Ty6q3g0cy
-         vj5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9UIwKWeMTYe/7cGZN6hSkp2DxQpQp/l1ffHxGz3utMIk5YHAwTXqWLrXP6caZpmGoTbCbK3UUB8d5XeaO8663o6OeTwA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwY0O7zLHElRGKhYofsjIlfamsC4Vnxd9LM0/wdA8dqsSN+ava
-	6Mg7SgOBBzqbZ14v1sf9hpFwsQqAAZyWFPrip6Z1MT7WTyeftAOaYLl18pNfXwJdkuI=
-X-Gm-Gg: AeBDieuFmO1QM4TvhUYZf/TiF2PZxTS9pzSJht4Z+8Heh2lBfjIgucs9ljWV9sUH8TS
-	oJkNWMPBA2Hdg4OmdWqy+df8drrC89ttBlbuU9/z6BThWPN8srrhEqgnPaaKqjuREid04FiW0N6
-	jpL1lnAhhi2I4DsyYejAyfQgTWeCBPmeNFQapRc+fHe4meXhhjdT/OZ3sJ8Mh4YhWJcnq9HvqZj
-	b7y9LnUS2aA9dgP78l70G1g61MoY5o43bEQDT/1jQSdCMQKU95FUQgC3p6nLbMnV6VFXezgEVoi
-	+VvmlNoS9bPcTwdoCN82Bo9DCEguBftyBilqpa8sBDsY2tO+lZIIT7R9uDo1KRSZGDHpZ9opKVE
-	HF27hopFboN6YJ1WRpUYINKVfEdrrz0zgl7uF9LzzMgBl4ylqOeTkPPMfhIef/vTk5iSRM6cgMS
-	Y9L7DN4rwLF2P18ReGzDPWNo+2mgrgkboVKHn7BCDBFnWA/2eoJu8+g94V7W6vU2fGqInylL/ih
-	o4FDn8XEQd71Lhow0xQ8cKc6pojzA==
-X-Received: by 2002:a05:6a00:27a4:b0:838:a46:ce99 with SMTP id d2e1a72fcca58-83a5e457a1fmr6768497b3a.48.1778148774344;
-        Thu, 07 May 2026 03:12:54 -0700 (PDT)
+        bh=LxZbT380K0M24w7y1BCiVavbwUG7hQkkQTnQDue/tio=;
+        b=J62ikcrFSQI8IlSZw0cNWNb5xueIOTJSIR73YHHWgKyZez+pq6M351t+WzrNQ8fh9a
+         yJOTSzFxRTI6Qq3N+lDTD2KiNC71CfYhaVVATfdgq6Ma6h+nwzQrsRNI/jgy4UVCpt+D
+         r5HZyBhjrnakrBXW6zwiB3ZkcDjHmdwiTJl8r3XnzrnZrbFx+8LMd0RLuNCrdvxXLSzI
+         gyoDHfpfoTC0jY18W9YkKMfvaJeTvdL39EV1kBubiyBwcwA+WtwpisoRXPR8YTkeumBU
+         AJ0B2frubTRZWuebldH0RDifefnnfuZ9DY9U7pZ89sgrsRtF4aHklTFcWb9QLxU8ZUjZ
+         BvEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778148790; x=1778753590;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LxZbT380K0M24w7y1BCiVavbwUG7hQkkQTnQDue/tio=;
+        b=NQXM8Bwh2qnVeaLO6Cwpnm+Fb6E9zfZqIus2KTLzt0HdbYZqEJl6ZptZC/NP6Ejg73
+         Tq3avBNKQU/yQF4gxvlCl3gKxBbr6QMVZgTjJqQPY5pcpFrf4Tn0GyErR80Hj4i4s3pX
+         DrJwWfuuOLFvhVH+b2y2PaeWO8iNSUq+jyoRgkghBwxpWdRtJMPdfHmrWkD1QDbgXst8
+         wrZvQOMf0WioU/d5aHbcKO+DON5hioQR6jT4WOa3nerw1Sy/bkwpJRRV5d/wuhCQJG0m
+         3+a13gvwjyffbY8wZqZpSI779UWevj/Qbklssz8u6hNnlK8YpkiRUugSduyVsHbE9M7L
+         dxhw==
+X-Forwarded-Encrypted: i=1; AFNElJ8DN0ATX5kNCqoUocf7gNS9GkFRPF0CPLKQYJRW4Qc+GS5p8N2TxTqqi7Z/rtkkACA3ZJt5eGJu5vMoh7D/mQ9pD7eWpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXwRqsjWKetUkPxtLvqXcOIMQIns5TpfZjiSl5lI+LBuPJdcBc
+	I3wJ10IgIwiT+IJZoc2RyolnMcS3S1Vs0XHOnyoaAVSGQa+2ZbrS5i1r
+X-Gm-Gg: AeBDieusHSkj0MddQ5ov9j8OloYHtk+aVYJMKlAyx+tttZTbG4OvVhSkkE+LaKfnzzt
+	5URyJZ2eNcpj/qjrhCLzidBrPoIZxGm6RFL/08UgY/7f6mDI1cHjYXebT40W2y01m7Hzx2d4fXj
+	MUPuJmwmPlM+UJzVbIqmFcvAxvM4CYA1lEmJjjTTkPkM9m9w+hSEr2SXRiQw54ypNN/3ilWzfNo
+	LQaUf64CJsG3XNQ8lpFx4eCuepC6xUb4zaiiXRRnPtwhlltYH4ijomTwFbxTg881XuJDvcPTVNS
+	H+TUU/h1kk+cxDvyP2kQ6EyYaZBarougX4gBev+A7g8vTRxa7ZQbq+RH2V5215x70J2Cj84f52X
+	e3rEFqM2mFfXp7KKjtIphEkDJucmsj1GNK7oNumqZReuIDzJARD+FY6vW8zGC40m7flgFtqRYpn
+	Q20m5hICnTq6tmnNp74J24SJcEY6y0STCR5CZClGinDSI0j922o60crzu77PkGcXYbJG+6dSMYQ
+	T3pR+LP8RBvuDA7p2E=
+X-Received: by 2002:a05:6a00:3695:b0:835:cc47:6ff9 with SMTP id d2e1a72fcca58-83a5dd5c829mr7121074b3a.28.1778148789864;
+        Thu, 07 May 2026 03:13:09 -0700 (PDT)
 Received: from fedora ([103.181.54.100])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbcf16sm9797998b3a.40.2026.05.07.03.12.51
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbcf16sm9797998b3a.40.2026.05.07.03.13.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 03:12:54 -0700 (PDT)
+        Thu, 07 May 2026 03:13:09 -0700 (PDT)
 From: Ninad Naik <ninadnaik07@gmail.com>
 To: linux@roeck-us.net
 Cc: linux-hwmon@vger.kernel.org,
@@ -65,10 +67,12 @@ Cc: linux-hwmon@vger.kernel.org,
 	me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev,
 	Ninad Naik <ninadnaik07@gmail.com>
-Subject: [PATCH 0/3] hwmon: lm93: clean up coding style issues
-Date: Thu,  7 May 2026 15:41:40 +0530
-Message-ID: <20260507101143.559475-1-ninadnaik07@gmail.com>
+Subject: [PATCH 1/3] hwmon: lm93: Add missing blank lines after declarations
+Date: Thu,  7 May 2026 15:41:41 +0530
+Message-ID: <20260507101143.559475-2-ninadnaik07@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260507101143.559475-1-ninadnaik07@gmail.com>
+References: <20260507101143.559475-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,23 +81,290 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series includes code style changes for lm93 driver to fix
-several checkpatch.pl warnings. No functional changes are made. I tested
-the changes by compiling the file.
+Fix checkpatch.pl warning by adding blank lines after variable declaration.
+No functional changes are made.
 
-Changes include:
-- Add blank lines after variable declarations
-- Change 'unsigned' to 'unsigned int'
-- Remove else blocks after break or return statements
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+ drivers/hwmon/lm93.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-Ninad Naik (3):
-  hwmon: lm93: Add missing blank lines after declarations
-  hwmon: lm93: Change unsigned to unsigned int for clarity
-  hwmon: lm93: Remove else blocks after break or return for consistency
-
- drivers/hwmon/lm93.c | 87 ++++++++++++++++++++++++++++----------------
- 1 file changed, 56 insertions(+), 31 deletions(-)
-
+diff --git a/drivers/hwmon/lm93.c b/drivers/hwmon/lm93.c
+index be4853fad80f..c15e2a02dd86 100644
+--- a/drivers/hwmon/lm93.c
++++ b/drivers/hwmon/lm93.c
+@@ -372,6 +372,7 @@ static u8 LM93_IN_TO_REG(int nr, unsigned val)
+ 	const long intercept = uv_min - slope * lm93_vin_reg_min[nr];
+ 
+ 	u8 result = ((uv - intercept + (slope/2)) / slope);
++
+ 	result = clamp_val(result,
+ 			   lm93_vin_reg_min[nr], lm93_vin_reg_max[nr]);
+ 	return result;
+@@ -383,6 +384,7 @@ static unsigned LM93_IN_REL_FROM_REG(u8 reg, int upper, int vid)
+ 	const long uv_offset = upper ? (((reg >> 4 & 0x0f) + 1) * 12500) :
+ 				(((reg >> 0 & 0x0f) + 1) * -25000);
+ 	const long uv_vid = vid * 1000;
++
+ 	return (uv_vid + uv_offset + 5000) / 10000;
+ }
+ 
+@@ -397,6 +399,7 @@ static unsigned LM93_IN_REL_FROM_REG(u8 reg, int upper, int vid)
+ static u8 LM93_IN_REL_TO_REG(unsigned val, int upper, int vid)
+ {
+ 	long uv_offset = vid * 1000 - val * 10000;
++
+ 	if (upper) {
+ 		uv_offset = clamp_val(uv_offset, 12500, 200000);
+ 		return (u8)((uv_offset /  12500 - 1) << 4);
+@@ -425,6 +428,7 @@ static int LM93_TEMP_FROM_REG(u8 reg)
+ static u8 LM93_TEMP_TO_REG(long temp)
+ {
+ 	int ntemp = clamp_val(temp, LM93_TEMP_MIN, LM93_TEMP_MAX);
++
+ 	ntemp += (ntemp < 0 ? -500 : 500);
+ 	return (u8)(ntemp / 1000);
+ }
+@@ -582,6 +586,7 @@ static int LM93_PWM_FROM_REG(u8 reg, enum pwm_freq freq)
+ static u8 LM93_PWM_TO_REG(int pwm, enum pwm_freq freq)
+ {
+ 	int i;
++
+ 	for (i = 0; i < 13; i++)
+ 		if (pwm <= lm93_pwm_map[freq][i])
+ 			break;
+@@ -632,6 +637,7 @@ static int LM93_PWM_FREQ_FROM_REG(u8 reg)
+ static u8 LM93_PWM_FREQ_TO_REG(int freq)
+ {
+ 	int i;
++
+ 	for (i = 7; i > 0; i--)
+ 		if (freq <= lm93_pwm_freq_map[i])
+ 			break;
+@@ -657,6 +663,7 @@ static int LM93_SPINUP_TIME_FROM_REG(u8 reg)
+ static u8 LM93_SPINUP_TIME_TO_REG(int time)
+ {
+ 	int i;
++
+ 	for (i = 0; i < 7; i++)
+ 		if (time <= lm93_spinup_time_map[i])
+ 			break;
+@@ -710,6 +717,7 @@ static int LM93_INTERVAL_FROM_REG(u8 reg)
+ static u8 LM93_INTERVAL_TO_REG(long interval)
+ {
+ 	int i;
++
+ 	for (i = 0; i < 9; i++)
+ 		if (interval <= lm93_interval_map[i])
+ 			break;
+@@ -772,6 +780,7 @@ static unsigned LM93_GPI_FROM_REG(u8 reg)
+ static unsigned LM93_ALARMS_FROM_REG(struct block1_t b1)
+ {
+ 	unsigned result;
++
+ 	result  = b1.host_status_2 & 0x3f;
+ 
+ 	if (vccp_limit_type[0])
+@@ -1104,6 +1113,7 @@ static ssize_t in_show(struct device *dev, struct device_attribute *attr,
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_IN_FROM_REG(nr, data->block3[nr]));
+ }
+ 
+@@ -1259,6 +1269,7 @@ static ssize_t temp_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_FROM_REG(data->block2[nr]));
+ }
+ 
+@@ -1271,6 +1282,7 @@ static ssize_t temp_min_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_FROM_REG(data->temp_lim[nr].min));
+ }
+ 
+@@ -1304,6 +1316,7 @@ static ssize_t temp_max_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_FROM_REG(data->temp_lim[nr].max));
+ }
+ 
+@@ -1337,6 +1350,7 @@ static ssize_t temp_auto_base_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_FROM_REG(data->block10.base[nr]));
+ }
+ 
+@@ -1370,6 +1384,7 @@ static ssize_t temp_auto_boost_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_FROM_REG(data->boost[nr]));
+ }
+ 
+@@ -1405,6 +1420,7 @@ static ssize_t temp_auto_boost_hyst_show(struct device *dev,
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
+ 	int mode = LM93_TEMP_OFFSET_MODE_FROM_REG(data->sfc2, nr);
++
+ 	return sprintf(buf, "%d\n",
+ 		       LM93_AUTO_BOOST_HYST_FROM_REGS(data, nr, mode));
+ }
+@@ -1447,6 +1463,7 @@ static ssize_t temp_auto_offset_show(struct device *dev,
+ 	int ofs = s_attr->nr;
+ 	struct lm93_data *data = lm93_update_device(dev);
+ 	int mode = LM93_TEMP_OFFSET_MODE_FROM_REG(data->sfc2, nr);
++
+ 	return sprintf(buf, "%d\n",
+ 	       LM93_TEMP_AUTO_OFFSET_FROM_REG(data->block10.offset[ofs],
+ 					      nr, mode));
+@@ -1525,6 +1542,7 @@ static ssize_t temp_auto_pwm_min_show(struct device *dev,
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	u8 reg, ctl4;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	reg = data->auto_pwm_min_hyst[nr/2] >> 4 & 0x0f;
+ 	ctl4 = data->block9[nr][LM93_PWM_CTL4];
+ 	return sprintf(buf, "%d\n", LM93_PWM_FROM_REG(reg, (ctl4 & 0x07) ?
+@@ -1570,6 +1588,7 @@ static ssize_t temp_auto_offset_hyst_show(struct device *dev,
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
+ 	int mode = LM93_TEMP_OFFSET_MODE_FROM_REG(data->sfc2, nr);
++
+ 	return sprintf(buf, "%d\n", LM93_TEMP_OFFSET_FROM_REG(
+ 					data->auto_pwm_min_hyst[nr / 2], mode));
+ }
+@@ -1921,6 +1940,7 @@ static ssize_t pwm_auto_channels_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", data->block9[nr][LM93_PWM_CTL1]);
+ }
+ 
+@@ -2000,6 +2020,7 @@ static ssize_t pwm_auto_spinup_time_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_SPINUP_TIME_FROM_REG(
+ 				data->block9[nr][LM93_PWM_CTL3]));
+ }
+@@ -2035,6 +2056,7 @@ static ssize_t pwm_auto_prochot_ramp_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n",
+ 		       LM93_RAMP_FROM_REG(data->pwm_ramp_ctl >> 4 & 0x0f));
+ }
+@@ -2067,6 +2089,7 @@ static ssize_t pwm_auto_vrdhot_ramp_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n",
+ 		       LM93_RAMP_FROM_REG(data->pwm_ramp_ctl & 0x0f));
+ }
+@@ -2100,6 +2123,7 @@ static ssize_t vid_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_VID_FROM_REG(data->vid[nr]));
+ }
+ 
+@@ -2111,6 +2135,7 @@ static ssize_t prochot_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", data->block4[nr].cur);
+ }
+ 
+@@ -2122,6 +2147,7 @@ static ssize_t prochot_avg_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", data->block4[nr].avg);
+ }
+ 
+@@ -2133,6 +2159,7 @@ static ssize_t prochot_max_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", data->prochot_max[nr]);
+ }
+ 
+@@ -2168,6 +2195,7 @@ static ssize_t prochot_override_show(struct device *dev,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n",
+ 		(data->prochot_override & prochot_override_mask[nr]) ? 1 : 0);
+ }
+@@ -2206,6 +2234,7 @@ static ssize_t prochot_interval_show(struct device *dev,
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
+ 	u8 tmp;
++
+ 	if (nr == 1)
+ 		tmp = (data->prochot_interval & 0xf0) >> 4;
+ 	else
+@@ -2248,6 +2277,7 @@ static ssize_t prochot_override_duty_cycle_show(struct device *dev,
+ 						char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", data->prochot_override & 0x0f);
+ }
+ 
+@@ -2279,6 +2309,7 @@ static ssize_t prochot_short_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", (data->config & 0x10) ? 1 : 0);
+ }
+ 
+@@ -2312,6 +2343,7 @@ static ssize_t vrdhot_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	int nr = (to_sensor_dev_attr(attr))->index;
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n",
+ 		       data->block1.host_status_1 & (1 << (nr + 4)) ? 1 : 0);
+ }
+@@ -2323,6 +2355,7 @@ static ssize_t gpio_show(struct device *dev, struct device_attribute *attr,
+ 				char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_GPI_FROM_REG(data->gpi));
+ }
+ 
+@@ -2332,6 +2365,7 @@ static ssize_t alarms_show(struct device *dev, struct device_attribute *attr,
+ 				char *buf)
+ {
+ 	struct lm93_data *data = lm93_update_device(dev);
++
+ 	return sprintf(buf, "%d\n", LM93_ALARMS_FROM_REG(data->block1));
+ }
+ 
 -- 
 2.54.0
 
