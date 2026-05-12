@@ -1,108 +1,137 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CE83C1F3A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 15:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C785A357D01
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 20:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600008; cv=none; b=HLiKL2R6VAocZHksbj+vv0vAK4CZRB9qf6jDxsTuY0/PiIDUlvWE3qVMsHR3cGnQNQfvYWYUScYo4TEqf9PWjAXVZs5UQn1Hvr8vaVEFv2++29fhB/izMwXnd+gjDpk7l7+gbW2UbwWoAsm/4MdAdC7qEsDdj+JJ3+CGNYgL8uk=
+	t=1778617615; cv=none; b=Leuf5ytTLTh5gj9rZcEqWeog7AqB8aqmFg0bl9Vu/3MNud+U9DELj+8XIu8R/xn3pxq65VhHYs74djYbVJJIh7+cVZhDzMgp5LipEgA2uBGPZ1ORn+NGjU1N2qKNF3XmF8VxxcauaUN/lhLIXGMgRl4RXXl67gM0pmPbAOH6Qnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600008; c=relaxed/simple;
-	bh=VbNaStc1qBADIt4CSjtSb6nwrPlXzwDQ+ag4jwdYNoY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=PpRVjX3+Mbi5G3YKRQT1KJCCsbJIc6HKnU9D3790/tPETIChS9Nh7A6H1AKPLLcnooXEgVPZpnD4s7kDTEDHbf845bwqa7mZgDEJBRrdIhNVU+fvQlpG//bvj+4giLn2p5Axac4//Q130/OQcX4WRl6k7Ng5hznOjQalbEO+m6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAWNSBZD; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1778617615; c=relaxed/simple;
+	bh=ZkAqUSLBLLghmuczFbLlmEifeuByeu9FETpip9wySoE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qaHc7fKx86BQO0Ac1UFaYUtOqObiVMi+ZvmA+DVJv4zVCdw3B7zqb3tjCLA0wXXvt4e1VEGTR5bc2tarZcUb7FV7yoXWedj4z1ySTFpUkfADXm9G9JYVcUYTt+QEk2p6lgva3I2B6MwhYAot4Iv1yucMKTKXVR0R7gMmN2z/wKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ImHDg9+J; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAWNSBZD"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 36FBD81EB5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 15:33:26 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XaHHTeAo65NX for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 May 2026 15:33:25 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=jikos@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 8C0C481E9A
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8C0C481E9A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DAWNSBZD
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8C0C481E9A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 15:33:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8FD2D40A57;
-	Tue, 12 May 2026 15:33:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E38C2BCC7;
-	Tue, 12 May 2026 15:33:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778600004;
-	bh=VbNaStc1qBADIt4CSjtSb6nwrPlXzwDQ+ag4jwdYNoY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=DAWNSBZDEkq7tMIJMPiP42Z3Z+pLjil2O/6yPuJnJ1aNki3yPSgQVxjKKYL4YAS1h
-	 q35WMdzb9MxuS9ONvFnir6ODwS+lzNA0Z+XnSsSAiscqifWfpMO1eX9etQHAxjofFI
-	 AhaVgvPB3MYFTs55TdMPl6YWqVUzNbG2yCYanGJJO2USoV7IAsHMoYxD7ZQw7/0KAu
-	 zHeRPEdoRY5Q4OAkeGEV9ZzT899jvdICW2wVeG5/Qcs0YIeP0dHr2cWMEbHxRsxVu0
-	 xGt0NaYUx4R0/gjmZqpAf0qWENlv6GjgeT6V73G/oCdtVWRySmp98HmkaXTSnLv/Jz
-	 Ot/gTLqqMS9sg==
-Date: Tue, 12 May 2026 17:33:21 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, linux-usb@vger.kernel.org, 
-    linux-input@vger.kernel.org, linux-hardening@vger.kernel.org, 
-    linux-kernel-mentees@lists.linuxfoundation.org, 
-    Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: usbhid: replace strlcat with better alternatives
-In-Reply-To: <20260410192447.7059-1-mahad.ibrahim.dev@gmail.com>
-Message-ID: <qo3q917q-77q7-03q2-8458-8p2q2n99q41r@xreary.bet>
-References: <20260410192447.7059-1-mahad.ibrahim.dev@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ImHDg9+J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778617611;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PeaPwxj6CE2jWtwEguCT34VqbzG7tuL668TllqlmsLQ=;
+	b=ImHDg9+JteBrsQPWfNYOEGWrp9OMqgm+UrGeqh8iSoU7BMElnaPAJj+t6+0zgr4M2sXZjW
+	eOSdShQoMlm7J3kRZW/33NpVTXJPE5QhakniM47AugEh0mVuBdPyxjx8Y8R8mbH9m5zXSX
+	7kvntRcAGbhxvncWlt0nSBanXBvg+A0=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-gJ2ljXNJOdWsrddMWfyePQ-1; Tue,
+ 12 May 2026 16:26:48 -0400
+X-MC-Unique: gJ2ljXNJOdWsrddMWfyePQ-1
+X-Mimecast-MFC-AGG-ID: gJ2ljXNJOdWsrddMWfyePQ_1778617606
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25C2B180044D;
+	Tue, 12 May 2026 20:26:46 +0000 (UTC)
+Received: from [10.44.48.5] (unknown [10.44.48.5])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A6781955D84;
+	Tue, 12 May 2026 20:26:41 +0000 (UTC)
+Message-ID: <3e819925-b83f-4c2f-a67b-03d534016558@redhat.com>
+Date: Tue, 12 May 2026 22:26:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: kvm: update links in the references
+ section of AMD Memory Encryption
+To: Ninad Naik <ninadnaik07@gmail.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, seanjc@google.com, michael.roth@amd.com,
+ liam.merwick@oracle.com, vannapurve@google.com
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+ linux-kernel-mentees@lists.linux.dev
+References: <20260511174302.811918-1-ninadnaik07@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Autocrypt: addr=pbonzini@redhat.com; keydata=
+ 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
+In-Reply-To: <20260511174302.811918-1-ninadnaik07@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: dASC8yrkZX4k-ZgP6Qx6d4HdXrgWfK6vyi_7mjRzYlo_1778617606
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Apr 2026, Mahad Ibrahim wrote:
-
-> In preparation for the removal of the strlcat() API as per the KSPP,
-> replace the string concatenation logic in hid-core, usbkbd, and
-> usbmouse with struct seq_buf, which tracks the current write position
-> and remaining space internally. The changes implemented include:
+On 5/11/26 19:43, Ninad Naik wrote:
+> Replace non-working links in the reference section with the working ones.
 > 
-> - Replace device name and phys concatenation with seq_buf_puts().
-> - Include Struct seq_buf and its initialization.
-> - Include header file of seq_buf.
-> - Replace strlen() with seq_buf_used() on the string buffer which was
->   tracked by seq_buf to increase speed.
-> - Add size_t len in files which did not have it.
-> - Use of strscpy with length in place of strlcat.
-> 
-> Testing: This driver was compiled as a module as well as in-built in
-> QEMU with the QEMU basic mouse, and QEMU basic keyboard. The testing was
-> done in the following steps.
-> - Add Hardware Mouse in QEMU checking the usbhid module.
-> - Verify dmesg string name of mouse.
-> - Blacklist hidusb module from auto-loading, and removing the module via
->   rmmod.
-> - Load usbmouse module, and reattach QEMU mouse.
-> - Verify dmesg string name of mouse.
-> - Repeat same procedure on usbkbd module.
-> 
-> This aligns the driver with KSPP security guidelines.
-> 
-> Link: https://github.com/KSPP/linux/issues/370
-> 
-> Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 
 Applied, thanks.
 
--- 
-Jiri Kosina
-SUSE Labs
+Paolo
+
+> ---
+>   Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> index b2395dd4769d..bd04a908a8db 100644
+> --- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> +++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+> @@ -656,8 +656,8 @@ References
+>   See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
+>   for more info.
+>   
+> -.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+> -.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
+> -.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
+> +.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
+> +.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
+> +.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
+>   .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+> -.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
+> +.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
 
