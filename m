@@ -1,63 +1,63 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8913A759E
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 22:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872223A75B5
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 22:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778625143; cv=none; b=L6Jirrjn1w/032DMTi/YX9sV0lGNBtcUfk+3HiuPA4WC3evYXZy1Tobj0u24zQ8JxG7AGwF0uleP6seCYnuk6sPZQyprHZ9kSuSbexWgWYUmnl6wrK8eBoYdCI+sdSgQ06Ir/8IY8TgoBZ9RWKmL0gYLITapKc2c0l7dTlA/ZzU=
+	t=1778625144; cv=none; b=WM7+Aj2Gf65i0/giWXZTZg+zYtcAj6zI+LSHNqnyFQe5kY8yJrEZVQzjdvA+RTVYY4QqX0nkq5gKPLhHir8p7H/ALlPysSHAq7e6rgQ/jAmN+/oKE/npiHjBHZ5ZLcFtV14D0Piym+87669a8HN9TqIerPj8fL0vSabi5IkRVqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778625143; c=relaxed/simple;
-	bh=DNK7inRudWsaUqBHPSR45m/wvD/5KEr6IJFBUid8Gko=;
+	s=arc-20240116; t=1778625144; c=relaxed/simple;
+	bh=OxzII+fOTTxXBAPQvr40pTgzrSo9pzEfYKV4fx4Ik4o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tJzAva8WV4F53TGT5ijS4HL226p4t/Uo/L4hsGo9nXAU2CgV5K5C0Z68yYYUtDlZWbbIbZlev5jQUG7Ywu54DWE+S9xhG8LHn3HP9Q0W4YE1r564ur+IVoxHAYRZ+ZB6Jq3Wqi4qY61lvxIuVfiKMf9/542iZmQ46cjUjaag1Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lg5tzfzq; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=tBCOC6Hw2OGk1PhkD/CII/Dg+B7myBioGzTXz/ODjWxJIDgDFlOKvhSHHmZWSjdzQDczFgOrCHZt9njB9R8C0q5hiut0Uhksh/62HW2Rzm+IrARfRZNlra2aPEUchVktR+M9nEkm7iH0OFrFdqsvLDJgi7razQYMH/nDMnoKJ0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XYB1i5K5; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lg5tzfzq"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso69645935e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 15:32:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XYB1i5K5"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so67769205e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 15:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778625140; x=1779229940; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778625141; x=1779229941; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ETFxcyR7YLkUpkcr49E9UXvV2AmU/9yjySW5RDZ5mvo=;
-        b=Lg5tzfzqWrE+086JBFaNziX6nncaNbDYhMewc/PE7rrBihy+3gaSoe6cxodCgHn7eT
-         HXohv4GMd1KGb9OzXZX6RXkRAPUG1m/mgsCXa7MTTZw4+LQ3/LX7589Z2rodiBLokp0Q
-         HlYPGFlbc39NyqC2fOMI+pf4ztd/fvy2NR51nKzSnl43g7amWfdUsSvk9DhqPU+xsjk7
-         D0ICPyP34rnhpp1/pUsCBfBUYfbIv4M3/v3KZsXrRnAqUDc6y1vePOQME5MZVvi7R0C9
-         T5P5elq8q7HW2SulvrOhl3WRkbHiemJvoTbS+rKFE32Lj8UFJ9/1NjVzW1Z/CJ75d7dq
-         pIvw==
+        bh=EZwtfBXvrnH+M3GRfA8qi3bYkua4D8Thb1Hd5ff45dQ=;
+        b=XYB1i5K5CKQVqSSVfV52iHafQAQitWBls+Z5rUyHo5jUQqzkNdRoHsjfy6ALj9ZADY
+         Bb9i4BARtt+c3tExtNI+PuDlyn3KTEyrzs1NcKOXag6Ca5CjlV/X5OQGEi2y8kwmpP0d
+         CUhX03K8/NgtLhGySpPU9mszmY6oQ/bR/3rucRE0rhL8W89DF1VNcZ7E57YrWiymD0Xm
+         +hEkER21vjZSFqaOB++X1qfunEXuGRkUnHSXxKU27/DU/uMGXq0hTVsq1d/cdUaq5aiO
+         qM+ytEJAjPWMOMD541b0Hongg2MTCe+H9AkDl2IhEwRVNN05T6Xax+nlqWR4wcIMFh8N
+         ewtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778625140; x=1779229940;
+        d=1e100.net; s=20251104; t=1778625141; x=1779229941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ETFxcyR7YLkUpkcr49E9UXvV2AmU/9yjySW5RDZ5mvo=;
-        b=YSFyru7fBfjayn8GOXkuj0v4VjF+uHhyFfjqQPWoXrJfDkwWctK9Gmy/LdgzZSPLTC
-         H5EPc4dFSVWjYkWJczZuhlP/cOskdNMZGr6vxbWlu2rpB2xOpm+MwcPMuYAnpne9cAxl
-         qq3I1eO7VN1Wg150zUJdsh8URvnBm8mfNSEL4JyEgf03RH99VtqbrO9n0QW4iab5qNJY
-         uiT1mmkAapy853QrU8D/byeFdKR6t3Vned/D9fSlYW68BMRGh1RqcQCbdrCIuRQjNJ9U
-         RromrQgVv8JL6oD2hrtap6zjdPQFn9D/4r3vGw4mTf+pLr3d+KHTy9fDwbBZyLTDzm79
-         y6Fw==
-X-Forwarded-Encrypted: i=1; AFNElJ8hudHcTW78ZqGLcwPhyXDHXEJUFA4WnDCzo0gAI54MEBRLbl1e6vjMiwAq/ogR6VEG5l1XyVphrFWuebKQamJF66iZ+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIYipsHPRM88Be45joOdFAaei7gHAxDf9ZZ3b8KM6hdWUr7KcC
-	ulf5KNXN/wOD9ZmOWAAMmNkcj2HRmahRIvkq1qQO7sv9KdVHJg5rbRDy
-X-Gm-Gg: Acq92OEc3O/LnqEOLioG2Ybg8ravV2cV/MjtBlHiFYuVpC6ai+hKM79ssYFFGN5jFKj
-	wG280BxxdSXWULO9q85z2drJbm8+ykY4JgaKjFepWVTcQR0M3jZJT92uqInoeKbYA7i1BjWGlCr
-	aWCGKs6DOK4zEC/mxFTG7Ok5tuDabjqTXlPTXPZY4aVwv8JrCrZMVwGpPXUNYAW62b5VfCGi9sx
-	JZoJon+qUCoOMtbAFCCZNp/4G+QM96K5b5y1/xEUyiM5Rf3JYEvqcX/A4XL1VBI0rhLR3V7ht3u
-	yxTArF6EOEg37/mdAYag137cJ8lweAWrTV8MxNVv5nu2Rte/rbLXn7ISIyFx2bA7xpYGY1XswuE
-	oWcuQXujUvlpds20TjbynB3aMGkipXpbvwQNRCdcNRy9pZDOJU+7r4NEeJYyWmjoOTx5WUAO9fx
-	f/yDdaFFaf7GreFEDJOxVcTr29h7XYJyI6fosRkdOhaJy1M4o3kXKxH/I=
-X-Received: by 2002:a05:600c:154a:b0:48d:1a94:56c with SMTP id 5b1f17b1804b1-48fce9da5e0mr508025e9.18.1778625140226;
-        Tue, 12 May 2026 15:32:20 -0700 (PDT)
+        bh=EZwtfBXvrnH+M3GRfA8qi3bYkua4D8Thb1Hd5ff45dQ=;
+        b=TzPVZrrIAsZg8GlnjTh8OwhXxkjDNAEC26Vt48uFZu3T/v7SIehSHLUChm48n9c+FZ
+         h3yp+ebR2TSs2Rxf2QXu5woCVXxIOgq1B7AowtG7Z1D7btjNWurdAkCEdUyLVr8ppCqm
+         oRPcXLyAr+J6NlOcfMnuTMWuv5ISHC6bxL4LXFUDfg7INL8salSOUyLUvm7fd8y8DgCM
+         ew1dc0QE0r9uxBYOcN8XPnT/yD0CWYwdFzwyfQ5YEk6FwpZlMxL3F4cpFWU6YeJjv0OZ
+         eZ2FRqqLjzzISn8kKasdZGy8sAGy+1pD7qsczMbDbVZTqXsHEPh8LukLHig2+5cultik
+         yCjw==
+X-Forwarded-Encrypted: i=1; AFNElJ9HMspUKTSYNqhcigAs+EKWKKJrPxjlfDt2LzKFCej14c7jcc84avR0NCcJnxrIWqbMa/enp1YXIv5L4ONqedE2Eqx+Rw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzer/jWtBTzPKWEqPrHyaM2Sbp7BgDrUKilE8MTSNrYKd5VGkv0
+	VxXJzfia4Yu0swDsI9TDD8MtYEk/X3LG6EaJAjHTZnZiUqH4rpkEHLS9
+X-Gm-Gg: Acq92OE19ukvXar46Bf5xTNrilJFlWfAhCQZnogFgy9X1qW6Vhbc8LCuW8j29VZuB58
+	IrS0JHmtokuzmwElHyn48kuJu4/rOL9hRqckfbVhe9jkMVdj3oeu3o2f4+2V69wcX1ygEWNsQjr
+	nmszO56o+g25Ma5HLBFtR4B4t++FE69R3G8K9RJSChX+ia+GB1EkcU+dvkkXVgu6XksmJBtfvLS
+	DH4Oqe9wAUDN91DztCu4wSJfKu997C28C1ZTm8n2xkBkfjoj/AugzLcPEKjHOsGpSgv/xMOCwsA
+	C2c/WxV2REURFGzt7LqPOGx9ypMZoDMLDe8Ia1e+GQea7tnipXnpW9mnzj+qfXIbPM3WJHB7ado
+	WlAV03WJTRAR4wOA0FJ7cULDzcssQLsbrAL2bEsyBch9BRHMic6UEBSBBMzzXZAgkD2xs6BM9/e
+	nQt4M6jZW95nU/LKbHhiULUH3prcolzwGF5MZmvkT/EzvIfmzAhx2Hv+A=
+X-Received: by 2002:a05:600c:8b75:b0:488:7ff6:1f75 with SMTP id 5b1f17b1804b1-48fc9a3b8e2mr8939265e9.21.1778625141046;
+        Tue, 12 May 2026 15:32:21 -0700 (PDT)
 Received: from aldo-conte-t14.tailf68ad9.ts.net ([2a01:e11:5402:d840:f1ee:c5d:74e4:6e19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f3c65f2sm47377375e9.1.2026.05.12.15.32.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f3c65f2sm47377375e9.1.2026.05.12.15.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 15:32:19 -0700 (PDT)
+        Tue, 12 May 2026 15:32:20 -0700 (PDT)
 From: Aldo Conte <aldocontelk@gmail.com>
 To: jic23@kernel.org
 Cc: dlechner@baylibre.com,
@@ -67,9 +67,9 @@ Cc: dlechner@baylibre.com,
 	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2 2/5] iio: light: tcs3472: convert remaining locking to guard(mutex)
-Date: Wed, 13 May 2026 00:32:12 +0200
-Message-ID: <20260512223215.25596-3-aldocontelk@gmail.com>
+Subject: [PATCH v2 3/5] iio: light: tcs3472: use devm for resource management
+Date: Wed, 13 May 2026 00:32:13 +0200
+Message-ID: <20260512223215.25596-4-aldocontelk@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260512223215.25596-1-aldocontelk@gmail.com>
 References: <20260512223215.25596-1-aldocontelk@gmail.com>
@@ -81,210 +81,201 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the locking in tcs3472_read_event(), tcs3472_write_event(),
-tcs3472_read_event_config(), tcs3472_write_event_config(),
-tcs3472_powerdown() and tcs3472_resume() to use guard(mutex)
-instead of explicit mutex_lock()/mutex_unlock() pairs.
+Convert the driver to use device-managed resource allocation:
+- Add tcs3472_powerdown_action() and register it with
+  devm_add_action_or_reset() to ensure the device is powered down on
+  cleanup. Before this patch, the chip remained powered if probe
+  failed after enabling it.
+- Replace iio_triggered_buffer_setup() with
+  devm_iio_triggered_buffer_setup().
+- Replace request_threaded_irq() with devm_request_threaded_irq().
+- Replace iio_device_register() with devm_iio_device_register().
+- Remove tcs3472_remove() as all cleanup is now handled by devm.
 
-This avoids manual unlock calls on each return path, drops the goto
-in tcs3472_write_event(), and removes 'ret' variables only needed to
-return after the unlock.
+Rewrite the read-modify-write pattern in tcs3472_powerdown() and
+tcs3472_resume() so the new register value is computed first, written
+to the chip, and committed to data->enable only on success.
 
-No functional change.
+Use a local 'dev = &client->dev' in tcs3472_probe() to keep the devm
+calls compact.
 
 Suggested-by: Andy Shevchenko <andy@kernel.org>
 Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
 ---
 v2:
 (Suggested by Andy)
-- Moved earlier in the series to avoid introducing manual locking in the devm
-  patch that would then be converted here.
-- Dropped "found by code inspection" (this is a cleanup, not a bug)
-- Test details moved to cover letter
+- Rewrote read-modify-write in tcs3472_powerdown() and tcs3472_resume()
+- Use local 'struct device *dev = &client->dev' in probe.
+- Dropped "Compiled with W=1" and test details from the commit message.
 
- drivers/iio/light/tcs3472.c | 59 +++++++++++++------------------------
- 1 file changed, 21 insertions(+), 38 deletions(-)
+ drivers/iio/light/tcs3472.c | 107 +++++++++++++++++-------------------
+ 1 file changed, 51 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
-index 9b0f64cd9c50..4fd4fd74d0d6 100644
+index 4fd4fd74d0d6..7a6dc8360326 100644
 --- a/drivers/iio/light/tcs3472.c
 +++ b/drivers/iio/light/tcs3472.c
-@@ -13,6 +13,7 @@
-  * TODO: wait time
-  */
+@@ -427,13 +427,38 @@ static const struct iio_info tcs3472_info = {
+ 	.attrs = &tcs3472_attribute_group,
+ };
  
-+#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
-@@ -220,32 +221,24 @@ static int tcs3472_read_event(struct iio_dev *indio_dev,
- 	int *val2)
++static int tcs3472_powerdown(struct tcs3472_data *data)
++{
++	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
++	u8 value;
++	int ret;
++
++	guard(mutex)(&data->lock);
++
++	value = data->enable & ~enable_mask;
++
++	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE, value);
++	if (ret)
++		return ret;
++
++	data->enable = value;
++
++	return 0;
++}
++
++static void tcs3472_powerdown_action(void *data)
++{
++	tcs3472_powerdown(data);
++}
++
+ static int tcs3472_probe(struct i2c_client *client)
  {
- 	struct tcs3472_data *data = iio_priv(indio_dev);
--	int ret;
- 	unsigned int period;
++	struct device *dev = &client->dev;
+ 	struct tcs3472_data *data;
+ 	struct iio_dev *indio_dev;
+ 	int ret;
  
--	mutex_lock(&data->lock);
-+	guard(mutex)(&data->lock);
+-	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+ 	if (indio_dev == NULL)
+ 		return -ENOMEM;
  
- 	switch (info) {
- 	case IIO_EV_INFO_VALUE:
- 		*val = (dir == IIO_EV_DIR_RISING) ?
- 			data->high_thresh : data->low_thresh;
--		ret = IIO_VAL_INT;
--		break;
-+		return IIO_VAL_INT;
- 	case IIO_EV_INFO_PERIOD:
- 		period = (256 - data->atime) * 2400 *
- 			tcs3472_intr_pers[data->apers];
- 		*val = period / USEC_PER_SEC;
- 		*val2 = period % USEC_PER_SEC;
--		ret = IIO_VAL_INT_PLUS_MICRO;
--		break;
-+		return IIO_VAL_INT_PLUS_MICRO;
- 	default:
--		ret = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
--
--	mutex_unlock(&data->lock);
--
--	return ret;
- }
+@@ -453,9 +478,9 @@ static int tcs3472_probe(struct i2c_client *client)
+ 		return ret;
  
- static int tcs3472_write_event(struct iio_dev *indio_dev,
-@@ -259,7 +252,8 @@ static int tcs3472_write_event(struct iio_dev *indio_dev,
- 	int period;
- 	int i;
+ 	if (ret == 0x44)
+-		dev_info(&client->dev, "TCS34721/34725 found\n");
++		dev_info(dev, "TCS34721/34725 found\n");
+ 	else if (ret == 0x4d)
+-		dev_info(&client->dev, "TCS34723/34727 found\n");
++		dev_info(dev, "TCS34723/34727 found\n");
+ 	else
+ 		return -ENODEV;
  
--	mutex_lock(&data->lock);
-+	guard(mutex)(&data->lock);
-+
- 	switch (info) {
- 	case IIO_EV_INFO_VALUE:
- 		switch (dir) {
-@@ -270,18 +264,18 @@ static int tcs3472_write_event(struct iio_dev *indio_dev,
- 			command = TCS3472_AILT;
- 			break;
- 		default:
--			ret = -EINVAL;
--			goto error;
-+			return -EINVAL;
- 		}
- 		ret = i2c_smbus_write_word_data(data->client, command, val);
- 		if (ret)
--			goto error;
-+			return ret;
- 
- 		if (dir == IIO_EV_DIR_RISING)
- 			data->high_thresh = val;
- 		else
- 			data->low_thresh = val;
--		break;
-+
-+		return 0;
- 	case IIO_EV_INFO_PERIOD:
- 		period = val * USEC_PER_SEC + val2;
- 		for (i = 1; i < ARRAY_SIZE(tcs3472_intr_pers) - 1; i++) {
-@@ -291,18 +285,14 @@ static int tcs3472_write_event(struct iio_dev *indio_dev,
- 		}
- 		ret = i2c_smbus_write_byte_data(data->client, TCS3472_PERS, i);
- 		if (ret)
--			goto error;
-+			return ret;
- 
- 		data->apers = i;
--		break;
-+
-+		return 0;
- 	default:
--		ret = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
--error:
--	mutex_unlock(&data->lock);
--
--	return ret;
- }
- 
- static int tcs3472_read_event_config(struct iio_dev *indio_dev,
-@@ -310,13 +300,10 @@ static int tcs3472_read_event_config(struct iio_dev *indio_dev,
- 	enum iio_event_direction dir)
- {
- 	struct tcs3472_data *data = iio_priv(indio_dev);
--	int ret;
- 
--	mutex_lock(&data->lock);
--	ret = !!(data->enable & TCS3472_ENABLE_AIEN);
--	mutex_unlock(&data->lock);
-+	guard(mutex)(&data->lock);
- 
--	return ret;
-+	return !!(data->enable & TCS3472_ENABLE_AIEN);
- }
- 
- static int tcs3472_write_event_config(struct iio_dev *indio_dev,
-@@ -327,7 +314,7 @@ static int tcs3472_write_event_config(struct iio_dev *indio_dev,
- 	int ret = 0;
- 	u8 enable_old;
- 
--	mutex_lock(&data->lock);
-+	guard(mutex)(&data->lock);
- 
- 	enable_old = data->enable;
- 
-@@ -342,7 +329,6 @@ static int tcs3472_write_event_config(struct iio_dev *indio_dev,
- 		if (ret)
- 			data->enable = enable_old;
- 	}
--	mutex_unlock(&data->lock);
- 
- 	return ret;
- }
-@@ -379,6 +365,7 @@ static irqreturn_t tcs3472_trigger_handler(int irq, void *p)
- 	} scan = { };
- 
- 	int ret = tcs3472_req_data(data);
-+
+@@ -497,59 +522,26 @@ static int tcs3472_probe(struct i2c_client *client)
  	if (ret < 0)
- 		goto done;
+ 		return ret;
  
-@@ -544,15 +531,13 @@ static int tcs3472_powerdown(struct tcs3472_data *data)
- 	int ret;
- 	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+-	ret = iio_triggered_buffer_setup(indio_dev, NULL,
+-		tcs3472_trigger_handler, NULL);
++	ret = devm_add_action_or_reset(dev, tcs3472_powerdown_action, data);
++	if (ret)
++		return ret;
++
++	ret = devm_iio_triggered_buffer_setup(dev, indio_dev, NULL,
++					      tcs3472_trigger_handler, NULL);
+ 	if (ret < 0)
+ 		return ret;
  
--	mutex_lock(&data->lock);
-+	guard(mutex)(&data->lock);
+ 	if (client->irq) {
+-		ret = request_threaded_irq(client->irq, NULL,
+-					   tcs3472_event_handler,
+-					   IRQF_TRIGGER_FALLING | IRQF_SHARED |
+-					   IRQF_ONESHOT,
+-					   client->name, indio_dev);
++		ret = devm_request_threaded_irq(dev, client->irq, NULL,
++						tcs3472_event_handler,
++						IRQF_TRIGGER_FALLING | IRQF_SHARED |
++						IRQF_ONESHOT,
++						client->name, indio_dev);
+ 		if (ret)
+-			goto buffer_cleanup;
++			return ret;
+ 	}
  
- 	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
- 		data->enable & ~enable_mask);
- 	if (!ret)
- 		data->enable &= ~enable_mask;
- 
--	mutex_unlock(&data->lock);
+-	ret = iio_device_register(indio_dev);
+-	if (ret < 0)
+-		goto free_irq;
 -
- 	return ret;
+-	return 0;
+-
+-free_irq:
+-	if (client->irq)
+-		free_irq(client->irq, indio_dev);
+-buffer_cleanup:
+-	iio_triggered_buffer_cleanup(indio_dev);
+-	return ret;
+-}
+-
+-static int tcs3472_powerdown(struct tcs3472_data *data)
+-{
+-	int ret;
+-	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+-
+-	guard(mutex)(&data->lock);
+-
+-	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+-		data->enable & ~enable_mask);
+-	if (!ret)
+-		data->enable &= ~enable_mask;
+-
+-	return ret;
+-}
+-
+-static void tcs3472_remove(struct i2c_client *client)
+-{
+-	struct iio_dev *indio_dev = i2c_get_clientdata(client);
+-
+-	iio_device_unregister(indio_dev);
+-	if (client->irq)
+-		free_irq(client->irq, indio_dev);
+-	iio_triggered_buffer_cleanup(indio_dev);
+-	tcs3472_powerdown(iio_priv(indio_dev));
++	return devm_iio_device_register(dev, indio_dev);
  }
  
-@@ -581,15 +566,13 @@ static int tcs3472_resume(struct device *dev)
- 	int ret;
+ static int tcs3472_suspend(struct device *dev)
+@@ -563,17 +555,21 @@ static int tcs3472_resume(struct device *dev)
+ {
+ 	struct tcs3472_data *data = iio_priv(i2c_get_clientdata(
+ 		to_i2c_client(dev)));
+-	int ret;
  	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
++	u8 value;
++	int ret;
  
--	mutex_lock(&data->lock);
-+	guard(mutex)(&data->lock);
+ 	guard(mutex)(&data->lock);
  
- 	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
- 		data->enable | enable_mask);
- 	if (!ret)
- 		data->enable |= enable_mask;
+-	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+-		data->enable | enable_mask);
+-	if (!ret)
+-		data->enable |= enable_mask;
++	value = data->enable | enable_mask;
  
--	mutex_unlock(&data->lock);
--
- 	return ret;
+-	return ret;
++	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE, value);
++	if (ret)
++		return ret;
++
++	data->enable = value;
++
++	return 0;
  }
  
+ static DEFINE_SIMPLE_DEV_PM_OPS(tcs3472_pm_ops, tcs3472_suspend,
+@@ -591,7 +587,6 @@ static struct i2c_driver tcs3472_driver = {
+ 		.pm	= pm_sleep_ptr(&tcs3472_pm_ops),
+ 	},
+ 	.probe		= tcs3472_probe,
+-	.remove		= tcs3472_remove,
+ 	.id_table	= tcs3472_id,
+ };
+ module_i2c_driver(tcs3472_driver);
 -- 
 2.54.0
 
