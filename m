@@ -1,137 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C785A357D01
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 12 May 2026 20:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B74E357CFF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 22:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778617615; cv=none; b=Leuf5ytTLTh5gj9rZcEqWeog7AqB8aqmFg0bl9Vu/3MNud+U9DELj+8XIu8R/xn3pxq65VhHYs74djYbVJJIh7+cVZhDzMgp5LipEgA2uBGPZ1ORn+NGjU1N2qKNF3XmF8VxxcauaUN/lhLIXGMgRl4RXXl67gM0pmPbAOH6Qnc=
+	t=1778624531; cv=none; b=gB7RIHU+sQ/qq0T6HqNw2Faw6P6plVcW2WJiOFnHzGlQ59VVN/lj667Ll14g4Y2Gq7OFDM36DWKRfqzz9Y0Wwm20WXXfZPtEcUzk5ynSQJYtZ0v7FlSMiTqZFpRBMJli/s1kqLFvjznwoRgBMLBvwfd/zWrnh+Sen7InZyUJGJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778617615; c=relaxed/simple;
-	bh=ZkAqUSLBLLghmuczFbLlmEifeuByeu9FETpip9wySoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qaHc7fKx86BQO0Ac1UFaYUtOqObiVMi+ZvmA+DVJv4zVCdw3B7zqb3tjCLA0wXXvt4e1VEGTR5bc2tarZcUb7FV7yoXWedj4z1ySTFpUkfADXm9G9JYVcUYTt+QEk2p6lgva3I2B6MwhYAot4Iv1yucMKTKXVR0R7gMmN2z/wKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ImHDg9+J; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778624531; c=relaxed/simple;
+	bh=fKXRzsyPrMDCepYl/y2S1DD8oCfDl/6FZvmP/4LbbX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=icYf7yQqjlbLR83ATEWKtzed6N+QUC26q6krVJrkSyfNo0f7SscCehWz2CzYwozUEy5qsP1DBpWDYj5btrkFJlhrLHf5R+JdvtUMvReuqDr2F7xEx9dILdR+J52PdG9TKQ90o3/R7DIbRBgjzpkRh1ffvtd/9DAHZllW6ycqPwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=sWHKl8YJ; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ImHDg9+J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778617611;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=PeaPwxj6CE2jWtwEguCT34VqbzG7tuL668TllqlmsLQ=;
-	b=ImHDg9+JteBrsQPWfNYOEGWrp9OMqgm+UrGeqh8iSoU7BMElnaPAJj+t6+0zgr4M2sXZjW
-	eOSdShQoMlm7J3kRZW/33NpVTXJPE5QhakniM47AugEh0mVuBdPyxjx8Y8R8mbH9m5zXSX
-	7kvntRcAGbhxvncWlt0nSBanXBvg+A0=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-gJ2ljXNJOdWsrddMWfyePQ-1; Tue,
- 12 May 2026 16:26:48 -0400
-X-MC-Unique: gJ2ljXNJOdWsrddMWfyePQ-1
-X-Mimecast-MFC-AGG-ID: gJ2ljXNJOdWsrddMWfyePQ_1778617606
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25C2B180044D;
-	Tue, 12 May 2026 20:26:46 +0000 (UTC)
-Received: from [10.44.48.5] (unknown [10.44.48.5])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1A6781955D84;
-	Tue, 12 May 2026 20:26:41 +0000 (UTC)
-Message-ID: <3e819925-b83f-4c2f-a67b-03d534016558@redhat.com>
-Date: Tue, 12 May 2026 22:26:40 +0200
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="sWHKl8YJ"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 14F3440BA3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 22:22:10 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -6.493
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Q08tnnw0hCi1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 12 May 2026 22:22:09 +0000 (UTC)
+X-Greylist: delayed 666 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 12 May 2026 22:22:08 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8E60840A42
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E60840A42
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=sWHKl8YJ
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.121.94.186; helo=ewsoutbound.kpnmail.nl; envelope-from=jkoolstra@xs4all.nl; receiver=<UNKNOWN> 
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8E60840A42
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 May 2026 22:22:07 +0000 (UTC)
+X-KPN-MessageId: 745c291c-4e4f-11f1-89ea-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 745c291c-4e4f-11f1-89ea-00505699b430;
+	Wed, 13 May 2026 00:10:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=KFY+NLisTxw88P/4n/HvkB0xQgcjZ1+4M/U1TJ4/PLU=;
+	b=sWHKl8YJSxV4UJ2M6kUuJbc2oOKpRMqhqJhPH7u+gVNf0CJIYDmIMas8GcJ+UBj+HBO8oo2IR2X39
+	 2QrlO27qWd/3tDwB7XEZVyeRnIXiW63+ox5/dkrMhYOyIKItM205NbwHHrB8QCvhhmR/lR4Pq0Us4g
+	 dgkmklt2QnnoCJUf5Fwou9Lw4zt/UwI8F8RitfnI7QSKBSv6KscbvgYrdlyQS9FfRGWt5sCpb5XHj8
+	 PvOmMnK6Ae8c26hsea8Ja8C0i61BkrJy0Ipqi0alcrksW2PPAYg0nmBCP9cYs/nOSiO8YvrskMwXlU
+	 d1VlsV6iYhNxeNGqajJ6Lhf7edPmUkg==
+X-KPN-MID: 33|s0AxYYjSZj8Cir1UdRPTDQDefg7mHDpS4VpcwdRwuDmVtYbeOUf4k/moiX1d6ID
+ W96I1/ggiNxQfshKlVFSfp1gHK2hlxt5KfHI4XbusdWM=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|/av9dgq7tIV2pvFC0vhxLDL8A6WmOC+tNflbBtXBGRSU/x+I2vyWfEFjWUYfkdt
+ uVJ99O2+zS1Kom01dFCxkvw==
+Received: from localhost (unknown [178.226.150.234])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 743aaffa-4e4f-11f1-9c0c-00505699d6e5;
+	Wed, 13 May 2026 00:10:58 +0200 (CEST)
+Date: Wed, 13 May 2026 00:10:52 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Abdellah Ouhbi <abdououhbi1@gmail.com>
+Cc: tytso@mit.edu, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] ext4: Use %pe to print PTR_ERR() in namei.c
+Message-ID: <agOecLx8tAm8zwIw@lt-jori.localdomain>
+Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Abdellah Ouhbi <abdououhbi1@gmail.com>, tytso@mit.edu, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+References: <20260424152245.142308-1-abdououhbi1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: kvm: update links in the references
- section of AMD Memory Encryption
-To: Ninad Naik <ninadnaik07@gmail.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, seanjc@google.com, michael.roth@amd.com,
- liam.merwick@oracle.com, vannapurve@google.com
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev
-References: <20260511174302.811918-1-ninadnaik07@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
-In-Reply-To: <20260511174302.811918-1-ninadnaik07@gmail.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: dASC8yrkZX4k-ZgP6Qx6d4HdXrgWfK6vyi_7mjRzYlo_1778617606
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424152245.142308-1-abdououhbi1@gmail.com>
 
-On 5/11/26 19:43, Ninad Naik wrote:
-> Replace non-working links in the reference section with the working ones.
+On Fri, Apr 24, 2026 at 04:22:45PM +0100, Abdellah Ouhbi wrote:
+> Fix coccicheck warning
+> ./namei.c:150:25-32: WARNING: Consider using %pe to print PTR_ERR()
 > 
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-
-Applied, thanks.
-
-Paolo
-
+> Replace %ld with %pe and PTR_ERR(bh) with bh pointer.
+> The %pe specifier automatically converts error pointers to
+> human-readable error names instead of raw error codes.
+> 
+> Signed-off-by: Abdellah Ouhbi <abdououhbi1@gmail.com>
 > ---
->   Documentation/virt/kvm/x86/amd-memory-encryption.rst | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>  fs/ext4/namei.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> index b2395dd4769d..bd04a908a8db 100644
-> --- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> +++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-> @@ -656,8 +656,8 @@ References
->   See [white-paper]_, [api-spec]_, [amd-apm]_, [kvm-forum]_, and [snp-fw-abi]_
->   for more info.
->   
-> -.. [white-paper] https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
-> -.. [api-spec] https://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
-> -.. [amd-apm] https://support.amd.com/TechDocs/24593.pdf (section 15.34)
-> +.. [white-paper] https://docs.amd.com/v/u/en-US/memory-encryption-white-paper
-> +.. [api-spec] https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
-> +.. [amd-apm] https://docs.amd.com/v/u/en-US/24593_3.44_APM_Vol2 (section 15.34)
->   .. [kvm-forum]  https://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
-> -.. [snp-fw-abi] https://www.amd.com/system/files/TechDocs/56860.pdf
-> +.. [snp-fw-abi] https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
+> diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
+> index 4a47fbd8dd30..c0cabf172020 100644
+> --- a/fs/ext4/namei.c
+> +++ b/fs/ext4/namei.c
+> @@ -145,9 +145,9 @@ static struct buffer_head *__ext4_read_dirblock(struct inode *inode,
+>  	if (IS_ERR(bh)) {
+>  		__ext4_warning(inode->i_sb, func, line,
+>  			       "inode #%llu: lblock %lu: comm %s: "
+> -			       "error %ld reading directory block",
+> +			       "error %pe reading directory block",
+>  			       inode->i_ino, (unsigned long)block,
+> -			       current->comm, PTR_ERR(bh));
+> +			       current->comm, bh);
+>  
+>  		return bh;
+>  	}
+> -- 
+> 2.51.0
+> 
+
+OK, this looks fine. I do wonder if using %pe really makes sense here
+since this thing never gets to be a pointer, so if I read this and don't
+notice the IS_ERR(bh) I might think that bh could be a pointer there if
+I'm reading quickly.
+
+Thanks,
+Jori.
 
