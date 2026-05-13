@@ -1,117 +1,146 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B070B38BF92
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 08:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778660175; cv=pass; b=PgT5j38PwAYU8IG4mYcxjoJbTTQSUkixIBGJoSnjrzaiZ8oyyWbbGIJjVYYJc1+3FYy5QxrzlKD5FOG+7J3ydzPOZNCBlM+GaIDJLqGaC/jh/SfoC6SitwdC2Fl13PiPd3hfEtPrdYXdUyuKdVplIG6fZEv7PVT7HcsJhTvZU5k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778660175; c=relaxed/simple;
-	bh=ud4cL8xhsO3841KsQ5TzRgbWVYyYS0uWZRLaIyi0I4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=emtJLHsHMULpY04FM73+bMblopXCr+aXRLGyoGtQ40FxNtf95ur+DICLhBOURVClc4AKUz12okzf8MUFqBuHpXaF8v9OQHUlbw3AK42qZXEzH0RZncMDzNNVVNFW4JgxBbNlIcu11o2QB1JZxae+L8hz19ScVO2M6wOmjwut+rI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xk7tPPdS; arc=pass smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A780E3D811A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778663440; cv=none; b=Rttl0l5qlIifobs863iPIxDwbYpHvwXalHeR0IjdeLTKgqcVF9Q3Wvrxo6mZBKdfRn2stqUIRe6oAJU3AQFhfgKJT08IBZ3apukdJ0enzrD58JdSuegxRImmjDpizrgJ8K86vksGwtO7LJN2rty9UcTegYbYOuBkl1LlSbtfpRM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778663440; c=relaxed/simple;
+	bh=rC7nG2+GpOdgcnUjLzX1d00FpSLVoi1YuxHiT2V+/I0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rT1l376WVen2MnDZG/dwHGEnjpWKM4wuZ5YoQnIv7CFO2CBI5nT78NiVzN+eCd1mIJRQxbmjz7SuZ0QWPHqYT5h89V8wqsS3HOMyGT3GZFedioBunDohKbZCZkDYLOW6ZykIDYSYOwfSQYqlOeMn3j7mOZWXeRPdNpD8d7uOi/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffJLv4UN; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xk7tPPdS"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488ba840146so57858285e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 01:16:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778660172; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UyZZtPaOVR1PeWmYLgqrlBQ3pMj/XxibKGSoFmS+QmUt8Q4pA7So1veNwkuXcDy4VF
-         RRSrHvlVT1b6ho/MhxqMFGMHqQBpbYSlTomS8bbctG1fXdLR6V/dNwDYjKHbiilW9Y6V
-         MPiPLoeqsPE75A1ITR6KcXu+BRZxhTd2pldAhoBSiUqY7sTolzRUnCSXyEzYJPCaJsyv
-         IRQuBy0jHUC5cLinHaS7vzo1dcjIud4fvGf94KtJ7HzuEYgsqtA8tripWUtM2yQKJpFm
-         nkY7Xoux5gVSlKd593NHB3zN0uAiadk5CDRzF8nso3yyuhKhZqTf/H+lR8zcTsh+Q4Co
-         P20g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qzVrB/RqgOjdIY22HEoAP7VYRNeb1JuCU8EtIvftbNM=;
-        fh=Y6r8t2JWPnOVul86THc8E/ONDXOTQW0PhIcR544d6/M=;
-        b=HutQJpdjOsY4C9cyynRmJ0Kpgax3HTFrNUj0ebocr0pTCS9tetR+kU29qFvPr11fHL
-         l+IZnXcreRLf5pnft2mg2mc919bbXl8KxpFT95TNI9OlKWdAayNFPrkr3WJ+YDy9zcaG
-         XbIWM0RSmfWEpg96dMCIwzeXj3i6nU5Qv+DKsDh6eJiovkKSn0JlEoEIeM5kOPWMdfb+
-         pbjRy0O6gtnwUQAUIrWBs/i/Pp0jjzeAgBy2NoPEPG1DAHnTzzpyerydZFQtyV28sB28
-         heL4WGbvZ0EtbDWXNe/txQMN3r+vG3qS6QmI2YvoSOQxQTRBlnP+MQADpJgREuLQ53Ks
-         DQKQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffJLv4UN"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2C90A4094B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:38 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id lyHn_WaZ5_NL for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 13 May 2026 09:10:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 8D55340928
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8D55340928
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ffJLv4UN
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 8D55340928
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:37 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2ba4a1a0325so45444925ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 02:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778660172; x=1779264972; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzVrB/RqgOjdIY22HEoAP7VYRNeb1JuCU8EtIvftbNM=;
-        b=Xk7tPPdSOPt0Qu2malD0S0dqnMV7ML4P3q3pgYldo8lqSh4GTuOsmlGklrMH72Llje
-         Jm3ccdKPqsXe3i8XPkpPb/YbEbBQE8qGCCsBfHhENCCM1mtvJ6OHIFpnT/n/2fpRptDB
-         ldpM/cHOjlEyD9ord6qVu24c7CHW4Np1wrXLOimh8eloGRy8dDaQriRLqa/32IaWz+bL
-         YnUyT9H8JjTyBmQjFQ8VfTYsXsF05Tj7U0+Pw87/odEbvIJqGv2J3VJVdEVVfXNYwGA6
-         kaG5cJC2qYc6IZFCZi9mvCrv/9KTN6FkPeAHn5esctOth0UwjsA0wRdrbo0zpH8vXo1d
-         3tkg==
+        d=gmail.com; s=20251104; t=1778663437; x=1779268237; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DDkyCdkfOQyq4nl3ME+VrFeCYaGPzyVj4zyQTMVwELs=;
+        b=ffJLv4UN65d2ORs/zjJXWMM3XvndrN1mAZqovdjXTH4nIqyJ1Mnwu3EjVaSryAr0Nt
+         1hpg8UnZwjGN6dh88XulOLqz6elBQWLsq4YZVEP5xN0RVoMoWQALQ+eK3vSyew276ZVG
+         OTd3DBuzq0E3rfJ/bK6GC6/SECSiE+idJTmf+NYa81993E0kUGAUXnVRCJtR51xerxYy
+         EskG5cAPjU5JrImfnmn96Q8+ng4TnKJ2qXb1hcQtoipwBfMzCdyB/eZar0dIpSH95A8G
+         m3fAAwTzy/RjA1uSllYhHlE40u301KLe7CZfAh7jwEgMtV/x08D16nkO0jEUI/0+JkTZ
+         La1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778660172; x=1779264972;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778663437; x=1779268237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qzVrB/RqgOjdIY22HEoAP7VYRNeb1JuCU8EtIvftbNM=;
-        b=TyRP+T3zbDDhIEXkXmS0RntLKwg7xAVwaepVo5SzT4DNLJP73trpCdUJeCy3wOnsPi
-         uMgzlM7byfgnNOBkHAWUygrv0gu9a3RbANGETyFqHtYQgloInxSR+jGUGPW+Tfar1GFV
-         4AXAlK5d5V/TuZc2SOU9O2AG9Ji0tdOsSXaA6hgqeQ1f2KdqyOp6TT3ZTKzpVA6D17Rb
-         hH/MrpGyLyXWfRqHXURdtIUr5jsk1EZEBz4Uu80U0UvhfVGhYAKQblamgYrwLavclh8r
-         KFi+iMx0mXdR66u3peFzHRB/ds2F8q5EhOdhtfV+WDLBKhG5XBqTJCI9r40HSdQDwdYG
-         hI5A==
-X-Forwarded-Encrypted: i=1; AFNElJ9ELnWBVCfaNjc5mv15/zjH9iE7W9FIJKYgOlpPdgoZPyxEoH6UDF78zU65LA3amhuFUFZRBumX9tvuKpz4jWy8tTcwVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyGH6Qbbtp+BwH96WZ+VxTzSEaQoZKw6IuWzFJB8o6VUC6DN2h
-	dgel1lQ8qwzyazRdE56uQCQMd1ZJ37xsGZ2R9cF1AYzJkAvCOhCMGuVxno5kcYrOoGEWJLfZkZs
-	Dsfb2zJkPA6C0/CTqDa2n5oXadChP/oI=
-X-Gm-Gg: Acq92OHo8CES7fjcODrLV+z8kv3BfEnViPiKTqfRGdmXTRQHX6xAxUKIjAvHBws2QWB
-	MC27exsJKFfHbhbA8Alypw5y7dGxBASinUG/Wgh3Ww8oD4tViVkVMTbmZepSVkjQR1ywjqZLiEr
-	khUIbBVnXVsaK0pQcDJdAjpHJNb86GirW2vcujUqTPts2YZBkFIIjwM8cLX3rjtdofMlfzD0q3L
-	FMjyWG7UJ7Hjol2WvyZdygKqYlWIitMYc1RZvJ0Z/8rKEczcE+E0NPTeM5QwI9chPqRupXzfHQm
-	HiMqNOyrzUMGOGzzhBl41A1NQWvH2qO0E13pdjc7iWjjJV79gy+VysQ9Ah47RRO6AnZ+yTuFKsM
-	/3smaIPqXDmxWSC8kjDVJZWVsSo9iwzjNrPpg15kg4/rcdTpa4AE6yuv7gUZjKPp58YHFHrYxct
-	fTbGzGmA==
-X-Received: by 2002:a05:600c:42d3:b0:48f:d1b8:9a86 with SMTP id
- 5b1f17b1804b1-48fd1b89e4dmr7097915e9.8.1778660172003; Wed, 13 May 2026
- 01:16:12 -0700 (PDT)
+        bh=DDkyCdkfOQyq4nl3ME+VrFeCYaGPzyVj4zyQTMVwELs=;
+        b=LdtRYD4Eunno9Lpm4GtSkPd+yDtoX1arM5uloRx0tzDC0jU1btxAkeo2tG1SAMNEgk
+         10XpzAVF4KwqPgfMkhsWbXT7f8BKDsnnOtLiDFh8jwkRoO4kKbYMsBEENqVZOJpZSiFV
+         3HDzm4zEe9lsVsBNnFvBmdSDb1nzOS6+MAQeHZccg0epMdKWo2DElzAuFHJkyte2RATz
+         yoc6AvBPH9A2Ddlcx6U79Wgr0pIIN+nsdQ/KpI58CbnRXMLphPfrn2zk3wOL5RC7dYrR
+         WkeXM+j1nYASaF4iZclCeLz8EeMfkhGSqjN+lPmCihGs6yk5vv4fQNAG5LO+gj8bFGkE
+         KqNw==
+X-Forwarded-Encrypted: i=1; AFNElJ8cRf4wQqGU6T6BaiSFpcrWzSsLcJbgAZ4qqVNHgIz5iMHIVR0LXS/qErwlvSj/lhtpsFFehfMWSHEc/QH5PfkrHUh3Hg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzsC3mL2S3disSPBjvtAOEchyLH7YHgsx5nbIVsbjlNRyqiDwWQ
+	ClFnoaxmRpJ4HJi2R7ngxQJYmcE0ASN1bPvnbhWN616F3nUYlD9IpmW2
+X-Gm-Gg: Acq92OHjetoKOqVmPtl3OSXxKEuFAbUjDhtp+NLzZtlbZs1K+uLFNyxVAdbje5dK0J6
+	taiklpe8ssV0TaMfYmCVDXsZH7chI4Wj61M1Bjdlwkg0uHMPUC3gR8f36phHgubuiLS05WH3F5P
+	6K+0ZGtiwoco9pLUVCE6Jzjd4SA+B9Jslg41PsuGU2NXf1RNktsZHNI9E5ssH4uKy0WSymYLp3U
+	HbM4GabD/+qy1rHSxJqWRK5ZSJrhUZNipTf3I8DD2xm+qjN/Ekf/FadL3fn+Znrtc247j+Gla5j
+	1BNjn4CWFNBKZcNdtdCly8LDJvOdiNssU7582RCxMm+NdHPaAW5x65nE1zwTthNPDrnEt26BSsw
+	GKaFZv5RFz/bWQTRZ2yzu9GjAOzIzwjFAbqCBb2KXxoEi/WoxBcwkQiQZWA9qevBHvcImHzFUBS
+	qn/sSwKBWHY0WneE/+V8saRWe/sTgTRj0WrC9Bew==
+X-Received: by 2002:a17:903:3e25:b0:2b0:6a22:5165 with SMTP id d9443c01a7336-2bd2718bf33mr20560465ad.7.1778663436624;
+        Wed, 13 May 2026 02:10:36 -0700 (PDT)
+Received: from soyboi ([2402:8780:1073:dc10:22f6:2ac0:a51b:5d77])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e66970sm160480945ad.56.2026.05.13.02.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 02:10:36 -0700 (PDT)
+From: Robertus Diawan Chris <robertusdchris@gmail.com>
+To: amirreza.zarrabi@oss.qualcomm.com,
+	jens.wiklander@linaro.org,
+	sumit.garg@kernel.org
+Cc: linux-arm-msm@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com
+Subject: [PATCH] tee: qcomtee: add missing va_end in early return qcomtee_object_user_init()
+Date: Wed, 13 May 2026 16:10:31 +0700
+Message-ID: <20260513091031.145826-1-robertusdchris@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260512223215.25596-1-aldocontelk@gmail.com> <20260512223215.25596-6-aldocontelk@gmail.com>
-In-Reply-To: <20260512223215.25596-6-aldocontelk@gmail.com>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 13 May 2026 10:16:01 +0200
-X-Gm-Features: AVHnY4ITA3cPcBmpWKvj9-60CMKYwWN7AxI1LLaGuAndemms0NBn3axwcIBQP-k
-Message-ID: <CALoEA-zirqmv6Ru0KLDjkaE4iUYaLWCnhC6B0r_w66-oZ==pvg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
- default case
-To: Aldo Conte <aldocontelk@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 13 May 2026 at 00:40, Aldo Conte <aldocontelk@gmail.com> wrote:
->
-> Move the trailing 'return -EINVAL' statements at the end of
-> tcs3472_read_raw() and tcs3472_write_raw() into explicit default:
-> cases inside the respective switch statements.
->
-> This removes the need for a separate return statement after the switch.
->
-> No functional change.
->
-> Suggested-by: Andy Shevchenko <andy@kernel.org>
-> Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+qcomtee_object_user_init() is a variadic function and when the function
+return because there's no dispatch callback in QCOMTEE_OBJECT_TYPE_CB
+case, there's no va_end to cleanup "ap" object initialized by va_start
+and that can cause undefined behavior. So make sure to use va_end before
+returning the error code when there's no dispatch callback.
 
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
+This is reported by Coverity Scan as "Missing varargs init or cleanup".
 
+Fixes: d6e290837e50 ("tee: add Qualcomm TEE driver")
+Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
+---
+I don't have the device, so I am not sure how to test this change.
+Thank you.
+
+ drivers/tee/qcomtee/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/tee/qcomtee/core.c b/drivers/tee/qcomtee/core.c
+index b1cb50e434f0..901a31e8201f 100644
+--- a/drivers/tee/qcomtee/core.c
++++ b/drivers/tee/qcomtee/core.c
+@@ -306,8 +306,10 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
+ 		break;
+ 	case QCOMTEE_OBJECT_TYPE_CB:
+ 		object->ops = ops;
+-		if (!object->ops->dispatch)
+-			return -EINVAL;
++		if (!object->ops->dispatch) {
++			ret = -EINVAL;
++			goto out;
++		}
+ 
+ 		/* If failed, "no-name". */
+ 		object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+@@ -320,6 +322,8 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
+ 	default:
+ 		ret = -EINVAL;
+ 	}
++
++out:
+ 	va_end(ap);
+ 
+ 	return ret;
+
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
 -- 
-Kind regards
+2.54.0
 
-CJD
