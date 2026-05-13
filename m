@@ -1,146 +1,104 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A780E3D811A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFB73FB06E
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 10:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778663440; cv=none; b=Rttl0l5qlIifobs863iPIxDwbYpHvwXalHeR0IjdeLTKgqcVF9Q3Wvrxo6mZBKdfRn2stqUIRe6oAJU3AQFhfgKJT08IBZ3apukdJ0enzrD58JdSuegxRImmjDpizrgJ8K86vksGwtO7LJN2rty9UcTegYbYOuBkl1LlSbtfpRM=
+	t=1778669894; cv=none; b=nP/ve2XGeY7TzDC8z8IYDqtD0KThzCuiXSputktRw0hg4tjToiUusOpk8tC8LMtQ4tpAWj7UzUlCL0t80HCy4dkJYUji8vq09NshlzMpnqUt6jfWCQEZX/RX/VT+zgrzzBN5MDs2sxaS1bigcP2n8SW/1WsdC8ZXMJw4nAJCvEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778663440; c=relaxed/simple;
-	bh=rC7nG2+GpOdgcnUjLzX1d00FpSLVoi1YuxHiT2V+/I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rT1l376WVen2MnDZG/dwHGEnjpWKM4wuZ5YoQnIv7CFO2CBI5nT78NiVzN+eCd1mIJRQxbmjz7SuZ0QWPHqYT5h89V8wqsS3HOMyGT3GZFedioBunDohKbZCZkDYLOW6ZykIDYSYOwfSQYqlOeMn3j7mOZWXeRPdNpD8d7uOi/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffJLv4UN; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1778669894; c=relaxed/simple;
+	bh=qstERaPbkDaY7OQd0D2LxaO8ynBNl3nLhjwc91dVYqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/qvkKhl4NHMezQKC0r42YWq1Zq1A/IV9r4xU5uLFKnDg07l5VfZatRlgeOvlXxdb2/TfjkxwNTPjckT3p/XLfBMrOpJtt+kdGlUIICfVwc0pTiDmgJsU6rm+tnl6LWfs2Mwf+TqQgQVMxKWEhYKooc09WloMpBEFKSlKZsWdfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ne062H5U; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffJLv4UN"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2C90A4094B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:38 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lyHn_WaZ5_NL for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 May 2026 09:10:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 8D55340928
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8D55340928
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ffJLv4UN
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8D55340928
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 09:10:37 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2ba4a1a0325so45444925ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 May 2026 02:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778663437; x=1779268237; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DDkyCdkfOQyq4nl3ME+VrFeCYaGPzyVj4zyQTMVwELs=;
-        b=ffJLv4UN65d2ORs/zjJXWMM3XvndrN1mAZqovdjXTH4nIqyJ1Mnwu3EjVaSryAr0Nt
-         1hpg8UnZwjGN6dh88XulOLqz6elBQWLsq4YZVEP5xN0RVoMoWQALQ+eK3vSyew276ZVG
-         OTd3DBuzq0E3rfJ/bK6GC6/SECSiE+idJTmf+NYa81993E0kUGAUXnVRCJtR51xerxYy
-         EskG5cAPjU5JrImfnmn96Q8+ng4TnKJ2qXb1hcQtoipwBfMzCdyB/eZar0dIpSH95A8G
-         m3fAAwTzy/RjA1uSllYhHlE40u301KLe7CZfAh7jwEgMtV/x08D16nkO0jEUI/0+JkTZ
-         La1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778663437; x=1779268237;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DDkyCdkfOQyq4nl3ME+VrFeCYaGPzyVj4zyQTMVwELs=;
-        b=LdtRYD4Eunno9Lpm4GtSkPd+yDtoX1arM5uloRx0tzDC0jU1btxAkeo2tG1SAMNEgk
-         10XpzAVF4KwqPgfMkhsWbXT7f8BKDsnnOtLiDFh8jwkRoO4kKbYMsBEENqVZOJpZSiFV
-         3HDzm4zEe9lsVsBNnFvBmdSDb1nzOS6+MAQeHZccg0epMdKWo2DElzAuFHJkyte2RATz
-         yoc6AvBPH9A2Ddlcx6U79Wgr0pIIN+nsdQ/KpI58CbnRXMLphPfrn2zk3wOL5RC7dYrR
-         WkeXM+j1nYASaF4iZclCeLz8EeMfkhGSqjN+lPmCihGs6yk5vv4fQNAG5LO+gj8bFGkE
-         KqNw==
-X-Forwarded-Encrypted: i=1; AFNElJ8cRf4wQqGU6T6BaiSFpcrWzSsLcJbgAZ4qqVNHgIz5iMHIVR0LXS/qErwlvSj/lhtpsFFehfMWSHEc/QH5PfkrHUh3Hg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzsC3mL2S3disSPBjvtAOEchyLH7YHgsx5nbIVsbjlNRyqiDwWQ
-	ClFnoaxmRpJ4HJi2R7ngxQJYmcE0ASN1bPvnbhWN616F3nUYlD9IpmW2
-X-Gm-Gg: Acq92OHjetoKOqVmPtl3OSXxKEuFAbUjDhtp+NLzZtlbZs1K+uLFNyxVAdbje5dK0J6
-	taiklpe8ssV0TaMfYmCVDXsZH7chI4Wj61M1Bjdlwkg0uHMPUC3gR8f36phHgubuiLS05WH3F5P
-	6K+0ZGtiwoco9pLUVCE6Jzjd4SA+B9Jslg41PsuGU2NXf1RNktsZHNI9E5ssH4uKy0WSymYLp3U
-	HbM4GabD/+qy1rHSxJqWRK5ZSJrhUZNipTf3I8DD2xm+qjN/Ekf/FadL3fn+Znrtc247j+Gla5j
-	1BNjn4CWFNBKZcNdtdCly8LDJvOdiNssU7582RCxMm+NdHPaAW5x65nE1zwTthNPDrnEt26BSsw
-	GKaFZv5RFz/bWQTRZ2yzu9GjAOzIzwjFAbqCBb2KXxoEi/WoxBcwkQiQZWA9qevBHvcImHzFUBS
-	qn/sSwKBWHY0WneE/+V8saRWe/sTgTRj0WrC9Bew==
-X-Received: by 2002:a17:903:3e25:b0:2b0:6a22:5165 with SMTP id d9443c01a7336-2bd2718bf33mr20560465ad.7.1778663436624;
-        Wed, 13 May 2026 02:10:36 -0700 (PDT)
-Received: from soyboi ([2402:8780:1073:dc10:22f6:2ac0:a51b:5d77])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e66970sm160480945ad.56.2026.05.13.02.10.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 02:10:36 -0700 (PDT)
-From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: amirreza.zarrabi@oss.qualcomm.com,
-	jens.wiklander@linaro.org,
-	sumit.garg@kernel.org
-Cc: linux-arm-msm@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com
-Subject: [PATCH] tee: qcomtee: add missing va_end in early return qcomtee_object_user_init()
-Date: Wed, 13 May 2026 16:10:31 +0700
-Message-ID: <20260513091031.145826-1-robertusdchris@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ne062H5U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778669893; x=1810205893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qstERaPbkDaY7OQd0D2LxaO8ynBNl3nLhjwc91dVYqg=;
+  b=ne062H5UCiEkH0KQ7sjtBIO5sQ63cOlPFn8lYXs00F+dIZKXwKJBZwLn
+   DCKEuaZiAvrUNeu1+yHc74TtNB8njz9XhOZ32UmIOrNZ4HSI/E0ADosOn
+   MoO/3Jxr0rMeiYn3EAvasPCd4RDGixnx8MuBl4l5tiyAW4tBJ27KsndaG
+   xe9ww1u+DdpzlTRqpsHjYkOVoL0lo+cSQ3nxgoT949QsxSl54b7k2+rQC
+   0cqIakk7rVjibl2BfOEzp1+1NsvjKjU+349uTVo8slzW3mts5wEmJUVc/
+   DGzvC09bcHYKZr9LdKgbAFoKHpNph37pbINE38dQQrYghwODM3bMLYmyD
+   g==;
+X-CSE-ConnectionGUID: dSDkGzojRUKyG09YanDK1g==
+X-CSE-MsgGUID: cLMeSl3oT+SUdpIhk4RKOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="97020022"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="97020022"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:58:12 -0700
+X-CSE-ConnectionGUID: OuWWmcCvRXalzrs3Ovl+Xw==
+X-CSE-MsgGUID: Otz8OZTXTECwaHuBSkF4yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="243006980"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.106])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:58:08 -0700
+Date: Wed, 13 May 2026 13:58:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Aldo Conte <aldocontelk@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2 2/5] iio: light: tcs3472: convert remaining locking to
+ guard(mutex)
+Message-ID: <agRZPnr97HPFcW8-@ashevche-desk.local>
+References: <20260512223215.25596-1-aldocontelk@gmail.com>
+ <20260512223215.25596-3-aldocontelk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512223215.25596-3-aldocontelk@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-qcomtee_object_user_init() is a variadic function and when the function
-return because there's no dispatch callback in QCOMTEE_OBJECT_TYPE_CB
-case, there's no va_end to cleanup "ap" object initialized by va_start
-and that can cause undefined behavior. So make sure to use va_end before
-returning the error code when there's no dispatch callback.
+On Wed, May 13, 2026 at 12:32:12AM +0200, Aldo Conte wrote:
+> Convert the locking in tcs3472_read_event(), tcs3472_write_event(),
+> tcs3472_read_event_config(), tcs3472_write_event_config(),
+> tcs3472_powerdown() and tcs3472_resume() to use guard(mutex)
+> instead of explicit mutex_lock()/mutex_unlock() pairs.
+> 
+> This avoids manual unlock calls on each return path, drops the goto
+> in tcs3472_write_event(), and removes 'ret' variables only needed to
+> return after the unlock.
+> 
+> No functional change.
 
-This is reported by Coverity Scan as "Missing varargs init or cleanup".
+...
 
-Fixes: d6e290837e50 ("tee: add Qualcomm TEE driver")
-Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
----
-I don't have the device, so I am not sure how to test this change.
-Thank you.
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
 
- drivers/tee/qcomtee/core.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Not appropriate tag, I suggested only changes (as you pointed out below) to
+your idea and initial contribution.
 
-diff --git a/drivers/tee/qcomtee/core.c b/drivers/tee/qcomtee/core.c
-index b1cb50e434f0..901a31e8201f 100644
---- a/drivers/tee/qcomtee/core.c
-+++ b/drivers/tee/qcomtee/core.c
-@@ -306,8 +306,10 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
- 		break;
- 	case QCOMTEE_OBJECT_TYPE_CB:
- 		object->ops = ops;
--		if (!object->ops->dispatch)
--			return -EINVAL;
-+		if (!object->ops->dispatch) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
- 
- 		/* If failed, "no-name". */
- 		object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-@@ -320,6 +322,8 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
- 	default:
- 		ret = -EINVAL;
- 	}
-+
-+out:
- 	va_end(ap);
- 
- 	return ret;
+> ---
+> v2:
+> (Suggested by Andy)
+> - Moved earlier in the series to avoid introducing manual locking in the devm
+>   patch that would then be converted here.
+> - Dropped "found by code inspection" (this is a cleanup, not a bug)
+> - Test details moved to cover letter
 
-base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+...
+
+Code wise LGTM.
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
