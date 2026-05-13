@@ -1,122 +1,141 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF12368D7F
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 08:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F136B3DC87F
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 08:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778659685; cv=pass; b=Aq5G0Vq8/5G0bzzYYX1Pqg1SDbrkg/YYjRsaXASLs9Gv67umNorHP5LH6I6FkSCy9lGWXtH8OCLQehj2JdNoVz3QeAn02HQLI7n6o2eE/yhLKB01hM2a40kJEBm0B/FmCsktKr4Rd6oD458aLDpFT30hGjjn+5jNWmEXa/BmGT0=
+	t=1778660131; cv=pass; b=ZUgxXURepmVlVL7KWSKVVLHuI1k7DZOJ1P9CmSZ+nhbzcUSpFbD9BcpbWBfIf4VimSPlm/QbguSdFvHbezDPkbiGXnPbhiO5eL20Q8RpeRMYM5zBeXWtkyQhz4cQmqzJUMzz+e3YTJuFQNnIRqligApPDT13p9jBjshgFLsXyTw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778659685; c=relaxed/simple;
-	bh=o5OHLJcOxC7Fnsmq4GqMfsK7bdTelOza+cD1NXwktmM=;
+	s=arc-20240116; t=1778660131; c=relaxed/simple;
+	bh=lYv8a8ENVmLvpG8SK0wT5vDJT10Y+Y5S8ekfSoBh9WY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oAqJxNNFkB+conPIAnHVjXst2iimavOwm4Mp6Jj0rv0KRgpyCNaYskG9+7GKF7vBbhH/2RixVX7hJQ+DfC3QqCWfcgy8U4jnPvGE3NHCkO04Txglx0h0h5cK+bxfgVAV95mlgSuNB9aMyAdKVD6oQUTZK7VrkzvlB4pSA45EcF0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dzp/j20X; arc=pass smtp.client-ip=209.85.128.54
+	 To:Cc:Content-Type; b=olalfxwV6YvFgPXdZFiMA+7KfiSwC6lLRhWw5MWpQA1a4CNVEFcij9gpiG6lB7nHTDaxHyGLTg7ZTttOaSkuUUKQmgyDCwblkT/XgtcHCyYVDqBhZP+Hq/lN9uPbWFyLUfpCY7O11PnTGNTNwq2wzdqXt3m8RVbwaHm7Mxkbmk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LlWz4EAL; arc=pass smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dzp/j20X"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48896199cbaso56842905e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 01:08:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778659682; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LlWz4EAL"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so5524820f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 01:15:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778660127; cv=none;
         d=google.com; s=arc-20240605;
-        b=EZ67cj+CvYkFBTbrZqltFkblzTYqGEDZMh6r1l4JCjdmd63o7vXaC9URg5vGFM49Xk
-         1mxeKKu2cQt2c/bbPB0rKudkSs4b1XJr+GKuY4O3WyBWltSIUchYQaA0ufxFwhW+JmzB
-         vOEyu8PTO2fSIdVmwakGfUz3avwX/CTxJRK563Z2lii0l/kXMUgxKXf4s2THTRQp/2Hw
-         GfXssDqqyf+FvtcXAD/lTXQp8Rg5IRHn48PsN1K/F6gKJym3e5smZwLNBDmrFrQl+rR8
-         RYPF6xcJ9Nojde7vs1ClYBnSE9zdo5VKPnL35Xscij6qnJ2eJvnekc6JbYx4spF9gkga
-         0Dng==
+        b=NCZMILeKQdwcNleICfHKD57Bez7ZrKEHts3cs+m/RSO5N3zd4hJCWf+aI81+6aHkZ1
+         bLJ+SLZsICdN9ngpiZ6iT3ozIBwLxcQUF9UNQGIUtXx2jDmJF4dHNBVbe/m7D9JTMPjB
+         kb7E651mADFu+NllzpJBPozYDCcYxNg1Qyxqek6MBudlfYNjl7silKhqEqkAMEzg70wy
+         M7dc6JkYA7ZJ5ASwpoB4tPfXR5O8suz9DjPurxN9JkRPhEgZSb/4vzCNH9Sa1A5pCd8f
+         rQkMLzw/3jug96T7Od3uxOEiFnh/A3uTqbtR73RSglUC8xjFn4qI5N0v72PvMSCJ+Pjg
+         04Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=HUj67/5/NXFLHIIXZ/GvpTp6xgEkKvOgSGVkKjkoapI=;
-        fh=bC83JARMk/8/0lRxFF31AyrfdmlvlWHpmVWPrmfturc=;
-        b=HBTw8salgZmGzIDuPuZkxWnNMyi3stMWnKXazRpPIYcqQCWpCersOySdphiEkeeXbF
-         xY0Tvs7jhTt+3uV7YEQ5gNcSE0V4Nekkr6u8JX6L/nDfPtl9qgH8AnQMCBxNLMNoAkEb
-         IWUM6wX2svjZ+uJaxgE9idveo/VW0tUfKE6JCpLMRhUN9Pb2YS40hAxqSEefjCGZpu8l
-         /cJ7mfP9oYGh4/4JPl7gsRog6npH9sR3X5mpazJJjAPD/UFdbjCGWuJtHICFlX41MnUD
-         upaMHKOezX2And4/Uof1EyY/E0VtcPOkupq86/snHnQ6aorusFODP58vnB5G0La51pcr
-         6S0g==;
+        bh=ihd6IIZewTAFs61vT8dRXOpRuE/aFWajhj8VCrvf4kU=;
+        fh=2GHTAzsjKo8+mmkhV6y4EKQHsWlekGI/NzwRr4VavXY=;
+        b=bepoXE1mH5SAaCemPWZUC/+djSaBX8o63ThRvmTBRqHp1zfq/f7iAlQPplgBnPnRWQ
+         3CZJdbUUEQIpLIr85fFXVDjqvdNEv4TbdXEXi6YexARdnY/YTCuPWE7K6YKka15LVA6m
+         OIYslK3qAtGyp4HaiuScQSMLAXLbYk5sfkHqhkd8jxae8cJt1EaxhK0+2uYBMrKOWlLN
+         gPKTKbuTNTFioYjZysvdlGGEpPvtva1O4w3PSNIRz9te0VABA9uoY4FTkwdmzYbGapXj
+         VGebDi5HUxHu5Zvau3w6pJ+It+tuBVNe9dlP4UDNAsQ0n66iUiyAVcIe38GmTzFOLOmK
+         MSnw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778659682; x=1779264482; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778660127; x=1779264927; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HUj67/5/NXFLHIIXZ/GvpTp6xgEkKvOgSGVkKjkoapI=;
-        b=dzp/j20XRrzntKY8WJnOCvjLbsZTIaYjqttp76gOt1hMrw8rMCmyvpGH7/Lhvv4ACd
-         vyI6drarfoUpryrQ38RJJk0KsNVcOPhNES+Oy1baLePUjnPLBpNDKZo9uJh5IPZZi+po
-         FNyVINxqBqoVCEljn97oZrPosDLvDuOfH0mvnpMGVFbq4QO0HfGSdeg3BY5zItproD/W
-         A15fcy1kDbJuQFprEu1uQI1UvD39YzUmeTgChRTxxcM4gu7c9Rg+FTbuj75oMawsXsG1
-         vCo+ICy9KzfWepR3xpEb1PN/CBrjLJHwt2rjDi3ZjFrCGOcqZO5OKkxqzu1nNEPPWNqf
-         9qoA==
+        bh=ihd6IIZewTAFs61vT8dRXOpRuE/aFWajhj8VCrvf4kU=;
+        b=LlWz4EALvX1WxLJAzHRzPG7CWljcu2hbSoxlJTvfFtWAS9/+np8i1nxaKUiByAXNb2
+         RmvaRnhy4vHc2uO4ZFvlGEzkHVJO3J8b44IuhPZCQDJ8R5JvSRI6SSD33jU2uKFjK8H3
+         cfySro31CoTT6YBfSDY2HIC2fa01Zd0+XthzW/CsG3EkgO4iG7VPogJolAV/pqXesV+k
+         UP3XKMg5LgycpFjt0yU8XZrRJ60vdFK6fS+yqraYOgx3qnWbjD9ct8/Aeuu0MABRKCzz
+         zSDE28oldeGt8jGxuVadWBYqMA6l5QlnEWn04nnps4FsnloVMLLNwQup078kgoFH4WKA
+         kiVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778659682; x=1779264482;
+        d=1e100.net; s=20251104; t=1778660127; x=1779264927;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HUj67/5/NXFLHIIXZ/GvpTp6xgEkKvOgSGVkKjkoapI=;
-        b=ZiJZ0vEMQf3hyUk272+kxcIlAA96qeUMN081lGjRLVQf8+QDuv05Vx4kBQeKnPzVIL
-         vZFkHsdCykNFf5h0yXvJb7f7LICoXJP6rWyp18em2iZ1zFH0/vgRW9UIW7B2AM1c+e49
-         tjCHYpvtrzxWGgvVEp2Jb6gRckpNTRLthpPkwLT65K07kZWTiJZvKsfW80Peg6BH3Y10
-         jwMS0SwPvxymOJRi3o7HxmNhkyS+uHw4b4ioMQKgZlWPpP3fMhH+kbdCAnYNYAEY7mpz
-         ollw04FqEUVJ/1LoO198Fu7lUcxZo6BCQJilE2TO0C96DMDpUcqGkzqY5oWdN7z3tKch
-         jf+A==
-X-Forwarded-Encrypted: i=1; AFNElJ9C/x91nCKDF4BgBsfAc5+IEd7E5uqErKLVYkFa+IxOxq9O6U1FxWaThTzMeyUiLbtEuaO5RUgC0foi+Ve+BZeAa+2ekw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/+l9gHBbJTpXQqqwvzBPucppG0fT44jdaZrVJrziXi1mvScU4
-	W87T4TONJu3je81g5K+htlCzmMf2d4qNUqhJXmEVIIP5tX8BoOj6rKo6M+/PKWGgf1518aWkCK0
-	PPxU/RJdVw03KJmN2Plautca9poCtdHw=
-X-Gm-Gg: Acq92OHGDjxr48hTB1NiHoVgZ8/fHZMO1r6i5895GpOI5wme4+RtLBdWFcoeHCIKVDS
-	lv8c5mFcVwSi4bUjykO66qynRUEH9u3ibYaSllClDkiivC8GnlkpxWV3nwrx3bXmZv4xk9u5fB0
-	XIu8sxfSD7xw+KAIUCXcC8LM4lT8qiy9M7e6lz8aAcnx6VzlWtbDVFbbKhcn5C9LzcttW99tJho
-	y7Rp73pEczvSkyPOvsZjYRO6JDwt/DswkngCC4LHV/4aDGCDvlHkNuGtjduZw74/7w8QWg/mFat
-	44d4kzhs/6nKBpkky9u6wz8BFSIA9ho2BN+mzcG3NZx9yt2lpk7oDp/cFhsxdPLogm92ohTOd3i
-	KffTcf3+J9MVAdgSsei8Stu4dRuFaX6UyLJTNujSZ36WdwQDtbI4NYNEbdxyAjRJ+MaTH2qGKEL
-	UQs2uwwA==
-X-Received: by 2002:a05:600c:44c7:b0:48f:d2fc:d042 with SMTP id
- 5b1f17b1804b1-48fd2fcd1fcmr1702915e9.13.1778659682565; Wed, 13 May 2026
- 01:08:02 -0700 (PDT)
+        bh=ihd6IIZewTAFs61vT8dRXOpRuE/aFWajhj8VCrvf4kU=;
+        b=QJIK2uW20XbaqUpc8pMQfTYjaGsOOa+7V0q6OwQ/mwGOmGAhE2eTvAZ09G4SvI4yGZ
+         wpB8o2CCajL5lRumFim54FpLluPiumduKplP1YUDW6ZfQ5tMZ8OZn2zcMGvEucnq1B8K
+         ZauxeHSgjlcTz0vLPXsBX6YxweAzDACEMBO0dUf9vc6vxPolo6kvMcimM0h86VS5z8iO
+         hSlMVGRG5y71V4WSFgDYIf4oOwtVlIsyPIBOteptUmZobIQwd/ZlC78LZxG8qxLMAUDp
+         +Sl0mjPeH1OVqgPa/GO+UTG3pRJVkDLqwZe0CecHgToXQ8WBXb/qEXlnutyCyql7753h
+         R3/w==
+X-Forwarded-Encrypted: i=1; AFNElJ9ruH3ixiABqjikC3+ogeUBe30Q5mUqGrWo2aLN/p0YsdBxdSnsYMNRk5Ry+OsR9MBOdluRrmP8IpXyFPug3nawCz/MMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4i0TV+mAibvNFIuz3Xl1jn9gNz14yL5ghnPa+R6GXpMx0xg6U
+	kJJIKJQrbbWCfxfK6hJbvPvyFEvlL5RD1TmTAMLjRR6xAhMvFgwApunUXK2LeL7Uv/ivJV5K9H4
+	rMNmtiNzAzN6xb3jUJp26ssbXhHH1fKg=
+X-Gm-Gg: Acq92OFxodMgllX0GGHkQ5mYIdKO/2aZg9Egs+F3LW8PJCA2b5gEW5yiGj+g6tXp4UT
+	Py7ph/I3nkSWkqhdM3k5C5adAqftp3/JQqzREmi0+7Smrh1KGRT/PJl1lf5doMg9AQlnb2xT7YV
+	FLxOMltOCUm3UP5Z9GWnoo7ueLNd//xJ92Z9H52+8g4W7vrj7ZL4F4iw7vpFokV68sDjQs4u1j6
+	ABHMwQixy/aRjHmU5hEhGg6GgMdDH4v8XfiMLodJPGpCG1UVbmqi10TMh9U2HXoltLCHbzbJ8zH
+	kyWmMGdztHQMZzDJgw0LL4uMT9Z53KORFmRP5QtliPg0GFAh6gZScOB3ZSB7PftMEjOn6QKEWow
+	zCLhPxRqFNUboji+XiCFmpKMAQHedm9owcCrolJAqCh8xICTpYGrDKGNeIVoRoKZ3zyIFad5AFZ
+	HGakBZUb6z37dhfXYo
+X-Received: by 2002:a05:6000:2481:b0:452:a209:560 with SMTP id
+ ffacd0b85a97d-45c59bd69bamr3403676f8f.28.1778660126733; Wed, 13 May 2026
+ 01:15:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260512223215.25596-1-aldocontelk@gmail.com> <20260512223215.25596-4-aldocontelk@gmail.com>
-In-Reply-To: <20260512223215.25596-4-aldocontelk@gmail.com>
+References: <20260512223215.25596-1-aldocontelk@gmail.com> <20260512223215.25596-2-aldocontelk@gmail.com>
+In-Reply-To: <20260512223215.25596-2-aldocontelk@gmail.com>
 From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 13 May 2026 10:07:51 +0200
-X-Gm-Features: AVHnY4JIZlyHMUEtu8JAG8Og1-Jhw8uH7BQkFJ-WmDJC-mCDgjabVWeU1G_IkCE
-Message-ID: <CALoEA-xdQJPR35WAtsU+4Wd1O=a=1Yg0GSYDOHRLRKLY2XcS1A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] iio: light: tcs3472: use devm for resource management
+Date: Wed, 13 May 2026 10:15:15 +0200
+X-Gm-Features: AVHnY4LREJDdBCiZ3UmbFhMT9ufyew7p-sRgEBV2Un7SA8xGSShNpr7DliqBzw0
+Message-ID: <CALoEA-zype4pcy6dPNa_EPnAbTYLazdsZ7d_zEbbqGPrk9=HFw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] iio: light: tcs3472: sort headers alphabetically
 To: Aldo Conte <aldocontelk@gmail.com>
 Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
 	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 13 May 2026 at 00:40, Aldo Conte <aldocontelk@gmail.com> wrote:
->  static int tcs3472_probe(struct i2c_client *client)
->  {
-> +       struct device *dev = &client->dev;
->         struct tcs3472_data *data;
->         struct iio_dev *indio_dev;
->         int ret;
+On Wed, 13 May 2026 at 00:39, Aldo Conte <aldocontelk@gmail.com> wrote:
 >
-> -       indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-> +       indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
->         if (indio_dev == NULL)
+> Sort the #include directives in alphabetical order in preparation for
+> adding new headers in upcoming patches.
+>
+> No functional change.
+>
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+> ---
+>  drivers/iio/light/tcs3472.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
+> index 12429a3261b3..9b0f64cd9c50 100644
+> --- a/drivers/iio/light/tcs3472.c
+> +++ b/drivers/iio/light/tcs3472.c
+> @@ -13,16 +13,16 @@
+>   * TODO: wait time
+>   */
+>
+> -#include <linux/module.h>
+> -#include <linux/i2c.h>
+>  #include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+>  #include <linux/pm.h>
+>
+> +#include <linux/iio/buffer.h>
+> +#include <linux/iio/events.h>
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/sysfs.h>
+> -#include <linux/iio/events.h>
+>  #include <linux/iio/trigger_consumer.h>
+> -#include <linux/iio/buffer.h>
+>  #include <linux/iio/triggered_buffer.h>
+>
+>  #define TCS3472_DRV_NAME "tcs3472"
+> --
 
-Not introduced by this patch, but `if (!indio_dev)` is better if you're checking
-for NULL (checkpatch.pl would probably mention it during a run).
-
-Since you're moving the driver to use devm_* functions, might I suggest
-moving mutex_init() to devm_mutex_init() in the probe() function? Something
-along the lines of the following:
-
-ret = devm_mutex_int(dev, &data->lock);
-if (ret)
-         return ret;
+Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 
 -- 
 Kind regards
