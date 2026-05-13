@@ -1,116 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0971E4DA533
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 17:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490C83B95F6
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 20:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778695126; cv=none; b=gBNWV/G75ZEwYjGwXoFB/UmPkSIB7PH8lynxBr6/Wk8AN33mthKos3LEa9vW7cML2ysnopGIgcBel/cLm06rmlOcEAYoG8wMn5SXVYbglwNaJ/Fg4RdLY4lbdRGO24HKwJqP1On4s/HA0sSm86mD7rjtKxqdqiaC6SFjvMU5OXc=
+	t=1778704199; cv=none; b=LYCGP1skxTp+N0mCLzv0Ir9mTxlNx4RilkMj4cUOVnJTzdObmBVeXHgVyl0rnx7S9rQXEjXvcRkCErJztTOb/S9nzso/SvliJVh/bbIARneiCvR6CbSFdteiffqFqixCsIrGVRL//3pw1ENmPXtVVC+qmNGaRW6OvF6roK5lH/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778695126; c=relaxed/simple;
-	bh=CPIe52sbFkWAypWsZK3X9/E+hdpLTLhpw5Zx83NnTqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S+2Tn7yAM2eAfaCcr6NSZ61VdoCsALqAr2MuWUV7ePHErHCe65HGK/YJ5K5BYEd2H0M+07THO3HMWhg0gOeMB7qiz3vcP0bGqy/TJMFg5u4xH2Mq/TOwps+e0rZcGVoOVltMBDMjpq1orceXzGk8aWBoE7dGy8kmzDJIco7fK2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miX6W4Za; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778704199; c=relaxed/simple;
+	bh=jHFlF295HYzF2B3H7tjKS4sy/QRMeoh2eLu7AGEMh9s=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Oh6oJXyodSLFCDyTY32m5/2KffToPpIoWEMrFUro3H2qLukKS248zH0GY4jTX+rOGt4K851ZdKdtIjIQJWgOLrzkOOI/Eb+GdAhEbOcPrBEHZiX+0u0iM9b1xSUo/XnJhs5nIhxK+LJP4ZpwWnXH4IZpY9+3se874BE/+bW+4Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pvGYQ9yi; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miX6W4Za"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778695125; x=1810231125;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CPIe52sbFkWAypWsZK3X9/E+hdpLTLhpw5Zx83NnTqo=;
-  b=miX6W4ZaTmQSryR9BovW0JNcBHvx/HuyOccNTi2RHDdqZngfsUYQOiWa
-   g+aa8rsLsjrrs44pkDZgyHLl+SrePs2O0IqpyiyuUvO32Xq+3mCrENtuF
-   nqK85IsaEpd3wSIHpX5fw5pn+5MTuSAzAAoG73Aye+NquOcoJ3vHihtrx
-   rqEPpp31GDitxC9Hlz08tmDLHCp35KyG1ZSPWv97su7IhFjwul6F1vEEG
-   YJFfmNAbnBJscghIyPbGsIUKYM1Hjf2ltsyNmox/EKZYSNY+dIoAVbIqG
-   13MtYLck5dHla1bfR7OL4uB6s9oCqEj/Pw5vG+D+vRcXAmKLd7Rjb63xs
-   g==;
-X-CSE-ConnectionGUID: spAumuUASs6nB58ynosorA==
-X-CSE-MsgGUID: jTd2keNYRJ+o3ZNAC/FHUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79488740"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="79488740"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:58:44 -0700
-X-CSE-ConnectionGUID: MYhN9ylVTNONQfoXdlkNhA==
-X-CSE-MsgGUID: j9cEtPDGQ1au3TrXPzfMjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="235089180"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.106])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:58:42 -0700
-Date: Wed, 13 May 2026 20:58:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Aldo Conte <aldocontelk@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
- default case
-Message-ID: <agS70Dph8-zQT-e6@ashevche-desk.local>
-References: <20260512223215.25596-1-aldocontelk@gmail.com>
- <20260512223215.25596-6-aldocontelk@gmail.com>
- <agRfMWL9BughLT2x@ashevche-desk.local>
- <36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pvGYQ9yi"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so120712015e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 13 May 2026 13:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778704197; x=1779308997; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jAvNBpV8Q/y6fPQg34WIPbh535gNEElB5bP/5NvjoC4=;
+        b=pvGYQ9yiimDpWZ568SLV9QaEYTnWwUWN9DNn+H4K7QrbzN/pmX/9xwdvRJox0CYMxX
+         4CSCWw3663GzGg9pcTEK+tS564OSdVVnrsJjDw+/ffnbwmH775ZGNXkmxFYJKlZFbODD
+         qejES+2SjQAgRf1E7XiAZBPJgJxJU9IZAR80V8ukvOlN/G7ga8bSOvzgN2TUs3/Xgxte
+         u0b+sHdyakf0biVatef2Sry9TmyZ1B+lMsOHTpekbek15N52PMWuknnKprpTrdYhTHFn
+         JWG2JPbXPDRB24I2vZDGp1XKj/3YCC4HDXAUSvNVd1fVCM1KFj8t7ptgRcUsYApMgvj0
+         MBlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778704197; x=1779308997;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jAvNBpV8Q/y6fPQg34WIPbh535gNEElB5bP/5NvjoC4=;
+        b=FQr2wyqti0B7yr+FseY0dnn9MJrSOQt12QoDofoARy86IPRSMi9fHgV0+c7cUHix/5
+         m+L4kzKyqReHXN3LNE6KwgsciX/QryKgc9S36yR/vAppBCx31HuWxaLzSavgzqp1szt1
+         Y8cw8cA+v3r3yl40pQ1EZVHOw7avbnA+ArKj2iVfBasqzh2vZd1UD/yS9ahL2kfK/Hef
+         dRVpIblkkNBL9uGjY+xTY8T67ND8YzhbpvKHoUQ7cAY8sidV+6tAyuitumvYCPzlBJ6Y
+         rFU+zg2y6lNG4XOIw50tz7gNuoRBn0K/SQmSKdpurAd46JdR9+vXKVXp7j/EOxIbY36o
+         Nd9g==
+X-Forwarded-Encrypted: i=1; AFNElJ/P2t2TwdhaLoYJG8D196tHoOgSpwfJW1NuO4kqUbSg+3MCaPcfmPujZkxXclrBlbW/fXwSQC+uGWwFaFVXEyVolOgw1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHPyNRYY2td7CO7lkc7WQVKJHfVyRWTgsYeuuPLJSx3YUqXtYe
+	R2eVLplxzCLpjhQiaVE69sL/eTZlbFWf8JB+jiKoC2QsLduf+NyD3Tiv26VzOQ==
+X-Gm-Gg: Acq92OF0qLgkRQ+iATwOzhEcEdUfu5RbIeV7Zv7G4Ber15dfclL41/lxvSkQiH9+aMU
+	fEARCo2fX2hPOZdDbABTayTWcZACmrH3b/JbhCZMHT2w1PPJ7BKaIHA7qvY68o5tLvA4HZcYLNH
+	Nqr4DGRZbcqLnRpjvq2K7kEfs++vDjHK52Uyyg4TQCXoFeVLJxHjWFX6qmwc9UsYI4vUEDimtRn
+	GgV3BXtQTyp2pNlFw+zgUAWosKZDTDbBkzZ/+wBmVp9Vgptqu+Db+GsOAiGqRzN59pUMtW518j5
+	ptQ/WcC/32DgWofVpVlalTfioP2PzvX6OVE50Cv8S7KUgbTvtMnTHo3aQrpMmNfGH2O+jAgWFR7
+	+86IkOhy4znyRJ2cyM6jh0z6kpe5ET90bbxcECiyP0kQM1iIsuOjFfkuFxUsZnuSpz9FrwxU3+N
+	J6I49uccL8A2dr5a+iVgu2ZJhCRTQE/XqcU3pR2PdhmdRjfdXtamcZmgEL1dWKje8k5ik8u/I=
+X-Received: by 2002:a05:600c:8705:b0:487:5c0:671f with SMTP id 5b1f17b1804b1-48fce9c731dmr74047535e9.9.1778704196412;
+        Wed, 13 May 2026 13:29:56 -0700 (PDT)
+Received: from ?IPV6:2a01:e11:5402:d840:f1ee:c5d:74e4:6e19? ([2a01:e11:5402:d840:f1ee:c5d:74e4:6e19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fd64da1absm21690035e9.14.2026.05.13.13.29.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 13:29:56 -0700 (PDT)
+Message-ID: <0de09560-6a79-46f0-8a63-3fb904a38231@gmail.com>
+Date: Wed, 13 May 2026 22:29:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] iio: light: tcs3472: use devm for resource
+ management
+From: Aldo Conte <aldocontelk@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ shuah@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev,
+ Joshua Crofts <joshua.crofts1@gmail.com>
+References: <20260512223215.25596-1-aldocontelk@gmail.com>
+ <20260512223215.25596-4-aldocontelk@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260512223215.25596-4-aldocontelk@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 13, 2026 at 06:12:25PM +0200, Aldo Conte wrote:
-> On 5/13/26 13:23, Andy Shevchenko wrote:
-> > On Wed, May 13, 2026 at 12:32:15AM +0200, Aldo Conte wrote:
+On 5/13/26 00:32, Aldo Conte wrote:
+> Convert the driver to use device-managed resource allocation:
+> - Add tcs3472_powerdown_action() and register it with
+>    devm_add_action_or_reset() to ensure the device is powered down on
+>    cleanup. Before this patch, the chip remained powered if probe
+>    failed after enabling it.
+> - Replace iio_triggered_buffer_setup() with
+>    devm_iio_triggered_buffer_setup().
+> - Replace request_threaded_irq() with devm_request_threaded_irq().
+> - Replace iio_device_register() with devm_iio_device_register().
+> - Remove tcs3472_remove() as all cleanup is now handled by devm.
+> 
+> Rewrite the read-modify-write pattern in tcs3472_powerdown() and
+> tcs3472_resume() so the new register value is computed first, written
+> to the chip, and committed to data->enable only on success.
+> 
+> Use a local 'dev = &client->dev' in tcs3472_probe() to keep the devm
+> calls compact.
+> 
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+> ---
+> v2:
+> (Suggested by Andy)
+> - Rewrote read-modify-write in tcs3472_powerdown() and tcs3472_resume()
+> - Use local 'struct device *dev = &client->dev' in probe.
+> - Dropped "Compiled with W=1" and test details from the commit message.
+> 
+>   drivers/iio/light/tcs3472.c | 107 +++++++++++++++++-------------------
+>   1 file changed, 51 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
+> index 4fd4fd74d0d6..7a6dc8360326 100644
+> --- a/drivers/iio/light/tcs3472.c
+> +++ b/drivers/iio/light/tcs3472.c
+> @@ -427,13 +427,38 @@ static const struct iio_info tcs3472_info = {
+>   	.attrs = &tcs3472_attribute_group,
+>   };
+>   
+> +static int tcs3472_powerdown(struct tcs3472_data *data)
+> +{
+> +	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+> +	u8 value;
+> +	int ret;
+> +
+> +	guard(mutex)(&data->lock);
+> +
+> +	value = data->enable & ~enable_mask;
+> +
+> +	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE, value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	data->enable = value;
+> +
+> +	return 0;
+> +}
+> +
+> +static void tcs3472_powerdown_action(void *data)
+> +{
+> +	tcs3472_powerdown(data);
+> +}
+> +
+>   static int tcs3472_probe(struct i2c_client *client)
+>   {
+> +	struct device *dev = &client->dev;
+>   	struct tcs3472_data *data;
+>   	struct iio_dev *indio_dev;
+>   	int ret;
+>   
+> -	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+>   	if (indio_dev == NULL)
+>   		return -ENOMEM;
+> 
+
+Hi Jonathan,
+
+In v3 I have a small style cleanup: replacing 'if (indio_dev == NULL)'
+with 'if (!indio_dev)' in tcs3472_probe(). This was suggested by
+Joshua Crofts in his v2 review.
+
+What do you prefer it is a separate patch
+or folded into the devm conversion patch (which already modifies the
+context next to that line).
+
+Either way works for me. Which do you prefer?
+
+Thanks,
+Aldo
 
 ...
-
-> Thanks for the review. Before I send v3, I want to make sure I split
-> the series the way you want.
-> 
-> My plan is to split v2 into 7 patches:
-> 
->   1. sort headers (same as v2)
->   2. convert locking to guard(mutex) (drop Suggested-by, clean up
->      trigger_handler)
->   3. replace == NULL with ! (add Suggested-by: Joshua Crofts)
->   4. use devm for resource management (drop Suggested-by, remove the
->      dev_info change, add devm_mutex_init)
->   5. use 'dev' for dev_info() calls (new, taken out of patch 4)
->   6. implement wait time and sampling_frequency (drop Suggested-by,
->      fix macro style, simplify cycle_us and all the other revisions)
->   7. move standalone return to default case (same as v2)
-
-(Also collect tags for the patches that are not [drastically] changed, like #7
- here.)
-
-> Two things I am not sure about:
-> 
->   - Should patch 3 ("replace == NULL with !") really be its own patch,
->     or do you prefer it inside patch 4, since that line is right next
->     to devm_iio_device_alloc?
-
-Jonathan is okay to combine in some cases, but I'm not sure if this is small
-enough. Ask him?
-
->   - Is patch 5 (dev_info refactor) in the right place after the devm
->     patch?
-
-Basically sort patches by severity, with this in mind seems you suggested
-the right order.
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
 
