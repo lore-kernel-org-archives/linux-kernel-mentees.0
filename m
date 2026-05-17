@@ -1,142 +1,191 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4A2341AD6
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 May 2026 15:39:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4E82FE05B
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 17 May 2026 07:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778946000; cv=none; b=aH3PYp4FredDiieNTxzKhwDUzXgxl1R4XfwpYFSeLJPKDZ8g9CMyxE9ZF4GK77z+0Wyew5lUTBgDA01D7R9Z4D3v0C/xOxjqxpAKjGdbb2mw2fDKITIrlhXvjib0acbJN9p6/01ugTbA+MakKppiejpr2j3LQ10zNVsk+FCKzjA=
+	t=1779003509; cv=none; b=B2OV01mm4+7DLNW1jrfh7JIKR1m1NgQOHAOzUTv/n0WJrmoS4l+Yzk8HxBFgglt2AKkpYHRcEgWVIRZVqBQxB1UPZp6/lTIrXPWdLAXA1v2SH+DW5hMVb+r0JnU/8Ine1+c5SlSbUHrYJsGzaMJLfioiZht83ywRTl8LAOAOvqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778946000; c=relaxed/simple;
-	bh=gsuc/6rRXcH93VmihWQS8s22CFUo0ceUo3PHNdoRaZ0=;
+	s=arc-20240116; t=1779003509; c=relaxed/simple;
+	bh=ExrN1rLwulHBQxjQGc7Dmc1B5pSI74s5+OStwHX5SpM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIs7tkWVOm30X9FaKkjJBpni6iAmzQgf5nUP+2e9V3an4W/jtqAKr90DFtQdmAwjjRoo9s6c6fqGsdc1bHfkxFZ/9nx5LICbYGfgCvfbA7LXg/5N2sY/oM3b17cDu3aSTY+3sI7aVZZeyo0aF+BCslQYvoQiDkTLtuGVf0/YwtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SC5M2aNT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dITwG0o7; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=e2bKbxuBY/GFrUBrsjuWivEgv/6pr0GBOXkDNMZYTcWrqKG/b22Hr++LD6bzCm989sRjal8NnFuFJGz1ni+iMoucqLK4nuqAKgdz51NNPz2Ek9OOfEtPNpcEpiaPLshdV4/7BU0YiPyyzrRabDojtPjBdOcHVAsXCaXdKaeDfSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvphqvCi; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SC5M2aNT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dITwG0o7"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64G3gSnd1903216
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 May 2026 15:39:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=fmhNdNRYPDgmzCrmp6j/LUal
-	rEUVxqlvgGWshjsZhC8=; b=SC5M2aNTA9ZssWFVthk3HKO7DRtEJpGnnZQGsLsg
-	R5RlJd4i+NqOtu7S585ZrA05BkGxXOGeJmgEJX97BFWbl6xoSzQr7iQj5lEyuiKZ
-	qe/+Ag9gQm3g86FM7oRQMJ6Rj8dk0XjPoNoeyexvu/cCKDJClxCZnT8Pfb647oIa
-	QFdD+LpB4bBSHrZ7qb7V1jA12XJSVvFPvWH6xHCzM1qGIR5Yl1DBgKOOiguhiBvg
-	aj2BQadhXoeuB2JjjqFkDFojlT4FcK3Qa/0inAgGcTISQHsinzWFea2bASMYzQIX
-	7j7hZO2Qba50tPg1R6oi8ntISwWm4KN+XEo3Z1fkC9UwEA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6gwm95ur-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 May 2026 15:39:57 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50d6bf346adso23235451cf.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 16 May 2026 08:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778945997; x=1779550797; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fmhNdNRYPDgmzCrmp6j/LUalrEUVxqlvgGWshjsZhC8=;
-        b=dITwG0o7lwxinoXj5LD62eAn5yykbywn/3ftnj9LevEJo54+4OXda/qm9ekSgYndUy
-         g14qwa4BXDJiacJ76rrGSW1ewXvSV52o/S1+KHlS65slVE2RYP+kKLnRTFzn+xLkUcvr
-         2gyfeG1YpVI1pJTcpMd1Wuxhr9eLkuuUQWwunizOJRT092GfU0UWj9ciNMfP6wOQhnsZ
-         PEQ9+t8BLmGuNdOnmz5rLGhXerZ1xBNYfEOheX7+9HkaiCu2KsAddbog7yrmiw/BJPWm
-         UAhPFFfInmo0tKRbX0FyM1DihhjO+dfOvWAGMazgNWo3037DdGp0ytHg/Q7xhsN5t7fn
-         regw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778945997; x=1779550797;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fmhNdNRYPDgmzCrmp6j/LUalrEUVxqlvgGWshjsZhC8=;
-        b=RGayEuMa6EZKitokquEceKZq32p+EUnoQEAUTSUVFDhLOc9iKbkZMMdZ26c5cqkAK+
-         vc3WLJZcBPKe7168hkD2wOStZpYjXHSMyBXdnSQ+hE7+CFZgD/BW+RPgHqFMcpD78uZb
-         NH+chZ4BPBekTy2gbQUfUFg/6RNxv+2HIitu1lyJnr3JcPyU9ad3v/k32f9GYoYPXxMB
-         IQywdIuH9hBZHuQi9mOgi7vq2ocmEsbKBHpfe+9KADhfjYkmwbXSxgppM6jDuXzNu1Fl
-         WMLPb0++AEgfjIW3t3QaWxfWujtA7iA9NBS6s0wAMK6W12lWZrF0tGoGMEXz21ounZNw
-         94PQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/lbGGOFrCLDLD6F+4IYPYmhWPwJTPC7+t7AssMQEgvAAG1WZxzoFeI0ZuNqumXaKRlYnJF8CmdWfPmNES7n8cNKG2few==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJMXdCA+mDlvxXWULzW/CuU0tld1Z0IzEAy/lM7ISk3puYYZ+M
-	eYZAgARlHh01Xnob0/WjjPHGU+B9qvVQNNhKsFUW99LoHYw8TXueb8grPTv8WKOIdwdfHCA2K7l
-	TUo2xQeW8O67KedY47UmErm23X0/R6bnp89s5gJKbXiQGKuchRTGtAXnpW3oBY/k8sIwWq5Obsf
-	elEA==
-X-Gm-Gg: Acq92OGDaWdCb7MQ8zCA4YpKpzA+V24cZMpYuo8exghJbs2T/kZc+EmPWfTGhgZapuJ
-	WR9pCv8/l6xnJa/RCdq2hdVm1jvrn1QUp6iNIQqG5pmawczFTRQP3RfN2vZCTvvJ+ngvJwp5ZoA
-	I/UnEkELgkQsL9a7+BWWEFdJTTarJTx7KruS+ELMRRvsrfgA71m/dJgEil/Y6fQqjtjh2c0g8Oz
-	LV0p+hPan1tjJpgk1FufH9oBROq43YSkJu2fokKUdZoWSEl+cCCi/gp0Uvqv7h3BS82H4DFF5r+
-	QeBiIpOlOcuFh4O6FxoUbc1gvXA+9s4PBqmvqSbPqCqoIP2N/zQS6igprOaEl+Wma4jXO5ASR0M
-	ZH+xeEbdvKK8d+jEzR5LnSTIOxCOUr/dMIsMzU9xXyRcVPXuWiZtB/+S+PL2WUT2FGMHwZTW0vr
-	icpxe6RReEogBJvxLeFQPOG5XpnXhrhcB6iU0=
-X-Received: by 2002:a05:622a:8596:b0:50e:c093:9051 with SMTP id d75a77b69052e-5165a1eb8c3mr101645751cf.30.1778945996857;
-        Sat, 16 May 2026 08:39:56 -0700 (PDT)
-X-Received: by 2002:a05:622a:8596:b0:50e:c093:9051 with SMTP id d75a77b69052e-5165a1eb8c3mr101645461cf.30.1778945996423;
-        Sat, 16 May 2026 08:39:56 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a90f11b487sm2044495e87.23.2026.05.16.08.39.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 08:39:55 -0700 (PDT)
-Date: Sat, 16 May 2026 18:39:53 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jinseok Kim <always.starving0@gmail.com>
-Cc: amitk@kernel.org, thara.gopinath@gmail.com, rafael@kernel.org,
-        daniel.lezcano@kernel.org, rui.zhang@intel.com, lukasz.luba@arm.com,
-        skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl,
-        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] drivers: qcom: fix typo in comment
-Message-ID: <u2vuydd2ubtlaaj2mgt4nz6gy5nhifh3vcpjhmdtyl5kod7gdg@gnynbkt24rer>
-References: <20260516152324.1863-1-always.starving0@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvphqvCi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779003507; x=1810539507;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ExrN1rLwulHBQxjQGc7Dmc1B5pSI74s5+OStwHX5SpM=;
+  b=YvphqvCiy1agdtOrjVGT2d4Q0C2nSVpJuJu6u0D/Quy1WbEfreO/bsS/
+   /SjNzkZsdArEmf4BpwXph2+LTJIXqJkwAaTt+rMizSGUSifhqA4/nYMwE
+   yWN91sNyXyCg1HBT7LMOloelEkqjjjdPUqD+oxWmCjusOc5ml5BtMW40X
+   8Ze1YiF8k3YnYdaTKuWn5YNOtdAcTjDtLDocdwV52g9AsbGeYXroTOBs3
+   s6sxuLEcZQjCL11ENinKlZAqPgVZLu7HyuC816/+5M+FhUQGWspaBYwl1
+   IUZ/BYu+eGBtpCNLTnvckwqPeqZeO3fco5cX5fTm9Uaz5vCouL2DD0Q3z
+   A==;
+X-CSE-ConnectionGUID: HKuKgSelSGy/HqhNmEfCRg==
+X-CSE-MsgGUID: VROCBSl3RyGfBccC9cuA3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="83761332"
+X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
+   d="scan'208";a="83761332"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 00:38:21 -0700
+X-CSE-ConnectionGUID: qqIRJzgZQyqBUxwDVznt0g==
+X-CSE-MsgGUID: K7tRiMXBRSqmSebT9hIvFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
+   d="scan'208";a="239360122"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.182])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 00:38:18 -0700
+Date: Sun, 17 May 2026 10:38:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Aldo Conte <aldocontelk@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2 4/5] iio: light: tcs3472: implement wait time and
+ sampling frequency
+Message-ID: <aglwZ3IyK70j4deo@ashevche-desk.local>
+References: <20260512223215.25596-1-aldocontelk@gmail.com>
+ <20260512223215.25596-5-aldocontelk@gmail.com>
+ <agRdzneWb2RIidIp@ashevche-desk.local>
+ <0a0d0931-f1a3-4ee0-99fc-91d379490838@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260516152324.1863-1-always.starving0@gmail.com>
-X-Proofpoint-ORIG-GUID: GzIiiZPSX58lnkchXBbdcvstf-UkgIuB
-X-Proofpoint-GUID: GzIiiZPSX58lnkchXBbdcvstf-UkgIuB
-X-Authority-Analysis: v=2.4 cv=W/AIkxWk c=1 sm=1 tr=0 ts=6a088fcd cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=hEL-7WqZ2Qmr7oYnmoIA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE2MDE1NSBTYWx0ZWRfX8OpDOndsIhC6
- vSLUFq+aWnt82miEvSpVfv1cG+VCeuHKR5mj7jgH30lAFgoYBWwdNoiKwqQPCDSVdoNb8zoQUif
- kbJlVi7yzpd8r56v+T9QLivdh0if6zbFMegpVcvUCQag8qt9BR+UGuxK2hW//fqmN5uWMTlSYLl
- DXdItHj1PnIKRcurkRo42valDnl9mU6LsjOskLdUgJ+SF0gy22+5ntM+p32jRG+tlhBCNcnPn3T
- pnM+Uo1F5eNj1CPATrDixMLl4m7VrhjQVf8sEAGXn06YRDjbSFTomuaaZMEsWbt7sB4gtHAovdv
- o2TsRozB7DoMn6akbAFu839PoPws5PjPkSSbsOxZnxfZHxkd1DCimmhFuJYw8Oi5J8tysC0mFnM
- GzP4YayaLmYipIy8laUScTImkCAZD0FmT2bUjulURAMQUpRjOEBuFaQ9zVXspzvTvQGm/jErker
- pLWWyCGcqlfeBMAx53A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-16_01,2026-05-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- impostorscore=0 priorityscore=1501 adultscore=0 clxscore=1011
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605160155
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0a0d0931-f1a3-4ee0-99fc-91d379490838@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, May 17, 2026 at 12:23:16AM +0900, Jinseok Kim wrote:
-> Fix a typo in the struct tsens_irq_data comment.
-> Replace "uppper" with "upper".
+On Fri, May 15, 2026 at 05:57:11PM +0200, Aldo Conte wrote:
+> On 13/05/26 13:17, Andy Shevchenko wrote:
+> > On Wed, May 13, 2026 at 12:32:14AM +0200, Aldo Conte wrote:
+
+...
+
+> > > +	cycle_us = div_u64((u64)PSEC_PER_SEC,
+> > > +			   (u64)val * USEC_PER_SEC + val2);
+> > 
+> > First of all, it's one line. Second, the divisor for this function is 32-bit.
+> > And at last the castings are not needed. I think I already told these...
 > 
-> Signed-off-by: Jinseok Kim <always.starving0@gmail.com>
-> ---
->  drivers/thermal/qcom/tsens.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> In theory, val and val2 could have a value of INT_MAX. Therefore, the
+> calculation INT_MAX * USEC_PER_SEC + INT_MAX results in a value of
+> 2,147,483,861,748,364,700, which can only be stored in 64 bits. This is, of
+> course, an extremely rare case in which userspace writes an impossible
+> frequency that is simply too high.
+
+> Therefore, div64_u64() should be used instead of div_u64().
+
+Yes, exactly my point!
+
+> Therefore, the following code would be required:
 > 
+> cycle_us = div64_u64(PSEC_PER_SEC, val * USEC_PER_SEC + val2);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+You will need casting for val because of 32-bit compilation which will
+overflow otherwise.
 
+...
+
+> > > +	wtime = 256 - DIV_ROUND_CLOSEST_ULL(wait_us, 2400);
+> > > +	if (wtime < 0) {
+> > > +		wlong = true;
+> > > +		wtime = 256 - DIV_ROUND_CLOSEST_ULL(wait_us, 28800);
+> > > +	}
+> > 
+> > Why 64-bit divisions? Do you expect the wait_us be outside INT_MIN/INT_MAX range?
+> > This will need a comment and/or dropping the 64-bit arithmetics.
+> 
+> cycle_us_MIN is reached when (u64)val * USEC_PER_SEC + val2 is MAX and so is
+> INT_MAX * USEC_PER_SEC + INT_MAX. Assuming this, the division would be 10⁶ /
+> (INT_MAX * USEC_PER_SEC + INT_MAX) = 0.000465661, so 0.
+> 
+> Therefore, cycle_us_MIN would equal 0 and cycle_us_MAX would equal
+> PSEC_PER_SEC/1, i.e. 10⁶; consequently, wait_us_MIN would equal −614400:
+> 
+> wait_us_min = 0−2400−612000= −614400
+> 
+> and wait_us_MAX would equal 999999995200:
+> 
+> wait_us_MAX = 1000000000000 −2400−2400 = 999999995200
+> 
+> This means that wait_us needs to be s64 if i am not wrong.
+
+Please, add a respective comment.
+
+> > > +	wtime = clamp(wtime, 0, 255);
+
+...
+
+> > > +	ret = i2c_smbus_write_byte_data(data->client, TCS3472_WTIME, wtime);
+> > > +	if (ret < 0)
+> > 
+> > What's the meaning of positive returned values? I think this function never
+> > does that. If I'm right, drop ' < 0' parts in all similar cases.
+> The i2c_smbus_write_byte_data() function returns a value of 0 on success and
+> a value less than 0 in the event of an error. I do not understand this
+> comment. Could you please explain it to me in more detail?
+
+As you pointed out there is no meaning of positive returned value as there
+should not be a such in the first place. Hence, why ' < 0'? This already being
+explained just after the Q in the same paragraph above :-)
+
+> > > +		return ret;
+
+...
+
+> > > +	cycle_us = tcs3472_cycle_time_us(data);
+> > > +	data->target_freq_hz = USEC_PER_SEC / cycle_us;
+> > > +	data->target_freq_uhz = div_u64((u64)(USEC_PER_SEC % cycle_us) *
+> > > +					USEC_PER_SEC, cycle_us);
+> > 
+> > Okay, this might help with the above... Can you deduplicate this division to
+> > a helper with a comment that explains the calculations behind?
+> > 
+> Something like this could be ok?
+> 
+> /*
+>  * Convert cycle time in microseconds to frequency in Hz and microhertz.
+>  *
+>  * Given:
+>  *   cycle_us = T, i.e. 1 cycle lasts T microseconds
+>  *
+>  * The frequency is:
+>  *   f = 10^6 / T    [Hz]
+>  *
+>  * We split it as:
+>  *   val = floor(10^6 / T)
+>  *   val2 = (10^6 mod T) * 10^6 / T   [microhertz]
+>  *
+>  * I.E.:
+>  *   val = 10^6 / T          (integer division)
+>  *   val2 = (10^6 % T) * 10^6 / T   (fraction scaled to microhertz)
+>  */
+> static void
+> us_cycle_to_freq_hz(int cycle_us, int *val, int *val2)
+> {
+>         *val = USEC_PER_SEC / cycle_us;
+>         *val2 = div_u64((u64)(USEC_PER_SEC % cycle_us) * USEC_PER_SEC,
+>                         cycle_us);
+> }
+
+Looks like yes.
 
 -- 
-With best wishes
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
