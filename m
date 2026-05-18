@@ -1,87 +1,108 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967C6258CD7
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 17 May 2026 15:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B9E3CDBAA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 May 2026 06:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779030021; cv=none; b=MuSvSBBls2DswcYtGwK/1i9N62zGiV1WHDMO2vj87faziPW1Ei5OQTXLlVbEezr5+AqFJ90k7oLZyg/uEYtG75xs/EFND5r6mtou7K57p4PvH69oFpaL7KeOdBxQ/l7Ri3lTln+f7zVod5cHnd5537lt3LOXAvlUirEEF9dUz2g=
+	t=1779087205; cv=none; b=NPZ0Ormzn0gqDPTlG4v9CD3PuAh8ClKyQSH3yuH/9MOF8qjuyRKhnnbkpJiz29mKeVfHwJaO2uaXiTkYohTnZJ5nB5otqnqrWBY7xGkg9MvQpzuLjG2kg200XdXMB/Giv6x45Hzq6Kf3lPCETJPhCo6N47gqba5fg5S4tZkgdT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779030021; c=relaxed/simple;
-	bh=8vjcL8OdQ5tgtJDoUFXe1PLh6azSB7d62dFmx2Xf4E0=;
+	s=arc-20240116; t=1779087205; c=relaxed/simple;
+	bh=5RFO+Ssvg4JmPw/yA4u/nPzTGuYXVhi4EeKK7/9cMjw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tO/9d7IJhlbco80zfVhiSYsL9qhQZkIi4oHbCH8T/At973ugh2cX5gcjtPjMrZ/jGCWkdQNd3/lY4JGw96aHL5qqLMQyb8RTD+5nGqOaAkL3Nvtudy/LFXFsgnK3D8eHZ65ezvfKabZtCEjdObaExVtUx/I3CKGUvTCE42AV7Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ue91FZub; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=deYMB7Hn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=bV+Tx3sC6tSscqJ7XCZCd2ja+m+9CU1cJeXleKvZ6JiBjfZflHApv99GYFFeLPQGiV/3PFKUELelfVzrFrdt1q46sgpnh7+7xVujkqAt51sKR2JOZKHXUsbGIYGkFtUgOjH2GF0OZ5te4JBG9P+xj5K9ycm9upQ0fubFdSub+tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m/QupLAN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=j/10RI3A; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ue91FZub";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="deYMB7Hn"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64HCS4du3427454
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 17 May 2026 15:00:19 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m/QupLAN";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j/10RI3A"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 76B62417B0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 May 2026 06:53:23 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -6.491
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XhIR-izSUzID for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 18 May 2026 06:53:22 +0000 (UTC)
+X-Greylist: delayed 1014 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 18 May 2026 06:53:22 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 82BD7408BE
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=oss.qualcomm.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 82BD7408BE
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=m/QupLAN;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=j/10RI3A
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=amirreza.zarrabi@oss.qualcomm.com; receiver=<UNKNOWN> 
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 82BD7408BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 May 2026 06:53:22 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I2xg5f3835038
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 May 2026 06:36:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	o2fZr1KKIxC9P7aZKgWLBg6WfF9TW7hamnvrwR9wTjI=; b=Ue91FZubwWaq7lvP
-	BCgmsycPl2No1NZY5uN3ghSvoPK1en2WqpUE1/Rm2CpJqbelOpOpOuZhmm3GeQmP
-	hzsu+zMij4FnCpwbnImsG2kcaGfgHJOXphKtjztJWnR42K17VmrWJOZ1hbOG2h8t
-	C7OKSUjFL4z/DcLteovBuQiIKlmUAQcQa+5+OFDePcki6+D06SJN21tyMfX5WIcp
-	3zGnBwdT6ume9CxK5knmyMD1NL34zZEw3rLJ86bpleFuCo8FKX8LKQr3eoe51Ka/
-	GCm+CyKf6ho5kSf/jfjzIffrERm+T2saY0XGKOU66GZkPoX+zADVVb93lqppCMtZ
-	WU8TQw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6gvqu1kv-1
+	OhWjBMRcsj+kQRn2s4H2mf5lmW3+OFeXfq83HZ0y7aE=; b=m/QupLAN2LODnD+C
+	1P+6W3OdBFoGdhgeeDxf4ZtQ/rsutO1IA9kh5gKqeZ6nEZJH5eqe+RNl0HRrdeJ/
+	V8bPW352grJGS9o/uz4btRY9KY6O+/w1bLUTVALAIyo8g3XwHY+FOfZzTlF9bj5X
+	hKWA2uWixvvB1NEue6ZAdsa1LdINFuOS7RtGdwsdZ9U34ppEwyTjpPyIEdJvQ7ef
+	ZS5U+RjDTKfrFimo+Mki1a3zlnSTCYcGCFJh6Uf3lOR2Z7POlYFkbSckkZTt4Ltf
+	8zFrQkYUSmy+t6o/9e587Yl/NjYdS+gq79PlN+meOlpQjSw5H9YpjkF97fr6AbyK
+	CHyL/A==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6hbccxcy-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 17 May 2026 15:00:19 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-514ae0e3ad6so15478351cf.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 17 May 2026 08:00:19 -0700 (PDT)
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 May 2026 06:36:27 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-366344513a3so4118636a91.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 May 2026 23:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779030019; x=1779634819; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1779086187; x=1779690987; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=o2fZr1KKIxC9P7aZKgWLBg6WfF9TW7hamnvrwR9wTjI=;
-        b=deYMB7HnV8C3YSFmBx5OwNZs0fSZrLa7h2qD1+WTcIlcSErPpxM2YUa46Byv0My4+R
-         +mBOzitLjqVqoDZmtPFI/O6Wfdh3e0PtUcwCSoSB0NpZGV4v8j3PpI9sE/GoAOvDhVlo
-         yAFUvRTgG8qkE6NufOc52bZijZQxuCztSNZTlTUTSKAs9DjluT2vM5ndeThP9EURnKJR
-         /SgJg47xPR6fWtX0x27VfwKK83RnhbAZ8bRZe8tdytFXMSZnAJ8GTX2cK7HcI8FkuxFY
-         pXXSeyBpllWVGVBYPEXYYOcHKqFSfSWNg4ze9AWyTf19odHBmAxOMhrl9UlXgS9HPas0
-         CSwg==
+        bh=OhWjBMRcsj+kQRn2s4H2mf5lmW3+OFeXfq83HZ0y7aE=;
+        b=j/10RI3A+beGUKGcVKzEH0Px6S6+RzscWEqf0paHjFchICz9RHoZG0IMsZ53dU1mVQ
+         B+cwA28p70vO5i7HIzIi2pbqob2d8yOG4he8gcLTnx1w9WtvAq4LFd+FXMT9MvzJPdNr
+         Y/mzpGtQ9DGPxaidX5N16hkxvFzw5tj2drmEvde5gZn4Xv2y/JbCzlEX60k1GHQV3ALK
+         c1vX83ISPI2ai1qU8Hj6mXbma+8P3R3PiShlJq37PCURA9ZMJDVgYT5l9H4G7QZnfdwd
+         CsB7Xu/7qA96ZQTWP6eSg7orUsXaK4hKWBqCPd7+rUnqPIdjsBTw8ZxWpFa7wufyRMfo
+         3+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779030019; x=1779634819;
+        d=1e100.net; s=20251104; t=1779086187; x=1779690987;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o2fZr1KKIxC9P7aZKgWLBg6WfF9TW7hamnvrwR9wTjI=;
-        b=mKwy5n0lzbt4P3yWj7V3NTLV6RgvjqRlz5TrxFsKEVC6/1YqGc90HJAmvWZwo+7O4n
-         +5NZc2TwhtCz5P/xNbnwmTXpjnZjJRBTrk8CFVG2Vo18lv79kV3yBMgffDg0StmkQbMB
-         eK3C5z3SDIRGT8F6+Cz2pJAA9UC4GRNtX/h2slWNonrrqK5JYJTyZxWV7G4mbLf+CmdH
-         8v5Tmz7RxwkBhtsNLk36/BZsM5UDVFYQ0ZLxI7R3fBSYSkxKrz8FnxacrfbvC7I+NfuI
-         9+GsZ/ptt4QJEK14iAtPKDIriOLo62ppE4WfRU9YItA3VxX8EaObKeedDfh8E7Y6Xms5
-         mvgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/063s3xbZJTUy2XVNnQHeFFDIorlSI/+zRJNDf3hGHvOx0BPJ6ruSpC8vCsAyR8seztZ7JkeEGkSzeGIJK/lITrvadAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YweQDqMRqOgrVFJz3eRdpSWyCZElqojCOWAU9A3hY5dhekJ8y1c
-	VQl4Sn502/sRmxTgFJiKgP5AkouT09Sp1FdpaSum0ZmKew6DqRf28nMcEwcaxUg3/ZQ4qKHhLoy
-	OtlaiYPPirLRyVNP3Ovs4HqBUmhDEA1fLP94Va4xm5eAZ9tR2f6pkpOP0Sckd+ZqUjONlh9zixd
-	M0xQ==
-X-Gm-Gg: Acq92OElqoxNwiKmj0BDZugPDZa3rt6oFo5lzU/jz3JEGRMh471Ufe2kpx6QG4KO6dc
-	gOR+mVttOw86rU5VzHYvFLIxVuknQCVbEhruC/43BegxWRPJQ+gXRXEPr0SdT/lYq7C+lX+jiFT
-	lDBb04aoZGa3/+UoCQ+ErnmVg7VJCwBvAzvT0BK7sNg4SRKPjWw/v3H4g4vd5tDN9PJNcnZ7VCy
-	NJ3LnGdFZrrckqxGNou3d6tQJPOq//9X314EM5v1rBNpjNOQphQ/mv1hDgFUCyNOV5SNhhqmBXv
-	w/H2XauKAamLiXs4gsZKLlD3B/1ZZcjM4iTlxxLRXziH6xWfK3Ua+7LnjQ4jvZt71cerVXruF+N
-	8hhaqJcYGgMzoqsLa6yVeoFDwFW6hGzSXHwy9kDm1fnIYyPexWRGW2muHTiuK4GPXRckSRA==
-X-Received: by 2002:a05:622a:859c:b0:4ee:1bdb:a547 with SMTP id d75a77b69052e-516415a0ad1mr143174181cf.14.1779030018767;
-        Sun, 17 May 2026 08:00:18 -0700 (PDT)
-X-Received: by 2002:a05:622a:859c:b0:4ee:1bdb:a547 with SMTP id d75a77b69052e-516415a0ad1mr143173351cf.14.1779030018171;
-        Sun, 17 May 2026 08:00:18 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:3e20:6c07:e6b8:6153? ([2a05:6e02:1041:c10:3e20:6c07:e6b8:6153])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe537ccf5sm193354695e9.14.2026.05.17.08.00.16
+        bh=OhWjBMRcsj+kQRn2s4H2mf5lmW3+OFeXfq83HZ0y7aE=;
+        b=ksjiAK7rCv49KhCyKN3UNKmyk8rNNFaA5xhwCt+4doG/RQweDq8d6OrsAPBvPsmAer
+         iemabM7cT3F9H+RJ4tXwrjr43EI703xw60Hj83vziaCb1p4cE6LpXTUPHs19V1bX+IjD
+         Ts9CSztWyuYBcnr1S14G6nhx4A7PVU52/gPXy+lkHvx1vj8udQje9vtlMZw3lPYZdov5
+         4sUHi0ydiDJBNlINmhrrgSyj/quYPJY8XYLvM8Jmaj2KxiXD9Xf2dCs6bqKhVbuo8H4y
+         NOurzrmF9U85hcGhkmdNaGlVJ9g2CtPNpmeEP9bVBLYbzo/zJePNq0aFqy8CPyX5iv/V
+         iXKA==
+X-Forwarded-Encrypted: i=1; AFNElJ/uQqY3uIdeNX824zGda7jdr/UIEuabJZ13DyiMy+f8T6mgl/GPFEF2fMdPSo0sq4WC+y32NYLvTDoraqDpWpD37iplbA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxMQRhRCGKJh0OxvXKz7LUON1S0IdmXYm/otVaB0JNrw+c71pMu
+	f9TBuL0Teft5ou44FchHpFByqCVANy9PzFNhsDKTa6hejbwpdOey96iyL8RGty0FgeyBD+YacBO
+	7LFLhEGpDH2Mo7T/hs6pHjEx4LWmkEVD++tkKZ9hNq/2M8/giHR/teXSH8oDcTkEzgIElYNn3nC
+	gjLWBjtWSfKMa6WQ==
+X-Gm-Gg: Acq92OGVxhZ/IfV9UpJkEcRG6DjeHUXYd1fr4PM7GZRQCsMQP+aHGQsYQo7FFeCYaHo
+	LldeZ0ZaJ5ZMIFs1+oAMcSb1AHHgCpY5LkGHo9jrRl7wJYHaA52gRoTw2vbSRms4W1IhdBeJfz+
+	aILpwWSgQFwdhtmVjEJwOxXpngvPODw7c0qqjHCITZXp4PNBZIQmuz7FUuW5zxgcGTbQzaM2SM+
+	XQv2LW4OHCKlWHHUtbvqQIwNfluPeF0FTjxrFpufnuSklyYk/M4nXBMWOqhe6QOv8f1ZqJct8lc
+	9WIUU0rMwm1UqYv2I9EM1VLDJ0mtWmMBupNe2QY/xSxCa0sokY5X2ZkiPsP7EfIkz26R8FSBp/H
+	HvTjG3/2f60oIYGpoqMJOR4LKLk6uMtqm8utFB5nvD4vdWZPANFvehWXjVv9RqkRiZJKN3+Lejg
+	+6JPTUS9/LXN8cDxxzCKE=
+X-Received: by 2002:a17:90b:4c51:b0:368:2074:b7a with SMTP id 98e67ed59e1d1-369519af671mr13714071a91.5.1779086186748;
+        Sun, 17 May 2026 23:36:26 -0700 (PDT)
+X-Received: by 2002:a17:90b:4c51:b0:368:2074:b7a with SMTP id 98e67ed59e1d1-369519af671mr13714036a91.5.1779086186266;
+        Sun, 17 May 2026 23:36:26 -0700 (PDT)
+Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36951278e7fsm9708269a91.8.2026.05.17.23.36.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2026 08:00:17 -0700 (PDT)
-Message-ID: <938b5e46-fc82-4d6c-8207-6ec2b2495a26@oss.qualcomm.com>
-Date: Sun, 17 May 2026 17:00:16 +0200
+        Sun, 17 May 2026 23:36:25 -0700 (PDT)
+Message-ID: <e626963b-7f20-43fd-b3e0-e16d9b6f13f8@oss.qualcomm.com>
+Date: Mon, 18 May 2026 16:36:20 +1000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -89,50 +110,130 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: qcom: fix typo in comment
-To: Jinseok Kim <always.starving0@gmail.com>, amitk@kernel.org,
-        thara.gopinath@gmail.com, rafael@kernel.org, daniel.lezcano@kernel.org
-Cc: rui.zhang@intel.com, lukasz.luba@arm.com, skhan@linuxfoundation.org,
-        me@brighamcampbell.com, jkoolstra@xs4all.nl,
-        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20260516152324.1863-1-always.starving0@gmail.com>
+Subject: Re: [PATCH] tee: qcomtee: add missing va_end in early return
+ qcomtee_object_user_init()
+To: Robertus Diawan Chris <robertusdchris@gmail.com>
+Cc: jens.wiklander@linaro.org, sumit.garg@kernel.org,
+        linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, me@brighamcampbell.com
+References: <20260513091031.145826-1-robertusdchris@gmail.com>
+ <8182784b-b6c2-4136-af8d-3aea4f5a4662@oss.qualcomm.com>
+ <agat1sBHqkGWKzOD@soyboi>
 Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-In-Reply-To: <20260516152324.1863-1-always.starving0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+In-Reply-To: <agat1sBHqkGWKzOD@soyboi>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 7TW841HIZPsBys0CkRv_jR5Qi9cj2zRx
-X-Proofpoint-ORIG-GUID: 7TW841HIZPsBys0CkRv_jR5Qi9cj2zRx
-X-Authority-Analysis: v=2.4 cv=LKJWhpW9 c=1 sm=1 tr=0 ts=6a09d803 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=pGLkceISAAAA:8
- a=hEL-7WqZ2Qmr7oYnmoIA:9 a=QEXdDO2ut3YA:10 a=lbjUW56U394A:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE3MDE2MSBTYWx0ZWRfXwgV/FxTJCIvp
- R2bgi0zerf7nNLQ25VOksV7lu6AFYanN4b7/RMYEHMUJS/DggZCem2wItRBqdS8UGBW5+aFh3h5
- k8oCXS6QU+CrpQiH1s/5/mFxH+b7Orcf1e6dP8UxTkYjdL1suubwrW/IDVxbgCGzEljq0k6er4L
- XtV0hFlBkkGiLIrXVHtAiqIN6h4f293eYyu15doHY8yxUg5ecCr2HQVnzidP19QUQ98Kq94+c0h
- BKh02v+8LBEORFz1V2kVxHWRJc1NgEhQLmanZ0zUZHZxCE9CNadJX4DnenH9rhBANPPRCEFAbC+
- 6zr+XuNs4nPBDdhB34+QIoAaNFIXNC1S3WPP+e97mqKZQJpBS0dQCEYD3wzG196ICrzBHF3SzLA
- c7N1OX2BvohL/q/bD6F5oq5ZDdLH8jzabvjFS6X8WZ0WX11+zcPy94cGK29cTAwOA3cGRvA2Mx8
- aYhz/f+ITxGalRXFEDw==
+X-Authority-Analysis: v=2.4 cv=cuSrVV4i c=1 sm=1 tr=0 ts=6a0ab36b cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=pGLkceISAAAA:8 a=X36vB_roDklc4VALgUkA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA2MiBTYWx0ZWRfX1YjuvZEv9PBu
+ q6qjXecreHu8Eq2bgZ1+xNATWIXDxewJgMFjWDi0tIFWe/kBkIKnxtnLSm2ENVx4yecCbgO1UmX
+ cJqozQo0SnoS9P373cjIejT3T/I+MczcrVf5CxNIij5bsr4XPLYY44gZvOfoqC4dl2EJfopvZUW
+ awdpffpW2m1ZD4ZI3Ll5iCGqRETlPBEMaT2ciUmI/56zCZ6IQhuoLv9UQhP82gfxqisvKlwYczm
+ qzb/9U87r/tYsDKfLRvCb3sMSawDBf+FKnX+F9UeT+wfGlsJUmL2dnumZG4YEEmNdX1JBukPnzI
+ h5+x38HwKv+NH59NYcLQOVM+QExLlRkZCdTtFcpCrgFbbzhFZ0QE37RLpY2jK7UHZ6ERBZJHfls
+ IpCGOedym/HDo69OtRVfuzNUq94q6/KjiuUyRSDy67oepDbaxeTYh2wn9h2oDWfCkpLwg8zxZnT
+ fnSgGiMuXlywYYwd2sA==
+X-Proofpoint-GUID: exWgX90FRJ8EvlnJj6DnzSxECAB3UUZL
+X-Proofpoint-ORIG-GUID: exWgX90FRJ8EvlnJj6DnzSxECAB3UUZL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-17_03,2026-05-15_01,2025-10-01_01
+ definitions=2026-05-18_01,2026-05-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
- clxscore=1011 lowpriorityscore=0 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605170161
+ priorityscore=1501 malwarescore=0 impostorscore=0 bulkscore=0 adultscore=0
+ spamscore=0 clxscore=1015 suspectscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605180062
 
-On 5/16/26 17:23, Jinseok Kim wrote:
-> Fix a typo in the struct tsens_irq_data comment.
-> Replace "uppper" with "upper".
+Hi,
+
+On 5/15/2026 3:23 PM, Robertus Diawan Chris wrote:
+> Hello Amir,
 > 
-> Signed-off-by: Jinseok Kim <always.starving0@gmail.com>
-> ---
+> On Fri, May 15, 2026 at 11:31:50AM +1000, Amirreza Zarrabi wrote:
+>> On 5/13/2026 7:10 PM, Robertus Diawan Chris wrote:
+>>> qcomtee_object_user_init() is a variadic function and when the function
+>>> return because there's no dispatch callback in QCOMTEE_OBJECT_TYPE_CB
+>>> case, there's no va_end to cleanup "ap" object initialized by va_start
+>>> and that can cause undefined behavior. So make sure to use va_end before
+>>> returning the error code when there's no dispatch callback.
+>>>
+>>> This is reported by Coverity Scan as "Missing varargs init or cleanup".
+>>>
+>>> Fixes: d6e290837e50 ("tee: add Qualcomm TEE driver")
+>>> Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
+>>> ---
+>>> I don't have the device, so I am not sure how to test this change.
+>>> Thank you.
+>>>
+>>>  drivers/tee/qcomtee/core.c | 8 ++++++--
+>>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/tee/qcomtee/core.c b/drivers/tee/qcomtee/core.c
+>>> index b1cb50e434f0..901a31e8201f 100644
+>>> --- a/drivers/tee/qcomtee/core.c
+>>> +++ b/drivers/tee/qcomtee/core.c
+>>> @@ -306,8 +306,10 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
+>>>  		break;
+>>>  	case QCOMTEE_OBJECT_TYPE_CB:
+>>>  		object->ops = ops;
+>>> -		if (!object->ops->dispatch)
+>>> -			return -EINVAL;
+>>> +		if (!object->ops->dispatch) {
+>>> +			ret = -EINVAL;
+>>> +			goto out;
+>>> +		}
+>>>
+>>>  		/* If failed, "no-name". */
+>>>  		object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+>>> @@ -320,6 +322,8 @@ int qcomtee_object_user_init(struct qcomtee_object *object,
+>>>  	default:
+>>>  		ret = -EINVAL;
+>>>  	}
+>>> +
+>>> +out:
+>>>  	va_end(ap);
+>>>
+>>>  	return ret;
+>>>
+>>> base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+>>
+>> Hi,
+>>
+>> Forgot to mention: how about using a break instead of a goto.
+> 
+> Oh right. In this case, using "break" statement is enough. I will send
+> the v2 of the patch. Maybe something like this:
+> 
+> 	if (!object->ops->dispatch) {
+> 		ret = -EINVAL;
+> 		break;
+> 	}
+> 
+> and then remove the "out" label.
+> 
+>> Then feel free to add Reviewed-by.
+> 
+> I want to confirm first, if I changed the patch using "break" statement,
+> do I need to add "Reviewed-by" tag in the v2 of the patch or not? I am
+> still not sure when to add "Reviewed-by" tag, like can we add
+> "Reviewed-by" tag when we changed the patch?
+> 
 
-Applied, thanks
+This is a small change. You can add the tag when sending your v2
+as long as you include the change.
+
+Best Regards,
+Amir
+
+> Thank you.
+> 
+> Best regards,
+> Robertus Diawan Chris
+
