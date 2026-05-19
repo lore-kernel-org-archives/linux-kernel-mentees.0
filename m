@@ -1,173 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9833C3434;
-	Thu, 21 May 2026 11:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063363DF00D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 May 2026 10:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779363095; cv=none; b=FcH74mIs+SHDQoDjrDEFoXhmVwMVSWiWkf2mIwwozYq0OUYnJSVqzrXD76B3sABTMiz7U4447C00TlWm6pGuedcry+39lvy++cZn5RJkODOKsGV5eThhqCsW8shIJU5AHNSQYT5D9PyLvTTrohZHobS+kz1V9TNJgsqsFsPrM8w=
+	t=1779445358; cv=none; b=GQrO0AluvQLaAzZXaAQwdOFIqzSCRBf4mckUdQTyFjpPZmLEJiaKvp2+G+1la8hml7I1K59NvH1tONhwkBDH2W0puYZgzWpP8F6yeCqej7RPy3Cl14GF+9IwxWk9lCUj+rp6XsQsTpRlY8sKV6rb3h0rVqUByugXFUJokurx8zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779363095; c=relaxed/simple;
-	bh=azN7BJbKQrXNBIqnjQGFrjJ782DRpfncBxemk7SIoIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IDbJy4FymLC+1KH0QS00yaisipe0kjjKJkk9GQ+I6xmXitU3Gz0GeP9Ha52pz/Ib+36mCAn0hbW9k+kmOe8FwUbKGACaoaUFAxYAMHqHeO3ktpJzoyM07+80PlOP4uWHT9XNRKVtLh9GRklhsNmYxmd03SLJ0Cb+dQzqVBWcAZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QapwLD73; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779445358; c=relaxed/simple;
+	bh=2GaXRtOY7FZ6ZqZsVgo8+Z5yk75ps1TTX+Sse9+bkps=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZfCEO4G678fM4oS43S4IA3hWJPaqcWUeJTrpljlbdOJjQ1o8xk1IajY+s4f6VDfNRuFPnfAkMG7l9ASVof481uuHtZweZDzaDOyfj49JqKNWdMJmcx553gfUhA7OX5Ah3JYobAy0onl8Uq8WkmstkNIToo1JQuF4n+vkaOUMt4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXti7G2K; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QapwLD73"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34EB01F00A3B;
-	Thu, 21 May 2026 11:31:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXti7G2K"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9DD9E6F65C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 May 2026 10:22:36 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.792
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id rwrMdsA8yPYt for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 22 May 2026 10:22:35 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=broonie@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org CF93D6F629
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CF93D6F629
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XXti7G2K
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id CF93D6F629
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 May 2026 10:22:35 +0000 (UTC)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id CF21A4342F;
+	Fri, 22 May 2026 10:22:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1919A1F000E9;
+	Fri, 22 May 2026 10:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779363093;
-	bh=PnNYpoO8Cvl1LC0thQiy1HYwVNEfqzP1Fv+pVlsE7Xs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QapwLD73V2UBGTt8kYiJfunNgatQiZS2eM1SpygOeN7pSdYDuIpaWrF0anmdARcB1
-	 grLfNTF+QC/kLj+HZTtTUOvat1whPX8TSS+RknrftBEzPm0SQjeKRoV1lgnvtE8oGw
-	 ltAaPMdSWAtMvnedtPobNnpDSv83NntKVv1IP0eyowxJuW2pphwElD0/EHkL6qin5U
-	 7Qehueieu0e8NjjBTqb+Fd2PaMiDDV+xoqGq8d+U4za6ClawPil8kzq+yznMU+g7iq
-	 YcOSv6oSQR9CN2JA3OzwlStDj8DrNGLp+ZGPwOlcv8LYZDmZz7at7lHYsUyP9wDai8
-	 44Hqa4e/mikcw==
-Date: Thu, 21 May 2026 12:31:25 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Aldo Conte <aldocontelk@gmail.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, nuno.sa@analog.com, andy@kernel.org,
- shuah@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
- default case
-Message-ID: <20260521123125.4000a67a@jic23-huawei>
-In-Reply-To: <bfd9d999-57cb-45fc-a7e1-369905896770@baylibre.com>
-References: <20260512223215.25596-1-aldocontelk@gmail.com>
-	<20260512223215.25596-6-aldocontelk@gmail.com>
-	<agRfMWL9BughLT2x@ashevche-desk.local>
-	<36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
-	<agS70Dph8-zQT-e6@ashevche-desk.local>
-	<20260515190517.70bb0ba5@jic23-huawei>
-	<1c87362a-bba8-45b8-a836-153f468815c4@gmail.com>
-	<20260516132555.64e27d62@jic23-huawei>
-	<7f56ee25-11ad-4dcf-87bc-a353bed3f914@gmail.com>
-	<bfd9d999-57cb-45fc-a7e1-369905896770@baylibre.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1779445354;
+	bh=nisFIKF+tUtu++YSJ7NWbE+f+sXcw391IfeR0su27Dc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=XXti7G2KrktT61C44A2OiA3AqQSrOtaZGGiniavU67RwQYq5wKtOAkRMmgIMNDtHK
+	 mGZeFP/ZDsPuVyNk3iyFyfJHjKXFBSgRjSpIjGszZHwMESGNNQPwU5UUt0xGCNP3tn
+	 4YQeISQ+ERkfhsfbq4NztCcs/6disJhF6yoBqBi0pigpzq4dtx2wyr7rrjoOHp8COA
+	 QbhjuRb10XfOXMqfYIUzvz4kB/3uqml1txpx4DXcD2RXy5B1R9Rzx+uDFR0S7oDF2N
+	 qhn2h9/N5l5MsVjFzacIe646MlPJHLiHw/+CNvEvZEnrV2V+rRyjl6M8CZ42pteb81
+	 rZK/MrUDwxqQA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Robertus Diawan Chris <robertusdchris@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
+ me@brighamcampbell.com
+In-Reply-To: <20260519054024.274741-1-robertusdchris@gmail.com>
+References: <20260519054024.274741-1-robertusdchris@gmail.com>
+Subject: Re: [PATCH] ASoC: soc-utils: Add missing va_end in snd_soc_ret()
+Message-Id: <177920265231.6167.2169891389929995926.b4-ty@b4>
+Date: Tue, 19 May 2026 15:57:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2GaXRtOY7FZ6ZqZsVgo8+Z5yk75ps1TTX+Sse9+bkps=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5oWaBoC5/fg26tGV/4zFKTgqoOQMUpKbwc2
+ zLqvA3ieKiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuaAAKCRAk1otyXVSH
+ 0J0LB/wO0p/bRbI2Ju0VAIZRliuu5OB1mwYCmntYs2NNdjBzxBvWIYENfYqGTE2/2D7Lp2I4aIK
+ BKqvFduR4cHbO0yqxkIsmWEteMDpBbZPfXWIzmbS/okVN7ZoygK+16bJsVPYnTwVCtNYrPH8yei
+ r5vD+D5WxsGKilRXnqKEyUxT7PP3bHfngPfszSGM4YPCDXpH1yD1QznQHNgd8xcaB+KzdRFjaYA
+ H10/yfXJ7VNlFfglcrLOewgjYzbSJAauhhcPk3nvvjoXkaQUDJO5qYRRLO1K9hhUxJ/NMrTEWYc
+ cq0Ol7FjsSZBvE8XiZETFbQ87ZEMl9gtupXG48JZgG1uFFTU
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 20 May 2026 20:03:26 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Tue, 19 May 2026 12:40:24 +0700, Robertus Diawan Chris wrote:
+> ASoC: soc-utils: Add missing va_end in snd_soc_ret()
 
-> On 5/20/26 12:12 PM, Aldo Conte wrote:
-> > On 16/05/26 14:25, Jonathan Cameron wrote: =20
-> >> On Sat, 16 May 2026 13:04:13 +0200
-> >> Aldo Conte <aldocontelk@gmail.com> wrote:
-> >> =20
-> >>> On 15/05/26 20:05, Jonathan Cameron wrote: =20
-> >>>> On Wed, 13 May 2026 20:58:40 +0300
-> >>>> Andy Shevchenko <andriy.shevchenko@intel.com> wrote: =20
-> >>>
-> >>> ...
-> >>> =20
-> >>>>
-> >>>> I would add for this that, to reduce churn it's fine to add the
-> >>>> struct device *dev =3D ... bit and use it in new devm calls. Just do=
- the
-> >>>> remainder in the follow on commit.
-> >>>> =C2=A0=C2=A0 =20
-> >>>>>
-> >>>>> =C2=A0  =20
-> >>>> =C2=A0=C2=A0  =20
-> >>>
-> >>> Hi Jonathan, Andy and all!
-> >>>
-> >>> Thanks for your reviews! they=E2=80=99re teaching me so much!
-> >>> If I understand correctly, I need to wait a week before submitting ve=
-rsion v3
-> >>> such that other reviewers can comment right?
-> >>>
-> >>> I=E2=80=99d like to take this opportunity to suggest two alternative =
-lists of what
-> >>> version v3 might look like in terms of patch order:
-> >>>
-> >>> First option does not consider the "=3D=3D NULL with !" patch and so:
-> >>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug=
- fix)
-> >>> 2. iio: tcs3472: sort headers alphabetically (same)
-> >>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (mod=
-ified)
-> >>> 4. iio: tcs3472: use devm for resource management (slimmed down)
-> >>> 5. iio: tcs3472: use locale struct device * for remaining cases (NEW)
-> >>> 6. iio: tcs3472: implement wait time and sampling frequency (revised)
-> >>> 7. iio: tcs3472: move standalone return to default case (same as v2)
-> >>>
-> >>> Second version will consider it:
-> >>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug=
- fix)
-> >>> 2. iio: tcs3472: sort headers alphabetically (same as v2)
-> >>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (mod=
-ified)
-> >>> 4. iio: tcs3472: replace =3D=3D NULL with ! (NEW, optional)
-> >>> 5. iio: tcs3472: use devm for resource management (slimmed down)
-> >>> 6. iio: tcs3472: use locale struct device * for remaining cases (NEW)
-> >>> 7. iio: tcs3472: implement wait time and sampling frequency (revised)
-> >>> 8. iio: tcs3472: move standalone return to default case (same as v2)
-> >>>
-> >>>
-> >>> What do you think? =20
-> >> Either is fine but swap the last two patches.=C2=A0 The wait time one =
-is
-> >> more complex than that trivial cleanup so might take more revisions.
-> >>
-> >> I frequently pick up the first part of series just to avoid people
-> >> having to keep sending the same unchanged code to the list (that I've
-> >> often forgotten about completely by the next version!)
-> >>
-> >> Jonathan
-> >> =20
-> >>>
-> >>>
-> >>> Thanks,
-> >>> Aldo =20
-> >> =20
-> >=20
-> > Hi Jonathan,
-> >=20
-> > I have two quick questions.
-> >=20
-> > First, Uwe's "[PATCH v2 0/7] iio: Rework i2c_device_id initialisation" =
-also touches tcs3472.c. My series modifies the same file for unrelated reas=
-ons. Should I wait for Uwe's series to land and rebase on top, or is it fin=
-e to send now and let you handle the overlap? How does it work in=C2=A0 cas=
-e? =20
->=20
-> Just add a patch to your series that does the same change
-> for that one file. Then it won't matter which one gets picked
-> up first.
->=20
-Normally I'd say don't bother unless you are modifying that specific code.
-If there is an actual conflict (rather than lines moving around a bit) then
-indeed having such a patch is good.
+Applied to
 
-If minor conflicts occur I'll just fix them up whilst applying.
-Gets messy if conflict between a fix and a non fix if I don't notice
-it, but otherwise it is easy enough.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-J
-> >=20
-> > Second, the first patch in my series fixes missing power-down on probe =
-failure (goto err_powerdown). Do I need to add the =E2=80=9CFixes=E2=80=9D =
-tag? =20
->=20
-> Sounds like it.
->=20
-> >=20
-> > Thanks for your time.
-> >=20
-> > Aldo Conte
-> >  =20
->=20
->=20
+Thanks!
+
+[1/1] ASoC: soc-utils: Add missing va_end in snd_soc_ret()
+      https://git.kernel.org/broonie/sound/c/298a43b54432
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
