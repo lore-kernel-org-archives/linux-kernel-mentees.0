@@ -1,179 +1,170 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77463D9DB1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 May 2026 10:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=140.211.166.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779274328; cv=pass; b=RNAHbrsZCQaHvmuxjLdBJTOkTCtSwSheiqd1XJApO0Tqo/OBF6XjdB8rKTu0IiPlUuAEUMkSTdMIF9q4HNp0s3xft8f8+TODZl1dyrx5lmkUOajMsqbZEY/08Pqy03KE3Luyqb62+KxVyoCgYVYgPEahHpbP1UdadCZlZG3Y5is=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779274328; c=relaxed/simple;
-	bh=C5kd5Kjq+KDN0eEW38EjUtDcIkeLXJ8Hpa6MCClTuvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uwUIpxyALODMpYoU2lF0CVBDztmPPtEKfZgFI/p7kGeEEtLf3HCV1mtsga5W4PtBd7G1HaGN+NFo+QDZ9CY+N6celSs4q+AI/5jqV6eT+/GOIwbNvnDOSZnSo9p6lfXUOi1hp31OxGO/fFw+UvsrBR6b2X0S+fUa0KzJMQfMt4c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M9uXJlLH; arc=pass smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BFC231842
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 17:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779297157; cv=none; b=W2C23+iDtWsgO2x31FG/R3A0n9obHHS3ETsSdR8Q8ixPkcCTe8VykmHkv45PBhfOPReDwapLJkh2dhpjtAtSxCCxN/fW/gdl28HO0C01N78xA5w5SsDS+RtvNupoICBaCVCkt5Zx8DehebpHmOsbKDgVrz2xRyMC7R8C8DeU+W8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779297157; c=relaxed/simple;
+	bh=a+4pkVQFgDvE9l0EyyTH7FWgaU21dziFoD+rVTEcJBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ck0RiLkLZ9qby3vQGAO4T9YXl0DJQVAz3tDVpVj00nCqxnWhYU/3o1eQ6cJYuS2WBb2PPUdOei5i7iJ++h6m6PvGLcOJ7WkugPsptEx2D1ymmzSCOfZy1Ghno2/MIT0aOjhvC58lk/XPsuEJ5KzSCvVKMlsMnVPKRmH6xwPJjEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sLuGKAud; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M9uXJlLH"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 52DF36104D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 May 2026 10:52:07 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UJ3tVp1lhvfX for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 May 2026 10:52:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::29; helo=mail-oa1-x29.google.com; envelope-from=jens.wiklander@linaro.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org E561F61043
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E561F61043
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=M9uXJlLH
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E561F61043
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 May 2026 10:52:05 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-43496e6a964so3493313fac.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 May 2026 03:52:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779274324; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PHudg+3gQ8xxZNohZUrgHKSX7C7M5NfjoXXcYVug/lTbJfA2KA8RNU6iTZA36M1dhM
-         GTR2eHmPs5v5rv4AuTFaScwihyBXTNb9GI0E90cb5SnEBV3PhB+9/2VqkBrHPHF+rO0V
-         1xFPJlZshlRG1pRyAChtFVmAuzxoePcmmXiU5SzTMwMnvD21cQ2uIpYFVCndczt4VxqI
-         9f5p6bCwzUjYNaYsYIQphLI6eaoabBZrjUpcnbH1W16/nI58IIoenRWX47lONxZGMUGe
-         Z27T03qoMRD4DYMUKfB91fKNhSuNtODYIL0VXDCkekwFO0zFmLI8NskCdqQz2Uw9fgbq
-         3Ygg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nPOHIcIs6lbXC2xlIAHEKgXOWfGw2NT1g/NXeTKaMwQ=;
-        fh=ozevcqzT8IexES3ETBbRPLtSEA9Y9gAtS54t67s0E6c=;
-        b=DeWP8Ztj7L3G9Cutr6MGV1/XwUCTIy/YWeH3nz7EzvMbPio/6eC3/vMV+dOJqnnmuK
-         BBSBrfiqiaXR68QbptiGfFBKlJYXqqPdUy4qZoiuJ80BVEkAMLQWoReRc/emn3hdSlgE
-         GKb+4DyIEXS3f9/6iEzNI0SUuTJU2OcOoD/CU8hQyqd+kbey91wFaxnNnZUBkTT0qNig
-         LP5m2IYOe2N9T6lT80+ytNYxYmteTeyZx/Rbo5Es6LgKsKqaITIP9/1oVmPwVAWiWtGE
-         647auSy7UfJr+EvMGqB/IDaHe8ZvYd/Dlyc9iKRH2ynToPRLuFtdg0fIGqTWwNDcd3X4
-         35Qw==;
-        darn=lists.linuxfoundation.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sLuGKAud"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso33673685e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 10:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779274324; x=1779879124; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nPOHIcIs6lbXC2xlIAHEKgXOWfGw2NT1g/NXeTKaMwQ=;
-        b=M9uXJlLHQzqwaSQXQ5uBgJs1nz7OErnijzqutlM4+lJ8h4aCxA+Qdjjfi4JgfTBPSE
-         jSCc+uvNcXZPnW0BdqPcWnpCe3ZOfBzPa4CJUu9bgXxzjlaDXkl6e1IizZsE2fy+a14u
-         pzB4hfsbBU8drA3PcDtqZz8shYRy2q6jWX6/eBF4vRAA6mE/1zrI7SbQ9fT4zFPmH3/V
-         sqVvPwQe+1BNhJyPtSLl19m9nws25GIelaS0vqS6F9CbnPh0FbJmO7gp+UQait+kBIJW
-         7Ez+JhWOC23sEyE6cDSibvSeBb0OOOYuQJweihCMkwpEc4LBCmyNjTg4oJNZ+1T81LW0
-         IOaw==
+        d=gmail.com; s=20251104; t=1779297155; x=1779901955; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6VNpxJpZImBs2DL2eNAsFduxFIRxVVChzzo7ko081ns=;
+        b=sLuGKAudL8iQfcdtUZbZBigOA9scJHbLnFewatOvcTneAkOrvDhOo3cvtBbMDY/h2O
+         SySgZi3Tcw/5ZThAfk9sLRH3+t2fOHCtKUkCgqFCoVNKECIyGJsh5dlvApGmD6mXTQhV
+         lDqFojJh7qIu02Z2G2fFggmOtlcKnDMCaNo5Bo6NUuRW4H5Z5JJFVltHv/cbp7hPEnvO
+         DA3nYCv5rQSxsrXQKKe65bahnHCoL9H94onD27sFu+sVWFZ7Knng0E1wYWavctUuqmbl
+         KOnBJR7AWk9trR6E93yvhTP8djaMAm02WAQGxVyL2dpMP0cQZWnwmrQKD1OB99oYXM69
+         87eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779274324; x=1779879124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nPOHIcIs6lbXC2xlIAHEKgXOWfGw2NT1g/NXeTKaMwQ=;
-        b=LXfFfnFndZ6qer7yRFNU0v7uQ5fzBuYeZsDAqPDGpSVgnWvOWdak1UZgPiGzaP+hmg
-         5lfMIsbiFMJpbBHwKTSfWVVfXbxvPvz7+VI9pquLGwQr2nPP0eGwciGw0kGy+sEg/bws
-         FhS+uO9U8c/VLNDUeq44z1YV5OYFyoci2xbQHp2UVmcTO8ZgQ89hM+z4HtmqbZphG9qS
-         3h8hRJoOabWqeQcxK0ojiRkE+HjiX7lx9H5Ng3jMzFZPciK9TY/fWIpAs6KC/N7TQAmU
-         7YgGdC7E3GGgvfmUySNYxQFYLySQBmXaF2PZxOQ0oCzRxF/02mI5pZEjeme+cAfiO6QK
-         u2GQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9lpSO3Tejo4DoE/xtFPDQJyXRWdiXLidWY/xzUbW44bjguPHWcneDnUYZSghPfw4xXYIjZuGwE5SlZ3efbbwExzrhF5A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzkSDQnwtcrHN0ALS2DdwNgBfPdjwrGotK6NjGkA+bCX2C4ngxh
-	HV/BAgSSAcw50xGepdqQwvB0S3v35K/2PMq/DSZYPn74ZKTKlj6qnlNse7IENap7cUbjCnLHndY
-	KjlI8Uuhc/LxZ+8lh9HXoFVQohD5WIlikxBy/J4OKgw==
-X-Gm-Gg: Acq92OGb9fbWfsnqwdbpJ0Wh55/7sUpi23wP6sUYAOY8iprmny5NJ0ZAst/RwLMHlsH
-	uKiDgr9yrbLL4xh7++JSPQnRhC4hv21onDPvAvRWppJYWLs8BzgRDNXXYTeXC3xee7aREUN/gZj
-	jtl+E00h88Yq3FTgZ1CNegrEwuAeGsawEjL9pdZOQk2kldLsllaEBrlrEyXN9XzXOnC5DdcCdjQ
-	7zjLqlJZzELLVJj6shxBbKgQwnpKY/j71IMmnJc012q55x8BDs7edQVeV+2v+/n6tukSsCE+tFP
-	JNr9qReRIbGZ1hSEQ1AUQKmMk5u7XtL2zTWX0A==
-X-Received: by 2002:a05:6820:162b:b0:696:7780:477a with SMTP id
- 006d021491bc7-69c955c8051mr14017800eaf.46.1779274324551; Wed, 20 May 2026
- 03:52:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779297155; x=1779901955;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6VNpxJpZImBs2DL2eNAsFduxFIRxVVChzzo7ko081ns=;
+        b=BmU5SG05AdsqBQawqjwTp2tnxLO7e86Rsni1S8QKPU1xl9uLVReA5hYnw7GtjbPjzx
+         izbvZEhUEF/ZYyUNTjXCSYUT5Ko2UVwfB80oMf/7bfvHBortO/Puq1rmcPUmdRmBtIdd
+         OmLEkgMq+4e1lAtM1zXqGcGdAFWSpv0gP/o84hrcFqOQF24XFablgP+lzPclORCaCYK9
+         PVk9/ZwDWeFd42paWgajwpA4SDRNmWMV+AKpwsIFXm9anm3E5gcnjVRS0Yof73Qwf6lx
+         gURtE6Sug6wC6rUB/0vZgrFAnRFVV4lZrjytdQby4z9Jr1kVf4F17tqgIjOw+MbSMmGN
+         mxhQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ovzC63NLjZ3saRWJhVapN/8+g2lrpGzc+Oa7Q7kUH1+MnCGJmLbKU/B894zb1KZob+DZpTnas6si6/ht6SyUgRc4m5g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQ5siuNsQcfMnvU25cD9I7SIVPOzapvuY+RasePOtIjEQ/l4+l
+	0Jg9sszbBf8EHtsPuLOet6AO0C6JkxvWFNJ/tAW/PG2HjO4huQPeEJue
+X-Gm-Gg: Acq92OGqJu0nr5LmUv56RznunF9Ljg72WOe7TMIta0LuwKSY+/CuT6cm5Me3ffYJVTD
+	RfLRCxYsvILETA2nJQjLGplViOiVZ0lnEgNpFkt602Sujv9OiVnNmexkxDmr3bEYhmFW7sW669n
+	PwCcPJBoroJ1dx9ofM1eAnWwLeyPmSV+3ziIcx4kUiUgYZtgGd+qNsyO4uHunLez29Zwx1FZ5hf
+	WUNuF7THXk3JRxABO+ab6GC/dw0T6EIGLaqLI/wT47XPG63s3PAMR9o+/z8251HX+Xq6Tq0gOVz
+	dsgVDPRNroruxxvhNVY1eDjHXKfIzVm3r9cbOYb6TzBKd4W9Jb/S9AAePeg8Baf/QKpQh9Ki53c
+	slD0l4MUz0dGFpm9L5b3y1xBbSRqsSiJgtD1V02cacFXe1+iwVyCpSK8C5Vd4tPm4BqhvEqmvNb
+	tON/661YXODdvx41T0ep+jc5Du9zZ14+WkaZgj8czubLDLYvAe9/O7i4SMwqBmWYd9i4Rpvcs=
+X-Received: by 2002:a05:600c:4e4e:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-48fe5fd4747mr410414845e9.6.1779297154567;
+        Wed, 20 May 2026 10:12:34 -0700 (PDT)
+Received: from ?IPV6:2a01:e11:5402:d840:f1ee:c5d:74e4:6e19? ([2a01:e11:5402:d840:f1ee:c5d:74e4:6e19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fead15bf3sm135251275e9.6.2026.05.20.10.12.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2026 10:12:34 -0700 (PDT)
+Message-ID: <7f56ee25-11ad-4dcf-87bc-a353bed3f914@gmail.com>
+Date: Wed, 20 May 2026 19:12:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260519020528.133623-1-robertusdchris@gmail.com>
-In-Reply-To: <20260519020528.133623-1-robertusdchris@gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 20 May 2026 12:51:52 +0200
-X-Gm-Features: AVHnY4K2o6NLWZCMDLJg6zJVV7wJlcp01Try26nd1v4PCGJvx45IMb0YFHlPtpE
-Message-ID: <CAHUa44GqBpYNxV8AHrj_r7u3cbcTA0xTB7Q2Nk=vbpnxDLnrTQ@mail.gmail.com>
-Subject: Re: [PATCH v2] tee: qcomtee: add missing va_end in early return qcomtee_object_user_init()
-To: Robertus Diawan Chris <robertusdchris@gmail.com>
-Cc: amirreza.zarrabi@oss.qualcomm.com, sumit.garg@kernel.org, 
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	skhan@linuxfoundation.org, me@brighamcampbell.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
+ default case
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, dlechner@baylibre.com,
+ nuno.sa@analog.com, andy@kernel.org, shuah@kernel.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20260512223215.25596-1-aldocontelk@gmail.com>
+ <20260512223215.25596-6-aldocontelk@gmail.com>
+ <agRfMWL9BughLT2x@ashevche-desk.local>
+ <36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
+ <agS70Dph8-zQT-e6@ashevche-desk.local> <20260515190517.70bb0ba5@jic23-huawei>
+ <1c87362a-bba8-45b8-a836-153f468815c4@gmail.com>
+ <20260516132555.64e27d62@jic23-huawei>
+Content-Language: en-US
+From: Aldo Conte <aldocontelk@gmail.com>
+In-Reply-To: <20260516132555.64e27d62@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 16/05/26 14:25, Jonathan Cameron wrote:
+> On Sat, 16 May 2026 13:04:13 +0200
+> Aldo Conte <aldocontelk@gmail.com> wrote:
+> 
+>> On 15/05/26 20:05, Jonathan Cameron wrote:
+>>> On Wed, 13 May 2026 20:58:40 +0300
+>>> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+>>
+>> ...
+>>
+>>>
+>>> I would add for this that, to reduce churn it's fine to add the
+>>> struct device *dev = ... bit and use it in new devm calls. Just do the
+>>> remainder in the follow on commit.
+>>>    
+>>>>
+>>>>   
+>>>    
+>>
+>> Hi Jonathan, Andy and all!
+>>
+>> Thanks for your reviews! they’re teaching me so much!
+>> If I understand correctly, I need to wait a week before submitting version v3
+>> such that other reviewers can comment right?
+>>
+>> I’d like to take this opportunity to suggest two alternative lists of what
+>> version v3 might look like in terms of patch order:
+>>
+>> First option does not consider the "== NULL with !" patch and so:
+>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
+>> 2. iio: tcs3472: sort headers alphabetically (same)
+>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
+>> 4. iio: tcs3472: use devm for resource management (slimmed down)
+>> 5. iio: tcs3472: use locale struct device * for remaining cases (NEW)
+>> 6. iio: tcs3472: implement wait time and sampling frequency (revised)
+>> 7. iio: tcs3472: move standalone return to default case (same as v2)
+>>
+>> Second version will consider it:
+>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
+>> 2. iio: tcs3472: sort headers alphabetically (same as v2)
+>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
+>> 4. iio: tcs3472: replace == NULL with ! (NEW, optional)
+>> 5. iio: tcs3472: use devm for resource management (slimmed down)
+>> 6. iio: tcs3472: use locale struct device * for remaining cases (NEW)
+>> 7. iio: tcs3472: implement wait time and sampling frequency (revised)
+>> 8. iio: tcs3472: move standalone return to default case (same as v2)
+>>
+>>
+>> What do you think?
+> Either is fine but swap the last two patches.  The wait time one is
+> more complex than that trivial cleanup so might take more revisions.
+> 
+> I frequently pick up the first part of series just to avoid people
+> having to keep sending the same unchanged code to the list (that I've
+> often forgotten about completely by the next version!)
+> 
+> Jonathan
+> 
+>>
+>>
+>> Thanks,
+>> Aldo
+> 
 
-On Tue, May 19, 2026 at 4:05=E2=80=AFAM Robertus Diawan Chris
-<robertusdchris@gmail.com> wrote:
->
-> qcomtee_object_user_init() is a variadic function and when the function
-> return because there's no dispatch callback in QCOMTEE_OBJECT_TYPE_CB
-> case, there's no va_end to cleanup "ap" object initialized by va_start
-> and that can cause undefined behavior. So make sure to use va_end before
-> returning the error code when there's no dispatch callback.
->
-> This is reported by Coverity Scan as "Missing varargs init or cleanup".
->
-> Fixes: d6e290837e50 ("tee: add Qualcomm TEE driver")
-> Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
-> Reviewed-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
-> v1 -> v2:
-> - Use "break" statement instead of "goto" statement. There's va_end
->   outside of switch-case, so we only need to go out from switch-case
->   instead of using a label (suggested by Amirreza Zarrabi).
-> - Add "Reviewed-by" tag from Amirreza Zarrabi.
->
-> v1:
-> https://lore.kernel.org/all/20260513091031.145826-1-robertusdchris@gmail.=
-com/
->
-> I don't have the device, so I am not sure how to test this change.
-> Thank you.
->
->  drivers/tee/qcomtee/core.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Hi Jonathan,
 
-Looks good. I'm picking up this.
+I have two quick questions.
 
-Cheers,
-Jens
+First, Uwe's "[PATCH v2 0/7] iio: Rework i2c_device_id initialisation" also 
+touches tcs3472.c. My series modifies the same file for unrelated reasons. 
+Should I wait for Uwe's series to land and rebase on top, or is it fine to send 
+now and let you handle the overlap? How does it work in  case?
 
+Second, the first patch in my series fixes missing power-down on probe failure 
+(goto err_powerdown). Do I need to add the “Fixes” tag?
 
->
-> diff --git a/drivers/tee/qcomtee/core.c b/drivers/tee/qcomtee/core.c
-> index b1cb50e434f0..60fe3b5776e3 100644
-> --- a/drivers/tee/qcomtee/core.c
-> +++ b/drivers/tee/qcomtee/core.c
-> @@ -306,8 +306,10 @@ int qcomtee_object_user_init(struct qcomtee_object *=
-object,
->                 break;
->         case QCOMTEE_OBJECT_TYPE_CB:
->                 object->ops =3D ops;
-> -               if (!object->ops->dispatch)
-> -                       return -EINVAL;
-> +               if (!object->ops->dispatch) {
-> +                       ret =3D -EINVAL;
-> +                       break;
-> +               }
->
->                 /* If failed, "no-name". */
->                 object->name =3D kvasprintf_const(GFP_KERNEL, fmt, ap);
->
-> base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
-> --
-> 2.54.0
->
+Thanks for your time.
+
+Aldo Conte
+
