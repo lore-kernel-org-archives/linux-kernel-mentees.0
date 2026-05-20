@@ -1,170 +1,127 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from relay3-bqueue-e.mailbaby.net (relay3-bqueue-e.mailbaby.net [68.168.210.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BFC231842
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 17:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779297157; cv=none; b=W2C23+iDtWsgO2x31FG/R3A0n9obHHS3ETsSdR8Q8ixPkcCTe8VykmHkv45PBhfOPReDwapLJkh2dhpjtAtSxCCxN/fW/gdl28HO0C01N78xA5w5SsDS+RtvNupoICBaCVCkt5Zx8DehebpHmOsbKDgVrz2xRyMC7R8C8DeU+W8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779297157; c=relaxed/simple;
-	bh=a+4pkVQFgDvE9l0EyyTH7FWgaU21dziFoD+rVTEcJBM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ck0RiLkLZ9qby3vQGAO4T9YXl0DJQVAz3tDVpVj00nCqxnWhYU/3o1eQ6cJYuS2WBb2PPUdOei5i7iJ++h6m6PvGLcOJ7WkugPsptEx2D1ymmzSCOfZy1Ghno2/MIT0aOjhvC58lk/XPsuEJ5KzSCvVKMlsMnVPKRmH6xwPJjEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sLuGKAud; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224633A9DA
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 19:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=68.168.210.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779306676; cv=pass; b=la+AuwxFP+Ft6SjhQVxzlO8q9JiQzVBeuIFSZ8rW5yvGnfred/ZbZ8TggU+NgrZE7zmXQ1N/fK3ep9yyXyyiH2w9wRAFD0xhnlz4glbfoafD9jC8ysc+0O3vGsbHzDqTQm7p/yAK/BW1jM0gWDIgyka3iruoBGWh3IGOo3bljwI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779306676; c=relaxed/simple;
+	bh=Dnv70gKF+9iqSmEfvo/HWBaqzsm6hs/SkCywC5me2to=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d8I04nw2UeHuUnBcnkfdUL/z+X8648gg/Q598ZzQ8jy+9l8fJUD0PkItHegV2lmesZMhG5QGAK+hCYFQppVGOjmYZUxyM6dwLl/5jI2dH9Z1MAF25UyrAzGCLEElEmownFXhyMb2P6EA8Xlp2Mj5DsDV0CPhKHmvbiX8aU9CLEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=qFI9FEQU; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=h5G10O/h; arc=pass smtp.client-ip=68.168.210.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sLuGKAud"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso33673685e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 10:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779297155; x=1779901955; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6VNpxJpZImBs2DL2eNAsFduxFIRxVVChzzo7ko081ns=;
-        b=sLuGKAudL8iQfcdtUZbZBigOA9scJHbLnFewatOvcTneAkOrvDhOo3cvtBbMDY/h2O
-         SySgZi3Tcw/5ZThAfk9sLRH3+t2fOHCtKUkCgqFCoVNKECIyGJsh5dlvApGmD6mXTQhV
-         lDqFojJh7qIu02Z2G2fFggmOtlcKnDMCaNo5Bo6NUuRW4H5Z5JJFVltHv/cbp7hPEnvO
-         DA3nYCv5rQSxsrXQKKe65bahnHCoL9H94onD27sFu+sVWFZ7Knng0E1wYWavctUuqmbl
-         KOnBJR7AWk9trR6E93yvhTP8djaMAm02WAQGxVyL2dpMP0cQZWnwmrQKD1OB99oYXM69
-         87eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779297155; x=1779901955;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6VNpxJpZImBs2DL2eNAsFduxFIRxVVChzzo7ko081ns=;
-        b=BmU5SG05AdsqBQawqjwTp2tnxLO7e86Rsni1S8QKPU1xl9uLVReA5hYnw7GtjbPjzx
-         izbvZEhUEF/ZYyUNTjXCSYUT5Ko2UVwfB80oMf/7bfvHBortO/Puq1rmcPUmdRmBtIdd
-         OmLEkgMq+4e1lAtM1zXqGcGdAFWSpv0gP/o84hrcFqOQF24XFablgP+lzPclORCaCYK9
-         PVk9/ZwDWeFd42paWgajwpA4SDRNmWMV+AKpwsIFXm9anm3E5gcnjVRS0Yof73Qwf6lx
-         gURtE6Sug6wC6rUB/0vZgrFAnRFVV4lZrjytdQby4z9Jr1kVf4F17tqgIjOw+MbSMmGN
-         mxhQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ovzC63NLjZ3saRWJhVapN/8+g2lrpGzc+Oa7Q7kUH1+MnCGJmLbKU/B894zb1KZob+DZpTnas6si6/ht6SyUgRc4m5g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQ5siuNsQcfMnvU25cD9I7SIVPOzapvuY+RasePOtIjEQ/l4+l
-	0Jg9sszbBf8EHtsPuLOet6AO0C6JkxvWFNJ/tAW/PG2HjO4huQPeEJue
-X-Gm-Gg: Acq92OGqJu0nr5LmUv56RznunF9Ljg72WOe7TMIta0LuwKSY+/CuT6cm5Me3ffYJVTD
-	RfLRCxYsvILETA2nJQjLGplViOiVZ0lnEgNpFkt602Sujv9OiVnNmexkxDmr3bEYhmFW7sW669n
-	PwCcPJBoroJ1dx9ofM1eAnWwLeyPmSV+3ziIcx4kUiUgYZtgGd+qNsyO4uHunLez29Zwx1FZ5hf
-	WUNuF7THXk3JRxABO+ab6GC/dw0T6EIGLaqLI/wT47XPG63s3PAMR9o+/z8251HX+Xq6Tq0gOVz
-	dsgVDPRNroruxxvhNVY1eDjHXKfIzVm3r9cbOYb6TzBKd4W9Jb/S9AAePeg8Baf/QKpQh9Ki53c
-	slD0l4MUz0dGFpm9L5b3y1xBbSRqsSiJgtD1V02cacFXe1+iwVyCpSK8C5Vd4tPm4BqhvEqmvNb
-	tON/661YXODdvx41T0ep+jc5Du9zZ14+WkaZgj8czubLDLYvAe9/O7i4SMwqBmWYd9i4Rpvcs=
-X-Received: by 2002:a05:600c:4e4e:b0:483:8062:b2f with SMTP id 5b1f17b1804b1-48fe5fd4747mr410414845e9.6.1779297154567;
-        Wed, 20 May 2026 10:12:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e11:5402:d840:f1ee:c5d:74e4:6e19? ([2a01:e11:5402:d840:f1ee:c5d:74e4:6e19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fead15bf3sm135251275e9.6.2026.05.20.10.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 May 2026 10:12:34 -0700 (PDT)
-Message-ID: <7f56ee25-11ad-4dcf-87bc-a353bed3f914@gmail.com>
-Date: Wed, 20 May 2026 19:12:32 +0200
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="qFI9FEQU";
+	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="h5G10O/h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=key2; bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=;
+ h=from:subject:date:message-id:to:mime-version:content-type:feedback-id;
+ b=qFI9FEQU039pbzkJ2FDAtbJjrLpQQoUDscC70JvkVwYxRhufGqfbLtS8TjW7s5ztXGrjTN/Dc
+ X+vZD426UiBSH1zo18+C1vzSmFfwJNjEcGzlGpxkWngggPbzXiRfukwpxvsBV6/00EwS0LLOm5d
+ cTHZS1FrkMnoW+kXRi/+/7A=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb6724)
+ by relay3-bqueue-e.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e46ec330900071cb.004
+ for <linux-kernel-mentees@lists.linux.dev>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 20 May 2026 19:45:45 +0000
+X-Zone-Loop: 467fceabc353edcb8fca5e5afa99442d9d1a6b0cb5a8
+ARC-Authentication-Results: i=1;	rspamd-cluster22.mailbaby.net;	auth=pass
+ smtp.auth=mb6724 smtp.mailfrom=code@agatha.dev
+ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
+ t=1779306345;
+	b=IyFQ5WPp3F62cIGeTe3MWoESMyFeEVHoWr/SJ8n0DmR21hRkFOds6VLwiM+5BREc7m7wL3
+	fIv+RUHmK5kXApuC2UmTiv34SAsFjFxOSH4K1gv6eRdvocOXdqoXUJxVuq0fz8gALD6fIZ
+	HE4ZCeOaQs+P6F7GHbAdwn3oQB3qqgaxTPlqsTfZcInvOzT1ZVPlbRzj9ZkzPySfEuPtsw
+	OSEx7qr2VSHCeUXORkj2Ib4XfPjwLeTLvUpBTAl6qfOsSwRmDvISm+XrnP05b3k8cz/DAW
+	SzmYmElS9T0k65RrZbEPAB3ham+ZaZe/m+vjEXpHoT3Qy0HMrYZecT4f4pY+3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailbaby.net;	s=detka; t=1779306345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 dkim-signature; bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=;
+	b=g1eweTUe6KDFteHXQ6Q0ufvVes0OV3G5ejBuYgSGaPPpj2i/UfDUgSMZStI5b2rzpilflk
+	o6iNCORUflgrLDyzPAJjXF2Sj0TFqZGzZcnHZE/JRUI1thVGkn5qRkSsvUEh76dyXNmF8l
+	hnbeczQn3PsmvBYnsRbOKnVblCRibjT4+kYJPLQixUVLAVsbUxj0z/KK7FQX1lxzJgOcMg
+	iuNiOJdi5BDSqKUYNd+KuPuT5db+6hnmPVwEjOLaGOSLbt8NjSyncpJgPBDVtGPbc7nTgu
+	nIIPiMr0aCOVnkKCJ20pvM10lPPZcEkXhd4Q5b+8nkWXPnMhW/VJbm6AQp5HZA==
+X-MB-ID: mb6724|me@agatha.dev
+X-SPF: pass
+Feedback-ID: mb6724:19e46e:507c5a5c5e5d585f7d5a5951:mbaby
+X-MAILBABY-ORIGIN: PASS
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
+	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
+	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=; b=h5G10O/hhxlIR1Z3KTPrS6ytDI
+	Xpe77E/Emg5Zi0Cg6r7rL7n8MZ+reUDkb+mkQBPnzg1pjJ08uBk6l0ypwUkQFHx7yhIAcCXkRijRl
+	Y7+L3JWB9ol8wOZ+3ZaDzPlE0cV6xltYH+b+IvTYmk374VYUyT5vv8puKoJBN6f05an+d0HKZUkAp
+	uFwZs1NJjk52/Yup2/B8VI2KL6CdAUERapE5Rt5M9gc+Lk0UJ9oA9oe6fE/IKRIO+GU+8hh/vbWvb
+	O53TRhyfOcgWTAd0qhh0ebi+R+GeyJSVRzwsJX8gC6Vag7x+qCNVIPe9aswEctwJ59JvKoU6qU7tG
+	m1ETnpGA==;
+Received: from [170.254.153.136] (port=34429 helo=guidai)
+	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.2)
+	(envelope-from <code@agatha.dev>)
+	id 1wPmrT-0000000EPaQ-0erX;
+	Wed, 20 May 2026 15:45:44 -0400
+Date: Wed, 20 May 2026 16:45:35 -0300
+From: Agatha Isabelle Moreira <code@agatha.dev>
+To: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	shuo chen <1289151713@qq.com>, Theodore Ts'o <tytso@mit.edu>, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, patch-reply@agatha.dev
+Subject: [PATCH 0/2] fs: refactor code to use clear_and_wake_up_bit()
+Message-ID: <ag4PEP52c8rxrYPc@guidai>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
- default case
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, shuah@kernel.org,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20260512223215.25596-1-aldocontelk@gmail.com>
- <20260512223215.25596-6-aldocontelk@gmail.com>
- <agRfMWL9BughLT2x@ashevche-desk.local>
- <36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
- <agS70Dph8-zQT-e6@ashevche-desk.local> <20260515190517.70bb0ba5@jic23-huawei>
- <1c87362a-bba8-45b8-a836-153f468815c4@gmail.com>
- <20260516132555.64e27d62@jic23-huawei>
-Content-Language: en-US
-From: Aldo Conte <aldocontelk@gmail.com>
-In-Reply-To: <20260516132555.64e27d62@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-AuthUser: me@agatha.dev
 
-On 16/05/26 14:25, Jonathan Cameron wrote:
-> On Sat, 16 May 2026 13:04:13 +0200
-> Aldo Conte <aldocontelk@gmail.com> wrote:
-> 
->> On 15/05/26 20:05, Jonathan Cameron wrote:
->>> On Wed, 13 May 2026 20:58:40 +0300
->>> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
->>
->> ...
->>
->>>
->>> I would add for this that, to reduce churn it's fine to add the
->>> struct device *dev = ... bit and use it in new devm calls. Just do the
->>> remainder in the follow on commit.
->>>    
->>>>
->>>>   
->>>    
->>
->> Hi Jonathan, Andy and all!
->>
->> Thanks for your reviews! they’re teaching me so much!
->> If I understand correctly, I need to wait a week before submitting version v3
->> such that other reviewers can comment right?
->>
->> I’d like to take this opportunity to suggest two alternative lists of what
->> version v3 might look like in terms of patch order:
->>
->> First option does not consider the "== NULL with !" patch and so:
->> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
->> 2. iio: tcs3472: sort headers alphabetically (same)
->> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
->> 4. iio: tcs3472: use devm for resource management (slimmed down)
->> 5. iio: tcs3472: use locale struct device * for remaining cases (NEW)
->> 6. iio: tcs3472: implement wait time and sampling frequency (revised)
->> 7. iio: tcs3472: move standalone return to default case (same as v2)
->>
->> Second version will consider it:
->> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
->> 2. iio: tcs3472: sort headers alphabetically (same as v2)
->> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
->> 4. iio: tcs3472: replace == NULL with ! (NEW, optional)
->> 5. iio: tcs3472: use devm for resource management (slimmed down)
->> 6. iio: tcs3472: use locale struct device * for remaining cases (NEW)
->> 7. iio: tcs3472: implement wait time and sampling frequency (revised)
->> 8. iio: tcs3472: move standalone return to default case (same as v2)
->>
->>
->> What do you think?
-> Either is fine but swap the last two patches.  The wait time one is
-> more complex than that trivial cleanup so might take more revisions.
-> 
-> I frequently pick up the first part of series just to avoid people
-> having to keep sending the same unchanged code to the list (that I've
-> often forgotten about completely by the next version!)
-> 
-> Jonathan
-> 
->>
->>
->> Thanks,
->> Aldo
-> 
+Refactor code to use `clear_and_wake_up_bit()` instead of manual calls
+to:
+       	clear_bit_unlock();
+	smp_mb__after_atomic();
+	wake_up_bit();
 
-Hi Jonathan,
+The helper function `clear_and_wake_up_bit()` was introduced in
+'commit 8236b0ae31c83 ("bdi: wake up concurrent wb_shutdown()
+callers.")' as a generic way of doing the same sequence of operations,
+but several pieces of code still remain.
 
-I have two quick questions.
+Replace manual calls to the operations by a single call to
+`clear_and_wake_up_bit()` to deduplicate code and standardize pathways.
 
-First, Uwe's "[PATCH v2 0/7] iio: Rework i2c_device_id initialisation" also 
-touches tcs3472.c. My series modifies the same file for unrelated reasons. 
-Should I wait for Uwe's series to land and rebase on top, or is it fine to send 
-now and let you handle the overlap? How does it work in  case?
+TESTING
+=======
+Boot-tested on an x86_64 QEMU virtual machine. Basic filesystem
+operations (create, delete, sync) were performed on an ext4 filesystem
+with `data=journal` modes. No issues were observed.
 
-Second, the first patch in my series fixes missing power-down on probe failure 
-(goto err_powerdown). Do I need to add the “Fixes” tag?
+Suggested-by: shuo chen <1289151713@qq.com>
+Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
+Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
+---
 
-Thanks for your time.
+Agatha Isabelle Moreira (2):
+  fs: buffer: use clear_and_wake_up_bit() in unlock_buffer()
+  fs: jbd2: use clear_and_wake_up_bit() in journal_end_buffer_io_sync()
 
-Aldo Conte
+ fs/buffer.c      | 4 +---
+ fs/jbd2/commit.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+-- 
+2.53.0
 
