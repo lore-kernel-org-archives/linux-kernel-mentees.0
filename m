@@ -1,120 +1,177 @@
-Received: from relay1-g-e.mailbaby.net (relay1-g-e.mailbaby.net [67.217.53.11])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58071283CB5
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 20:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.217.53.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3982BEC5E
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 21 May 2026 01:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779307886; cv=none; b=tFZDemsvYeJ8WHM8oeRdSQYYLjtLu5QID5Ja5sYAM4SPDEpQbq30Ot6af0phCUm09oN3qcWsbtX2SFZKvs2xJTIIuqzX1BupoYkXS2CTZVTIoAgzsVhY0CjP5e+HxSo7REWPPdumwwDanIHRPFQL3ohFwN02ed601UAlxyb23FY=
+	t=1779325411; cv=none; b=coWe241Fd4Jm94vuMrySa/8awtmJG4ZNcEKYaV9uKVNzFf2EDAW1NcCsVI9P72AIgbUKhigKNHjW7hxsi4I0eeKrcFr6DTZJ2JDqCP0ZUeIkV6qiYHzcFUDl0MLp25fiie1Tllf9XzWsHAzIPmUVa00oti1fKZRMMYZwHs2mjRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779307886; c=relaxed/simple;
-	bh=UG4fMxcJprcmV8L1IVQKviv71mkF1wXGhMe1zEm49eY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HtdYVmDjJY6sNMzC/3zboSaMUnB1BQaDb/upqxj5YK1Rp9fbOVbEhOUzW4jpuOhShyVlcbrCuUB3VErqo8buRLuO29uq5xkvqMc0R55mVl4xXQlfrrSrPZF3gMNP+9lpmgCJbkbBv7lo7q3NzPn0JeVwcAIf34uuQV/jfUN7lmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=E+YoXaJL; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=si3jXy0b; arc=none smtp.client-ip=67.217.53.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
+	s=arc-20240116; t=1779325411; c=relaxed/simple;
+	bh=I1Bk0y7uh9jEUQlRg4tZ4CjR2YWjq1SMqrMc4cSuJ58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fcA5JUVM1KgZgf08xEAXGKeT5DsUw8qg6mAUIShLSD1Sq08lPA7QbXRi16TCacaDMSWbCaw2hjQq4yOgnS/lIw+sm4r+JcAFT+OWBLyaI4ICVcwSjNaAkY8wZVTFJX7rOkg1S4I/F8OZORgRWHkZZIcXjC2SXwEgcQYw3Wy9u40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=c8ARVx4O; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="E+YoXaJL";
-	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="si3jXy0b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=key2; bh=IMgDpI0lU3RJ1xH2yJAbd7vfjY7nVe4F2t+I1+L1jQQ=;
- h=from:subject:date:message-id:to:mime-version:content-type:in-reply-to:feedback-id;
- b=E+YoXaJLSCpY4sBq2bvA2Wg6/d8hbi514KnHGTp61XbGI/I+20lh0h+GxBaiLXqjQnlVgKo0j
- TOZkkDT9Ilgbyq0nBOx1mB9urjkNzn/2IRzY5VYOa79GjtsevUEL3Uh5O3TNjQYtU2wc+cbe485
- Y9YezXPIbI9k4qR+1TdY9/8=
-Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
- (Authenticated sender: mb6724)
- by relay1-g-e.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e46fea7d2000babb.004
- for <linux-kernel-mentees@lists.linux.dev>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 20 May 2026 20:05:54 +0000
-X-Zone-Loop: 5622f5439ebd7c09a3b64cf1d0dd310edd2644f5b310
-X-MB-ID: mb6724|me@agatha.dev
-X-SPF: pass
-Feedback-ID: mb6724:19e46f:507c5a5c5e5d585f7d5a5951:mbaby
-X-NS-SCAN: PASS
-X-MAILBABY-ORIGIN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
-	s=default; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:To:From
-	:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IMgDpI0lU3RJ1xH2yJAbd7vfjY7nVe4F2t+I1+L1jQQ=; b=si3jXy0bT923QKsOGn/R38nWIA
-	so+4WYin8UWU4XvULZHo6buUIgD0eltutC6BQamZBkQO9d5pLlSmlNzklVb+aA/su4SHskMEt6F5D
-	WXFuMQnIPDp92ex6if1z2fxvKp4HFSsWTENoeHUebdYDrYm37L6v0DzWtezAqc8Ya3eCaiplresyW
-	aqLmbCk3CEblhRnAb4EdYvoa9hYTatqrCndl/qxSfZAcEIuxkjqflWVOWRGWyFF7di+V+u1YVl5T0
-	Mm2E0uXjR5mCc3h4mffVK3HQn1HkLRdrtK+VJp2kWfHRjUGxTGKJsLdPWuSmpOCmvrXp+rz4uSutJ
-	FIn+SmyA==;
-Received: from [170.254.153.136] (port=33942 helo=guidai)
-	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.2)
-	(envelope-from <code@agatha.dev>)
-	id 1wPnAy-0000000FeZT-3Ups;
-	Wed, 20 May 2026 16:05:54 -0400
-Date: Wed, 20 May 2026 17:05:46 -0300
-From: Agatha Isabelle Moreira <code@agatha.dev>
-To: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.com>, 
-	shuo chen <1289151713@qq.com>, linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, 
-	patch-reply@agatha.dev
-Subject: [PATCH 2/2] fs: jbd2: use clear_and_wake_up_bit() in
- journal_end_buffer_io_sync()
-Message-ID: <ag4SrrOl7R2DcLLi@guidai>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="c8ARVx4O"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-40974bf7781so5149743fac.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 20 May 2026 18:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779325408; x=1779930208; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K5NSL+rhTt1O4xke8D9QIDMxAr5REVLMl3NEv7dtOAU=;
+        b=c8ARVx4O3gDqV/065cDjFygjuk3CIcv2DomZTQoH8BlALm7N+aXuCA4CIZmUW/pXyC
+         2WOIer3cVYMwuqsanpSw1P7TqY/gBlIatsW7BWErqIISol5SLWSBlIjHRWR7poTZfRwe
+         HXPQ74B+vueSC/sVrJGZLmZ++LlW5ij2MLwL/rD4GLc7yVraFZeqSUvxlGEUL6Zlp+/d
+         gSLx9tCkyrfDKWwbuuxAZj2z9YJSZ/KAzDa9nU7easxiwl3ztjcHKI9Z89LXVwCPKXfT
+         APQ0iW3B2c6ag3UAChudMau8+f7rhZB3dxqOsPFVluqaTaueK03fLiDFOv958wkuDG7K
+         scAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779325408; x=1779930208;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K5NSL+rhTt1O4xke8D9QIDMxAr5REVLMl3NEv7dtOAU=;
+        b=ZBMX/ru9/cMMlVriOUTgIWd3EeeE3XzsIdaiv+1cgcbO9mUwpszxAEFu5e6u/1glF0
+         t/lqTXFSg8IO61zBYFYj8QRpag/X2ov/0IaM5RVT24IRk20wcQAbZXV6zjETROyl1YRc
+         p6rLZThJs5bRDIhEo5ODe9FwhUs7RNfjeNBQUi9bwYGtNgDmkbi6GuhX8ChRWgPMdRlY
+         yi1UP7b53NT4c/hgg19uuxXos3k1ktG7UltGqpenmIFPEI2ODJW6tkyJOCWFmT7Wgbz6
+         lq/6ykfTNzAvTxN1/DViOOy4x2nNjZ7nZ7WSlYD7/cewi2Bql+HRrzZ4UzxkXlz9HFY/
+         PewA==
+X-Forwarded-Encrypted: i=1; AFNElJ9xhPwYTaGBd0AaTcV8vBpU/3pUpJSyhR7pHBYI2ThK6JuiE9XbYTJ9bq/v+xiAWzkTAcIfEd6WYDSwcuY4gOMvSzIiWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUTtf5V5+LzoYEQzZN6vF1vQSnmeTlgQcWQ7LJWFWFl3CL0dMb
+	VQf2wQ2Oe3+z1NU05qRTSMwaG39h43HL8yrUEvUMaAu9ol9qDCdaab2cUUXFEbHoqkg=
+X-Gm-Gg: Acq92OHqS39EPH1Nq2QfcDHyZVD6raU6Q/ovAcY9G4F6ZS/+3+V6+/wttMbDvF0jAwT
+	L1K0TzjIoKuzHmvWv8rYKNkMTg372fBm/ElHoFgwFpZKDigVBf8/lszuvb3LLU8ZOvVdNLCKV1F
+	Bx2qCPg8qbsTGOsML5OjziwT6mDa3o1nOHIP2aTcILseYGRgK7hwjTvoHAuW8YG/1fq3oElWtMk
+	ebJNmQF1w9klo7a/DVg9O1CTd3i/kbd0swsy2xLoDJwYChgFj/4o99A7p1eINPsIYBcjZXhyrqA
+	WB2a7KPGj7fTQZHKKyunWmjWh0kCki5rXihQ8nV1DFDKV9nV+XMSeILobM2N3SyNOF0Cbur9C5k
+	lR6t9gOq1FWA6rHCnMr4P2gHmWNLshEY8OGhMZ0o2wBSb20F+Q/qVbHQxpgfHjGO3qLKDc+UTEo
+	V72CwG5U4ZOry83E7Ejs17g8MZyXJuW31WNFC8WDVMTQfn8EUjFTpndo7c08f9zw/lNDXbKjsyL
+	w==
+X-Received: by 2002:a05:6820:8309:b0:694:99de:9989 with SMTP id 006d021491bc7-69d6e37a176mr353611eaf.32.1779325408221;
+        Wed, 20 May 2026 18:03:28 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:3658:e18d:1ce8:44cc? ([2600:8803:e7e4:500:3658:e18d:1ce8:44cc])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43a956f6b2asm11003564fac.11.2026.05.20.18.03.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2026 18:03:27 -0700 (PDT)
+Message-ID: <bfd9d999-57cb-45fc-a7e1-369905896770@baylibre.com>
+Date: Wed, 20 May 2026 20:03:26 -0500
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ag4PEP52c8rxrYPc@guidai>
-X-AuthUser: me@agatha.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] iio: light: tcs3472: move standalone return to
+ default case
+To: Aldo Conte <aldocontelk@gmail.com>, Jonathan Cameron <jic23@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, nuno.sa@analog.com,
+ andy@kernel.org, shuah@kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20260512223215.25596-1-aldocontelk@gmail.com>
+ <20260512223215.25596-6-aldocontelk@gmail.com>
+ <agRfMWL9BughLT2x@ashevche-desk.local>
+ <36ed59a7-8af7-4458-9e90-70ea251b389e@gmail.com>
+ <agS70Dph8-zQT-e6@ashevche-desk.local> <20260515190517.70bb0ba5@jic23-huawei>
+ <1c87362a-bba8-45b8-a836-153f468815c4@gmail.com>
+ <20260516132555.64e27d62@jic23-huawei>
+ <7f56ee25-11ad-4dcf-87bc-a353bed3f914@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <7f56ee25-11ad-4dcf-87bc-a353bed3f914@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Use `clear_and_wake_up_bit()` in `journal_end_buffer_io_sync()`, since
-the helper was introduced in 'commit 8236b0ae31c83 ("bdi: wake up
-concurrent wb_shutdown() callers.")' as a generic way of doing the same
-sequence of operations:
-	clear_bit_unlock();
-	smp_mb__after_atomic();
-	wake_up_bit();
+On 5/20/26 12:12 PM, Aldo Conte wrote:
+> On 16/05/26 14:25, Jonathan Cameron wrote:
+>> On Sat, 16 May 2026 13:04:13 +0200
+>> Aldo Conte <aldocontelk@gmail.com> wrote:
+>>
+>>> On 15/05/26 20:05, Jonathan Cameron wrote:
+>>>> On Wed, 13 May 2026 20:58:40 +0300
+>>>> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+>>>
+>>> ...
+>>>
+>>>>
+>>>> I would add for this that, to reduce churn it's fine to add the
+>>>> struct device *dev = ... bit and use it in new devm calls. Just do the
+>>>> remainder in the follow on commit.
+>>>>   
+>>>>>
+>>>>>   
+>>>>    
+>>>
+>>> Hi Jonathan, Andy and all!
+>>>
+>>> Thanks for your reviews! they’re teaching me so much!
+>>> If I understand correctly, I need to wait a week before submitting version v3
+>>> such that other reviewers can comment right?
+>>>
+>>> I’d like to take this opportunity to suggest two alternative lists of what
+>>> version v3 might look like in terms of patch order:
+>>>
+>>> First option does not consider the "== NULL with !" patch and so:
+>>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
+>>> 2. iio: tcs3472: sort headers alphabetically (same)
+>>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
+>>> 4. iio: tcs3472: use devm for resource management (slimmed down)
+>>> 5. iio: tcs3472: use locale struct device * for remaining cases (NEW)
+>>> 6. iio: tcs3472: implement wait time and sampling frequency (revised)
+>>> 7. iio: tcs3472: move standalone return to default case (same as v2)
+>>>
+>>> Second version will consider it:
+>>> 1. iio: tcs3472: power down chip on probe failure (NEW precursor, bug fix)
+>>> 2. iio: tcs3472: sort headers alphabetically (same as v2)
+>>> 3. iio: tcs3472: convert several functions to use guard(mutex)() (modified)
+>>> 4. iio: tcs3472: replace == NULL with ! (NEW, optional)
+>>> 5. iio: tcs3472: use devm for resource management (slimmed down)
+>>> 6. iio: tcs3472: use locale struct device * for remaining cases (NEW)
+>>> 7. iio: tcs3472: implement wait time and sampling frequency (revised)
+>>> 8. iio: tcs3472: move standalone return to default case (same as v2)
+>>>
+>>>
+>>> What do you think?
+>> Either is fine but swap the last two patches.  The wait time one is
+>> more complex than that trivial cleanup so might take more revisions.
+>>
+>> I frequently pick up the first part of series just to avoid people
+>> having to keep sending the same unchanged code to the list (that I've
+>> often forgotten about completely by the next version!)
+>>
+>> Jonathan
+>>
+>>>
+>>>
+>>> Thanks,
+>>> Aldo
+>>
+> 
+> Hi Jonathan,
+> 
+> I have two quick questions.
+> 
+> First, Uwe's "[PATCH v2 0/7] iio: Rework i2c_device_id initialisation" also touches tcs3472.c. My series modifies the same file for unrelated reasons. Should I wait for Uwe's series to land and rebase on top, or is it fine to send now and let you handle the overlap? How does it work in  case?
 
-The helper was first implemented to avoid bugs caused by forgetting to
-call `wake_up_bit()` after `clear_bit_unlock()`.
+Just add a patch to your series that does the same change
+for that one file. Then it won't matter which one gets picked
+up first.
 
-Since `journal_end_buffer_io_sync()` was first introduced by 'commit
-470decc613ab2 ("jbd2: initial copy of files from jbd")' and last
-modified in this operation by 'commit 4e857c58efeb9 ("arch: Mass
-conversion of smp_mb__*()")', years before `clear_and_wake_up_bit()`, it
-still uses the open-coded sequence.
+> 
+> Second, the first patch in my series fixes missing power-down on probe failure (goto err_powerdown). Do I need to add the “Fixes” tag?
 
-Replace the open-coded sequence with the helper to avoid duplicate code
-and reduce code paths to maintain.
+Sounds like it.
 
-Suggested-by: shuo chen <1289151713@qq.com>
-Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
-Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
----
- fs/jbd2/commit.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index 8cf61e7185c4..b647fde76e49 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -39,9 +39,7 @@ static void journal_end_buffer_io_sync(struct buffer_head *bh, int uptodate)
- 	else
- 		clear_buffer_uptodate(bh);
- 	if (orig_bh) {
--		clear_bit_unlock(BH_Shadow, &orig_bh->b_state);
--		smp_mb__after_atomic();
--		wake_up_bit(&orig_bh->b_state, BH_Shadow);
-+		clear_and_wake_up_bit(BH_Shadow, &orig_bh->b_state);
- 	}
- 	unlock_buffer(bh);
- }
--- 
-2.53.0
+> 
+> Thanks for your time.
+> 
+> Aldo Conte
+> 
 
