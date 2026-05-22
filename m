@@ -1,63 +1,63 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB75D38BF9E
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 12:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D283BCD32
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 12:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779453272; cv=none; b=pm2SVGog1O2XpA4M0QobBMT+itlsG95SyIk5WfRdJQEsUa9x2RTvG7dTA81DemykXyB53vll0ZBK+X2bS+NB+JDYgDvxGCvhOloTt2WPwRrSArTDGZdsvnb3myeyGW7niwes2sCs4pla8ooCbxNCnrccIHWR+xs0tgrg3PQVfk8=
+	t=1779453272; cv=none; b=lqWTW3F9+y+sCF8CRqPm+JdgP+PXZjxPvKs8usw2UCENHklPW5wz+cwL0mVdAOlzFJJcGwq4EDhkc65MsHBm+7lPjom5GWXdtCbDwQIct5YK2TXHCnhuPxY4hY/+ZaYoaVUQWVMFiHhTMzrFVxZ0Xc4wmRDNmFzD8X9r1l0DO/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779453272; c=relaxed/simple;
-	bh=HrONuiDMQBsyQKK/Qw9EDIlYqlICs8puzZEsFzw3q6E=;
+	bh=HNVQB1Sx2eQiNy7XgLEbGRhcVanUAKDqdo7tkqRq+NY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LtC1pflSvYM6HtoFo+EV81LNCEllooM8bRZ4+Notu/TWA0/ywsFCrs60z4R9Y6cINls4ki9R8yb2Uz452YcCadrpT2SfOttoMTasEI8NnTk3D3CeUe5E5KWWiTvc6e+q/7ChwR7UPI7OXSoyIXsItNsuTw5e5qUsK8Wmw4cpa5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpalVHw+; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=HaCjyPs/jtDGgohnpQdWS/kVVIn7uyEWAGIx1KbD3HY39gcyOSmxmQA/FZ2o9fPP/09RBs3G3+OYsT+NlRXRZ2sF00SlcjOC+9ko9lFJaEXwhpzxBrymcJSjwpyZ0xxhTEaisxTPgk51Xm+mW9EwYaLSYgbyhZMRFk3GSA9rEEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ld1r2i0g; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpalVHw+"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso84296005e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 05:34:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ld1r2i0g"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so56632815e9.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 05:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779453269; x=1780058069; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779453268; x=1780058068; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lhPK+WD3x7b1l7d6v6GZpCF931oi4rpE7Ri3gLPt+mY=;
-        b=NpalVHw+1xCkVrj+iUnbUlbAVqjYOapUx5mDMYW6YFutR94Brr9vQN2Zh10GcOmZgF
-         8PHVglUOkqWANVhyMGv2UThIEQTdda9eqvytO9fB9Qjb92cBBOWuXRMN3JsMWNOMue9F
-         HvGfLiwOPpuG0/CQ0swJ3qVJa6+cLx1fXnAkTci7yWoF1YuzQbvg4QHBjxe130O7HY/s
-         V/4z5piO5N2mGbcbbrPlzW9qav4I8LaMcwXFq4dfSvreAww4P2OCQw+afDmnoQ7ewGdL
-         ORpExvNMI5sLHHnfxLZw2VEiUtgJerVMSdqCxGWWKR2fkaaMNT3oNcsqLztAskIcczu6
-         4qaQ==
+        bh=vMlIJr0UEjBMHNhPJ63udc9c/uXuEqSnqN9pM/ii/fY=;
+        b=Ld1r2i0gAtqYOCxRzvESCWvDT9jy6RrlN0CyXITmfU6zV3HVbqC1xKLmAXiLbNJCi3
+         9i8VXkvhm692PoaPlRemfAKtxig7SDluQjWqC3DvQJOfO5ShMxrglTj2pLE/7qKM5HEO
+         UpKP1NdtGeQJstmN51aAARmtyFcxLYvhJwDVwnpvMdJn/h/qj97dmGQgoGTgorMNhxl7
+         yRFYzur0nbul0vu01B57IChiDSjlMa4h7yKrayAVPr/0hT2C9wpk5K1LI/Xb8EJGRT9I
+         c0hsqDDA15v2L3v0pGmdmoreC0JnH+z6eboQG37Nqfbew40vYKXtf/bd4H6jeJp22Pzo
+         xhPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779453269; x=1780058069;
+        d=1e100.net; s=20251104; t=1779453268; x=1780058068;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lhPK+WD3x7b1l7d6v6GZpCF931oi4rpE7Ri3gLPt+mY=;
-        b=Yrod7UCTly6FHKTkBCMNTCD3uRAG7gRC56RUQgYj0XxOe3nfNnpvF+HX0C9x6cGie8
-         PIL1Ag45hyOL2aDjyEqVlb22mlY58z8k8r8UTvRKq0GnorpMHXXLC9fxwsErY8wb5vTc
-         EmznvfOgFs6odAspKl2L04yrAE36HnNdPVgikZGpQTDwClkQkxUAJK9cYmCrHugAbTQ1
-         RtefaJ5y5NN8NOAENu3UwRxLI8uGQ4fi8Ngb5ZIBDchQn+2wiOoLEzm8NRQzeOgZow4W
-         uFnDzxMTAXqJcSsndDe+2H9vcjdFTsXITAMs1Zx0immpbxza/v+IAbS+XzNMaWm7jVx3
-         DZqg==
-X-Forwarded-Encrypted: i=1; AFNElJ88NhBCO0STF/iOpEzl+C5l1hV+DPvbzTWZsaDjI2a+eYwSJc6bNRxowxw+pucYDWVqG5QAow31SBil2nWf2r2yE+Pq8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxpeh11iQatP3emwoQOQMxmW3Qv8NWyP+3VwQU54vShxFC2B25M
-	/eZ+5MFlceGjVrME3UWDzddNrmdO+QpSCLwdlbFikcdbjrjG91QzyMLN
-X-Gm-Gg: Acq92OHXoVPYPZqDHpP8DjyIax6CfZyek9B8G3+SRPz6nS9V9hQ4bnQ8qSTTYPSr5KG
-	+kRNM/eryegdVwgG0sbBhItBStIvHZHeBjKgVfAVjYTuIiKkH0i8bGO2iB5MeskcOPzBfA3NAzd
-	CvLZyKXUyjCsORCTSz0nEsAUcodWm0U+kSXkCWfECi20GMvhZWjYvfWAau+Dw7zfcSVdTzvRC/W
-	p9OslZ+vIRcqfuD1dt89eeZoKroTRfPJ6JSMlXPh9UXvfKaboSNRI9Tme+zVwCURpy0IMFTwUxE
-	45t32qfg7HvPi20D7+lixpwmSLsMQfez4ObzYAgn/8SnKkfClCmL8AVexFRegD70yqrZaDvKkos
-	sCYCzIjPkZk21+ZXad1LXxVGsYJ9cwGd3u/Ru6CJ5JdgD6R2PnR1zypaygE+jXikMkUcnxvz+Df
-	hEPfC5uF5BPqq9ldOAhUerRGODtC6Kc0UUSrDWnlZ+jDjVN4UGVjWu5cvvashja1M=
-X-Received: by 2002:a05:600c:1393:b0:489:c57:7836 with SMTP id 5b1f17b1804b1-490428e5b31mr47285995e9.27.1779453268890;
-        Fri, 22 May 2026 05:34:28 -0700 (PDT)
+        bh=vMlIJr0UEjBMHNhPJ63udc9c/uXuEqSnqN9pM/ii/fY=;
+        b=qymJK1K92kJRxcpNPvWi3bYmAHkRzT4cwzpsv+e7tluRyBm38jP/SXU3nt0dkwodGB
+         PH1Fi2vokN9VptySxFp3PX4nIXU5DkR8W23/u9OSS1KMWGZskr12XRfXkyPfT1AN7Rlm
+         jxs17Dy/OgULA4EbddeEEauNtiTbx0j5isZBcAOT/cDtLuiimfag5+egKbo+rTqI7eim
+         J3oCOL3M69EhtSFj6xzEDcGMo0JlqsmAmf6ThA7zd3LHe8qVx1O5I3YB+u2D7g/8tU/W
+         aGIxxrRMtMiJ8fakbhIZ3oE0FnwrLzoaxu1NgoCv94ZtXSXqYuH6aZcPZE6pklPXYLFP
+         jGvA==
+X-Forwarded-Encrypted: i=1; AFNElJ9wUQRezycgwfDs76tP2m0gdUKg7dcT+J3C3ch0JfuZeYWvvbdClf3iFgVEcZxb8wmkTlo0zLlww0FZaTFxcReoKNeg/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/sMgYF35mhx6UqrUhYEWOEMEbdt0usjZgQWHTTsBqJP7DhfIi
+	16yDhQV1pS6oPOCLj4ABQX7e63FUQuu/ghUq9dRPn6yYMjoBk7oqON//
+X-Gm-Gg: Acq92OFF/j12V5DTMY0r63DpSmuVVplk5vCbm7UsztR4+3lrRLJtlGohWR7g8v5BPOO
+	q5Nuw9mn9WIdzInqtHZOyA2SDAhGMJB4S6j82Ofc/8T7bi1m25ZncSo7eXp7yxJYAoRlU13ukc1
+	prP/c78PFyqEloPDsMZoT/dA2qMPbcLDED5W16kFdhqNBh/ixGM/nPoq5iwxAwLktxvwi8DHXnn
+	pdVoL7jrKp33ZNNeYYr+FT6xJ+PTW/3UaUtXKR3QwKvf06PzId2Er5gAlDChkxbYHTB+Qd+Itsk
+	fTf9izjuwqqFCHj79tmGQJdi1K+i9fexlwk/bK0PxuPky/A1EdD/nGpndJoIId5WLgFE44iIFlj
+	uuk6M0/QksAlvDxVz+mmVoNWvCN0DoQ54ZwKOOD1cGA2STIXnG467UFE5hvj0KDv0kiJ4e8cUCg
+	4z8gFhvym2lwUb9rFHzQOw9G2gWnE+TFmi+58qveCj1k/3O/j3mzY6MRzv8wUT2K4=
+X-Received: by 2002:a05:600c:4ecc:b0:48f:e249:4094 with SMTP id 5b1f17b1804b1-490426d4bf0mr45733275e9.18.1779453267839;
+        Fri, 22 May 2026 05:34:27 -0700 (PDT)
 Received: from aldo-conte-t14.tailf68ad9.ts.net ([217.61.173.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042af0ac1sm14760175e9.31.2026.05.22.05.34.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042af0ac1sm14760175e9.31.2026.05.22.05.34.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 05:34:28 -0700 (PDT)
+        Fri, 22 May 2026 05:34:27 -0700 (PDT)
 From: Aldo Conte <aldocontelk@gmail.com>
 To: jic23@kernel.org
 Cc: dlechner@baylibre.com,
@@ -68,9 +68,9 @@ Cc: dlechner@baylibre.com,
 	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v3 7/8] iio: tcs3472: move standalone return to default case
-Date: Fri, 22 May 2026 14:34:18 +0200
-Message-ID: <20260522123420.45495-8-aldocontelk@gmail.com>
+Subject: [PATCH v3 6/8] iio: tcs3472: use local struct device * for remaining cases
+Date: Fri, 22 May 2026 14:34:17 +0200
+Message-ID: <20260522123420.45495-7-aldocontelk@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260522123420.45495-1-aldocontelk@gmail.com>
 References: <20260522123420.45495-1-aldocontelk@gmail.com>
@@ -82,52 +82,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the trailing 'return -EINVAL' statements at the end of
-tcs3472_read_raw() and tcs3472_write_raw() into explicit default:
-cases inside the respective switch statements.
-
-This removes the need for a separate return statement
-after the switch.
+Use the local 'struct device *dev' variable introduced for the devm
+calls also for the dev_info() calls in tcs3472_probe(), to keep the
+probe function consistent.
 
 No functional change.
 
-Suggested-by: Andy Shevchenko <andy@kernel.org>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
 ---
 v3:
-- No changes.
+- New patch
 
- drivers/iio/light/tcs3472.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/iio/light/tcs3472.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
-index f74e6633db45..1f597ca93697 100644
+index 4966abf83c18..f74e6633db45 100644
 --- a/drivers/iio/light/tcs3472.c
 +++ b/drivers/iio/light/tcs3472.c
-@@ -166,8 +166,9 @@ static int tcs3472_read_raw(struct iio_dev *indio_dev,
- 		*val = 0;
- 		*val2 = (256 - data->atime) * 2400;
- 		return IIO_VAL_INT_PLUS_MICRO;
-+	default:
-+		return -EINVAL;
- 	}
--	return -EINVAL;
- }
+@@ -480,9 +480,9 @@ static int tcs3472_probe(struct i2c_client *client)
+ 		return ret;
  
- static int tcs3472_write_raw(struct iio_dev *indio_dev,
-@@ -204,8 +205,9 @@ static int tcs3472_write_raw(struct iio_dev *indio_dev,
+ 	if (ret == 0x44)
+-		dev_info(&client->dev, "TCS34721/34725 found\n");
++		dev_info(dev, "TCS34721/34725 found\n");
+ 	else if (ret == 0x4d)
+-		dev_info(&client->dev, "TCS34723/34727 found\n");
++		dev_info(dev, "TCS34723/34727 found\n");
+ 	else
+ 		return -ENODEV;
  
- 		}
- 		return -EINVAL;
-+	default:
-+		return -EINVAL;
- 	}
--	return -EINVAL;
- }
- 
- /*
 -- 
 2.54.0
 
