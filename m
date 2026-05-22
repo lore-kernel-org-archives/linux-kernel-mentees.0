@@ -1,61 +1,61 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9D238C2A5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5563B0AE9
 	for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 12:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779453266; cv=none; b=gWoF670gMxb2x493/DZZZljRzPdAbBpi7CH3ZpGd/4FDsW50aNF3RFI22YnJ6nAyWsJ+JfczRsd5y02eFVO6gdc7SEen0ElcP4SxHIIcK8226jEN7xSLwqh/DRhkEqTx3oI2TBF536EAw4PBV7x49leYdCeQLXvL/RvxWHC/95I=
+	t=1779453266; cv=none; b=uzom7Kuk/CtQoUSU8ySrA0sXb3mo81SAf32d4kNYfYkWipsianNr6lu0+mQz3fpbzXi3etC0xAwF+14H3uIm541B+j6BlZR6VivFUdwO0ULmJU1852ksFP5aP5Ue9GYHNliw8SI9zt6JopMeWJbbxr2A34YtjgHXjbJDaPul790=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779453266; c=relaxed/simple;
-	bh=upzag8qhKi6aKvj4oazaakxR+C2DYD1uVCnLUQ1r2A0=;
+	bh=i+te5LxeNXfjJjKfGqFDIuk1wWeRe58/ljtNFiAjvXo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nW1iMKUeczdxDN6muQwbH89PwSplPEO5FIAfkURb7NWO9J8gY1H1HWA13ywBIy68iVkXRuvqYwtx9VBKGYL/tl4lsOdf17UpUFkwTLxF/da9RFPU43ZTEf+Ypc/zg/PtbFwjByX9tLXM3FRZ+ObC1YInGp/zrj2yTLAGeAADJWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mq57w515; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=JZ93/SBFZg6qNVbqQmvZHNwGlG/NPV8KMKhrXe/5oNxcvqvvLhBtZuDM+vSTs57eDalqUDRje0ZgmBnguOcEFEUExZtuQ4DzzW/88OQQBdX2t9OMFYdmS5PsNg+GOo/pVAUbPs/J5O2eCdi5SBc6R1G9z3mfriQrOpudmpAhZq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ooeFiXT0; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mq57w515"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49041e84237so6929605e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 05:34:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ooeFiXT0"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4903997fcb5so18292775e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 22 May 2026 05:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1779453263; x=1780058063; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2YX8b4V19qziyTb596TiLv9FQnlA5Iy1jj595uzVils=;
-        b=mq57w515A0gWKFSfhypnHdt6XFfhtJ2kXID0IWpH/KH+J219R5ry38qGlFKavq/CU3
-         AcXF+cS4m32Sm57Z1iAuD66yFLUVs49N+8q0reAUjm73cx1YZgaog7ExD2ERCV23yeBB
-         jgq7mBZckHbuYxbx+xYnmAQWK81HVoRhcP4QxKkTpTFkYihFL36rgBbDPCSeZaTtJZvU
-         pwtSU81GlU7YWVB6w/iHmeb2Gdn+iLJvxpbHDEWnPIPmeuqlxNOkK3Nz8uzURaBjpqjD
-         hgq0XeUPvsZC21nilM7hwPXKtiIw9U/gc/9jQN7Bw1toMFJtCAiDWihl3qoTv3zZ5nYz
-         kLMg==
+        bh=tlnYnPb7deSBfYn8dj/YiBzt8a6SjFibSLJrCP9deBQ=;
+        b=ooeFiXT0SdjTVnX3IRuxp2QyRjwgqAXaIC9/qRoh1T2vspPHP/5atQAX5MUgFuxdE9
+         jKudTBI3LtAw5zO5aDD0EuMoIIrBtwyW9izCOy8Ql0mHxEMP5YZ/QS3RT6ZIE1xMX3kM
+         GpRoJV+Rd0NGkwmeuk7j/MuhlmGb9AeIMMxDapaFZFhWmUBizdumAeQcIcrOjVo+7TMh
+         YjkfxlNjc5ftby0MjLFB/beXmvsagRlp9s1mKNXwkS1QWe1xuASmW9c7dCycnltncZa0
+         XhRO0YY5raKmLiiim1jvrQRs8T5jrTY9rOO6bhrFZao7d6av1DaaJYiqKdedi++cNCaA
+         mkzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1779453263; x=1780058063;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2YX8b4V19qziyTb596TiLv9FQnlA5Iy1jj595uzVils=;
-        b=EdqXft9LYsw9z7Ct46HaYFt9LHHqizt93mBdwup6N1THW7c77dlIhr7emYm0UUXsWX
-         SdGe/TO3mPZV+PTyYbgQVUkjOBDj04mX9NU/eFDzZ1ByXC/Sj0MfHuvsgSS2qlragrul
-         +c2U9tu4Fdpxkr3qspbqIcG9iZUVgka9EjBT32ARjY1sCoEF+Kd3RTyuHBeA3iqmVKFQ
-         3MX+DubcBzSrq5aBE/annFBJfe0LDMebzJasI6X7KBAGxRzu3qW0CxZTtFOrokPbWMx1
-         RIMukmL7kr7lzpnVT8xiAU2rsgq7TEtuvoAlgFSZZE5nIBKTiUbbwETg1ITSPQRSy31B
-         o+AA==
-X-Forwarded-Encrypted: i=1; AFNElJ/KTI841M55U9tNreMuRsTl75czaZwA93MQfVHqJQqaglNDHSNrdakji0Wh+TYlI+kU3qeHi+Z6w1V8mj3/wfIQTVBH/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2Kj0TVjMeViODBneb6ZLwRcnR/+ZqjTVrcn3G1d2CkcIS9N8R
-	U9rYMjqC1h+kxHaZQlH8lGJ5h7siCh69sJ/zMWkEWA3Tsjz8DMEPcM02
-X-Gm-Gg: Acq92OEy3dQrPLi8Wpab2G/5UIhiTBuqwHmi82dlNpNF+8GtKa1aZLOMomNV6OTt4Pm
-	XYFD7jems1Q0Z3aHh60CG1L7PLpIs/Gdtiv+zU7Dq2K1hxKoukAIWqrGaRSYciOKpX1x5Tf8aPL
-	xVJFhjsamrMzFiMm6xh6IKJMfqrX8JOaaT1YT6Zg/hA7m0yK6NCoIFHcd1vEfbTPO5AYk6BPl5L
-	C4XY7WGLsqR/Apw/PTK8ScTZ3l85dn5N6PdOdKN4Gt+jPFfKdGpMcb67RtRW9aC/hohEJpOgHfI
-	EqatK6bwj3WZHjD3kTRlbQmVxCsgTT9IrbW/fNB2u7EXjuixj11nXi4VypBEjbcRvbolWzwGJ22
-	QxQODxAHq9AjArHBfF0pR8/n1scZ/pi7Hr5ZVkeXo2jdPPyEDIkGJ18SfWSkKZs9cAnOsAlf4GZ
-	+7k2PnbsBoI3MdVQR76po3zEQyOaZfkhcTjumDLT+k7Tory957ZrEj
-X-Received: by 2002:a05:600c:8b85:b0:48a:534a:eed8 with SMTP id 5b1f17b1804b1-49042260287mr39772245e9.1.1779453262348;
-        Fri, 22 May 2026 05:34:22 -0700 (PDT)
+        bh=tlnYnPb7deSBfYn8dj/YiBzt8a6SjFibSLJrCP9deBQ=;
+        b=FmNFm0nB99GX9K3sFSrWxeqIdT5b1DKyAS8IKE2fUQw6hH0o2FZpicimwN0gzzOrCN
+         D6p/I7tEHmythDZ1YBzbzWqRoRwnm8mBPLnEnaPVu6akosnk0Y1QNOAHMtrSMDkM5gJN
+         40gwLqNZFsenHAruQq9/93Oc2mbwztN5GIhWPiKIMB/4jCSRshEGasqRaP7varVG3oU0
+         VIVwSQE8gZuPYE49EOzAu+0TgGdeT8jUbolpYwfoixJk9Ii2T7+wRfHLswgFNvjSA1PW
+         tPRthDmbz06d05Nm5SK94IniHV16+X3VfUBtyKL6Ye4IFldr+TTPLSrQWch8whZiEYQM
+         6DmQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/UjelZ5r4w7Gjn85UdPEmD2Gxym2NaEmDQt9kIE4s47q8ARwdTlWOthOULKrq3leuuh/7Z22haN8zd7RZUQAcYnparNA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbVggIYLT6pfdc929xYYaBwu3zSf0rh4RJvqfoSoUuyt+2TTpv
+	8hcRpEyFG43YurPlqdc+DAIA90QKtj8Tj8ELPgfaW3GoBsjpPVx0mJj+
+X-Gm-Gg: Acq92OGUJpHu1hooMd926SolLRp3v5J7bY7jgI3rjh9yUq3VnkqmPeGA3feUn9Lnnms
+	+WyrAsYeigMwzLpXvba43mEg9HM5FycCHKM2q7wrxBGTvBClHHOCs8qlcP76XCpclkfMhdUMN4B
+	9LsN7FZDCqIhrBKqwv8WkoLnx8LUdkexXFeeu11Mq6q/Z+/Z/jCNB8Fac/v1sDy/psxdhvOk4xg
+	yflMo5ZCx/eFe0QjlFO3WMNWN0Lvrv/IX6W79/XlDdmvK33iaKjQySkix8ZGimCeXvozdUaECaE
+	goKlmBMs6zKeg7RxmeLi+RSVszPN2KD1RuVvH9r8QBgl6033bzTZkGLt5SqE3bDYi2vpTv+jOx8
+	qrZsDLTiNP4s0W5TLSrGAhI6WjtadywibMYzwkl4G0BXjyKfpQjQWUpQZLW6JfBRglB0xE4FfKT
+	dyCW7e/sN8GJQ7XVGFhYFXe/NlfL0RaYdPRw08oRM/ULLtLS4OWY+ToaupM4qoFvA=
+X-Received: by 2002:a05:600c:4fd0:b0:48e:82b4:b54 with SMTP id 5b1f17b1804b1-490426d1ebbmr44443135e9.23.1779453263098;
+        Fri, 22 May 2026 05:34:23 -0700 (PDT)
 Received: from aldo-conte-t14.tailf68ad9.ts.net ([217.61.173.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042af0ac1sm14760175e9.31.2026.05.22.05.34.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042af0ac1sm14760175e9.31.2026.05.22.05.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 22 May 2026 05:34:22 -0700 (PDT)
 From: Aldo Conte <aldocontelk@gmail.com>
@@ -68,9 +68,9 @@ Cc: dlechner@baylibre.com,
 	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v3 1/8] iio: tcs3472: power down chip on probe failure
-Date: Fri, 22 May 2026 14:34:12 +0200
-Message-ID: <20260522123420.45495-2-aldocontelk@gmail.com>
+Subject: [PATCH v3 2/8] iio: tcs3472: sort headers alphabetically
+Date: Fri, 22 May 2026 14:34:13 +0200
+Message-ID: <20260522123420.45495-3-aldocontelk@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260522123420.45495-1-aldocontelk@gmail.com>
 References: <20260522123420.45495-1-aldocontelk@gmail.com>
@@ -82,92 +82,46 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If tcs3472_probe() fails after enabling the chip (by writing PON | AEN
-to the ENABLE register), the error paths return without powering down
-the device.
+Sort the #include directives in alphabetical order in preparation for
+adding new headers in upcoming patches.
 
-Add an 'error_powerdown' label at the end of the cleanup chain that
-calls tcs3472_powerdown() to power down the chip. The existing label
-cascade is rerouted to fall through to the new label.
+No functional change.
 
-Move tcs3472_powerdown() above tcs3472_probe() so the probe can call
-it without a forward declaration.
-
-Found by code inspection while reviewing the probe error paths in
-preparation for the devm_ conversion.
-
-Fixes: eb869ade30a6 ("iio: Add tcs3472 color light sensor driver")
+Suggested-by: Andy Shevchenko <andy@kernel.org>
+Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
 ---
 v3:
-- New patch: extracted bug fix from devm conversion.
+- No changes.
 
- drivers/iio/light/tcs3472.c | 38 +++++++++++++++++++------------------
- 1 file changed, 20 insertions(+), 18 deletions(-)
+ drivers/iio/light/tcs3472.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
-index 12429a3261b3..849ca7885d71 100644
+index 849ca7885d71..1803bb882804 100644
 --- a/drivers/iio/light/tcs3472.c
 +++ b/drivers/iio/light/tcs3472.c
-@@ -440,6 +440,23 @@ static const struct iio_info tcs3472_info = {
- 	.attrs = &tcs3472_attribute_group,
- };
+@@ -13,16 +13,16 @@
+  * TODO: wait time
+  */
  
-+static int tcs3472_powerdown(struct tcs3472_data *data)
-+{
-+	int ret;
-+	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
-+
-+	mutex_lock(&data->lock);
-+
-+	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
-+					data->enable & ~enable_mask);
-+	if (!ret)
-+		data->enable &= ~enable_mask;
-+
-+	mutex_unlock(&data->lock);
-+
-+	return ret;
-+}
-+
- static int tcs3472_probe(struct i2c_client *client)
- {
- 	struct tcs3472_data *data;
-@@ -513,7 +530,7 @@ static int tcs3472_probe(struct i2c_client *client)
- 	ret = iio_triggered_buffer_setup(indio_dev, NULL,
- 		tcs3472_trigger_handler, NULL);
- 	if (ret < 0)
--		return ret;
-+		goto error_powerdown;
+-#include <linux/module.h>
+-#include <linux/i2c.h>
+ #include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
+ #include <linux/pm.h>
  
- 	if (client->irq) {
- 		ret = request_threaded_irq(client->irq, NULL,
-@@ -536,23 +553,8 @@ static int tcs3472_probe(struct i2c_client *client)
- 		free_irq(client->irq, indio_dev);
- buffer_cleanup:
- 	iio_triggered_buffer_cleanup(indio_dev);
--	return ret;
--}
--
--static int tcs3472_powerdown(struct tcs3472_data *data)
--{
--	int ret;
--	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
--
--	mutex_lock(&data->lock);
--
--	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
--		data->enable & ~enable_mask);
--	if (!ret)
--		data->enable &= ~enable_mask;
--
--	mutex_unlock(&data->lock);
--
-+error_powerdown:
-+	tcs3472_powerdown(data);
- 	return ret;
- }
++#include <linux/iio/buffer.h>
++#include <linux/iio/events.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+-#include <linux/iio/events.h>
+ #include <linux/iio/trigger_consumer.h>
+-#include <linux/iio/buffer.h>
+ #include <linux/iio/triggered_buffer.h>
  
+ #define TCS3472_DRV_NAME "tcs3472"
 -- 
 2.54.0
 
