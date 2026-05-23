@@ -1,90 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6730A39B493;
-	Fri, 22 May 2026 13:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2A33A5E6E
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 May 2026 14:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779455666; cv=none; b=MnNaGjZDCa+hhs6HJeG8WW2nHoSRYvGcpNxZcTNqlvgNhkd1L4EyKUPXyqv02uOIhf4EydnQgKMxwUSq6gmYpdiB1xp3F/W+ItnX13k0h0uOZ0+0fkuYlo7/pyY/o4RXSHO9DZ3c5fUEqKZlNbpBc4BRdaqicRx40TzlIQhaOdQ=
+	t=1779546203; cv=none; b=cV9MenY1PPAEh/OCTLxcoBaKOzlYRk0xmRfzh5tr7YtvJT7fet0OQpcGsxXm8/GV4a+IsWe9zbRkDnpb8ngm7f6aK6Z/hs0QtHSoWSm/6+s+L/GWnmZADWQkm1hxyXiiczRY51H21P+V/PO3jpf1ZhWZFik8ssfYWHkt8MMUhBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779455666; c=relaxed/simple;
-	bh=19BUhZeBRFbqH1dOz6+dvcgORyB5in17U9Z8PrbfosM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M660S7Jp8cwTqXTLbGnjUJItb7om33y0ObnTJpbaHxpPMOsgcnWunTieZsUaCkuTdk8dQWXdjYxoYH4Jt7WmyAl2ZF+s60W6F79Ve6Qpo804i9HEyMrW2+tr5IGSPQx72O2es+CXYMbJA0BU8xr6DVhUtUBtLjlaHz73XouwJpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fN+iQIrc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779546203; c=relaxed/simple;
+	bh=IA94beLlgFgNnR/mzwcV2gx/sJgJDQl4FswMOGNqdFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Za/+XhnMdV3/5NIiiAav7UpXUC57ywCH7qxyG4y4DBcT4BKGPzRgK8JkgzRiIH9xWxRh3M0K6O/fpCnEOsUvIXoNBDTmL5K6VdsvqogKr+p37HIGgAU64mJmVruWJqv0ZvrHVmHPiJNnbhKU6PRS1mfwAaIH1KAEig3x4iRzBN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En1a05rg; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fN+iQIrc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6431C1F000E9;
-	Fri, 22 May 2026 13:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779455665;
-	bh=oTOZhRnZg/S8lp7cqzj//8FbXWhycToktj6BH9J8l9c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fN+iQIrcbf1QvP7xP6/TKEbXwGxDwiy+556Er/P+LlnfJGjeNHc3vXA6B/rawgPDR
-	 YLhmm7wLihuTqWaqJ/PZdB/wvpQhnxqy9vt4bOTq04ikKOc5CxPkP7CBC2o3HR2Ltm
-	 rGepHh3A2EIyoZUCKoYHVZhSZS98Zq176Py6klbx8zV6APKeado2qBV4IhoQG8rWQM
-	 /hZEi6LxeVa7ZsvQN9lAEVk9Pdw94/tU8bCGz8GW3wMhV2fHcwoukmrkKI9bVXmRGG
-	 mnr8Gb6m6w7P+/fyv0sxeymrcrtoIYkH1Y56ojdq+Aus6sshLB+RY38362K07dwaJc
-	 Rqc+q9nZjnmdQ==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En1a05rg"
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9618b8bdc51so88322241.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 May 2026 07:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779546200; x=1780151000; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
+        b=En1a05rg51XUlBWEAXTJ49yO0j94AqzqFqd9gNG/JS7EFAcJdLKL1e3UAZQiqDR6xV
+         +6HDxkOEmWwWX0150QsHxdZmLdegq59DVC2T7kRPG2Ii8cBjXmBckfLnGiV1vrxaS2jh
+         XWeS/kQo6mKeatrfRy9JZR0q6bIoRUtm9aSgwAQRvAYzTOH0J39icmusSR3kbU25jLSy
+         posGEcc3wptbL3RjcESwLE7irTOpcjxWgqQzxJmSLOLe1wae4xp/c/95INPfxjpWt14m
+         AwiqB1HI9uPZte5KTgbGxXtEA+AK30ZhoIUJzh7qRty72l3bFzhT0mcOxhX1rhgP0oKu
+         XIhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779546200; x=1780151000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
+        b=o2cZhmK47ogtJfj8rg4qxgRCl/hWOcswUlqk2boQODXAS5ZyRl+1ynZQqMqb7l81Kp
+         A5gN7Ja1iIcFuDLHCn9wUNiY5JHmbBmXDYdFv6C92S8lZoq6cYDTA++M1RbDn98b0CxP
+         c+x2hVv/L/DbzDyimqETlL0VK/DifJnkTA2/w0DoFQIykEJtBK9Z0iNUU5aQ/tWam5AU
+         2nmimbODhBYyu/ACRz+H/+hI2U8VJ5xoxoAUtz7QdmCfZKHxR+kpRmMQ12WHvOnZSH++
+         MXZCzRQqF3wpaRJA0yI+VrBl4OW1SkTjKIjtpyvyfCEfc8F94rcHnztKwFenvbcmP/HW
+         DGeg==
+X-Forwarded-Encrypted: i=1; AFNElJ828v84d0p/KHaZ/vQMeh7yT58TmC+Pd3+ymt4BPhoFUdJc9QSq5hjPB3rq9l3EzMI7iMHD3iS+hoUuisW3tXPPJTRlGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwwQuBeRlfltCLPabDjMiOl+R8O2n+FP1AfZL8vtTisE3PcwNNb
+	UuwiG7fEP0FKGS1uUzyYakfjpEMlh2+DhaqvKTX7ZlmAdQ+L2Yxr0444
+X-Gm-Gg: Acq92OGIjXXx1PVeYGj1ryRfm2PlQAe5X1ZZDKfWy9Wp6iTWIRted/S40e/ijGXA2ZH
+	q3JGUavpgcWhfxPTRiuCZGO1zPaqxhcy7pVAX6qAmF05Hz+DNT/HdjbaR2jporDdH/1HIKRHnTG
+	TbpryxL03TEpaS+yAOMeF9I2I5PfwQgwk/Dccgl3tkjZo+04ykB9l0+gIpjg1rsxK7k2e3WJA4c
+	x3YUAw31/vXpeSB2O0cB9if8iaLgwD58Ojmc9WroZ1PKUWH/hRNF2fITNLO7SZHsbnoObCAfrxM
+	NZLdaKxoBNSq8L+sCuaIzkx9IBSG4FIvMnVoV3NdHAySGLOv/4IJ1wtYPAWddXw7BF2uBZ42Vus
+	hWVFwCCdS3hIDM7xMkaplYRFRZliYGdvEBoMrtKVq4N4guHfDPQpHLDc2wI9MsC92d/N/MhmEHj
+	qprFpG2KV1bEkUtnShYfDNCh51UC5ullZoRLK5RGX5kRKd1XRbFLi2cy6Zws9dntUjFUJhHDTCL
+	5wOqQ==
+X-Received: by 2002:a05:6122:8d3:b0:575:24b5:88e7 with SMTP id 71dfb90a1353d-586628bc866mr4267961e0c.11.1779546199957;
+        Sat, 23 May 2026 07:23:19 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:82a2:a6bd:e693:2cb9:1e78])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-588c129cba5sm3709183e0c.14.2026.05.23.07.23.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 May 2026 07:23:18 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	shuo chen <1289151713@qq.com>,
-	Theodore Ts'o <tytso@mit.edu>,
 	linux-kernel-mentees@lists.linux.dev,
-	shuah@kernel.org,
-	patch-reply@agatha.dev,
-	Agatha Isabelle Moreira <code@agatha.dev>
-Cc: Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH 0/2] fs: refactor code to use clear_and_wake_up_bit()
-Date: Fri, 22 May 2026 15:14:18 +0200
-Message-ID: <20260522-besingen-runden-matrosen-17fb41f27f81@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <ag4PEP52c8rxrYPc@guidai>
-References: <ag4PEP52c8rxrYPc@guidai>
+	a.nasrolahi01@gmail.com
+Subject: [PATCH v2] staging: rtl8723bs: fix unnamed parameters warning detected at checkpatch
+Date: Sat, 23 May 2026 11:18:43 -0300
+Message-ID: <20260523142312.9223-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1406; i=brauner@kernel.org; h=from:subject:message-id; bh=19BUhZeBRFbqH1dOz6+dvcgORyB5in17U9Z8PrbfosM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJhK2OELu01HrXo5PHO7i6pGLcmXM/bYtyZsxzXOf49 wCLf19rRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwET6VBkZeif2aloe9d99mW+i gazBlIg719Mszrgp6v20F3D8L7nXhpFh4S+Ho+fOn42fpa/NYHu6tnYR27zmlh9uPVd040M27ZB lAgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Wed, 20 May 2026 16:45:35 -0300, Agatha Isabelle Moreira wrote:
-> Refactor code to use `clear_and_wake_up_bit()` instead of manual calls
-> to:
->        	clear_bit_unlock();
-> 	smp_mb__after_atomic();
-> 	wake_up_bit();
-> 
-> The helper function `clear_and_wake_up_bit()` was introduced in
-> 'commit 8236b0ae31c83 ("bdi: wake up concurrent wb_shutdown()
-> callers.")' as a generic way of doing the same sequence of operations,
-> but several pieces of code still remain.
-> 
-> [...]
+Detected the following WARNING: function definition argument
+'struct adapter *' should also have an identifier name.
+Add explicit names on those definitions.
 
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+---
+Changelog:
+v2: use adapter instead of padapter
+v1: https://lore.kernel.org/all/20260407133416.13983-1-rodrigo.gobbi.7@gmail.com/
+---
+ drivers/staging/rtl8723bs/include/hal_intf.h    |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_btcoex.h  | 10 +++++-----
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index b193854bfe6e..55c0010968a3 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -252,7 +252,7 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
+ s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
+ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
+ 
+-s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
++s32 rtw_hal_fill_h2c_cmd(struct adapter *adapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
+ 
+ void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+index 19764c80b8ba..9fbb145c8d45 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
++++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
+@@ -15,14 +15,14 @@
+ #define	PACKET_ARP				2
+ #define	PACKET_EAPOL			3
+ 
+-void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
+-void rtw_btcoex_HaltNotify(struct adapter *);
++void rtw_btcoex_MediaStatusNotify(struct adapter *adapter, u8 mediaStatus);
++void rtw_btcoex_HaltNotify(struct adapter *adapter);
+ 
+ /*  ================================================== */
+ /*  Below Functions are called by BT-Coex */
+ /*  ================================================== */
+-void rtw_btcoex_RejectApAggregatedPacket(struct adapter *, u8 enable);
+-void rtw_btcoex_LPS_Enter(struct adapter *);
+-void rtw_btcoex_LPS_Leave(struct adapter *);
++void rtw_btcoex_RejectApAggregatedPacket(struct adapter *adapter, u8 enable);
++void rtw_btcoex_LPS_Enter(struct adapter *adapter);
++void rtw_btcoex_LPS_Leave(struct adapter *adapter);
+ 
+ #endif /*  __RTW_BTCOEX_H__ */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index c27d07861b8c..df5dbcceea06 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -215,8 +215,8 @@ struct pwrctrl_priv {
+ extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
+ extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
+ 
+-s32 rtw_register_task_alive(struct adapter *, u32 task);
+-void rtw_unregister_task_alive(struct adapter *, u32 task);
++s32 rtw_register_task_alive(struct adapter *adapter, u32 task);
++void rtw_unregister_task_alive(struct adapter *adapter, u32 task);
+ extern s32 rtw_register_tx_alive(struct adapter *padapter);
+ extern void rtw_unregister_tx_alive(struct adapter *padapter);
+ extern s32 rtw_register_cmd_alive(struct adapter *padapter);
+-- 
+2.48.1
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[1/2] fs: buffer: use clear_and_wake_up_bit() in unlock_buffer()
-      https://git.kernel.org/vfs/vfs/c/89aafbd6d52b
-[2/2] fs: jbd2: use clear_and_wake_up_bit() in journal_end_buffer_io_sync()
-      https://git.kernel.org/vfs/vfs/c/d7a7e95e5f50
