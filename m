@@ -1,80 +1,76 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E09254AFF
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 May 2026 03:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2AF37CD3D
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 May 2026 11:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779680011; cv=none; b=BPa1gQg4buxoFpLK00S5G4LvCz6MmsOjQLe6nbmzFb9wWHwgKyIHOOmeEDsFJUREjHareHiieADFU4334WYIPz80J0OTi+Dh8fLDnw4+kWr1KgGu+/rVqeaGjAGMtoqaRMBPfYCEU1l5gErUk6L7xoVSOv4dE3UisSPFStfM+4I=
+	t=1779707102; cv=none; b=uSdro+1Exub0nNKfMA45orrxHeMUjbXXc8mBHoMYGz+LxwCYWefw1crZYlw6XteodRqHQZSXo6sCrhi/MG8cYZB0b9Ghs9zdO/FV7X1uRMRPdfNGKHJgY8bcHYk6Bx9DaeKPZoYPb6JJ6bib9kLpyuvixTh/qJj7ccW2ks89fpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779680011; c=relaxed/simple;
-	bh=WAyuds5HBkMBWh/IWc9YR1stn53VnWwH2uOyt5L8jIY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NWBSyHSYOtfllEvZ3zlXc4tSN+ImyLfrNtafNn9Z0bVhijbTBPSgfvgS2HZ0D4h+fvMUGwwaHD3swK8eZm5luBBcLdg4RHaoUNbDm5n3oZSFhEW5giQOZMIYaCiPpqi9AjwqjxldiSVGWlCycLqQqjVrbfNSIHvjskKU3Bg/SdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hly5cE3/; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1779707102; c=relaxed/simple;
+	bh=APGIhPHWPR/+wOGzlnoG4GOHhlB1pMxWopND9p9UWfQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ov1kSzrdQb191q2Ml6JTHPUg2mFh80pNCqd7lO+VDxO8nAp9tFxjFJHE2pgI5MMiAYOB9yoBv5B0+e4BI7mFS2Po8BVYnmQ59C7L25VdrRb2Xl1vylh00J/XONg1fMDAQgjZ8bus2Zn7iiB7mkXtKNja6jL2in1xp5lxmNiQmSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQIE+zrF; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hly5cE3/"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ba0714574fso49674025ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 May 2026 20:33:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQIE+zrF"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2bea7176c72so31518815ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 May 2026 04:05:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779680009; x=1780284809; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779707100; x=1780311900; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9yiHvPwp6eaDY83CzuvonglxPr7tqfRwJOe2dfHrjDs=;
-        b=Hly5cE3/pVGTuJsG1kxPNRu+pXYGK4lDeRCsgzUcHEjVjVZO5EC5TgThrTR3GbTju9
-         mIgHZRLpe7f5ygq22qIeL29xjgjzrzDMV4hRPw4/4eq3DtyZKByN5jvXZnjVFmkgNRhC
-         nYHjG9STJmq6SfabmaDPsqbmphsYiT/yy1Sr86hENQ6jtQdrPx5cDxVVqFVAls/B0Sz/
-         vQxxHLv7NHeF4DM3kRQtd9raXKK52I7j4QxO3Ssis5rCjaCNdi/LsDOw/KgaWef/uBTW
-         r+Z8TrlomNx9uLTVauMhd7fuwSeXwa6ci3lZj/e6XbqFSYKspO1LMc0lIHYUseSDF1bq
-         L6ag==
+        bh=Ev+qvGFv8hIErwC5zu3VS01UuSRGE6RIayOr3UZ1lFQ=;
+        b=MQIE+zrFRshN3E8C5wzccWHCC5i9cAu/u2SY85Rhi3vap8493dvXVrVyA+wxMdcCkd
+         ldEVkcAR2jVGk6UjuEqQ1IL17rDXxUlurOZUwN3Pt00imz7m2VisJw/ZnHgxaQf0r3NA
+         bUQ9uKfPX+Rl1mcyEJ5ntGnyti7C8M+66Trs4JUj2jenPeCGBCkKMFN5EqCte+a/j2eB
+         +GDhMkKD+YLl4Rw1g1IiYZFxEA4GPrWEf1xhtJgn+iCC6XOoI2ifMFsiNgIVyDYVrffX
+         Dowzk/7W3KG4GKAAianLRFk+R+DlcNXdlVVMGRx0pxlBwovn5eRI9NsUdAVjgNHe09ZO
+         iEbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779680009; x=1780284809;
+        d=1e100.net; s=20251104; t=1779707100; x=1780311900;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9yiHvPwp6eaDY83CzuvonglxPr7tqfRwJOe2dfHrjDs=;
-        b=HD8YeI0rG9Jtq9mu7NRVUJBLWfyGkrUQb7Elzx+IGXuXQd9yw21+bFdufYFp+2azOc
-         0QjmCEigu9QtwMUJQDALMdLZr+d0cRTzC4YpBEXttwEHJ3HkbwNE2k9Ii7qz6wfI/NWl
-         J+pY9ustnMyRLfojG0uhzJiDMhkXdf758Kk47leVdcVcXUutWR3hAUVD2zYUZ/W/zQp4
-         rpUoXbRz7eN0HgJyOLKm2opBHtqabyorZx4Vynk3uVYI58x0046e/QbnaHcK+5qef+f0
-         9pIpJggicSXvvsWmzx5h6ZX/8FE8eugLnaKouQA09SUHA+vAtKKa/7kUelNyucytBlSp
-         mYLg==
-X-Forwarded-Encrypted: i=1; AFNElJ+pbUEBPQQJ+DJ5KHLSDz5xvyR4rzlVGXpY66clhRg3CWZ1IszY11pObqdFETvmDWoGxvoQt5HlWxGNQn/Zqw6vh3yyeg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4ZJYvGHFvT8uu+NwBqV9u9gyi8KSb25+nEWdy0hhyU/fqddV+
-	i9X8lV0cnkeFzluhbYpEN+I42XRXC50g+JHaR2mx/t2xNIOeVjAIEMxQ
-X-Gm-Gg: Acq92OF9iV25c9LvzMJhZudDP48/TudzJeW4ynDK+YMxBuzATmMFK4tmPhUABA0BJXk
-	QihCd5ak1crg8r0lpMQ225pl8/3oDR++AWIZCYKjF47vDLsIjcdjmVcU4eE4e8p/mkhAAtz0gPs
-	/1bxnOpjt0EJdjiHJAmQbDvArfkWCCGkcLgpDq2wuK8G+irwSljQ9FqSomxkTRXkyFMmSoF+VC4
-	qg30OcotUII9QkOO9JCFTC97SJayMqkyF0ELebvqAZklwznJ9M4D5Mqri0XbfLDSBWH/bEbNjjI
-	uKFR+Rc3Y4vDKmjDZ6GoMxUyYtsw5kOMTFPy1+Uo7hyvQJD3HUVkTabLxOVkRG3N00qdcA5riwR
-	X3jk5S9jzz2JtTauzhjei/d3MR4nJCsAV2Yt2UpP6pAh9/TaTqMhLblTHUGBQDZe2sPVkvZpTOb
-	pjZnLiCa6TWZgR4XGYH/3bGM5YNp3U+0groHuxWHNRmBA5feYp5pG0E8tcI2yYeqQEFCseZPcpt
-	JzNCtY=
-X-Received: by 2002:a17:903:19e7:b0:2b2:67ca:5ff9 with SMTP id d9443c01a7336-2beb026f4c4mr137314845ad.0.1779680009159;
-        Sun, 24 May 2026 20:33:29 -0700 (PDT)
-Received: from fedora ([103.181.54.98])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58d9fe9sm77391815ad.65.2026.05.24.20.33.24
+        bh=Ev+qvGFv8hIErwC5zu3VS01UuSRGE6RIayOr3UZ1lFQ=;
+        b=m4RbeAePI3YQjtlvKlYx+PaLg4tPQjsKYf4aFHP/iKn5KRJGIYu1UT6Yr1lDwya4ss
+         RB83QoTzvbXoC36TYQ+lgjWqSBDx5jjvx+V89PhCVtOtRVh09jQPT4HExOl5DLadHyEO
+         txlOroAeEEvtvqjNVn3Y6vn1ng9vr1z3Og+Tp5DXkPWbg7AhcEMnEiyySszbp0qfeeJ9
+         XkmgMjdW3fcahMnN6hxwdZ/iFZgDFqKaCSsqdKUE/sXmy/JMOVo1/EF4MuJ4BbVfaX8f
+         eSiy+tlUFYWF/3/4kzk53LS16UQmNsTnxq8VtylQNcZC6ITcSzQJKw10vrVD76Zk+KpN
+         zkBA==
+X-Forwarded-Encrypted: i=1; AFNElJ+0qoEcmBd2kRnBvn5baR6prLcpCZ6KBV/rGcI8FlyueI4xi58oM7D9rQfdmuM/8pCfEzQm2Q1ufZ2S1iFqRJxaI9q5TA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCEr0dlXlQRnMdUccjj0Ha/eIAcfoe2EJBzNqop84i4xUrUa8F
+	AMIko1jRsEnrcufGa9vMcYRBPwc/eUNKqzLwiZ7xsCHg483B+IUFBB69
+X-Gm-Gg: Acq92OF16e1TBVXlTxBwDSzk1uBipvHznp2FmCz3wgOGUf0uKBCn6HiWr9J/3Rseq/a
+	LRfh/ykSJ7N5kBdb9SUK58RAGQIJ9ChpZTSCMRstCL2uDH0CRWHu1dfZW/yzxczT2d12OuKjcak
+	YUmZGXIZQ+/sH0B5zLRYybocs6/soVQWenr/uawdwWwKejYg51uyvXolLJAkb9h+VnGxQjHK58W
+	Sb3Ka4Z6cMOO/of4cDDVv3AGDRFdyKNpf4hMwsckwcHE3aHDF8LbKL0w3tAfj6yAuRc4nX8g4YW
+	3UuM/PZ7KaTqEmVKPvcNutd8ROIGnux3oLFpn2+nPPLwS7CnfK0YFW5gYEK3Mp70mz0Hf0Y644/
+	plIy5FLuVYzR2/y9pGfI5Jo+Dd75R+if+l5NSquSQZpFLvIo+c8ZF0EXAyKa21SfNI00lG6zqUn
+	0IWBG8KTCiyf84/4uv6l2myH8UW0OmqXovkcUNN/KtpLX32yk=
+X-Received: by 2002:a17:902:db0d:b0:2bc:ac76:c1cf with SMTP id d9443c01a7336-2beb0698547mr158655125ad.24.1779707099972;
+        Mon, 25 May 2026 04:04:59 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb5695a29sm88776955ad.11.2026.05.25.04.04.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 20:33:28 -0700 (PDT)
-From: Ninad Naik <ninadnaik07@gmail.com>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	jonas.gorski@gmail.com
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+        Mon, 25 May 2026 04:04:59 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: linux-bluetooth@vger.kernel.org
+Cc: marcel@holtmann.org,
+	luiz.dentz@gmail.com,
+	pmenzel@molgen.mpg.de,
 	me@brighamcampbell.com,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	skhan@linuxfoundation.org,
-	Ninad Naik <ninadnaik07@gmail.com>
-Subject: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
-Date: Mon, 25 May 2026 09:02:58 +0530
-Message-ID: <20260525033258.144291-1-ninadnaik07@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	SeungJu Cheon <suunj1331@gmail.com>,
+	Muhammad Bilal <meatuni001@gmail.com>
+Subject: [PATCH v3] Bluetooth: RFCOMM: validate skb length in MCC handlers
+Date: Mon, 25 May 2026 20:04:43 +0900
+Message-ID: <20260525110443.139485-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,274 +79,188 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the brcm,bcm6358 to DT schema.
+The RFCOMM MCC handlers cast skb->data to protocol-specific structs
+without validating skb->len first. A malicious remote device can send
+truncated MCC frames and trigger out-of-bounds reads in these handlers.
 
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+Fix this by using skb_pull_data() to validate and access the required
+data before dereferencing it.
+
+rfcomm_recv_rpn() requires special handling since ETSI TS 07.10 allows
+1-byte RPN requests. Handle this by validating only the DLCI byte first,
+and validating the full struct only when len > 1.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Suggested-by: Muhammad Bilal <meatuni001@gmail.com>
+Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
+v3:
+- Apply skb_pull_data() in rfcomm_recv_mcc() before accessing the
+  MCC header
+- Return -EILSEQ instead of -EINVAL for malformed frames
 
-Referred to this thread:
-https://lore.kernel.org/all/20250930-brcm6358-to-dt-v1-1-ba833ceb1575@thegoodpenguin.co.uk/
-and added the fixes suggested.
+v2:
+- Use skb_pull_data() instead of manual length checks (Luiz)
+- Add MCC header length validation in rfcomm_recv_mcc() (Paul)
+- Allow 1-byte RPN requests per ETSI TS 07.10 (Paul)
 
- .../bindings/leds/brcm,bcm6358-leds.yaml      |  98 ++++++++++++
- .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
- 2 files changed, 98 insertions(+), 143 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+Testing:
+Tested under QEMU with VHCI and KASAN enabled by injecting both
+well-formed and malformed RFCOMM MCC frames.
 
-diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-new file mode 100644
-index 000000000000..a61417e5690b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-@@ -0,0 +1,98 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+Well-formed PN/MSC/RLS frames and both valid RPN variants (full
+8-byte form and 1-byte query form) are parsed identically to the
+pre-patch behavior.
+
+The following malformed frames are rejected before reaching the
+MCC sub-handlers:
+
+- truncated MCC headers
+- PN/MSC/RLS/RPN payloads shorter than the fixed struct size
+- invalid intermediate RPN lengths (len != 1 && len < 8)
+- MCC payload lengths larger than the actual skb data
+
+Frames with cr=0 are still silently dropped, and oversized frames
+continue to ignore trailing bytes as before.
+
+ net/bluetooth/rfcomm/core.c | 67 +++++++++++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 18 deletions(-)
+
+diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
+index d11bd5337d57..364b9381c2dc 100644
+--- a/net/bluetooth/rfcomm/core.c
++++ b/net/bluetooth/rfcomm/core.c
+@@ -1431,10 +1431,15 @@ static int rfcomm_apply_pn(struct rfcomm_dlc *d, int cr, struct rfcomm_pn *pn)
+ 
+ static int rfcomm_recv_pn(struct rfcomm_session *s, int cr, struct sk_buff *skb)
+ {
+-	struct rfcomm_pn *pn = (void *) skb->data;
++	struct rfcomm_pn *pn;
+ 	struct rfcomm_dlc *d;
+-	u8 dlci = pn->dlci;
++	u8 dlci;
 +
-+title: LEDs connected to Broadcom BCM6358 controller
++	pn = skb_pull_data(skb, sizeof(*pn));
++	if (!pn)
++		return -EILSEQ;
+ 
++	dlci = pn->dlci;
+ 	BT_DBG("session %p state %ld dlci %d", s, s->state, dlci);
+ 
+ 	if (!dlci)
+@@ -1483,8 +1488,8 @@ static int rfcomm_recv_pn(struct rfcomm_session *s, int cr, struct sk_buff *skb)
+ 
+ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_buff *skb)
+ {
+-	struct rfcomm_rpn *rpn = (void *) skb->data;
+-	u8 dlci = __get_dlci(rpn->dlci);
++	struct rfcomm_rpn *rpn;
++	u8 dlci;
+ 
+ 	u8 bit_rate  = 0;
+ 	u8 data_bits = 0;
+@@ -1495,15 +1500,16 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
+ 	u8 xoff_char = 0;
+ 	u16 rpn_mask = RFCOMM_RPN_PM_ALL;
+ 
+-	BT_DBG("dlci %d cr %d len 0x%x bitr 0x%x line 0x%x flow 0x%x xonc 0x%x xoffc 0x%x pm 0x%x",
+-		dlci, cr, len, rpn->bit_rate, rpn->line_settings, rpn->flow_ctrl,
+-		rpn->xon_char, rpn->xoff_char, rpn->param_mask);
++	if (len == 1) {
++		rpn = skb_pull_data(skb, 1);
++		if (!rpn)
++			return -EILSEQ;
+ 
+-	if (!cr)
+-		return 0;
++		dlci = __get_dlci(rpn->dlci);
 +
-+description: |
-+  This controller is present on BCM6358 and BCM6368.
-+  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
-+  which can either be controlled by software (exporting the 74x164 as spi-gpio.
-+  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
-+  by hardware using this driver.
++		if (!cr)
++			return 0;
+ 
+-	if (len == 1) {
+-		/* This is a request, return default (according to ETSI TS 07.10) settings */
+ 		bit_rate  = RFCOMM_RPN_BR_9600;
+ 		data_bits = RFCOMM_RPN_DATA_8;
+ 		stop_bits = RFCOMM_RPN_STOP_1;
+@@ -1514,6 +1520,19 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
+ 		goto rpn_out;
+ 	}
+ 
++	rpn = skb_pull_data(skb, sizeof(*rpn));
++	if (!rpn)
++		return -EILSEQ;
 +
-+maintainers:
-+  - Jonas Gorski <jonas.gorski@gmail.com>
++	dlci = __get_dlci(rpn->dlci);
 +
-+properties:
-+  compatible:
-+    const: brcm,bcm6358-leds
++	BT_DBG("dlci %d cr %d len 0x%x bitr 0x%x line 0x%x flow 0x%x xonc 0x%x xoffc 0x%x pm 0x%x",
++	       dlci, cr, len, rpn->bit_rate, rpn->line_settings, rpn->flow_ctrl,
++	       rpn->xon_char, rpn->xoff_char, rpn->param_mask);
 +
-+  reg:
-+    maxItems: 1
++	if (!cr)
++		return 0;
 +
-+  "#address-cells":
-+    const: 1
+ 	/* Check for sane values, ignore/accept bit_rate, 8 bits, 1 stop bit,
+ 	 * no parity, no flow control lines, normal XON/XOFF chars */
+ 
+@@ -1589,9 +1608,14 @@ static int rfcomm_recv_rpn(struct rfcomm_session *s, int cr, int len, struct sk_
+ 
+ static int rfcomm_recv_rls(struct rfcomm_session *s, int cr, struct sk_buff *skb)
+ {
+-	struct rfcomm_rls *rls = (void *) skb->data;
+-	u8 dlci = __get_dlci(rls->dlci);
++	struct rfcomm_rls *rls;
++	u8 dlci;
+ 
++	rls = skb_pull_data(skb, sizeof(*rls));
++	if (!rls)
++		return -EILSEQ;
 +
-+  "#size-cells":
-+    const: 0
++	dlci = __get_dlci(rls->dlci);
+ 	BT_DBG("dlci %d cr %d status 0x%x", dlci, cr, rls->status);
+ 
+ 	if (!cr)
+@@ -1608,10 +1632,15 @@ static int rfcomm_recv_rls(struct rfcomm_session *s, int cr, struct sk_buff *skb
+ 
+ static int rfcomm_recv_msc(struct rfcomm_session *s, int cr, struct sk_buff *skb)
+ {
+-	struct rfcomm_msc *msc = (void *) skb->data;
++	struct rfcomm_msc *msc;
+ 	struct rfcomm_dlc *d;
+-	u8 dlci = __get_dlci(msc->dlci);
++	u8 dlci;
 +
-+  brcm,clk-div:
-+    description: SCK signal divider.
-+    default: 1
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2, 4, 8]
++	msc = skb_pull_data(skb, sizeof(*msc));
++	if (!msc)
++		return -EILSEQ;
+ 
++	dlci = __get_dlci(msc->dlci);
+ 	BT_DBG("dlci %d cr %d v24 0x%x", dlci, cr, msc->v24_sig);
+ 
+ 	d = rfcomm_dlc_get(s, dlci);
+@@ -1644,17 +1673,19 @@ static int rfcomm_recv_msc(struct rfcomm_session *s, int cr, struct sk_buff *skb
+ 
+ static int rfcomm_recv_mcc(struct rfcomm_session *s, struct sk_buff *skb)
+ {
+-	struct rfcomm_mcc *mcc = (void *) skb->data;
++	struct rfcomm_mcc *mcc;
+ 	u8 type, cr, len;
+ 
++	mcc = skb_pull_data(skb, sizeof(*mcc));
++	if (!mcc)
++		return -EILSEQ;
 +
-+  brcm,clk-dat-low:
-+    description: Makes clock and data signals active low.
-+    type: boolean
-+
-+patternProperties:
-+  "^led@(0|1?[0-9a-f])$":
-+    type: object
-+    $ref: common.yaml#
-+    description: Each LED is represented as a sub-node of
-+      this device.
-+
-+    properties:
-+      reg:
-+        description: LED pin number.
-+        minimum: 0
-+        maximum: 31
-+
-+    required:
-+      - reg
-+
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/common.h>
-+    led-controller@fffe00d0 {
-+        compatible = "brcm,bcm6358-leds";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        reg = <0xfffe00d0 0x8>;
-+
-+        led@0 {
-+            reg = <0>;
-+            active-low;
-+            label = "white:alarm";
-+        };
-+        led@2 {
-+            reg = <2>;
-+            active-low;
-+            label = "white:tv";
-+        };
-+        led@3 {
-+            reg = <3>;
-+            active-low;
-+            label = "white:tel";
-+        };
-+        led@4 {
-+            reg = <4>;
-+            active-low;
-+            label = "white:adsl";
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
-deleted file mode 100644
-index 211ffc3c4a20..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
-+++ /dev/null
-@@ -1,143 +0,0 @@
--LEDs connected to Broadcom BCM6358 controller
+ 	cr   = __test_cr(mcc->type);
+ 	type = __get_mcc_type(mcc->type);
+ 	len  = __get_mcc_len(mcc->len);
+ 
+ 	BT_DBG("%p type 0x%x cr %d", s, type, cr);
+ 
+-	skb_pull(skb, 2);
 -
--This controller is present on BCM6358 and BCM6368.
--In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
--which can either be controlled by software (exporting the 74x164 as spi-gpio.
--See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
--by hardware using this driver.
--
--Required properties:
--  - compatible : should be "brcm,bcm6358-leds".
--  - #address-cells : must be 1.
--  - #size-cells : must be 0.
--  - reg : BCM6358 LED controller address and size.
--
--Optional properties:
--  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
--    Default : 1
--  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
--    Default : false
--
--Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
--
--LED sub-node required properties:
--  - reg : LED pin number (only LEDs 0 to 31 are valid).
--
--LED sub-node optional properties:
--  - label : see Documentation/devicetree/bindings/leds/common.txt
--  - default-state : see
--    Documentation/devicetree/bindings/leds/common.txt
--  - linux,default-trigger : see
--    Documentation/devicetree/bindings/leds/common.txt
--
--Examples:
--Scenario 1 : BCM6358
--	leds0: led-controller@fffe00d0 {
--		compatible = "brcm,bcm6358-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0xfffe00d0 0x8>;
--
--		alarm_white {
--			reg = <0>;
--			active-low;
--			label = "white:alarm";
--		};
--		tv_white {
--			reg = <2>;
--			active-low;
--			label = "white:tv";
--		};
--		tel_white {
--			reg = <3>;
--			active-low;
--			label = "white:tel";
--		};
--		adsl_white {
--			reg = <4>;
--			active-low;
--			label = "white:adsl";
--		};
--	};
--
--Scenario 2 : BCM6368
--	leds0: led-controller@100000d0 {
--		compatible = "brcm,bcm6358-leds";
--		#address-cells = <1>;
--		#size-cells = <0>;
--		reg = <0x100000d0 0x8>;
--		brcm,pol-low;
--		brcm,clk-div = <4>;
--
--		power_red {
--			reg = <0>;
--			active-low;
--			label = "red:power";
--		};
--		power_green {
--			reg = <1>;
--			active-low;
--			label = "green:power";
--			default-state = "on";
--		};
--		power_blue {
--			reg = <2>;
--			label = "blue:power";
--		};
--		broadband_red {
--			reg = <3>;
--			active-low;
--			label = "red:broadband";
--		};
--		broadband_green {
--			reg = <4>;
--			label = "green:broadband";
--		};
--		broadband_blue {
--			reg = <5>;
--			active-low;
--			label = "blue:broadband";
--		};
--		wireless_red {
--			reg = <6>;
--			active-low;
--			label = "red:wireless";
--		};
--		wireless_green {
--			reg = <7>;
--			active-low;
--			label = "green:wireless";
--		};
--		wireless_blue {
--			reg = <8>;
--			label = "blue:wireless";
--		};
--		phone_red {
--			reg = <9>;
--			active-low;
--			label = "red:phone";
--		};
--		phone_green {
--			reg = <10>;
--			active-low;
--			label = "green:phone";
--		};
--		phone_blue {
--			reg = <11>;
--			label = "blue:phone";
--		};
--		upgrading_red {
--			reg = <12>;
--			active-low;
--			label = "red:upgrading";
--		};
--		upgrading_green {
--			reg = <13>;
--			active-low;
--			label = "green:upgrading";
--		};
--		upgrading_blue {
--			reg = <14>;
--			label = "blue:upgrading";
--		};
--	};
+ 	switch (type) {
+ 	case RFCOMM_PN:
+ 		rfcomm_recv_pn(s, cr, skb);
 -- 
-2.54.0
+2.52.0
 
