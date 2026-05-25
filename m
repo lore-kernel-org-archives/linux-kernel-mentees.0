@@ -1,73 +1,80 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2A33A5E6E
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 May 2026 14:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E09254AFF
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 May 2026 03:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779546203; cv=none; b=cV9MenY1PPAEh/OCTLxcoBaKOzlYRk0xmRfzh5tr7YtvJT7fet0OQpcGsxXm8/GV4a+IsWe9zbRkDnpb8ngm7f6aK6Z/hs0QtHSoWSm/6+s+L/GWnmZADWQkm1hxyXiiczRY51H21P+V/PO3jpf1ZhWZFik8ssfYWHkt8MMUhBA=
+	t=1779680011; cv=none; b=BPa1gQg4buxoFpLK00S5G4LvCz6MmsOjQLe6nbmzFb9wWHwgKyIHOOmeEDsFJUREjHareHiieADFU4334WYIPz80J0OTi+Dh8fLDnw4+kWr1KgGu+/rVqeaGjAGMtoqaRMBPfYCEU1l5gErUk6L7xoVSOv4dE3UisSPFStfM+4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779546203; c=relaxed/simple;
-	bh=IA94beLlgFgNnR/mzwcV2gx/sJgJDQl4FswMOGNqdFs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Za/+XhnMdV3/5NIiiAav7UpXUC57ywCH7qxyG4y4DBcT4BKGPzRgK8JkgzRiIH9xWxRh3M0K6O/fpCnEOsUvIXoNBDTmL5K6VdsvqogKr+p37HIGgAU64mJmVruWJqv0ZvrHVmHPiJNnbhKU6PRS1mfwAaIH1KAEig3x4iRzBN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En1a05rg; arc=none smtp.client-ip=209.85.222.48
+	s=arc-20240116; t=1779680011; c=relaxed/simple;
+	bh=WAyuds5HBkMBWh/IWc9YR1stn53VnWwH2uOyt5L8jIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NWBSyHSYOtfllEvZ3zlXc4tSN+ImyLfrNtafNn9Z0bVhijbTBPSgfvgS2HZ0D4h+fvMUGwwaHD3swK8eZm5luBBcLdg4RHaoUNbDm5n3oZSFhEW5giQOZMIYaCiPpqi9AjwqjxldiSVGWlCycLqQqjVrbfNSIHvjskKU3Bg/SdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hly5cE3/; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En1a05rg"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9618b8bdc51so88322241.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 23 May 2026 07:23:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hly5cE3/"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ba0714574fso49674025ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 24 May 2026 20:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779546200; x=1780151000; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779680009; x=1780284809; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
-        b=En1a05rg51XUlBWEAXTJ49yO0j94AqzqFqd9gNG/JS7EFAcJdLKL1e3UAZQiqDR6xV
-         +6HDxkOEmWwWX0150QsHxdZmLdegq59DVC2T7kRPG2Ii8cBjXmBckfLnGiV1vrxaS2jh
-         XWeS/kQo6mKeatrfRy9JZR0q6bIoRUtm9aSgwAQRvAYzTOH0J39icmusSR3kbU25jLSy
-         posGEcc3wptbL3RjcESwLE7irTOpcjxWgqQzxJmSLOLe1wae4xp/c/95INPfxjpWt14m
-         AwiqB1HI9uPZte5KTgbGxXtEA+AK30ZhoIUJzh7qRty72l3bFzhT0mcOxhX1rhgP0oKu
-         XIhg==
+        bh=9yiHvPwp6eaDY83CzuvonglxPr7tqfRwJOe2dfHrjDs=;
+        b=Hly5cE3/pVGTuJsG1kxPNRu+pXYGK4lDeRCsgzUcHEjVjVZO5EC5TgThrTR3GbTju9
+         mIgHZRLpe7f5ygq22qIeL29xjgjzrzDMV4hRPw4/4eq3DtyZKByN5jvXZnjVFmkgNRhC
+         nYHjG9STJmq6SfabmaDPsqbmphsYiT/yy1Sr86hENQ6jtQdrPx5cDxVVqFVAls/B0Sz/
+         vQxxHLv7NHeF4DM3kRQtd9raXKK52I7j4QxO3Ssis5rCjaCNdi/LsDOw/KgaWef/uBTW
+         r+Z8TrlomNx9uLTVauMhd7fuwSeXwa6ci3lZj/e6XbqFSYKspO1LMc0lIHYUseSDF1bq
+         L6ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779546200; x=1780151000;
+        d=1e100.net; s=20251104; t=1779680009; x=1780284809;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
-        b=o2cZhmK47ogtJfj8rg4qxgRCl/hWOcswUlqk2boQODXAS5ZyRl+1ynZQqMqb7l81Kp
-         A5gN7Ja1iIcFuDLHCn9wUNiY5JHmbBmXDYdFv6C92S8lZoq6cYDTA++M1RbDn98b0CxP
-         c+x2hVv/L/DbzDyimqETlL0VK/DifJnkTA2/w0DoFQIykEJtBK9Z0iNUU5aQ/tWam5AU
-         2nmimbODhBYyu/ACRz+H/+hI2U8VJ5xoxoAUtz7QdmCfZKHxR+kpRmMQ12WHvOnZSH++
-         MXZCzRQqF3wpaRJA0yI+VrBl4OW1SkTjKIjtpyvyfCEfc8F94rcHnztKwFenvbcmP/HW
-         DGeg==
-X-Forwarded-Encrypted: i=1; AFNElJ828v84d0p/KHaZ/vQMeh7yT58TmC+Pd3+ymt4BPhoFUdJc9QSq5hjPB3rq9l3EzMI7iMHD3iS+hoUuisW3tXPPJTRlGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwQuBeRlfltCLPabDjMiOl+R8O2n+FP1AfZL8vtTisE3PcwNNb
-	UuwiG7fEP0FKGS1uUzyYakfjpEMlh2+DhaqvKTX7ZlmAdQ+L2Yxr0444
-X-Gm-Gg: Acq92OGIjXXx1PVeYGj1ryRfm2PlQAe5X1ZZDKfWy9Wp6iTWIRted/S40e/ijGXA2ZH
-	q3JGUavpgcWhfxPTRiuCZGO1zPaqxhcy7pVAX6qAmF05Hz+DNT/HdjbaR2jporDdH/1HIKRHnTG
-	TbpryxL03TEpaS+yAOMeF9I2I5PfwQgwk/Dccgl3tkjZo+04ykB9l0+gIpjg1rsxK7k2e3WJA4c
-	x3YUAw31/vXpeSB2O0cB9if8iaLgwD58Ojmc9WroZ1PKUWH/hRNF2fITNLO7SZHsbnoObCAfrxM
-	NZLdaKxoBNSq8L+sCuaIzkx9IBSG4FIvMnVoV3NdHAySGLOv/4IJ1wtYPAWddXw7BF2uBZ42Vus
-	hWVFwCCdS3hIDM7xMkaplYRFRZliYGdvEBoMrtKVq4N4guHfDPQpHLDc2wI9MsC92d/N/MhmEHj
-	qprFpG2KV1bEkUtnShYfDNCh51UC5ullZoRLK5RGX5kRKd1XRbFLi2cy6Zws9dntUjFUJhHDTCL
-	5wOqQ==
-X-Received: by 2002:a05:6122:8d3:b0:575:24b5:88e7 with SMTP id 71dfb90a1353d-586628bc866mr4267961e0c.11.1779546199957;
-        Sat, 23 May 2026 07:23:19 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:82a2:a6bd:e693:2cb9:1e78])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-588c129cba5sm3709183e0c.14.2026.05.23.07.23.16
+        bh=9yiHvPwp6eaDY83CzuvonglxPr7tqfRwJOe2dfHrjDs=;
+        b=HD8YeI0rG9Jtq9mu7NRVUJBLWfyGkrUQb7Elzx+IGXuXQd9yw21+bFdufYFp+2azOc
+         0QjmCEigu9QtwMUJQDALMdLZr+d0cRTzC4YpBEXttwEHJ3HkbwNE2k9Ii7qz6wfI/NWl
+         J+pY9ustnMyRLfojG0uhzJiDMhkXdf758Kk47leVdcVcXUutWR3hAUVD2zYUZ/W/zQp4
+         rpUoXbRz7eN0HgJyOLKm2opBHtqabyorZx4Vynk3uVYI58x0046e/QbnaHcK+5qef+f0
+         9pIpJggicSXvvsWmzx5h6ZX/8FE8eugLnaKouQA09SUHA+vAtKKa/7kUelNyucytBlSp
+         mYLg==
+X-Forwarded-Encrypted: i=1; AFNElJ+pbUEBPQQJ+DJ5KHLSDz5xvyR4rzlVGXpY66clhRg3CWZ1IszY11pObqdFETvmDWoGxvoQt5HlWxGNQn/Zqw6vh3yyeg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4ZJYvGHFvT8uu+NwBqV9u9gyi8KSb25+nEWdy0hhyU/fqddV+
+	i9X8lV0cnkeFzluhbYpEN+I42XRXC50g+JHaR2mx/t2xNIOeVjAIEMxQ
+X-Gm-Gg: Acq92OF9iV25c9LvzMJhZudDP48/TudzJeW4ynDK+YMxBuzATmMFK4tmPhUABA0BJXk
+	QihCd5ak1crg8r0lpMQ225pl8/3oDR++AWIZCYKjF47vDLsIjcdjmVcU4eE4e8p/mkhAAtz0gPs
+	/1bxnOpjt0EJdjiHJAmQbDvArfkWCCGkcLgpDq2wuK8G+irwSljQ9FqSomxkTRXkyFMmSoF+VC4
+	qg30OcotUII9QkOO9JCFTC97SJayMqkyF0ELebvqAZklwznJ9M4D5Mqri0XbfLDSBWH/bEbNjjI
+	uKFR+Rc3Y4vDKmjDZ6GoMxUyYtsw5kOMTFPy1+Uo7hyvQJD3HUVkTabLxOVkRG3N00qdcA5riwR
+	X3jk5S9jzz2JtTauzhjei/d3MR4nJCsAV2Yt2UpP6pAh9/TaTqMhLblTHUGBQDZe2sPVkvZpTOb
+	pjZnLiCa6TWZgR4XGYH/3bGM5YNp3U+0groHuxWHNRmBA5feYp5pG0E8tcI2yYeqQEFCseZPcpt
+	JzNCtY=
+X-Received: by 2002:a17:903:19e7:b0:2b2:67ca:5ff9 with SMTP id d9443c01a7336-2beb026f4c4mr137314845ad.0.1779680009159;
+        Sun, 24 May 2026 20:33:29 -0700 (PDT)
+Received: from fedora ([103.181.54.98])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58d9fe9sm77391815ad.65.2026.05.24.20.33.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 07:23:18 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev,
+        Sun, 24 May 2026 20:33:28 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: lee@kernel.org,
+	pavel@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	jonas.gorski@gmail.com
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev,
-	a.nasrolahi01@gmail.com
-Subject: [PATCH v2] staging: rtl8723bs: fix unnamed parameters warning detected at checkpatch
-Date: Sat, 23 May 2026 11:18:43 -0300
-Message-ID: <20260523142312.9223-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	skhan@linuxfoundation.org,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
+Date: Mon, 25 May 2026 09:02:58 +0530
+Message-ID: <20260525033258.144291-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -76,73 +83,274 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Detected the following WARNING: function definition argument
-'struct adapter *' should also have an identifier name.
-Add explicit names on those definitions.
+Convert the brcm,bcm6358 to DT schema.
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 ---
-Changelog:
-v2: use adapter instead of padapter
-v1: https://lore.kernel.org/all/20260407133416.13983-1-rodrigo.gobbi.7@gmail.com/
----
- drivers/staging/rtl8723bs/include/hal_intf.h    |  2 +-
- drivers/staging/rtl8723bs/include/rtw_btcoex.h  | 10 +++++-----
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index b193854bfe6e..55c0010968a3 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -252,7 +252,7 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
- s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
- s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
- 
--s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
-+s32 rtw_hal_fill_h2c_cmd(struct adapter *adapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
- 
- void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-index 19764c80b8ba..9fbb145c8d45 100644
---- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-@@ -15,14 +15,14 @@
- #define	PACKET_ARP				2
- #define	PACKET_EAPOL			3
- 
--void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
--void rtw_btcoex_HaltNotify(struct adapter *);
-+void rtw_btcoex_MediaStatusNotify(struct adapter *adapter, u8 mediaStatus);
-+void rtw_btcoex_HaltNotify(struct adapter *adapter);
- 
- /*  ================================================== */
- /*  Below Functions are called by BT-Coex */
- /*  ================================================== */
--void rtw_btcoex_RejectApAggregatedPacket(struct adapter *, u8 enable);
--void rtw_btcoex_LPS_Enter(struct adapter *);
--void rtw_btcoex_LPS_Leave(struct adapter *);
-+void rtw_btcoex_RejectApAggregatedPacket(struct adapter *adapter, u8 enable);
-+void rtw_btcoex_LPS_Enter(struct adapter *adapter);
-+void rtw_btcoex_LPS_Leave(struct adapter *adapter);
- 
- #endif /*  __RTW_BTCOEX_H__ */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index c27d07861b8c..df5dbcceea06 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -215,8 +215,8 @@ struct pwrctrl_priv {
- extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
- extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
- 
--s32 rtw_register_task_alive(struct adapter *, u32 task);
--void rtw_unregister_task_alive(struct adapter *, u32 task);
-+s32 rtw_register_task_alive(struct adapter *adapter, u32 task);
-+void rtw_unregister_task_alive(struct adapter *adapter, u32 task);
- extern s32 rtw_register_tx_alive(struct adapter *padapter);
- extern void rtw_unregister_tx_alive(struct adapter *padapter);
- extern s32 rtw_register_cmd_alive(struct adapter *padapter);
+Referred to this thread:
+https://lore.kernel.org/all/20250930-brcm6358-to-dt-v1-1-ba833ceb1575@thegoodpenguin.co.uk/
+and added the fixes suggested.
+
+ .../bindings/leds/brcm,bcm6358-leds.yaml      |  98 ++++++++++++
+ .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
+ 2 files changed, 98 insertions(+), 143 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+
+diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+new file mode 100644
+index 000000000000..a61417e5690b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LEDs connected to Broadcom BCM6358 controller
++
++description: |
++  This controller is present on BCM6358 and BCM6368.
++  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
++  which can either be controlled by software (exporting the 74x164 as spi-gpio.
++  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
++  by hardware using this driver.
++
++maintainers:
++  - Jonas Gorski <jonas.gorski@gmail.com>
++
++properties:
++  compatible:
++    const: brcm,bcm6358-leds
++
++  reg:
++    maxItems: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  brcm,clk-div:
++    description: SCK signal divider.
++    default: 1
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2, 4, 8]
++
++  brcm,clk-dat-low:
++    description: Makes clock and data signals active low.
++    type: boolean
++
++patternProperties:
++  "^led@(0|1?[0-9a-f])$":
++    type: object
++    $ref: common.yaml#
++    description: Each LED is represented as a sub-node of
++      this device.
++
++    properties:
++      reg:
++        description: LED pin number.
++        minimum: 0
++        maximum: 31
++
++    required:
++      - reg
++
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - "#address-cells"
++  - "#size-cells"
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++    led-controller@fffe00d0 {
++        compatible = "brcm,bcm6358-leds";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        reg = <0xfffe00d0 0x8>;
++
++        led@0 {
++            reg = <0>;
++            active-low;
++            label = "white:alarm";
++        };
++        led@2 {
++            reg = <2>;
++            active-low;
++            label = "white:tv";
++        };
++        led@3 {
++            reg = <3>;
++            active-low;
++            label = "white:tel";
++        };
++        led@4 {
++            reg = <4>;
++            active-low;
++            label = "white:adsl";
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+deleted file mode 100644
+index 211ffc3c4a20..000000000000
+--- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
++++ /dev/null
+@@ -1,143 +0,0 @@
+-LEDs connected to Broadcom BCM6358 controller
+-
+-This controller is present on BCM6358 and BCM6368.
+-In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controller),
+-which can either be controlled by software (exporting the 74x164 as spi-gpio.
+-See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+-by hardware using this driver.
+-
+-Required properties:
+-  - compatible : should be "brcm,bcm6358-leds".
+-  - #address-cells : must be 1.
+-  - #size-cells : must be 0.
+-  - reg : BCM6358 LED controller address and size.
+-
+-Optional properties:
+-  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
+-    Default : 1
+-  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
+-    Default : false
+-
+-Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
+-
+-LED sub-node required properties:
+-  - reg : LED pin number (only LEDs 0 to 31 are valid).
+-
+-LED sub-node optional properties:
+-  - label : see Documentation/devicetree/bindings/leds/common.txt
+-  - default-state : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-  - linux,default-trigger : see
+-    Documentation/devicetree/bindings/leds/common.txt
+-
+-Examples:
+-Scenario 1 : BCM6358
+-	leds0: led-controller@fffe00d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0xfffe00d0 0x8>;
+-
+-		alarm_white {
+-			reg = <0>;
+-			active-low;
+-			label = "white:alarm";
+-		};
+-		tv_white {
+-			reg = <2>;
+-			active-low;
+-			label = "white:tv";
+-		};
+-		tel_white {
+-			reg = <3>;
+-			active-low;
+-			label = "white:tel";
+-		};
+-		adsl_white {
+-			reg = <4>;
+-			active-low;
+-			label = "white:adsl";
+-		};
+-	};
+-
+-Scenario 2 : BCM6368
+-	leds0: led-controller@100000d0 {
+-		compatible = "brcm,bcm6358-leds";
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reg = <0x100000d0 0x8>;
+-		brcm,pol-low;
+-		brcm,clk-div = <4>;
+-
+-		power_red {
+-			reg = <0>;
+-			active-low;
+-			label = "red:power";
+-		};
+-		power_green {
+-			reg = <1>;
+-			active-low;
+-			label = "green:power";
+-			default-state = "on";
+-		};
+-		power_blue {
+-			reg = <2>;
+-			label = "blue:power";
+-		};
+-		broadband_red {
+-			reg = <3>;
+-			active-low;
+-			label = "red:broadband";
+-		};
+-		broadband_green {
+-			reg = <4>;
+-			label = "green:broadband";
+-		};
+-		broadband_blue {
+-			reg = <5>;
+-			active-low;
+-			label = "blue:broadband";
+-		};
+-		wireless_red {
+-			reg = <6>;
+-			active-low;
+-			label = "red:wireless";
+-		};
+-		wireless_green {
+-			reg = <7>;
+-			active-low;
+-			label = "green:wireless";
+-		};
+-		wireless_blue {
+-			reg = <8>;
+-			label = "blue:wireless";
+-		};
+-		phone_red {
+-			reg = <9>;
+-			active-low;
+-			label = "red:phone";
+-		};
+-		phone_green {
+-			reg = <10>;
+-			active-low;
+-			label = "green:phone";
+-		};
+-		phone_blue {
+-			reg = <11>;
+-			label = "blue:phone";
+-		};
+-		upgrading_red {
+-			reg = <12>;
+-			active-low;
+-			label = "red:upgrading";
+-		};
+-		upgrading_green {
+-			reg = <13>;
+-			active-low;
+-			label = "green:upgrading";
+-		};
+-		upgrading_blue {
+-			reg = <14>;
+-			label = "blue:upgrading";
+-		};
+-	};
 -- 
-2.48.1
+2.54.0
 
