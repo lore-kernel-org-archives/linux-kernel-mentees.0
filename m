@@ -1,184 +1,361 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371FB2E424F
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 25 May 2026 15:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C053F58C1;
+	Mon, 25 May 2026 17:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779721391; cv=none; b=i6SyK1/FSq6ohPDLE49mFeIxjtznRL3sbrCIMfl7bH/kcdDbMcdvFvyyFH8uRvQapT1NHvwXnszgPPopn5ucLvsjgXxNYR4NxApcfLPNw3fAoCzd0WROwhUdtWDEyruSR/2B6ZL32OvioeQlDjoUPPGKaO89rudZrOC+ZVJ2dzo=
+	t=1779728776; cv=none; b=owLKe4qYDTxsH3uCebUKa+YbuSTnuRQWt7OkVTUahEL08UxbmnOSNkBmnDw4sXSPYXSeMI7ajVlKvToI+GX95l7zZYqp4dkcdwL1H3MVnWJa8Coz/MLhgbR4/EEqJrIopTcs3Dyq6ZMRSEufkb4UZDKQUYadXEADFNfeRI8sqNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779721391; c=relaxed/simple;
-	bh=4IcYzhSU/9zM3GrRJvK6Dzt4FqHoDMfNtVYa8TzM2FA=;
+	s=arc-20240116; t=1779728776; c=relaxed/simple;
+	bh=wle8/w9c4CvDeIj48kBpU3CahPisXEcZdKthgJEZrKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k4C9FGIROArAYzJBTq1q3crNIpQTjDG3VGAvfZZN/e+f7+vzpp5cJf4wPf6z/2L3s695cyCsuqmH/FK8Qhhfjd0M5dfYxrq6ugv2CriOQ5je0xnMPrybq5XIDRX5AwGd8P21rm17vZuU/5LOdRzAjYatb9GSFCZtDJOROLTYDE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=syz2GL0z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QnuzI8YW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=syz2GL0z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QnuzI8YW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=rxISp8Pdf2C3JZXwEa7XF2KLRiMu1BgQMYTzQHFLrJcWTfxy8eZIRysrOWEqxrhpvWlbmYTeUZtr25Gu1Gs5UwtHZnApaMsRVFoeTt0maohaXUr0luzRUXgT9URbvFvXtZM8Ognt2HfOBLk2x2x/JzHHQaXUvsoknJFPkSMns+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftNK3f4l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="syz2GL0z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QnuzI8YW";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="syz2GL0z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QnuzI8YW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 85F026716B;
-	Mon, 25 May 2026 15:03:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779721387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IlzrmeAwM4BbwsNzDlfP9UzOoNNxflgchiFlxTmj178=;
-	b=syz2GL0zXyop3pT5nyEQlR6nvfZWRHBO9sjcmYRo4fXl6GQvDTZjsqTB4vVqnqIxmQAIPp
-	Rq21nCb9rdsxUi3towzxy5gu6P1r9rr0QgnrJXZes4BwhZ7jDCy4Z+ltG+AyhUiSyXQSMs
-	+koOMm5AymDQrAeE2LvPwZ8ry4dELO4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779721387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IlzrmeAwM4BbwsNzDlfP9UzOoNNxflgchiFlxTmj178=;
-	b=QnuzI8YWhcAky0pPiuqpAVWIfpWbSq4ecJEzY7otpTOrXWrXhFH/hwrC80Te/OIVUkrYp6
-	qAr/e8ve7Xz9pqAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=syz2GL0z;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=QnuzI8YW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779721387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IlzrmeAwM4BbwsNzDlfP9UzOoNNxflgchiFlxTmj178=;
-	b=syz2GL0zXyop3pT5nyEQlR6nvfZWRHBO9sjcmYRo4fXl6GQvDTZjsqTB4vVqnqIxmQAIPp
-	Rq21nCb9rdsxUi3towzxy5gu6P1r9rr0QgnrJXZes4BwhZ7jDCy4Z+ltG+AyhUiSyXQSMs
-	+koOMm5AymDQrAeE2LvPwZ8ry4dELO4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779721387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IlzrmeAwM4BbwsNzDlfP9UzOoNNxflgchiFlxTmj178=;
-	b=QnuzI8YWhcAky0pPiuqpAVWIfpWbSq4ecJEzY7otpTOrXWrXhFH/hwrC80Te/OIVUkrYp6
-	qAr/e8ve7Xz9pqAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A8A159CDA;
-	Mon, 25 May 2026 15:03:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +8XoHatkFGp7VAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 15:03:07 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 22119A08D7; Mon, 25 May 2026 17:03:07 +0200 (CEST)
-Date: Mon, 25 May 2026 17:03:07 +0200
-From: Jan Kara <jack@suse.cz>
-To: Agatha Isabelle Moreira <code@agatha.dev>
-Cc: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.com>, 
-	shuo chen <1289151713@qq.com>, linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, 
-	patch-reply@agatha.dev
-Subject: Re: [PATCH 2/2] fs: jbd2: use clear_and_wake_up_bit() in
- journal_end_buffer_io_sync()
-Message-ID: <z227r3yz6k3ldjtq63e6tpwjta27yzcwk44brc22gz6zafngdt@bnptzq5pxkvz>
-References: <ag4PEP52c8rxrYPc@guidai>
- <ag4SrrOl7R2DcLLi@guidai>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftNK3f4l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7AAF1F000E9;
+	Mon, 25 May 2026 17:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779728775;
+	bh=jLSSeZiHuxx569OL10aZGL8/HANsiZOAuwoTkUuRNX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ftNK3f4llxnqcXvFDGsXqizxvjPaS53moDdCsa8YCiJumi7hWO1OYpVJ++1vCcT55
+	 5JmlSn0mRTizwVOIwZ7h8EPA6PRUntpKzcufKIeS67bz1K+dr7r1o4G0Che9elKr57
+	 S9bdKmS6g4Khfk57xby5IfOpFWnJUvi8ViCs6MnvezVxPiVd76b+KgGDhImyV3JCbz
+	 HY14jD6pKiShyKZLBgoHeXI5R/8yJLLp8EH9m7AHrOXR+BfGWixn8Gsz8R2N0VlmV2
+	 wZRi6H63uGiLhEdNhytjURo1KMbxx9al4EUktNrB2OOLwKr8+7AUKu3ePAEN8kWxAl
+	 AgE7MeaeHTO2A==
+Date: Mon, 25 May 2026 18:06:10 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Ninad Naik <ninadnaik07@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, jonas.gorski@gmail.com,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
+Message-ID: <20260525-wreckage-gap-9d857408445a@spud>
+References: <20260525033258.144291-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="F+dMwfH04y8J7NA8"
+Content-Disposition: inline
+In-Reply-To: <20260525033258.144291-1-ninadnaik07@gmail.com>
+
+
+--F+dMwfH04y8J7NA8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ag4SrrOl7R2DcLLi@guidai>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 85F026716B
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,mit.edu,suse.com,qq.com,lists.linux.dev,kernel.org,agatha.dev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,agatha.dev:email,suse.cz:dkim,suse.cz:email,qq.com:email,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 20-05-26 17:05:46, Agatha Isabelle Moreira wrote:
-> Use `clear_and_wake_up_bit()` in `journal_end_buffer_io_sync()`, since
-> the helper was introduced in 'commit 8236b0ae31c83 ("bdi: wake up
-> concurrent wb_shutdown() callers.")' as a generic way of doing the same
-> sequence of operations:
-> 	clear_bit_unlock();
-> 	smp_mb__after_atomic();
-> 	wake_up_bit();
-> 
-> The helper was first implemented to avoid bugs caused by forgetting to
-> call `wake_up_bit()` after `clear_bit_unlock()`.
-> 
-> Since `journal_end_buffer_io_sync()` was first introduced by 'commit
-> 470decc613ab2 ("jbd2: initial copy of files from jbd")' and last
-> modified in this operation by 'commit 4e857c58efeb9 ("arch: Mass
-> conversion of smp_mb__*()")', years before `clear_and_wake_up_bit()`, it
-> still uses the open-coded sequence.
-> 
-> Replace the open-coded sequence with the helper to avoid duplicate code
-> and reduce code paths to maintain.
-> 
-> Suggested-by: shuo chen <1289151713@qq.com>
-> Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
-> Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+On Mon, May 25, 2026 at 09:02:58AM +0530, Ninad Naik wrote:
+> Convert the brcm,bcm6358 to DT schema.
+>=20
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 > ---
->  fs/jbd2/commit.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-> index 8cf61e7185c4..b647fde76e49 100644
-> --- a/fs/jbd2/commit.c
-> +++ b/fs/jbd2/commit.c
-> @@ -39,9 +39,7 @@ static void journal_end_buffer_io_sync(struct buffer_head *bh, int uptodate)
->  	else
->  		clear_buffer_uptodate(bh);
->  	if (orig_bh) {
-> -		clear_bit_unlock(BH_Shadow, &orig_bh->b_state);
-> -		smp_mb__after_atomic();
-> -		wake_up_bit(&orig_bh->b_state, BH_Shadow);
-> +		clear_and_wake_up_bit(BH_Shadow, &orig_bh->b_state);
->  	}
->  	unlock_buffer(bh);
->  }
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>=20
+> Referred to this thread:
+> https://lore.kernel.org/all/20250930-brcm6358-to-dt-v1-1-ba833ceb1575@the=
+goodpenguin.co.uk/
+> and added the fixes suggested.
+>=20
+>  .../bindings/leds/brcm,bcm6358-leds.yaml      |  98 ++++++++++++
+>  .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
+>  2 files changed, 98 insertions(+), 143 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-l=
+eds.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.t=
+xt
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yam=
+l b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+> new file mode 100644
+> index 000000000000..a61417e5690b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
+> @@ -0,0 +1,98 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: LEDs connected to Broadcom BCM6358 controller
+> +
+> +description: |
+> +  This controller is present on BCM6358 and BCM6368.
+> +  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 contro=
+ller),
+> +  which can either be controlled by software (exporting the 74x164 as sp=
+i-gpio.
+> +  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+> +  by hardware using this driver.
+> +
+> +maintainers:
+> +  - Jonas Gorski <jonas.gorski@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm6358-leds
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  brcm,clk-div:
+> +    description: SCK signal divider.
+> +    default: 1
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [1, 2, 4, 8]
+> +
+> +  brcm,clk-dat-low:
+> +    description: Makes clock and data signals active low.
+> +    type: boolean
+> +
+> +patternProperties:
+> +  "^led@(0|1?[0-9a-f])$":
+> +    type: object
+> +    $ref: common.yaml#
+> +    description: Each LED is represented as a sub-node of
+> +      this device.
+> +
+> +    properties:
+> +      reg:
+> +        description: LED pin number.
+> +        minimum: 0
+> +        maximum: 31
+
+Is this missing a maxItems: 1?
+
+> +
+> +    required:
+> +      - reg
+> +
+> +    unevaluatedProperties: false
+
+I wonder if this should be additionalProperties: false instead, and list
+the three properties mentioned by the text binding explicitly?
+
+
+Cheers,
+Conor.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/leds/common.h>
+> +    led-controller@fffe00d0 {
+> +        compatible =3D "brcm,bcm6358-leds";
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +        reg =3D <0xfffe00d0 0x8>;
+> +
+> +        led@0 {
+> +            reg =3D <0>;
+> +            active-low;
+> +            label =3D "white:alarm";
+> +        };
+> +        led@2 {
+> +            reg =3D <2>;
+> +            active-low;
+> +            label =3D "white:tv";
+> +        };
+> +        led@3 {
+> +            reg =3D <3>;
+> +            active-low;
+> +            label =3D "white:tel";
+> +        };
+> +        led@4 {
+> +            reg =3D <4>;
+> +            active-low;
+> +            label =3D "white:adsl";
+> +        };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Do=
+cumentation/devicetree/bindings/leds/leds-bcm6358.txt
+> deleted file mode 100644
+> index 211ffc3c4a20..000000000000
+> --- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
+> +++ /dev/null
+> @@ -1,143 +0,0 @@
+> -LEDs connected to Broadcom BCM6358 controller
+> -
+> -This controller is present on BCM6358 and BCM6368.
+> -In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controll=
+er),
+> -which can either be controlled by software (exporting the 74x164 as spi-=
+gpio.
+> -See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
+> -by hardware using this driver.
+> -
+> -Required properties:
+> -  - compatible : should be "brcm,bcm6358-leds".
+> -  - #address-cells : must be 1.
+> -  - #size-cells : must be 0.
+> -  - reg : BCM6358 LED controller address and size.
+> -
+> -Optional properties:
+> -  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
+> -    Default : 1
+> -  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
+> -    Default : false
+> -
+> -Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
+> -
+> -LED sub-node required properties:
+> -  - reg : LED pin number (only LEDs 0 to 31 are valid).
+> -
+> -LED sub-node optional properties:
+> -  - label : see Documentation/devicetree/bindings/leds/common.txt
+> -  - default-state : see
+> -    Documentation/devicetree/bindings/leds/common.txt
+> -  - linux,default-trigger : see
+> -    Documentation/devicetree/bindings/leds/common.txt
+> -
+> -Examples:
+> -Scenario 1 : BCM6358
+> -	leds0: led-controller@fffe00d0 {
+> -		compatible =3D "brcm,bcm6358-leds";
+> -		#address-cells =3D <1>;
+> -		#size-cells =3D <0>;
+> -		reg =3D <0xfffe00d0 0x8>;
+> -
+> -		alarm_white {
+> -			reg =3D <0>;
+> -			active-low;
+> -			label =3D "white:alarm";
+> -		};
+> -		tv_white {
+> -			reg =3D <2>;
+> -			active-low;
+> -			label =3D "white:tv";
+> -		};
+> -		tel_white {
+> -			reg =3D <3>;
+> -			active-low;
+> -			label =3D "white:tel";
+> -		};
+> -		adsl_white {
+> -			reg =3D <4>;
+> -			active-low;
+> -			label =3D "white:adsl";
+> -		};
+> -	};
+> -
+> -Scenario 2 : BCM6368
+> -	leds0: led-controller@100000d0 {
+> -		compatible =3D "brcm,bcm6358-leds";
+> -		#address-cells =3D <1>;
+> -		#size-cells =3D <0>;
+> -		reg =3D <0x100000d0 0x8>;
+> -		brcm,pol-low;
+> -		brcm,clk-div =3D <4>;
+> -
+> -		power_red {
+> -			reg =3D <0>;
+> -			active-low;
+> -			label =3D "red:power";
+> -		};
+> -		power_green {
+> -			reg =3D <1>;
+> -			active-low;
+> -			label =3D "green:power";
+> -			default-state =3D "on";
+> -		};
+> -		power_blue {
+> -			reg =3D <2>;
+> -			label =3D "blue:power";
+> -		};
+> -		broadband_red {
+> -			reg =3D <3>;
+> -			active-low;
+> -			label =3D "red:broadband";
+> -		};
+> -		broadband_green {
+> -			reg =3D <4>;
+> -			label =3D "green:broadband";
+> -		};
+> -		broadband_blue {
+> -			reg =3D <5>;
+> -			active-low;
+> -			label =3D "blue:broadband";
+> -		};
+> -		wireless_red {
+> -			reg =3D <6>;
+> -			active-low;
+> -			label =3D "red:wireless";
+> -		};
+> -		wireless_green {
+> -			reg =3D <7>;
+> -			active-low;
+> -			label =3D "green:wireless";
+> -		};
+> -		wireless_blue {
+> -			reg =3D <8>;
+> -			label =3D "blue:wireless";
+> -		};
+> -		phone_red {
+> -			reg =3D <9>;
+> -			active-low;
+> -			label =3D "red:phone";
+> -		};
+> -		phone_green {
+> -			reg =3D <10>;
+> -			active-low;
+> -			label =3D "green:phone";
+> -		};
+> -		phone_blue {
+> -			reg =3D <11>;
+> -			label =3D "blue:phone";
+> -		};
+> -		upgrading_red {
+> -			reg =3D <12>;
+> -			active-low;
+> -			label =3D "red:upgrading";
+> -		};
+> -		upgrading_green {
+> -			reg =3D <13>;
+> -			active-low;
+> -			label =3D "green:upgrading";
+> -		};
+> -		upgrading_blue {
+> -			reg =3D <14>;
+> -			label =3D "blue:upgrading";
+> -		};
+> -	};
+> --=20
+> 2.54.0
+>=20
+
+--F+dMwfH04y8J7NA8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahSBggAKCRB4tDGHoIJi
+0ifxAQCEb2+eL04iJerEDKA2/t/uYSvDzjV3klHLRevvl+tDYgEA25dMjhqzbW48
+iuCsr55q749vfy6CeT/X4kQf8tGKEQ4=
+=PZ2p
+-----END PGP SIGNATURE-----
+
+--F+dMwfH04y8J7NA8--
