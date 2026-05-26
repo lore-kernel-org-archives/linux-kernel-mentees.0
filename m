@@ -1,361 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C053F58C1;
-	Mon, 25 May 2026 17:06:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED3B222590;
+	Tue, 26 May 2026 12:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779728776; cv=none; b=owLKe4qYDTxsH3uCebUKa+YbuSTnuRQWt7OkVTUahEL08UxbmnOSNkBmnDw4sXSPYXSeMI7ajVlKvToI+GX95l7zZYqp4dkcdwL1H3MVnWJa8Coz/MLhgbR4/EEqJrIopTcs3Dyq6ZMRSEufkb4UZDKQUYadXEADFNfeRI8sqNY=
+	t=1779800278; cv=none; b=URKsTMPesIP2V0EpSrAGNgFQ6VXVBk+Ud7T6CjYhhQozaEuphRO3S40dubJsfqfey83QBLkNdZgHuwrMniWDOoTrGmD0o4PYhBypSiQZDb7lPDN1apc7/lhSBExI7+o4vGNiMLU+nnfazg3cA+v0X29BC2kL34q0cHLtBFo/3WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779728776; c=relaxed/simple;
-	bh=wle8/w9c4CvDeIj48kBpU3CahPisXEcZdKthgJEZrKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rxISp8Pdf2C3JZXwEa7XF2KLRiMu1BgQMYTzQHFLrJcWTfxy8eZIRysrOWEqxrhpvWlbmYTeUZtr25Gu1Gs5UwtHZnApaMsRVFoeTt0maohaXUr0luzRUXgT9URbvFvXtZM8Ognt2HfOBLk2x2x/JzHHQaXUvsoknJFPkSMns+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftNK3f4l; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779800278; c=relaxed/simple;
+	bh=M1V7AnnJ3A8SDM6CIn2SHxy7T+YaUQh1OMM1HNfKRx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HVEfv3gBO9uXzt3I+PMu5g5sKo3nlLe7LZRfg3xCrVDHGxjNSBf5QtVcqSmgJZyuDPjfZEWGasGa/7JDu9qzrgGmav/DRRPkofFjL6nL0fHeZCJQ9pdoKF//Ja0b6xdbuAmC0RI0OCJ8Myw3J184XyOQbUt++Q3MpK7H6uweybk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVaqo1cu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftNK3f4l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7AAF1F000E9;
-	Mon, 25 May 2026 17:06:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVaqo1cu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1B121F000E9;
+	Tue, 26 May 2026 12:57:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779728775;
-	bh=jLSSeZiHuxx569OL10aZGL8/HANsiZOAuwoTkUuRNX8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ftNK3f4llxnqcXvFDGsXqizxvjPaS53moDdCsa8YCiJumi7hWO1OYpVJ++1vCcT55
-	 5JmlSn0mRTizwVOIwZ7h8EPA6PRUntpKzcufKIeS67bz1K+dr7r1o4G0Che9elKr57
-	 S9bdKmS6g4Khfk57xby5IfOpFWnJUvi8ViCs6MnvezVxPiVd76b+KgGDhImyV3JCbz
-	 HY14jD6pKiShyKZLBgoHeXI5R/8yJLLp8EH9m7AHrOXR+BfGWixn8Gsz8R2N0VlmV2
-	 wZRi6H63uGiLhEdNhytjURo1KMbxx9al4EUktNrB2OOLwKr8+7AUKu3ePAEN8kWxAl
-	 AgE7MeaeHTO2A==
-Date: Mon, 25 May 2026 18:06:10 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, jonas.gorski@gmail.com,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
-Message-ID: <20260525-wreckage-gap-9d857408445a@spud>
-References: <20260525033258.144291-1-ninadnaik07@gmail.com>
+	s=k20260515; t=1779800276;
+	bh=y3PWhORBiHLhpLJN5Gqj7oJl3xVXekVN4sqdvdQuuRg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=gVaqo1cu6lWfXnkUT7O28heDKL0B1T528VyHqmiNJRtXEWLX13RfKzNSggsOJsvEs
+	 RoNRspw2PVe6z0iz+3ZrTR6cvqCqmt01zAJSWDIv3TWUgt3+iojHYjFXilvSYl5fYr
+	 FHZ6kFnE3/f6k6tIgg7owBBKgbOM92m4F3cdPSvfBG9I8Qp/I2B0tkZ6hl/fvU6wf5
+	 bkX0OFQQvono/2P0Kkh6YwnTQe4wkEj5YinG1fHn6a46bq5eO/ZeUP5xJvR6YVhRvT
+	 YCSkk+n8eU9F4jkOOCHzCJFC8gaIvYF2eNXx+Otq1qL6jkEYscFuuxmLWVU+dpS/wT
+	 GGOEU4Dtfx7VA==
+Date: Tue, 26 May 2026 13:57:47 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Aldo Conte <aldocontelk@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ shuah@kernel.org, joshua.crofts1@gmail.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v3 3/8] iio: tcs3472: convert remaining locking to
+ guard(mutex)
+Message-ID: <20260526135747.230b7a6d@jic23-huawei>
+In-Reply-To: <20260522123420.45495-4-aldocontelk@gmail.com>
+References: <20260522123420.45495-1-aldocontelk@gmail.com>
+	<20260522123420.45495-4-aldocontelk@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="F+dMwfH04y8J7NA8"
-Content-Disposition: inline
-In-Reply-To: <20260525033258.144291-1-ninadnaik07@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
 
---F+dMwfH04y8J7NA8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>  
+>  static irqreturn_t tcs3472_event_handler(int irq, void *priv)
+> @@ -445,16 +433,16 @@ static int tcs3472_powerdown(struct tcs3472_data *data)
+>  	int ret;
+>  	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+>  
+> -	mutex_lock(&data->lock);
+> +	guard(mutex)(&data->lock);
+>  
+>  	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+>  					data->enable & ~enable_mask);
+> -	if (!ret)
+> -		data->enable &= ~enable_mask;
+> +	if (ret)
+> +		return ret;
+>  
+> -	mutex_unlock(&data->lock);
+> +	data->enable &= ~enable_mask;
 
-On Mon, May 25, 2026 at 09:02:58AM +0530, Ninad Naik wrote:
-> Convert the brcm,bcm6358 to DT schema.
->=20
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-> ---
->=20
-> Referred to this thread:
-> https://lore.kernel.org/all/20250930-brcm6358-to-dt-v1-1-ba833ceb1575@the=
-goodpenguin.co.uk/
-> and added the fixes suggested.
->=20
->  .../bindings/leds/brcm,bcm6358-leds.yaml      |  98 ++++++++++++
->  .../devicetree/bindings/leds/leds-bcm6358.txt | 143 ------------------
->  2 files changed, 98 insertions(+), 143 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/leds/brcm,bcm6358-l=
-eds.yaml
->  delete mode 100644 Documentation/devicetree/bindings/leds/leds-bcm6358.t=
-xt
->=20
-> diff --git a/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yam=
-l b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> new file mode 100644
-> index 000000000000..a61417e5690b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/brcm,bcm6358-leds.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/brcm,bcm6358-leds.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: LEDs connected to Broadcom BCM6358 controller
-> +
-> +description: |
-> +  This controller is present on BCM6358 and BCM6368.
-> +  In these SoCs there are Serial LEDs (LEDs connected to a 74x164 contro=
-ller),
-> +  which can either be controlled by software (exporting the 74x164 as sp=
-i-gpio.
-> +  See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
-> +  by hardware using this driver.
-> +
-> +maintainers:
-> +  - Jonas Gorski <jonas.gorski@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: brcm,bcm6358-leds
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  brcm,clk-div:
-> +    description: SCK signal divider.
-> +    default: 1
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [1, 2, 4, 8]
-> +
-> +  brcm,clk-dat-low:
-> +    description: Makes clock and data signals active low.
-> +    type: boolean
-> +
-> +patternProperties:
-> +  "^led@(0|1?[0-9a-f])$":
-> +    type: object
-> +    $ref: common.yaml#
-> +    description: Each LED is represented as a sub-node of
-> +      this device.
-> +
-> +    properties:
-> +      reg:
-> +        description: LED pin number.
-> +        minimum: 0
-> +        maximum: 31
+Hi Aldo,
 
-Is this missing a maxItems: 1?
+I'm going to comment on a similar (but worse) case in review of patch 8.
+If you do rework that to avoid falsely setting cached state that we can't
+rely on being right, you could switch to using a local variable here.
 
-> +
-> +    required:
-> +      - reg
-> +
-> +    unevaluatedProperties: false
+	u8 enable = data->enable & ~(TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON);
 
-I wonder if this should be additionalProperties: false instead, and list
-the three properties mentioned by the text binding explicitly?
+	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE, enable);
+  	if (ret)
+		return ret;
+
+	data->enable = enable;
+
+	return 0;
+
+(similar for other cases).  Given it's unrelated to what you are doing here
+that doesn't stop me picking up this patch as is.
+
+I'm working through the series, but so far 1-3 applied to the testing branch
+of iio.git.
+
+Thanks,
+
+Jonathan
 
 
-Cheers,
-Conor.
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int tcs3472_probe(struct i2c_client *client)
+> @@ -583,16 +571,16 @@ static int tcs3472_resume(struct device *dev)
+>  	int ret;
+>  	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+>  
+> -	mutex_lock(&data->lock);
+> +	guard(mutex)(&data->lock);
+>  
+>  	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+>  		data->enable | enable_mask);
+> -	if (!ret)
+> -		data->enable |= enable_mask;
+> +	if (ret)
+> +		return ret;
+>  
+> -	mutex_unlock(&data->lock);
+> +	data->enable |= enable_mask;
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static DEFINE_SIMPLE_DEV_PM_OPS(tcs3472_pm_ops, tcs3472_suspend,
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/leds/common.h>
-> +    led-controller@fffe00d0 {
-> +        compatible =3D "brcm,bcm6358-leds";
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        reg =3D <0xfffe00d0 0x8>;
-> +
-> +        led@0 {
-> +            reg =3D <0>;
-> +            active-low;
-> +            label =3D "white:alarm";
-> +        };
-> +        led@2 {
-> +            reg =3D <2>;
-> +            active-low;
-> +            label =3D "white:tv";
-> +        };
-> +        led@3 {
-> +            reg =3D <3>;
-> +            active-low;
-> +            label =3D "white:tel";
-> +        };
-> +        led@4 {
-> +            reg =3D <4>;
-> +            active-low;
-> +            label =3D "white:adsl";
-> +        };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt b/Do=
-cumentation/devicetree/bindings/leds/leds-bcm6358.txt
-> deleted file mode 100644
-> index 211ffc3c4a20..000000000000
-> --- a/Documentation/devicetree/bindings/leds/leds-bcm6358.txt
-> +++ /dev/null
-> @@ -1,143 +0,0 @@
-> -LEDs connected to Broadcom BCM6358 controller
-> -
-> -This controller is present on BCM6358 and BCM6368.
-> -In these SoCs there are Serial LEDs (LEDs connected to a 74x164 controll=
-er),
-> -which can either be controlled by software (exporting the 74x164 as spi-=
-gpio.
-> -See Documentation/devicetree/bindings/gpio/fairchild,74hc595.yaml), or
-> -by hardware using this driver.
-> -
-> -Required properties:
-> -  - compatible : should be "brcm,bcm6358-leds".
-> -  - #address-cells : must be 1.
-> -  - #size-cells : must be 0.
-> -  - reg : BCM6358 LED controller address and size.
-> -
-> -Optional properties:
-> -  - brcm,clk-div : SCK signal divider. Possible values are 1, 2, 4 and 8.
-> -    Default : 1
-> -  - brcm,clk-dat-low : Boolean, makes clock and data signals active low.
-> -    Default : false
-> -
-> -Each LED is represented as a sub-node of the brcm,bcm6358-leds device.
-> -
-> -LED sub-node required properties:
-> -  - reg : LED pin number (only LEDs 0 to 31 are valid).
-> -
-> -LED sub-node optional properties:
-> -  - label : see Documentation/devicetree/bindings/leds/common.txt
-> -  - default-state : see
-> -    Documentation/devicetree/bindings/leds/common.txt
-> -  - linux,default-trigger : see
-> -    Documentation/devicetree/bindings/leds/common.txt
-> -
-> -Examples:
-> -Scenario 1 : BCM6358
-> -	leds0: led-controller@fffe00d0 {
-> -		compatible =3D "brcm,bcm6358-leds";
-> -		#address-cells =3D <1>;
-> -		#size-cells =3D <0>;
-> -		reg =3D <0xfffe00d0 0x8>;
-> -
-> -		alarm_white {
-> -			reg =3D <0>;
-> -			active-low;
-> -			label =3D "white:alarm";
-> -		};
-> -		tv_white {
-> -			reg =3D <2>;
-> -			active-low;
-> -			label =3D "white:tv";
-> -		};
-> -		tel_white {
-> -			reg =3D <3>;
-> -			active-low;
-> -			label =3D "white:tel";
-> -		};
-> -		adsl_white {
-> -			reg =3D <4>;
-> -			active-low;
-> -			label =3D "white:adsl";
-> -		};
-> -	};
-> -
-> -Scenario 2 : BCM6368
-> -	leds0: led-controller@100000d0 {
-> -		compatible =3D "brcm,bcm6358-leds";
-> -		#address-cells =3D <1>;
-> -		#size-cells =3D <0>;
-> -		reg =3D <0x100000d0 0x8>;
-> -		brcm,pol-low;
-> -		brcm,clk-div =3D <4>;
-> -
-> -		power_red {
-> -			reg =3D <0>;
-> -			active-low;
-> -			label =3D "red:power";
-> -		};
-> -		power_green {
-> -			reg =3D <1>;
-> -			active-low;
-> -			label =3D "green:power";
-> -			default-state =3D "on";
-> -		};
-> -		power_blue {
-> -			reg =3D <2>;
-> -			label =3D "blue:power";
-> -		};
-> -		broadband_red {
-> -			reg =3D <3>;
-> -			active-low;
-> -			label =3D "red:broadband";
-> -		};
-> -		broadband_green {
-> -			reg =3D <4>;
-> -			label =3D "green:broadband";
-> -		};
-> -		broadband_blue {
-> -			reg =3D <5>;
-> -			active-low;
-> -			label =3D "blue:broadband";
-> -		};
-> -		wireless_red {
-> -			reg =3D <6>;
-> -			active-low;
-> -			label =3D "red:wireless";
-> -		};
-> -		wireless_green {
-> -			reg =3D <7>;
-> -			active-low;
-> -			label =3D "green:wireless";
-> -		};
-> -		wireless_blue {
-> -			reg =3D <8>;
-> -			label =3D "blue:wireless";
-> -		};
-> -		phone_red {
-> -			reg =3D <9>;
-> -			active-low;
-> -			label =3D "red:phone";
-> -		};
-> -		phone_green {
-> -			reg =3D <10>;
-> -			active-low;
-> -			label =3D "green:phone";
-> -		};
-> -		phone_blue {
-> -			reg =3D <11>;
-> -			label =3D "blue:phone";
-> -		};
-> -		upgrading_red {
-> -			reg =3D <12>;
-> -			active-low;
-> -			label =3D "red:upgrading";
-> -		};
-> -		upgrading_green {
-> -			reg =3D <13>;
-> -			active-low;
-> -			label =3D "green:upgrading";
-> -		};
-> -		upgrading_blue {
-> -			reg =3D <14>;
-> -			label =3D "blue:upgrading";
-> -		};
-> -	};
-> --=20
-> 2.54.0
->=20
-
---F+dMwfH04y8J7NA8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahSBggAKCRB4tDGHoIJi
-0ifxAQCEb2+eL04iJerEDKA2/t/uYSvDzjV3klHLRevvl+tDYgEA25dMjhqzbW48
-iuCsr55q749vfy6CeT/X4kQf8tGKEQ4=
-=PZ2p
------END PGP SIGNATURE-----
-
---F+dMwfH04y8J7NA8--
