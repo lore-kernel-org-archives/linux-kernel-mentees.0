@@ -1,77 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A795E31E82A;
-	Thu, 28 May 2026 14:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C238F2E738A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 May 2026 15:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779978003; cv=none; b=g4+y26k5y4rXxFiTNfsSQmWMUnbrTcogl2w+Q+Qyi5kqDWoSAPUarIXFLIh+xdqZU5AphQOQlg/e2KeKok18EXccJPxfLj/FybHc9hMfMIrbWPycNECsxfpgypOjJ8wktdJ8V0tNukMnnrhgryN8Y7jcVEs5hj+QfFS9kgiInXU=
+	t=1779980579; cv=none; b=CBSjTZSwSVOAqWZSap/T1vVPpIpxyH9qEMb1M9l2MWHd8Gpkp//ODUeUTfVE8IZLQsID6XL3U5orrxbjWwumBnMJcfAuulxtEzfGU58r9S8AlPirfCZH96cKSobR2xsZUxzurV6k8O6SS79VF7EpDD5/ZitHJA8pt9/ulJeHjgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779978003; c=relaxed/simple;
-	bh=vNAhtfkL2KXaHItR6JqHYqvQzdMVV1DJxwkMLzUNDjo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=cz2/S+aWhbU8fYiAnejczSV5I2VG9tfmViDEg4774rhyTn/jro50Yj2VBOh5E9pLReSP/s4R0/HZS8CCNzimbcQovchhI3LGdwr3BGy/6mpeoN8pfh9E/T0NzdYCf64oZsL4Enluj5ro/rsRizWoXDYojOyPu2KuGAqbRalJakk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HgAhpr5T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779980579; c=relaxed/simple;
+	bh=xPqOgVgYGPTJ6C4KNZOo2bJJEjldBGZAb8uJ3RyJDwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvflYnkVh1VUsk0Nris493AuZGTfAxlk5F1K+PYYnXxcpKZEzV0kj+WdwW4360rnfS7KJqEjOpwBOLS19nbS7SgH1a2aKPeWWa3lSwl2N0BT0tldtvXbYxT+TQhomo5nsHo1RSlxE1vd9sUiPtjFeDhMOLRGg/WTSHDrOMaxMpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=QGpZd9wz; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HgAhpr5T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FED91F000E9;
-	Thu, 28 May 2026 14:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779978002;
-	bh=OzJYXt8AtzKps4WsX5HShtQ/npAyeEc/0ZncFQi3a+w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=HgAhpr5T4GeiTNc0C54Q7WtFiWBXPY0RQtoHU88qp4Y1uKMVg/hIcLKtOGeiZX1sT
-	 TAgGev5Mz9+pqmrcInufjI9Pn8bfKuc9SUc4YL8bc9zi2HV0yhDrk/GOVjW2bjeZpI
-	 i3xayRvSAyheUTSPHf3z4+TxJxlbqce7Y+iCD7ijuhuP9aCXUoQmV8YF8E6xkSuR/u
-	 y+UgZZQT+F0T4XSxK2yVCE1rPRyBA39TroXXRwvGQg1ZafiJz8XGktM2mkrJFIKDrp
-	 iPisESJGxu9QpYPCVDe3wKsIEZEYxFF0XceoHymMmUXsuks4iis2ZOIybjVXxETyzY
-	 hc05XPjru2gWg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198C6381195D;
-	Thu, 28 May 2026 14:20:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="QGpZd9wz"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 22F7742878
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 May 2026 15:02:45 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.791
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ZZd-PUW8qI0M for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 28 May 2026 15:02:44 +0000 (UTC)
+X-Greylist: delayed 360 seconds by postgrey-1.37 at util1.osuosl.org; Thu, 28 May 2026 15:02:43 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org D3C4942824
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D3C4942824
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=QGpZd9wz
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=18.9.28.11; helo=outgoing.mit.edu; envelope-from=tytso@mit.edu; receiver=<UNKNOWN> 
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D3C4942824
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 28 May 2026 15:02:43 +0000 (UTC)
+Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64SEubRc017388
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 May 2026 10:56:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1779980200; bh=iqKteAK984FjwrM5PUMtor5r+Y3QTmrXtVrkLQwwr/4=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=QGpZd9wzqCbV7xQH0w76CblTqieXM7kUoSXGpxAjVPSbj1/Ypa5DYfskjVMGOk1lL
+	 UOMZoB8JI1dTstXcJNcUCLR93e/lr9X2x86cZEkeMNiY1RfXMGaqFLSeobMNftFnCY
+	 bR1bbRXL/+LefT26bWZVRa2mH5PVGu+jkSgWFZ26rURVEss6rUU2HpVXSyDyHlPYw8
+	 WaKruws0uRJ8H8rlCVbUMzbq88EEGrEa4YaURnPD6LZcBztWBjNIbAeuQJmcQ7z76V
+	 f0NSzZZyOR6t3k19wK8wcBEpc++pSnvGVq6C6Ug6GbHBu2EWVlLUaQHsc8YOvgUhHC
+	 TLIBHlcdOMD0w==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id D7F236B6C0A3; Thu, 28 May 2026 09:56:36 -0500 (CDT)
+Date: Thu, 28 May 2026 09:56:36 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Abdellah Ouhbi <abdououhbi1@gmail.com>
+Cc: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org, me@brighamcampbell.com,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] ext4: Use %pe to print PTR_ERR() in namei.c
+Message-ID: <3ogsm2rbiyacwos6i3han5lwkuobxjjggpwfmkjbv45hrhqwh7@6d5mxzdvidbq>
+References: <20260424152245.142308-1-abdououhbi1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] Bluetooth: RFCOMM: validate skb length in MCC handlers
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <177997800664.948024.5743539938103755383.git-patchwork-notify@kernel.org>
-Date: Thu, 28 May 2026 14:20:06 +0000
-References: <20260525110443.139485-1-suunj1331@gmail.com>
-In-Reply-To: <20260525110443.139485-1-suunj1331@gmail.com>
-To: SeungJu Cheon <suunj1331@gmail.com>
-Cc: linux-bluetooth@vger.kernel.org, marcel@holtmann.org,
- luiz.dentz@gmail.com, pmenzel@molgen.mpg.de, me@brighamcampbell.com,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, meatuni001@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424152245.142308-1-abdououhbi1@gmail.com>
 
-Hello:
-
-This patch was applied to bluetooth/bluetooth-next.git (master)
-by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
-
-On Mon, 25 May 2026 20:04:43 +0900 you wrote:
-> The RFCOMM MCC handlers cast skb->data to protocol-specific structs
-> without validating skb->len first. A malicious remote device can send
-> truncated MCC frames and trigger out-of-bounds reads in these handlers.
+On Fri, Apr 24, 2026 at 04:22:45PM +0100, Abdellah Ouhbi wrote:
+> Fix coccicheck warning
+> ./namei.c:150:25-32: WARNING: Consider using %pe to print PTR_ERR()
 > 
-> Fix this by using skb_pull_data() to validate and access the required
-> data before dereferencing it.
+> Replace %ld with %pe and PTR_ERR(bh) with bh pointer.
+> The %pe specifier automatically converts error pointers to
+> human-readable error names instead of raw error codes.
 > 
-> [...]
+> Signed-off-by: Abdellah Ouhbi <abdououhbi1@gmail.com>
 
-Here is the summary with links:
-  - [v3] Bluetooth: RFCOMM: validate skb length in MCC handlers
-    https://git.kernel.org/bluetooth/bluetooth-next/c/a82ccb946ae5
+I've folded the three patches you had sent into a single commit.  For
+this kind of cleanup, there's no reason to have separate patches for
+each file.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks,
 
-
+						- Ted
