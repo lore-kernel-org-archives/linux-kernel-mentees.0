@@ -1,63 +1,63 @@
 Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D6B3A3807
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 11:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB40C3A71BE
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 11:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780141213; cv=none; b=uNwSMROFdTxi/XKRhbSO2AmN1z259ZDlfqqfuvDzwUFJ4FWHfD+ufJN2zi9G31mKNgZumNTs6iFS1Tfj0Qugp0veOlAtF+f2sz3gWNbc3az3DWR+LvmqwMegYHnP8l+V7Xjthd/6X8t9kwvqxzWdLd9MJeJJ34mjCqqDD0sr+uw=
+	t=1780141216; cv=none; b=ZsKILDtDN8n5zkuvcwa3JNutxhzE8nKxKUoVIT9jNpHP712hUz5ekrRSPVkx7p4RwF2U1iVbj8ciNSe3xfh/k+Qfm1j6bqgXy5UD5HJRqm4nVGf88s5mRsulA2rkb8UPvkbmOiJrTXbv4tFIdYM9h5s1X/u9supx0Z53P9Xnljs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780141213; c=relaxed/simple;
-	bh=Mhx0z+syGJL8iXj8CfFuAcr5tavxGM1AgsSsS7jC6w0=;
+	s=arc-20240116; t=1780141216; c=relaxed/simple;
+	bh=Tjpk0UGo7UJkZtCc2AlC0a6mEIDVKO9WL9yPpEY8ksE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pqsfiLPQwq/Yprhe7C/M9/dFshfdKnrQdjBZX8WXDLtuw1esO16NWqBdiOrAtXiAMsqDwZFMHZM7bVssGVz1xx++HXvfbmGbSA8+fruSexTyTYsqrS+MwYZCRyZ7mJVzGhtPXcLiSLkdAkHVEhTo1CAZ60XjOzOrogQq/cPE9Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kF8/tpev; arc=none smtp.client-ip=209.85.210.177
+	 MIME-Version; b=mnX5ZJzJiEfwsz2jw/Dzh9yzp5aixqZAlOTVSBgBWGv/IwBfpU1eWMdeLDcw9vHGVViV0unVpl/P9Wq9DkKzoLj0EOc6hOBuaBHZ80GeyJYxVJ5KkXr91gPfsnSemuadjxD1FuE46F4t8VIHsh4nS7Z5MkAc/NqhEL5VRGJFvZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPctHrps; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kF8/tpev"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-842358aaf36so68508b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 04:40:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPctHrps"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-842319576d5so117528b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 04:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780141211; x=1780746011; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780141215; x=1780746015; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GIIyDr6/RBY3rTp7heBCHwFxNkq7nFTnyDyon55fD+Q=;
-        b=kF8/tpevz7gJUokQ4YkFF9Pe1XpzjiQ5glJQCy0AhuZELskNm321UsbOKkQ8yPvgZO
-         f4I64HaHpVR6rDt9K6knuhH4q562Ueely23Bhc7V3cPKrdJrsjLawY9HbQ+aRGyDMyS1
-         8SoU/EaxwVkKIj3Fwb8kmc8dsMb4+Wrjdj5g1ZV3b87SbIkNYi2GX744vz21HAL9EHqo
-         y2b+L7ZyFUnZ86h4dyLSd9MhhfWD5jcLXfDk1c77AyKAYb4icoNuZYcvYiJMoO7IcXHF
-         fbeQ+tL6gYdkEtyey7v4j9v5DbDOPgAz6K3weCnbco9m9F5yjpovKhmaP81wcwAskNf5
-         ZDpA==
+        bh=86sSBgbx9kKkCfgAmFq6bHEkr4eE6POT886tx7GLE3I=;
+        b=cPctHrpsqs9AlV3r6z4KX4DuwF52eDliUMzaIIuBX0iep2PxeKaNbSF4daUphP1225
+         CtQBAjm2RNxSYcJ/FED/1gLOF45iOv91RBbrqFHh+php+rFqtxLeKJfDRt1QPADCTus+
+         oQG+3QgzQqnJ9if+YnuiFC71vh8NH+aHD+L6bIsNQ6Svf8vkVi0ny6yZqch1c/pmv7tk
+         gL12w35AehrOInbALvthOAvYRoezwTYCXloaptMUGhQicYrHkYRvRj5RBXxApO0lvKb6
+         EuI46iIIIfG5adjMjcucQYN77XsGDOK7DP3hwE8cvM0oyz5uEzNS7QpUEu3CxCp+V0Li
+         t+9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780141211; x=1780746011;
+        d=1e100.net; s=20251104; t=1780141215; x=1780746015;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GIIyDr6/RBY3rTp7heBCHwFxNkq7nFTnyDyon55fD+Q=;
-        b=U2tbnKVzQgLWycfzbVfnbbGZdcsjdAy6JSzCxRDA0bWRHbTTewXrhnaQqfVMa3bPXK
-         EFfcbNRD2nWBWPZUJdoX9wvEysTJDkEfao0m/5ofit5+USPi+KrhfsSPXWJjKFHHUnc5
-         Qxz2ySaCPlhrOb3QZcFjI3ol3Nb1nr5DSrK/Qq3P4Pdd3uAuPHJzN+90TCoEWHe2Z6J8
-         UxgjK3jv/l+BqAHdpy5wAf8m171ckh99qGUk2uZBeVl30SK2zMZKvY7UtEQ/wF+Ymm6I
-         yXnlVRSdulHR0sA1m/QDuO9SEErlibkIypVSfq7UoRYnozD17Ixpr4Jj5frk02/gr+6V
-         4XqA==
-X-Forwarded-Encrypted: i=1; AFNElJ+7+rEb+Cc6k6pzlEQcReuAE+/ABF29PmLmMuysdFjd7BLlrF1OA5pSRs3CP9R6sRV94y2Juz1WWgdYJsHk8CSag2o9DQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGp3do8hm4JlBGQGxJPX68E/A1CboaA6q3KL+Y+Tq7s94Mf8zl
-	tVdC7iStBDicRGYTwXgx5IEdozrsXLBCEujK0WeorPgve/NegDHah/wZ
-X-Gm-Gg: Acq92OEHaef+CZDbEHe+HOfXFz5SIBdU015q93QcfyZJJ57ST9923MjZk6xIVSLXJBs
-	0P8p5fLUnLRSwlhwDjOMJDvx3DFLL5xWgTRuh3dlIq2DuaGfWW255vAgafNpN/fNmXsovT5ts9M
-	XjftUEoMRydGr6Cm9cqZjI/Wtd6ufynvKZNHpwW7vLhHrO2sy+EvbltzNLfpitXg9419a+zTSys
-	iAyeNuuG3jo2xaY87YxQ8XxuVxiJw/UEVmQ3EPQH8dHithv5Yy8UhUs1BhY9LgFCnXeCCrZZvSE
-	dsABpaoOLXvBBRmSktpMhJ2jHTcMDbVURW4njDO5dKTjSig5hnSlgt6XlvloLHcn9u8M7ao9Hvh
-	9ks3HK86Y+cvQkL5n9De70z/lPN6taUmZYhdxNzmslXy0spthdDoN75jcwpw+7ykdd1KkZ2uNHJ
-	sqyGfrRPvmluoh+0Qo2/1uoJa+nZ8zvRknpEO3BUGdG3QaDC8wmBOHu4aLZw==
-X-Received: by 2002:a05:6a00:948b:b0:842:2ddb:e305 with SMTP id d2e1a72fcca58-8422ddbe832mr1655705b3a.43.1780141211102;
-        Sat, 30 May 2026 04:40:11 -0700 (PDT)
+        bh=86sSBgbx9kKkCfgAmFq6bHEkr4eE6POT886tx7GLE3I=;
+        b=kHy60hiQKc0x2paL9xE8/nqI8MeRDmmTVkXIlS0SYlA2RB85/LDmpCadr2RN/x9xAK
+         556pokZqrm9iKzwxELrGlT0Mh5ROpXlyLQUrSRVd9VqOAXjA/N9K/J07T4QkHnEqNkhj
+         hlyMU3KPGpcUb1aa5kALkzZBPMC8vvrZovcDFo7UZEWtQj7Yvtf0pvQVNmDy0OXADV7e
+         hvD7T0v++qA1P4Xo/0n6/ns68Ht36G9Jx8H/tKTFgsesTgUSTXQa49YhXFzyyKkYt7Pl
+         ZRJdf1s40eA3F7I0+NtleRSBtwVNpLrcgiWQmVn5nTJTzIYQQeH3qRYAukiV+SP7AWS5
+         BH1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8SkPvTFjSXBNIQPtlzm9qKVCNnr2KSYRWB45pdFD68WwkC1BNgO4I7FEMEho65EiJZDWnjdvx6DYW/JIDSMtIi0g2HJQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxE2qAm31Xxrr/RYmIzwc3V8K1E48t48tHRn34RVM9wMFRWKN7
+	yNz8qGcR61kO0mcq3QApufZRnybRFa3b/rFhgbpAXo6IcJSckRtXImsU
+X-Gm-Gg: Acq92OGDI1MB+kAaPquxPTuOPgx0AtzL81Gt/2iy3j9q5/b7ISSrQtY7ie4w38Td1rY
+	2yzoouMwtvGR+cgmkE5R2vKfj5HyKm+Xvsfh+LL6Dzmj2mizD1fC4CbxzRexOTBXa0lYJW9JXSt
+	Pxdv3wpa9O/sMn1Vda9j18O/P28KecmQkujQNEeW9HYmkx4/FkuB2DP4lYARY6lGPFquYwx5P4W
+	GRrgdadACwx5g/8ir+9+jYAAYMCurBQYYpUsyklvIqIkZ5672qtVCTOYYp1bkO0/f8FoP9Z4Xyh
+	v0eqyD5KF/Rasxuc2JmN9D4CttWF8+2GpQZyB83Bm/lrKzCZxCF1hQSWnQ3sZraAtaQXDoMZQTe
+	99hobrpZjsCr4jukGKOCHpjIvMDnOz9ObAU5huY7mabyTjwZ0OOX0YH/9DOuRb5F79HL68GrbbW
+	K0HGg6oMGrHffV0lnmb/j0Ldq9vinPDhxc4yVz9qYsMMlHg2UDhMLA5BF72g==
+X-Received: by 2002:aa7:8889:0:b0:823:9b7:9c0e with SMTP id d2e1a72fcca58-84225493ba1mr3250783b3a.34.1780141215015;
+        Sat, 30 May 2026 04:40:15 -0700 (PDT)
 Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b6797esm5467518b3a.26.2026.05.30.04.40.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b6797esm5467518b3a.26.2026.05.30.04.40.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 04:40:10 -0700 (PDT)
+        Sat, 30 May 2026 04:40:14 -0700 (PDT)
 From: SeungJu Cheon <suunj1331@gmail.com>
 To: jic23@kernel.org,
 	linux-iio@vger.kernel.org
@@ -69,9 +69,9 @@ Cc: dlechner@baylibre.com,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
 	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH 1/4] iio: pressure: mpl3115: convert probe to fully devm managed
-Date: Sat, 30 May 2026 20:39:35 +0900
-Message-ID: <20260530113938.171540-2-suunj1331@gmail.com>
+Subject: [PATCH 2/4] iio: pressure: mpl3115: clean up interrupt handling and locking
+Date: Sat, 30 May 2026 20:39:36 +0900
+Message-ID: <20260530113938.171540-3-suunj1331@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260530113938.171540-1-suunj1331@gmail.com>
 References: <20260530113938.171540-1-suunj1331@gmail.com>
@@ -83,137 +83,119 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert probe to use devm-managed resource allocation,
-removing the need for an explicit remove callback.
+Return IRQ_NONE instead of IRQ_HANDLED when reading
+INT_SOURCE fails.
 
-Replace iio_triggered_buffer_setup() and
-iio_device_register() with their devm equivalents.
-Register a devm action to return the device to standby,
-replacing the cleanup previously performed in
-mpl3115_remove().
+On shared interrupt lines, returning IRQ_HANDLED after a
+failed register read may prevent other handlers from being
+invoked.
 
-Move mpl3115_standby() and suspend/resume helpers above
-probe to satisfy declaration ordering requirements.
+Switch the trigger handler from explicit mutex_lock/unlock
+to scoped_guard() for consistency with the locking style
+used elsewhere in the driver.
 
-No functional change.
+Move mpl3115_config_interrupt() above the interrupt handler
+in preparation for the FIFO support added in a subsequent
+patch.
+
+No functional change intended.
 
 Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- drivers/iio/pressure/mpl3115.c | 81 ++++++++++++++++------------------
- 1 file changed, 39 insertions(+), 42 deletions(-)
+ drivers/iio/pressure/mpl3115.c | 59 +++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/iio/pressure/mpl3115.c b/drivers/iio/pressure/mpl3115.c
-index aeac1586f12e..befb6d48efa9 100644
+index befb6d48efa9..52a3d0d59769 100644
 --- a/drivers/iio/pressure/mpl3115.c
 +++ b/drivers/iio/pressure/mpl3115.c
-@@ -691,6 +691,33 @@ static int mpl3115_trigger_probe(struct mpl3115_data *data,
- 	return 0;
+@@ -308,9 +308,8 @@ static irqreturn_t mpl3115_trigger_handler(int irq, void *p)
+ 	u8 buffer[16] __aligned(8) = { };
+ 	int ret;
+ 
+-	mutex_lock(&data->lock);
+-	ret = mpl3115_fill_trig_buffer(indio_dev, buffer);
+-	mutex_unlock(&data->lock);
++	scoped_guard(mutex, &data->lock)
++		ret = mpl3115_fill_trig_buffer(indio_dev, buffer);
+ 	if (ret)
+ 		goto done;
+ 
+@@ -322,6 +321,32 @@ static irqreturn_t mpl3115_trigger_handler(int irq, void *p)
+ 	return IRQ_HANDLED;
  }
  
-+static int mpl3115_standby(struct mpl3115_data *data)
++static int mpl3115_config_interrupt(struct mpl3115_data *data,
++				    u8 ctrl_reg1, u8 ctrl_reg4)
 +{
-+	return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
-+		data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE);
++	int ret;
++
++	ret = i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
++					ctrl_reg1);
++	if (ret < 0)
++		return ret;
++
++	ret = i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG4,
++					ctrl_reg4);
++	if (ret < 0)
++		goto reg1_cleanup;
++
++	data->ctrl_reg1 = ctrl_reg1;
++	data->ctrl_reg4 = ctrl_reg4;
++
++	return 0;
++
++reg1_cleanup:
++	i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
++				  data->ctrl_reg1);
++	return ret;
 +}
 +
-+static void mpl3115_standby_action(void *d)
-+{
-+	mpl3115_standby(d);
-+}
-+
-+static int mpl3115_suspend(struct device *dev)
-+{
-+	struct iio_dev *indio_dev = i2c_get_clientdata(to_i2c_client(dev));
-+
-+	return mpl3115_standby(iio_priv(indio_dev));
-+}
-+
-+static int mpl3115_resume(struct device *dev)
-+{
-+	struct iio_dev *indio_dev = i2c_get_clientdata(to_i2c_client(dev));
-+	struct mpl3115_data *data = iio_priv(indio_dev);
-+
-+	return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
-+					 data->ctrl_reg1);
-+}
-+
- static int mpl3115_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-@@ -730,53 +757,24 @@ static int mpl3115_probe(struct i2c_client *client)
+ static const struct iio_event_spec mpl3115_temp_press_event[] = {
+ 	{
+ 		.type = IIO_EV_TYPE_THRESH,
+@@ -381,7 +406,7 @@ static irqreturn_t mpl3115_interrupt_handler(int irq, void *private)
+ 
+ 	ret = i2c_smbus_read_byte_data(data->client, MPL3115_INT_SOURCE);
  	if (ret < 0)
- 		return ret;
+-		return IRQ_HANDLED;
++		return IRQ_NONE;
  
--	ret = mpl3115_trigger_probe(data, indio_dev);
-+	ret = devm_add_action_or_reset(&client->dev, mpl3115_standby_action,
-+				       data);
- 	if (ret)
- 		return ret;
+ 	if (!(ret & (MPL3115_INT_SRC_TTH | MPL3115_INT_SRC_PTH |
+ 		     MPL3115_INT_SRC_DRDY)))
+@@ -420,32 +445,6 @@ static irqreturn_t mpl3115_interrupt_handler(int irq, void *private)
+ 	return IRQ_HANDLED;
+ }
  
--	ret = iio_triggered_buffer_setup(indio_dev, NULL,
--		mpl3115_trigger_handler, NULL);
+-static int mpl3115_config_interrupt(struct mpl3115_data *data,
+-				    u8 ctrl_reg1, u8 ctrl_reg4)
+-{
+-	int ret;
+-
+-	ret = i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+-					ctrl_reg1);
 -	if (ret < 0)
-+	ret = mpl3115_trigger_probe(data, indio_dev);
-+	if (ret)
- 		return ret;
- 
--	ret = iio_device_register(indio_dev);
+-		return ret;
+-
+-	ret = i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG4,
+-					ctrl_reg4);
 -	if (ret < 0)
--		goto buffer_cleanup;
+-		goto reg1_cleanup;
+-
+-	data->ctrl_reg1 = ctrl_reg1;
+-	data->ctrl_reg4 = ctrl_reg4;
+-
 -	return 0;
 -
--buffer_cleanup:
--	iio_triggered_buffer_cleanup(indio_dev);
+-reg1_cleanup:
+-	i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+-				  data->ctrl_reg1);
 -	return ret;
 -}
 -
--static int mpl3115_standby(struct mpl3115_data *data)
--{
--	return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
--		data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE);
--}
--
--static void mpl3115_remove(struct i2c_client *client)
--{
--	struct iio_dev *indio_dev = i2c_get_clientdata(client);
--
--	iio_device_unregister(indio_dev);
--	iio_triggered_buffer_cleanup(indio_dev);
--	mpl3115_standby(iio_priv(indio_dev));
--}
--
--static int mpl3115_suspend(struct device *dev)
--{
--	return mpl3115_standby(iio_priv(i2c_get_clientdata(
--		to_i2c_client(dev))));
--}
--
--static int mpl3115_resume(struct device *dev)
--{
--	struct mpl3115_data *data = iio_priv(i2c_get_clientdata(
--		to_i2c_client(dev)));
-+	ret = devm_iio_triggered_buffer_setup(&client->dev,
-+				      indio_dev,
-+				      NULL,
-+				      mpl3115_trigger_handler,
-+				      NULL);
-+	if (ret)
-+		return ret;
- 
--	return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
--		data->ctrl_reg1);
-+	return devm_iio_device_register(&client->dev, indio_dev);
- }
- 
- static DEFINE_SIMPLE_DEV_PM_OPS(mpl3115_pm_ops, mpl3115_suspend,
-@@ -801,7 +799,6 @@ static struct i2c_driver mpl3115_driver = {
- 		.pm	= pm_sleep_ptr(&mpl3115_pm_ops),
- 	},
- 	.probe = mpl3115_probe,
--	.remove = mpl3115_remove,
- 	.id_table = mpl3115_id,
- };
- module_i2c_driver(mpl3115_driver);
+ static int mpl3115_set_trigger_state(struct iio_trigger *trig, bool state)
+ {
+ 	struct iio_dev *indio_dev = iio_trigger_get_drvdata(trig);
 -- 
 2.52.0
 
