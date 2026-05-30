@@ -1,531 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853AB324B33;
-	Sat, 30 May 2026 16:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A445F29D291
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 19:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780157145; cv=none; b=c6JQE6db/xtEWuo9KYREj1rlgJK5bIKHz26gP66UJTHAz0mp+7dtg+2GDZ+aQuoQf/g91THasBbHs2Lgh8O5D1ZsgNm+LSGOm/koSgkiH2HgPB37YRrYvwbbr6TvyuwvWj5tokc/lWAmTXT0PiOQmG3QUhXisldJddj+/EzqqP4=
+	t=1780170703; cv=none; b=rO1qnky1HRx30jYumWvvodgGkAXDfd+u6v5ufAqxt6b1hFfGY9FZFuQh65t1J56MJb+Kh7ELQalaB5xaWLJoHzjkNNw9wzqBuqxavYwZU7BKDWh68ydpXnAlrc3kHxT/yV/vcPqlFlzaiF2rX8DUX2meMNaP7yDdrOHcDN5Xys4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780157145; c=relaxed/simple;
-	bh=Sq8ZxPT/G3zFlv6sRvriotdJ+HzFgC7wa2ISDn6HCRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t1Lqacr/OWTfeIXSjIKFx3tvh21l1BQC01pEPma1afNFgsduyzeWs8zWullg7AiHWGzTeMlhmVtzv/NT3H+nkNsVmowputJTRHP2osceObaMT0H2WA8/0tXtRCoCn4Qh0We2KjsTzTjdl7IloVP8IjXxcAVSmCnXb/AoNLNqeYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjsinQpJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780170703; c=relaxed/simple;
+	bh=afSC4jVwoq9wJZAIow45WnW1XZnhKA6USnmIw+3RvJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sIVaMy6EQC3NTkt+p5vQUkTQfcJgs1TYxvB42NjUUetH27aSTCfdn+jylYzS3R9T26jeGKiz23dfrMlPWrLQiwcGA37e+yB15GRHVs6czD3+opA15MAIPfTw57riXXBU39ujoZrTsGvmtbxQoSklSNov7sw/qE/MhrvOIA3/2ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qxDW/mtB; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjsinQpJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC9D91F00893;
-	Sat, 30 May 2026 16:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780157143;
-	bh=au8o4CZ62G+3miAUN480QYBgPfk74D53Glo7/Vn0oKE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LjsinQpJC2gif7IhiUawsM2TnUAI8ozxY4soPUuZI7kq6YF/5cHZwRLcP6I0TjLg9
-	 EJ3GbCHeEA1CQ239D+uWha+Sb/+I1NzmmJdvTFD98+IP27w/0peC/Kv0P6OlSsCLXM
-	 8LIH04VtbgwQf2iH+DvQrGwWc+LYQIrSwiNtH0r6FrakVm7gnlnydBw4eRVIsrD5AP
-	 wX555u0vWNXzeYkWwR1wFwMlWp57Hbc6sLjwkB5CQnr+959xef4cZ/M+dkKNpKH3/V
-	 /vnTNdB58sErcBOFUOsGbnLANmFhXhHT1T7AkUVBsZWWFtNxYT87ww6sSNSeCQAscH
-	 69Kzd/pEbYsdQ==
-Date: Sat, 30 May 2026 17:05:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: SeungJu Cheon <suunj1331@gmail.com>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, apokusinski01@gmail.com, me@brighamcampbell.com,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 4/4] iio: pressure: mpl3115: add hardware FIFO support
-Message-ID: <20260530170534.11f8e7f7@jic23-huawei>
-In-Reply-To: <20260530113938.171540-5-suunj1331@gmail.com>
-References: <20260530113938.171540-1-suunj1331@gmail.com>
-	<20260530113938.171540-5-suunj1331@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qxDW/mtB"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso1692018a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 12:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780170702; x=1780775502; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KUPVDO4TuLnw66Ni1+lzz4Gz256nyEweInp7TugqCsg=;
+        b=qxDW/mtBIeqtqS/wAi2nBgQ9Eis0NJpFaVg/tY5OoatzsZJnTLvgljdMx5mgkrpFCS
+         46MGF7MQf3632l6E1ZIEB+GfCc1VjwZP0xhVPLCUEZWnPrNLOU/EaXeHIq7iZd2tbw9Z
+         r6DTCOWr6sKyPDM39FWe3FBT3+9CJmcoX4zfs2tLwSPPB/osS6CnL8jEjSDPgKbhDvRC
+         +tgPwpHGYb9ZQnMjn90svNtKct8cRMTJkFkeA3cknLxDoBrOWwkFInX/KArhuUhW1upT
+         v+vLN8n0iYe6ixx9mjB/xJ4CeSXFdMTM+e+707hqFA3/DbM9bB4bDuKXlabFZYDbKkP0
+         RTnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780170702; x=1780775502;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KUPVDO4TuLnw66Ni1+lzz4Gz256nyEweInp7TugqCsg=;
+        b=dRwYz+cvDEMQ10NGU0MyIY3uxDdlC9yCMgmXmt/VMAuoFJggLZ6pcJW4JecgGaa8iJ
+         PCmdCEIdLjW6hDVAKt92YviHeeNQxF2O8XVHdbmAAKUAE3op8tVZkHkE/83jD8cWBodz
+         Z22yNDjL5Dgb1VN8aWU2g1cSYyF0vWpFFUzZzKJh9tLXpeiO4Fa/gP/dwRaisP93ny0p
+         D7Emc4YJIPVLv+IVjSOwUQhbhBHyyJe7yKKHFaqgr4Y649HzUShW/9ZUXfl6lUHy/BzW
+         M5Vr7mXBaGI8m+0I+KWnfq24YI6JoxNkTSDWY69yjt1dZF3Vgpmpm6GbfNoBmLSn6shW
+         it+Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/zk3Wj/jqJTQchBdPuJgwYVxHXonudNG5533GkecDk/z6a7sgrW7rbrl/8lxFbcKQBN5fmgbFUBiTGus0tJqy2m9wC/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXFpe0KJ2bS/4rzWBJd6DHf74izeVenQmYERMdTxOF/2Ob79uN
+	3RYo8o6Gj33mvYYJAdYoivv+KKFK7t/HU7okjMxKCBa/jxVXOrHxMx9D
+X-Gm-Gg: Acq92OFYLfKDUDNrDs5wnhqZkVvBc2bzwehOUBjery5zAoK797W+yhp8F1cM95VvO0B
+	zRAzSsE+z9g0HzpwwbWtYgQpkM7BRCGXz0bw2unXaXqujvSYdd8zRA0ScGNJhtW75FIFXOt1ciy
+	QmiV6fcMPe9LRLMn9QQSyXVYVU2ZYlCEXYc7qdY6NROIqlTkpAT5svfVpp5oHMfAYwU2jCCAig+
+	DVy/nXCkSyNWiDz+lkty+m6qBBRctDtzl7w5Ca6IveaAk81ZNZoOa9ZLt0hDedJGDAxBOiipD/P
+	ARCfDax36MrSC6+JzqEa3bfjPXeFzCPTyCl/6mIMTyHIgmyHqxPzVXm8D2y8KRhK3L59ntfCOEL
+	RAwwRRcDI7jaVL1T2eUHUI2DjgFk9UG4RFYkK0hz/e7LP22508QccT0s9pIseHK76H8SgaP/iQC
+	LL7IcPr0jGgqKR/2keuttRmn+FcztYFGR6m1VBic05VWIAepmFqGj/zI/2OsfJlves8KRiXVhmr
+	nszgLL0szBTi4/6RX4XuozW59MrJLRdmtvjxwgR0Kuw8g==
+X-Received: by 2002:a17:90b:1ccb:b0:36b:ad81:c134 with SMTP id 98e67ed59e1d1-36c4ff410b9mr4361367a91.10.1780170701892;
+        Sat, 30 May 2026 12:51:41 -0700 (PDT)
+Received: from [192.168.0.101] ([103.181.54.100])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36bbdb5c91bsm3439199a91.1.2026.05.30.12.51.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 May 2026 12:51:41 -0700 (PDT)
+Message-ID: <be560e03-ece5-4dc9-ad8a-907e454e9a1f@gmail.com>
+Date: Sun, 31 May 2026 01:17:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: leds: bcm6358: Convert to DT schema
+To: Conor Dooley <conor@kernel.org>
+Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, jonas.gorski@gmail.com, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org
+References: <20260525033258.144291-1-ninadnaik07@gmail.com>
+ <20260525-wreckage-gap-9d857408445a@spud>
+Content-Language: en-US
+From: Ninad Naik <ninadnaik07@gmail.com>
+In-Reply-To: <20260525-wreckage-gap-9d857408445a@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 30 May 2026 20:39:38 +0900
-SeungJu Cheon <suunj1331@gmail.com> wrote:
-
-> Add support for the MPL3115A2 hardware FIFO.
-> 
-> The device provides a 32-sample FIFO with configurable
-> watermark interrupts, allowing buffered data acquisition
-> with reduced interrupt and CPU overhead.
-> 
-> Use a kfifo-backed IIO buffer when a DRDY interrupt and
-> SMBus block reads are available, falling back to the
-> existing triggered buffer implementation otherwise.
-> 
-> When enabled, the driver configures the FIFO in circular
-> mode and drains accumulated samples on watermark
-> interrupts.
-> 
-> Overflow conditions are handled by flushing available
-> samples before resetting the FIFO, avoiding unnecessary
-> data loss.
-> 
-> The hardware always captures pressure and temperature
-> samples together, so FIFO operation requires both channels
-> to be enabled.
-> 
-> Register cache updates are performed only after successful
-> I2C writes to keep cached and hardware state consistent.
-> 
-> No functional change for non-buffered operation.
-> 
-> Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
-
-Various comments inline to add to what Andy pointed out.
-
-Note that even though you've had a couple of quick reviews wait at least a few
-days / 1 week to see if others have review comments before doing a new version.
-Any discussion will probably have finished by then.
-
-(I can't speak for Andy, but in the UK it's too hot to do much outside
-today - so I'm bored!)
+>> +patternProperties:
+>> +  "^led@(0|1?[0-9a-f])$":
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    description: Each LED is represented as a sub-node of
+>> +      this device.
+>> +
+>> +    properties:
+>> +      reg:
+>> +        description: LED pin number.
+>> +        minimum: 0
+>> +        maximum: 31
+> Is this missing a maxItems: 1?
+Thanks Conor for pointing this out. I will include it in v2.
+>
+>> +
+>> +    required:
+>> +      - reg
+>> +
+>> +    unevaluatedProperties: false
+> I wonder if this should be additionalProperties: false instead, and list
+> the three properties mentioned by the text binding explicitly?
+>
+>
+> Cheers,
+> Conor.
+I added unevaluatedProperties: false because my understanding was
+that explicitly listing the properties inherited from common.yaml would
+be redundant.
+I'd be interested to hear the maintainers' preference here, and can
+adjust this in v2 if needed.
 
 Thanks,
-
-Jonathan
-
-> ---
->  drivers/iio/pressure/mpl3115.c | 266 +++++++++++++++++++++++++++++++--
->  1 file changed, 256 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/iio/pressure/mpl3115.c b/drivers/iio/pressure/mpl3115.c
-> index 90e83e34ec43..26b6490c8c4c 100644
-> --- a/drivers/iio/pressure/mpl3115.c
-> +++ b/drivers/iio/pressure/mpl3115.c
-
-> +#define MPL3115_BUF_PRESS_OFFSET 0
-> +#define MPL3115_BUF_TEMP_OFFSET 4
-> +#define MPL3115_BUF_TS_OFFSET 8
-> +#define MPL3115_BUF_SIZE (MPL3115_BUF_TS_OFFSET + sizeof(s64))
-> +
-> +#define MPL3115_FIFO_SAMPLES_PER_READ 6U
-comment on why 6.
-> +
->  #define MPL3115_PT_DATA_EVENT_ALL GENMASK(2, 0)
->  
->  #define MPL3115_CTRL1_RESET BIT(2) /* software reset */
-> @@ -63,8 +89,12 @@
->  #define MPL3115_CTRL3_IPOL2 BIT(1)
->  
->  #define MPL3115_CTRL4_INT_EN_DRDY BIT(7)
-> +#define MPL3115_CTRL4_INT_EN_FIFO BIT(6)
->  #define MPL3115_CTRL4_INT_EN_PTH BIT(3)
->  #define MPL3115_CTRL4_INT_EN_TTH BIT(2)
-> +#define MPL3115_CTRL4_ACTIVE_MASK \
-> +	(MPL3115_CTRL4_INT_EN_DRDY | \
-> +	 MPL3115_CTRL4_INT_EN_PTH | MPL3115_CTRL4_INT_EN_TTH)
->  
->  #define MPL3115_CTRL5_INT_CFG_DRDY BIT(7)
->  #define MPL3115_CTRL5_INT_CFG_FIFO BIT(6)
-> @@ -94,6 +124,9 @@ struct mpl3115_data {
->  	struct mutex lock;
->  	u8 ctrl_reg1;
->  	u8 ctrl_reg4;
-> +	u8 watermark;
-> +	u8 fifo_buf[MPL3115_FIFO_SIZE * MPL3115_FIFO_SAMPLE_SIZE]
-> +		__aligned(IIO_DMA_MINALIGN);
->  };
->  
->  enum mpl3115_irq_pin {
-> @@ -101,6 +134,25 @@ enum mpl3115_irq_pin {
->  	MPL3115_IRQ_INT2,
->  };
->  
-> +static int mpl3115_set_active(struct mpl3115_data *data, bool active)
-> +{
-> +	u8 reg;
-> +	int ret;
-> +
-> +	if (active)
-> +		reg = data->ctrl_reg1 | MPL3115_CTRL1_ACTIVE;
-> +	else
-> +		reg = data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE;
-> +
-> +	ret = i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
-> +					reg);
-One line.  Or as Andy suggested split this in two, then the reg local
-variable isn't needed.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	data->ctrl_reg1 = reg;
-> +	return 0;
-> +}
-> +
->  static int mpl3115_request(struct mpl3115_data *data)
->  {
->  	int ret, tries = 15;
-> @@ -322,6 +374,109 @@ static irqreturn_t mpl3115_trigger_handler(int irq, void *p)
->  	return IRQ_HANDLED;
->  }
->  
-> +static int mpl3115_set_fifo(struct mpl3115_data *data,
-> +			    enum mpl3115_fifo_mode mode)
-> +{
-> +	u8 f_setup;
-> +
-> +	f_setup = FIELD_PREP(MPL3115_F_SETUP_F_MODE, mode) |
-> +		  FIELD_PREP(MPL3115_F_SETUP_F_WMRK, data->watermark);
-> +
-> +	return i2c_smbus_write_byte_data(data->client, MPL3115_F_SETUP,
-> +			f_setup);
-
-Align after (  Or just go a bit long and put it one line.
-
-
-> +}
-> +
-> +static int mpl3115_fifo_reset(struct mpl3115_data *data)
-> +{
-> +	int ret;
-> +
-> +	ret = mpl3115_set_fifo(data, MPL3115_F_MODE_DISABLED);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return mpl3115_set_fifo(data, MPL3115_F_MODE_CIRCULAR);
-> +}
-> +
-> +static int mpl3115_fifo_transfer(struct mpl3115_data *data,
-> +				 unsigned int sample_count)
-> +{
-> +	unsigned int remaining = sample_count;
-> +	unsigned int offset = 0;
-> +	unsigned int batch;
-> +	int ret;
-> +
-> +	while (remaining > 0) {
-
-Don't think this can got negative. I'd make that explicit as != 0
-
-> +		batch = min(remaining, MPL3115_FIFO_SAMPLES_PER_READ);
-> +
-> +		ret = i2c_smbus_read_i2c_block_data(data->client,
-> +						    MPL3115_OUT_PRESS,
-> +						    batch * MPL3115_FIFO_SAMPLE_SIZE,
-> +						    &data->fifo_buf[offset]);
-Given this is reading up to 6 samples, it feels odd to just keep reading without
-pushing any of them to the buffer. I'd rework the logic so for each iteration
-of the fifo we push the data we have. That will reduce the storage requirement
-quite a bit.
-> +		if (ret < 0)
-> +			return ret;
-> +		if (ret != batch * MPL3115_FIFO_SAMPLE_SIZE)
-> +			return -EIO;
-> +
-> +		offset += batch * MPL3115_FIFO_SAMPLE_SIZE;
-> +		remaining -= batch;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mpl3115_fifo_flush(struct iio_dev *indio_dev)
-> +{
-> +	struct mpl3115_data *data = iio_priv(indio_dev);
-> +	u8 buffer[MPL3115_BUF_SIZE] __aligned(sizeof(s64)) = { };
-
-This is only used int he loop below. Declare it down there with
-an appropriate struct (see reply I sent to Andy's review)
-
-> +	unsigned int sample_count, i;
-> +	int ret;
-> +	bool overflow;
-> +	s64 ts;
-When no other reason for ordering, reverse xmas tree preferred in IIO.
-
-
-See below. I'd pull the guard() in here.
-
-> +
-> +	ret = i2c_smbus_read_byte_data(data->client, MPL3115_F_STATUS);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	overflow = FIELD_GET(MPL3115_F_STATUS_F_OVF, ret);
-> +	sample_count = FIELD_GET(MPL3115_F_STATUS_F_CNT, ret);
-> +	if (sample_count == 0)
-
-Add a comment on what overflow with no samples means. That seems
-unusual.
-
-> +		return overflow ? mpl3115_fifo_reset(data) : 0;
-> +
-> +	ret = mpl3115_fifo_transfer(data, sample_count);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ts = iio_get_time_ns(indio_dev);
-
-This data is coming from a fifo. How is the time grabbed here relevant?
-
-Timestamp + fifo handling is hard. See how the invensense IMU drivers
-do it.  For 1st version of this you may have to just fail the buffer
-enable if the timestamp is turned on.  I'd revisit timestamps after the
-rest is upstream (or at least as additional patches).
-
-> +	for (i = 0; i < sample_count; i++) {
-> +		u8 *sample = &data->fifo_buf[i * MPL3115_FIFO_SAMPLE_SIZE];
-> +
-> +		memcpy(&buffer[MPL3115_BUF_PRESS_OFFSET], &sample[0], 3);
-> +		memcpy(&buffer[MPL3115_BUF_TEMP_OFFSET], &sample[3], 2);
-> +
-> +		iio_push_to_buffers_with_ts(indio_dev, buffer, sizeof(buffer), ts);
-> +	}
-> +
-> +	if (overflow) {
-> +		dev_warn_ratelimited(&data->client->dev,
-> +				     "FIFO overflow, samples may be lost\n");
-> +		return mpl3115_fifo_reset(data);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mpl3115_set_watermark(struct iio_dev *indio_dev, unsigned int value)
-> +{
-> +	struct mpl3115_data *data = iio_priv(indio_dev);
-> +
-> +	value = clamp_val(value, 1, MPL3115_FIFO_SIZE - 1);
-> +
-> +	guard(mutex)(&data->lock);
-> +	data->watermark = value;
-> +
-> +	return 0;
-> +}
-> +
->  static int mpl3115_config_interrupt(struct mpl3115_data *data,
->  				    u8 ctrl_reg1, u8 ctrl_reg4)
->  {
-> @@ -348,6 +503,67 @@ static int mpl3115_config_interrupt(struct mpl3115_data *data,
->  	return ret;
->  }
->  
-> +static int mpl3115_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct mpl3115_data *data = iio_priv(indio_dev);
-> +	u8 ctrl_reg4;
-> +	int ret;
-> +
-> +	guard(mutex)(&data->lock);
-> +
-> +	ret = mpl3115_set_active(data, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mpl3115_set_fifo(data, MPL3115_F_MODE_CIRCULAR);
-> +	if (ret) {
-> +		mpl3115_set_active(data, true);
-> +		return ret;
-> +	}
-> +
-> +	ctrl_reg4 = data->ctrl_reg4;
-> +	ctrl_reg4 |= MPL3115_CTRL4_INT_EN_FIFO;
-> +	ctrl_reg4 &= ~MPL3115_CTRL4_INT_EN_DRDY;
-> +
-> +	return mpl3115_config_interrupt(data,
-> +		data->ctrl_reg1 | MPL3115_CTRL1_ACTIVE, ctrl_reg4);
-> +}
-> +
-> +static int mpl3115_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +	struct mpl3115_data *data = iio_priv(indio_dev);
-> +	u8 ctrl_reg1, ctrl_reg4;
-> +	int ret;
-> +
-> +	guard(mutex)(&data->lock);
-> +
-> +	ret = mpl3115_set_active(data, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mpl3115_set_fifo(data, MPL3115_F_MODE_DISABLED);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctrl_reg4 = data->ctrl_reg4 & ~MPL3115_CTRL4_INT_EN_FIFO;
-> +	ctrl_reg1 = data->ctrl_reg1;
-> +
-> +	if (ctrl_reg4 & MPL3115_CTRL4_ACTIVE_MASK)
-> +		ctrl_reg1 |= MPL3115_CTRL1_ACTIVE;
-> +
-> +	return mpl3115_config_interrupt(data, ctrl_reg1, ctrl_reg4);
-> +}
-> +
-> +static const struct iio_buffer_setup_ops mpl3115_buffer_ops = {
-> +	.postenable = mpl3115_buffer_postenable,
-> +	.predisable = mpl3115_buffer_predisable,
-> +};
-> +
-> +static const unsigned long mpl3115_scan_masks[] = {
-> +	BIT(0) | BIT(1),
-Maybe worth introducing an enum for those bits (use in the iio_chan_spec array elements
- as well)
-> +	0,
-No comma (Andy got this already)
-> +};
-> +
->  static const struct iio_event_spec mpl3115_temp_press_event[] = {
->  	{
->  		.type = IIO_EV_TYPE_THRESH,
-> @@ -409,10 +625,19 @@ static irqreturn_t mpl3115_interrupt_handler(int irq, void *private)
->  	if (ret < 0)
->  		return IRQ_NONE;
->  
-> -	if (!(ret & (MPL3115_INT_SRC_TTH | MPL3115_INT_SRC_PTH |
-> -		     MPL3115_INT_SRC_DRDY)))
-> +	if (!(ret & (MPL3115_INT_SRC_FIFO | MPL3115_INT_SRC_TTH |
-> +		     MPL3115_INT_SRC_PTH | MPL3115_INT_SRC_DRDY)))
->  		return IRQ_NONE;
->  
-> +	if (ret & MPL3115_INT_SRC_FIFO) {
-> +		int flush_ret;
-> +
-> +		scoped_guard(mutex, &data->lock)
-> +			flush_ret = mpl3115_fifo_flush(indio_dev);
-> +		if (flush_ret < 0)
-So this is technically not a bug but it runs into the basic argument that if you are
-using automatic cleanup you shouldn't be using gotos in the same function
-(says that in comments in cleanup.h - Linus was very explicit about this when people
- 1st starting using these functions!)
-
-With it pushed into the function though that doesn't matter.
-
-> +			goto err_reset_fifo;
-> +	}
-> +
->  	if (ret & MPL3115_INT_SRC_DRDY)
->  		iio_trigger_poll_nested(data->drdy_trig);
->  
-> @@ -444,6 +669,11 @@ static irqreturn_t mpl3115_interrupt_handler(int irq, void *private)
->  	}
->  
->  	return IRQ_HANDLED;
-> +
-> +err_reset_fifo:
-> +	scoped_guard(mutex, &data->lock)
-
-Hmm. This is trickier given fifo_reset is called in fifo_flush.
-Maybe a wrapper and guard()  The none guard version would typically use
-__mpl3115_fifo_reset() naming.
-
-
-> +		mpl3115_fifo_reset(data);
-> +	return IRQ_HANDLED;
->  }
-
->  static int mpl3115_trigger_probe(struct mpl3115_data *data,
-> @@ -723,6 +954,7 @@ static int mpl3115_probe(struct i2c_client *client)
->  	const struct i2c_device_id *id = i2c_client_get_device_id(client);
->  	struct mpl3115_data *data;
->  	struct iio_dev *indio_dev;
-> +	bool use_fifo;
->  	int ret;
->  
->  	ret = i2c_smbus_read_byte_data(client, MPL3115_WHO_AM_I);
-> @@ -762,17 +994,31 @@ static int mpl3115_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
->  
-> +	data->watermark = MPL3115_DEFAULT_WATERMARK;
-> +
->  	ret = mpl3115_trigger_probe(data, indio_dev);
->  	if (ret)
->  		return ret;
->  
-> -	ret = devm_iio_triggered_buffer_setup(&client->dev,
-> -				      indio_dev,
-> -				      NULL,
-> -				      mpl3115_trigger_handler,
-> -				      NULL);
-> -	if (ret)
-> -		return ret;
-> +	use_fifo = data->drdy_trig &&
-> +	   i2c_check_functionality(client->adapter,
-> +				   I2C_FUNC_SMBUS_READ_I2C_BLOCK);
-
-Hmm. So this is always a fun thing to work out how to handle.
-Gating on a particular i2c controller function isn't appropriate.
-More to the point existing code is relying on that being available.
-
-static int mpl3115_fill_trig_buffer(struct iio_dev *indio_dev, u8 *buffer)
-{
-	struct mpl3115_data *data = iio_priv(indio_dev);
-	int ret, pos = 0;
-
-	if (!(data->ctrl_reg1 & MPL3115_CTRL1_ACTIVE)) {
-		ret = mpl3115_request(data);
-		if (ret < 0)
-			return ret;
-	}
-
-	if (test_bit(0, indio_dev->active_scan_mask)) {
-		ret = i2c_smbus_read_i2c_block_data(data->client,
-			MPL3115_OUT_PRESS, 3, &buffer[pos]);
-		if (ret < 0)
-			return ret;
-		pos += 4;
-	}
-
-	if (test_bit(1, indio_dev->active_scan_mask)) {
-		ret = i2c_smbus_read_i2c_block_data(data->client,
-			MPL3115_OUT_TEMP, 2, &buffer[pos]);
-		if (ret < 0)
-			return ret;
-	}
-
-	return 0;
-}
-
-It's hard to retrofit a fifo and not end up with a weird control
-interface. We can't remove the triggered buffer because that will be
-a regression for existing users.
-
-So the trick we have done in the past is to enable the fifo whenever
-a trigger is not set, but the buffer enabled.
-
-> +
-> +	if (use_fifo) {
-> +		indio_dev->available_scan_masks = mpl3115_scan_masks;
-Given other changes I'm suggesting we have nothing to gate that on.
-2 options:
-A) take the view that's not that costly and optimize the exiting triggered
-   capture for that case (as a precursor)
-B) Do manual data mangling so that you don't need this.  That is just
-   fill the buffer with enabled channels (that makes a mess of using a struct
-   though as the first channel type changes depending on what is enabled).
-
-I'd do (A)
-
-> +		ret = devm_iio_kfifo_buffer_setup(&client->dev, indio_dev,
-> +						  &mpl3115_buffer_ops);
-Don't do this - instead...
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		ret = devm_iio_triggered_buffer_setup(&client->dev,
-> +						      indio_dev,
-> +						      NULL,
-> +						      mpl3115_trigger_handler,
-> +						      NULL);
-
-Do this unconditionally. It will register a kfifo so we can use that
-anyway, but will also have the interface we can't remove (without it
-being an ABI regression) to set the trigger.
-
-> +		if (ret)
-> +			return ret;
-> +	}
->  
->  	return devm_iio_device_register(&client->dev, indio_dev);
->  }
-
+Ninad Naik
