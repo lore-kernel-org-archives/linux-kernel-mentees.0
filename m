@@ -1,95 +1,96 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032CB2C3268
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 12:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7A73A1A21
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 12:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780143209; cv=pass; b=lmFnJLgb+foLby2ETlQhFmAD/XSrTLr61cO5aHazy0o1cQNC5fhkamCG1+FB6II0D6oPNSEcG2kpLWL3T8sSlfg7qoOYrsproKSqF9uU3v7qLcr5eJNiIkGsTPiIi7UsZYrNnyphndF09q5Qrzq6y3nlyrtz9CKrIjx2X6/hYHw=
+	t=1780144442; cv=pass; b=FEtAts9Ywp6UmXizkYu5tQmUcZr+Yz2ovzlLy1tvd+Vo2BytVphvfCp2eTABxkexWU8TK4AIsd4gNRikSVnDVwfO2Zcnzgx4cCZN0zMZGWc8Bl3Begh/7HYMppzUsk+TuYtBh5gAwF3Ej5NGym7DY6eqBJ4gHnyvcRMS+vre7cE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780143209; c=relaxed/simple;
-	bh=Zcqq4uNc5P/uQsQGgioaxUxbxELyjmsfBqYi3m/Vfvk=;
+	s=arc-20240116; t=1780144442; c=relaxed/simple;
+	bh=36c0unO8MWXWDDeFqNc9onABqLKdLE9E+dwU2fyUxqY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WyfS5/O3lHZqTAse5OK+t1WyZ19sU6MJ338cy2w1dnOcMaytRDao3XFFR6ZVxjWK7HkX4fTj/zK7lqqw2n7PaGW3h9OnchD7+2oyfoeNnwOBkYzRO8WqUTX1LLvf4u9zRVIh+BrT66RucUF2M+eDdDyIu99gdarxfYGIbihXYxc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqna71mo; arc=pass smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=SfEiAxJaDMiE1O/zbHRsdIYu6VYlL8TFgIFy/Vr4wlJOb8mcqnD3gsvi4neClEY7qPnkaM7cj7fndaYT8bvsyJk6uvn0Z4Z0EP2930ym+Guj1I7L8vqHD59ureL6alduDQ/gkFeJbl5xdb9ZrcQkKRBwrhtENP/BeSzBK6lTFgY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQ1HzViI; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqna71mo"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bdbcc6c4500so1425705966b.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 05:13:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780143206; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQ1HzViI"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-68ad1e513d3so4335115a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 30 May 2026 05:34:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780144439; cv=none;
         d=google.com; s=arc-20240605;
-        b=BFj0LXJ6Cy0mej9gj3VWO6EVRfVO3jd04Xcd1JxgKAY75bbbaRiSITgmTwjBk4b9R+
-         LKC0ctleDRBlaHT8uq7Kj86my0xfZki5PBcuPoId1lna78BEG7KYUvOR3yYPpuql2Hhv
-         f5URhirxf7vSlem0TNjMwn/LfDn1yUaG/0v0VfhLoba6Wx3MphREn2FV6oLp+igqX3Zw
-         wzOYbZCEpnknpMiV2Du8lfj+FKhWJu+LtGc/VujNbKDGEzvWRUGkhOtfyypz2crQDqCl
-         bWr/1uFHyb7UQfWMNZ7jWCBO/QLi/t/b5ATtRoIpo+zBhatyokrf/80kpNqiggSWdb4E
-         dGCg==
+        b=jokzDO7Nc8Dc/4iVaRX3WivmWYAn3Zob3F9C1KQ/Hq8yA1dydoUPyZOvTgvN4bznHr
+         gejnw5sf5z6o6V9mYKWxuK7IgBZFkYlO4tMZB0ssl7icF8EeRLI90cuN9lYc2KAZr6Bn
+         7CJu5EkOihEihQOwfY5uZwknM6hq7dSCXgFxAUJu5fqSTu7B3q3vifFAiA8QtJkJ/tJf
+         MiX8TuKHolsVqWRM5e2uJ2IyqojFeL9RWSVlSCWLIOvMJ0I34V+rCpGD9EWhAOU3UMcp
+         dadTcKF9A+mDPQZXQxnZdVBy0JtX3Vv1GzoNLg/T9o/hMH+g1POErk8YgRCaBL0mFnZc
+         GC/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=xrduNo3l5STIDhpgC7F3W2pVEkONkM5OKWj5qR5aWhQ=;
-        fh=jDoDgKsms/TfjNMZRxLFpK3gsbp+EmhRwgks6kH0B+k=;
-        b=U3HW6tDFFvhTZOt84FaI2p3KBII0VTPxUUNWyGsTDSuzCoPcHCRzBGVoNZulpEYn9I
-         og5a59AS3yTyBTJhZM25fkEfiFaLVdb7MueGN2d0ZCw2F2NPWs1GZH8KxUNdpRLwA4t1
-         Sp4zGWb7fkkgQaYhJ5z0xnvDul719YTbPHmcL39WG+hcQppSd/ns8MzwpRwUgasyxmZq
-         zvh1b0UQGvjcmdGC/3SQjExV7VZMvVHB7+jAnbouSX8pcSnQ5TF15EAHShIs0voWINWw
-         ajX8xa2alulNJzwAOPg6XAKXIk9fbXwffRir87mUyggUO7hylib7dGxcsDuLs/Xp4Gt+
-         VIFA==;
+        bh=KObSDdJKT2yp6ibtTOcEqVNzY8XcmkFwEYsFtuWz+/g=;
+        fh=EYy2gjxlMNS7hXq7tEUWs7vT4YFn16FtfTPJ0+AAgOE=;
+        b=Hh/vVrzBNB2adbj4ivv4x85yRB9BZdOh6tlA83+DypprJeaVNtcTAu/2DBlJ9AkPVw
+         YgxnldSvcSq68m1Ccajl1kKCPU+Ff0Sz9z1V5GNSgvKQT4JION8185ZMe3VZ81N+nukI
+         ltdmG6Ixz6H4krMyjqKoqj0SwfgJzNQRpYAp+Tp2BxecDKlee3jlOl1QOF6DlL+crl1H
+         t8FcG3Es3Y/n4jOZiBck5od17noEjGBvj50AtvUd4zFoODHNRAHt85K1c/cyhxwFDz7e
+         3vyWlKIIjCny/Wa7jgX155QVDbNsW2k3v39BYTQ7jRzdrG5XLEEYA8y6kCzzd7nK8tg8
+         bfYw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780143206; x=1780748006; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780144439; x=1780749239; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xrduNo3l5STIDhpgC7F3W2pVEkONkM5OKWj5qR5aWhQ=;
-        b=nqna71moFOSu7p2g6G7/S5teWZDCoR7kX9jl/THrtUSGxHdcK63OELYJVvmQyvrexp
-         iJxKkqS14Lym2rbSao9+SOGOQXP2rlkQJiOv7cYKq3sVC+lgvPfSbSWRTHtU3M2TbUSS
-         ct0zHxIRaU1nDggC7PYYxfilVO3hu/mdlf8h0/xbt2zm34vy1bQ62LIE3Q2+BgSYVTVW
-         UxLdNU9/ydK/QNRH8C7VM1z4gEM1j1eklKQWfS7VENo+cbC2IqBFfVnlI+wxsSKNwebm
-         RJIo7nZQxpzQGGMnNMcEL6iKesqT38WzjyhimD7c3sUlWPZGKV50l+iUscvGSf39203h
-         16yg==
+        bh=KObSDdJKT2yp6ibtTOcEqVNzY8XcmkFwEYsFtuWz+/g=;
+        b=kQ1HzViICeNLZaVUjsyypE57Ivkkb8CLuNgzjAFZndzQ4ZvSa+3ATy9+gQLS9/8Whq
+         Qrp8fgJ7wTm0h5uRtft0JXoUDbKoRlptcHnEXC3lp8hrJvhxnFbt1/Q2WC/TOeNM2jZd
+         i3opSVo3o2FCwrjmgiEsRWyfyiXOlT3R2y9BrUWG/cM1XViYx26nRhx92bGQdnXlZsj9
+         XOa9Z2DGz78RayjeZAy9zpYV20+PyVjwZZydFA+fsSM53oB9PorbV/WqnH2VKsZwVgYW
+         AiAZvmhE6QYNDa+H7sXRJyfBhcBxnllpaNfnsBbBIpd5Xr3Iwc7Fv408a1/YDq4miCMm
+         5dZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780143206; x=1780748006;
+        d=1e100.net; s=20251104; t=1780144439; x=1780749239;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xrduNo3l5STIDhpgC7F3W2pVEkONkM5OKWj5qR5aWhQ=;
-        b=ZPa+mRKWbC4MQrhtUoPT/jG9x9RUE1j+flp3AiqC/rDKCyoEbDJnkp8Uvb50QYTNqz
-         l1AIwmJmguahxrztdRBUIlTkwf5ic2Re3PCKP3gyXsUKlGIW0OQD91yIQr1GskpIiENk
-         9qMTU7zB2KwICIIILM9LJiQwoG6Aedsj38JNgwIv7m5GHn2nLiqtJ9vXTwTl0kPlBPPn
-         6Uh1SPKWwPXrKlc4EqCN+6dlrFYlvtfe4ojXzywbeM+o9h92jmkt/e2gL/mL5lLp3CXG
-         xrbxDDdSXqqVOiwja0+s6NKRsJmvGG4WEvKqykP+aO6Tg+0NL5EL4hTv6eR3JigG16dP
-         UwhA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Vj7ixlw7SUhxYQSnDSWrUs2UcbyQwyiOVDLuIOslzLNDCX8l0hTsGewbtn6JURHlXI7nuQtXj3wr9QS94KAn9M26pjw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+BVsXOZfL5VVDYHiW4n9IzHYXofxwbos/J4IqhE8XRc4sSHdU
-	YbrY5fadcz6MkOTZpZT78gqhM/wUpQPJexHb8gKU78i0pBEHbslGgA+gnHFPKv/f3VIOUFaB2nk
-	uL0+rwXbnIARg8F6imh3nq5BPb9ZXVLU=
-X-Gm-Gg: Acq92OEin1vKledX4VjPapHn8zJdhipi7OPVo/s6VPfN7SD+KAvFlZ0qTeBnQ0RlImA
-	88Dl8lya5LlcvnGma2XcLeqRMMNUwnxcyd+pFOxEQoDfIb10kBJRBTdWceZjpIaQYrlKxvQDl3R
-	Fyh3rkJkXwnEWSL1pcshV3+rVSjJw0M0I6QPNPyN135zLodFU6ENk3tfmCCGLgrI1bpIKr42HEY
-	/u/RGvdhG5OiVRrT2V5AImIbupa+HXr4ujftSMYuONwztpSMPEL2ZCXDd0QVKxWPLyuT8UW95yV
-	zy8sl+lHcga1wj4V+gevYEUyFLrDlw60v1kbIgp6QI4x09oI57PZlG64GKixFtPrragfxCVwDdd
-	M9+OG5ezj9BX6mRoUXfoiJnc2pk3aUTv6JsOKWNu9OwUD6gaYsBrwXg7lt6ZyLMVBE6IjtajU2i
-	kOYxDwwA1Li/xX1/8=
-X-Received: by 2002:a17:906:5a49:b0:be2:7ee3:fabb with SMTP id
- a640c23a62f3a-beab3846422mr117941666b.41.1780143206144; Sat, 30 May 2026
- 05:13:26 -0700 (PDT)
+        bh=KObSDdJKT2yp6ibtTOcEqVNzY8XcmkFwEYsFtuWz+/g=;
+        b=SOWJUqt/HTYBj8ex6CrMO1taY3BYa2K23x4Wf4mw5UFFCqpho8e5n2FPdAdYqePTuy
+         Vd3YBOEjxDUsNlrpF1wr0KIQNhUONdr5mCDPy1M+L6fYBZ7rUorwZhF7Evr+993ZoSi7
+         kAfgvRfRBHrLHg0FRUmG7GXOpmnmVGFPCcXW/lvI9+Xf4ZDC9akhBmpcTDqC2rQ6q9AV
+         R40wDestFF8hjYofpe8S+Ku0wjojjZ2f8uJ0DvsZjJWga9TGSi0cIc7tTMPR7YZk8DlI
+         2+LE8uu5dldEr8jz8UIx8r2H8B3LKiexMNZPFT54YWvsrKu8Z4iNJiDB1GoDVEf8ovJQ
+         TylQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8Cx+huZ/+873CxbBnnognnGUNry4tnYHRBECUwZoT0Cxqj/iVZpC0V62Nb8fTWCWLo4tJRfG9R44kMOtyqvWy5AY70Fg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzo2SxzKV+JCj2QQtxtW0hlY1EAy/iECEGGqwM0EGDwTH5Jn3hN
+	uaSyYpfEDcojpmKe7AENH6mJ8A0V5g9W3HhXy6E3pgmvp1scCk3brDcx0AXxa4TW/JsqTEdQ4o+
+	44E1Z3H/et/i9Pynn1r1LzCMc+ag/fRs=
+X-Gm-Gg: Acq92OELuzdnQ4TNH7kYGeHUJY2KdBgo4IiVP9shI8HttoaXZIX0YSQOVKtJgnCqnoV
+	neFpSDV0pHzwnNLo1gaIQ/NDaGNXVkDroRI0JOQFdOmg3blCWpsvISseX7WtG0NPVbil2EDzgJv
+	Cng9qF8+lkO4MawIY5VORiQE3yjH2Fv0KynLpb20pfUt0zwKp/Ir1EzIkYnHlNVlVIPgIlOmRGs
+	ToUUc1ldsoFqx8qFYBKd6UhEsgeSybGmJy+lpz5VBZisW2cediNwvMkQndNxNieLPAAhL9uggyd
+	pVuL+unPv7JWzXpF+eDRQG8nVlOQSOgPhLd8gBxeNJ35K9EscNsOJ/jPyfK+ZzIbvlBp+2Y+719
+	py+SmwrkDEQ+wAFDsYOtKcJnMo/T+SIN6dEUdYbjCYnbBlZzM7srFNzvshZQRRjlul3oH+kbHVu
+	CL1MUC
+X-Received: by 2002:a17:906:4792:b0:be2:36d7:573b with SMTP id
+ a640c23a62f3a-beab541eb92mr174787166b.12.1780144438732; Sat, 30 May 2026
+ 05:33:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260530113938.171540-1-suunj1331@gmail.com> <20260530113938.171540-2-suunj1331@gmail.com>
-In-Reply-To: <20260530113938.171540-2-suunj1331@gmail.com>
+References: <20260530113938.171540-1-suunj1331@gmail.com> <20260530113938.171540-3-suunj1331@gmail.com>
+In-Reply-To: <20260530113938.171540-3-suunj1331@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 30 May 2026 14:12:49 +0200
-X-Gm-Features: AVHnY4JaMDgf3QYl2WlxP_Brp-ClFJIuceIE2pF_w-vCIceUytgSPvaHhuC8coc
-Message-ID: <CAHp75Vfd_eRRgnCpXsa0CVQ56f85YwQQRTj70MfmB4prVygYGg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] iio: pressure: mpl3115: convert probe to fully devm managed
+Date: Sat, 30 May 2026 14:33:22 +0200
+X-Gm-Features: AVHnY4Kn8G5KgjwULApCtLI6GYlsgGkapsmKD9_9XVVCstRmaIWeH1kuDVXFiv8
+Message-ID: <CAHp75VeeAOnUj018z_JdSKZagXP7yYaw7okm0jdT8BBp_DM6iQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] iio: pressure: mpl3115: clean up interrupt handling
+ and locking
 To: SeungJu Cheon <suunj1331@gmail.com>
 Cc: jic23@kernel.org, linux-iio@vger.kernel.org, dlechner@baylibre.com, 
 	nuno.sa@analog.com, andy@kernel.org, apokusinski01@gmail.com, 
@@ -101,81 +102,71 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, May 30, 2026 at 1:40=E2=80=AFPM SeungJu Cheon <suunj1331@gmail.com>=
  wrote:
 >
-> Convert probe to use devm-managed resource allocation,
-> removing the need for an explicit remove callback.
+> Return IRQ_NONE instead of IRQ_HANDLED when reading
+> INT_SOURCE fails.
 >
-> Replace iio_triggered_buffer_setup() and
-> iio_device_register() with their devm equivalents.
-> Register a devm action to return the device to standby,
-> replacing the cleanup previously performed in
-> mpl3115_remove().
->
-> Move mpl3115_standby() and suspend/resume helpers above
-> probe to satisfy declaration ordering requirements.
->
-> No functional change.
+> On shared interrupt lines, returning IRQ_HANDLED after a
+> failed register read may prevent other handlers from being
+> invoked.
+
+> Switch the trigger handler from explicit mutex_lock/unlock
+> to scoped_guard() for consistency with the locking style
+> used elsewhere in the driver.
+
+Split these two. Moving to scoped_guard() is a separate refactoring.
+
+> Move mpl3115_config_interrupt() above the interrupt handler
+> in preparation for the FIFO support added in a subsequent
+> patch.
+
+> No functional change intended.
+
+But this is a lie. The change is a (big enough) functional change and
+actually it feels and sounds like it deserves a Fixes tag.
 
 ...
 
-> +static int mpl3115_suspend(struct device *dev)
-> +{
-> +       struct iio_dev *indio_dev =3D i2c_get_clientdata(to_i2c_client(de=
-v));
+> +reg1_cleanup:
+> +       i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> +                                 data->ctrl_reg1);
 
-What's wrong with dev_get_drvdata() ?
+And if this fails?.. (Okay, this is not this patch issue, it's an
+original code.)
 
-> +       return mpl3115_standby(iio_priv(indio_dev));
-> +}
-> +
-> +static int mpl3115_resume(struct device *dev)
-> +{
-> +       struct iio_dev *indio_dev =3D i2c_get_clientdata(to_i2c_client(de=
-v));
-
-Ditto.
-
-> +       struct mpl3115_data *data =3D iio_priv(indio_dev);
-> +
-> +       return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
-> +                                        data->ctrl_reg1);
+> +       return ret;
 > +}
 
 ...
 
-You forgot about mutex_init().
-
-> -       ret =3D mpl3115_trigger_probe(data, indio_dev);
-> +       ret =3D devm_add_action_or_reset(&client->dev, mpl3115_standby_ac=
-tion,
-> +                                      data);
-
-Add
-
-  struct device *dev =3D &client->dev;
-
-to the top of the function to make this shorter and easier to read.
-
->         if (ret)
->                 return ret;
-
-...
-
-> -static int mpl3115_standby(struct mpl3115_data *data)
+> -static int mpl3115_config_interrupt(struct mpl3115_data *data,
+> -                                   u8 ctrl_reg1, u8 ctrl_reg4)
 > -{
-> -       return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
-> -               data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE);
+> -       int ret;
+> -
+> -       ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1=
+,
+> -                                       ctrl_reg1);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG4=
+,
+> -                                       ctrl_reg4);
+> -       if (ret < 0)
+> -               goto reg1_cleanup;
+> -
+> -       data->ctrl_reg1 =3D ctrl_reg1;
+> -       data->ctrl_reg4 =3D ctrl_reg4;
+> -
+> -       return 0;
+> -
+> -reg1_cleanup:
+> -       i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> -                                 data->ctrl_reg1);
+> -       return ret;
 > -}
 
-Split moving of this function to a separate prerequisite patch.
-
-...
-
-> -static int mpl3115_suspend(struct device *dev)
-
-> -static int mpl3115_resume(struct device *dev)
-
-Why did you touch these two?
-
+If you need to move it up, split this move to a separate patch.
 
 --=20
 With Best Regards,
