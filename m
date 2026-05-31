@@ -1,93 +1,82 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F78238BF9C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 14:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1320392819
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 17:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780239228; cv=none; b=h03ZEMNxZKny09pMy5sI/rVL6NgZMZwV7s0x/sLwc7za/ftRoAtmjLtrNR+JCZFR61RuqCkUVqKEdqBkwwuMUGQztOhQC4CCrFt6HaoPmg++mld12fG/plCOaScFp0pYcBVPrWQcL8WLOLGA6aCpXlfY1AXM8UzzNqZPaj47rb8=
+	t=1780246832; cv=none; b=owSN3UDEIW0RLG6vjuwdLwrSV71gpK53dS6IkXtEAgrOaLXP6KcVn3CjzzZQSQOj0p7kv3fJrbjJ6mzg+psmVm/r8WXSw05DKi4bC2cFG7GKhzDsXr47wu6L2w45YdOZmB5gFD5mT8ibLMIh+w3gA2hHbFerwZgUP2AeE7T8DjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780239228; c=relaxed/simple;
-	bh=XK51geeL3+peWDyqzG1dtEA1t9N0Y1/v6t0z4dZe6eA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5NfFAip0PHAT8zhAeROc5twNParqQiUG12cB9CIq74oK0sN+HafqZVfpm8RPO1s4LFo/I8yvV7ajy1SfjHC9N+xpCmzG1h5BpFwzKgYY5Ed0w2lipF06MxosYjFVKmO3oxX0TRRm/WslF8o9+G0ItZQGVVqL96D1yqPek6MEq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JwA1Yc8I; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1780246832; c=relaxed/simple;
+	bh=EOBpOIKoSoMieWyB4Iyyf+2+E8XFT3MTeLulNuhmax8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lkwzt0Ppg6/opha8rtxfONWeWVqWsd6hIabsZrcPUelL/pORfu2f99JFMmGelQmdUOmFRFUeWdJYQQRv5Y3IUGxPhP5yxcqlllOKPqVsalMKcLvqT05vFcanvOYCecwfESxb4HjrpgKZUWd2vfqoV3Yd2/7wv4ClR4EkuTI7Cso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/auHpaW; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JwA1Yc8I"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DBAFA84C61
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 14:53:46 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id qWLMFcHAm5aR for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2026 14:53:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::333; helo=mail-wm1-x333.google.com; envelope-from=hisamshar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 08ECB84C5E
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 08ECB84C5E
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JwA1Yc8I
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 08ECB84C5E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 14:53:45 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-49039a8851fso95480075e9.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 07:53:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/auHpaW"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36baec934b6so1318430a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 10:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780239224; x=1780844024; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20251104; t=1780246831; x=1780851631; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cFQehZMTwDLdoBhXrsPY8v0PLCjeGjVTdtI7THwMy3A=;
-        b=JwA1Yc8IqaC8nC26eTaIaYuJNl4tpni2F8ytjMRU0bJbbeRWFuBJT98xr4qmb59Wf/
-         Cj9/TA+9WXSs1r35qLRh+vRjblcxPwGfRoqqGY4zqxXZoDsUoD0xU8iDveGeGjm0aDJY
-         eO9bBom2OU8M0l4RM8YQWjl32i3zL6VLnb2NBn/qinMhvVFhFtsD+UAPaGUybMLc9ltK
-         1fCYiijuFwn9GGJNKAad6bTC6SxW9Qm4wybMcCET+cqbTZcEZL6/DH/0WyM6YulELE5c
-         Gk4PCs5kfnBy6odb37yMwTQ7IntIv5k/0Ks1VlZFPYeWVOOhiPOxNtlXRZ1eYCLt24mQ
-         J3qA==
+        bh=nNZr3l3L/Od3rTaCElFlPcrYufd7SCc++/hp9yDvX+M=;
+        b=O/auHpaWekxulR0K0NT7SKMwBqdBZJJe5qmhjErCI0EFcm6gu4f3HDY8a7np3BTVF+
+         iq3ZIVaQ3fYTM/jCFPP+rD7nWRcirMjfOwcSjH0GqFXrJpElSiVoiARR0cyVw3NgRyid
+         nb3jO9HD8GuEl1MtUl1LXms7lBQG6QUo6xfcFh1T3+LES6LQjktA1v1q8eKr9wP025/N
+         bJYvMycJfMS3xbzVOvnY8MlWej/2Ftall6JYSW3veqqqpj6i2uYqB2xFTWtjukshmZ1e
+         x6jbZJ6FXddMJ7AlzodimRBsg4a39AaNQFajj+HVMwkXYDjRQOzrhgCpQI5hN23s2VWq
+         N3WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780239224; x=1780844024;
+        d=1e100.net; s=20251104; t=1780246831; x=1780851631;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cFQehZMTwDLdoBhXrsPY8v0PLCjeGjVTdtI7THwMy3A=;
-        b=bdsfYEAUBphsMjxlRSkSSuOWWzbvGHqCTNCyMH+gEZkLwpsIggKGvottN5W4UEloeJ
-         HTmuOAxgwEeBD3VpEQT+jPPnUKoDKZotgsmPiazEkdc8Ul/t/BJRTH4khC+IFlWqVqDc
-         X7wpVJJF/pqvByMKqAuFWaPQFR6V3E2vlATDVRmDRHknyQEDyOc/IQddERvF6CKFlFTs
-         YSWFUoRLvhPfxAUqSu7YeRQhPshISAPkHXjtZduIJLkHPrWxnuZXqsQw6t8ce/pMjXLI
-         GDpWrtvdwxVsIDUsWEtQTbIHrLXV0GMfrVu3aJmv6mHnK1++3j1bkYEqBdwsmkC+z3nS
-         O47g==
-X-Forwarded-Encrypted: i=1; AFNElJ+tbotfIHUIm9dkZ/6woMvDkJ9PtoXRMDUtUadZZEII34Uhwpt8v6I8IYeAsnOHp728jwXgdAcdxPmOf8+mlSKXcl8Hdw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwQydWouhaM4pzZC/4WuN3koY0ec36moIqrc8PZawEkmSvQyrE4
-	X+9gYrXe2kLvg4mRIv/cdwbVbmI3uipjAh+463U+TTyJfW3ousCYewB3
-X-Gm-Gg: Acq92OGNfCCoRnnNXUUc51uEWIhMJApuAjRYl3TgjVMoIvMQ8BJYhzd3nqWOdWyfvoY
-	2cZO3+eFS5y83cH5nkG6aCJqOjPrv6wMu5wYkBOeMjaxMtbrs77EGDHVbKMbAn/3m0xV/FWZfM6
-	NcMGCSy1/JM/hK3IToy8nhpXX9ZwPLSLOYAN8+whT/PsxUhmWI1fGIve4QnDs7dtCgccCrFFxXx
-	H6uO925/OcO/ooZ6Zr7/zIAOVsVqDiEfeA1MPChx7QSVLUlQJ+Q/aXMiQmFxO/9FAxP0TZTCtch
-	1dM78I5GK9kGl7pM3n1ygtAl3/8S7i383HO2Jm38s+ukIhBb1jG1lOaiyzmAizAX1834HdEbhxQ
-	jcQ44yz5fjJIe3KKNioQEMDmZSsDP9W0lnVQsJJ75PSm4Hm1b5OD0FowGrSGQvul8F1GA9NwfF7
-	GgFT2XWUZ6nfd5+tLytgd+Bc4=
-X-Received: by 2002:a05:600c:4f89:b0:489:e696:8362 with SMTP id 5b1f17b1804b1-490a292ed68mr133428765e9.13.1780239223323;
-        Sun, 31 May 2026 07:53:43 -0700 (PDT)
-Received: from hisam ([39.40.47.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c0ad269sm59217195e9.11.2026.05.31.07.53.39
+        bh=nNZr3l3L/Od3rTaCElFlPcrYufd7SCc++/hp9yDvX+M=;
+        b=ILZrIQv+A26vC4hQVocAlBYQz9xb9h6WyaO4nmxUPv9F7g7AFDAaPIQ3bBYsHPUHIm
+         rVWSJkoJ+yqXrYtEY46lkhSn26XZoiXmbYE0uqgY3dHOiCHNXpB8nzpPBLpkHeovqdwB
+         CT3TqzIYkh3v5DvEkOxVB7CAEP+46YaEhonrv1y9mVPF2m8E0MD1bqsGHkT32QAph7Yg
+         1+Pu/frWXT3mM1YOsxOj28aAovssaTCj+ZSX4iRAUP5jKYPuqceMrv41/cmP+rFd9tZ2
+         d+Z5EjF/7umr1QN8tQMbXHny/2xstbuEn1u2MUao1fYz3y/diniicZzVrUX9PGdnBPvj
+         cOgQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9lRNYz+O05Y3P0OrgrF/a+tZ5FT/ALfQ7gTg3AMooCT/eb0ZXG4Q3/0TUJ31V/6TkgpdTRK++B9fYrHNuHeg35HkKV/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIgtT4dcdYo/QoP1mBw/pncVNQqw2dzpg48cnmiRk6ljPzzj/D
+	Ni/7JshR61qNPViMFnnsZP3SEfJrlK4BsapBx7IU4qVq5CYdWtqJOFWF
+X-Gm-Gg: Acq92OHLr9B4871ubETeXkLvSHimcCQysoDWMzD1TABAu/WUSuJftDDGuDaAefgGlAO
+	RZYfluaSXy/6dy/OZ6hw84cSPDmjXyZ9WOuW+J9KY6EBz2+K+jB+uYjlKSErmUaaNQdNaMNJzJ4
+	l4YrfNPFMaZvJc+9+TedvJsk7tI2VDSJHVHrUziwmCP0csfqoi87KxtAdDwloXYLqZIcxsi66A2
+	yyB7C+TqJuNbCBHA7kn9BK4YEVFLbBm3YPziknVngG82jZvY9ss/UrNI9IYphT/ZluRMc83a8xN
+	U1QDe+hZgH0EaQpNtCoYNY+8miNq79tgGYZsGb3u1qjQbLnIuLWZTYGyABVjKKzElVjHWvm+2XY
+	usOodMBqPqL6boyr0O4vNGaDcYLycXIooaUU7LhHhdEI9oBzT6gGft3Od7qY+6eMTwjvf7LeCfd
+	WORMae/HVmKgcVU545X+waD//Ct1k3xbkKL8cWUY9Q65bcGVqY0v3JggkVUruiGfnLREWQmHZP2
+	caxtw3+n3TEj8DYSaA=
+X-Received: by 2002:a17:902:cf0d:b0:2c0:c8a8:dbb8 with SMTP id d9443c01a7336-2c0c8a8dff7mr27171725ad.29.1780246826053;
+        Sun, 31 May 2026 10:00:26 -0700 (PDT)
+Received: from fedora ([103.181.54.100])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239fd24fsm99331075ad.20.2026.05.31.10.00.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 07:53:42 -0700 (PDT)
-From: Hisam Mehboob <hisamshar@gmail.com>
-To: pbonzini@redhat.com
-Cc: seanjc@google.com,
-	shuah@kernel.org,
-	me@brighamcampbell.com,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+        Sun, 31 May 2026 10:00:25 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Hisam Mehboob <hisamshar@gmail.com>
-Subject: [PATCH] tools/include/linux/types.h: add ulong typedef for musl compatibility
-Date: Sun, 31 May 2026 19:49:36 +0500
-Message-ID: <20260531144934.403888-3-hisamshar@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH] regulator: dt-bindings: mt6311: Convert to DT schema
+Date: Sun, 31 May 2026 22:27:12 +0530
+Message-ID: <20260531165712.729635-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -96,35 +85,135 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Building KVM selftests with musl libc fails across multiple files
-(e.g. memslot_perf_test.c, cpuid_test.c) with 'ulong' undeclared.
+Convert mediatek,mt6311 to DT schema.
 
-Under glibc, <semaphore.h> includes <sys/types.h>, which exposes ulong.
-Under musl, <semaphore.h> includes only <features.h>, <bits/alltypes.h>
-and <fcntl.h>, and does not include <sys/types.h>. As a result, ulong is
-not visible through the current selftests include chain.
-
-include/linux/types.h already defines both ulong and ullong in its sysv
-aliases block. tools/include/linux/types.h mirrors ullong but omits
-ulong. Add ulong alongside ullong to close the gap.
-
-Signed-off-by: Hisam Mehboob <hisamshar@gmail.com>
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 ---
- tools/include/linux/types.h | 1 +
- 1 file changed, 1 insertion(+)
+ .../regulator/mediatek,mt6311-regulator.yaml  | 72 +++++++++++++++++++
+ .../bindings/regulator/mt6311-regulator.txt   | 35 ---------
+ 2 files changed, 72 insertions(+), 35 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+ delete mode 100644 Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
 
-diff --git a/tools/include/linux/types.h b/tools/include/linux/types.h
-index d41f8a261bce..ccc90dd4baeb 100644
---- a/tools/include/linux/types.h
-+++ b/tools/include/linux/types.h
-@@ -42,6 +42,7 @@ typedef __s16 s16;
- typedef __u8  u8;
- typedef __s8  s8;
- 
-+typedef unsigned long		ulong;
- typedef unsigned long long	ullong;
- 
- #ifdef __CHECKER__
+diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+new file mode 100644
+index 000000000000..a51db46b0f41
+--- /dev/null
++++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/regulator/mediatek,mt6311-regulator.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek MT6311 Regulator
++
++maintainers:
++  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
++
++description: |
++  The MediaTek MT6311 is an I2C power management IC that provides one step-down
++  converter and one low-dropout regulator. The regulators are named VDVFS and
++  VBIASN, respectively.
++
++properties:
++  compatible:
++    const: mediatek,mt6311-regulator
++
++  reg:
++    description: I2C slave address.
++    maxItems: 1
++
++  regulators:
++    type: object
++    description: List of regulators provided by this controller.
++
++    patternProperties:
++      "^(VDVFS|VBIASN)$":
++        type: object
++        $ref: regulator.yaml#
++        description: |
++          Regulator nodes.
++        unevaluatedProperties: false
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - regulators
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      mt6311: pmic@6b {
++        compatible = "mediatek,mt6311-regulator";
++        reg = <0x6b>;
++
++        regulators {
++          mt6311_vcpu_reg: VDVFS {
++            regulator-name = "VDVFS";
++            regulator-min-microvolt = <600000>;
++            regulator-max-microvolt = <1400000>;
++            regulator-ramp-delay = <10000>;
++          };
++
++          mt6311_ldo_reg: VBIASN {
++            regulator-name = "VBIASN";
++            regulator-min-microvolt = <200000>;
++            regulator-max-microvolt = <800000>;
++          };
++        };
++      };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt b/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
+deleted file mode 100644
+index 84d544d8c1b1..000000000000
+--- a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Mediatek MT6311 Regulator
+-
+-Required properties:
+-- compatible: "mediatek,mt6311-regulator"
+-- reg: I2C slave address, usually 0x6b.
+-- regulators: List of regulators provided by this controller. It is named
+-  to VDVFS and VBIASN.
+-  The definition for each of these nodes is defined using the standard binding
+-  for regulators at Documentation/devicetree/bindings/regulator/regulator.txt.
+-
+-The valid names for regulators are:
+-BUCK:
+-  VDVFS
+-LDO:
+-  VBIASN
+-
+-Example:
+-	mt6311: pmic@6b {
+-		compatible = "mediatek,mt6311-regulator";
+-		reg = <0x6b>;
+-
+-		regulators {
+-			mt6311_vcpu_reg: VDVFS {
+-				regulator-name = "VDVFS";
+-				regulator-min-microvolt = < 600000>;
+-				regulator-max-microvolt = <1400000>;
+-				regulator-ramp-delay = <10000>;
+-			};
+-			mt6311_ldo_reg: VBIASN {
+-				regulator-name = "VBIASN";
+-				regulator-min-microvolt = <200000>;
+-				regulator-max-microvolt = <800000>;
+-			};
+-		};
+-	};
 -- 
-2.51.0
+2.54.0
 
