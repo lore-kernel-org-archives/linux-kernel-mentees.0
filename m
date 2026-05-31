@@ -1,300 +1,354 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A5D367B96
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 11:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52E23839A7
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 11:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780225732; cv=pass; b=sjLVZlOsdy80Wr/ms3iWZLL4H9cfkGOcVU5zMX0rQ6nRTEAiA7cXchSsPKfKJKCVWQFrFpnc/1QzJXanHJRpQGYyw5F/akph8tuXlxJE5MUc+H4NJ8nwqdBFNh/Q+aTIrHhtOA60SZr2lwIOIpwHzgbadR11b11f7LzeQUis/AQ=
+	t=1780226162; cv=pass; b=gdjQFpopesDRNhuI2opY57GsM4cpelrx/VG/rZ+T0u169snQgc0PceRIAMole9qCiNHiI4xg2R78855WA1d0Cg8zCIYTilWJpfBk7fKu16FqeS/ZHwGS30BGJHklX7FH4gFPp/mWyPtSHTy9WS73pZfGTP8ZTYzI0Obji6vZeqk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780225732; c=relaxed/simple;
-	bh=nu8/JQN0VEd8oe2BFffLTKxC3PetKFWMv325fNt1V+c=;
+	s=arc-20240116; t=1780226162; c=relaxed/simple;
+	bh=faHcfbpClcU4o+L38iaJU1ZD8GaunZRXjtU6wI0XuXY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F7VrbhUHaq1q5x6PsfezejKy0T06FeSxI3HtsPDP6PUJB4exoNDP9QaAY8gnzxx0hrNGyZGR9fKBe0rsYi+QFrTh5H3v9Qoja5/QApeM8bFGLyJiG1DsETHTJ80YrKESQyhHITy81+ioHB4MyKPutSteqHO46psVEjx4oTv5594=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=siqM/WTO; arc=pass smtp.client-ip=209.85.210.45
+	 To:Cc:Content-Type; b=VVA++ouuxgR39sFmlYbL6dhcBoQnWflMu6CHEUxmgz8y35G1w1BIwHygeXHBXGL9QknSe1HfhJRX1+SyH2pc00RcUuVCrGawTiVnDOwktk8ULkIBKwyCTi/Wm3jSPSInIYltzluIdUbvfDD/8mUu0pFYabkEIyQc0Tl8Wuu+ucQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRTqWOFE; arc=pass smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="siqM/WTO"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7e582b3bcaaso13136821a34.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 04:08:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780225730; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRTqWOFE"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e612d0693eso7619486a34.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 04:15:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780226159; cv=none;
         d=google.com; s=arc-20240605;
-        b=Drtl9ZJaAVolfsVpjG/sAhdaumo8o8HtvH2gyx9a/Xm8QRIRIhPH/KN6YiyzUE949r
-         7ebSA0aLXZ8j5yxsgS6J5c+WlLRc7gehM3VzLedLN01R4pem3V/F0IwNg/HLe52CKNbs
-         7v4sHiIdiD/Kg0NuylgWUAUs+H6ct+kK6EaECnhVBy60MWti4BEzf/54fvwpsfZ6Lrk/
-         hfgPf63n9yZ+8cS8CbmU/C7EzQEoUZl8kTPIXIzBYem4pPKElORVJiBr3NJBIbDFFMSh
-         pHoVZW4yrzIvCakw35x/T5Ac2JWEOoLxY1SbrSbtlGLogFizjJqvFkV/XY9zulMbcBDV
-         Koyg==
+        b=S1UOw3i4GmJBy1p0ImwVDnrCK3/w6cu7xchsvx2DU7fLRykXOnQhat0UtJGd3Ju43O
+         7Rgxgjn6Zv3qH5pBTU62kUyYSFrnSm7US81+kW3p+lvQiPaF0DdBvBoMnPIdY+RPnkfv
+         QdYzLgT7igHxDl3QR1nhUn0monm8nJT1VBpMbViLyLUXJKtVjOXx2RPAfHII0P1jiYcx
+         gFm9lHnA6TTT3NAX/8V8jFDNQulfBSozpMvS34NllAm7zCM6tJJVy4zACo318abl8tA8
+         7JCPvxQJmM1bRFxvEADZPCos8k2E2ZV49iJSKF3M3bS3p3WY/DR6TMu2UX6WXdpV/73m
+         lVFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=REIMmtve57RIIm20E1r4PpT0MYpcGxeBosfS9/0toIQ=;
-        fh=nu9ewLCMbJSNlzZoXUaWRgfO+z0tneHEMUn5WpZkv+Y=;
-        b=PAeqdr1f/sNdwmdHPUMWl6C20rVReJE0+fdr4G3Hm8ntHhWjoTr4F5BrF2RTwk7X7Y
-         rUnsZz4ZnOyTLTrk+8aGKx5wXtan2O8XorvzdqXxu6KWvr/nVRrJ3EkYEL6ENeT1uj6D
-         Rphz4UnOzuaIAOl1dRdC+grUtVwxK7nsNLQTA+fO/k61QY7bYq8yMQya0LCxY1s3Q07Y
-         zW8l0QnWMi8pSsVqYQIV0IkZH/jozThekXdtpVJ75FWVQWaJGK09WFyGjElVf4i+j6++
-         HhxVyIEt6w9QOcQ6GiHxPcVwOdjaZ3lGDBzyBBn8frp33jd3Tu2uEPnTnJ1R2mwkSXkE
-         dvrw==;
+        bh=bd2Xvn82ajx4EmMFtsNWklXrswUhyjI8fLCmJWocdxw=;
+        fh=kblfJhIXCDLvc507z+L4wUnybpn7FiDDzi2oFrCNkIg=;
+        b=HOqVP5GNWEXJuuPOwUSC8D5kNzL+TNnahBxA0ZrzJ17gRQOUg0Cyu+UsIWsTo8cbP7
+         95o+G0BaonBprw8tEwJqQjiQN4yuG8URL0MeeRcUuW0K5K6efcxSQhkh7dkGEJhrOYkj
+         s3Ms7pnpG2frtQA+BSjpMZ9K9Oq4x6O8vGqvPM2s/Yl6fOU/2kewzseuZCjd3IcgII81
+         qZa/0Wfdxf19jUwqGsC941R7d1hFx1jrTEBwjAfuvvYlgg7wPuG/HPdI7giqAdr7F6y+
+         3fkPdXygnHtJVqcQ4lwIV6ft3tbe49z8/KLwWUBl28iaC3pj3rNsB89n309o+mSTWYIH
+         hG0Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780225730; x=1780830530; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780226159; x=1780830959; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=REIMmtve57RIIm20E1r4PpT0MYpcGxeBosfS9/0toIQ=;
-        b=siqM/WTOoISXAVEi/b+VRHg6Bhho91lsMhQdsYDEXLnVu5x1OX29Ac4NEpiRFTsUfm
-         M77cdlRqCYQh694WiSBKQlM2wJZpChlBQWUKC2GE+Au/62QhCsfiggyeTff+5O/KIGKQ
-         p5+AJWERC7aPAV81hFd+fEJkyAIXB6RTyDJX9ZyfBWlrkSR7aXv2obngLlHzwOrwjUmG
-         X27j62GpBT3MGvNDxh5ee0u+XCeeaJtDbNHhuu3gFbwiJBS1akrAZS5e5gs1azD26Zdt
-         lrS2i1GmbKOzgSF185AzyGnBzIxV89uYstNMUl+SeF73NGspdeogRIb7CbasEttCtriS
-         qKfA==
+        bh=bd2Xvn82ajx4EmMFtsNWklXrswUhyjI8fLCmJWocdxw=;
+        b=nRTqWOFEjhMp/kNl6wfS9Mt8hWt/eViGOyN+DkhqknALTi0YMdLRXXkc4+T51GEUVh
+         xybF4WzZEIMO4kLJR9h/Z5irOgNAVKVJp+zwMqrmul+i67CcOsDfOZMNxSmJAoLK/tBm
+         fXg3cXXlUA0JXWAU9LdPwENn1TyDykurcBIDkoOOA0ethWg6TQnAjrqxgBN/bGiE845h
+         pJio+fNjGjJg5pjAg/LROmth+v7UYyg5BcyM2vyrlAaAhRbidki9S+wwzyhQuPE62ZI8
+         imfGK9H9y34F9yO7vIsLpLN2N/f0nDVjWUJKB0Q97ZWOns5BqanhCJHgPz9v+QFfFF1v
+         08NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780225730; x=1780830530;
+        d=1e100.net; s=20251104; t=1780226159; x=1780830959;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=REIMmtve57RIIm20E1r4PpT0MYpcGxeBosfS9/0toIQ=;
-        b=rl7w0iVTEI1kWBGzUOyBDLWSRPbUkdDEU5iu8bKb+yYErPLwgFJZzfozUIBp8eQtuF
-         bG1t1tga1iytP+x9NTbJqDWL58yrkkFtOmWzJ/7yl/y/2Snqsy9HLinNDbjly508RO4X
-         LYfiOmkP7PFyhIAwu600ear/0SMTSqL6Bc7afUf0TWsZ0zYfjAXc41aeB4xVUfgY1S0e
-         KPg5MVY7qTEQSfoo8ZINPDW//IMWXVDBuqle8FQbFjl6IhjE/qbNHCDVfnklrhVsTYSc
-         +7P+puwJTKJ8I+X7HQfVBxdFw/wdU09ix6y9Uxc8lsYHAnrv8BKERYhGYCKKkHeAE2M7
-         JHeQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8bA9btaAxUsEMEIR/6K1XWYHjUr59rj04Dl6Oab0+ORfSSyxdjt/cWm4FAUpjTOIrwzSTxDnsgi6s2mL4OZj8cyUzX1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjQkvIzYt04QjI+83bLOqhNe/A8K0f1LKqZWiyeCFLrzVNlnWi
-	0VdGP3xiRk4tzMveC9ok2+J2T2UAnSCMGhlQ48r/EBdeFVHuIS5/oaGW9GzzZRaQXwYR1+1xK1B
-	HexusOa4VQ4vsRnWMK6k9FIC7XbJ30oU=
-X-Gm-Gg: Acq92OHo3E+Kq+xxbRAfwEbmYGME+kRM3VZttYkuC+xhPnNU5VIW01ZnBbiJwxiaErG
-	jQ7kfrA710TRLm29d1MZdpQOY87ha4jvB6U4oNskvWpTliNpGLX+SeNILxwWJSMWNc0VUjapn0K
-	d66XpoIZaIAmTRD/EwtfsPfL42yoiMW92hF4MAfjRW/yaNJtkNb5oEewdgOQ3P2++2yKdLTMDpD
-	ilVIlwh7FsBLO9zJHpwpg0KD8FaqQX0LsLE9TrwckposYx16sQQpSqXZpqpW121jiGRqY2izpBE
-	xD1vsc/k2q9rHb4mMw0UaTbnpoYp9YC9q9Ax8NAUtdGssnesng==
-X-Received: by 2002:a4a:e902:0:b0:69d:ee54:bab9 with SMTP id
- 006d021491bc7-69e1007af36mr2646663eaf.0.1780225730325; Sun, 31 May 2026
- 04:08:50 -0700 (PDT)
+        bh=bd2Xvn82ajx4EmMFtsNWklXrswUhyjI8fLCmJWocdxw=;
+        b=rwD5xXtEJQOg9ca7sdwK0Y+mj+kEkN/t+DHdZ0CvALhLr5WNAx1EEV9O5HsNr+S/R9
+         nIkLlRS7sS+mKS13FxNzxdxyRNaPY/bJpo4147c2gvTIdb3PBwNCMm2t0Kmv73RpH5Ew
+         Xc9JDwZrbtfz/Am48flQXakvmN81NuAaU3HSZZaXNhwre9sqH8tSBE1CxPCLpjv6zzmO
+         q2CVHF+V2hkBrTg+OZ4VpXQFeHvzmQ/UIdGryFt0lKboSu9wOjwTF4UN1rzXZszDgzYf
+         wN3GPgSBbnoJ9AlfIdYeNQWntaXwFJ4V6E4tjVV/iDvamUmTGr4ybmvkuHShPPDTgi0m
+         ZTIw==
+X-Forwarded-Encrypted: i=1; AFNElJ/kxQrK12O539YJDsExT9WrYtjYS0mTxLAw8FVq8bufihbBrrRaQymmD6i5stVc1Mmf8mqjVcw4xIAeuXAi+/xJZezN9Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxcwRLRKPO0Vkb5AWF91694bpxF8BGvKOWXWe5unbOMUFPb6LYJ
+	I3VaIbn4WKp38KFPaov+636D5qknbNl2p5tdiRNuu4J3qrf6EFk7NTLt2y8eT0HnTkTLQFeC+Gi
+	PKCDoo1voZKBGMDFX3ebBDapkEvLjGFY=
+X-Gm-Gg: Acq92OG1zAL77CUjW0YGo/g1sxDnXc+x9HvUlkp70k6oGhE7Ebj6oonLyaw1i9fgSmN
+	91KazYX1n8IAWxFTbMIO48W9ttjxNOwW6UIVUB7EAxg/U90mWZcMywqr7sgXG7xyD+/55yLzW5w
+	Glc6swGABGHPhecdWAjeAX2k8VYqG0hzecqnCXk10KZfL6JN8njQ+ArnvO7MFk7luOFYbs2XkQU
+	oiAb1rtdmLB/wTSV6sj8E9uVWRlvsG/NCGdFwquLaOskpZwXnC38WE9WNgkKxm7KYTrBk30lDP1
+	d0XoGAAPre8WIPeognwIz4FcM1y4TDOogsC9yqkd9KiYvv3U1w==
+X-Received: by 2002:a05:6820:3086:b0:69d:8b4d:53ba with SMTP id
+ 006d021491bc7-69e1053fa68mr2944911eaf.37.1780226158613; Sun, 31 May 2026
+ 04:15:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260530113938.171540-1-suunj1331@gmail.com> <20260530113938.171540-4-suunj1331@gmail.com>
- <20260530163208.698e9b31@jic23-huawei>
-In-Reply-To: <20260530163208.698e9b31@jic23-huawei>
+References: <20260530113938.171540-1-suunj1331@gmail.com> <20260530113938.171540-5-suunj1331@gmail.com>
+ <CAHp75VcN7B5BdKZGBiw5cbhYesGsO_tStcN3cKgggiHiuSnJ7w@mail.gmail.com>
+In-Reply-To: <CAHp75VcN7B5BdKZGBiw5cbhYesGsO_tStcN3cKgggiHiuSnJ7w@mail.gmail.com>
 From: SeungJu Cheon <suunj1331@gmail.com>
-Date: Sun, 31 May 2026 20:08:37 +0900
-X-Gm-Features: AVHnY4KBVXe1dqVFd5JjgWGU-_LqtAJqjZnYVbDQwALDbsl-X1DsrtQ7jW5BgxM
-Message-ID: <CAGwK=3qrTVMdkwZnSr27McrExMJsbOsDR8xZ5d+eiDksTduRNw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] iio: pressure: mpl3115: generalize interrupt pin routing
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, apokusinski01@gmail.com, me@brighamcampbell.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Date: Sun, 31 May 2026 20:15:45 +0900
+X-Gm-Features: AVHnY4KPx0NSXU0gdfDXhQcY-GvsCUuHBJZCeL_LefC6__-IMJHMbSenQwFjoxQ
+Message-ID: <CAGwK=3pJFnif5GToHOS_Y5uo6meGYNAZPp8qECjiDLUgcPdcrg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] iio: pressure: mpl3115: add hardware FIFO support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: jic23@kernel.org, linux-iio@vger.kernel.org, dlechner@baylibre.com, 
+	nuno.sa@analog.com, andy@kernel.org, apokusinski01@gmail.com, 
+	me@brighamcampbell.com, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jonathan,
+Hi Andy,
 
-On Sat, 30 May 2026 12:32 ... Jonathan Cameron wrote:
-> > This avoids incorrect interrupt routing after a suspend/resume
-> > cycle where the register may not return to its default state.
+On Sat, May 30, 2026 at 10:33 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> > +       u8 fifo_buf[MPL3115_FIFO_SIZE * MPL3115_FIFO_SAMPLE_SIZE]
+> > +               __aligned(IIO_DMA_MINALIGN);
 >
-> Need more information on this. What do you actually mean by not
-> return to it's default state? There are a lot of registers in this
-> device that affect config - are all the others restored after
-> resume?
-> I suspect you are actually talking about a soft reboot where the
-> driver is reloading. Given there is a reset call just above this
-> that should never be an issue.
-
-You're right, that justification doesn't hold. The reset call above
-covers the reload case, so the register won't be in an unexpected
-state here. I'll drop the suspend/resume reasoning and describe the
-change simply as writing CTRL_REG5 explicitly instead of relying on
-the power-on default when INT2 is selected.
-
-> > Route both DRDY and FIFO interrupts to the selected pin. The
-> > FIFO routing is not yet used but is required by the hardware
-> > FIFO support added in the following patch.
+> We have a macro for this,
+...
+> > +       u8 buffer[MPL3115_BUF_SIZE] __aligned(sizeof(s64)) =3D { };
 >
-> Do it in that patch then, not now. By all means introduce a
-> local variable that you change in that patch, but don't set
-> the fifo bit.
+> Don't we have a macro for this?
 
-Will do. I'll introduce the ctrl_reg5 local here with only the DRDY
-bit and add the FIFO bit in the FIFO patch.
+I'll rework the per-sample buffer as a struct with explicit fields
+(__be32 pressure, __be16 temp, aligned_s64 ts), as Jonathan suggested,
+which removes the manual offsets and alignment here.
 
-> > +#define MPL3115_CTRL5_INT_CFG_FIFO BIT(6)
+> > +       ts =3D iio_get_time_ns(indio_dev);
+> > +       for (i =3D 0; i < sample_count; i++) {
 >
-> Not in this patch.
+>   for (unsigned int i =3D 0; ...) {
 
-Right, I'll move that define to the FIFO patch.
+Will declare i in the loop.
 
-> > +     ctrl_reg5 =3D irq_pin =3D=3D MPL3115_IRQ_INT1 ?
-> > +         MPL3115_CTRL5_INT_CFG_DRDY | MPL3115_CTRL5_INT_CFG_FIFO : 0;
+> > +               memcpy(&buffer[MPL3115_BUF_PRESS_OFFSET], &sample[0], 3=
+);
+> > +               memcpy(&buffer[MPL3115_BUF_TEMP_OFFSET], &sample[3], 2)=
+;
 >
-> That's complex enough that I'd prefer it as a simple if / else
-> as will be easier to read. Also you are enabling the fifo
-> interrupt. That should be in the next patch, not here.
+> These two sound to me like something which might require endianness
+> handling, but if you put this as CPU native one and leave user space
+> to take care of, it may be okay.
 
-Will switch to a plain if / else and drop the FIFO bit here.
+These are big-endian channels (scan_type.endianness =3D IIO_BE), pushed
+as-is for user space to decode. The struct rework will make that
+explicit with __be32/__be16 fields.
 
-> Oh that's fun. The data sheet has bit 1 as IPOL2 in the compact
-> table 49, but PP_OD2 as bits 0 and bit 1 in table 50. If you are
-> bored, might be wroth pointing that typo out to them!
-
-Good catch, I hadn't noticed that one.
-
-> > +             ret =3D i2c_smbus_write_byte_data(data->client,
-> > +                                             MPL3115_CTRL_REG3,
-> > +                                             ipol);
+> > +       value =3D clamp_val(value, 1, MPL3115_FIFO_SIZE - 1);
 >
->                 ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_C=
-TRL_REG3, ipol);
->
-> Fine to go a bit long where it helps readability (stay under 100
-> chars though!)
+> Why not clamp()?
 
-Will put it on one line.
+Will use clamp().
 
-Thanks again.
+> > +               mpl3115_set_active(data, true);
+>
+> Instead of having an argument, just make two helpers: set_active() /
+> set_inactive().
 
-On Sun, May 31, 2026 at 12:32=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
-> wrote:
+Will split into mpl3115_set_active() / mpl3115_set_inactive().
+
+> > +       return mpl3115_config_interrupt(data,
+> > +               data->ctrl_reg1 | MPL3115_CTRL1_ACTIVE, ctrl_reg4);
 >
-> On Sat, 30 May 2026 20:39:37 +0900
-> SeungJu Cheon <suunj1331@gmail.com> wrote:
+> In some cases the FIELD_PREP()/FIELD_GET() is used, why not use FIELD_MOD=
+IFY()?
+
+I'll review the FIELD_MODIFY() usage and apply it where appropriate.
+
+> > +static const unsigned long mpl3115_scan_masks[] =3D {
+> > +       BIT(0) | BIT(1),
+> > +       0,
 >
-> > Write CTRL_REG5 explicitly for both INT1 and INT2 rather than
-> > relying on power-on defaults when INT2 is selected.
+> No comma in terminator entry.
+
+Will fix.
+
+> > -       ret =3D devm_iio_triggered_buffer_setup(&client->dev,
+> > [...]
+>
+> Before modifying this, it might make sense to split necessary bits to
+> the helper function and then simply reuse it as needed.
+
+Makes sense. I'll look into factoring the common setup into a helper
+so the FIFO and triggered-buffer paths can reuse it.
+
+Thanks for the review.
+
+On Sat, May 30, 2026 at 10:33=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sat, May 30, 2026 at 1:40=E2=80=AFPM SeungJu Cheon <suunj1331@gmail.co=
+m> wrote:
 > >
-> > This avoids incorrect interrupt routing after a suspend/resume
-> > cycle where the register may not return to its default state.
+> > Add support for the MPL3115A2 hardware FIFO.
+> >
+> > The device provides a 32-sample FIFO with configurable
+> > watermark interrupts, allowing buffered data acquisition
+> > with reduced interrupt and CPU overhead.
+> >
+> > Use a kfifo-backed IIO buffer when a DRDY interrupt and
+> > SMBus block reads are available, falling back to the
+> > existing triggered buffer implementation otherwise.
+> >
+> > When enabled, the driver configures the FIFO in circular
+> > mode and drains accumulated samples on watermark
+> > interrupts.
+> >
+> > Overflow conditions are handled by flushing available
+> > samples before resetting the FIFO, avoiding unnecessary
+> > data loss.
+> >
+> > The hardware always captures pressure and temperature
+> > samples together, so FIFO operation requires both channels
+> > to be enabled.
+> >
+> > Register cache updates are performed only after successful
+> > I2C writes to keep cached and hardware state consistent.
+> >
+> > No functional change for non-buffered operation.
 >
-> Need more information on this.  What do you actually mean by not return
-> to it's default state?  There are a lot of registers in this device
-> that affect config - are all the others restored after resume?
+> ...
 >
-> I suspect you are actually talking about a soft reboot where the
-> driver is reloading. Given there is a reset call just above this
-> that should never be an issue.
+> > +       u8 fifo_buf[MPL3115_FIFO_SIZE * MPL3115_FIFO_SAMPLE_SIZE]
+> > +               __aligned(IIO_DMA_MINALIGN);
 >
-> >
-> > Route both DRDY and FIFO interrupts to the selected pin. The
-> > FIFO routing is not yet used but is required by the hardware
-> > FIFO support added in the following patch.
-> Do it in that patch then, not now.  By all means introduce a
-> local variable that you change in that patch, but don't set
-> the fifo bit.
-> >
-> > Consolidate polarity configuration into a single code path
-> > that handles both interrupt pins uniformly.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
-> > ---
-> >  drivers/iio/pressure/mpl3115.c | 33 +++++++++++++++++----------------
-> >  1 file changed, 17 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/iio/pressure/mpl3115.c b/drivers/iio/pressure/mpl3=
-115.c
-> > index 52a3d0d59769..90e83e34ec43 100644
-> > --- a/drivers/iio/pressure/mpl3115.c
-> > +++ b/drivers/iio/pressure/mpl3115.c
-> > @@ -67,6 +67,7 @@
-> >  #define MPL3115_CTRL4_INT_EN_TTH BIT(2)
-> >
-> >  #define MPL3115_CTRL5_INT_CFG_DRDY BIT(7)
-> > +#define MPL3115_CTRL5_INT_CFG_FIFO BIT(6)
+> We have a macro for this,
 >
-> Not in this patch.
+> ...
 >
-> >
-> >  static const unsigned int mpl3115_samp_freq_table[][2] =3D {
-> >       { 1,      0 },
-> > @@ -624,6 +625,7 @@ static int mpl3115_trigger_probe(struct mpl3115_dat=
-a *data,
-> >  {
-> >       struct fwnode_handle *fwnode =3D dev_fwnode(&data->client->dev);
-> >       int ret, irq, irq_type, irq_pin =3D MPL3115_IRQ_INT1;
-> > +     u8 ctrl_reg5;
-> >
-> >       irq =3D fwnode_irq_get_byname(fwnode, "INT1");
-> >       if (irq < 0) {
-> > @@ -634,6 +636,9 @@ static int mpl3115_trigger_probe(struct mpl3115_dat=
-a *data,
-> >               irq_pin =3D MPL3115_IRQ_INT2;
-> >       }
-> >
-> > +     ctrl_reg5 =3D irq_pin =3D=3D MPL3115_IRQ_INT1 ?
-> > +         MPL3115_CTRL5_INT_CFG_DRDY | MPL3115_CTRL5_INT_CFG_FIFO : 0;
+> > +static int mpl3115_fifo_flush(struct iio_dev *indio_dev)
+> > +{
+> > +       struct mpl3115_data *data =3D iio_priv(indio_dev);
+> > +       u8 buffer[MPL3115_BUF_SIZE] __aligned(sizeof(s64)) =3D { };
 >
-> That's complex enough that I'd prefer it as a simple if / else
-> as will be easier to read.  Also you are enabling the fifo interrupt.
-> That should be in the next patch, not here.
+> Don't we have a macro for this?
+>
+> > +       unsigned int sample_count, i;
+> > +       int ret;
+> > +       bool overflow;
+> > +       s64 ts;
+> > +
+> > +       ret =3D i2c_smbus_read_byte_data(data->client, MPL3115_F_STATUS=
+);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       overflow =3D FIELD_GET(MPL3115_F_STATUS_F_OVF, ret);
+> > +       sample_count =3D FIELD_GET(MPL3115_F_STATUS_F_CNT, ret);
+> > +       if (sample_count =3D=3D 0)
+> > +               return overflow ? mpl3115_fifo_reset(data) : 0;
+> > +
+> > +       ret =3D mpl3115_fifo_transfer(data, sample_count);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ts =3D iio_get_time_ns(indio_dev);
+> > +       for (i =3D 0; i < sample_count; i++) {
+>
+>   for (unsigned int i =3D 0; ...) {
+>
+> > +               u8 *sample =3D &data->fifo_buf[i * MPL3115_FIFO_SAMPLE_=
+SIZE];
+>
+> > +               memcpy(&buffer[MPL3115_BUF_PRESS_OFFSET], &sample[0], 3=
+);
+> > +               memcpy(&buffer[MPL3115_BUF_TEMP_OFFSET], &sample[3], 2)=
+;
+>
+> These two sound to me like something which might require endianness
+> handling, but if you put this as CPU native one and leave user space
+> to take care of, it may be okay.
 >
 > > +
-> >       irq_type =3D irq_get_trigger_type(irq);
-> >       if (irq_type !=3D IRQF_TRIGGER_RISING && irq_type !=3D IRQF_TRIGG=
-ER_FALLING)
-> >               return -EINVAL;
-> > @@ -643,23 +648,19 @@ static int mpl3115_trigger_probe(struct mpl3115_d=
-ata *data,
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     if (irq_pin =3D=3D MPL3115_IRQ_INT1) {
-> > -             ret =3D i2c_smbus_write_byte_data(data->client,
-> > -                                             MPL3115_CTRL_REG5,
-> > -                                             MPL3115_CTRL5_INT_CFG_DRD=
-Y);
-> > -             if (ret)
-> > -                     return ret;
-> > +     ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG5=
-,
-> > +                                     ctrl_reg5);
-> > +     if (ret)
-> > +             return ret;
-> >
-> > -             if (irq_type =3D=3D IRQF_TRIGGER_RISING) {
-> > -                     ret =3D i2c_smbus_write_byte_data(data->client,
-> > -                                                     MPL3115_CTRL_REG3=
-,
-> > -                                                     MPL3115_CTRL3_IPO=
-L1);
-> > -                     if (ret)
-> > -                             return ret;
-> > -             }
-> > -     } else if (irq_type =3D=3D IRQF_TRIGGER_RISING) {
-> > -             ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_C=
-TRL_REG3,
-> > -                                             MPL3115_CTRL3_IPOL2);
-> > +     if (irq_type =3D=3D IRQF_TRIGGER_RISING) {
-> > +             u8 ipol =3D irq_pin =3D=3D MPL3115_IRQ_INT1 ?
-> > +                       MPL3115_CTRL3_IPOL1 :
-> > +                       MPL3115_CTRL3_IPOL2;
->
-> Oh that's fun. The data sheet has bit 1 as IPOL2 in the compact
-> table 49, but PP_OD2 as bits 0 and bit 1 in table 50.  If you are bored,
-> might be wroth pointing that typo out to them!
->
+> > +               iio_push_to_buffers_with_ts(indio_dev, buffer, sizeof(b=
+uffer), ts);
+> > +       }
 > > +
-> > +             ret =3D i2c_smbus_write_byte_data(data->client,
-> > +                                             MPL3115_CTRL_REG3,
-> > +                                             ipol);
->                 ret =3D i2c_smbus_write_byte_data(data->client, MPL3115_C=
-TRL_REG3, ipol);
+> > +       if (overflow) {
 >
-> Fine to go a bit long where it helps readability (stay under 100 chars th=
-ough!)
+> > +               dev_warn_ratelimited(&data->client->dev,
+> > +                                    "FIFO overflow, samples may be los=
+t\n");
+> > +               return mpl3115_fifo_reset(data);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int mpl3115_set_watermark(struct iio_dev *indio_dev, unsigned i=
+nt value)
+> > +{
+> > +       struct mpl3115_data *data =3D iio_priv(indio_dev);
 >
+> > +       value =3D clamp_val(value, 1, MPL3115_FIFO_SIZE - 1);
 >
+> Why not clamp()?
 >
-> >               if (ret)
-> >                       return ret;
-> >       }
+> > +       guard(mutex)(&data->lock);
+> > +       data->watermark =3D value;
+> > +
+> > +       return 0;
+> > +}
 >
+> ...
+>
+> > +static int mpl3115_buffer_postenable(struct iio_dev *indio_dev)
+> > +{
+> > +       struct mpl3115_data *data =3D iio_priv(indio_dev);
+> > +       u8 ctrl_reg4;
+> > +       int ret;
+> > +
+> > +       guard(mutex)(&data->lock);
+> > +
+> > +       ret =3D mpl3115_set_active(data, false);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ret =3D mpl3115_set_fifo(data, MPL3115_F_MODE_CIRCULAR);
+> > +       if (ret) {
+> > +               mpl3115_set_active(data, true);
+>
+> Instead of having an argument, just make two helpers: set_active() /
+> set_inactive().
+>
+> > +               return ret;
+> > +       }
+>
+> > +       ctrl_reg4 =3D data->ctrl_reg4;
+> > +       ctrl_reg4 |=3D MPL3115_CTRL4_INT_EN_FIFO;
+> > +       ctrl_reg4 &=3D ~MPL3115_CTRL4_INT_EN_DRDY;
+> > +
+> > +       return mpl3115_config_interrupt(data,
+> > +               data->ctrl_reg1 | MPL3115_CTRL1_ACTIVE, ctrl_reg4);
+>
+> In some cases the FIELD_PREP()/FIELD_GET() is used, why not use FIELD_MOD=
+IFY()?
+>
+> > +}
+>
+> ...
+>
+> > +static const unsigned long mpl3115_scan_masks[] =3D {
+> > +       BIT(0) | BIT(1),
+> > +       0,
+>
+> No comma in terminator entry.
+>
+> > +};
+>
+> ...
+>
+> > -       ret =3D devm_iio_triggered_buffer_setup(&client->dev,
+> > -                                     indio_dev,
+> > -                                     NULL,
+> > -                                     mpl3115_trigger_handler,
+> > -                                     NULL);
+> > -       if (ret)
+> > -               return ret;
+>
+> Before modifying this, it might make sense to split necessary bits to
+> the helper function and then simply reuse it as needed.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
