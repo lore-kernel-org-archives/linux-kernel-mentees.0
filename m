@@ -1,79 +1,80 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C4D2DCC1F
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 10:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E89342CB3
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 10:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780224399; cv=pass; b=V1dB72tYmhMD7D59BwcBAwJvGXdbJ9aqF4ujq5Zsgs1cpQT5d+y7PnpZycjH0uoEkQH70l5YsPe3JQ+Ufit+lhGoaYLZrlok+1LM70WiN3Wlj3aVnAZdueRLiJkPmn67ztIzYRSyBXr+NvMYJfRiipUsl6RNAz48hfnIKdrJhig=
+	t=1780224596; cv=pass; b=YmwDsJRwjEVoz0MQDj1lKTf8DWnMC2s324QsY8EYhbP5eRMEwuOCzbohEq01eUEGsdoAnQpue4Gdw0FvKNqlPRENZZgGiEg9OPCWj346abqGvnklspVR7qn9F35m3P42+u9KSaD60u4vO4BcyKWDFd8xL76wbbcUFSqCljBPRcc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780224399; c=relaxed/simple;
-	bh=Go0Wray01QJG4fXsOf2i6hb7EfbTw0dJcBKjWRowB/s=;
+	s=arc-20240116; t=1780224596; c=relaxed/simple;
+	bh=gvh82LA1KOKLl9bbz7xBRFmiovyrZGSaf+IOmHuiII4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CuLu79DXZKpg5O8Tdrnzk1ihA62Ma88KKlQ8blj0h8B/Ed0FbthIwFUrPZFpxIVGAvltGnEEucl0/5EkVkdRard3X4DPwiKJoeEp1BMXqErw9jZfqKqGP+b0FoorttJOZexEuCKoG3oN+XNHZFize7ikX+A8GFlVk7H3xTVVnL4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fZrGzVGx; arc=pass smtp.client-ip=209.85.167.52
+	 To:Cc:Content-Type; b=kAkmH1fk/iVLP40JTf1LedUpZU9RKCcQo6qKKYx5gyyDE/MWoGbHcn3PeijwgNgZB9rcP7bFcvB4p8H9Y/3e7SiwgQb+kOzwSUJjbxh0En1GAmSP/D1lJGcQzJPlqMX6Yzt/sKgwRMNrt4Ad81FQPJJc0FhAKR6h5YcCmeK4pvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=axBnyWXO; arc=pass smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fZrGzVGx"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aa5e0d57e5so1160913e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 03:46:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780224397; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="axBnyWXO"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa5ee1f07fso1248735e87.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 03:49:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780224592; cv=none;
         d=google.com; s=arc-20240605;
-        b=ROms0L3dly3A4lixJGcqD21k8bL6cbftxNRZG+lNc5V6mXR/2sgbqA3WERL14Nf4uC
-         UAOKMTc24+B0XBK6QOIvaBhq2U8Nhy3Al6awqbfCblIjEv0TvoS0t2t2zYOBdx6MzW+f
-         goz+qjMeo9Pim+aMsacm5rIpt//psfa1VLgdGmMAJiv3aNLTrdZXGRgh/7T6EE5UUspp
-         cGYWgB4dZLM/EJtyiFy0Oau11DEJVLVsbiBMCDpUSQuYYgmhbvwcxgYzYqrltvlJxH8e
-         LIp5dUjD0uQP99uc9Cz1m0wHNvnm0zi7Ud0pwusgddaiWki5NRNw1whIouANgJTJ0Otf
-         htrw==
+        b=ilw+KQKS+1t0oXLx6kMBR/FEREXTs6EAHYWMYliYZMzSLLoMTdIF7LniJEFKT1iGRn
+         xtex6fTFsMbjSlJCKWsqMAXoaxjS3p2LODnqyxcqBEEPQPctYyk5oh0rY17mcZa9mhsy
+         ZjO0IyUSa15aFkT0Ox9TMSDsEP3QZQOppY8KzlJ3jsnqG0y4m0h6Tv5/VRZ4xzKjomFo
+         DX9N7Uzy40JTPIW1E2WWCH2m331yzA2p7f6lCcf72MdIwD16gVSvYeks/GQYID37mcjB
+         RmPYyWWrz8X8plrjtOlKHZcwKxvk2LL6lOLyzhGI7apxr9L3Zuo576ugFujN4CZe87pr
+         D4Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=zzjjOuAVGRSB9pPF5P8gmF7NJS6WDL3M8H+3GgurXfA=;
-        fh=MiXw9eO8E2VL/ma3Y16HE7e6bQN7Pk9yfCK4tmQFj9M=;
-        b=bMUUDvaVIeqU8kYLvbzhZHgCSSrvNhMQ0xpmoNhuyr5ylP/kOMzpsqRqqXs3CpRKTS
-         S/ri8tiK4qaWKMjJM9Kdv01xY0en0CxA9LcAWaxYzAwpjMFi4YO3LASpC1B72goOqmqt
-         uiZhBJF5OJ2mE6Z1THbPZLK6Vk4lG2OPJyleSa5fYqIPkEd5ebOKEhc8l51efts8Apx+
-         Ma3iplY8LAva41eD8DNj0/Zv/WbOdUpA8jmPMm2/oGabMAigIely75ZmNAqpHcmUN+Tc
-         NjHy8QXdFdy7suvlVykbel93K0T+atJxQqhTCDo2P4juhnbgyXkbEdskzN3+SYnJ4M9J
-         6ZMA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9/xyzmmG3XKAH81i9/O4xpqMLBfh0HI6DZe6X6Qp4No=;
+        fh=IsQzW3bj4foVs9j71unY0HRiov777NPIv6ynROGBBNM=;
+        b=H1kMxS3TKWhU7+REmZxPdkdmdAvl9gdQCg5bYjSS39eMuiXMdOpQhJkYtxxCZaEHsP
+         4SY+WeEBQmcuMgXVXRzc2g+jlDCafD7A8BcZ/3vSHX9Kfw3gO6CVfORnq/w1yHMc9dyN
+         SEbxI6/kPFBYOaGrVFWwtdOLQ7NDcI01xLfcJVoej9Ds4K9fuZSw0/jgKajv8s73Ao3e
+         eSPQyDJfPJ6JOUvFf+5K8MC9amBZJQNeG905IkCwHZsIcAtEM6q95UZlyH5nCJcuxqSk
+         nN6Z2A8vVmXxeTuJ8GTL/QJ0Z4smHkibhnaFes+cA3VHAfwFN9/vlKvxYDB5WXyPUeus
+         PA+w==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780224397; x=1780829197; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zzjjOuAVGRSB9pPF5P8gmF7NJS6WDL3M8H+3GgurXfA=;
-        b=fZrGzVGxz1riWJQWrAVCRtQsOs1yUXJYeB/TtcVeDppQxwyQk2kROMUJh1KzH6ofg1
-         5/gLQfYcCxFHS2UGkZo69jRz3AZWlPtlTnzcxGpIK+v4xFaB4VqMxK3nG2AEjnMS6aXl
-         25a97gW+CRjiLlNNjgg4pPfhHEz3QF97edrhF7nrvMpNUZDIZKwOf9wcrYN7xZQfTBlO
-         8OsP9v57Iirom6lWcoBkhai0AGXdmxxZC/WdTo7Qw6m6BCo3S47UZWWC/dIZ27YTnFCl
-         DK2Iyt79wx3mJRzMZmpCdkfZY2MneutTaEKBZtnvEqeGLwk/ySko0zlKRZq3YHjxeKPM
-         BSeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780224397; x=1780829197;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780224592; x=1780829392; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zzjjOuAVGRSB9pPF5P8gmF7NJS6WDL3M8H+3GgurXfA=;
-        b=lwbjNd/1RWqMKrtsjAZz+9y5Pw5r0KoW8Qp08nTH4fIN56I8eZ4k/n1WD9HpbeRh0S
-         PIbYU5QDhuYoFyvC6cH2KqWMpdx6Z3/DFW+6YjF4tGc83oCwNsJzbddyw9yeib+DAz4K
-         L85v+yp9ZZFRu15OhnkziFoDPFvTqdha8Owu6cuUgoI9MX/WQmy42/Qo8H3uw4u5kFOQ
-         K2tJo3lphJpoevByvj++XRuDDIJmOAJKCRnCH2s0BO6q6xyiB/o3mjguQN6Cu/tH4Hl4
-         k4H5zoz7i+u3QhoDamIeoGZBTeO83xffwCtYOLXVEqUl8TG6VK2SbU4r1pttUpp4P127
-         Ltaw==
-X-Forwarded-Encrypted: i=1; AFNElJ9UkJL5pxU8JYUyX+WQpZdADp3tnpuis/kxmmWbyJyALjqsJgpOEPePBkXXQI7UvmAAIYIDMVFmO8EI7fUGC6+LRKAEwA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxiqaUdpbyfvAdMmc9RoStCCHFW+Es6XeRX8PN+EBeRrh2kYIQs
-	1r011imXJ7nxe0EgwjQj8H+L+m6oUgsAfjY6KDEegc4Agzx6JuabFAemNlYOv8hQ/6eesS7WD8G
-	Ai3HZtPIdkT1bbIT+u4/bVHuiBIx+aGE=
-X-Gm-Gg: Acq92OECJ37dQPW7niB6JzOhy2s9n+lcj+rKJ7tg3usdXCiz9VogQGzImTv8g5+RXG4
-	Jmr9rfOkfqMp/TS+o36zUwjIKRklqviJjrh4q7HU5peC+p3Fc/0+fz1dO6X0wqHcp4eX9xzrqJf
-	AJxbTmYoE4m0DQRbZYlcfC0XysC55DMqg9m8n+27TaPUI/92c6el1m0K43gFrTcFHxQqehrhinJ
-	cy/S6ptA7zehFa3L9NTvfiXzwk0Qc85JdJGM9GqIcXJF4k3BCJg4E3H/B7Rk4SL0fB7DK7nmWyM
-	VLRw2ZAgvzqcc/OI2GYIk2IMiJHNZpbDe4QTJMqTyuEOe+3JyQ==
-X-Received: by 2002:a05:6512:689:b0:5aa:265f:acd0 with SMTP id
- 2adb3069b0e04-5aa6092a8a5mr2041343e87.39.1780224396614; Sun, 31 May 2026
- 03:46:36 -0700 (PDT)
+        bh=9/xyzmmG3XKAH81i9/O4xpqMLBfh0HI6DZe6X6Qp4No=;
+        b=axBnyWXOKVDXrqC00NHNySG4WHLvDotnFwqBezo662GHMwtNA/DWwt/pEooYavzGFu
+         rtTiD51flSA9DBZ8UJ1uVRihlMGZ66wTf/AztZaEYi4Umej6eyqBelXj0o8x3LkttON4
+         OJ6A63HrjgvfZa1VV28l33UT3sFHvk2bji8rWZngpL69Zt5Om3ysTdMO8rtNbaQKgfp1
+         N++dsxfXAdDLDNFgpom7PHqFXmbH6RX4iC/oLcZDYL0FWPi5F91WOFLPHAjJBWWoZN44
+         MtNbdCOIlQQoH1pZtfwG05qpKxygVI52lsnon++RsuPS9qwKPC9ZKqdiLWTY7cnnGPCV
+         cqag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780224592; x=1780829392;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9/xyzmmG3XKAH81i9/O4xpqMLBfh0HI6DZe6X6Qp4No=;
+        b=RIExhfM1wt51uxRsUujwHsgBR60B66OaNTD87HmFRLgZurENgkdlmbA2FZlgFbJCh7
+         xBVQ7RSyL7SjPv70unHV9cocv9iF+vsKPj1JSbNd0oy7HqVcJxM+YCsdAqARTJMEu7g+
+         PYwfBnW/wljgkO7ghNgcX+oXjSGvS4dUTheTRS1x7SWVlm+2zdAJ0hu7cARf34B9OCAy
+         BuqaLsfHz2tMnVLsCPJN7GgtQP2bI9Ihmz86EoKe+UwGxEw9xPZM3U5vXmuT6WCMnTWD
+         SKn9bLvvjbuXJZlgfiljOJnhT8E732cSbNV4gjKKBXokWPWfV7OXx4SF6xRacQ7/xZbK
+         zkeg==
+X-Forwarded-Encrypted: i=1; AFNElJ9k4F+P0z8u1q2bA564Yi3bZA5gDSqNefEmGTo5V4bqD5zkKV4VJK3igTL/1JKinuy3LaVCMcMjXWWrx3y0cvKU2Z58+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwroO10ulbcUBjc8VkFLCBqgGywZdBFJLTfq0UTg64YnggP+Kpz
+	IX1OJ0jkFjRbHQB88iZC9gz4LC3M7koDm83IGFMiuxtNaaTE52J5n11u6bC6gF1d/5RjUyKg40W
+	iFiGc5htmw/22lFV8UzHUAof8UjAg2i4=
+X-Gm-Gg: Acq92OFEB1f9hUOvelYBvY/Vn8jTpw6wv+S7w13W4D+7j5VAaaFSeJSKflPfRib0efb
+	bvnvdc7C+eZ/2W80KdEF3gocjLOV+N+zGoUQ1TJv5YzuSC1rvHNWG/jIO7EQpQY8fEo489SqOM2
+	cXfMnQA3Dut3DZizejz/9jIoxhAjthh5k0+3PVptQVpfYgVvWsJMGC1OSSQhcvJ/nKtW1+aLM5N
+	OuCuoc/YW33gDly82Kbo0Hish7w76LKajXv0z3vntk5DfcLH2uG9NVIe2FqUipiUv/xf5v9a2q2
+	na4f4wU6d1wyAP+Q0eIrTnzpwS7HWgve+HYyaEJ9ikT9icDj4A==
+X-Received: by 2002:a05:6512:3407:b0:5a8:638f:7fe2 with SMTP id
+ 2adb3069b0e04-5aa606a381amr2175723e87.2.1780224591865; Sun, 31 May 2026
+ 03:49:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -81,60 +82,290 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260530113938.171540-1-suunj1331@gmail.com> <20260530113938.171540-2-suunj1331@gmail.com>
- <CAHp75Vfd_eRRgnCpXsa0CVQ56f85YwQQRTj70MfmB4prVygYGg@mail.gmail.com>
-In-Reply-To: <CAHp75Vfd_eRRgnCpXsa0CVQ56f85YwQQRTj70MfmB4prVygYGg@mail.gmail.com>
+ <20260530161048.0e2ce1fe@jic23-huawei>
+In-Reply-To: <20260530161048.0e2ce1fe@jic23-huawei>
 From: SeungJu Cheon <suunj1331@gmail.com>
-Date: Sun, 31 May 2026 19:46:25 +0900
-X-Gm-Features: AVHnY4Lo0kRsNjuq_XRFqHod0O7PYpocpH7xfVx9ApYOJbPmYAyD43ZyivFanqI
-Message-ID: <CAGwK=3qst8kdMmUeHvbB7omkEv7N+_+eqP04Bqcy4YyVpHpwLA@mail.gmail.com>
+Date: Sun, 31 May 2026 19:49:40 +0900
+X-Gm-Features: AVHnY4KmF01ycKBB4Y08SI8KKiasM7YtgWEHp17ojcEjedx-CvRF-GYiRorZZMs
+Message-ID: <CAGwK=3oJ1EhcC9uA0dufvCfkEfok2vx9yGYCO7iy22gkYW-=5A@mail.gmail.com>
 Subject: Re: [PATCH 1/4] iio: pressure: mpl3115: convert probe to fully devm managed
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: jic23@kernel.org, linux-iio@vger.kernel.org, dlechner@baylibre.com, 
-	nuno.sa@analog.com, andy@kernel.org, apokusinski01@gmail.com, 
-	me@brighamcampbell.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, apokusinski01@gmail.com, me@brighamcampbell.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy, thanks for the review.
+Hi Jonathan, thanks for the detailed review.
 
-On Sat, May 30, 2026 at 9:13 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> > +static int mpl3115_suspend(struct device *dev)
-> > +{
-> > +       struct iio_dev *indio_dev = i2c_get_clientdata(to_i2c_client(dev));
+On Sat, 30 May 2026 20:39:35 +0900 SeungJu Cheon <suunj1331@gmail.com> wrot=
+e:
+> > Register a devm action to return the device to standby,
+> > replacing the cleanup previously performed in
+> > mpl3115_remove().
 >
-> What's wrong with dev_get_drvdata() ?
+> This should have noted that in error paths the standby wasn't there
+> and now is. However see below; I think the patch need to be split in
+> at least two parts.
 
-Nothing, you're right. Will use dev_get_drvdata() in v2.
+You're right. I'll split it into two patches in v2:
+  1. Add the standby cleanup on the probe error path (no devm yet).
+  2. Convert to devm-managed allocation.
+and note the error-path behaviour change explicitly.
 
-> Ditto.
+> Very short wrap. Exactly whether to limit commit messages to 72 or
+> 75 chars is a bit of a matter of opinion, but this is 50 something.
 
-Same, will fix.
+Understood, I'll rewrap the commit messages closer to 75 chars.
 
-> You forgot about mutex_init().
+> > Move mpl3115_standby() and suspend/resume helpers above
+> > probe to satisfy declaration ordering requirements.
+>
+> Not obvious why the suspend/resume moved. Just move the minimum to
+> make the patch easier to read.
 
-mutex_init(&data->lock) is already present in probe(), but I agree
-that converting it to devm_mutex_init() fits better with the devm
-conversion. I'll update this in v2.
+Agreed, that was unnecessary churn. I'll move only what's needed and
+leave suspend/resume in place.
 
-> Add
->   struct device *dev = &client->dev;
-> to the top of the function to make this shorter and easier to read.
+> > No functional change.
+>
+> Not true. That error path gaining suspend of device is a functional
+> change.
+
+You're right, I'll drop that line. The error-path change will live in
+the split-out fix patch and be described there.
+
+> Take opportunity to tidy indent up now we are less fuzzy about 80
+> chars.
+
+Will fix the indentation as you show.
+
+> Andy covered this. I think we ripped out most instances of this a
+> year or so back as it is a pointless bit of bouncing back and forth
+> between container structure and the contained.
+
+Yes, switching to dev_get_drvdata() in v2.
+
+> Andy called out the question of why these moved. It makes the patch
+> somewhat harder to review, so don't do that in this patch even if
+> there is a reason to do it.
+
+Understood, I'll leave suspend/resume untouched here.
+
+> So in the error path for this function we will now call this standby
+> action. If there isn't an equivalent in the original code, break
+> this up.
+> Patch 1. Add that cleanup without any devm stuff ...
+> Patch 2. Devm stuff.
+
+Confirmed there's no standby on the error path in the current code,
+so I'll break it up exactly as you describe.
+
+> Indent as something like:
+>         ret =3D devm_iio_triggered_buffer_setup(&client->dev, indio_dev, =
+NULL,
+>                                               mpl3115_trigger_handler, NU=
+LL);
 
 Will do.
 
-> Split moving of this function to a separate prerequisite patch.
+Thanks again.
 
-Will split the function move into its own prerequisite patch in v2.
-
-> > -static int mpl3115_suspend(struct device *dev)
-> > -static int mpl3115_resume(struct device *dev)
+On Sun, May 31, 2026 at 12:10=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
+> wrote:
 >
-> Why did you touch these two?
-
-No good reason -- I only reworked them to flatten the nested
-i2c_get_clientdata(to_i2c_client()) call. Since that's unrelated to
-this patch, I'll leave them untouched here and do the minimal move
-only, as Jonathan also suggested.
-
-Thanks for the review.
+> On Sat, 30 May 2026 20:39:35 +0900
+> SeungJu Cheon <suunj1331@gmail.com> wrote:
+>
+> > Convert probe to use devm-managed resource allocation,
+> > removing the need for an explicit remove callback.
+>
+> Hi SeungJu,
+>
+> >
+> > Replace iio_triggered_buffer_setup() and
+> > iio_device_register() with their devm equivalents.
+> > Register a devm action to return the device to standby,
+> > replacing the cleanup previously performed in
+> > mpl3115_remove().
+>
+> This should have noted that in error paths the standby wasn't there and n=
+ow is.
+> However see below; I think the patch need to be split in at least two par=
+ts.
+>
+> Very short wrap.  Exactly whether to limit commit messages to 72 or 75 ch=
+ars
+> is a bit of a matter of opinion, but this is 50 something.
+> >
+> > Move mpl3115_standby() and suspend/resume helpers above
+> > probe to satisfy declaration ordering requirements.
+> Not obvious why the suspend/resume moved.  Just move the minimum to make
+> the patch easier to read.
+> >
+> > No functional change.
+>
+> Not true. That error path gaining suspend of device is a functional chang=
+e.
+>
+> >
+> > Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
+> > ---
+> >  drivers/iio/pressure/mpl3115.c | 81 ++++++++++++++++------------------
+> >  1 file changed, 39 insertions(+), 42 deletions(-)
+> >
+> > diff --git a/drivers/iio/pressure/mpl3115.c b/drivers/iio/pressure/mpl3=
+115.c
+> > index aeac1586f12e..befb6d48efa9 100644
+> > --- a/drivers/iio/pressure/mpl3115.c
+> > +++ b/drivers/iio/pressure/mpl3115.c
+> > @@ -691,6 +691,33 @@ static int mpl3115_trigger_probe(struct mpl3115_da=
+ta *data,
+> >       return 0;
+> >  }
+> >
+> > +static int mpl3115_standby(struct mpl3115_data *data)
+> > +{
+> > +     return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> > +             data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE);
+>
+> Take opportunity to tidy indent up now we are less fuzzy about 80 chars.
+>
+>         return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+>                                          data->ctrl_reg1 & ~MPL3115_CTRL1=
+_ACTIVE);
+> is the preferred style.
+>
+> > +}
+> > +
+> > +static void mpl3115_standby_action(void *d)
+> > +{
+> > +     mpl3115_standby(d);
+> > +}
+> > +
+> > +static int mpl3115_suspend(struct device *dev)
+> > +{
+> > +     struct iio_dev *indio_dev =3D i2c_get_clientdata(to_i2c_client(de=
+v));
+>
+> Andy covered this. I think we ripped out most instances of this a year
+> or so back as it is a pointless bit of bouncing back and forth between
+> container structure and the contained.
+>
+> > +
+> > +     return mpl3115_standby(iio_priv(indio_dev));
+> > +}
+> > +
+> > +static int mpl3115_resume(struct device *dev)
+> > +{
+> > +     struct iio_dev *indio_dev =3D i2c_get_clientdata(to_i2c_client(de=
+v));
+> > +     struct mpl3115_data *data =3D iio_priv(indio_dev);
+> > +
+> > +     return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> > +                                      data->ctrl_reg1);
+> > +}
+>
+> Andy called out the question of why these moved. It makes the patch
+> somewhat harder to review, so don't do that in this patch even if there
+> is a reason to do it.
+>
+> > +
+> >  static int mpl3115_probe(struct i2c_client *client)
+> >  {
+> >       const struct i2c_device_id *id =3D i2c_client_get_device_id(clien=
+t);
+> > @@ -730,53 +757,24 @@ static int mpl3115_probe(struct i2c_client *clien=
+t)
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > -     ret =3D mpl3115_trigger_probe(data, indio_dev);
+> > +     ret =3D devm_add_action_or_reset(&client->dev, mpl3115_standby_ac=
+tion,
+> > +                                    data);
+>
+> So in the error path for this function we will now call this standby
+> action. If there isn't an equivalent in the original code, break this up.
+>
+> Patch 1. Add that cleanup without any devm stuff (almost a fix but it's
+>          only going to waste a bit of power in an unlikely error path so
+>          we probably won't backport it).
+> Patch 2. Devm stuff.
+>
+> >       if (ret)
+> >               return ret;
+> >
+> > -     ret =3D iio_triggered_buffer_setup(indio_dev, NULL,
+> > -             mpl3115_trigger_handler, NULL);
+> > -     if (ret < 0)
+> > +     ret =3D mpl3115_trigger_probe(data, indio_dev);
+> > +     if (ret)
+> >               return ret;
+> >
+> > -     ret =3D iio_device_register(indio_dev);
+> > -     if (ret < 0)
+> > -             goto buffer_cleanup;
+> > -     return 0;
+> > -
+> > -buffer_cleanup:
+> > -     iio_triggered_buffer_cleanup(indio_dev);
+> > -     return ret;
+> > -}
+> > -
+> > -static int mpl3115_standby(struct mpl3115_data *data)
+> > -{
+> > -     return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> > -             data->ctrl_reg1 & ~MPL3115_CTRL1_ACTIVE);
+> > -}
+> > -
+> > -static void mpl3115_remove(struct i2c_client *client)
+> > -{
+> > -     struct iio_dev *indio_dev =3D i2c_get_clientdata(client);
+> > -
+> > -     iio_device_unregister(indio_dev);
+> > -     iio_triggered_buffer_cleanup(indio_dev);
+> > -     mpl3115_standby(iio_priv(indio_dev));
+> > -}
+> > -
+> > -static int mpl3115_suspend(struct device *dev)
+> > -{
+> > -     return mpl3115_standby(iio_priv(i2c_get_clientdata(
+> > -             to_i2c_client(dev))));
+> > -}
+> > -
+> > -static int mpl3115_resume(struct device *dev)
+> > -{
+> > -     struct mpl3115_data *data =3D iio_priv(i2c_get_clientdata(
+> > -             to_i2c_client(dev)));
+> > +     ret =3D devm_iio_triggered_buffer_setup(&client->dev,
+> > +                                   indio_dev,
+> > +                                   NULL,
+> > +                                   mpl3115_trigger_handler,
+> > +                                   NULL);
+>
+> Indent as something like:
+>
+>         ret =3D devm_iio_triggered_buffer_setup(&client->dev, indio_dev, =
+NULL,
+>                                               mpl3115_trigger_handler, NU=
+LL);
+>
+> > +     if (ret)
+> > +             return ret;
+> >
+> > -     return i2c_smbus_write_byte_data(data->client, MPL3115_CTRL_REG1,
+> > -             data->ctrl_reg1);
+> > +     return devm_iio_device_register(&client->dev, indio_dev);
+> >  }
+> >
+> >  static DEFINE_SIMPLE_DEV_PM_OPS(mpl3115_pm_ops, mpl3115_suspend,
+> > @@ -801,7 +799,6 @@ static struct i2c_driver mpl3115_driver =3D {
+> >               .pm     =3D pm_sleep_ptr(&mpl3115_pm_ops),
+> >       },
+> >       .probe =3D mpl3115_probe,
+> > -     .remove =3D mpl3115_remove,
+> >       .id_table =3D mpl3115_id,
+> >  };
+> >  module_i2c_driver(mpl3115_driver);
+>
