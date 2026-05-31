@@ -1,82 +1,90 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1320392819
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 17:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512C2C21C4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780246832; cv=none; b=owSN3UDEIW0RLG6vjuwdLwrSV71gpK53dS6IkXtEAgrOaLXP6KcVn3CjzzZQSQOj0p7kv3fJrbjJ6mzg+psmVm/r8WXSw05DKi4bC2cFG7GKhzDsXr47wu6L2w45YdOZmB5gFD5mT8ibLMIh+w3gA2hHbFerwZgUP2AeE7T8DjE=
+	t=1780256204; cv=none; b=iLmKgvJpIbbk2AhPdZ5dTNmRS9Xa6dx8dG0hOf4hcMxUo33uNg1dcei6Y9RvX7SYWcaFdXdv5raszzy6WG8V2KPn/+ommWunWUaFWr01RRx/LabaJ+4mHSpc+3L//L0wRhVSmS1EqGcTO2mjV4mQ2HshOiYZDEur0gxgXK0ZUvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780246832; c=relaxed/simple;
-	bh=EOBpOIKoSoMieWyB4Iyyf+2+E8XFT3MTeLulNuhmax8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lkwzt0Ppg6/opha8rtxfONWeWVqWsd6hIabsZrcPUelL/pORfu2f99JFMmGelQmdUOmFRFUeWdJYQQRv5Y3IUGxPhP5yxcqlllOKPqVsalMKcLvqT05vFcanvOYCecwfESxb4HjrpgKZUWd2vfqoV3Yd2/7wv4ClR4EkuTI7Cso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/auHpaW; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780256204; c=relaxed/simple;
+	bh=T6ZL594nQcE+qJVrAnbbYysPJ/5zIcGaf89qg9aRl7M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j6iFFUf0YWAPjT/bBDVBairKKcgmltILloOiWz4fylgDK30Iea/6RFoqmFqyeb60QqiTyIMr/QkS3M17nNhs24+3Anr64z1G43mRNLZPODdQPJ3cmyhAzI6JqjTyhyJQlCy4TohkFA5eqgzWEZELh61pLPRLl+EFdYtE47jBSPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IXaJ/N5W; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/auHpaW"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36baec934b6so1318430a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 31 May 2026 10:00:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXaJ/N5W"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 74C6F4284F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:43 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id n4Ho-61a2V4D for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 31 May 2026 19:36:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::92c; helo=mail-ua1-x92c.google.com; envelope-from=rodrigoffzz@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B30AB42850
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B30AB42850
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IXaJ/N5W
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B30AB42850
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:42 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-963d7e5ffddso374283241.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 12:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780246831; x=1780851631; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780256201; x=1780861001; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nNZr3l3L/Od3rTaCElFlPcrYufd7SCc++/hp9yDvX+M=;
-        b=O/auHpaWekxulR0K0NT7SKMwBqdBZJJe5qmhjErCI0EFcm6gu4f3HDY8a7np3BTVF+
-         iq3ZIVaQ3fYTM/jCFPP+rD7nWRcirMjfOwcSjH0GqFXrJpElSiVoiARR0cyVw3NgRyid
-         nb3jO9HD8GuEl1MtUl1LXms7lBQG6QUo6xfcFh1T3+LES6LQjktA1v1q8eKr9wP025/N
-         bJYvMycJfMS3xbzVOvnY8MlWej/2Ftall6JYSW3veqqqpj6i2uYqB2xFTWtjukshmZ1e
-         x6jbZJ6FXddMJ7AlzodimRBsg4a39AaNQFajj+HVMwkXYDjRQOzrhgCpQI5hN23s2VWq
-         N3WA==
+        bh=PYDzzyBJ0elLKB0jP/bszGkmeDK9wZmW8LHbbh9j164=;
+        b=IXaJ/N5W45IOW+Si+6fwvIY3tPygEFxushbhSSym1NKf+e37MHQ8nuwJPHSOlBMu9Y
+         BUUD5/ITf+VJzH4fLCMHDIDeHTDcwAF3RAkWbR0dCHU5ac9FJfVM3I3IStsSG9UThzxN
+         lwHMYPKGkiQ3Uv0ioAYhHN80UzpKmJGg6TQlsnsmAglLzYjhKtuSp5F64ei1llMoyHUM
+         OviM86briG8SO7WRgwzbpKxZFrsJVtN3xZarVRAAXD5WI/BPszjpIZWNwfceSqYLF5nd
+         zmS7K4OOd9YRDgEuimDq6SQ/m6EzrqRuN3XC0Qqavg9z4C9ZGkpphVHztf+vQE9Qx5d2
+         haGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780246831; x=1780851631;
+        d=1e100.net; s=20251104; t=1780256201; x=1780861001;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nNZr3l3L/Od3rTaCElFlPcrYufd7SCc++/hp9yDvX+M=;
-        b=ILZrIQv+A26vC4hQVocAlBYQz9xb9h6WyaO4nmxUPv9F7g7AFDAaPIQ3bBYsHPUHIm
-         rVWSJkoJ+yqXrYtEY46lkhSn26XZoiXmbYE0uqgY3dHOiCHNXpB8nzpPBLpkHeovqdwB
-         CT3TqzIYkh3v5DvEkOxVB7CAEP+46YaEhonrv1y9mVPF2m8E0MD1bqsGHkT32QAph7Yg
-         1+Pu/frWXT3mM1YOsxOj28aAovssaTCj+ZSX4iRAUP5jKYPuqceMrv41/cmP+rFd9tZ2
-         d+Z5EjF/7umr1QN8tQMbXHny/2xstbuEn1u2MUao1fYz3y/diniicZzVrUX9PGdnBPvj
-         cOgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9lRNYz+O05Y3P0OrgrF/a+tZ5FT/ALfQ7gTg3AMooCT/eb0ZXG4Q3/0TUJ31V/6TkgpdTRK++B9fYrHNuHeg35HkKV/Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIgtT4dcdYo/QoP1mBw/pncVNQqw2dzpg48cnmiRk6ljPzzj/D
-	Ni/7JshR61qNPViMFnnsZP3SEfJrlK4BsapBx7IU4qVq5CYdWtqJOFWF
-X-Gm-Gg: Acq92OHLr9B4871ubETeXkLvSHimcCQysoDWMzD1TABAu/WUSuJftDDGuDaAefgGlAO
-	RZYfluaSXy/6dy/OZ6hw84cSPDmjXyZ9WOuW+J9KY6EBz2+K+jB+uYjlKSErmUaaNQdNaMNJzJ4
-	l4YrfNPFMaZvJc+9+TedvJsk7tI2VDSJHVHrUziwmCP0csfqoi87KxtAdDwloXYLqZIcxsi66A2
-	yyB7C+TqJuNbCBHA7kn9BK4YEVFLbBm3YPziknVngG82jZvY9ss/UrNI9IYphT/ZluRMc83a8xN
-	U1QDe+hZgH0EaQpNtCoYNY+8miNq79tgGYZsGb3u1qjQbLnIuLWZTYGyABVjKKzElVjHWvm+2XY
-	usOodMBqPqL6boyr0O4vNGaDcYLycXIooaUU7LhHhdEI9oBzT6gGft3Od7qY+6eMTwjvf7LeCfd
-	WORMae/HVmKgcVU545X+waD//Ct1k3xbkKL8cWUY9Q65bcGVqY0v3JggkVUruiGfnLREWQmHZP2
-	caxtw3+n3TEj8DYSaA=
-X-Received: by 2002:a17:902:cf0d:b0:2c0:c8a8:dbb8 with SMTP id d9443c01a7336-2c0c8a8dff7mr27171725ad.29.1780246826053;
-        Sun, 31 May 2026 10:00:26 -0700 (PDT)
-Received: from fedora ([103.181.54.100])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239fd24fsm99331075ad.20.2026.05.31.10.00.21
+        bh=PYDzzyBJ0elLKB0jP/bszGkmeDK9wZmW8LHbbh9j164=;
+        b=aAP3YMwrBLS11hs5Tf40hYbm9HaPNhre5NMchRelHx0N9lWrjrKRL7ZADI5mdZN68i
+         PYeLEwZz4750EstOLwzQCdtLItyhnTYETPjqp2cZMrX2Eq8TKw/0S0o5Cng0je6k1P26
+         ntzuwv0LpG/CGUqPOwlSzwLDcVAlFw+25cgtEMeGNI8EaJGMmsav6FInSNQAVT9Z0gEC
+         KErNZFvu0dyJwpNjZzeNxsX8KJ7i1NUX6B+3yH58A5Xd37EgFhyGYBO77uN+J4PrEq7q
+         KrH1TwzkO8caib3JT38A3ZmV8K7zPvk78N2ozrQrQoHor0DOWwUSVqu73sfaBPopPtdl
+         Y3SQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZruZKv7p5276ruyirkNvRl55q1r+4y7wBNEjGvBJum6qvv61koOA82Ynr2CMCtE6StYL9RKWsN6L4M7QaJeRfmVyHPg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwZyRhqbimoFyauHiX3B9v9de7/Mkd/1XDibYwYPNDDW8Q5d/8s
+	CYTG8oOdgO/LCcfN5HcOSYh7E3gXZktcIn4ba3BiOXMm3xaZoTV8y3NZ
+X-Gm-Gg: Acq92OHDM1MVzg3wTMqGBT16mkd5oPJijnQN10oaa28nIawWrS2BifSKJvebscmK8ev
+	5DLEDv6Q/1v6rWho70kL8vL0mVcmCwkLcDxu+5Iz5u0CoKNTLBFfYscFECgTE6SUOLb3Gq4rfm5
+	evudmWPmk6fWp5vBR1QmzB8W/HYgAHtUCEb0D61VZ+2WQWURZ0RCiiUkX3Fo2Jw8ep+gyqaoYLj
+	1dBsuZC5PjvoM3ETCmSRaUO3Lpi+c0iIYOmamI1AdCuV5HoyLDQNHdDePgimT0xvtYlMMv8QoyN
+	hjUWr+EG1z4dzIAbP1ZVlhny3khREJYcmQaOKBd+uqfeZkuc3iVeFiLekkaieDixixQWyKGXQ47
+	5if3A20G2EvgTQuStmg4Bc878aMc5B8mWVXVn/cE1oZZC7OUqxVi/b4xI9SiIEKL5QIgqWvzgx2
+	3xRDk8gVKrdCkCCApNmT9aZ5MM5ox50lTz
+X-Received: by 2002:a05:6102:5988:b0:65b:c17:70b4 with SMTP id ada2fe7eead31-6c66383c6d9mr3437544137.0.1780256201137;
+        Sun, 31 May 2026 12:36:41 -0700 (PDT)
+Received: from dream.. ([2804:1b3:a702:ed22:1ad5:a049:6ba5:86b2])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6c78792bc3bsm3253136137.1.2026.05.31.12.36.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 10:00:25 -0700 (PDT)
-From: Ninad Naik <ninadnaik07@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Ninad Naik <ninadnaik07@gmail.com>
-Subject: [PATCH] regulator: dt-bindings: mt6311: Convert to DT schema
-Date: Sun, 31 May 2026 22:27:12 +0530
-Message-ID: <20260531165712.729635-1-ninadnaik07@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Sun, 31 May 2026 12:36:40 -0700 (PDT)
+From: Rodrigo Zaiden <rodrigoffzz@gmail.com>
+To: John Johansen <john.johansen@canonical.com>
+Cc: apparmor@lists.ubuntu.com,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Rodrigo Zaiden <rodrigoffzz@gmail.com>
+Subject: [PATCH] apparmor: fix kernel-doc warnings
+Date: Sun, 31 May 2026 16:36:28 -0300
+Message-ID: <20260531193628.286270-1-rodrigoffzz@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,135 +93,45 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert mediatek,mt6311 to DT schema.
+Fix two kernel-doc warnings:
+- non-kernel-doc comment marked with '/**' in af_unix.c
+- documented symbol name mismatch for aa_get_i_loaddata() in
+  policy_unpack.h
 
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+No functional changes.
+
+Signed-off-by: Rodrigo Zaiden <rodrigoffzz@gmail.com>
 ---
- .../regulator/mediatek,mt6311-regulator.yaml  | 72 +++++++++++++++++++
- .../bindings/regulator/mt6311-regulator.txt   | 35 ---------
- 2 files changed, 72 insertions(+), 35 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
- delete mode 100644 Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
+ security/apparmor/af_unix.c               | 2 +-
+ security/apparmor/include/policy_unpack.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
-new file mode 100644
-index 000000000000..a51db46b0f41
---- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/regulator/mediatek,mt6311-regulator.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mediatek MT6311 Regulator
-+
-+maintainers:
-+  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-+
-+description: |
-+  The MediaTek MT6311 is an I2C power management IC that provides one step-down
-+  converter and one low-dropout regulator. The regulators are named VDVFS and
-+  VBIASN, respectively.
-+
-+properties:
-+  compatible:
-+    const: mediatek,mt6311-regulator
-+
-+  reg:
-+    description: I2C slave address.
-+    maxItems: 1
-+
-+  regulators:
-+    type: object
-+    description: List of regulators provided by this controller.
-+
-+    patternProperties:
-+      "^(VDVFS|VBIASN)$":
-+        type: object
-+        $ref: regulator.yaml#
-+        description: |
-+          Regulator nodes.
-+        unevaluatedProperties: false
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - regulators
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      mt6311: pmic@6b {
-+        compatible = "mediatek,mt6311-regulator";
-+        reg = <0x6b>;
-+
-+        regulators {
-+          mt6311_vcpu_reg: VDVFS {
-+            regulator-name = "VDVFS";
-+            regulator-min-microvolt = <600000>;
-+            regulator-max-microvolt = <1400000>;
-+            regulator-ramp-delay = <10000>;
-+          };
-+
-+          mt6311_ldo_reg: VBIASN {
-+            regulator-name = "VBIASN";
-+            regulator-min-microvolt = <200000>;
-+            regulator-max-microvolt = <800000>;
-+          };
-+        };
-+      };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt b/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
-deleted file mode 100644
-index 84d544d8c1b1..000000000000
---- a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Mediatek MT6311 Regulator
--
--Required properties:
--- compatible: "mediatek,mt6311-regulator"
--- reg: I2C slave address, usually 0x6b.
--- regulators: List of regulators provided by this controller. It is named
--  to VDVFS and VBIASN.
--  The definition for each of these nodes is defined using the standard binding
--  for regulators at Documentation/devicetree/bindings/regulator/regulator.txt.
--
--The valid names for regulators are:
--BUCK:
--  VDVFS
--LDO:
--  VBIASN
--
--Example:
--	mt6311: pmic@6b {
--		compatible = "mediatek,mt6311-regulator";
--		reg = <0x6b>;
--
--		regulators {
--			mt6311_vcpu_reg: VDVFS {
--				regulator-name = "VDVFS";
--				regulator-min-microvolt = < 600000>;
--				regulator-max-microvolt = <1400000>;
--				regulator-ramp-delay = <10000>;
--			};
--			mt6311_ldo_reg: VBIASN {
--				regulator-name = "VBIASN";
--				regulator-min-microvolt = <200000>;
--				regulator-max-microvolt = <800000>;
--			};
--		};
--	};
+diff --git a/security/apparmor/af_unix.c b/security/apparmor/af_unix.c
+index fdb4a9f212c3..ec6018662b1a 100644
+--- a/security/apparmor/af_unix.c
++++ b/security/apparmor/af_unix.c
+@@ -615,7 +615,7 @@ static int unix_peer_perm(const struct cred *subj_cred,
+ 					  peer_label, &ad));
+ }
+ 
+-/**
++/*
+  *
+  * Requires: lock held on both @sk and @peer_sk
+  *           called by unix_stream_connect, unix_may_send
+diff --git a/security/apparmor/include/policy_unpack.h b/security/apparmor/include/policy_unpack.h
+index e5a95dc4da1f..0399cec16fe8 100644
+--- a/security/apparmor/include/policy_unpack.h
++++ b/security/apparmor/include/policy_unpack.h
+@@ -131,7 +131,7 @@ struct aa_loaddata {
+ int aa_unpack(struct aa_loaddata *udata, struct list_head *lh, const char **ns);
+ 
+ /**
+- * aa_get_loaddata - get a reference count from a counted data reference
++ * aa_get_i_loaddata - get a reference count from a counted data reference
+  * @data: reference to get a count on
+  *
+  * Returns: pointer to reference
 -- 
-2.54.0
+2.43.0
 
