@@ -1,90 +1,74 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512C2C21C4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0173A3816
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  1 Jun 2026 11:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780256204; cv=none; b=iLmKgvJpIbbk2AhPdZ5dTNmRS9Xa6dx8dG0hOf4hcMxUo33uNg1dcei6Y9RvX7SYWcaFdXdv5raszzy6WG8V2KPn/+ommWunWUaFWr01RRx/LabaJ+4mHSpc+3L//L0wRhVSmS1EqGcTO2mjV4mQ2HshOiYZDEur0gxgXK0ZUvY=
+	t=1780312765; cv=none; b=Km+5wykAubC5ipvN9zZAllD2BMOhht0xOCnnHZpz8dO16L5QM70X9uXuJay674kN9aNuN9OxHqgtQDociou5ednfKFW4hA4nQr0n7bb11TWohMWpDQde0H5K5cUJXZMFFtbvuDiHPD4gHqwSdmmNxZWp3U/eyAa1AJmM/rhJzjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780256204; c=relaxed/simple;
-	bh=T6ZL594nQcE+qJVrAnbbYysPJ/5zIcGaf89qg9aRl7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j6iFFUf0YWAPjT/bBDVBairKKcgmltILloOiWz4fylgDK30Iea/6RFoqmFqyeb60QqiTyIMr/QkS3M17nNhs24+3Anr64z1G43mRNLZPODdQPJ3cmyhAzI6JqjTyhyJQlCy4TohkFA5eqgzWEZELh61pLPRLl+EFdYtE47jBSPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IXaJ/N5W; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1780312765; c=relaxed/simple;
+	bh=J8FZmtgSM37RNzXn+Uy7DFPcpuJB8jWk2wbQx4hB7jI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ebs9DUo4kVanRhv5EmxCVq2lWDbfx22ZKW+QkT4tiROkxmFzFjqJZQ2Bf9cnNeeR5MgpIsi7xOWVVLT5YQrnNdVsQ1QY1ZE5a+eWQWwkCqvigDw7IlnJMpv6Lfnbn8uQSDOzl/Ihms/KQoXt6PXVjW0Os2uJ/qhtRIGe33/4WPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ook/lmct; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXaJ/N5W"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 74C6F4284F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:43 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id n4Ho-61a2V4D for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 May 2026 19:36:43 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::92c; helo=mail-ua1-x92c.google.com; envelope-from=rodrigoffzz@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B30AB42850
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B30AB42850
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IXaJ/N5W
-Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B30AB42850
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 19:36:42 +0000 (UTC)
-Received: by mail-ua1-x92c.google.com with SMTP id a1e0cc1a2514c-963d7e5ffddso374283241.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 May 2026 12:36:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ook/lmct"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c857fba35cfso954935a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 01 Jun 2026 04:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780256201; x=1780861001; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20251104; t=1780312763; x=1780917563; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PYDzzyBJ0elLKB0jP/bszGkmeDK9wZmW8LHbbh9j164=;
-        b=IXaJ/N5W45IOW+Si+6fwvIY3tPygEFxushbhSSym1NKf+e37MHQ8nuwJPHSOlBMu9Y
-         BUUD5/ITf+VJzH4fLCMHDIDeHTDcwAF3RAkWbR0dCHU5ac9FJfVM3I3IStsSG9UThzxN
-         lwHMYPKGkiQ3Uv0ioAYhHN80UzpKmJGg6TQlsnsmAglLzYjhKtuSp5F64ei1llMoyHUM
-         OviM86briG8SO7WRgwzbpKxZFrsJVtN3xZarVRAAXD5WI/BPszjpIZWNwfceSqYLF5nd
-         zmS7K4OOd9YRDgEuimDq6SQ/m6EzrqRuN3XC0Qqavg9z4C9ZGkpphVHztf+vQE9Qx5d2
-         haGA==
+        bh=j1yaCrs/RG3cEhV+R3dst7KhkNMCm6jYadJmv3o3t9Q=;
+        b=Ook/lmctw5yz/UKfxPOQ1qTVNDlh4n17b2BAw7fLFhxA7DtxUrpMuAwYlGdsFA4fku
+         QnYADtY25wX4bF3EbM3mKHR2jf70k1p7Q0EcZ+SCaSCzeg8y0PcQ7cshkK2rwxae2OoH
+         kRYxYl0aAj5LzXY86xlRU+81C0+f6LgwiRB9LqC8gPRSrUfmBege3OnZDue+C0uRGdlH
+         hRw8owRYlBH/wZ5gi3bDS4LCrkTNGMk62eyauveXI5ezXdAr1uCDqccJPde/wn7llkRd
+         0XHF24zyTo0C0DWTfzp4hE59eiHzluTxzKUY5/GzMFWypljWaBbV75uLAUF6oNTlnndy
+         A8EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780256201; x=1780861001;
+        d=1e100.net; s=20251104; t=1780312763; x=1780917563;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PYDzzyBJ0elLKB0jP/bszGkmeDK9wZmW8LHbbh9j164=;
-        b=aAP3YMwrBLS11hs5Tf40hYbm9HaPNhre5NMchRelHx0N9lWrjrKRL7ZADI5mdZN68i
-         PYeLEwZz4750EstOLwzQCdtLItyhnTYETPjqp2cZMrX2Eq8TKw/0S0o5Cng0je6k1P26
-         ntzuwv0LpG/CGUqPOwlSzwLDcVAlFw+25cgtEMeGNI8EaJGMmsav6FInSNQAVT9Z0gEC
-         KErNZFvu0dyJwpNjZzeNxsX8KJ7i1NUX6B+3yH58A5Xd37EgFhyGYBO77uN+J4PrEq7q
-         KrH1TwzkO8caib3JT38A3ZmV8K7zPvk78N2ozrQrQoHor0DOWwUSVqu73sfaBPopPtdl
-         Y3SQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8ZruZKv7p5276ruyirkNvRl55q1r+4y7wBNEjGvBJum6qvv61koOA82Ynr2CMCtE6StYL9RKWsN6L4M7QaJeRfmVyHPg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwZyRhqbimoFyauHiX3B9v9de7/Mkd/1XDibYwYPNDDW8Q5d/8s
-	CYTG8oOdgO/LCcfN5HcOSYh7E3gXZktcIn4ba3BiOXMm3xaZoTV8y3NZ
-X-Gm-Gg: Acq92OHDM1MVzg3wTMqGBT16mkd5oPJijnQN10oaa28nIawWrS2BifSKJvebscmK8ev
-	5DLEDv6Q/1v6rWho70kL8vL0mVcmCwkLcDxu+5Iz5u0CoKNTLBFfYscFECgTE6SUOLb3Gq4rfm5
-	evudmWPmk6fWp5vBR1QmzB8W/HYgAHtUCEb0D61VZ+2WQWURZ0RCiiUkX3Fo2Jw8ep+gyqaoYLj
-	1dBsuZC5PjvoM3ETCmSRaUO3Lpi+c0iIYOmamI1AdCuV5HoyLDQNHdDePgimT0xvtYlMMv8QoyN
-	hjUWr+EG1z4dzIAbP1ZVlhny3khREJYcmQaOKBd+uqfeZkuc3iVeFiLekkaieDixixQWyKGXQ47
-	5if3A20G2EvgTQuStmg4Bc878aMc5B8mWVXVn/cE1oZZC7OUqxVi/b4xI9SiIEKL5QIgqWvzgx2
-	3xRDk8gVKrdCkCCApNmT9aZ5MM5ox50lTz
-X-Received: by 2002:a05:6102:5988:b0:65b:c17:70b4 with SMTP id ada2fe7eead31-6c66383c6d9mr3437544137.0.1780256201137;
-        Sun, 31 May 2026 12:36:41 -0700 (PDT)
-Received: from dream.. ([2804:1b3:a702:ed22:1ad5:a049:6ba5:86b2])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6c78792bc3bsm3253136137.1.2026.05.31.12.36.38
+        bh=j1yaCrs/RG3cEhV+R3dst7KhkNMCm6jYadJmv3o3t9Q=;
+        b=mOfehkqItgvoOCOj9Khye+WmqUN5dlvgELa7dt7qxzxzwwkLXSJtbqxlJAVzPx94pR
+         Jn8IoioYGI//T/WCVrw7c5Y6wOx7qES998p43FRsoFUks233/CWyHrV0WI/5COF3r1Nm
+         vJwfacdJf+qd7SW/Xd/Dg238lDXTOpC7Y9+ash+S3loWoUZHDKDIg3maUY3Z9OrCCQR0
+         GBUGZiZmv/IT9jpSdL2DI31NqnqcQymcaKF6+OapwANT2Svz66Cg+U0/e70qzs6tLW+t
+         moIsawMJmkI4lAy9ANhXOx3/zWusyZ7SK+Tcu0kgoj4CnqvWch8VkNHPMFzLBXmhZ47s
+         kTHg==
+X-Forwarded-Encrypted: i=1; AFNElJ8lSlZE9F+9lA4TZQEY+VLxWZE2gSdHYSsAsRmGVS86ZxRLSSCkp9+PDyqBaS2DcRYyvIa84TSlzkuUx012rqm7yz/cBg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEQ7mcp+BuR4/G5tAQOmr202dlnjA1vbDzh4rDMV8axqgpAcls
+	BkWZ6lHjoJ9deTKhiEnI+zudFeK0B3jmk0XwN+BCL/aauYXp7ln5/P3Q
+X-Gm-Gg: Acq92OEmTAD+hyHDaGACJIpbObQ3LQlb2c8hw88JRnzzWuo9dCeCGHJvtfe0Uk28D4w
+	l7B90f5lgnEjv/J9juYiM6wTjrBusNkNUpRMWLUQ7/1WF9uDqI2EcsL1sEHM9UzqUb+UQ4GJ33x
+	2hDZ6HpMBtnnY8k1XDPLkEAXEoNK0cx7uUJPlaPRCFTdZENWjYb3CggrBJxHbPgJO4EvGJ6Nh2g
+	nbeZHNDDnc1woHoKEVIKCBJxSlLO8StKy1hJdpmfacpYfB0pbAvwhIdjVVkzHwHaLw6/wEGDpPt
+	En+KHEhg5ukzYF9UJnhAMWT2IHzpcL6jrbGklJjW9+AcwQYZxsj8XazP8YHbMuqJny3wsys6kX3
+	cMCzGzx3UKv7MUyJ1h+/30CcwCIhnXjTc2/hnlzbVPD+SbmU/2thC4WoOqc7w1NTUHvrMh40CjH
+	6KWUidWrOosm9kZbEBwHOhWTUqJv6R3WemLyk1zvUvwfex2Sm6Czu3Zty07g==
+X-Received: by 2002:a17:902:ef49:b0:2c0:c625:4010 with SMTP id d9443c01a7336-2c0c625439bmr69679175ad.32.1780312763044;
+        Mon, 01 Jun 2026 04:19:23 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e702fsm104225475ad.4.2026.06.01.04.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 12:36:40 -0700 (PDT)
-From: Rodrigo Zaiden <rodrigoffzz@gmail.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: apparmor@lists.ubuntu.com,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Rodrigo Zaiden <rodrigoffzz@gmail.com>
-Subject: [PATCH] apparmor: fix kernel-doc warnings
-Date: Sun, 31 May 2026 16:36:28 -0300
-Message-ID: <20260531193628.286270-1-rodrigoffzz@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 01 Jun 2026 04:19:22 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	SeungJu Cheon <suunj1331@gmail.com>
+Subject: [PATCH v2 0/2] Bluetooth: Fix data-races in SCO/ISO connect paths
+Date: Mon,  1 Jun 2026 20:19:06 +0900
+Message-ID: <20260601111908.232707-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -93,45 +77,37 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix two kernel-doc warnings:
-- non-kernel-doc comment marked with '/**' in af_unix.c
-- documented symbol name mismatch for aa_get_i_loaddata() in
-  policy_unpack.h
+The connect paths read socket address and config fields without
+lock_sock() and pass them to hci_get_route() and hci_connect_*(),
+while connect()/bind()/setsockopt() can update them concurrently.
 
-No functional changes.
+Patch 1 covers ISO (iso_connect_bis/cis, iso_listen_bis,
+iso_conn_big_sync), patch 2 covers SCO (sco_connect).
 
-Signed-off-by: Rodrigo Zaiden <rodrigoffzz@gmail.com>
----
- security/apparmor/af_unix.c               | 2 +-
- security/apparmor/include/policy_unpack.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+The added lock_sock() sections are reached with the lock not held and
+released before hci_get_route()/hci_dev_lock(), so no recursive locking
+or new lock ordering is introduced.
 
-diff --git a/security/apparmor/af_unix.c b/security/apparmor/af_unix.c
-index fdb4a9f212c3..ec6018662b1a 100644
---- a/security/apparmor/af_unix.c
-+++ b/security/apparmor/af_unix.c
-@@ -615,7 +615,7 @@ static int unix_peer_perm(const struct cred *subj_cred,
- 					  peer_label, &ad));
- }
- 
--/**
-+/*
-  *
-  * Requires: lock held on both @sk and @peer_sk
-  *           called by unix_stream_connect, unix_may_send
-diff --git a/security/apparmor/include/policy_unpack.h b/security/apparmor/include/policy_unpack.h
-index e5a95dc4da1f..0399cec16fe8 100644
---- a/security/apparmor/include/policy_unpack.h
-+++ b/security/apparmor/include/policy_unpack.h
-@@ -131,7 +131,7 @@ struct aa_loaddata {
- int aa_unpack(struct aa_loaddata *udata, struct list_head *lh, const char **ns);
- 
- /**
-- * aa_get_loaddata - get a reference count from a counted data reference
-+ * aa_get_i_loaddata - get a reference count from a counted data reference
-  * @data: reference to get a count on
-  *
-  * Returns: pointer to reference
+Tested on KCSAN + PROVE_LOCKING with VHCI reproducers on the SCO and
+ISO CIS connect paths; the hci_get_route() race no longer reproduces
+and no lockdep splat is seen.
+
+Changes in v2:
+- ISO: cache bc_sid too, and pass cached src/dst/bc_sid to
+  __iso_get_sock_listen_by_sid() in iso_listen_bis() (missed in v1)
+- ISO: use cached bc_sid in BT_DBG() in iso_connect_bis()
+- SCO: also snapshot src, setting and codec; v1 only did dst
+- reword: the fix stops torn reads, it does not close the TOCTOU window
+- fix the SCO Fixes: tag title
+
+SeungJu Cheon (2):
+  Bluetooth: ISO: Fix data-race on iso_pi fields in hci_get_route calls
+  Bluetooth: SCO: Fix data-race on sco_pi fields in sco_connect
+
+ net/bluetooth/iso.c | 60 +++++++++++++++++++++++++++++++++------------
+ net/bluetooth/sco.c | 20 +++++++++++----
+ 2 files changed, 59 insertions(+), 21 deletions(-)
+
 -- 
-2.43.0
+2.52.0
 
