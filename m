@@ -1,62 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6703D5666
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  2 Jun 2026 10:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F763D6CDA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Jun 2026 10:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780396298; cv=none; b=uXLOjUZ3Yf/C+mVLW+9JmXEfh2bMerxK3WX5dcOqQyrOW/XR8nMgUaDwdu3HO2EKfvz1WyR9UFDlvEXGkHX8UMbKkStjDmrRSenpu9h7PW19OJAisNBGHd6zyXB/hnD0lmVR8UUs9bYxx4a9yx5VZUsDtk7LMFHRgChrONsLdZY=
+	t=1780396527; cv=none; b=KSFOEWWm82bD/7LsUAQgUeZl6LLsmdYw2Bmq5fgiLobt6CF7cX97tF5+TBMltInOfRpyEMSYowsSZliaHGM7noaBXbRqrmeLGpGdBkJckBQSzJdDCONg3HLAt757D5qpezbjfyCxNG8A0ZkoPiRZaS/7s4kBkIIiENHvotvHoYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780396298; c=relaxed/simple;
-	bh=o0Nni+yp1Gx1jtyHijBx0ul2iFhVLO/rQkcI7P29gmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKeVD3TH5OV4DbCp2c371RYbQVkZoQ9wIokKS9DmQW8O3/9keeuDvowmH6S0c8v+magX7kOQAzbX3yB1K76p8wQCIq3DSE1Qyb0LEJ82GCmeytB6xB5k1L4AhXqua5YKGcactMxnW1NeqlkyqOVSRs4yAqxrMFhX2C2fChndMXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlLSGV0J; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780396527; c=relaxed/simple;
+	bh=7fs/Ea2xnzRuG59u8rGS1g7Z3TJFNLOo7lJohh/sZWI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aZYCzZTD9Wm0b4W+fkohzkU7NAwz9Q3Mq9qFP9qTimB26XRc+rJmdV0UWM4MglnHvhbfVIujmDvZiOZ4ZI6l6NrDrDoBVO86Vgt9ogEu0fAZmzE1ij5u48kAa+IfmIJsApM6063YzNxaYky6lMIebOyaXN8rs6dwreX/LSQql1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=uu56T2d5; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlLSGV0J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780396297; x=1811932297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=o0Nni+yp1Gx1jtyHijBx0ul2iFhVLO/rQkcI7P29gmo=;
-  b=FlLSGV0JSZRniGIeexSs/Xq65/RzUTu/pKAMpI7mxCpiRTm0tXjQd/N9
-   v90xHn/WfEIf6+N8ZDI/L4PSoaXBe2mmO8UjTfilpOfuZgBwHkSqtFZpR
-   mAQVWx3+Si1R5jAEcRCYrdYNQ+Oh07LUffxU5GZU5gkl7AH5ZiHtHZ8vn
-   wdHGBfpZuOsML5xJ9IfPJ8Y/aGBOmStjsMuUk2K8+wvY7B7MqYHml0O1N
-   ZqHl85uysRpoh2fi7RhileTuCKNI9WuVbeihs7VykyqWndNUSackwOnGl
-   +QcU8j5Hu3NAPHxzoTtr4jpLlFTXxEiPHIOr7lvs/EISFHBNMQx31eqMh
-   Q==;
-X-CSE-ConnectionGUID: hnn1hML4TM2jYVPRws9ItA==
-X-CSE-MsgGUID: VWs9JyLbR2ukI5M/N94gwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84801052"
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="84801052"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 03:31:37 -0700
-X-CSE-ConnectionGUID: 5z1wrGUPQEqaEEEnvquwzA==
-X-CSE-MsgGUID: L9WA0xICTVKfAYbp2gmjBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="281979657"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 03:31:34 -0700
-Date: Tue, 2 Jun 2026 13:31:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	SeungJu Cheon <suunj1331@gmail.com>, linux-iio@vger.kernel.org,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	apokusinski01@gmail.com, me@brighamcampbell.com,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 4/4] iio: pressure: mpl3115: add hardware FIFO support
-Message-ID: <ah6xA19t8RlijavX@ashevche-desk.local>
-References: <20260530113938.171540-1-suunj1331@gmail.com>
- <20260530113938.171540-5-suunj1331@gmail.com>
- <CAHp75VcN7B5BdKZGBiw5cbhYesGsO_tStcN3cKgggiHiuSnJ7w@mail.gmail.com>
- <20260530164306.70c9ac71@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="uu56T2d5"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 483E8810F6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Jun 2026 10:35:25 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -5.793
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id sF9zg4TQ5CL4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  2 Jun 2026 10:35:24 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C73B1810D3
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C73B1810D3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=uu56T2d5
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C73B1810D3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  2 Jun 2026 10:35:22 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 38CC2C6247F;
+	Tue,  2 Jun 2026 10:35:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C3F45603BC;
+	Tue,  2 Jun 2026 10:35:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 206C11088838A;
+	Tue,  2 Jun 2026 12:35:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780396518; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=7fs/Ea2xnzRuG59u8rGS1g7Z3TJFNLOo7lJohh/sZWI=;
+	b=uu56T2d5YgNJVXUPff3eP585cqUQLhOxT2qCEPxRjavLP7bnKePVomqANOhLXHIhL1U3sY
+	Ho+JgdHH8q8YJo421XNOeygddbsv+uD3e3k7n6kDOlO+VEzVNJn5P5luXwUymxETNnB4C8
+	TeRiFEDs2HM1rDYvobbwNHjJn6iujBf05zfw2ILIfbx34etJA2ITdRL8qHMJsFx++yj4i0
+	+lBfI9G0nzZRPyAHolNhVVyT+Uw2pjV2hQR16rmPviXm9ltIIWMU62wI1jzUBiA/9PTNx1
+	MvbZunzeY6p6vQMdq/AIOpyQ6HcIDQM+/iLhJxpVS6f1HlXcInvbdfYTYpzdCw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Robertus Diawan Chris <robertusdchris@gmail.com>
+Cc: alex.aring@gmail.com,  stefan@datenfreihafen.org,  davem@davemloft.net,
+  edumazet@google.com,  kuba@kernel.org,  pabeni@redhat.com,
+  horms@kernel.org,  linux-wpan@vger.kernel.org,  netdev@vger.kernel.org,
+  linux-kernel@vger.kernel.org,
+  linux-kernel-mentees@lists.linuxfoundation.org,
+  skhan@linuxfoundation.org,  me@brighamcampbell.com
+Subject: Re: [PATCH] mac802154: Prevent overwrite return code in
+ mac802154_perform_association()
+In-Reply-To: <20260602054133.470293-1-robertusdchris@gmail.com> (Robertus
+	Diawan Chris's message of "Tue, 2 Jun 2026 12:41:33 +0700")
+References: <20260602054133.470293-1-robertusdchris@gmail.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Tue, 02 Jun 2026 12:35:12 +0200
+Message-ID: <87ik81mdr3.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -64,30 +74,28 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260530164306.70c9ac71@jic23-huawei>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sat, May 30, 2026 at 04:43:06PM +0100, Jonathan Cameron wrote:
-> On Sat, 30 May 2026 15:32:23 +0200
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > On Sat, May 30, 2026 at 1:40 PM SeungJu Cheon <suunj1331@gmail.com> wrote:
+Hello,
 
-...
+On 02/06/2026 at 12:41:33 +07, Robertus Diawan Chris <robertusdchris@gmail.=
+com> wrote:
 
-> > > +       u8 fifo_buf[MPL3115_FIFO_SIZE * MPL3115_FIFO_SAMPLE_SIZE]
-> > > +               __aligned(IIO_DMA_MINALIGN);  
-> > 
-> > We have a macro for this,
-> Which one?  We have the buffer + timestamp ones for IIO but that' not
-> relevant here.
+> When assoc_status not equal to IEEE802154_ASSOCIATION_SUCCESSFUL, the
+> return value assigned to either "-ERANGE" or "-EPERM" but this return
+> value will be overwritten to 0 after exiting the conditional scope.
+> So, jump to clear_assoc label to preserve the return value when
+> assoc_status not equal to IEEE802154_ASSOCIATION_SUCCESSFUL.
+>
+> This is reported by Coverity Scan as "Unused value".
+>
+> Fixes: fefd19807fe9 ("mac802154: Handle associating")
+> Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
 
-Ah, I stand corrected!
+This is correct.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-
+Thanks,
+Miqu=C3=A8l
