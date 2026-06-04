@@ -1,199 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5AC2749DC;
-	Thu,  4 Jun 2026 01:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78E93932DE
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  4 Jun 2026 08:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780537636; cv=none; b=J3UEB+h090J0XOMAab8L2sZYB425kP1/lk1vFiA0L/ykdDvZN6c9M+nJ7tt+cgI/tBWMSY/hxGmoabTB3aR5D4+mJIZD6gFH9jNPr97RDui5izpbfZcqtoa3RmRnd78dwoDhcTFNJGxChEa3O+T5qXDZCB5dezm8SDHyRUMBq1M=
+	t=1780560608; cv=none; b=LCaSqsbTZWciGmkfvUFowGbMQM+VGT0gSJOA0OYDjGjIPr1/3PcuFi2AE8F7MNKZ5HuXx8ognyKeGLVgedIHuxCDxubMbYxomY0M2N2pXdVylUS/YBRHiWHB2STEE3a41A3nyrWwO6EbLAHtzNxakQ6di3YkKnFa8aDHHJRxuHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780537636; c=relaxed/simple;
-	bh=UMwyZf/uKr+FZ8yBlfVfuUbz6t9g0HNZRLt+heTYhIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mu9G51+fXitRnbSOGhEr1mZ0ntaa5KdJWbqBDhcNb/ruaN1JfYerbpbBHLacwbl3NCtHvTEZ79luMRxeZLcfsg+Xr/2JFqzjrbDuXdywSwcNOt7w2jFBWSEsUBult508O1NRUlPoS/5BTV5+cD58Nm//Dg5vNpg+CHvQBfhXc18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9KE8GwL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780560608; c=relaxed/simple;
+	bh=FZQMkrX+okeT4SlD7Tf4t2UW+eiFRO3yu1a1DqNEutQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GIXHAHdLVFfUPECIXlnXvUZTVwqaK3wYp7DQFylpSuEtXMqemoq7Vy50eFSFt02d66Ech/YPMaetCBkexv25kbYiccNM9HOcYXBvWvEZ6kcM4xevc54IpPWmjtHCTBasiIgixAClpO97lP6ngg4gJbYZytN7DTba8VM6KRUl6lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJJKdXTy; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9KE8GwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B462B1F00898;
-	Thu,  4 Jun 2026 01:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780537635;
-	bh=B1/4QNZrjCVuXvK5agPN2ARKZz6GtIJ7tiYvtXOug94=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L9KE8GwLkuM+TtfWZd1UYzDn2pG4LUYkRe3PoIH6R63B87VzB793SUBqiAptWLFtV
-	 fGfC2Cc3xMboII64HEAIRpzs5qvOIDzT7HrfVOozK4tCKb9Dg/M4CZlAxavWtSkHNe
-	 /fLwi1wVN9Gt5zMiiqahnRkgOytqA4nEDBJXycbz83R6nRRL2kH/bT3mCoJTjSLXW4
-	 w2rgae/UttLLJK7oa2iXDWHA0Qc3dYlzVc4InCNlZqLE9yttgmCl6Emp8/82GLIwot
-	 eCngV0FnT6GFwhJ/QMK0ov3tpf7eLyfF9KmgciEGloKvcqiCHlq0YVgZmkocpw6wW1
-	 Dkslbh8Gcls+A==
-Date: Wed, 3 Jun 2026 20:47:13 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] regulator: dt-bindings: mt6311: Convert to DT schema
-Message-ID: <20260604014713.GA2331501-robh@kernel.org>
-References: <20260531165712.729635-1-ninadnaik07@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJJKdXTy"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ef82204c6so180852f8f.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 04 Jun 2026 01:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780560604; x=1781165404; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eq5xpfpddkc8h4wqB4/es/lPRW0lpYTExJdBasPpfqU=;
+        b=ZJJKdXTymBCGRwPLxoelUvndJ/E+gt5FwnF+ZepxpDjJFTJXi/qHxg1g9cMtCrFKBL
+         8dwHrUThoFP11nAhdsMbUlYOm/RQ//ft2e+gH58N1q22qb/f5QVpY6q5y0zWVGlhuPND
+         NtQOxEYKm8SPisCX8z1vUoDeVGYKmo20579AZBgSw7SGKB5MRnqI2/GoC2CCzDx/U8Rr
+         gV1N6/hrvQp7A/phc81Dfh0Tm/oXimH7Y4YTG7DdWdeTQnjj9sRQvDu35zYAjTpYzvgi
+         O5MYO/gzyjRzSFmASEUO/XK+5q8bvzfv2BEHPNI6TIXb/uU7huMTPAmpj3D8EkQyccV2
+         OSzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780560604; x=1781165404;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eq5xpfpddkc8h4wqB4/es/lPRW0lpYTExJdBasPpfqU=;
+        b=BHOUZqqDUu7+a9dwbzuUs+CQ+M0z8WIfcaMERRrSuyJNXaIIETvs+NwNb0TjMy6o6Q
+         5r5WoYbudjAL+jwJ61cQuMDr78ENgefEt2uggkhPoIAw6ovFiW+hBCXQu0AFP966myZa
+         4+MqoQyG4F+Rdq/lGoNYcWF0VfvUkd93k3B07e3QwPWLY4YJaGpL0BiZH0UvRKLHU92i
+         eCKnRRGP0+1/QCaex/I/GZOXPskbTR/U5Eq2jIKkr8ZjTWJsrf3668dM6qAEz+cwuf17
+         DMw0GtOFcRr1tATxaThwZtpu4siru5h5YnKgrEUMu/RF2Qag++HHpgbkwedYuU5MejUE
+         6PlQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/MsBJnl/YG+lpqfQmC6YAACduCMls7iizr5qTehOt0p0A4paz+2XKtkVwZUbp0V31tLJ9BAOf6y5euA0leAACYcsSSxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yya7h/X036XXFM9s6pXlL4BPFBvl6+JrApva+aJyYoXyzwEO6nz
+	F1Z66m9izozNlCXLgx/p9QF24d8ebibz+jgRlCe+Y4hmI4J47akbdwHU
+X-Gm-Gg: Acq92OFeazossPD5pxuBzwiYnN2dqceC/kjLGdx1LR5oSJn4Iu+rpT7jlsQ3wGIxZ7c
+	KsHPAUL2AdbvtZWm/bfX1SylX1k+1AdxQOcqLPQ+IasuVVg6mhMVx//GTENWjdG92fz/PsBmZY3
+	VfTm3eEX0ZDDasaUyP256f0MN9j6gYX+Uog6G0R56l4X7+Sv9qjWucB62H0EGA5Y0D64hTUU0zI
+	zjDlccuZEPHZAFJ7TulCu8/F7ytgg7ADGJq62jvIVqXhEbQ6rzLSyC88tkNkZA79GhI8j4qSLKw
+	bExMaFxcQRQm1JbxVnxUQoMmdTvKWN5qWz3hhJz0YG9Mg1qO5DqVbBo5Hlngn5e34ukuE+Ju5MP
+	QkE83sK/b2gwAI9SrJwS+oLrWfC2LMpXyf0oqxHonqQWmUZXICZpsg7CxjubeZJXr7e1hwRb5Bw
+	s61xruLcfysPl8r0hWVrKZjXvjmYIOMggCENaAGQKUPeySGMRiYhI=
+X-Received: by 2002:a5d:4987:0:b0:451:3b12:9bca with SMTP id ffacd0b85a97d-46021831001mr7968041f8f.25.1780560604206;
+        Thu, 04 Jun 2026 01:10:04 -0700 (PDT)
+Received: from [192.168.37.44] ([217.61.173.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2eadefsm15126722f8f.11.2026.06.04.01.10.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 01:10:03 -0700 (PDT)
+Message-ID: <d82b27d8-4e0e-4749-bea7-a09f43554fb2@gmail.com>
+Date: Thu, 4 Jun 2026 10:10:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260531165712.729635-1-ninadnaik07@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] iio: tcs3472: implement wait time and sampling
+ frequency
+From: Aldo Conte <aldocontelk@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ shuah@kernel.org, joshua.crofts1@gmail.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20260522123420.45495-1-aldocontelk@gmail.com>
+ <20260522123420.45495-9-aldocontelk@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20260522123420.45495-9-aldocontelk@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 31, 2026 at 10:27:12PM +0530, Ninad Naik wrote:
-> Convert mediatek,mt6311 to DT schema.
-> 
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-> ---
->  .../regulator/mediatek,mt6311-regulator.yaml  | 72 +++++++++++++++++++
->  .../bindings/regulator/mt6311-regulator.txt   | 35 ---------
->  2 files changed, 72 insertions(+), 35 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
->  delete mode 100644 Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
-> new file mode 100644
-> index 000000000000..a51db46b0f41
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
-> @@ -0,0 +1,72 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6311-regulator.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6311 Regulator
-> +
-> +maintainers:
-> +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> +
-> +description: |
-
-Don't need '|' if no formatting.
-
-> +  The MediaTek MT6311 is an I2C power management IC that provides one step-down
-> +  converter and one low-dropout regulator. The regulators are named VDVFS and
-> +  VBIASN, respectively.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6311-regulator
-> +
-> +  reg:
-> +    description: I2C slave address.
-> +    maxItems: 1
-> +
-> +  regulators:
-> +    type: object
-> +    description: List of regulators provided by this controller.
-> +
-> +    patternProperties:
-> +      "^(VDVFS|VBIASN)$":
-> +        type: object
-> +        $ref: regulator.yaml#
-> +        description: |
-> +          Regulator nodes.
-
-Drop. That's obvious with the $ref.
-
-> +        unevaluatedProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - regulators
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      mt6311: pmic@6b {
-
-Drop unused label.
-
-> +        compatible = "mediatek,mt6311-regulator";
-> +        reg = <0x6b>;
-> +
-> +        regulators {
-> +          mt6311_vcpu_reg: VDVFS {
-
-Drop unused label.
-
-> +            regulator-name = "VDVFS";
-> +            regulator-min-microvolt = <600000>;
-> +            regulator-max-microvolt = <1400000>;
-> +            regulator-ramp-delay = <10000>;
-> +          };
-> +
-> +          mt6311_ldo_reg: VBIASN {
-
-Drop unused label.
-
-> +            regulator-name = "VBIASN";
-> +            regulator-min-microvolt = <200000>;
-> +            regulator-max-microvolt = <800000>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt b/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
-> deleted file mode 100644
-> index 84d544d8c1b1..000000000000
-> --- a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -Mediatek MT6311 Regulator
+On 22/05/26 14:34, Aldo Conte wrote:
+> @@ -196,15 +359,29 @@ static int tcs3472_write_raw(struct iio_dev *indio_dev,
+>   		if (val != 0)
+>   			return -EINVAL;
+>   		for (i = 0; i < 256; i++) {
+> -			if (val2 == (256 - i) * 2400) {
+> -				data->atime = i;
+> -				return i2c_smbus_write_byte_data(
+> -					data->client, TCS3472_ATIME,
+> -					data->atime);
+> -			}
 > -
-> -Required properties:
-> -- compatible: "mediatek,mt6311-regulator"
-> -- reg: I2C slave address, usually 0x6b.
-> -- regulators: List of regulators provided by this controller. It is named
-> -  to VDVFS and VBIASN.
-> -  The definition for each of these nodes is defined using the standard binding
-> -  for regulators at Documentation/devicetree/bindings/regulator/regulator.txt.
-> -
-> -The valid names for regulators are:
-> -BUCK:
-> -  VDVFS
-> -LDO:
-> -  VBIASN
-> -
-> -Example:
-> -	mt6311: pmic@6b {
-> -		compatible = "mediatek,mt6311-regulator";
-> -		reg = <0x6b>;
-> -
-> -		regulators {
-> -			mt6311_vcpu_reg: VDVFS {
-> -				regulator-name = "VDVFS";
-> -				regulator-min-microvolt = < 600000>;
-> -				regulator-max-microvolt = <1400000>;
-> -				regulator-ramp-delay = <10000>;
-> -			};
-> -			mt6311_ldo_reg: VBIASN {
-> -				regulator-name = "VBIASN";
-> -				regulator-min-microvolt = <200000>;
-> -				regulator-max-microvolt = <800000>;
-> -			};
-> -		};
-> -	};
-> -- 
-> 2.54.0
-> 
-> 
+> +			if (val2 != (256 - i) * 2400)
+> +				continue;
+> +
+> +			data->atime = i;
+> +			ret = i2c_smbus_write_byte_data(data->client,
+> +							TCS3472_ATIME,
+> +							data->atime);
+> +			if (ret)
+> +				return ret;
+
+Hi Jonathan,
+
+Two questions on the INT_TIME case in tcs3472_write_raw() before
+I send v4.
+
+- The compute/write/commit pattern issue you raised elsewhere
+also applies here. I plan to swap the order: write first with i
+
+return i2c_smbus_write_byte_data( data->client, TCS3472_ATIME, i);
+
+then update data->atime only on success. OK?
+
+- Sashiko flagged a race ( 
+https://sashiko.dev/#/patchset/20260522123420.45495-1-aldocontelk%40gmail.com ) :
+target_freq_hz/uhz are read without
+the lock and then passed to tcs3472_set_sampling_freq() which
+takes the lock internally. Two options:
+
+1)  Take the lock briefly in write_raw() to write ATIME, update
+     data->atime, and snapshot target_freq_hz/uhz. Then release the
+     lock and call tcs3472_set_sampling_freq() (which takes the lock
+     again internally). Minimal change, but ATIME and WTIME updates
+     are not atomic with each other.
+
+2)  Split tcs3472_set_sampling_freq() into a public wrapper that
+     takes the lock and a __tcs3472_set_sampling_freq() helper with
+     the lock already held. Then in write_raw() take the lock once,
+     write ATIME, and call the helper. This keeps ATIME and WTIME
+     updates atomic.
+
+In these cases, what is used to do?
+
+Thanks,
+Aldo
+
+> +
+> +			/*
+> +			 * ATIME just changed, so the cycle time changed too.
+> +			 * Re-run the sampling frequency logic to recompute
+> +			 * WTIME and preserve the user's last requested
+> +			 * frequency.
+> +			 */
+> +			return tcs3472_set_sampling_freq(data,
+> +							 data->target_freq_hz,
+> +							 data->target_freq_uhz);
+>   		}
+>   		return -EINVAL;
+> +	case IIO_CHAN_INFO_SAMP_FREQ:
+> +		return tcs3472_set_sampling_freq(data, val, val2);
+>   	default:
+>   		return -EINVAL;
+>   	}
+
+
