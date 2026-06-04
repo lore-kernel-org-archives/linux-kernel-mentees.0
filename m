@@ -1,79 +1,199 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E7E3F88B5;
-	Tue,  2 Jun 2026 17:20:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5AC2749DC;
+	Thu,  4 Jun 2026 01:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780420806; cv=none; b=hyhAX9rPX9rc03Mlcgo6i6w5uCeNfvBIFVXPZeckvsjzwp+QS5c0C2274cvx1hFl9t5GermlgWX3/F5ib3jUtxjCPmA6I/VAWrucovCypSl3Kk7fNSRBV5mqUoi/yRtXutoukwOvo4ylrf9XRRexD8Q845tFQKS1gmNawuK2K38=
+	t=1780537636; cv=none; b=J3UEB+h090J0XOMAab8L2sZYB425kP1/lk1vFiA0L/ykdDvZN6c9M+nJ7tt+cgI/tBWMSY/hxGmoabTB3aR5D4+mJIZD6gFH9jNPr97RDui5izpbfZcqtoa3RmRnd78dwoDhcTFNJGxChEa3O+T5qXDZCB5dezm8SDHyRUMBq1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780420806; c=relaxed/simple;
-	bh=pK+6WJkoB6OLp3TvACok1tKfb0ny107AsOr3vlXAx38=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YENqpJC9siE8o+Pbh4PlrF2Xf73jr5gXLHf+JtrvLTPRiMCo+L7wSxUhr77gSfk+7iacTpxxGWf9PJdUlWdNvk7lZaonNLRtMU7KWYJDV1uBR1hZBSb2dPWEc8cAecmaHgCwNHMlsmJitEPDxJIcD63wuO6LJcbszoRFMhBXedw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cu3tKL0o; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780537636; c=relaxed/simple;
+	bh=UMwyZf/uKr+FZ8yBlfVfuUbz6t9g0HNZRLt+heTYhIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mu9G51+fXitRnbSOGhEr1mZ0ntaa5KdJWbqBDhcNb/ruaN1JfYerbpbBHLacwbl3NCtHvTEZ79luMRxeZLcfsg+Xr/2JFqzjrbDuXdywSwcNOt7w2jFBWSEsUBult508O1NRUlPoS/5BTV5+cD58Nm//Dg5vNpg+CHvQBfhXc18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9KE8GwL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cu3tKL0o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C451F00893;
-	Tue,  2 Jun 2026 17:20:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9KE8GwL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B462B1F00898;
+	Thu,  4 Jun 2026 01:47:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780420804;
-	bh=UMPfDZeRjHs3nhBodXyN+Alewz0VyvLNp/Rv4CiyrWQ=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=Cu3tKL0oyDGbba0OXGNHp3qHz5OX/Ayo6ZGS+u8/LsN/BgTW+aEWcFn4hVBQmBoVj
-	 ejNBrWjrf2xdBf0Et5sxcHYka0GtyIvPecGKkn1MlbqYU4SZ3OqvyLKuJ0ogMKsbd0
-	 OFai+KwZgsQjrudE7fDZfPnqC/oeWd/oD5Q05O74K6g2Qb5Lnnl43nssYa0dggI3sM
-	 pYFwJabU0Cfu3rh+PytDCN/beSeBSRbOA8R3CxV+Muq3D1Rmrn9LelRAXoJ8qwhhGV
-	 gZtr7kswEtxd0mDjeZM0DLvfH12uiqO3DsJA2zkw9EI+SLPqWyl5O6JNI/xrtaMZ7h
-	 3+RhJYjAT8aKg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D53DD3811A69;
-	Tue,  2 Jun 2026 17:20:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1780537635;
+	bh=B1/4QNZrjCVuXvK5agPN2ARKZz6GtIJ7tiYvtXOug94=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L9KE8GwLkuM+TtfWZd1UYzDn2pG4LUYkRe3PoIH6R63B87VzB793SUBqiAptWLFtV
+	 fGfC2Cc3xMboII64HEAIRpzs5qvOIDzT7HrfVOozK4tCKb9Dg/M4CZlAxavWtSkHNe
+	 /fLwi1wVN9Gt5zMiiqahnRkgOytqA4nEDBJXycbz83R6nRRL2kH/bT3mCoJTjSLXW4
+	 w2rgae/UttLLJK7oa2iXDWHA0Qc3dYlzVc4InCNlZqLE9yttgmCl6Emp8/82GLIwot
+	 eCngV0FnT6GFwhJ/QMK0ov3tpf7eLyfF9KmgciEGloKvcqiCHlq0YVgZmkocpw6wW1
+	 Dkslbh8Gcls+A==
+Date: Wed, 3 Jun 2026 20:47:13 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ninad Naik <ninadnaik07@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] regulator: dt-bindings: mt6311: Convert to DT schema
+Message-ID: <20260604014713.GA2331501-robh@kernel.org>
+References: <20260531165712.729635-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/2] Bluetooth: Fix data-races in SCO/ISO connect paths
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <178042080663.965718.10676040652075831964.git-patchwork-notify@kernel.org>
-Date: Tue, 02 Jun 2026 17:20:06 +0000
-References: <20260601111908.232707-1-suunj1331@gmail.com>
-In-Reply-To: <20260601111908.232707-1-suunj1331@gmail.com>
-To: SeungJu Cheon <suunj1331@gmail.com>
-Cc: marcel@holtmann.org, luiz.dentz@gmail.com,
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
- me@brighamcampbell.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260531165712.729635-1-ninadnaik07@gmail.com>
 
-Hello:
-
-This series was applied to bluetooth/bluetooth-next.git (master)
-by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
-
-On Mon,  1 Jun 2026 20:19:06 +0900 you wrote:
-> The connect paths read socket address and config fields without
-> lock_sock() and pass them to hci_get_route() and hci_connect_*(),
-> while connect()/bind()/setsockopt() can update them concurrently.
+On Sun, May 31, 2026 at 10:27:12PM +0530, Ninad Naik wrote:
+> Convert mediatek,mt6311 to DT schema.
 > 
-> Patch 1 covers ISO (iso_connect_bis/cis, iso_listen_bis,
-> iso_conn_big_sync), patch 2 covers SCO (sco_connect).
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+> ---
+>  .../regulator/mediatek,mt6311-regulator.yaml  | 72 +++++++++++++++++++
+>  .../bindings/regulator/mt6311-regulator.txt   | 35 ---------
+>  2 files changed, 72 insertions(+), 35 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+> new file mode 100644
+> index 000000000000..a51db46b0f41
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6311-regulator.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/mediatek,mt6311-regulator.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT6311 Regulator
+> +
+> +maintainers:
+> +  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> +
+> +description: |
 
-Here is the summary with links:
-  - [v2,1/2] Bluetooth: ISO: Fix data-race on iso_pi fields in hci_get_route calls
-    https://git.kernel.org/bluetooth/bluetooth-next/c/961ea93b3ceb
-  - [v2,2/2] Bluetooth: SCO: Fix data-race on sco_pi fields in sco_connect
-    https://git.kernel.org/bluetooth/bluetooth-next/c/4a17208f1b99
+Don't need '|' if no formatting.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +  The MediaTek MT6311 is an I2C power management IC that provides one step-down
+> +  converter and one low-dropout regulator. The regulators are named VDVFS and
+> +  VBIASN, respectively.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6311-regulator
+> +
+> +  reg:
+> +    description: I2C slave address.
+> +    maxItems: 1
+> +
+> +  regulators:
+> +    type: object
+> +    description: List of regulators provided by this controller.
+> +
+> +    patternProperties:
+> +      "^(VDVFS|VBIASN)$":
+> +        type: object
+> +        $ref: regulator.yaml#
+> +        description: |
+> +          Regulator nodes.
 
+Drop. That's obvious with the $ref.
 
+> +        unevaluatedProperties: false
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - regulators
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      mt6311: pmic@6b {
+
+Drop unused label.
+
+> +        compatible = "mediatek,mt6311-regulator";
+> +        reg = <0x6b>;
+> +
+> +        regulators {
+> +          mt6311_vcpu_reg: VDVFS {
+
+Drop unused label.
+
+> +            regulator-name = "VDVFS";
+> +            regulator-min-microvolt = <600000>;
+> +            regulator-max-microvolt = <1400000>;
+> +            regulator-ramp-delay = <10000>;
+> +          };
+> +
+> +          mt6311_ldo_reg: VBIASN {
+
+Drop unused label.
+
+> +            regulator-name = "VBIASN";
+> +            regulator-min-microvolt = <200000>;
+> +            regulator-max-microvolt = <800000>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt b/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
+> deleted file mode 100644
+> index 84d544d8c1b1..000000000000
+> --- a/Documentation/devicetree/bindings/regulator/mt6311-regulator.txt
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -Mediatek MT6311 Regulator
+> -
+> -Required properties:
+> -- compatible: "mediatek,mt6311-regulator"
+> -- reg: I2C slave address, usually 0x6b.
+> -- regulators: List of regulators provided by this controller. It is named
+> -  to VDVFS and VBIASN.
+> -  The definition for each of these nodes is defined using the standard binding
+> -  for regulators at Documentation/devicetree/bindings/regulator/regulator.txt.
+> -
+> -The valid names for regulators are:
+> -BUCK:
+> -  VDVFS
+> -LDO:
+> -  VBIASN
+> -
+> -Example:
+> -	mt6311: pmic@6b {
+> -		compatible = "mediatek,mt6311-regulator";
+> -		reg = <0x6b>;
+> -
+> -		regulators {
+> -			mt6311_vcpu_reg: VDVFS {
+> -				regulator-name = "VDVFS";
+> -				regulator-min-microvolt = < 600000>;
+> -				regulator-max-microvolt = <1400000>;
+> -				regulator-ramp-delay = <10000>;
+> -			};
+> -			mt6311_ldo_reg: VBIASN {
+> -				regulator-name = "VBIASN";
+> -				regulator-min-microvolt = <200000>;
+> -				regulator-max-microvolt = <800000>;
+> -			};
+> -		};
+> -	};
+> -- 
+> 2.54.0
+> 
+> 
