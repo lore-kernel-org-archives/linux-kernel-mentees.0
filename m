@@ -1,411 +1,161 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27261DE8AD
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  6 Jun 2026 03:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17873314A8D
+	for <linux-kernel-mentees@lists.linux.dev>; Sat,  6 Jun 2026 09:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780715008; cv=none; b=HhJagI1Rv9J6m7U3SFuDJWzECx+sYsUMug6+Vd0RM/PcuBTDcsYAO0Z4lXoPslOIrFDhkqT6X5nm1DyqWD8R5xXWQIQdGIrflFov6z5FhuA6uI1P30uMrghaD5XgBjtLEbhbLC7hDQvpuM7WQK+KZrDtUpUApKLZckiaSFtoju8=
+	t=1780738042; cv=none; b=UdT7FWuDiiSZxKjXF9t2SCvdphKKAH5m0smACwwW5HUe7dMKfzkYo6CEoEIIJI6NI4+6PLGno5yiAxWaAdZTCZbxt2xO8pM4oG2cqp7XvYuM5MYRqYfF9PikA9frGWTSPXZqJ4HyEvXJwpcgkrjDI8dkIaZo5ci1NBPAKHeKTLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780715008; c=relaxed/simple;
-	bh=ky/O851hUVScoQCJyHMEdXAknbRDO2OmkuDtVhtUaWM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a0sUcAnDWf+1U+ctx/9cnCn2UG4f77QpcgSz2vclG2mmtNgyHgxduQsRLOTa0YjXTobZSvyeVQV8LRlVrvi7SYdVNSwMPIE1Ie4oE/rmxUBCSAWvuT7OdxZu5sf1439/eOArov34M5s4vhp1S8B8GchvEhQc0AwkzMSZUVbmllQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OjFKmWfP; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1780738042; c=relaxed/simple;
+	bh=oAYcyU/xg32+wm+itzwDqLCUlfsHpkpwyRpoAl2AWxY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=f3Qg5O/ZbY+OmH8D+5QJwHeciX0l4WcfIn1fYK5AVObQneJIVSUB7WmC5BsizGoxG3KW7DRX1BNVdUvQtfeFHMD1iwN1k1Lfj/h2RLpyMumRo8409VKwUS68zIEFlAMLqvoo/As6sD2qYqdbWJ0bBRyhac4mqmUfAlhNlsu1U/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UNxfjowg; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OjFKmWfP"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36b9ec98144so1889859a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 05 Jun 2026 20:03:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UNxfjowg"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45ef1198766so1487728f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 06 Jun 2026 02:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780715006; x=1781319806; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wkeCClWpNQ+LEjlwBYSSWBLUbENqf+0YKBgoFzbsoiQ=;
-        b=OjFKmWfPblRfDocbvHImQkfYrV8z3PYeYG569a3V78vCzcww1CEKUZWjnBTqdgvCsS
-         i46P0FLP9ppbci+J3rsfUn9PhEsL0G6CgFnGwu7ofuXX7C+blh+Sv2uuA3pz/F/hoMc2
-         pNqwcabBN7+0SB0G6ZhEz/tI5OIkhBFJSdsN0p065RqbYBKdJhglYQf+TvMOi5QyxgZY
-         qhmFVevvuEpTDeT/lXPB54/56QNgzJP7HEDzdBTz1jmisvFFJX/qh4XRW53JEgvqKrdf
-         iZkTGkIZi09lYf2UffVaXZjqD+LL8bcLEvUYd4aC8ZG5OMBlpQZF/ruWaulteOnc82aa
-         cl5g==
+        d=gmail.com; s=20251104; t=1780738038; x=1781342838; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6rnRDWNFodJfpGcCxgsSzIm6WWEVisydV6yWbLjUSzg=;
+        b=UNxfjowgxFnA5gOIhNaZEAIQOUxfAu2Vm/4p5AyEka0yD0ZZxLTzzNOifgf2jmgyRv
+         fNUa/uBTLYQIBHvolJtun76G09fDTdqlJ05jjjMLnLPQNKeap9vWCQXbpKYQDmSchz+y
+         g71UdT081bCpgVRGthhRmBNoklZl7lhGjFdiD+n7JDtD8Uc5eoeq0IkXIRt5I+QcjUSR
+         uYwPdeP7b+wztXItST9EKjJ9uOGI1RE1x1+q72MU0YAo4aFJ91oKlI3tQ/JGxqek27PH
+         TWdGg/CybK3IXvF2tH+jnnSmTof4hZYmbSuumE8MyIlf1mOYaTLYNfN62CG7Wn7D1G19
+         NsAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780715006; x=1781319806;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wkeCClWpNQ+LEjlwBYSSWBLUbENqf+0YKBgoFzbsoiQ=;
-        b=hafOkOu0zswEEBX9+fnJZJ84eeT3HX9Lz1A0kmbi0o6H8ncPkZzg9WQQE1nc4jfcID
-         ll+Rxh131TeUc0+BRZNnMBx84yvuq2pEs1Yy2JrmifQgHnQB/6uGuLTETEAQpqynOzC5
-         IpD2fxK9314IRoBx8tcyALo7/3AmBroAXEzCc7d775kg0K8AgKTipWZXQitX3Sc04RSW
-         YoPW3yjsq4W/cgKji5126ry667Q7VTAgZ0CIuFp0ZX+16XcbtKWtf1hgGAm+GgqrnTl3
-         bSF5mwuRdAogiVdlrKqCAsqbp8WD/Bql5iZ7aD+DrJ7qXlLAA8H9mXwviKvwIC6P3nxS
-         7tGg==
-X-Gm-Message-State: AOJu0YyXn4AYaxeVoOR0sYojg1f7Bx++MJqE5ySjPjaBB9SUbkKxZcMk
-	peh/6548vQm6HyzrrEPD6OGe0vTlU+EHzd6TV5UGBWZ9BdGhmoCoH+1R
-X-Gm-Gg: Acq92OGq01Ga5+F/bUMVOZ9Nzqv+UsbDa7J/mE2Ob03ngkyjihQU2XeguArdKNUi3kO
-	zBAgLoMpKWfjNRARRAKzjOSKhy1zIoX/qwKa2UFNrZCHBkZz0lC1ygViv5F/qgwLhiY6lZfx36L
-	eE7ftXtsep+jugJduhsQ9jX50rcacJOkRrZlzi+mEbT1CUiY4+WDioB8YPA6d1i4puzAK20ENOn
-	7FsE8Si+fDHBli1jZ5QJFJmD60+bVECwdQFVRGEizxY+b3YebSJQLblYvyg3PW+KRMJVXwPFJDD
-	tf6AroqTWxeRLK3P1B4B6daa0dZCqalO43GqyxDG/wpJQkc/1AkMeB7530BLzgBEe9McV/oxNWE
-	rXiL35q3cdQSmgQPZ+xurdyCmrRI9tdlqLPpsYsr/L/E5N9WhFfdtJi0fnJVe/WFd0mP4kIsB84
-	KQyns4UrkviHF3M98+vPE1bwDL4cauHSLAqkvzh+2iyPb70gTnpo9Afd9fL1gDk7w48glOJR9U0
-	IxLBaW28SSH2gwjsB0DMwgvSQzE7eKGZyrhrPBXkLVvh77JzvwOC7Xo3PXJXjCT4R6v9m4O0eKd
-	+eDWNmS8MYBK3ucixIjWmZuDftyM1HzZKR+/MxzvftC5CFY/7s0f
-X-Received: by 2002:a17:90b:4fcd:b0:36d:b680:3029 with SMTP id 98e67ed59e1d1-370eeff1da0mr7178373a91.1.1780715005882;
-        Fri, 05 Jun 2026 20:03:25 -0700 (PDT)
-Received: from debian13.localdomain (bb219-75-96-14.singnet.com.sg. [219.75.96.14])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3713346cd9fsm3685124a91.2.2026.06.05.20.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 20:03:25 -0700 (PDT)
-From: Adi Nata <adinata.softwareengineer@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Adi Nata <adinata.softwareengineer@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] lib/math: add KUnit test suite for polynomial_calc()
-Date: Sat,  6 Jun 2026 11:03:09 +0800
-Message-ID: <20260606030319.316752-1-adinata.softwareengineer@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20251104; t=1780738038; x=1781342838;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6rnRDWNFodJfpGcCxgsSzIm6WWEVisydV6yWbLjUSzg=;
+        b=U+vjpzqEt3m61Y5VpPNvPjpmyEWp33WOtPbpSDcwzuG/weqaps8rwxOnowBbQ03e5D
+         xAdHlhRhT489DYtGeSMh1gwcwF3iPZAKRCQD3uVoIBSvCK0PKdve3iTuofRvKDdCy9us
+         rrnbXOvH/bA2xh5nq3V0KXGwZ86JkQZpxKMuQIXZ2H5xhnFRUm3C7lQgX3w2X1+Ap6wk
+         XDXJHHpW3Ir8XZ6JOtIpFZZ8cOe8k40i0WisTSBWJ8thDuJbu/bC3yh39CCerQwQypFq
+         tybg9qNhHfMaWFvZkl6TibKzPX/puKYyJnj/iarjnF2sXLquBVQrhwAcgVWu3B+0HGRD
+         yRvQ==
+X-Forwarded-Encrypted: i=1; AFNElJ923JikqbllJ/54XQEGzSMDiyfnPd89y09oKj1rBbbJGn6yfjFbJNnvU5XQcyENIr5r14F7K1yR2KnJFGSFh7W/Aaf7qQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxY+8WNTRMcy5jMBl/+EgZgatjhpgdcDqnhEENq7d5zhWMldFci
+	ITC4ep0iuFJ+DEZZHggE/CWXAOklnmP0aREIfWUFLDFMiUM/hdPmC/bi
+X-Gm-Gg: Acq92OEV3A4eDjT7teYjca0qiDtbiQeTVdW3g8dQe2vwFZEEHXtSK5FhAMEHl4GJLKX
+	nRK1/6cCLmuLYzNO6isHRO2gm2n2RZoI3Zr3XFKS+bEMOjlaTUD55CE0rw95i6F2LjlZviMvY24
+	mIpyXXge7uQtoA2fu4VFQ2iV/HiHcBCIcyBg/491DqSRG9W8oUWeJeQZzmSGHfJ9c5J/leMJy2o
+	VHjzLskQaKxNGqy0bYI/XYsyFC4Q89PtZB2qXJ+nnCnHHTQYPzBlEbYUQf81avqACS6NWqToEoy
+	X8qszw4B28oYMsAAZieaILH5hY6bwsj9udhi+eaN2B2aDCHsCFCjeNEhv7rPZFDaES3Cw3cFAt5
+	OvcXNVlTaok7Wd1VNDf6/QGiE6FGfkEWoVIfQ8BWaliQptePqltldd5TRcAybtie6bROnva8Fy+
+	KWw5AO1GuVFocCviilIhtyfmDdHVjNTv9Qe85QQiAjEhJQ0jDmMqFGFrLlQr73GjT4yBvCVSYyE
+	J1hysLoRQ==
+X-Received: by 2002:a05:6000:2083:b0:460:11bd:3fde with SMTP id ffacd0b85a97d-46032da2286mr8499620f8f.13.1780738037992;
+        Sat, 06 Jun 2026 02:27:17 -0700 (PDT)
+Received: from ?IPV6:2a01:e11:5402:d840:f1ee:c5d:74e4:6e19? ([2a01:e11:5402:d840:f1ee:c5d:74e4:6e19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46028a6dce6sm25534821f8f.30.2026.06.06.02.27.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Jun 2026 02:27:17 -0700 (PDT)
+Message-ID: <8392f8a6-719e-43d9-813a-0a163f450ed8@gmail.com>
+Date: Sat, 6 Jun 2026 11:27:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] iio: tcs3472: implement wait time and sampling
+ frequency
+From: Aldo Conte <aldocontelk@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ shuah@kernel.org, joshua.crofts1@gmail.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <20260522123420.45495-1-aldocontelk@gmail.com>
+ <20260522123420.45495-9-aldocontelk@gmail.com>
+ <9c0bec93-e102-4655-8074-fd544b16d912@gmail.com>
+Content-Language: en-US
+In-Reply-To: <9c0bec93-e102-4655-8074-fd544b16d912@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add a KUnit test suite for the polynomial_calc() function, which had
-no in-kernel test coverage. The tests verify correct evaluation of
-constant, linear, quadratic, and cubic polynomials, including negative
-coefficients, negative input data, zero-coefficient terms.
+On 04/06/26 11:23, Aldo Conte wrote:
+> On 22/05/26 14:34, Aldo Conte wrote:
+> 
+>>   static int tcs3472_req_data(struct tcs3472_data *data)
+>>   {
+>>       int tries = 50;
+>> @@ -166,16 +214,131 @@ static int tcs3472_read_raw(struct iio_dev *indio_dev,
+>>           *val = 0;
+>>           *val2 = (256 - data->atime) * 2400;
+>>           return IIO_VAL_INT_PLUS_MICRO;
+>> +    case IIO_CHAN_INFO_SAMP_FREQ: {
+>> +        unsigned int cycle_us = tcs3472_cycle_time_us(data);
+>> +
+>> +        tcs3472_cycle_to_freq(cycle_us, val, val2);
+>> +        return IIO_VAL_INT_PLUS_MICRO;
+>> +    }
+>>       default:
+>>           return -EINVAL;
+>>       }
+>>   }Hi Jonathan,
+> 
+> One more thing on v4 before I send it.
+> 
+> For Sashiko's "tries too short" finding, I made the timeout dynamic
+> based on the actual cycle time:
+> 
+>      cycle_us = tcs3472_cycle_time_us(data);
+>      timeout_ms = max(1000U, (cycle_us * 2) / USEC_PER_MSEC);
+>      tries = DIV_ROUND_UP(timeout_ms, 20);
+> 
+> 2 * cycle_us gives some safety margin, and the 1-second floor keeps
+> the original behavior on default configurations.
+> 
+> This solves the timeout issue but introduces a new concern:
+> tcs3472_cycle_time_us() reads data->{enable,wlong,wtime,atime}
+> without holding the lock, both here and in the SAMP_FREQ case of
+> read_raw() (also flagged by Sashiko).
+> 
+> For the SAMP_FREQ case I'll just add guard(mutex)(&data->lock)
+> before the call:
+> 
+>      case IIO_CHAN_INFO_SAMP_FREQ: {
+>          unsigned int cycle_us;
+> 
+>          guard(mutex)(&data->lock);
+>          cycle_us = tcs3472_cycle_time_us(data);
+>          tcs3472_cycle_to_freq(cycle_us, val, val2);
+>          return IIO_VAL_INT_PLUS_MICRO;
+>      }
+> 
+> For tcs3472_req_data() I plan to use scoped_guard() only around the
+> cycle_us computation:
+> 
+>      scoped_guard(mutex, &data->lock)
+>          cycle_us = tcs3472_cycle_time_us(data);
+> 
+>      timeout_ms = max(1000U, (cycle_us * 2) / USEC_PER_MSEC);
+>      tries = DIV_ROUND_UP(timeout_ms, 20);
+> 
+>      while (tries--) {
+>          ...
+>      }
+> 
+> Could this be ok?
+> 
+> Thanks,
+> Aldo
+Hi Jonathan,
+do you have any updates on this idea?
 
-The Kconfig entry uses 'select POLYNOMIAL' rather than 'depends on
-POLYNOMIAL' because POLYNOMIAL is a promptless tristate that cannot
-be manually enabled on UML without an explicit selector.
+I have already implemented it and it seems to work.
 
-Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
----
- lib/Kconfig.debug                 |  17 ++
- lib/math/tests/Makefile           |   1 +
- lib/math/tests/polynomial_kunit.c | 270 ++++++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
- create mode 100644 lib/math/tests/polynomial_kunit.c
+If you agree, I am ready to submit the v4 of the patch.
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 8ff5adcfe1e0..5dc1b4579903 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3489,6 +3489,23 @@ config GCD_KUNIT_TEST
- 
- 	  If unsure, say N
- 
-+config POLYNOMIAL_KUNIT_TEST
-+	tristate "Polynomial calculation (polynomial_calc) test" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	select POLYNOMIAL
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables the KUnit test suite for the polynomial_calc()
-+	  function, which evaluates integer polynomials using factor
-+	  redistribution to avoid overflow.
-+
-+	  The test suite verifies correctness for constant, linear, and
-+	  quadratic polynomials, negative coefficients, per-step dividers,
-+	  divider_leftover, total_divider scaling, and a real sensor
-+	  N-to-temperature conversion polynomial.
-+
-+	  If unsure, say N
-+
- config PRIME_NUMBERS_KUNIT_TEST
- 	tristate "Prime number generator test" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-index 13dc96e48408..85e1ad59f29d 100644
---- a/lib/math/tests/Makefile
-+++ b/lib/math/tests/Makefile
-@@ -4,5 +4,6 @@ obj-$(CONFIG_GCD_KUNIT_TEST)		+= gcd_kunit.o
- obj-$(CONFIG_INT_LOG_KUNIT_TEST)	+= int_log_kunit.o
- obj-$(CONFIG_INT_POW_KUNIT_TEST)	+= int_pow_kunit.o
- obj-$(CONFIG_INT_SQRT_KUNIT_TEST)	+= int_sqrt_kunit.o
-+obj-$(CONFIG_POLYNOMIAL_KUNIT_TEST)	+= polynomial_kunit.o
- obj-$(CONFIG_PRIME_NUMBERS_KUNIT_TEST)	+= prime_numbers_kunit.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST)	+= rational_kunit.o
-diff --git a/lib/math/tests/polynomial_kunit.c b/lib/math/tests/polynomial_kunit.c
-new file mode 100644
-index 000000000000..ef443b57fc12
---- /dev/null
-+++ b/lib/math/tests/polynomial_kunit.c
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <kunit/test.h>
-+#include <linux/polynomial.h>
-+
-+struct polynomial_test_param {
-+	const struct polynomial *poly;
-+	long data;
-+	long expected;
-+	const char *name;
-+};
-+
-+/* f(x) = 5 */
-+static const struct polynomial poly_constant = {
-+	.total_divider = 1,
-+	.terms = {
-+		{0, 5, 1, 1},
-+	}
-+};
-+
-+/* f(x) = 2x^2 + 3x + 5 */
-+static const struct polynomial poly_simple = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 2, 1, 1},
-+		{1, 3, 1, 1},
-+		{0, 5, 1, 1},
-+	}
-+};
-+
-+/* f(x) = -5x + 100 */
-+static const struct polynomial poly_negative_coef = {
-+	.total_divider = 1,
-+	.terms = {
-+		{1, -5, 1, 1},
-+		{0, 100, 1, 1},
-+	}
-+};
-+
-+/* f(x) = (150x + 50) / 10 */
-+static const struct polynomial poly_total_divider = {
-+	.total_divider = 10,
-+	.terms = {
-+		{1, 150, 1, 1},
-+		{0,  50, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = x / 2
-+ * divider=2 applied once per multiply: mult_frac(coef, data, 2) = coef*data/2
-+ */
-+static const struct polynomial poly_step_divider = {
-+	.total_divider = 1,
-+	.terms = {
-+		{1, 1, 2, 1},
-+		{0, 0, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = (100/500) * x^2 = 0.2 * x^2
-+ * Encoded as coef=100, divider=10, divider_leftover=5:
-+ *   denom = 10^2 * 5 = 500
-+ */
-+static const struct polynomial poly_leftover = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 100, 10, 5},
-+		{0,   0,  1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 2x^3  (single high-degree term, no constant)
-+ * Used to exercise the power loop alone.
-+ */
-+static const struct polynomial poly_cubic = {
-+	.total_divider = 1,
-+	.terms = {
-+		{3, 2, 1, 1},
-+		{0, 0, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 4x + 1  with a zero-coefficient quadratic term.
-+ * The deg-2 term contributes nothing regardless of input.
-+ */
-+static const struct polynomial poly_zero_coef = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 0, 1, 1},
-+		{1, 4, 1, 1},
-+		{0, 1, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 9  with total_divider = 0.
-+ * The implementation treats 0 as 1 via `total_divider ?: 1`, so the
-+ * result must equal the constant term unchanged.
-+ */
-+static const struct polynomial poly_zero_total_divider = {
-+	.total_divider = 0,
-+	.terms = {
-+		{0, 9, 1, 1},
-+	}
-+};
-+
-+
-+static const struct polynomial_test_param test_params[] = {
-+	{
-+		.poly     = &poly_constant,
-+		.data     = 0,
-+		.expected = 5,
-+		.name     = "Constant polynomial at x=0",
-+	},
-+	{
-+		.poly     = &poly_constant,
-+		.data     = 42,
-+		.expected = 5,
-+		.name     = "Constant polynomial is independent of input",
-+	},
-+	{
-+		.poly     = &poly_simple,
-+		.data     = 0,
-+		.expected = 5,	/* zero input collapses all power terms */
-+		.name     = "Zero input yields constant term only",
-+	},
-+	{
-+		.poly     = &poly_simple,
-+		.data     = 10,
-+		.expected = 235,	/* 2*100 + 3*10 + 5 */
-+		.name     = "Simple quadratic at x=10",
-+	},
-+	{
-+		.poly     = &poly_negative_coef,
-+		.data     = 10,
-+		.expected = 50,		/* -5*10 + 100 */
-+		.name     = "Negative coefficient at x=10",
-+	},
-+	{
-+		.poly     = &poly_negative_coef,
-+		.data     = 20,
-+		.expected = 0,		/* -5*20 + 100 = 0 */
-+		.name     = "Negative coefficient result is zero",
-+	},
-+	{
-+		.poly     = &poly_total_divider,
-+		.data     = 3,
-+		.expected = 50,		/* (150*3 + 50) / 10 = 500/10 */
-+		.name     = "total_divider scales the final sum",
-+	},
-+	{
-+		.poly     = &poly_step_divider,
-+		.data     = 100,
-+		.expected = 50,		/* 1*100/2 */
-+		.name     = "Per-step divider halves input",
-+	},
-+	{
-+		.poly     = &poly_leftover,
-+		.data     = 30,
-+		.expected = 180,	/* 100*30^2 / (10^2 * 5) = 90000/500 */
-+		.name     = "divider_leftover with quadratic term",
-+	},
-+	/* Boundary: unit and negative-unit input */
-+	{
-+		/*
-+		 * data=1: each mult_frac(tmp, 1, divider) strips one factor of
-+		 * divider from coef per degree, so coef is left-shifted right
-+		 * until intermediate precision is exhausted.
-+		 * 2*1 + 3*1 + 5 = 10
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = 1,
-+		.expected = 10,
-+		.name     = "Boundary: data=1 (unit input)",
-+	},
-+	{
-+		/*
-+		 * data=-1: even degrees produce positive contributions,
-+		 * odd degrees produce negative ones.
-+		 * 2*(-1)^2 + 3*(-1) + 5 = 2 - 3 + 5 = 4
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = -1,
-+		.expected = 4,
-+		.name     = "Boundary: data=-1 (negative unit input)",
-+	},
-+
-+	/* Boundary: negative non-trivial input */
-+	{
-+		/*
-+		 * 2*(-3)^2 + 3*(-3) + 5 = 18 - 9 + 5 = 14
-+		 * Verifies sign handling for negative data across all degrees.
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = -3,
-+		.expected = 14,
-+		.name     = "Boundary: negative data with quadratic",
-+	},
-+
-+	/* Boundary: total_divider = 0 is treated as 1 */
-+	{
-+		.poly     = &poly_zero_total_divider,
-+		.data     = 42,
-+		.expected = 9,
-+		.name     = "Boundary: total_divider=0 defaults to 1",
-+	},
-+
-+	/* Boundary: zero-coefficient high-degree term */
-+	{
-+		/*
-+		 * The deg-2 term has coef=0, so it contributes 0 regardless
-+		 * of data. Result: 0 + 4*10 + 1 = 41
-+		 */
-+		.poly     = &poly_zero_coef,
-+		.data     = 10,
-+		.expected = 41,
-+		.name     = "Boundary: zero-coefficient term is inert",
-+	},
-+
-+	/* Boundary: single high-degree term, no constant */
-+	{
-+		/* 2 * 5^3 = 250; also verifies the loop terminates on deg-0 */
-+		.poly     = &poly_cubic,
-+		.data     = 5,
-+		.expected = 250,
-+		.name     = "Boundary: single cubic term",
-+	},
-+	{
-+		/* 2 * (-2)^3 = -16; odd power preserves sign of negative data */
-+		.poly     = &poly_cubic,
-+		.data     = -2,
-+		.expected = -16,
-+		.name     = "Boundary: single cubic term, negative data",
-+	},
-+
-+};
-+
-+static void get_desc(const struct polynomial_test_param *param, char *desc)
-+{
-+	strscpy(desc, param->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(polynomial, test_params, get_desc);
-+
-+static void polynomial_calc_test(struct kunit *test)
-+{
-+	const struct polynomial_test_param *param = test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, polynomial_calc(param->poly, param->data),
-+			param->expected);
-+}
-+
-+static struct kunit_case polynomial_test_cases[] = {
-+	KUNIT_CASE_PARAM(polynomial_calc_test, polynomial_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite polynomial_test_suite = {
-+	.name = "math-polynomial",
-+	.test_cases = polynomial_test_cases,
-+};
-+
-+kunit_test_suites(&polynomial_test_suite);
-+
-+MODULE_DESCRIPTION("math.polynomial_calc KUnit test suite");
-+MODULE_LICENSE("GPL");
--- 
-2.47.3
-
+thanks,
+-- Aldo
