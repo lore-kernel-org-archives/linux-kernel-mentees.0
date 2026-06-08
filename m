@@ -1,90 +1,66 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A955C33A9E1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE67633F8D6
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 16:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780935420; cv=none; b=aioljPJKD4ybwZIr9LFTXxbZH186N7YZ7XU7qkAIBKBsokWX1OIQukdPLpK5KeFwMZT9BgQ52LygwVjYErNx+lpzy3D1RJpekhYvdF3FP4i7+Bjz7vyga8lDZixQspm5R5ERJe2M9UODPP2O74SaQAMAcPBz5RQt2Co0RO1p80E=
+	t=1780936573; cv=none; b=ENk39off4l3glBmpVJf6cnp39+e1qqGyKYgx8Lsx7mVe31pEtUIYl5zf4RfFxUx4uKCYVfJhSEHbec+j78MV98h9fv7ult0CxAgHd2Ym29q4Egte30hOj6Cb2NE1h2Z6DnEuZWxLekh7oLXNmy15rvAkijCdVaK5A8ajJlmeXeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780935420; c=relaxed/simple;
-	bh=GjnxSIK5kHbXZkFSdIOjFKbkG3ybbVnTBJgyhPQS6oI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C3sGO5Hy8NACdgF41TrVm7mVacuAqmhdooE4ck7cHk8HqTmbK1NddVq58Znod9d8QM89fLAcB3Xx07AMHJ1yJLaLbNLBG4ym7zrvK6RQmLgQlHQ8MxGClYgfmbHUXeqF/CFvQBXjLfWbrMd+cVN7/k7qRrMoSHCexUxy1SdudSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VS2EvXGY; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1780936573; c=relaxed/simple;
+	bh=a1oA4w8I2UH5MaL9GKCSqxxGVclRFKnXXx0se/ntGo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FP9rHdUdaaT9aX8mqgzvcfCrHx+5AZysE+a7whOBqarvFhDPeu8Ac7n6fgGKB382KcSSzufdK7ujz5R9miiSBjP5joMGorCicOtdxrSUQX4iW89592u5oOMVCNbQRB3qplTDGdRVDRgAI/bxfrwWBm/649eCKajDFL2FQE76iWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=b9oTaS89; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Sil4TJjq; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VS2EvXGY"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 63F70400A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:59 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.089
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0_Cl3OPkUBlx for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  8 Jun 2026 16:16:58 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=mahad.ibrahim.dev@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 85F6840094
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 85F6840094
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VS2EvXGY
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 85F6840094
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:58 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-45ef29c5561so2376964f8f.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 08 Jun 2026 09:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780935416; x=1781540216; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YE0wLOGFZAKPEFKgBeEWhuYFLe1SIgPdFJQeGpKFdo=;
-        b=VS2EvXGYyRFWdUxZEolaSs8XezkRsYL0rkLl5U03+KTDN48m2/bxvrDkHAR56ULOJm
-         eOYLKkuJ59dZ+3y4i5M8aSc5pkRLUHTdtfaN5PwqXD0IZK45VUbPG38vV94ya9fEKd5l
-         4s1ENOQCG/VtEmocuJ8lCgm127ufhQsaaq9RoXemTrkK4+9ULzyBgqgLNHuSlOoh4Vxm
-         q1r7oA0VbMdTB0AJH+dWK5wmMB74Mdp5+CbvosLM/56REieLLDvcuGhyKY1aOX9iSvtV
-         gj45JV9lvytv2M+WH5NSI5tOcXa2VUyMS0Pgu0yjeg9BGKXoLM4VfIJTW4yZmY0RXp5T
-         clhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780935416; x=1781540216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6YE0wLOGFZAKPEFKgBeEWhuYFLe1SIgPdFJQeGpKFdo=;
-        b=amLCEhFFNwjutJoLvkkVlU2UdlF02QobkDcb/7ilF4BhOJX2W22WXuBNP05tRypy4J
-         Vf5ABpacJlN7KOG7wTJPoSNRfHuywnHGFsg9dL2lTJLWnTwPitqOL/dxCNZS3jr5bYNM
-         fc7PZq8OdszwhkJ/ZHcnJUlqvGlUfcYnN37RbzLYOO4aTbIFp3XYzVYlCeBqIhn/lBfI
-         rwxTXXNMJkceAyjXlFHlrwSC+yzjn6OG4QhzWbkzY6TvO0Cf2f2LijLvbLiKzTwu2lzy
-         1BegkW4oggPiXwi/HELj40jmqIfURHktQEAHV+M8JcMFpoXw2q3voMoWfJpuO1goLOOp
-         jDeg==
-X-Forwarded-Encrypted: i=1; AFNElJ8R6oJMwi4GdU0nQ7mCh3aBlXH/uTD28zVcqfqXhXmKcGpKnbkcMmn/VYbV/HNR4WdiwNbM0GqzGgbwoqbEkaZzcivIlg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yye6RbRlzQsS97fFzsgXCMdu6JllUxwOvwUJYLfJtsuoJZUe903
-	ywZbvz54TUku1rW/nvCnrogdaip3/YJZbp4Hv+cg/TlqGieRjYd6wpE+RyrZ4w==
-X-Gm-Gg: Acq92OGtkceCTmO0cNZXoCg4X9mBhgOUTddtsdBRjWKhdoxmNFSaz3ATl5DE4Y5OMPH
-	OMu+W1syimChRG2hpbWLA4hy8kbNZUjixbTl6E7jskQUAzL7fN/mCCbHC2JYjay8hPdoT9q1Z+H
-	+Qeb+DuS5ks6N1JWCHAlouqwzIgiXPccy6Ep/fCeZiDOptodvB8KSJx6hriHnfdJC4oxyeckI4X
-	HQz6IDJdZbu6XU3VZSyyJQ4sypk86daFePdvbKooboGOiGWbtENgh+Hz9NZPbkaz3ZQwDSJvVn3
-	dE0VMyuWIDMX6nWu1/48OZTJBi8oTzRvOJNtjWG7etAy4DRWHqo0mfN4r1MzjbZk7/7b0rtdpIM
-	j8BYmHuKF0pSPfVegesviwno4cizqvp18v7OsW/7P6eTtbBLWPpatnp6VFkCmNZZiCn0ANUzo07
-	WgWiRC6bn/x3motUogO5R0u2b1mj1F8jCR1vRNtwYq6EFAt/EL9yhi98SOgQ==
-X-Received: by 2002:a5d:660c:0:b0:460:1695:89be with SMTP id ffacd0b85a97d-460302f1a80mr19228316f8f.17.1780935415931;
-        Mon, 08 Jun 2026 09:16:55 -0700 (PDT)
-Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f368e9fsm52426049f8f.37.2026.06.08.09.16.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 09:16:55 -0700 (PDT)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>
-Cc: linux-afs@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="b9oTaS89";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sil4TJjq"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gYyN86c0Jz9tks;
+	Mon,  8 Jun 2026 18:36:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780936569;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XXWrDEq97S5659bsSZRSxIaSohrb5koNBZr75To/5yQ=;
+	b=b9oTaS89rFOKrvMDkWXRL2OG2vtjpqCk2l6gFKb2ekrEDl23k3oKGKcdRWSiAymCvNq1Vc
+	9+cMrYj79wV7BEyZdOK7nSYFBprKGx5ZQtaoTKxUbmqhQK7+7fjqEbfnatDBXsjZBvS4bY
+	5nrxafFb/lIoJ9nv9bRx2tsD/4q8iA6PiMuhAWGmpvCAELnuT21aEwcqVgpiLrwFGTA8BR
+	A1d4Dgi6KdYI83JSttI1LzjO6qlJJBZzTUYPAlKEqiHUS9+YfoRU758L2hnXZs6R4R5BmO
+	GRu/5RspF1bNn246JRLM0E2vCEYGWcF5n/6HMNU4XQdNcDgpdDAfgGV02ydPEw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Sil4TJjq;
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780936567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XXWrDEq97S5659bsSZRSxIaSohrb5koNBZr75To/5yQ=;
+	b=Sil4TJjqpfkZzMMpURTpONyuYjNf3rgkheM73sj3TYsbMeU9OigF4RiFbe8I/ItAd25ifE
+	IheIj0ma+CBtSE+bdzHkSmZrMcRJqvMKkyrc3kaidg7Z43Ay7YIXd8wbHK/T4ht2/mCl0k
+	56TABf/KJnWXCxqg27Q1ZXI3LvXlTNaocX9hIgi0ImJw2KbDG4djCzDQyVRDwB1WVodiS9
+	dSijTlGrX3U2j6xmCAtnw0YETOlFq1V6wSIeofDiK85yHylaRNOPsR8FVzv8f7mnwYH/rQ
+	k3j21wYXUrNpMD7G05fJh8poR/s4Utg32oryj+PjKq01nd/xpYnIvn7udWUQCQ==
+To: joe@perches.com
+Cc: kernelnewbies@kernelnewbies.org,
+	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH] afs: use %pe to print error pointers in security.c
-Date: Mon,  8 Jun 2026 21:16:48 +0500
-Message-ID: <20260608161648.14954-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	manuelebner@mailbox.org
+Subject: [PATCH] get_maintainer: add recipients to output of script
+Date: Mon,  8 Jun 2026 18:34:12 +0200
+Message-ID: <20260608163411.70226-2-manuelebner@mailbox.org>
+In-Reply-To: <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
+References: <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -92,51 +68,83 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 9656f40ada26f46ed24
+X-MBO-RS-META: sbdma8n95zkj7bok53mwdyagoa8j54w3
+X-Rspamd-Queue-Id: 4gYyN86c0Jz9tks
 
-The error pointer returned by afs_request_key() and friends was printed via
-%ld. This printed a raw negative errno, %pe prints the raw error
-pointer directly so the symbolic error name is printed instead.
+Add all people tagged in all the mentioned commits to the output of this script.
+This is done to give credit to people who inspired the current commit or to get
+feedback from people who know the subject.
 
-Replace %ld and PTR_ERR with %pe to improve readability of debug output.
-
-Compile tested only.
-
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- fs/afs/security.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/get_maintainer.pl | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/fs/afs/security.c b/fs/afs/security.c
-index 6d00d62a65ed..ec39c49f01b9 100644
---- a/fs/afs/security.c
-+++ b/fs/afs/security.c
-@@ -57,7 +57,7 @@ struct key *afs_request_key(struct afs_cell *cell)
- 			      cell->net->net, NULL);
- 	if (IS_ERR(key)) {
- 		if (PTR_ERR(key) != -ENOKEY) {
--			_leave(" = %ld", PTR_ERR(key));
-+			_leave(" = %pe", key);
- 			return key;
- 		}
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index 16b80a700d4a..8c44b14391f9 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -30,6 +30,7 @@ my $email_usename = 1;
+ my $email_maintainer = 1;
+ my $email_reviewer = 1;
+ my $email_fixes = 1;
++my $email_mentioned = 0;
+ my $email_list = 1;
+ my $email_moderated_list = 1;
+ my $email_subscriber_list = 0;
+@@ -78,6 +79,7 @@ my $exit = 0;
  
-@@ -91,7 +91,7 @@ struct key *afs_request_key_rcu(struct afs_cell *cell)
- 				  cell->net->net);
- 	if (IS_ERR(key)) {
- 		if (PTR_ERR(key) != -ENOKEY) {
--			_leave(" = %ld", PTR_ERR(key));
-+			_leave(" = %pe", key);
- 			return key;
- 		}
+ my @files = ();
+ my @fixes = ();			# If a patch description includes Fixes: lines
++my @mentioned = ();		# If a patch description mentiones a patch
+ my @range = ();
+ my @keyword_tvi = ();
+ my @file_emails = ();
+@@ -264,6 +266,7 @@ if (!GetOptions(
+ 		'n!' => \$email_usename,
+ 		'l!' => \$email_list,
+ 		'fixes!' => \$email_fixes,
++		'mentioned!' => \$email_mentioned,
+ 		'moderated!' => \$email_moderated_list,
+ 		's!' => \$email_subscriber_list,
+ 		'multiline!' => \$output_multiline,
+@@ -606,6 +609,8 @@ foreach my $file (@ARGV) {
+ 		push(@files, $filename2);
+ 	    } elsif (m/^Fixes:\s+([0-9a-fA-F]{6,40})/) {
+ 		push(@fixes, $1) if ($email_fixes);
++	    } elsif (m/\s+([0-9a-fA-F]{6,40})/) {
++		push(@mentioned, $1) if ($email_mentioned);
+ 	    } elsif (m/^\+\+\+\s+(\S+)/ or m/^---\s+(\S+)/) {
+ 		my $filename = $1;
+ 		$filename =~ s@^[^/]*/@@;
+@@ -637,6 +642,7 @@ foreach my $file (@ARGV) {
  
-@@ -451,7 +451,7 @@ int afs_permission(struct mnt_idmap *idmap, struct inode *inode,
- 	} else {
- 		key = afs_request_key(vnode->volume->cell);
- 		if (IS_ERR(key)) {
--			_leave(" = %ld [key]", PTR_ERR(key));
-+			_leave(" = %pe [key]", key);
- 			return PTR_ERR(key);
- 		}
+ @file_emails = uniq(@file_emails);
+ @fixes = uniq(@fixes);
++@mentioned = uniq(@mentioned);
  
+ my %email_hash_name;
+ my %email_hash_address;
+@@ -1038,6 +1044,10 @@ sub get_maintainers {
+ 	vcs_add_commit_signers($fix, "blamed_fixes");
+     }
+ 
++   foreach my $mention (@mentioned) {
++	vcs_add_commit_signers($mention, "in mentioned Patch");
++    }
++
+     my @to = ();
+     if ($email || $email_list) {
+ 	if ($email) {
+@@ -1106,6 +1116,7 @@ MAINTAINER field selection options:
+     --substatus => show subsystem status if not Maintained (default: match --roles when output is tty)"
+     --file-emails => add email addresses found in -f file (default: 0 (off))
+     --fixes => for patches, add signatures of commits with 'Fixes: <commit>' (default: 1 (on))
++    --mentioned => for patches, add signatures in mentioned commits with hashes between 6 and 40 chars long (default: 1 (on))
+   --scm => print SCM tree(s) if any
+   --status => print status if any
+   --subsystem => print subsystem name if any
 -- 
-2.47.3
+2.54.0
 
