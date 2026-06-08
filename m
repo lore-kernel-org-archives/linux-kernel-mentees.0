@@ -1,58 +1,142 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD42432B11F
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 16:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A955C33A9E1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780934437; cv=none; b=r39ySyBCfgapF3o/eHvBEui/dj7QHDBPnt1v5inI3wK2KtlQhrtKrbDFyRblrIp6xEw1e4XH47zOgDeKRPCCLFIEhTxyMn69uep9uH/UH9hA2To5C3nKTwx3H7XosptfnjvOSEhg0/xyOpLtgQg3AXlO8bDz5rBx/hC9ra0d31M=
+	t=1780935420; cv=none; b=aioljPJKD4ybwZIr9LFTXxbZH186N7YZ7XU7qkAIBKBsokWX1OIQukdPLpK5KeFwMZT9BgQ52LygwVjYErNx+lpzy3D1RJpekhYvdF3FP4i7+Bjz7vyga8lDZixQspm5R5ERJe2M9UODPP2O74SaQAMAcPBz5RQt2Co0RO1p80E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780934437; c=relaxed/simple;
-	bh=VLuErjver/khX+Ob2JjgydW9Oz5RD4pMu94V1lgGYqU=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NkEqsNzXYHBi26l8DtCCG6X/lIqy1+GZrFVxcfgCgMM9WLFnfrhdt+ZxrgSh0MwbApsAVZctyncni2n2J48ezpHLRNK/DzFh0WSIM6pL6I/LX/PRXKjtQkb7zl+rQbBC5rz735O+y3OciszPXRcJ1Dx0RYCx4XkDg8xAsoyD9aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf07.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id CFBBB1201CD;
-	Mon,  8 Jun 2026 16:00:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id 070632002C;
-	Mon,  8 Jun 2026 16:00:33 +0000 (UTC)
-Message-ID: <4ae343e93c146218515676bba385286ded59e1c2.camel@perches.com>
-Subject: Re: [PATCH] get_maintainer: add recipients to output of script
-From: Joe Perches <joe@perches.com>
-To: Manuel Ebner <manuelebner@mailbox.org>, open list	
- <linux-kernel@vger.kernel.org>, kernelnewbies
- <kernelnewbies@kernelnewbies.org>,  mentees
- <linux-kernel-mentees@lists.linux.dev>
-Date: Mon, 08 Jun 2026 09:00:33 -0700
-In-Reply-To: <b8e834c5e593cef91d7f9a4d4cd1d0b2a1c605e2.camel@mailbox.org>
-References: <20260608152242.61223-2-manuelebner@mailbox.org>
-				 <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
-			 <85761322b578c87381553baf479491a55a5b8b24.camel@mailbox.org>
-		 <df0a4e75dc79b874b0e20fc5e153e2a22b2cf9f3.camel@perches.com>
-	 <b8e834c5e593cef91d7f9a4d4cd1d0b2a1c605e2.camel@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1780935420; c=relaxed/simple;
+	bh=GjnxSIK5kHbXZkFSdIOjFKbkG3ybbVnTBJgyhPQS6oI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C3sGO5Hy8NACdgF41TrVm7mVacuAqmhdooE4ck7cHk8HqTmbK1NddVq58Znod9d8QM89fLAcB3Xx07AMHJ1yJLaLbNLBG4ym7zrvK6RQmLgQlHQ8MxGClYgfmbHUXeqF/CFvQBXjLfWbrMd+cVN7/k7qRrMoSHCexUxy1SdudSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VS2EvXGY; arc=none smtp.client-ip=140.211.166.133
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VS2EvXGY"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 63F70400A5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:59 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.089
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0_Cl3OPkUBlx for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  8 Jun 2026 16:16:58 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=mahad.ibrahim.dev@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 85F6840094
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 85F6840094
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VS2EvXGY
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 85F6840094
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jun 2026 16:16:58 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-45ef29c5561so2376964f8f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 08 Jun 2026 09:16:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780935416; x=1781540216; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6YE0wLOGFZAKPEFKgBeEWhuYFLe1SIgPdFJQeGpKFdo=;
+        b=VS2EvXGYyRFWdUxZEolaSs8XezkRsYL0rkLl5U03+KTDN48m2/bxvrDkHAR56ULOJm
+         eOYLKkuJ59dZ+3y4i5M8aSc5pkRLUHTdtfaN5PwqXD0IZK45VUbPG38vV94ya9fEKd5l
+         4s1ENOQCG/VtEmocuJ8lCgm127ufhQsaaq9RoXemTrkK4+9ULzyBgqgLNHuSlOoh4Vxm
+         q1r7oA0VbMdTB0AJH+dWK5wmMB74Mdp5+CbvosLM/56REieLLDvcuGhyKY1aOX9iSvtV
+         gj45JV9lvytv2M+WH5NSI5tOcXa2VUyMS0Pgu0yjeg9BGKXoLM4VfIJTW4yZmY0RXp5T
+         clhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780935416; x=1781540216;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6YE0wLOGFZAKPEFKgBeEWhuYFLe1SIgPdFJQeGpKFdo=;
+        b=amLCEhFFNwjutJoLvkkVlU2UdlF02QobkDcb/7ilF4BhOJX2W22WXuBNP05tRypy4J
+         Vf5ABpacJlN7KOG7wTJPoSNRfHuywnHGFsg9dL2lTJLWnTwPitqOL/dxCNZS3jr5bYNM
+         fc7PZq8OdszwhkJ/ZHcnJUlqvGlUfcYnN37RbzLYOO4aTbIFp3XYzVYlCeBqIhn/lBfI
+         rwxTXXNMJkceAyjXlFHlrwSC+yzjn6OG4QhzWbkzY6TvO0Cf2f2LijLvbLiKzTwu2lzy
+         1BegkW4oggPiXwi/HELj40jmqIfURHktQEAHV+M8JcMFpoXw2q3voMoWfJpuO1goLOOp
+         jDeg==
+X-Forwarded-Encrypted: i=1; AFNElJ8R6oJMwi4GdU0nQ7mCh3aBlXH/uTD28zVcqfqXhXmKcGpKnbkcMmn/VYbV/HNR4WdiwNbM0GqzGgbwoqbEkaZzcivIlg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yye6RbRlzQsS97fFzsgXCMdu6JllUxwOvwUJYLfJtsuoJZUe903
+	ywZbvz54TUku1rW/nvCnrogdaip3/YJZbp4Hv+cg/TlqGieRjYd6wpE+RyrZ4w==
+X-Gm-Gg: Acq92OGtkceCTmO0cNZXoCg4X9mBhgOUTddtsdBRjWKhdoxmNFSaz3ATl5DE4Y5OMPH
+	OMu+W1syimChRG2hpbWLA4hy8kbNZUjixbTl6E7jskQUAzL7fN/mCCbHC2JYjay8hPdoT9q1Z+H
+	+Qeb+DuS5ks6N1JWCHAlouqwzIgiXPccy6Ep/fCeZiDOptodvB8KSJx6hriHnfdJC4oxyeckI4X
+	HQz6IDJdZbu6XU3VZSyyJQ4sypk86daFePdvbKooboGOiGWbtENgh+Hz9NZPbkaz3ZQwDSJvVn3
+	dE0VMyuWIDMX6nWu1/48OZTJBi8oTzRvOJNtjWG7etAy4DRWHqo0mfN4r1MzjbZk7/7b0rtdpIM
+	j8BYmHuKF0pSPfVegesviwno4cizqvp18v7OsW/7P6eTtbBLWPpatnp6VFkCmNZZiCn0ANUzo07
+	WgWiRC6bn/x3motUogO5R0u2b1mj1F8jCR1vRNtwYq6EFAt/EL9yhi98SOgQ==
+X-Received: by 2002:a5d:660c:0:b0:460:1695:89be with SMTP id ffacd0b85a97d-460302f1a80mr19228316f8f.17.1780935415931;
+        Mon, 08 Jun 2026 09:16:55 -0700 (PDT)
+Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f368e9fsm52426049f8f.37.2026.06.08.09.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 09:16:55 -0700 (PDT)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+To: David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>
+Cc: linux-afs@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH] afs: use %pe to print error pointers in security.c
+Date: Mon,  8 Jun 2026 21:16:48 +0500
+Message-ID: <20260608161648.14954-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 070632002C
-X-Rspamd-Server: rspamout01
-X-Stat-Signature: 3afwuj49hhyiua6zjosiudm6uopm4bf7
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX199b6o4ZJJUSFrqLlWNU2PLahHusEkvKSc=
-X-HE-Tag: 1780934433-359862
-X-HE-Meta: U2FsdGVkX18tM+FIYGmNVr4GERzrMcyd7ciXCong/OntJTlhuNFogcixTm1tXgUWnZTlUO5dgos2XtZblQbqScwouQKzzgV8vyd6gjlYr+tBaQ8qYEIbyaGgG26GxnOUeppfml8D4C9XmV8QgQBFVaDOvM5PfPH1+rgxATjgxdlh30D179eOML0klJ5Wm/PBw/4+K13H1HDof6M3xmypUStUnm281uDFjRRA5baI42BS4OefDoahY7ZdIUqO35fkemWNZCXePYUp2jW2d2+JS4nnplyj9LJ5WzJBVB8kamZKaj/rw3vTzCHwGJG4x+V9
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2026-06-08 at 17:56 +0200, Manuel Ebner wrote:
-> Is it ok to have this on by default or should I turn it off?
+The error pointer returned by afs_request_key() and friends was printed via
+%ld. This printed a raw negative errno, %pe prints the raw error
+pointer directly so the symbolic error name is printed instead.
 
-Has to be off.  Otherwise all the 'cc:' lines would be used.
+Replace %ld and PTR_ERR with %pe to improve readability of debug output.
 
-And fyi: I doubt the utility of this new mechanism.
+Compile tested only.
+
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+---
+ fs/afs/security.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fs/afs/security.c b/fs/afs/security.c
+index 6d00d62a65ed..ec39c49f01b9 100644
+--- a/fs/afs/security.c
++++ b/fs/afs/security.c
+@@ -57,7 +57,7 @@ struct key *afs_request_key(struct afs_cell *cell)
+ 			      cell->net->net, NULL);
+ 	if (IS_ERR(key)) {
+ 		if (PTR_ERR(key) != -ENOKEY) {
+-			_leave(" = %ld", PTR_ERR(key));
++			_leave(" = %pe", key);
+ 			return key;
+ 		}
+ 
+@@ -91,7 +91,7 @@ struct key *afs_request_key_rcu(struct afs_cell *cell)
+ 				  cell->net->net);
+ 	if (IS_ERR(key)) {
+ 		if (PTR_ERR(key) != -ENOKEY) {
+-			_leave(" = %ld", PTR_ERR(key));
++			_leave(" = %pe", key);
+ 			return key;
+ 		}
+ 
+@@ -451,7 +451,7 @@ int afs_permission(struct mnt_idmap *idmap, struct inode *inode,
+ 	} else {
+ 		key = afs_request_key(vnode->volume->cell);
+ 		if (IS_ERR(key)) {
+-			_leave(" = %ld [key]", PTR_ERR(key));
++			_leave(" = %pe [key]", key);
+ 			return PTR_ERR(key);
+ 		}
+ 
+-- 
+2.47.3
+
