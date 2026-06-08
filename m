@@ -1,150 +1,99 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay2-c.mailbaby.net (relay2-c.mailbaby.net [66.45.233.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE67633F8D6
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 16:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A857233065C
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 16:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.45.233.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780936573; cv=none; b=ENk39off4l3glBmpVJf6cnp39+e1qqGyKYgx8Lsx7mVe31pEtUIYl5zf4RfFxUx4uKCYVfJhSEHbec+j78MV98h9fv7ult0CxAgHd2Ym29q4Egte30hOj6Cb2NE1h2Z6DnEuZWxLekh7oLXNmy15rvAkijCdVaK5A8ajJlmeXeU=
+	t=1780937753; cv=none; b=q/nzZra5MC2BGxdCpPz+13wZG85o+ym5Ldps1R7iBT+o92T8FxZ7suLjZqGZMYKN2zbJEx5AumZSswkKa3e78zdn4/oQfl08hk8bsQPkrvqMdJNA5fKSThMBGZg2nl7iEQSnWkL3wGw7LffWxAuIRq+o46gy66Lu5aFD6fPmnVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780936573; c=relaxed/simple;
-	bh=a1oA4w8I2UH5MaL9GKCSqxxGVclRFKnXXx0se/ntGo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FP9rHdUdaaT9aX8mqgzvcfCrHx+5AZysE+a7whOBqarvFhDPeu8Ac7n6fgGKB382KcSSzufdK7ujz5R9miiSBjP5joMGorCicOtdxrSUQX4iW89592u5oOMVCNbQRB3qplTDGdRVDRgAI/bxfrwWBm/649eCKajDFL2FQE76iWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=b9oTaS89; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Sil4TJjq; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1780937753; c=relaxed/simple;
+	bh=L5/SBOiO75Cs6ho4pENCPa17vUWEX4bhW0M0fn22V6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kt2W4ASyxApCd0h6jbje14yASTYt9hsmyPiO09Wr1kN0vGLeRoq9NUq9G1mfYoo0QWStozSSLc5sRK+NDIGiR9wHEJgy6k5TxK1u2rVPpeEacCZPIUkqjLHHWy29WSBLcJxKyDEbGlAaP15pog1LqgnniS2+4d5MH58iJvJnRVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=WL+zAlrr; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=1HendbYt; arc=none smtp.client-ip=66.45.233.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="b9oTaS89";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Sil4TJjq"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gYyN86c0Jz9tks;
-	Mon,  8 Jun 2026 18:36:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780936569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXWrDEq97S5659bsSZRSxIaSohrb5koNBZr75To/5yQ=;
-	b=b9oTaS89rFOKrvMDkWXRL2OG2vtjpqCk2l6gFKb2ekrEDl23k3oKGKcdRWSiAymCvNq1Vc
-	9+cMrYj79wV7BEyZdOK7nSYFBprKGx5ZQtaoTKxUbmqhQK7+7fjqEbfnatDBXsjZBvS4bY
-	5nrxafFb/lIoJ9nv9bRx2tsD/4q8iA6PiMuhAWGmpvCAELnuT21aEwcqVgpiLrwFGTA8BR
-	A1d4Dgi6KdYI83JSttI1LzjO6qlJJBZzTUYPAlKEqiHUS9+YfoRU758L2hnXZs6R4R5BmO
-	GRu/5RspF1bNn246JRLM0E2vCEYGWcF5n/6HMNU4XQdNcDgpdDAfgGV02ydPEw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Sil4TJjq;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780936567;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XXWrDEq97S5659bsSZRSxIaSohrb5koNBZr75To/5yQ=;
-	b=Sil4TJjqpfkZzMMpURTpONyuYjNf3rgkheM73sj3TYsbMeU9OigF4RiFbe8I/ItAd25ifE
-	IheIj0ma+CBtSE+bdzHkSmZrMcRJqvMKkyrc3kaidg7Z43Ay7YIXd8wbHK/T4ht2/mCl0k
-	56TABf/KJnWXCxqg27Q1ZXI3LvXlTNaocX9hIgi0ImJw2KbDG4djCzDQyVRDwB1WVodiS9
-	dSijTlGrX3U2j6xmCAtnw0YETOlFq1V6wSIeofDiK85yHylaRNOPsR8FVzv8f7mnwYH/rQ
-	k3j21wYXUrNpMD7G05fJh8poR/s4Utg32oryj+PjKq01nd/xpYnIvn7udWUQCQ==
-To: joe@perches.com
-Cc: kernelnewbies@kernelnewbies.org,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	manuelebner@mailbox.org
-Subject: [PATCH] get_maintainer: add recipients to output of script
-Date: Mon,  8 Jun 2026 18:34:12 +0200
-Message-ID: <20260608163411.70226-2-manuelebner@mailbox.org>
-In-Reply-To: <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
-References: <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="WL+zAlrr";
+	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="1HendbYt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=bambino; bh=gVIQ+k8iJa52fRCkV6mhf3zPY768WajCu2RXnhW/a5U=;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references:feedback-id;
+ b=WL+zAlrrP32+Bk272el5e6E1dC8zLtyLmvtQrwYrX0aW0xA/rTojuqRyiWZNt1FWDy+pk/tm8
+ hQUy1G+w/eIPcybVa6ghXX9H6ys0E+MiL+OHjSyIhO0qBeIQNF2fZ1qcMBl4bscz2X5DYINGrrJ
+ r99eqXkm9EFUSuKW5ZGONLk=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb6724)
+ by relay2-c.mailbaby.net (MailBabyMTA) with ESMTPSA id 19ea8249852000504b.002
+ for <linux-kernel-mentees@lists.linux.dev>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Mon, 08 Jun 2026 16:50:31 +0000
+X-Zone-Loop: 735b9c66816abfbe3e7aa78fcae5995c0037cef128b2
+X-MB-ID: mb6724|me@agatha.dev
+X-SPF: pass
+Feedback-ID: mb6724:19ea82:507c5a5c5e5d585f7d5a5951:mbaby
+X-MAILBABY-ORIGIN: PASS
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
+	s=default; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gVIQ+k8iJa52fRCkV6mhf3zPY768WajCu2RXnhW/a5U=; b=1HendbYtYOLxR/tAYXtk8ZeCtq
+	d/NAeycueCVjAj/ASs94ubFYZryM5z6wobur5w9pKIaQ53e/MEa2voeiI8ZOs2TDp8bQ0687mbK0T
+	6uTzLj6HEDKtYYzKLZy3X8F9u53pFJEygBw08bD6zVizPYBLrEe5xIWPUQX0Iot9vtjzGRPerSyrH
+	a+BNn96F3t72rwxzJfa9xRSnOVXF5zDZPU717cCxKch5TBYNWtLRYHtLEXfntUguWJhDp+kWjyAy1
+	M7yi5tSG3Yy54hPR/BSWskFV+Fnn2cVoZN/W9+YiqXHOLlrEHDeJRLSkfhPfu5J/MSRWmumokZvg8
+	yuvsI8+A==;
+Received: from [170.254.153.168] (port=37689 helo=guidai)
+	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.4)
+	(envelope-from <code@agatha.dev>)
+	id 1wWdBG-00000008Zv4-2OoW;
+	Mon, 08 Jun 2026 12:50:30 -0400
+Date: Mon, 8 Jun 2026 13:50:19 -0300
+From: Agatha Isabelle Moreira <code@agatha.dev>
+To: Joe Perches <joe@perches.com>
+Cc: Manuel Ebner <manuelebner@mailbox.org>, 
+	open list <linux-kernel@vger.kernel.org>, kernelnewbies <kernelnewbies@kernelnewbies.org>, 
+	mentees <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH] get_maintainer: add recipients to output of script
+Message-ID: <aibyVCSoeqh49ZzC@guidai>
+References: <20260608152242.61223-2-manuelebner@mailbox.org>
+ <14198ef7adde6d0e24535edf64266201b7036fed.camel@perches.com>
+ <85761322b578c87381553baf479491a55a5b8b24.camel@mailbox.org>
+ <df0a4e75dc79b874b0e20fc5e153e2a22b2cf9f3.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 9656f40ada26f46ed24
-X-MBO-RS-META: sbdma8n95zkj7bok53mwdyagoa8j54w3
-X-Rspamd-Queue-Id: 4gYyN86c0Jz9tks
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df0a4e75dc79b874b0e20fc5e153e2a22b2cf9f3.camel@perches.com>
+X-AuthUser: me@agatha.dev
 
-Add all people tagged in all the mentioned commits to the output of this script.
-This is done to give credit to people who inspired the current commit or to get
-feedback from people who know the subject.
+On Mon, Jun 08, 2026 at 08:52:00AM -0700, Joe Perches wrote:
+> On Mon, 2026-06-08 at 17:46 +0200, Manuel Ebner wrote:
+> > On Mon, 2026-06-08 at 08:29 -0700, Joe Perches wrote:
+> > On Mon, 2026-06-08 at 17:22 +0200, Manuel Ebner wrote:
+> > Add all people tagged in all the mentioned commits to the output of this script.
+> > > Why?
+> > 
+> > Because sometimes there is a reason to add them. Doing so with get_maintainer
+> > spares the manual copying and pasting.
+> 
+> Please specify this reason in the changelog.
+> 
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- scripts/get_maintainer.pl | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Is the original message outside the kernelnewbies list?
 
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 16b80a700d4a..8c44b14391f9 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -30,6 +30,7 @@ my $email_usename = 1;
- my $email_maintainer = 1;
- my $email_reviewer = 1;
- my $email_fixes = 1;
-+my $email_mentioned = 0;
- my $email_list = 1;
- my $email_moderated_list = 1;
- my $email_subscriber_list = 0;
-@@ -78,6 +79,7 @@ my $exit = 0;
- 
- my @files = ();
- my @fixes = ();			# If a patch description includes Fixes: lines
-+my @mentioned = ();		# If a patch description mentiones a patch
- my @range = ();
- my @keyword_tvi = ();
- my @file_emails = ();
-@@ -264,6 +266,7 @@ if (!GetOptions(
- 		'n!' => \$email_usename,
- 		'l!' => \$email_list,
- 		'fixes!' => \$email_fixes,
-+		'mentioned!' => \$email_mentioned,
- 		'moderated!' => \$email_moderated_list,
- 		's!' => \$email_subscriber_list,
- 		'multiline!' => \$output_multiline,
-@@ -606,6 +609,8 @@ foreach my $file (@ARGV) {
- 		push(@files, $filename2);
- 	    } elsif (m/^Fixes:\s+([0-9a-fA-F]{6,40})/) {
- 		push(@fixes, $1) if ($email_fixes);
-+	    } elsif (m/\s+([0-9a-fA-F]{6,40})/) {
-+		push(@mentioned, $1) if ($email_mentioned);
- 	    } elsif (m/^\+\+\+\s+(\S+)/ or m/^---\s+(\S+)/) {
- 		my $filename = $1;
- 		$filename =~ s@^[^/]*/@@;
-@@ -637,6 +642,7 @@ foreach my $file (@ARGV) {
- 
- @file_emails = uniq(@file_emails);
- @fixes = uniq(@fixes);
-+@mentioned = uniq(@mentioned);
- 
- my %email_hash_name;
- my %email_hash_address;
-@@ -1038,6 +1044,10 @@ sub get_maintainers {
- 	vcs_add_commit_signers($fix, "blamed_fixes");
-     }
- 
-+   foreach my $mention (@mentioned) {
-+	vcs_add_commit_signers($mention, "in mentioned Patch");
-+    }
-+
-     my @to = ();
-     if ($email || $email_list) {
- 	if ($email) {
-@@ -1106,6 +1116,7 @@ MAINTAINER field selection options:
-     --substatus => show subsystem status if not Maintained (default: match --roles when output is tty)"
-     --file-emails => add email addresses found in -f file (default: 0 (off))
-     --fixes => for patches, add signatures of commits with 'Fixes: <commit>' (default: 1 (on))
-+    --mentioned => for patches, add signatures in mentioned commits with hashes between 6 and 40 chars long (default: 1 (on))
-   --scm => print SCM tree(s) if any
-   --status => print status if any
-   --subsystem => print subsystem name if any
+I do not see the original message in the kernelnewbies list, and neither
+I see Manuel's messages, so I'm lacking context here.
+
 -- 
-2.54.0
-
+Agatha Isabelle Moreira
+C Developer | agatha.dev
+Sourcehut: https://sr.ht/~devlavender/
