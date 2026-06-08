@@ -1,117 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA24380FDE
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 13:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBE23CCFDB;
+	Mon,  8 Jun 2026 14:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780925883; cv=none; b=gytUYNrY3j5UJsbofddG7x+tbCrmRY5tHzdD9YOD4zsGUTGIw9UrpBkt8mXRc9ADEKohKxoTzFVluOu8dfxWrc7Pq+OhcQlX2NUTy1TP3jOX7YE9RQ/H0MPxXvJxJPN57iD2ieWSpmCfEragfWd+P9RUsVuw1Avim+rNJeOW0/4=
+	t=1780929182; cv=none; b=gOk85ewWutPO2GenUw0b9YWU7l6Q/RTwhj7G34Y8ia4eXk+mxMjRsEAim1+4ZV0IGNj3yK0rrlDeZ9YzUOSXy9l3+292V6n/uCpUN83hCONpfFzAZMbXb7fMkQ23XP9UFSLBdu3ET6hmHUoGW7TQsmWkpgwdDBif5r6B8GSFcOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780925883; c=relaxed/simple;
-	bh=zCcw2+qts7Aj3wFa8UA9gM99HXt4/JSIPWSV4liCQOI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aRU2uAp3G4HuKRxmsKvYAQ/4bo4cQSXfKLzHRw2Tmfgm1z26W0BCEWdVdA8QhuWeuRZim/z8p6htucZUQs8S22KKlG38K3qU67pwpzF93Fq6zFcE2LuQs2/BxNlvYa1C6X8oQBSkb30sPmo9Iogbe+Il+kejZMDDZqnjwVSviAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ayptnb9A; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780929182; c=relaxed/simple;
+	bh=Pr9eqaJY5GiRXhXqVcRp8krosz9a6kRtEH7xau+kdYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xt4g+TMEfZkdBB5WSXaxlNDgCzkiI8pVyfXpUXXJEZsc2tF0ARPMZTfvYcoxp9phO6j+n5Gj723RJzCoY9tY+Z+Rh6s5w34gixlYjuTHO+I+ddgwDB7zr0UhKpuqorZkNDDkfzNiM8Da+LB6XfTQe64cwUfzDBdNAwwNhnbT2c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nyWRvOt5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ayptnb9A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 536731F0089A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  8 Jun 2026 13:38:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nyWRvOt5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98AA81F00893;
+	Mon,  8 Jun 2026 14:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780925881;
-	bh=qj+sR19VEmefC20wRB6EfkwdSsp50unjWzwkSYFOQcg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Ayptnb9ATxsFBMB17Mch3scKuef1+da9hZtj1lYL6XKQFZOphsVBJEj1k6gjMYZAX
-	 Y5arFiCvFgfEA6WFfRP+cgE8iREUWRC+3bBsc2cWgfEK/BVLlhlULncylqT8BiTHz2
-	 YluC1JJeqn+F+YJEK2CBkaeagxC5hipNqiZycLj9+I1bBJIoveGL9mFawGh1faL3M9
-	 o5lL8aWQcGLx4NvzE/mXhwA6WqOAb7HNgvZw+AbyMTRhlxK7PgaHKzwqltlDw2/FKw
-	 oHeuOWlQ/uen0gojMqdvWIgkR0yDrmG9Hv1o7spMrfWF8FeK0TCgjoHOGMLqZvBo8K
-	 4xK3nPZ5+NMfg==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so4708223e87.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 08 Jun 2026 06:38:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8S6CdZquH7XFAe2RuSPpvl18/dKOvMxcCf50R4/uoyURa9hjvT8FKaxy+VuZTU8DOcMCRo2+WYEZ2y8Ntc8C6R84mUvg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwE9xu6WXA5MwSaMfP34Jl66c0GxopXP8nJUXt4oCUIE4ECuz47
-	uDOMmaHxZ1mM72PjDcHQfojcFNfloCCGegpYb5c/XmNxAIMcV7/k7htFjn0QWgO7uf4YwKHNr9/
-	7+DW0wCwG+9UwPIwvjgI40eD4o2Cixms=
-X-Received: by 2002:a05:6512:b9e:b0:5aa:753c:d8b6 with SMTP id
- 2adb3069b0e04-5aa87a11437mr4247784e87.0.1780925879677; Mon, 08 Jun 2026
- 06:37:59 -0700 (PDT)
+	s=k20260515; t=1780929180;
+	bh=aDE4Pibswk5HFQAZoTvPpolcswnIs7t/D7Mgu2GT9FQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nyWRvOt5WmS6vhlBqHoEsC1V57CsT8zNavt5c1XkEHNxn12IXAGsqKVnwOegxSoPf
+	 CYTuDBr0xmv61PoNlL9Wlwm4zozkTtSp69PJV6F5P4JbEZsTNDW+44Imkgdko3IgKY
+	 GzGXhGfEGNgVi3behteNn0b8NMKFG74jxm2uh/oHowx7pG0oTawkwXOI4WfXT/7fXF
+	 wjC5IEzyE+cKpArncg1oxGm5ma/a2Uv7vAGsEP77ZM3JXs/whSUmvG8WMPOypLjNf9
+	 gf4Qv73mQ43/Tbgr+pRR/yOyj1s0P175X35gV/zwjadCBtmVhGV/TUAFTfXuanz62W
+	 KoNfbQcb/Fy3Q==
+Date: Mon, 8 Jun 2026 09:32:59 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ninad Naik <ninadnaik07@gmail.com>
+Cc: broonie@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] spi: dt-bindings: octeon: Convert to DT schema
+Message-ID: <20260608143259.GA2569066-robh@kernel.org>
+References: <20260607142356.2844008-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260607110555.53248-1-adinata.softwareengineer@gmail.com>
-In-Reply-To: <20260607110555.53248-1-adinata.softwareengineer@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 8 Jun 2026 15:37:41 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jy1rWwx9FkJPKKNm7SHrU0RDxLHqKMOnhrc15Qmy8P1A@mail.gmail.com>
-X-Gm-Features: AVVi8CfXCfvS1hj_bx0a2aMYy53cvy2Bd1ZfDO-oN6x8vA0YeQpecejNUvg173A
-Message-ID: <CAJZ5v0jy1rWwx9FkJPKKNm7SHrU0RDxLHqKMOnhrc15Qmy8P1A@mail.gmail.com>
-Subject: Re: [PATCH] PM: hibernate: Fix kernel-doc comment for add_rtree_block()
-To: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: rafael@kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260607142356.2844008-1-ninadnaik07@gmail.com>
 
-On Sun, Jun 7, 2026 at 1:06=E2=80=AFPM Adi Nata
-<adinata.softwareengineer@gmail.com> wrote:
->
-> The kernel-doc comment for add_rtree_block() was missing @param
-> descriptions for all four of its parameters (zone, gfp_mask,
-> safe_needed, ca), causing build-time warnings (make W=3D1)
->
-> kernel/power/snapshot.c:469: warning: Function parameter or
->   member 'zone' not described in 'add_rtree_block'
-> kernel/power/snapshot.c:469: warning: Function parameter or
->   member 'gfp_mask' not described in 'add_rtree_block'
-> kernel/power/snapshot.c:469: warning: Function parameter or
->   member 'safe_needed' not described in 'add_rtree_block'
-> kernel/power/snapshot.c:469: warning: Function parameter or
->   member 'ca' not described in 'add_rtree_block'
->
-> Add the missing @param tags, reusing the wording from the
-> neighbouring alloc_rtree_node() for the shared parameters.
->
-> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
-
-It's a static function that doesn't require a kerneldoc comment.
-
-If you just want the warning to go away, replace the kerneldoc comment
-marker /** with a regular comment marker /* in that comment.
-
-Thanks!
-
+On Sun, Jun 07, 2026 at 07:53:56PM +0530, Ninad Naik wrote:
+> Convert octeon-3010 to DT schema
+> 
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 > ---
->  kernel/power/snapshot.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/kernel/power/snapshot.c b/kernel/power/snapshot.c
-> index a564650734dc..cd582be86412 100644
-> --- a/kernel/power/snapshot.c
-> +++ b/kernel/power/snapshot.c
-> @@ -459,9 +459,13 @@ static struct rtree_node *alloc_rtree_node(gfp_t gfp=
-_mask, int safe_needed,
->  }
->
->  /**
-> - * add_rtree_block - Add a new leave node to the radix tree.
-> + * add_rtree_block - Add a new leaf node to the radix tree of a memory z=
-one.
-> + * @zone: The memory zone's radix tree bitmap to extend with a new leaf =
-block.
-> + * @gfp_mask: GFP mask for the allocation.
-> + * @safe_needed: Get pages not used before hibernation (restore only)
-> + * @ca: Pointer to a linked list of pages ("a chain") to allocate from
->   *
-> - * The leave nodes need to be allocated in order to keep the leaves
-> + * The leaf nodes need to be allocated in order to keep the leaves
->   * linked list in order. This is guaranteed by the zone->blocks
->   * counter.
->   */
-> --
-> 2.47.3
->
->
+>  .../bindings/spi/cavium,octeon-3010-spi.yaml  | 67 +++++++++++++++++++
+>  .../devicetree/bindings/spi/spi-octeon.txt    | 33 ---------
+>  2 files changed, 67 insertions(+), 33 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/spi/spi-octeon.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+> new file mode 100644
+> index 000000000000..3dbbb4f3c104
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/spi/cavium,octeon-3010-spi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cavium, Inc. OCTEON SoC SPI master controller
+> +
+> +description:
+> +  The Cavium OCTEON SPI controller is an SPI master controller found in
+> +  OCTEON SoCs.
+> +
+> +maintainers:
+> +  - Mark Brown <broonie@kernel.org>
+
+This should be someone with this h/w. But there doesn't appear to be any 
+OCTEON maintainer. There isn't any .dts using the compatible either. 
+Perhaps this driver and binding can just be removed?
+
+> +  compatible:
+> +    const: cavium,octeon-3010-spi
+
+
+> +examples:
+> +  - |
+> +    / {
+
+Drop. You don't need the root node.
+
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        intc: interrupt-controller {
+> +            interrupt-controller;
+> +            #interrupt-cells = <2>;
+> +        };
+
+Drop. Examples don't need providers.
+
+Rob
