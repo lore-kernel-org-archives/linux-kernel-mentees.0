@@ -1,119 +1,137 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3495E35E1AA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=140.211.166.133
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781016529; cv=pass; b=RyMrkG7Viaiz5YCLEpOgFVmXeSHGcfvYdUfjFaYuFXl1mYzVpXt6tjgruXRNNC0/dN++FgtLtw73ZI5n0xd/TvZHVPJHetHSmsa1eUQqf9i7EeMXTn6DExNWHpzgf6J3zLUErgeMeUnedLlXQkIv/g4hPLzB3Nu2sVelZvjudQg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781016529; c=relaxed/simple;
-	bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PWOdJM12r/u6RuaeShXKQr8yBtKElU/gL/+NHUQe/rq02Zsoy7Yd8+4R28rTvf76ZNzpuebKC0IbhALKdADM2C/bxdWfNJPlHWur2Bay3+mv6KJxhK3xO1cY4UeWyUhfIwqivgSBuP6x69Le8OP3kAh5rFABI8Ufx89rziImSNQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=f50uAe2P; arc=pass smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D003624C2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Jun 2026 15:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781018211; cv=none; b=A4dQtScP1cSHstFP8m5qmU6MvXvGjUhJ5yLF7/w4ubi9sVvAB4pxGI74w/DBubl57+HPkE/KLUz9jbURKA9RlLP9bDu0vEsEJKpYppb//eGevn3nv/lefTHsYnor3nuoMj2gbDuJ1V+RIYhbAMnhYRRNoEkS2ivoZzjhRi+cFqM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781018211; c=relaxed/simple;
+	bh=A9tfClX8Q5B176EdrnPRG4VsIQcWv2vxdIc/A1y7sjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ej4Dj0PHGoQheQPgcvtSZG8HoVdqjZZeBhcEtk0Lj9jh3vka38VVi6wmcAajvxhZHszWzIJsr0tL9RApz2fDCsY1RWpfJA6Rx9FQ8UMP0nhPQEp76b11UWJ+t1UHa16lQWUT+uYKX+6gbPnIHoWrsdcd1sTZVarxNEp4M7QqRoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5BBqLaA; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="f50uAe2P"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B845B42744
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id hogcmRli4uU4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::833; helo=mail-qt1-x833.google.com; envelope-from=miklos@szeredi.hu; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B3D6B40680
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B3D6B40680
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=f50uAe2P
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B3D6B40680
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:45 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-5174a3a025aso57597241cf.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 09 Jun 2026 07:48:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781016524; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MewGnLHwB6wwJmx9E9DWLD/pGbJAdIMzTxiwyWDxD1SU9aG6VgKxIwa5pyNKbQc9+2
-         D4cfuN0uFW0Hkv2UqAuhf71NGq/IhxcJWdV00E77PQc0fCmsKj8t6+h7ATM7XdMTdcPB
-         P26waTJ0FhrQnyv28ec6w07XXBHj8fHb1MMuqJzO2jGLG9vFzU4SC0yc46NGKZuCWDJ3
-         UrblsoXV3IYOeJBcRHFG/vqPu276W04sKJkeuUTuvP5fKF3wN0L6WtkUEji69q44Nqab
-         QgJYJXOQp+X4AEnwlSy+oNGodEQQUxlPzewBouyNcfLajj5o33tPv6OiPS85vuYpov8a
-         hLxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
-        fh=K5Jm2egTcfQc2XN9BJIdICpxlL9Ky9uoSOQ4WhNUxl0=;
-        b=O0RJ2ZhxCeZ+plCxgjTvOFV0DU/QVooAJToRx7o7hCrOI6ltxENbqGLKbOQwEAMYAI
-         Nn+T8Q5/U4pk/FdwZ9ouV0zQeGnPJwEjM/6bqSGSXkOnGIGkeFwgiin8ofyzQ0J6KU37
-         83CBgdpl9Pvo49ahh83+MG1u42Jh3guzuh6Xcuhi0V7xQ57TdjhdG5lufIP14IBVqKzD
-         SgBdh6VAMxbCxRhoHJoc9KaTJkhQmzGWgfkgn3ZL/gInyHaFMaWVSDr+EKTN85yge0AT
-         lA+2BE8mjn7cz632NkuKhcIgrNV0bofO0oi5DZfPUB3MYqeLLfP0muM0GrQxTeBwYKLW
-         kaUQ==;
-        darn=lists.linuxfoundation.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5BBqLaA"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c858b5de728so3653950a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Jun 2026 08:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781016524; x=1781621324; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
-        b=f50uAe2PyIBpEuIDhjlDnaKsdR0VJ/lKMJg30u+Ui8Xo4npYAO8yDhWUV6AfK2BvNa
-         y309XITJAFYiKZ8tWwl7k+3qC0/Vi8ocSV8mCZm6SreuAHGTYd7ZWuthdAoOX6WV+laP
-         qtHr2zNP2UTzgAqDn3/hEfA91xu9gxconpLqk=
+        d=gmail.com; s=20251104; t=1781018210; x=1781623010; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X2OVhVGvDZE7tZDpbh1B90htiaNt432NF1Wdfrujw3Q=;
+        b=i5BBqLaA+ctS70f+xBaRj5TH2Lt7PAgUEkWTSZ5ixLV6r92dGsiYTeMRXd8NcRMbky
+         7Wgrt7NzsqgTlvh3f8tvMQWo9gGYF/38v4ekxedx9/2XNn+F2iFb63C3udRczIsSBdOJ
+         dDtsBUlHCs6Nv7Shv3+CMu5Whwd5vKUsqhrPF59NP5QGL1L4O1WZC3mgqefONS32NYF3
+         o0rMYCOmsAk6jJ2MArMKhSwxkuUO5syaQaDqqnjbxvWxzm9MSFsgdGeTrYx1yzz4W5qF
+         D2wciPpee0T8HkqPAkNxnrR/7e5C3lOvX01AND/r0xcevSDqWc6a2q7m3msWuDNOM4ro
+         y9vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781016524; x=1781621324;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
-        b=pNHMqoAqoScUcX6QY5YhCxrwBNZ/cqd5gu8xisyV0klekyt6A3+zRc3oErq2xghTGN
-         4aiOQA64LfsWjkeKKrpFU0vM7rtHRrNfLvDLEtQaSQMDefnWGoAhvvU4Lc7QEX9PFKBu
-         QequsMn3B6tt/g16RnEUNPCrSODDPtquhMNW7NhwOAqHTlxXMRIggW0UmvkZLJ+mRcFj
-         bqsOZFewRORXPJPKexRgCrEUUjM+JIw1IPG6qxKpv9ccdnscAbb/IB/yd5tKueSWt6xQ
-         Ld+42qZapzzC0ez/ne9cJRErjlkc6cdRnUdYNmX+utwtbKEmngEGqzSlbaND7xYBuAxi
-         qLJw==
-X-Forwarded-Encrypted: i=1; AFNElJ/D1a8xP5iVHMhQgwXM7EJ/By3Xu0Zuo2i/FgeMCU1b4dxXfJmJ6MWCjlQFRhGB6+UWZKXTHGsV4d0ACHkjxF03AKQYDQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxpdTk87XexVv/ZC4ETVXA1P3kPwQyEPw+MQbREjBbHvURKSoHP
-	ropODQ8NRu5xdSAfMMl9yVF5k2mAxvZ1R4giBfWH6s7gk33hGBBp2VyqsulZY6vxoHpFLfYMQkZ
-	nE0bL4BGnDS+H/cV598ob89oiKr9P5zBcDm6FrgechA==
-X-Gm-Gg: Acq92OGJjlRHPBLO8umZ4xxIImIdrkxk5DpMw1Fk2KKz+NPilZ1vZfk+WzV83Gef/jv
-	ieW6lBDr5/teASsFAW4xsKXWkjSskcOF3wkkaflQNBOnKC1IfG3Jn+yKukSkZz0UHtskxdQBH0F
-	KeQs2efl2EeJ6QXtrFSsJwZNuHvnFe8pJFEgMqNGHzGZx7LKsMpsyNOfis3/8sf8cOyXD+FVsjz
-	YXJY874NnTapb72NjSE/AEu0FSShyWyrGGFFcGlS5rtIwMy6Wt47EkV+2SyVEqy0cTkoL4kNzJM
-	CV505BMCbv95DUB6o6xiFYHHRfUmCe89t7ALJJrkHuxHlPvJgoY=
-X-Received: by 2002:ac8:5c83:0:b0:50e:6313:6e13 with SMTP id
- d75a77b69052e-51795a829femr290022861cf.5.1781016523708; Tue, 09 Jun 2026
- 07:48:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781018210; x=1781623010;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X2OVhVGvDZE7tZDpbh1B90htiaNt432NF1Wdfrujw3Q=;
+        b=aG7BweI2JcPEq6D0/xDBIktxFo1u/Oir3oSW+65G0A6XCmCbeqavRzzZjTOqpcnahd
+         /EIWBpgGJa5YL58L5bJs5d+/qqq372YCuWmWKBeY8iwKQOnojEC+6JTQnJ0Rd6TaQ3rR
+         FATu6KT1zi2mOeliOJQH4pGXIA7qVJ6MNBj5Kkmwt9N5jp+Iv8WRCOa5g13A344/TUC3
+         O0V8Kj4AANYEz/npX9+jiEdQ/BArSv6oJ9KXoZapFZexc+JK3TXqkbEMCvORyA/bC44t
+         MLvBhFFhQAgZmv1nKfmC7YPks/ClLC/3xCtTl8Yf2LjdSc84ZGvprGAjkYvDqjevSgIx
+         j6oA==
+X-Forwarded-Encrypted: i=1; AFNElJ9tR9JRNGQ1YkpW5/PJXgeqJ9wiCG9l+f+6Wc77YfDCUvXMG5PtU8bAJYJp96ejalw5el9FTHjQ6vDWtc3Wg7lUv8ib7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoXYeHzkSijqnrwlhF0opir6/I6SnGa/PG3w+jI/DhT3IhkOUR
+	ci+d7Lo4ODhkte5gCHvhckvr85KwFnoAxkikk3toTAdj1/yDw5D0CFaA
+X-Gm-Gg: Acq92OGN4SplMHZwl91L/nhuryF6nRxMORHGl+gts1EvItBtbhssmYa6dtJjM3r4c44
+	OkZyxX2j2UedH4T61tZsLRFh+Bkfj8vaa9FwfhSxb+JV2IZatHlICujqZgYswreYUBXsEAVk0k/
+	+oM5+h8of+OkAK7HrT3QwhuCsH6LirHFFbQRdC1egDX//euqNN/TGgMFgXUMZ0e+zmVP5QQchMN
+	SdCR9g/Iz4oPexb0+A9uzodXDQ+SaRyRKS9HTeYSO9aXpi8gDq1U4Ip1XdIITJAmny09KOSkwmY
+	CI0CWo55Ye2dcFEj/3ymc0q6QgDzAzblw0tcropldqHoUi2RA97WZctLAOBqqkPAYwvb4NThkP0
+	QYgQ6nOK3HL0s2tr0v5tTfW9b+djnNGHbWIbta4H7HqUJMuTj7Bda00mpABuIp5vUNtpfbphToK
+	OMgnWX5sbwbnddzsaraTJ6scGnV6K6IV69Pi7BPG0xIKvZwuVxTctnCLQwUn34anDcxHdjDwijn
+	bfQUz3BiOE4nBi76FBYaJT6s3lvLl5xmIMHl48EMQi7bw==
+X-Received: by 2002:a05:6300:67c7:b0:3b4:b30e:1b4d with SMTP id adf61e73a8af0-3b4cd04c26cmr28149436637.40.1781018209653;
+        Tue, 09 Jun 2026 08:16:49 -0700 (PDT)
+Received: from [192.168.0.100] ([103.181.54.100])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df03387asm20355865a12.4.2026.06.09.08.16.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 08:16:48 -0700 (PDT)
+Message-ID: <c6cc71bc-7256-46a3-ad4a-a1ec4b38400b@gmail.com>
+Date: Tue, 9 Jun 2026 20:46:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
-In-Reply-To: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 9 Jun 2026 16:48:32 +0200
-X-Gm-Features: AVVi8CdZ4js0VeRqh_j68vBF2z35GcygI9fU_Ch7SsQ7zhQ_apUd4JjVOTi5BAs
-Message-ID: <CAJfpegvi+gnwV1+a_QTSvJ46-4_8LGoAsU=xbqE4J4=m5RU6rw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: use min_t() instead of ternary operator
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] spi: dt-bindings: octeon: Convert to DT schema
+To: Rob Herring <robh@kernel.org>
+Cc: broonie@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20260607142356.2844008-1-ninadnaik07@gmail.com>
+ <20260608143259.GA2569066-robh@kernel.org>
+ <20260608150040.GA2675433-robh@kernel.org>
+Content-Language: en-US
+From: Ninad Naik <ninadnaik07@gmail.com>
+In-Reply-To: <20260608150040.GA2675433-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, 7 Jun 2026 at 19:58, Mahad Ibrahim <mahad.ibrahim.dev@gmail.com> wrote:
+
+On 08/06/26 8:30 pm, Rob Herring wrote:
+> On Mon, Jun 08, 2026 at 09:32:59AM -0500, Rob Herring wrote:
+>> On Sun, Jun 07, 2026 at 07:53:56PM +0530, Ninad Naik wrote:
+>>> Convert octeon-3010 to DT schema
+>>>
+>>> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+>>> ---
+>>>   .../bindings/spi/cavium,octeon-3010-spi.yaml  | 67 +++++++++++++++++++
+>>>   .../devicetree/bindings/spi/spi-octeon.txt    | 33 ---------
+>>>   2 files changed, 67 insertions(+), 33 deletions(-)
+>>>   create mode 100644 Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+>>>   delete mode 100644 Documentation/devicetree/bindings/spi/spi-octeon.txt
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+>>> new file mode 100644
+>>> index 000000000000..3dbbb4f3c104
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+>>> @@ -0,0 +1,67 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/spi/cavium,octeon-3010-spi.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Cavium, Inc. OCTEON SoC SPI master controller
+>>> +
+>>> +description:
+>>> +  The Cavium OCTEON SPI controller is an SPI master controller found in
+>>> +  OCTEON SoCs.
+>>> +
+>>> +maintainers:
+>>> +  - Mark Brown <broonie@kernel.org>
+>> This should be someone with this h/w. But there doesn't appear to be any
+>> OCTEON maintainer. There isn't any .dts using the compatible either.
+>> Perhaps this driver and binding can just be removed?
+> Maybe not. Seems this is used on newer Octeon platforms like cn7130
+> which aren't that old. Some Ubiquiti devices use it and run 5.4 kernel
+> with OpenWRT:
 >
-> Replace existing ternary operators for finding minimum value with min_t
-> macro to adhere to kernel coding standards and improve readability.
+> https://openwrt.org/toh/ubiquiti/edgerouter_4
+>
+> Rob
+Hi Rob,
 
-Doesn't improve readability, on the contrary, it obfuscates the real
-meaning (return error or zero).
+In this case, should I keep Mark as the maintainer?
 
 Thanks,
-Miklos
+Ninad Naik
+
