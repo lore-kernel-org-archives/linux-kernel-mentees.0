@@ -1,88 +1,631 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D8A363C4B;
-	Tue,  9 Jun 2026 15:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F9B4963CF
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Jun 2026 15:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781018725; cv=none; b=ixIzrwp7JRIo1aBXrN9Ej4Xj3lspKE8ml8GWwfG6YClLUv54EClxYRonj0ZwxTDi/Nny/s/4J0Ti2XgXJ/5XZ2VHeaYbGcksH1iHNLzZMd+jjR6ufK3qZuOps0K58mR+ypvJOJuOR9Mn2ITqijUmQ7OONWfUT1PkcJc+8GScbCI=
+	t=1781020522; cv=none; b=MYZYpxtcHI7YZSLPO396fS4APe77H9puPRxHA6h/z8myLojD/ulnbn+ML8hXv9W6y2chfLOskNb+QaJ/0thnNu4+orNa1uzV6Q0+fVlO+KU/b6ZSU7BkNkCFp7D1TwacMDwToDNKLOOuMORMessEN1tVcsWNpk0o8MmwrOBqDm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781018725; c=relaxed/simple;
-	bh=+JfcPP+gULOjOmDwuaNl05HjBy4ikgSwaTQ7biMDM4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=edVre9KA3Dm2qgY+arwNzxrN53RNEwbI+8wbpaMRgjDnpfLXFXli1q7nWudae9vqmAPWdMEPVa/eNFVy1vZHVoL7P3YXmP9tQMgpWNiNojmHJNahJHaL/PReom6xKQpLCzINPqWl7oMi5tiDgae0/ymeJcoAEJqgwN4sqXEIFq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5xaxWMA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781020522; c=relaxed/simple;
+	bh=G8DZ2PE1LmC7sRP4F7OAZjqFju68xsA4AAGIEixoggM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EMgZD4n5+DaefyvnF25GW5/4CGQ3XahTkNr0Me3ercIgr5Kwn5ftTEV/h0rjaKsLlkqgZEm2iyVyrBdPZ1Kkk3mrvLc8VaZgLOhkrxpn8+ASQI9yCVF/Oa+MrsQuz7VKtZNmhGhM/N68MaC9bVXhPQoX4I7wV1M2NzDMFZO60oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n8QrLXjm; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5xaxWMA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 782701F00893;
-	Tue,  9 Jun 2026 15:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781018724;
-	bh=+JfcPP+gULOjOmDwuaNl05HjBy4ikgSwaTQ7biMDM4w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=M5xaxWMA66yfWY27vemV3bWNZg461GRlr8uFKKZD/tx+eG3p3ri0/YRZauKmilSP2
-	 80wtYUCb6O0mf6ZkGKEzZoR80ECL7q8LATbaN63OXnKjiNhi+yzsixs7zwKGVINkdA
-	 9zgMRZ0xlD3lQHE+ulTi+g6DvGmGF+RVG9ORCj02cNjUaRTscNP0gz1mz1lT0hEg7Z
-	 q2yMrK6YiCDaZ2xdC3dcso41/5Ilti10ffEjFxAesCHTEi02ZGMD+piuSq3LoHZ+P7
-	 Oayau87FOLqinlUnzPSWNPjJK5agjvHt44PBJcJAYB5+6xmEOiipGpt6GBoW5lzsMJ
-	 n7J/pET7NGSUQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 699131AC56AE; Tue, 09 Jun 2026 16:25:22 +0100 (BST)
-Date: Tue, 9 Jun 2026 16:25:22 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] spi: dt-bindings: octeon: Convert to DT schema
-Message-ID: <aigwYpXmVhEnyw6v@sirena.co.uk>
-References: <20260607142356.2844008-1-ninadnaik07@gmail.com>
- <20260608143259.GA2569066-robh@kernel.org>
- <20260608150040.GA2675433-robh@kernel.org>
- <c6cc71bc-7256-46a3-ad4a-a1ec4b38400b@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n8QrLXjm"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef1629ff4so3966255f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Jun 2026 08:55:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781020517; x=1781625317; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mxA6qDHE2O8jKM7fKavDQ0sfY6zL6Nrl9rqmldoMJ9I=;
+        b=n8QrLXjm603etQ4q6S9xj/CfBMR71HqP21BC4TqpZwzxHpHg/1mgT1gXZ1plEsgNDf
+         GOZJQLt3alK8+J0HTKvikbcSVoT+xgzX0Lnwc93LmisiS9FK9WVUJz3icw/F7jSOsQuN
+         EID6Y49rvLQrrhRQiivcfSXFTA8Qp/8uKOQnPD3tYEkqjhCfevYwPpkr70Vtn7rXc6FB
+         f0PPAoFY36LEzJHAyrtRhHDDAyWuMPNR24UmXaTIeAmk7L5CaVmTYKu43MHS/9XG6exO
+         amFGegLPhtHBc67sHNW4VPvN8pcs9kezJ+kSLlAVdrGXpjTytC/zivlQS670lqJdH9+O
+         RGuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781020517; x=1781625317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mxA6qDHE2O8jKM7fKavDQ0sfY6zL6Nrl9rqmldoMJ9I=;
+        b=VsPZTtMkt/uO6kHS+XN/IpJM2XgBVg09gFXXV+ZG4lYB8LCpJwzLxNL6Of7tg8sdKY
+         nVxWrbCictFqBSeeJH9vEWdKJN6+aTD/WmeAvyTd8Fcf6LtrORFS6CccK3deUfWFZ9vH
+         /UlrCqcqDbG2R+zW4m8/46u9WlBsxCWjy1nLuU7dJh/sn+WyXxFSsSTVggPzYebDB/7V
+         X+cFuYmKdqtGYUf3xN3SAqVwZ/O3atE/fIjniZho77v35jumC3TV/xYrfps17jHzMAUm
+         6YHFZjUjz84JBSLNQQzvTQoTJJ45yHy98Ph8jm4qO9FzLmzFeD/T4SQv7/kmW1dR9xFr
+         tJqA==
+X-Forwarded-Encrypted: i=1; AFNElJ/+ezyKlfyaOwPR03E8WNVKg9FdAqoSQzdNN58jBirugXizy2rbO6Sd76CLQu2rMrZscllO5JmOdtwhk3naFlnpGwNA3g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0AJP5vHtB5ZIjCIK+PE1lRTFV64uzlCndEx3YDfMlHOMqM6WG
+	5TjQZ8Ynxc5viBg60ZyP/Vjg6aMifjauK9WGzXNEOEyyaHHssc4ZJ6n8
+X-Gm-Gg: Acq92OHux0rjWDiKMtS4baRUbP3l1d5QGSwxVQu5JuskJh/vQXWShEkbCIFgs1p39Qq
+	oOpczZ7JT/PumVIKl3nEVSOaPlYnCAX1R042lv9Cxuppm4HKWoM3G3i/BRVlJ9b+gPGyJrNsOza
+	vY/Euln4wrWQeCt2Q5lT0DwVq/Vyo5P9A4a/+4QjaW+hzGvISLaDEC0wxC1p8988i4wuJ7TCTIV
+	XuDv+7YC3JwVLm17g9dq0x7GYkQuMJZa/dEA6xAwVzWjP4emZac8E4PHSlVuuLZK2o50gWmj/Yw
+	CTGB7nNv1/tdiSW+WGFQa1wt43Q1zSdLwhWOhIJqzU/KVMlmRD1AmTwfWO80NklT48AvG43YyED
+	bxiPHF5GFFY82inhL+SmTNbPxytOJM+v+eoN7O7rh030HEcO7kDJ/CiUH2VFu4N5nd/JI9Yq5ay
+	BStY7EwfywlkDWt76ZvGbVYZgrqgTRa44G7Ll86KWdNqIm9cKPSem6QuIZkx1EpZE=
+X-Received: by 2002:a5d:4688:0:b0:45e:da9b:97d6 with SMTP id ffacd0b85a97d-4603061e47amr24181243f8f.27.1781020516882;
+        Tue, 09 Jun 2026 08:55:16 -0700 (PDT)
+Received: from aldo-conte-t14.tailf68ad9.ts.net ([217.61.173.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f368e9fsm61091716f8f.37.2026.06.09.08.55.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 08:55:16 -0700 (PDT)
+From: Aldo Conte <aldocontelk@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	shuah@kernel.org,
+	joshua.crofts1@gmail.com,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v5] iio: tcs3472: implement wait time and sampling frequency
+Date: Tue,  9 Jun 2026 17:55:15 +0200
+Message-ID: <20260609155515.1004545-1-aldocontelk@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VZ1ibPzhW4gpbaRb"
-Content-Disposition: inline
-In-Reply-To: <c6cc71bc-7256-46a3-ad4a-a1ec4b38400b@gmail.com>
-X-Cookie: Leave no stone unturned.
+Content-Transfer-Encoding: 8bit
 
+The TCS3472 has a wait state controlled by the WEN bit in the ENABLE
+register and the WAIT register, with an additional WLONG bit in CONFIG
+that if set multiplies the wait step by 12. The driver previously
+defined TCS3472_WTIME but never used it leaving the TODO comment on
+the top of the source file.
 
---VZ1ibPzhW4gpbaRb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Implement control of the wait time through IIO_CHAN_INFO_SAMP_FREQ:
 
-On Tue, Jun 09, 2026 at 08:46:44PM +0530, Ninad Naik wrote:
-> On 08/06/26 8:30 pm, Rob Herring wrote:
+  - Reading sampling_frequency returns the chip's current cycle time,
+    computed as the sum of ATIME, the fixed RGBC initialization time
+    and the wait time (which depends on WEN and WLONG).
 
-> > Maybe not. Seems this is used on newer Octeon platforms like cn7130
-> > which aren't that old. Some Ubiquiti devices use it and run 5.4 kernel
-> > with OpenWRT:
+  - Writing sampling_frequency programs WTIME so that the resulting
+    cycle period approximates the requested frequency. If the
+    requested frequency cannot be reached with any
+    non-zero wait time, WEN is disabled and the chip runs
+    back-to-back conversions at the maximum rate allowed by ATIME.
+    If the requested period exceeds the maximum WTIME range, WLONG
+    is enabled to extend the wait step from 2.4 ms to 28.8 ms.
 
-> In this case, should I keep Mark as the maintainer?
+  - The user's last requested frequency is stored in the driver's
+    private data so that subsequent changes to integration_time
+    recompute WTIME and preserve the requested sampling rate as
+    closely as possible.
 
-Whoever originally upstreamed the bindings or driver is probably a
-better candidate.
+Add TCS3472_ENABLE_WEN, TCS3472_ENABLE_RUN and TCS3472_CONFIG_WLONG
+bit definitions. TCS3472_ENABLE_RUN bundles the bits
+(AEN | PON | WEN) that are simultaneously set when the chip is in
+running state and cleared during powerdown, and is used by
+tcs3472_probe(), tcs3472_powerdown().
 
---VZ1ibPzhW4gpbaRb
-Content-Type: application/pgp-signature; name="signature.asc"
+Add a u8 enable_pre_suspend field to struct tcs3472_data:
+tcs3472_powerdown() snapshots data->enable into it, and
+tcs3472_resume() restores enable register content from the snapshot.
+This preserves the user's WEN choice across suspend/resume.
 
------BEGIN PGP SIGNATURE-----
+Bound tcs3472_req_data() polling to the worst-case cycle time
+(~8 seconds with ATIME=0x00, WTIME=0x00, WLONG=1).
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmooMGEACgkQJNaLcl1U
-h9Busgf/ZuDtAPL3EuWIZZeZJ/yzyuO3W5PNIzbpiMcz0RcsZlsqQvyyVR8Bu3zK
-l3+2Rp6OKp93VGdW5ZBRN+/pEGmlzryXXOo7Iv/ECkmnKDbvLOQugFZe0GE8ji0S
-GGoegu95vmQPLVl74Gr9WHYGblxv0XNYSj0fuBCEGW+FXHgrshm3PPGaTvBgqEZr
-fH4bf6hfzbq/DkckBoDwMbPZ/ReYu+vqYAZzDjmwiM/42VFc+huq54gtNQ5vXJlZ
-MnDV8eAhqf9Zja6XrXovfquOjnFYoPCt5zyhuRD39nUIob1U11x/v0RPXsb5lyv7
-617Eghxrwxj8bPUbNlPtdaBLg7ya1g==
-=530m
------END PGP SIGNATURE-----
+Fix the event period calculation in tcs3472_read_event() and
+tcs3472_write_event() to use tcs3472_cycle_time_us() instead of
+ATIME alone. With WEN enabled, the chip cycle includes the wait
+time now.
 
---VZ1ibPzhW4gpbaRb--
+Remove the "TODO: wait time" comment at the top of the file.
+
+Reported-by: Sashiko <sashiko@lists.linux.dev>
+Closes: https://sashiko.dev/#/patchset/20260607112713.299968-1-aldocontelk%40gmail.com
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
+---
+v5:
+- Use MICROHZ_PER_HZ instead of USEC_PER_SEC in the cycle_us
+  computation.
+- Add TCS3472_ATIME_TO_US() helper macro for the ATIME-to-us
+  conversion (Suggested-by: Andy Shevchenko).
+- Add a comment explaining the cycle_us formula.
+- Add a comment before the WLONG fallback explaining why wtime
+  may be negative.
+- Move clamp(wtime, 0, 255) after the WLONG handling, closer to
+  the actual use of wtime, with a comment on the saturation
+  semantics.
+- Increase the polling tries from 400 to 500 to account for
+  hardware oscillator tolerance.
+- Fix the event period calculation in tcs3472_read_event() and
+  tcs3472_write_event() to use tcs3472_cycle_time_us() instead
+  of ATIME alone.
+
+ drivers/iio/light/tcs3472.c | 320 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 293 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/iio/light/tcs3472.c b/drivers/iio/light/tcs3472.c
+index 1f597ca93697..78fd9530630a 100644
+--- a/drivers/iio/light/tcs3472.c
++++ b/drivers/iio/light/tcs3472.c
+@@ -9,8 +9,6 @@
+  * TCS34727)
+  *
+  * Datasheet: http://ams.com/eng/content/download/319364/1117183/file/TCS3472_Datasheet_EN_v2.pdf
+- *
+- * TODO: wait time
+  */
+ 
+ #include <linux/cleanup.h>
+@@ -19,6 +17,7 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/pm.h>
++#include <linux/units.h>
+ 
+ #include <linux/iio/buffer.h>
+ #include <linux/iio/events.h>
+@@ -53,19 +52,30 @@
+ #define TCS3472_STATUS_AINT BIT(4)
+ #define TCS3472_STATUS_AVALID BIT(0)
+ #define TCS3472_ENABLE_AIEN BIT(4)
++#define TCS3472_ENABLE_WEN BIT(3)
+ #define TCS3472_ENABLE_AEN BIT(1)
+ #define TCS3472_ENABLE_PON BIT(0)
++#define TCS3472_ENABLE_RUN						\
++	(TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON | TCS3472_ENABLE_WEN)
+ #define TCS3472_CONTROL_AGAIN_MASK (BIT(0) | BIT(1))
++#define TCS3472_CONFIG_WLONG BIT(1)
++
++#define TCS3472_ATIME_TO_US(atime) (((256) - (atime)) * 2400)
+ 
+ struct tcs3472_data {
+ 	struct i2c_client *client;
+ 	struct mutex lock;
++	int target_freq_hz;
++	int target_freq_uhz;
+ 	u16 low_thresh;
+ 	u16 high_thresh;
+ 	u8 enable;
++	u8 enable_pre_suspend;
+ 	u8 control;
+ 	u8 atime;
+ 	u8 apers;
++	u8 wtime;
++	bool wlong;
+ };
+ 
+ static const struct iio_event_spec tcs3472_events[] = {
+@@ -91,6 +101,7 @@ static const struct iio_event_spec tcs3472_events[] = {
+ 	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
+ 	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_CALIBSCALE) | \
+ 		BIT(IIO_CHAN_INFO_INT_TIME), \
++	.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ), \
+ 	.channel2 = IIO_MOD_LIGHT_##_color, \
+ 	.address = _addr, \
+ 	.scan_index = _si, \
+@@ -114,9 +125,65 @@ static const struct iio_chan_spec tcs3472_channels[] = {
+ 	IIO_CHAN_SOFT_TIMESTAMP(4),
+ };
+ 
++/*
++ * The chip's cycle time is the sum of three components:
++ *   - ATIME: the programmable RGBC integration time.
++ *   - The fixed RGBC initialization time (2400 us).
++ *   - WTIME: the wait time, used only if WEN is set. If WLONG is active,
++ *     the wait step is multiplied by 12 (2400 us -> 28800 us).
++ */
++static unsigned int tcs3472_cycle_time_us(struct tcs3472_data *data)
++{
++	unsigned int atime_us = TCS3472_ATIME_TO_US(data->atime);
++	unsigned int init_us = 2400;
++	unsigned int wtime_us;
++
++	if (!(data->enable & TCS3472_ENABLE_WEN))
++		wtime_us = 0;
++	else if (data->wlong)
++		wtime_us = (256 - data->wtime) * 28800;
++	else
++		wtime_us = (256 - data->wtime) * 2400;
++
++	return atime_us + init_us + wtime_us;
++}
++
++/*
++ * Convert a cycle time in microseconds to a frequency in Hz and microhertz.
++ *
++ * Given cycle_us = T (the cycle period in microseconds), the corresponding
++ * frequency is:
++ *   f = 1e6 / T  [Hz]
++ *
++ * The result is split into the IIO_VAL_INT_PLUS_MICRO format:
++ *   val  = floor(1e6 / T)                [Hz]
++ *   val2 = (1e6 mod T) * 1e6 / T         [microhertz]
++ */
++static void tcs3472_cycle_to_freq(unsigned int cycle_us, int *val, int *val2)
++{
++	*val = USEC_PER_SEC / cycle_us;
++	*val2 = div_u64((u64)(USEC_PER_SEC % cycle_us) * USEC_PER_SEC,
++			cycle_us);
++}
++
+ static int tcs3472_req_data(struct tcs3472_data *data)
+ {
+-	int tries = 50;
++	/*
++	 * The worst-case cycle time is reached with ATIME=0x00, WTIME=0x00
++	 * and WLONG=1. So:
++	 *   614 ms (Max Integration Time)
++	 * + 2.4 ms (RGBC Init)
++	 * + 7.37 s (Max Wait Time)
++	 * = ~ 8 s (Total Max cycle time).
++	 * Use that as a polling upper bound; in normal operation the loop
++	 * exits as soon as AVALID is set. So the total number of tries in 8
++	 * seconds considering a polling period of 20 ms is 400.
++	 * Considering a 20% margin due to oscillator tolerance, the total
++	 * duration becomes approximately 9.8 seconds, which corresponds to
++	 * about 480 steps. Therefore, setting it to 500 appears to be a
++	 * reasonable and safe trade-off.
++	 */
++	int tries = 500;
+ 	int ret;
+ 
+ 	while (tries--) {
+@@ -164,18 +231,166 @@ static int tcs3472_read_raw(struct iio_dev *indio_dev,
+ 		return IIO_VAL_INT;
+ 	case IIO_CHAN_INFO_INT_TIME:
+ 		*val = 0;
+-		*val2 = (256 - data->atime) * 2400;
++		*val2 = TCS3472_ATIME_TO_US(data->atime);
+ 		return IIO_VAL_INT_PLUS_MICRO;
++	case IIO_CHAN_INFO_SAMP_FREQ: {
++		unsigned int cycle_us;
++
++		guard(mutex)(&data->lock);
++		cycle_us = tcs3472_cycle_time_us(data);
++		tcs3472_cycle_to_freq(cycle_us, val, val2);
++		return IIO_VAL_INT_PLUS_MICRO;
++	}
+ 	default:
+ 		return -EINVAL;
+ 	}
+ }
+ 
++/*
++ * __tcs3472_set_sampling_freq() - implementation of sampling frequency
++ * configuration. The caller must hold data->lock.
++ */
++static int __tcs3472_set_sampling_freq(struct tcs3472_data *data,
++				       int val, int val2)
++{
++	unsigned int atime_us;
++	unsigned int init_us = 2400;
++	u64 cycle_us;
++	s64 wait_us;
++	int wtime;
++	bool wlong = false;
++	u8 config;
++	int ret;
++
++	if (val < 0 || val2 < 0 || (val == 0 && val2 == 0))
++		return -EINVAL;
++
++	atime_us = TCS3472_ATIME_TO_US(data->atime);
++
++	/*
++	 * cycle_us = 1 / freq, expressed in microseconds.
++	 * Numerator: 1 [s] = PSEC_PER_SEC [ps]
++	 * Denominator: freq [Hz] * MICROHZ_PER_HZ + val2 [uHz] = freq in [uHz]
++	 * Result: ps / uHz = us
++	 */
++	cycle_us = div64_u64(PSEC_PER_SEC,
++			     (u64)val * MICROHZ_PER_HZ + val2);
++
++	/*
++	 * wait_us can be negative when the requested frequency is too high
++	 * to be reached, or very large when the requested frequency is
++	 * close to zero. Use s64 to cover the full range:
++	 *
++	 *   cycle_us = PSEC_PER_SEC / (val * MICROHZ_PER_HZ + val2)
++	 *
++	 * The divisor of the formula above reaches its maximum when
++	 * val = val2 = INT_MAX:
++	 *  INT_MAX * MICROHZ_PER_HZ + INT_MAX = ~2.15e18
++	 * so cycle_us_min = floor(1e12 / 2.15e18) = 0.
++	 *
++	 * The divisor reaches its minimum (1) when val = 0 and val2 = 1,
++	 * so cycle_us_max = 1e12 / 1 = 1e12.
++	 *
++	 * Therefore:
++	 *   wait_us_min = 0 - 2400 - 612000 = -616800
++	 *   wait_us_max = 1e12 - 2400 - 2400 = 999999995200
++	 *
++	 * Both fit comfortably in s64.
++	 */
++	wait_us = (s64)cycle_us - init_us - atime_us;
++	if (wait_us < 2400) {
++		if (data->enable & TCS3472_ENABLE_WEN) {
++			u8 enable = data->enable & ~TCS3472_ENABLE_WEN;
++
++			ret = i2c_smbus_write_byte_data(data->client,
++							TCS3472_ENABLE, enable);
++			if (ret)
++				return ret;
++
++			data->enable = enable;
++		}
++
++		data->target_freq_hz = val;
++		data->target_freq_uhz = val2;
++		return 0;
++	}
++
++	/*
++	 * Wait state is needed: make sure WEN is active before programming
++	 * WTIME (and possibly WLONG).
++	 */
++	if (!(data->enable & TCS3472_ENABLE_WEN)) {
++		u8 enable = data->enable | TCS3472_ENABLE_WEN;
++
++		ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
++						enable);
++		if (ret)
++			return ret;
++
++		data->enable = enable;
++	}
++
++	wtime = 256 - DIV_ROUND_CLOSEST_ULL(wait_us, 2400);
++	if (wtime < 0) {
++		/*
++		 * If wait_us is too high (so the requested frequency is too
++		 * low), the resulting wait exceeds what WTIME can represent
++		 * (max 614 ms without WLONG). Enable WLONG, whose step is 12x
++		 * longer (28.8 ms instead of 2.4 ms), and recompute.
++		 */
++		wlong = true;
++		wtime = 256 - DIV_ROUND_CLOSEST_ULL(wait_us, 28800);
++	}
++
++	if (wlong != data->wlong) {
++		ret = i2c_smbus_read_byte_data(data->client, TCS3472_CONFIG);
++		if (ret < 0)
++			return ret;
++
++		config = ret;
++		if (wlong)
++			config |= TCS3472_CONFIG_WLONG;
++		else
++			config &= ~TCS3472_CONFIG_WLONG;
++
++		ret = i2c_smbus_write_byte_data(data->client, TCS3472_CONFIG,
++						config);
++		if (ret)
++			return ret;
++
++		data->wlong = wlong;
++	}
++
++	/*
++	 * If the requested wait is so long that even WLONG cannot
++	 * cover it, wtime may still be negative. Saturate to 0,
++	 * which is the largest possible wait (256 * 28.8 ms = 7.37 s).
++	 */
++	wtime = clamp(wtime, 0, 255);
++	ret = i2c_smbus_write_byte_data(data->client, TCS3472_WTIME, wtime);
++	if (ret)
++		return ret;
++
++	data->wtime = wtime;
++	data->target_freq_hz = val;
++	data->target_freq_uhz = val2;
++
++	return 0;
++}
++
++static int tcs3472_set_sampling_freq(struct tcs3472_data *data,
++				     int val, int val2)
++{
++	guard(mutex)(&data->lock);
++	return __tcs3472_set_sampling_freq(data, val, val2);
++}
++
+ static int tcs3472_write_raw(struct iio_dev *indio_dev,
+ 			       struct iio_chan_spec const *chan,
+ 			       int val, int val2, long mask)
+ {
+ 	struct tcs3472_data *data = iio_priv(indio_dev);
++	int ret;
+ 	int i;
+ 
+ 	switch (mask) {
+@@ -196,15 +411,31 @@ static int tcs3472_write_raw(struct iio_dev *indio_dev,
+ 		if (val != 0)
+ 			return -EINVAL;
+ 		for (i = 0; i < 256; i++) {
+-			if (val2 == (256 - i) * 2400) {
+-				data->atime = i;
+-				return i2c_smbus_write_byte_data(
+-					data->client, TCS3472_ATIME,
+-					data->atime);
+-			}
+-
++			if (val2 != (256 - i) * 2400)
++				continue;
++
++			guard(mutex)(&data->lock);
++
++			ret = i2c_smbus_write_byte_data(data->client,
++							TCS3472_ATIME, i);
++			if (ret)
++				return ret;
++
++			data->atime = i;
++
++			/*
++			 * ATIME just changed, so the cycle time changed too.
++			 * Re-run the sampling frequency logic to recompute
++			 * WTIME and preserve the user's last requested
++			 * frequency. Lock is already held.
++			 */
++			return __tcs3472_set_sampling_freq(data,
++							 data->target_freq_hz,
++							 data->target_freq_uhz);
+ 		}
+ 		return -EINVAL;
++	case IIO_CHAN_INFO_SAMP_FREQ:
++		return tcs3472_set_sampling_freq(data, val, val2);
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -234,7 +465,7 @@ static int tcs3472_read_event(struct iio_dev *indio_dev,
+ 			data->high_thresh : data->low_thresh;
+ 		return IIO_VAL_INT;
+ 	case IIO_EV_INFO_PERIOD:
+-		period = (256 - data->atime) * 2400 *
++		period = tcs3472_cycle_time_us(data) *
+ 			tcs3472_intr_pers[data->apers];
+ 		*val = period / USEC_PER_SEC;
+ 		*val2 = period % USEC_PER_SEC;
+@@ -279,11 +510,13 @@ static int tcs3472_write_event(struct iio_dev *indio_dev,
+ 			data->low_thresh = val;
+ 
+ 		return 0;
+-	case IIO_EV_INFO_PERIOD:
++	case IIO_EV_INFO_PERIOD:{
++		unsigned int cycle_us;
++
+ 		period = val * USEC_PER_SEC + val2;
++		cycle_us = tcs3472_cycle_time_us(data);
+ 		for (i = 1; i < ARRAY_SIZE(tcs3472_intr_pers) - 1; i++) {
+-			if (period <= (256 - data->atime) * 2400 *
+-					tcs3472_intr_pers[i])
++			if (period <= cycle_us * tcs3472_intr_pers[i])
+ 				break;
+ 		}
+ 		ret = i2c_smbus_write_byte_data(data->client, TCS3472_PERS, i);
+@@ -293,6 +526,7 @@ static int tcs3472_write_event(struct iio_dev *indio_dev,
+ 		data->apers = i;
+ 
+ 		return 0;
++	}
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -434,17 +668,16 @@ static const struct iio_info tcs3472_info = {
+ static int tcs3472_powerdown(struct tcs3472_data *data)
+ {
+ 	int ret;
+-	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+ 
+ 	guard(mutex)(&data->lock);
+ 
++	data->enable_pre_suspend = data->enable;
++
+ 	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+-					data->enable & ~enable_mask);
++					data->enable & ~TCS3472_ENABLE_RUN);
+ 	if (ret)
+ 		return ret;
+ 
+-	data->enable &= ~enable_mask;
+-
+ 	return 0;
+ }
+ 
+@@ -458,7 +691,9 @@ static int tcs3472_probe(struct i2c_client *client)
+ 	struct device *dev = &client->dev;
+ 	struct tcs3472_data *data;
+ 	struct iio_dev *indio_dev;
++	unsigned int cycle_us;
+ 	int ret;
++	u8 enable;
+ 
+ 	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
+ 	if (!indio_dev)
+@@ -498,6 +733,16 @@ static int tcs3472_probe(struct i2c_client *client)
+ 		return ret;
+ 	data->atime = ret;
+ 
++	ret = i2c_smbus_read_byte_data(data->client, TCS3472_WTIME);
++	if (ret < 0)
++		return ret;
++	data->wtime = ret;
++
++	ret = i2c_smbus_read_byte_data(data->client, TCS3472_CONFIG);
++	if (ret < 0)
++		return ret;
++	data->wlong = (ret & TCS3472_CONFIG_WLONG) ? 1 : 0;
++
+ 	ret = i2c_smbus_read_word_data(data->client, TCS3472_AILT);
+ 	if (ret < 0)
+ 		return ret;
+@@ -518,14 +763,30 @@ static int tcs3472_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	/* enable device */
+-	data->enable = ret | TCS3472_ENABLE_PON | TCS3472_ENABLE_AEN;
+-	data->enable &= ~TCS3472_ENABLE_AIEN;
+-	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+-		data->enable);
++	/*
++	 * Enable the chip in its full running state, including WEN. The
++	 * actual wait time is controlled by the WTIME and WLONG registers,
++	 * which retain their power-on defaults until userspace writes to
++	 * sampling_frequency.
++	 */
++	enable = (ret | TCS3472_ENABLE_RUN) & ~TCS3472_ENABLE_AIEN;
++
++	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE, enable);
+ 	if (ret < 0)
+ 		return ret;
+ 
++	data->enable = enable;
++
++	/*
++	 * Initialize target frequency from the chip's current state so that
++	 * subsequent integration_time changes via IIO_CHAN_INFO_INT_TIME can
++	 * preserve a meaningful sampling rate, even before userspace writes
++	 * sampling_frequency for the first time.
++	 */
++	cycle_us = tcs3472_cycle_time_us(data);
++	tcs3472_cycle_to_freq(cycle_us, &data->target_freq_hz,
++			      &data->target_freq_uhz);
++
+ 	ret = devm_add_action_or_reset(dev, tcs3472_powerdown_action, data);
+ 	if (ret)
+ 		return ret;
+@@ -561,16 +822,21 @@ static int tcs3472_resume(struct device *dev)
+ 	struct tcs3472_data *data = iio_priv(i2c_get_clientdata(
+ 		to_i2c_client(dev)));
+ 	int ret;
+-	u8 enable_mask = TCS3472_ENABLE_AEN | TCS3472_ENABLE_PON;
+ 
+ 	guard(mutex)(&data->lock);
+ 
++	/*
++	 * Restore the full ENABLE register from the snapshot taken in
++	 * tcs3472_powerdown(). This preserves the user's last
++	 * sampling_frequency configuration (in particular the WEN bit)
++	 * across suspend/resume.
++	 */
+ 	ret = i2c_smbus_write_byte_data(data->client, TCS3472_ENABLE,
+-		data->enable | enable_mask);
++					data->enable_pre_suspend);
+ 	if (ret)
+ 		return ret;
+ 
+-	data->enable |= enable_mask;
++	data->enable = data->enable_pre_suspend;
+ 
+ 	return 0;
+ }
+-- 
+2.54.0
+
