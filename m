@@ -1,138 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2504A32B126
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Jun 2026 14:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781016107; cv=none; b=XK7UNEqg5i7ZePrQvJf4sudNIN4zYcJhJaIXZRqwPwjB4rG6IIZ+PDNrsZHNrvIUIc4nr8WrNHmbn23fPdFg+sIzFoytsRF+zx8G0mw/vOOL/y9vwnpG14MCSlbiV+bmpp/HmtIexBTRplEYrPTmqOcT8tbUuw9JmHJcNgCQfD4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781016107; c=relaxed/simple;
-	bh=UaweEX+2ns42+g5IcchtUj6qMalDOI+s7SuOAeYzZxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dpAtHoapIsk3DaKoePCxkwGiOWUTZpDIhCcn8K5h3VZ6ocRCU+g3Np0bC/j2/Mg0WK6CG3sa/OXmVQHDgf7RyYCj8aH50vU5aI9IVE4MjVy66ijV4w41iE/Q0YRXkFeGFNr1FNnWWp+J6UPM0YpGp2nHfXtF13VZsPunh9ItnDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7m2qobz; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3495E35E1AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=140.211.166.133
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781016529; cv=pass; b=RyMrkG7Viaiz5YCLEpOgFVmXeSHGcfvYdUfjFaYuFXl1mYzVpXt6tjgruXRNNC0/dN++FgtLtw73ZI5n0xd/TvZHVPJHetHSmsa1eUQqf9i7EeMXTn6DExNWHpzgf6J3zLUErgeMeUnedLlXQkIv/g4hPLzB3Nu2sVelZvjudQg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781016529; c=relaxed/simple;
+	bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PWOdJM12r/u6RuaeShXKQr8yBtKElU/gL/+NHUQe/rq02Zsoy7Yd8+4R28rTvf76ZNzpuebKC0IbhALKdADM2C/bxdWfNJPlHWur2Bay3+mv6KJxhK3xO1cY4UeWyUhfIwqivgSBuP6x69Le8OP3kAh5rFABI8Ufx89rziImSNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=f50uAe2P; arc=pass smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7m2qobz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781016106; x=1812552106;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=UaweEX+2ns42+g5IcchtUj6qMalDOI+s7SuOAeYzZxQ=;
-  b=R7m2qobz6fzSxNAxSKLjnx+3s2cV9XaJmryZk4u0UeJysish2sO/qk/R
-   p0eHftVi8pMZ0e4sPfkaFQaK8jKWsJUpcxuDrk+OMZ/CBV9a+lliyGoHx
-   xQHADPNWNAiO4pDBObut4+GzdMKgQsJoAXm/GhhBKOSn7SLvpmj2Bc2NZ
-   IHXFxYJiM280jQYBR9xUB55BBdVj1tG6y+cbzjBu6WcrcnxNGsq74tveW
-   h9J9gO/Mn3EVL28uaL1Ngp5CPUCuSY9ZR5ixr5NwBEVd4tcTlABo07KrC
-   P2/rDBOHP50ZTnuhHhYeKdkgK2TM4UoZD3sc1pflCd5qXoFoYxREegY2f
-   Q==;
-X-CSE-ConnectionGUID: WDxq00aBRfC648zT+wAEoQ==
-X-CSE-MsgGUID: d+D60e+RRF6amzCGZurMHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="99354618"
-X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="99354618"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 07:41:46 -0700
-X-CSE-ConnectionGUID: PWNey+8zSVSbTHb9Z7VQKQ==
-X-CSE-MsgGUID: WbeyK22IRkyLpGvC4ZFWsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="250805078"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.162])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 07:41:43 -0700
-Date: Tue, 9 Jun 2026 17:41:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Aldo Conte <aldocontelk@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, shuah@kernel.org, joshua.crofts1@gmail.com,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v4] iio: tcs3472: implement wait time and sampling
- frequency
-Message-ID: <aigmJD2r96nCu2dg@ashevche-desk.local>
-References: <20260607112713.299968-1-aldocontelk@gmail.com>
- <aie2Y96Oylb5EEtM@ashevche-desk.local>
- <55020e69-ffe2-4d40-bdac-e6649693ebb7@gmail.com>
- <aigD0vmVJvKbtONg@ashevche-desk.local>
- <dd8129c5-fe15-465e-8203-103be3d0c9c0@gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="f50uAe2P"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id B845B42744
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id hogcmRli4uU4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  9 Jun 2026 14:48:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::833; helo=mail-qt1-x833.google.com; envelope-from=miklos@szeredi.hu; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B3D6B40680
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B3D6B40680
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=f50uAe2P
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B3D6B40680
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  9 Jun 2026 14:48:45 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-5174a3a025aso57597241cf.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 09 Jun 2026 07:48:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781016524; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MewGnLHwB6wwJmx9E9DWLD/pGbJAdIMzTxiwyWDxD1SU9aG6VgKxIwa5pyNKbQc9+2
+         D4cfuN0uFW0Hkv2UqAuhf71NGq/IhxcJWdV00E77PQc0fCmsKj8t6+h7ATM7XdMTdcPB
+         P26waTJ0FhrQnyv28ec6w07XXBHj8fHb1MMuqJzO2jGLG9vFzU4SC0yc46NGKZuCWDJ3
+         UrblsoXV3IYOeJBcRHFG/vqPu276W04sKJkeuUTuvP5fKF3wN0L6WtkUEji69q44Nqab
+         QgJYJXOQp+X4AEnwlSy+oNGodEQQUxlPzewBouyNcfLajj5o33tPv6OiPS85vuYpov8a
+         hLxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        fh=K5Jm2egTcfQc2XN9BJIdICpxlL9Ky9uoSOQ4WhNUxl0=;
+        b=O0RJ2ZhxCeZ+plCxgjTvOFV0DU/QVooAJToRx7o7hCrOI6ltxENbqGLKbOQwEAMYAI
+         Nn+T8Q5/U4pk/FdwZ9ouV0zQeGnPJwEjM/6bqSGSXkOnGIGkeFwgiin8ofyzQ0J6KU37
+         83CBgdpl9Pvo49ahh83+MG1u42Jh3guzuh6Xcuhi0V7xQ57TdjhdG5lufIP14IBVqKzD
+         SgBdh6VAMxbCxRhoHJoc9KaTJkhQmzGWgfkgn3ZL/gInyHaFMaWVSDr+EKTN85yge0AT
+         lA+2BE8mjn7cz632NkuKhcIgrNV0bofO0oi5DZfPUB3MYqeLLfP0muM0GrQxTeBwYKLW
+         kaUQ==;
+        darn=lists.linuxfoundation.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781016524; x=1781621324; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        b=f50uAe2PyIBpEuIDhjlDnaKsdR0VJ/lKMJg30u+Ui8Xo4npYAO8yDhWUV6AfK2BvNa
+         y309XITJAFYiKZ8tWwl7k+3qC0/Vi8ocSV8mCZm6SreuAHGTYd7ZWuthdAoOX6WV+laP
+         qtHr2zNP2UTzgAqDn3/hEfA91xu9gxconpLqk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781016524; x=1781621324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+a76krTz2XmJx/eLQrkwaJT7VfP5qKUf/8ADCJM/SrI=;
+        b=pNHMqoAqoScUcX6QY5YhCxrwBNZ/cqd5gu8xisyV0klekyt6A3+zRc3oErq2xghTGN
+         4aiOQA64LfsWjkeKKrpFU0vM7rtHRrNfLvDLEtQaSQMDefnWGoAhvvU4Lc7QEX9PFKBu
+         QequsMn3B6tt/g16RnEUNPCrSODDPtquhMNW7NhwOAqHTlxXMRIggW0UmvkZLJ+mRcFj
+         bqsOZFewRORXPJPKexRgCrEUUjM+JIw1IPG6qxKpv9ccdnscAbb/IB/yd5tKueSWt6xQ
+         Ld+42qZapzzC0ez/ne9cJRErjlkc6cdRnUdYNmX+utwtbKEmngEGqzSlbaND7xYBuAxi
+         qLJw==
+X-Forwarded-Encrypted: i=1; AFNElJ/D1a8xP5iVHMhQgwXM7EJ/By3Xu0Zuo2i/FgeMCU1b4dxXfJmJ6MWCjlQFRhGB6+UWZKXTHGsV4d0ACHkjxF03AKQYDQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxpdTk87XexVv/ZC4ETVXA1P3kPwQyEPw+MQbREjBbHvURKSoHP
+	ropODQ8NRu5xdSAfMMl9yVF5k2mAxvZ1R4giBfWH6s7gk33hGBBp2VyqsulZY6vxoHpFLfYMQkZ
+	nE0bL4BGnDS+H/cV598ob89oiKr9P5zBcDm6FrgechA==
+X-Gm-Gg: Acq92OGJjlRHPBLO8umZ4xxIImIdrkxk5DpMw1Fk2KKz+NPilZ1vZfk+WzV83Gef/jv
+	ieW6lBDr5/teASsFAW4xsKXWkjSskcOF3wkkaflQNBOnKC1IfG3Jn+yKukSkZz0UHtskxdQBH0F
+	KeQs2efl2EeJ6QXtrFSsJwZNuHvnFe8pJFEgMqNGHzGZx7LKsMpsyNOfis3/8sf8cOyXD+FVsjz
+	YXJY874NnTapb72NjSE/AEu0FSShyWyrGGFFcGlS5rtIwMy6Wt47EkV+2SyVEqy0cTkoL4kNzJM
+	CV505BMCbv95DUB6o6xiFYHHRfUmCe89t7ALJJrkHuxHlPvJgoY=
+X-Received: by 2002:ac8:5c83:0:b0:50e:6313:6e13 with SMTP id
+ d75a77b69052e-51795a829femr290022861cf.5.1781016523708; Tue, 09 Jun 2026
+ 07:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dd8129c5-fe15-465e-8203-103be3d0c9c0@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
+In-Reply-To: <20260607175832.14378-1-mahad.ibrahim.dev@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 9 Jun 2026 16:48:32 +0200
+X-Gm-Features: AVVi8CdZ4js0VeRqh_j68vBF2z35GcygI9fU_Ch7SsQ7zhQ_apUd4JjVOTi5BAs
+Message-ID: <CAJfpegvi+gnwV1+a_QTSvJ46-4_8LGoAsU=xbqE4J4=m5RU6rw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: use min_t() instead of ternary operator
+To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 09, 2026 at 03:36:03PM +0200, Aldo Conte wrote:
-> On 09/06/26 14:15, Andy Shevchenko wrote:
-> > On Tue, Jun 09, 2026 at 12:27:52PM +0200, Aldo Conte wrote:
+On Sun, 7 Jun 2026 at 19:58, Mahad Ibrahim <mahad.ibrahim.dev@gmail.com> wrote:
+>
+> Replace existing ternary operators for finding minimum value with min_t
+> macro to adhere to kernel coding standards and improve readability.
 
-...
+Doesn't improve readability, on the contrary, it obfuscates the real
+meaning (return error or zero).
 
-> > > case IIO_EV_INFO_PERIOD:
-> > > 		period = tcs3472_cycle_time_us(data) *
-> > > 			tcs3472_intr_pers[data->apers];
-> > > 		*val = period / USEC_PER_SEC;
-> > > 		*val2 = period % USEC_PER_SEC;
-> > 
-> > Again, use HZ-based multiplier, see above.
-> 
-> Here i do not understand why MICROHZ_PER_HZ is better.
-> In the previous case, we were indeed referring to the denominator of the
-> calculation, which was actually a frequency, so MICROHZ_PER_HZ is indeed
-> correct.
-> But in this case, we are calculating the integer and fractional parts of a
-> period, so I think this would be fine.
-> Tell me where I’m going wrong.
-
-Hmm... I think you are right and I stand corrected.
-
-> > > 		return IIO_VAL_INT_PLUS_MICRO;
-> > > 
-> > > write becomes:
-> > > 
-> > > case IIO_EV_INFO_PERIOD:{
-> > > 		unsigned int cycle_us;
-> > > 
-> > > 		period = val * USEC_PER_SEC + val2;
-> > 
-> > And again, use HZ-based multiplier, see above.
-> 
-> as above...
-
-...
-
-> > > 		for (i = 1; i < ARRAY_SIZE(tcs3472_intr_pers) - 1; i++) {
-> > > 			if (period <= cycle_us * tcs3472_intr_pers[i])
-> > > 				break;
-> > > 		}
-> > 
-> > do {} while () seems better choice here (and do it in reverse order?).
-> 
-> Could you suggest the do {} while {} form, which seems better? Because I
-> think it is already comprehensible.
-
-OK, it's not do {} while
-
-		i = ARRAY_SIZE(tcs3472_intr_pers);
-		while (i--) {
-			if (period > cycle_us * tcs3472_intr_pers[i])
-				break;
-		}
-
-if I am not mistaken... OTOH, the for-loop is in the original code, perhaps
-better to leave this approach and change separately if needed.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Miklos
