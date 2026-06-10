@@ -1,74 +1,91 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D9640D576
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  9 Jun 2026 23:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D8C36729D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jun 2026 05:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781047007; cv=none; b=GLGdYGmg07Nt/bU3d4v85tOkbrlC6sO6zQ0zMTFDktriP3NsuOO6Zdqsdx8SxtCJNj9TOhn+CS7WZNmm0VrEU/AJUMpxvA2WYQffXaL7EB9r6+bw3cSs899HTtuTN+N6Kn09pdcEbX4AyAnxl0XyAUfO5V0jFWlBzp4a9smmbdA=
+	t=1781069158; cv=none; b=G6sbNKUMiqQ2XcRV0d3/K3W/uG8df5TANwgnvZNGqmVCg0UNP5cZXtoqY93qLYgzpDpzaCDNWLTthq7+6ZP1EHrbW3cpgc8kPkrjF8LLQD5cacwaxe/CEC2OJZ+LKSXKCpPZuwmZVU0CeE4PVey+b2GE+4tSJ/Oe7rrYztPcU28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781047007; c=relaxed/simple;
-	bh=u1AdhdsV0mwi/EmpLL5f6ETgvddK1j8cv3P2wA1xfGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ap+kXDLGFDZqubHU/HFB/8ZCyAcSxjIwB4/+KaU+z8cP0acAS25fjbtjFhmcM+aq4MkHD7UL1+WkBrqC8FQWCUHWzgWDeOC/YR/E8N+YF6WFXP69pR1UI0Oqnv0ujTXW6jKraadYHijDud7pthaZC2nCdz2ov1oUYRlgu8OF/N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tA/YaAng; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781069158; c=relaxed/simple;
+	bh=RgLvJfoktkYbk8WIGWa8iONc+11FqhDyQQ9lxOZgCxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D10rwRUb1Fcw8KjInM53B/tYkYmPtbfHmBstcAG/Yk+EIrIQOj02oZhxNqfY6E5n8zSOd+dYMYB+VNKt7Zu0EFGSQet0A+lX8YtXtYIO8tkQQijKrJHwUxhpEzvewsJeZ4/eFzcAlasa04jdvSV/qDis5Hq9MOgOFyd8t7mBxco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRQsn49K; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tA/YaAng"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c85ba774551so2213833a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 09 Jun 2026 16:16:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRQsn49K"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3585740242
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jun 2026 05:25:57 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 08RG627iSgOl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 10 Jun 2026 05:25:56 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 96DD440248
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 96DD440248
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=eRQsn49K
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 96DD440248
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jun 2026 05:25:56 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-8423f420455so2679118b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 09 Jun 2026 22:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781047005; x=1781651805; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781069156; x=1781673956; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEyMjwR1iJDcTluKt4LdLmsJ40U+xuFM1tMeziy7aTw=;
-        b=tA/YaAng45kzm5hcwCXB+gg6T+pYVUA99kpnoNgs1kOZddFx1G6pZiba/TkEWZPtT7
-         bReVTk7LUPNvRlby7vmUa4RxSUL7ArI2Y4Co3Q2FhZ9MSzNU/uUqSagKey2nTrxubEC8
-         Yrp7G/GIfnVrGb1ow067h5XKYSa5A1XbRyQRRD93vQsrmD/TQyfBff3nzZl+wfsZnFXE
-         08ILkmHbxMPJ4TSc2l1SgQ6k64ansD5E3QaAW1TzouKrU4OCPgHKMko+3NHoD0UZVMNk
-         ptv4VeMm8neyrrN5HA4lNhtwc2XA2gagklGoFLXswYaRfC9dz+VJexUUCATrxsRRacAL
-         2Q6Q==
+        bh=gvT1EVjtfblNZFvJfxilQFWKbaHZZ5R/iepDqQLGtW0=;
+        b=eRQsn49K9Qd0fUfvXRTP2kGI3ir0FYrPsrBB0BYHdBlFsodlc4LfhxHKnEAgaslcvy
+         auZzDZg27DHX4AMLD/IdbXs1SRH2P9/OEAVkW+Vdu6hcUL1UnwnhF/2lejwzcZyPQOPB
+         135QtW4Nv6dl1lNe/Qr0KLYA2WPRHJYScJacPQ94utmlFfRv2dyek5TKUAKVgxU7Stfw
+         hCsWbZ3n1ovK1k80JhEZk4B4LRMt+dk4iq75riE5fzMXT+kWGhsSLtJUnXQ/o0T0x/SE
+         y8JkWkfStZuve302QU8fG5yAKSGsAFIDLFaLFWYrDi8ZJkhzOt87ipPGcZVGa3PnFdKT
+         Dvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781047005; x=1781651805;
+        d=1e100.net; s=20251104; t=1781069156; x=1781673956;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BEyMjwR1iJDcTluKt4LdLmsJ40U+xuFM1tMeziy7aTw=;
-        b=fizbQio+zw7EN7OHY70ogMK44G0LaVT7mA7CrwkkatEmqsqBY3E8GJiD4oEn6Mv71/
-         Lh17GNrVljngpTtJbgbMbILxRQlPOVIeYQIx+6GRwI5PHGzLj0PbiMEqc0Lq0ziioqcR
-         vqv2CDqvVAQfGCoIEByBAxZof3HP1EblutlmajPuRblrwn65B4S9eNIwuDjSnd0xfw/X
-         WevITgwCpzuYJVgkxaZvtNED8Cu8q0aUc5uGiW3iTJthceDqlJ5/ulTsnGbQCnyJtkGx
-         uY7xcl9aze1ZwPmA10/C+dLzojePIheGgFbNx06Vki1jf1XpMfjy+9QP0Ub88r0LBgPi
-         0wTQ==
-X-Gm-Message-State: AOJu0YypDJMZ74M8upyzUWf7Ep3b/tBngULW/ZP+fwMFz5tU4Nhg5tyW
-	wDiaAOO/v865s5Iw/jYEgMBkw1flqRgI/+8gkkYyYodJVrpOisa8pd2S
-X-Gm-Gg: Acq92OFtXfEtNXNEHxN8H4YgdwfBjkdV7Ocwwybj1b8ADcQNGzVWikP7Fhuw33x1rPr
-	t61lGWLQD5rpPVqTAAk62xAsTCH0LP+ajdLsQgd15WjXn+RYFHl692W8ZJMYhMp+zzox9rEYKEM
-	Hwm5pLnyljnwIUMjieOr1g/O/d/8ixCqDyK2q+QS4xul9lb6xaK1nMgQ/8pf12GG0RL68W22emt
-	ze8cU7AEPQeSZh7IWvGvk04+Dk+i1WIABoFbNXDqeIxiFZreh00ypNLnsEtaqMM7fRoQ0bPu0a6
-	sw/PDDpNAIMgCKDxaDL7WjyWfU6dOp9FNGVTfHaJlpSHSb/u3Nkgccdn7Cw8Cc5Qsx6+nH0QRHL
-	j18oMwAsU8n6gEitXGyBb+1HU7FHImGVJDXtYBWQDue0mrA8/9PKtnLY6QphYz3D32tvr3NTzaK
-	e9URKfuWqs2nRkiTzhIHZ3d4BTI/8LQnViKTshrouMjH7NtFjW+A4RXJs9ldZeIfwUe/c/656Oq
-	HlrcvxbdB5jjhJdhtdBx/vxKzNSSTiwO4EAY0TjPBnzdlRZS4yI4Wzsd0cVD5HB940Bb1ueivx+
-	py8yIKU6lObofvPoVsBDoG3+jeMNVg3/DSzUH+CH15jyaacD5MdU
-X-Received: by 2002:a05:6a20:3d1f:b0:3a1:ed2a:1a4f with SMTP id adf61e73a8af0-3b4ccd6ac48mr26822178637.16.1781047005127;
-        Tue, 09 Jun 2026 16:16:45 -0700 (PDT)
-Received: from debian13.localdomain (bb219-75-96-14.singnet.com.sg. [219.75.96.14])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df04311bsm18941479a12.9.2026.06.09.16.16.41
+        bh=gvT1EVjtfblNZFvJfxilQFWKbaHZZ5R/iepDqQLGtW0=;
+        b=mLK1fNNXKsxEXFQxuw2RYJw5qnAtY3FLMQSBbLeGI5OdQzCw/qyxslvyi+VzKYaSka
+         Yoon63Wlqu/yIOAeD9huMbrLje/zs5ROKC6d2atomyJibGUXFqj6aToEtovZNsVROHrC
+         7XFVOBYLbfrha3/y2EBd07I3erPq8a9puvdO6/Bz50tzRiN6o+9o8ISATGiJ1HUBWcN8
+         ioYwHuePKQWgom617F/lLpV2L83WVXRES+A07/T1iAYKdS3RBHmc8nwYqtlfRYDxYIuC
+         tn4DOaGppuMYFF79wCKKG94qov12wlV3BKLAqqTdfwhoAqi+Db6XnAZmM8qZWB23peEL
+         0QIA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ikO2bV4YGOhOHdP3jlPjisTZp89kr56wfgO7yVVoP6/fVkbkqyJacAPNSp8M6fs+A1a1hy+0IScSJkUqXMKLo7qr8AQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzsGqc25gin13oieUNs4VuMlZf2KNKuSYgTqKj/l1oezJN1nM4C
+	3npXy5z+QJ0zqeii1S6lxQW0EIX42A2UOPqh7WIlQNJiGmf2N1DnB6kW
+X-Gm-Gg: Acq92OHmoH4W31DLHGDOIHZlOkv4wwezQDUPAl0ottkL549Q5++8VngB1vE7dsLA6XA
+	/PiDMLzjAZTwLUtZyduy0ub5qhCrpCTalNaAackD6Q+n8QPhgfA7LPPIpdmMUGkvbuUXCVtmKE4
+	PFgO7SWcadcIcAZPvulPCu/3yvHJt4HH5mQ0ICX21Y5/mfgbx5DlYPm+Sn/2ackusBI3BZ5t1mJ
+	oF7DJNSlx8uSUc6evCCdZhuYQ0iDn/9q53SPwwiiyv3XNwVByk9RdBfIGd9oA89foKBfAVaweHY
+	5iutGgW1YcRzu14aVhq4NxRVQcXTVdfMglLkfRD+/lRxFtGnaP1r6k/zMWV8jGYDh3GYwVruWkl
+	/ce9xx1i0IXqG+hcrI7ujOj1PtX+Rq6sl1ZN/jXpuxMpxYvCeXwdnJ6hDnJDNp9FeZU2VkTTZQ0
+	a2YeE+c66cv9dBWnKXD0Ntv5xVNcDnC02IfyW98g==
+X-Received: by 2002:a05:6a00:a13:b0:837:e9cc:d46e with SMTP id d2e1a72fcca58-842b0e95e0fmr24760458b3a.21.1781069155781;
+        Tue, 09 Jun 2026 22:25:55 -0700 (PDT)
+Received: from soyboi ([2402:8780:1073:ee8d:482e:804a:1508:13a3])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828e02f9sm23172109b3a.48.2026.06.09.22.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 16:16:44 -0700 (PDT)
-From: Adi Nata <adinata.softwareengineer@gmail.com>
-To: rafael@kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	Adi Nata <adinata.softwareengineer@gmail.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] PM: hibernate: Mark undocumented snapshot helpers as non-kernel-doc
-Date: Wed, 10 Jun 2026 07:16:26 +0800
-Message-ID: <20260609231626.38839-1-adinata.softwareengineer@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Tue, 09 Jun 2026 22:25:55 -0700 (PDT)
+From: Robertus Diawan Chris <robertusdchris@gmail.com>
+To: nathan@kernel.org,
+	nsc@kernel.org
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com
+Subject: [PATCH] modpost: release allocation when early return no suffix .o in read_symbols()
+Date: Wed, 10 Jun 2026 12:25:50 +0700
+Message-ID: <20260610052550.187006-1-robertusdchris@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -77,226 +94,33 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several helpers in snapshot.c are introduced with kernel-doc (/**)
-comment blocks but do not describe their parameters with @param
-tags.This emits warnings when building
-with extra warnings enabled (make W=1), for example:
-kernel/power/snapshot.c:469: warning: Function parameter or member
-    'zone' not described in 'add_rtree_block'
-kernel/power/snapshot.c:469: warning: Function parameter or member
-    'gfp_mask' not described in 'add_rtree_block'
-kernel/power/snapshot.c:469: warning: Function parameter or member
-    'safe_needed' not described in 'add_rtree_block'
-kernel/power/snapshot.c:469: warning: Function parameter or member
-    'ca' not described in 'add_rtree_block'
+The allocation for elf info symsearch and hdr from parse_elf() haven't
+been released when return because of modname didn't have suffix ".o".
+So, release the allocation before early return because of modname
+without suffix ".o".
 
-These are file-local implementation details, not part of the
-exported kernel API documented under Documentation/. Replace the
-kernel-doc markers with plain block comments for the affected
-functions.
+This is reported by Coverity Scan as "Resource leak".
 
-Properly documented symbols such as
-alloc_rtree_node(), snapshot_read_next() and snapshot_write_next()
-remain unchanged.
-
-Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+Fixes: 8c9ce89c5b63 ("modpost: simplify mod->name allocation")
+Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
 ---
- kernel/power/snapshot.c | 42 ++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ scripts/mod/modpost.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/kernel/power/snapshot.c b/kernel/power/snapshot.c
-index a564650734dc..552958f58359 100644
---- a/kernel/power/snapshot.c
-+++ b/kernel/power/snapshot.c
-@@ -458,7 +458,7 @@ static struct rtree_node *alloc_rtree_node(gfp_t gfp_mask, int safe_needed,
- 	return node;
- }
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index abbcd3fc1394..8e231544f9f3 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1585,6 +1585,7 @@ static void read_symbols(const char *modname)
  
--/**
-+/*
-  * add_rtree_block - Add a new leave node to the radix tree.
-  *
-  * The leave nodes need to be allocated in order to keep the leaves
-@@ -528,7 +528,7 @@ static int add_rtree_block(struct mem_zone_bm_rtree *zone, gfp_t gfp_mask,
- static void free_zone_bm_rtree(struct mem_zone_bm_rtree *zone,
- 			       int clear_nosave_free);
- 
--/**
-+/*
-  * create_zone_bm_rtree - Create a radix tree for one zone.
-  *
-  * Allocated the mem_zone_bm_rtree structure and initializes it.
-@@ -566,7 +566,7 @@ static struct mem_zone_bm_rtree *create_zone_bm_rtree(gfp_t gfp_mask,
- 	return zone;
- }
- 
--/**
-+/*
-  * free_zone_bm_rtree - Free the memory of the radix tree.
-  *
-  * Free all node pages of the radix tree. The mem_zone_bm_rtree
-@@ -678,7 +678,7 @@ static int create_mem_extents(struct list_head *list, gfp_t gfp_mask)
- 	return 0;
- }
- 
--/**
-+/*
-  * memory_bm_create - Allocate memory for a memory bitmap.
-  */
- static int memory_bm_create(struct memory_bitmap *bm, gfp_t gfp_mask,
-@@ -720,7 +720,7 @@ static int memory_bm_create(struct memory_bitmap *bm, gfp_t gfp_mask,
- 	goto Exit;
- }
- 
--/**
-+/*
-  * memory_bm_free - Free memory occupied by the memory bitmap.
-  * @bm: Memory bitmap.
-  */
-@@ -736,7 +736,7 @@ static void memory_bm_free(struct memory_bitmap *bm, int clear_nosave_free)
- 	INIT_LIST_HEAD(&bm->zones);
- }
- 
--/**
-+/*
-  * memory_bm_find_bit - Find the bit for a given PFN in a memory bitmap.
-  *
-  * Find the bit in memory bitmap @bm that corresponds to the given PFN.
-@@ -988,7 +988,7 @@ static void memory_bm_recycle(struct memory_bitmap *bm)
+ 	if (!strends(modname, ".o")) {
+ 		error("%s: filename must be suffixed with .o\n", modname);
++		parse_elf_finish(&info);
+ 		return;
  	}
- }
  
--/**
-+/*
-  * register_nosave_region - Register a region of unsaveable memory.
-  *
-  * Register a range of page frames the contents of which should not be saved
-@@ -1305,7 +1305,7 @@ static unsigned int count_free_highmem_pages(void)
- 	return cnt;
- }
- 
--/**
-+/*
-  * saveable_highmem_page - Check if a highmem page is saveable.
-  *
-  * Determine whether a highmem page should be included in a hibernation image.
-@@ -1362,7 +1362,7 @@ static unsigned int count_highmem_pages(void)
- }
- #endif /* CONFIG_HIGHMEM */
- 
--/**
-+/*
-  * saveable_page - Check if the given page is saveable.
-  *
-  * Determine whether a non-highmem page should be included in a hibernation
-@@ -1440,7 +1440,7 @@ static inline bool do_copy_page(long *dst, long *src)
- 	return !z;
- }
- 
--/**
-+/*
-  * safe_copy_page - Copy a page in a safe way.
-  *
-  * Check if the page we are going to copy is marked as present in the kernel
-@@ -1687,7 +1687,7 @@ static unsigned long preallocate_image_highmem(unsigned long nr_pages)
- 	return preallocate_image_pages(nr_pages, GFP_IMAGE | __GFP_HIGHMEM);
- }
- 
--/**
-+/*
-  *  __fraction - Compute (an approximation of) x * (multiplier / base).
-  */
- static unsigned long __fraction(u64 x, u64 multiplier, u64 base)
-@@ -1982,7 +1982,7 @@ int hibernate_preallocate_memory(void)
- }
- 
- #ifdef CONFIG_HIGHMEM
--/**
-+/*
-  * count_pages_for_highmem - Count non-highmem pages needed for copying highmem.
-  *
-  * Compute the number of non-highmem pages that will be necessary for creating
-@@ -2003,7 +2003,7 @@ static unsigned int count_pages_for_highmem(unsigned int nr_highmem)
- static unsigned int count_pages_for_highmem(unsigned int nr_highmem) { return 0; }
- #endif /* CONFIG_HIGHMEM */
- 
--/**
-+/*
-  * enough_free_mem - Check if there is enough free memory for the image.
-  */
- static int enough_free_mem(unsigned int nr_pages, unsigned int nr_highmem)
-@@ -2023,7 +2023,7 @@ static int enough_free_mem(unsigned int nr_pages, unsigned int nr_highmem)
- }
- 
- #ifdef CONFIG_HIGHMEM
--/**
-+/*
-  * get_highmem_buffer - Allocate a buffer for highmem pages.
-  *
-  * If there are some highmem pages in the hibernation image, we may need a
-@@ -2035,7 +2035,7 @@ static inline int get_highmem_buffer(int safe_needed)
- 	return buffer ? 0 : -ENOMEM;
- }
- 
--/**
-+/*
-  * alloc_highmem_pages - Allocate some highmem pages for the image.
-  *
-  * Try to allocate as many pages as needed, but if the number of free highmem
-@@ -2065,7 +2065,7 @@ static inline unsigned int alloc_highmem_pages(struct memory_bitmap *bm,
- 					       unsigned int n) { return 0; }
- #endif /* CONFIG_HIGHMEM */
- 
--/**
-+/*
-  * swsusp_alloc - Allocate memory for hibernation image.
-  *
-  * We first try to allocate as many highmem pages as there are
-@@ -2292,7 +2292,7 @@ static void duplicate_memory_bitmap(struct memory_bitmap *dst,
- 	}
- }
- 
--/**
-+/*
-  * mark_unsafe_pages - Mark pages that were used before hibernation.
-  *
-  * Mark the pages that cannot be used for storing the image during restoration,
-@@ -2330,7 +2330,7 @@ static int check_header(struct swsusp_info *info)
- 	return 0;
- }
- 
--/**
-+/*
-  * load_header - Check the image header and copy the data from it.
-  */
- static int load_header(struct swsusp_info *info)
-@@ -2483,7 +2483,7 @@ static int prepare_highmem_image(struct memory_bitmap *bm,
- 
- static struct page *last_highmem_page;
- 
--/**
-+/*
-  * get_highmem_page_buffer - Prepare a buffer to store a highmem image page.
-  *
-  * For a given highmem image page get a buffer that suspend_write_next() should
-@@ -2706,7 +2706,7 @@ static int prepare_image(struct memory_bitmap *new_bm, struct memory_bitmap *bm,
- 	return error;
- }
- 
--/**
-+/*
-  * get_buffer - Get the address to store the next image data page.
-  *
-  * Get the address that snapshot_write_next() should return to its caller to
-@@ -2843,7 +2843,7 @@ int snapshot_write_next(struct snapshot_handle *handle)
- 	return PAGE_SIZE;
- }
- 
--/**
-+/*
-  * snapshot_write_finalize - Complete the loading of a hibernation image.
-  *
-  * Must be called after the last call to snapshot_write_next() in case the last
+
+base-commit: 4549871118cf616eecdd2d939f78e3b9e1dddc48
 -- 
-2.47.3
+2.54.0
 
