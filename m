@@ -1,94 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DF4409625;
-	Wed, 10 Jun 2026 13:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254DC42669A;
+	Thu, 11 Jun 2026 17:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781098589; cv=none; b=rfCmVusk1wzoxxO1puHgQlcp29cL1oMdkWDj2pb3xHGKJBe+3U1tfvZSivYkdeh8kJ2GsYtQzcrRRuE1V6Vd8LPbMSHHJf2IgOsQC4SYXv1qodUuoS8vGol1zEP5SIhGFC5FBEtOI5pfwoXSty21ctwdFDroHhysGqEwM5mAElQ=
+	t=1781197996; cv=none; b=hE/obRFiuxrmCRmqH6DuscTFuSyhzG3hJb+niEaWLUCgqZYmOXrLEenjdrIulPs3OmaQ6t3DUvu4QYbF6r8wo7IBBXrOFQ/NIn3LUw2TML5Kp6a9bf/QROZTn6GEjelrK2Mx4E7P2OIsT4o4CL4BG5PgUg4dHGxbZkO/e2wD0nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781098589; c=relaxed/simple;
-	bh=l2JZP7zzFaDa2y3gL9xNyiYHIWkp0WBUocN6D/6f+J0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qhefgXha/Bp2ekx822N8vixwR/p+B8qvk5MHx+5fMDI0VDMYy7RYdSpBxgkZLfn8k8BmLzVr6I0yHaW7xO2+SPgD8VhaVypOLOzOU4RU4qxiy4mmSrXEssTC2bKlSyObjjj4Ug2+w70EU9wQgyKB/DKyk7VsC0KG180CkFDdZ80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DrOQZOmF; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781197996; c=relaxed/simple;
+	bh=OD33JUqAzeV9ACewVGP7z2byt0W30/9CV+gWOFpNfMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P0h6hwsx/ovJNF+45UKzw5sVDFvbNSk6BEQeAzjl0/Hub2X2Tpw0wT8n+4R/6RkVaeH/7r6v81i8bsIzplb0lnLDayH9P0LbIP5ns7hmFzPhm80HM6fQ6FDy6tHI1hKeVPhc7VUheB+yWQZYFHm1rs5To7oM2JOEQ1CnqbxpTnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OoNYQsCN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrOQZOmF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781098585; x=1812634585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l2JZP7zzFaDa2y3gL9xNyiYHIWkp0WBUocN6D/6f+J0=;
-  b=DrOQZOmFtc436O2pdK3CoPxCZ/Oe0UVkPyu9ka/hgxZd3Q291G68t8cO
-   FzwquHXwB3EHzSZjQIAiIhI/y0tfJn/xBR+l3L4BsqYD9uwPmh59jR064
-   yOCGuUPo8hV3yFqOlw9Y5epMBxZZKAr3S6W+Ebf3Nqix1qHUY7po0SJ7C
-   IuDvFew4YpM60bLXFtgiEvDLKruxvU9WwvdVzQb/IYBQpMqW19r4V0X6P
-   RZrsoVBZt3zrPGkvG0HDLDy+T+je/tE9+YxHYbYAGujipBPEd8i8E0cQ5
-   wvgVwjCJfKAwjXwIPaxwGIXoZKj25blkyJL9eYi/DTFX7H8/vj7vUero5
-   A==;
-X-CSE-ConnectionGUID: hVbaTQg4Q1G/ZsmWRrhqFw==
-X-CSE-MsgGUID: stDWQXJDQdOFc8+sdjrfOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81868625"
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="81868625"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:36:24 -0700
-X-CSE-ConnectionGUID: IqWG2RouTdi7xF0imV58dQ==
-X-CSE-MsgGUID: vEg/9p1mSVirOQOcH0Buug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="246027947"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:36:21 -0700
-Date: Wed, 10 Jun 2026 16:36:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	feng@innora.ai, ~lkcamp/patches@lists.sr.ht,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: use kvmalloc_objs() in
- make_histogram()
-Message-ID: <ailoU33VyQJtpEcA@ashevche-desk.local>
-References: <20260609215110.118860-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OoNYQsCN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D631F00893;
+	Thu, 11 Jun 2026 17:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781197994;
+	bh=fgHJxDcUwgvVCrhFds1I3bAEkOAfR19ANqZAFh+mRqg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=OoNYQsCNVNSNIOIvz4Kf4s1GzoahOZSwm3g/nzVfx7eCIaC5/0BecgumJpVANLAek
+	 71tx8uWCbGZk/pCpOLp7GbLSJQT+p1gjghGac8nWNZ9P94gietUs20YzQMaPou0sZ1
+	 anlJzU3D0ZAWr6lwxjvaIVGfGrfpjzRl7kVasrKNHfUGijeqnu4vh8soU7bMaFiMxY
+	 A97rbKG1x0ZE4ZVVeuZw99CoANufWaAo8enJyW7/p4bluGh9bh+SN1YFZh520H3SYa
+	 bCxt4z10XHnP/vkaR6GmzemtOXjSU4RfozujgP/Qh8ViOxbQ+ZOaSYAJqkBDoA7lqY
+	 Bbl0K6WXNiZbw==
+Date: Thu, 11 Jun 2026 18:13:06 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Aldo Conte <aldocontelk@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ shuah@kernel.org, joshua.crofts1@gmail.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v5] iio: tcs3472: implement wait time and sampling
+ frequency
+Message-ID: <20260611181306.6ee42160@jic23-huawei>
+In-Reply-To: <20260609155515.1004545-1-aldocontelk@gmail.com>
+References: <20260609155515.1004545-1-aldocontelk@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260609215110.118860-1-rodrigo.gobbi.7@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 09, 2026 at 06:46:31PM -0300, Rodrigo Gobbi wrote:
-> Replace kvmalloc() with multiply with kvmalloc_objs(), which handles
-> the size multiplication internally with overflow checking, silenting
-> checkpatch warn.
+On Tue,  9 Jun 2026 17:55:15 +0200
+Aldo Conte <aldocontelk@gmail.com> wrote:
+
+I tweaked the patch title to include light so we know what type of
+sensor this is as well.
+
+> The TCS3472 has a wait state controlled by the WEN bit in the ENABLE
+> register and the WAIT register, with an additional WLONG bit in CONFIG
+> that if set multiplies the wait step by 12. The driver previously
+> defined TCS3472_WTIME but never used it leaving the TODO comment on
+> the top of the source file.
 > 
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-> ---
-> Hi, all,
-> There is a ongoing effort like this for other files from atomisp
-> at [1], yet, it is not covering the same file.
-> Tks and regards.
+> Implement control of the wait time through IIO_CHAN_INFO_SAMP_FREQ:
 > 
-> [1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
+>   - Reading sampling_frequency returns the chip's current cycle time,
+>     computed as the sum of ATIME, the fixed RGBC initialization time
+>     and the wait time (which depends on WEN and WLONG).
+> 
+>   - Writing sampling_frequency programs WTIME so that the resulting
+>     cycle period approximates the requested frequency. If the
+>     requested frequency cannot be reached with any
+>     non-zero wait time, WEN is disabled and the chip runs
+>     back-to-back conversions at the maximum rate allowed by ATIME.
+>     If the requested period exceeds the maximum WTIME range, WLONG
+>     is enabled to extend the wait step from 2.4 ms to 28.8 ms.
+> 
+>   - The user's last requested frequency is stored in the driver's
+>     private data so that subsequent changes to integration_time
+>     recompute WTIME and preserve the requested sampling rate as
+>     closely as possible.
+> 
+> Add TCS3472_ENABLE_WEN, TCS3472_ENABLE_RUN and TCS3472_CONFIG_WLONG
+> bit definitions. TCS3472_ENABLE_RUN bundles the bits
+> (AEN | PON | WEN) that are simultaneously set when the chip is in
+> running state and cleared during powerdown, and is used by
+> tcs3472_probe(), tcs3472_powerdown().
+> 
+> Add a u8 enable_pre_suspend field to struct tcs3472_data:
+> tcs3472_powerdown() snapshots data->enable into it, and
+> tcs3472_resume() restores enable register content from the snapshot.
+> This preserves the user's WEN choice across suspend/resume.
+> 
+> Bound tcs3472_req_data() polling to the worst-case cycle time
+> (~8 seconds with ATIME=0x00, WTIME=0x00, WLONG=1).
+> 
+> Fix the event period calculation in tcs3472_read_event() and
+> tcs3472_write_event() to use tcs3472_cycle_time_us() instead of
+> ATIME alone. With WEN enabled, the chip cycle includes the wait
+> time now.
+> 
+> Remove the "TODO: wait time" comment at the top of the file.
+> 
+> Reported-by: Sashiko <sashiko@lists.linux.dev>
+> Closes: https://sashiko.dev/#/patchset/20260607112713.299968-1-aldocontelk%40gmail.com
 
-Yeah, the problem is that the activity seems stale. Can you pickup all
-the patches from the mailing list that have not been yet applied (regarding
-k*alloc() uses) and combine them into series or so and update regarding to
-Sakari's comments?
+These are (I think) for tweaks to a patch we hadn't merged.
+As such they shouldn't be here. Thus stuff belongs in a patch
+that simply addresses some feedback from the bot (and nothing else!)
+
+I tweaked as Andy suggested + the stuff mentioned above whilst applying
+
+Applied to the testing branch of iio.git. Note this will be rebased on rc1 once
+available before it turns up in linux-next etc.
+
+Thanks,
+
+Jonathan
 
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Aldo Conte <aldocontelk@gmail.com>
