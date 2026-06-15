@@ -1,80 +1,82 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9A94183C4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428154183BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544585; cv=none; b=vDhJV8y52hbm5UAlW1XIAXN2Mn7Z6vMNLto5cVZ/f3j7VWtQRNj+5+1iEECoBrTtmoCVHcOKT4DIlwt4lCJZT5EV0pAGQ3d1NZeZkEqxDpyBc8Icm/f2XO3/0Z4iMkKWTsFj+ETu9yRhmBwN/mhU69GS2RQ2ryppFRFS/yACIdg=
+	t=1781544590; cv=none; b=jjdK0VlEzAXV5aKq02NChr+SQ+0Kq6OhW2BGnZpCZkmCRozWnjJEYQQvEayDcrF0pp7fOCmaGr3S6OTPZGuTYE9lL1w2x7yCATmYtOGgBu8U5RFob5RxMD8uFOlQvz/Cq5GAyI14SYiIc4E3xG/HOSWeuQpvN0Qpf2QEObyFmj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544585; c=relaxed/simple;
-	bh=zjJaFdjvPiCMQQinHXGS/Lj0fAMMTQSVc9jvt4DzchI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=emSN1H2sA48Cc3VkNxIiInrih1Cx3cCq4MWQ/icnlnlYInlrW1JjXxiyJBpLZy8tpUaJxFNgcyYLZ3yjFaxUwrlG1vc6V3IWAKoiJhAkNyGsR4J5pSLcfO0C3lfr7VooGaMyoXjFmnBFr4q6OVwXgTJKSlQiNNj0fajplGHlKzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJsKu7vO; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1781544590; c=relaxed/simple;
+	bh=UBpkXLYHfGfP21sRIvOuvWMqtu6js0FvM4qTTeQS82w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qsf/1A5iFMgA36fT8TMSj/CZa0vDxVbYAwPiPsDv685ymk5M0ttCiiALRmmw3C++rQncvtKu4qrjKIcoOnuQwPXZK1Fa5Qc+KercmRzVTrcl9R5E3ZJvZ3s754CnFDj5fjcvpULKluEXxMSOQH/2HUiKXzI8paWVVRidFHBQIMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFjDSsck; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJsKu7vO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFjDSsck"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0FFE061339
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:44 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 066C6403D5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:49 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id V9ol0oPKCrEh for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2026 17:29:43 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=ayushmukkanwar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 217A060B86
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 217A060B86
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VJsKu7vO
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 217A060B86
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:42 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-2bf22eab320so3729555ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 10:29:42 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UnDFvtidEB02 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=ayushmukkanwar@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 385574004B
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 385574004B
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YFjDSsck
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 385574004B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2c2d3479e5cso2713755ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 10:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781544582; x=1782149382; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SvlWKrsshSGlU2CfP5kimPXzzn2s1m0s/Uam/zRnJWE=;
-        b=VJsKu7vOLASSK2UELrHSkPO1H1O/Br4TS28KoGpxBZTlyTyTQ02R6A7WEXpsmQ+V8k
-         olYrBbmE8AlywsiTtEO9H5UyUnSgRAwMv0bOLEYKWQCIOAW6ewPzxgevmzJSQHrbf3Yd
-         9qxaeqfyjZFcK0pBKGvfdHwLHyLP225eqWmdL0zf3He2S2JxW6E3R259PwkBld8hYqlt
-         rzNYvqqwkrqb8+TZJbsRAkgVNwY3i64e8MPCGKDlrwGhV1m8rF9LdoVkfnnsDrEiMNgI
-         rk44vjMetjBguGPiirLlemrfIP8hYqBM5rXq6By9OLjODX2vomuqlYx5Wfa2rLMEHFb3
-         loKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781544582; x=1782149382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781544587; x=1782149387; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SvlWKrsshSGlU2CfP5kimPXzzn2s1m0s/Uam/zRnJWE=;
-        b=tUUoNOJ/kV0ZptxO77rI4tKxprIVagguNn6cVAiZLd1i9w9yFzlsEplsI6A2HansB8
-         7QWJUAGkaif3OZJSbo4g56fBfH872RpCtaG4cnsZeO90NMuxKVceSKZP3DNhzbuXV5tf
-         ZiY384dJ2QAx9/CrlKKUw4r0MpGzLYZdrfNKphUCrxTTGW0co9e5sGGrglkGsaqcCsGd
-         YlbMFC+TMZC5tCqApKAeQFUmkfy/jvbDKgZYpj7qtuBt+vC3wbJugvp3+l9PA9K9CWOw
-         F0/2F8mvuGa3HdNoGV8lBz58jbEEe6a8K7WoZklvsCS6HIlk5cgETq4QRbue9895hwun
-         ZgKQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/nhEeufnUnQO1t6hIZLaC/pjm+AfqGA3ls5ZiAO9r5Hj149VNPJcMEchVJzR9QaNoOJ6OW64UhwEPCTbS+o5/mAAQzEQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwQ5wfwi5KY2NAKM0X3XJ6A7Th9lgxFQJJHpoywvA4jitGq/I2b
-	QU/BVg8cjy7exBmPgI/a4GT9c3nlbWbt8buhJmJoIZ4p7Ruhoyt4G06g
-X-Gm-Gg: Acq92OHb+oMvpqD7BfsL/+wG8W6pR32pY7pJTehvaYiC8mE2xSrHcZm1DjubZGalVMb
-	KJRcxtQQ17o6x3lloLchVV8YqxzjxhzLUvyuDV+FnxgMdXayTx5sy4UrMea0a9eX/p9jtE59EN3
-	Pm4fonKbps8gvYUqXuUscNFsxx22vVssBfQGdQ+ovCQp0om8sSNdO6kL6N94hRS7PQEghD1Hgh9
-	B1asHLYleMZBZAHHNdXrP+W3cLpXqCpOqEPvR2frIQqapyzva1hgqSzopo3UvsLCozvjGsVS0PH
-	6rjmMj/JzoE26HNMZfOwiyHDAl6KgqpB43L2Tb4LoP+aN37HKyB+X7U7T6mmTqA1pPgev1ubDg8
-	9EHljI2vd3kfZfC0YoeiRMbHY1o9jU6EHL/515RILHj6vcfrythocgWW8Mh00tpIiZLBkYJZo6h
-	QXN0vrladN0zWxNWocJMF/G1NU7+SuVVYiTMu/VMWn42FGuoiZzKw3eAmiSNgDMZY9EiL/rFUm2
-	Rnv1GdaOyHuDaKncbXmwyNyjw0=
-X-Received: by 2002:a17:902:ce03:b0:2bf:32a5:dbdd with SMTP id d9443c01a7336-2c41245866cmr82743195ad.5.1781544582270;
-        Mon, 15 Jun 2026 10:29:42 -0700 (PDT)
+        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
+        b=YFjDSsckfN76KAsHNXIqi+mXDFNyFpVrr+zxAwLPCx5imT2n8j+tLyC+NiKIzlZLLK
+         ptX3N69ViBOF5b3ZSlWYMaK9kZDJlwGPwGkvFP3mr/VxvLU3RJm+rZvwCuuohEFSi2Y4
+         xc9EEa+kb8WvQG4bMrvo0FO7DJjZs4HE1b+Woi5EXdcZWFhoZL1i9HFT9P0cT5wu/s3f
+         2RJHweWBmlYywwjVH9Y2BQK9GAilOUX6MJURpOZ0Tgvuy2cniGwCktS1zAoQi8g8pMgg
+         vcZcBsyYc2jH0jIX0rPFKJXPzrcNfx8jURCnZROMyXBZsu5ruSQ7cOpLC+YIy0Eg+g3p
+         ncIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781544587; x=1782149387;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
+        b=Bsd2zYNs/31aGWZ2RRl3rgiytPHVmv87bnIOqN2SvqqGS4OCM/BjRQJsWCqNKokfqo
+         kmbQVLiRNZjR1XBN/o9+psRW8+u9LUg2pjuymaypahRTP+Fe9oJCjNNucCLdXAbbsquf
+         +MEQeiPm6M1geQhcSHRdwOmmLLERoHEfcn/Wap9MMgzQfbocygMNc0Xm3LIW3WC+G7xJ
+         5ni7prWBuDU1cWKjDbGF10bjL63kWoKO/5e5ihHF0BC2DE5RNY+5UzXqQFXtYlU+wZW2
+         5FnXOwcgNARejbkQaxPSAgXmsM5zp7DojJs5y6bkh7wvv5QEIR38vSJtzGzKiFzEIsmJ
+         D3xA==
+X-Forwarded-Encrypted: i=1; AFNElJ+f6Mq1qAqTykgU68qiibn+PL26PZeKM7YwgG0BiwTWpZohGPCA/kZnRrg35+KTYr97rqt/Yv+o1dho9SG4X8aBTB62ZQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YylSiM+YKh4PPYWJD1PefWxXKCahIpPp5x4WjjEsHuKUitktL7b
+	VIt2WbS6iEnOaGVYsFvpMh1GLZtMl1aZzKY9Y1SWpVf5iLxIUqHSVNYRnrrD/UMT
+X-Gm-Gg: Acq92OFht6+6jnePUzT2P8NieHcaN27V44ULfUakb5kXTp1rpLd9W4+s6Hchg3oKnpx
+	CxeX9S8hNjdyj/E5ORDwFNBvZWOBTWm9OVqw90CkXbv0jI3Qrm0TzibJr/f8mvB6yiy9KmxbfFl
+	ATa/meZP6h4dEXt9zpXD93Nc7JO1FX8Yhcxp25r5UcIkSiG/V/zw5vAQMBs3zAbWaM2qH5roz5r
+	AJ1G8UwolTTpaZuOLAddQdlRAAHWY/H8rBzI7hCP1xFnlXTUc8lACFE44te2nxQrjmCMgeCEbAz
+	MrUTYCqF936zBGct9whBYkqaYAj7ozaWEdLdMGfB28azr+WdTqo85mRGNPKcDOaMPD/uwK+ghlz
+	R+Bz3b25yGHxnfCJMII6UD1RDJVX77ql5yE5JyaYPow9GIWNbICZ+PSMj7zYt/Kn9qr1N7EZcW3
+	zgEbw/07caaXAjZGQa34woeldtXNG72U7GoMW7egq75gcZNuRQrE4Jf6asiWUl1kIcKwRvl0wxr
+	dLbNDaKMN/O8ITs3Kb1HdyBCWM=
+X-Received: by 2002:a17:902:e88f:b0:2c0:b359:99c1 with SMTP id d9443c01a7336-2c41050946cmr83596165ad.2.1781544587495;
+        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
 Received: from fedora ([2401:4900:7c8e:5373:4159:c5ca:b737:78a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:29:41 -0700 (PDT)
+        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
@@ -84,10 +86,12 @@ Cc: linux-staging@lists.linux.dev,
 	dan.carpenter@linaro.org,
 	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v2 1/2] staging: octeon: add missing tasklet_kill in cvm_oct_tx_shutdown
-Date: Mon, 15 Jun 2026 22:57:33 +0530
-Message-ID: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+Subject: [PATCH v2 2/2] staging: octeon: add missing napi_disable in cvm_oct_rx_shutdown
+Date: Mon, 15 Jun 2026 22:57:34 +0530
+Message-ID: <20260615172734.42038-2-ayushmukkanwar@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+References: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -96,15 +100,15 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TX cleanup tasklet can be scheduled by the watchdog IRQ handler
-to execute cvm_oct_tx_do_cleanup. There can be a pending tasklet in
-the queue which might run after the cvm_oct_remove() frees net_device
-structures, causing a use-after-free in cvm_oct_tx_do_cleanup() as it
-iterates cvm_oct_device[] which is an array of netdevice pointers.
-Add tasklet_kill() after free_irq() to ensure the tasklet is no longer
-scheduled or running before teardown proceeds.
+cvm_oct_rx_shutdown calls free_irq and netif_napi_del without
+disabling the napi instance first. As the free_irq only waits
+for completion of hard interrupt handlers, the napi poll
+function could still be active. If cvm_oct_remove proceeds to
+free the plat structure (which holds the NAPI instances), the
+active poll function will access freed memory, resulting in a
+use-after-free crash.
 
-Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
+Fixes: 3368c784bcf7 ("Staging: Octeon Ethernet: Convert to NAPI.")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Closes: https://sashiko.dev/#/patchset/20260511150931.93382-1-ayushmukkanwar%40gmail.com
 Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
@@ -113,30 +117,25 @@ Changes since v1:
   - Added Fixes, Reported-by and Closes tags 
   - Added compile-tested-only note
 
-Note: This patch has only been compile tested. No runtime testing was
-performed as I do not have access to Octeon hardware.
+Note: This patch has only been compile tested. No runtime testing
+was performed as I do not have access to Octeon hardware.
 
-Sashiko also reviewed the v1 of this patch and found that cvm_oct_xmit
-can still schedule a tasklet even after tasklet_kill is called. I was
-planning to reorder the tear down so that the net devs are unregistered
-before the tasklet_kill is called in a follow up patch.
-link to that report:
-https://sashiko.dev/#/patchset/20260614114739.87061-1-ayushmukkanwar%40gmail.com
-
- drivers/staging/octeon/ethernet-tx.c | 2 ++
+ drivers/staging/octeon/ethernet-rx.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 14d10659bce7..785c6492f170 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -668,4 +668,6 @@ void cvm_oct_tx_shutdown(void)
- {
- 	/* Free the interrupt handler */
- 	free_irq(OCTEON_IRQ_TIMER1, cvm_oct_device);
+diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
+index cd36b5ba6f6c..3e9d58d32156 100644
+--- a/drivers/staging/octeon/ethernet-rx.c
++++ b/drivers/staging/octeon/ethernet-rx.c
+@@ -535,6 +535,8 @@ void cvm_oct_rx_shutdown(struct platform_device *pdev)
+ 		else
+ 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
+ 
++		napi_disable(&plat->rx_group[i].napi);
 +
-+	tasklet_kill(&cvm_oct_tx_cleanup_tasklet);
- }
+ 		/* Free the interrupt handler */
+ 		free_irq(plat->rx_group[i].irq, &plat->rx_group[i].napi);
+ 
 -- 
 2.54.0
 
