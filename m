@@ -1,141 +1,165 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428154183BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A0931716E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Jun 2026 20:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544590; cv=none; b=jjdK0VlEzAXV5aKq02NChr+SQ+0Kq6OhW2BGnZpCZkmCRozWnjJEYQQvEayDcrF0pp7fOCmaGr3S6OTPZGuTYE9lL1w2x7yCATmYtOGgBu8U5RFob5RxMD8uFOlQvz/Cq5GAyI14SYiIc4E3xG/HOSWeuQpvN0Qpf2QEObyFmj8=
+	t=1781554383; cv=none; b=a/hnWlCI9aQB53ydGcx13FcbwTji9Fwk4NlVWGix7KVQqfMjMhbuUeCdDt0elkNSFGnt5hnAFhQLB49prUMUBYZYf8ddQ645cIfFmMHNWB+KpHt5ZWspfFe5HMNb1KiUVSU0slgdy4smxKKlSmGH1/9Qtss35/75ZLa0HxJdl4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544590; c=relaxed/simple;
-	bh=UBpkXLYHfGfP21sRIvOuvWMqtu6js0FvM4qTTeQS82w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qsf/1A5iFMgA36fT8TMSj/CZa0vDxVbYAwPiPsDv685ymk5M0ttCiiALRmmw3C++rQncvtKu4qrjKIcoOnuQwPXZK1Fa5Qc+KercmRzVTrcl9R5E3ZJvZ3s754CnFDj5fjcvpULKluEXxMSOQH/2HUiKXzI8paWVVRidFHBQIMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YFjDSsck; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1781554383; c=relaxed/simple;
+	bh=0Rsy20ctkEXTuUbFJ2QSbssdVnjkdeJG/mDaljBum/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DSlUsWohZcBlptdYfR2PRA+nQqEGj2yoTaP7lF1+cALZqlG46xmu3kEcE0dlmNbZZkbOGFIwKP20dBMilrQSmIxzyJrpI+lXXo4t5Db8DZnsBhU1BUswnaJnF2E0tFyXdoZ5Zntbg+Cb5ARL9CYEiqaDE0gOnC5FNNL6IYuHNxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AAqfj7Kv; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YFjDSsck"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 066C6403D5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:49 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UnDFvtidEB02 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62f; helo=mail-pl1-x62f.google.com; envelope-from=ayushmukkanwar@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 385574004B
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 385574004B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YFjDSsck
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 385574004B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-2c2d3479e5cso2713755ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 15 Jun 2026 10:29:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AAqfj7Kv"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-13986d61b4fso13966c88.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 15 Jun 2026 13:13:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781544587; x=1782149387; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
-        b=YFjDSsckfN76KAsHNXIqi+mXDFNyFpVrr+zxAwLPCx5imT2n8j+tLyC+NiKIzlZLLK
-         ptX3N69ViBOF5b3ZSlWYMaK9kZDJlwGPwGkvFP3mr/VxvLU3RJm+rZvwCuuohEFSi2Y4
-         xc9EEa+kb8WvQG4bMrvo0FO7DJjZs4HE1b+Woi5EXdcZWFhoZL1i9HFT9P0cT5wu/s3f
-         2RJHweWBmlYywwjVH9Y2BQK9GAilOUX6MJURpOZ0Tgvuy2cniGwCktS1zAoQi8g8pMgg
-         vcZcBsyYc2jH0jIX0rPFKJXPzrcNfx8jURCnZROMyXBZsu5ruSQ7cOpLC+YIy0Eg+g3p
-         ncIQ==
+        d=gmail.com; s=20251104; t=1781554381; x=1782159181; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=saDGeFnt31Cq/ume6/7BHto3BEV/oz/g09aW5LaWmQQ=;
+        b=AAqfj7Kv1TezDiFWl2RzVDU9u3r4HHWXTJju3X+/nSTIxfFD+HEGkmhoOxzG/HWbnp
+         tMqLmyJh0CxMHHcSgH8u6NWNB902O//5LSEtB4ZRPQLk6MBi1eqEDLfO9fV2rzLY969v
+         lQnHLEE+XSsW+wwu2NSDfeJfh/wBr/g70uqAEu4gdgMRzL6gBoobsy8IIDZ6wSyAXiIP
+         eek/AhpiFZoipZqQr+6SqhVZEnBQr6VoQ+HDw1mfkKnnlDN+ZKQhv/gC0ygu01j/B0la
+         XgDCPL9uJJ3Jleg8e3h3GALuu7KvgaEzXtpuwuB1eKQkdBykboFpRKsrXfLBxRnManee
+         tjPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781544587; x=1782149387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
-        b=Bsd2zYNs/31aGWZ2RRl3rgiytPHVmv87bnIOqN2SvqqGS4OCM/BjRQJsWCqNKokfqo
-         kmbQVLiRNZjR1XBN/o9+psRW8+u9LUg2pjuymaypahRTP+Fe9oJCjNNucCLdXAbbsquf
-         +MEQeiPm6M1geQhcSHRdwOmmLLERoHEfcn/Wap9MMgzQfbocygMNc0Xm3LIW3WC+G7xJ
-         5ni7prWBuDU1cWKjDbGF10bjL63kWoKO/5e5ihHF0BC2DE5RNY+5UzXqQFXtYlU+wZW2
-         5FnXOwcgNARejbkQaxPSAgXmsM5zp7DojJs5y6bkh7wvv5QEIR38vSJtzGzKiFzEIsmJ
-         D3xA==
-X-Forwarded-Encrypted: i=1; AFNElJ+f6Mq1qAqTykgU68qiibn+PL26PZeKM7YwgG0BiwTWpZohGPCA/kZnRrg35+KTYr97rqt/Yv+o1dho9SG4X8aBTB62ZQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YylSiM+YKh4PPYWJD1PefWxXKCahIpPp5x4WjjEsHuKUitktL7b
-	VIt2WbS6iEnOaGVYsFvpMh1GLZtMl1aZzKY9Y1SWpVf5iLxIUqHSVNYRnrrD/UMT
-X-Gm-Gg: Acq92OFht6+6jnePUzT2P8NieHcaN27V44ULfUakb5kXTp1rpLd9W4+s6Hchg3oKnpx
-	CxeX9S8hNjdyj/E5ORDwFNBvZWOBTWm9OVqw90CkXbv0jI3Qrm0TzibJr/f8mvB6yiy9KmxbfFl
-	ATa/meZP6h4dEXt9zpXD93Nc7JO1FX8Yhcxp25r5UcIkSiG/V/zw5vAQMBs3zAbWaM2qH5roz5r
-	AJ1G8UwolTTpaZuOLAddQdlRAAHWY/H8rBzI7hCP1xFnlXTUc8lACFE44te2nxQrjmCMgeCEbAz
-	MrUTYCqF936zBGct9whBYkqaYAj7ozaWEdLdMGfB28azr+WdTqo85mRGNPKcDOaMPD/uwK+ghlz
-	R+Bz3b25yGHxnfCJMII6UD1RDJVX77ql5yE5JyaYPow9GIWNbICZ+PSMj7zYt/Kn9qr1N7EZcW3
-	zgEbw/07caaXAjZGQa34woeldtXNG72U7GoMW7egq75gcZNuRQrE4Jf6asiWUl1kIcKwRvl0wxr
-	dLbNDaKMN/O8ITs3Kb1HdyBCWM=
-X-Received: by 2002:a17:902:e88f:b0:2c0:b359:99c1 with SMTP id d9443c01a7336-2c41050946cmr83596165ad.2.1781544587495;
-        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
-Received: from fedora ([2401:4900:7c8e:5373:4159:c5ca:b737:78a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.42
+        d=1e100.net; s=20251104; t=1781554381; x=1782159181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=saDGeFnt31Cq/ume6/7BHto3BEV/oz/g09aW5LaWmQQ=;
+        b=ai7iDyG087lMiHb8fvLmMNorDrSzNyqvOBzbv2y1Bm6Ad3HcpIQOr3Pi1G20S7D29g
+         Ab/JEYoP/Z5S2y4XDrdkcx5sf74o3RD1EI59opLGarsgAeK8E5KFvNXmYsSXxkkV/RIH
+         EKdKaqmj9SD/BrlgPow+IOZckBEJjomhZ0duHz9FC3s5Nj26rL0OtGXPqt1iexpilsnG
+         Lc+AvQzX53WBl5ev0Ku9YTGZn7IzCkLn0KRwSpCVfL5nvL0bLPFzj58XD2nhQQ1bVtS/
+         Gw2PYXRjv7sBsfFymHfmxuhFPt9LN9bLtzSkS6zm7MWTbn7nJc6cZ9pf07AX4grkP1LO
+         8A9w==
+X-Forwarded-Encrypted: i=1; AFNElJ89Z49hGXAgDK4CXthccCfnpNkuIc8cY0jLWfKWq25K0+vYniWkc4L/EF3ylTm1sgfuYgaT9QNN7e0X0c2UfgVm8K1ylA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCQtk1A564Q0TcG0PNfRFgkuIIiRu8VL8JQ33Epxsu0ScgUQfb
+	AqmmbEVd6C3fFVGRYpKXbOw7Z06yN01zKU30PK1QLVATjyIO7yqUSJw=
+X-Gm-Gg: Acq92OEMaomp7UFT8Qv6M/dN5TQEJVAILpG7Klavj4XF9SbK3O16z5jLbQ8FY/3BDsb
+	mEBOevvP6NLwspo9sfmyknSb/XXHwruXquCr1ob2plSoTckDucdCojZYo5X76sP660GYnMYX6Hr
+	Xdu1PXuXQ2R6JSKl7v+HTCqwTuqCW+p+cKYu0MSLyKbuF0XsAlkHwndDXaE9tap/oAg8Obsk/lV
+	FnJ70M5VKnhN2InyO9PSreJVfgt41QSKFIv1STEXA9qYY73LgOjOe3yRLUJ/X1WqbahRXZiUAL7
+	yvNjtVTfNf3pLSt1Y9PHWmWCtsifNt0T2XGoBUkIzvEKitb9XfXOSaF+1oR8xHdNAHBIpZTkhPJ
+	AMkpHSW8etVsI/5TdHHRnp3oPuuRFgsjHLGJ/2gK3fjN7fEISolyUcvV/91/l20F1zGe4iBfCx7
+	52tTIa1SZuHHtd8yMJiHyk+KUKbyDhnQCL8R9aspyxS+mrr5xgqa5qUEWXKsvqziNRCeV8CH4M3
+	xpI
+X-Received: by 2002:a05:7022:1e10:b0:137:567:14c4 with SMTP id a92af1059eb24-138707aa18emr5391868c88.29.1781554380814;
+        Mon, 15 Jun 2026 13:13:00 -0700 (PDT)
+Received: from localhost.localdomain ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b96d6c4sm11684171c88.9.2026.06.15.13.12.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
-From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Mon, 15 Jun 2026 13:13:00 -0700 (PDT)
+From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
+To: Igor Korotin <igor.korotin@linux.dev>
+Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Benno Lossin <lossin@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Boqun Feng <boqun@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
+	rust-for-linux@vger.kernel.org,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v2 2/2] staging: octeon: add missing napi_disable in cvm_oct_rx_shutdown
-Date: Mon, 15 Jun 2026 22:57:34 +0530
-Message-ID: <20260615172734.42038-2-ayushmukkanwar@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
-References: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+Subject: [PATCH] rust: i2c: avoid locking when calling I2cAdapter::inc_ref
+Date: Mon, 15 Jun 2026 17:10:49 -0300
+Message-ID: <20260615201141.8920-1-nico.antinori.7@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-cvm_oct_rx_shutdown calls free_irq and netif_napi_del without
-disabling the napi instance first. As the free_irq only waits
-for completion of hard interrupt handlers, the napi poll
-function could still be active. If cvm_oct_remove proceeds to
-free the plat structure (which holds the NAPI instances), the
-active poll function will access freed memory, resulting in a
-use-after-free crash.
+The current implementation of `<I2cAdapter as
+AlwaysRefCounted>::inc_ref` relies on the C function `i2c_get_adapter`
+to increment module and device counters. This function acquires a lock,
+looks for the adapter in the IDR table, and, if found, increments the
+counters before returning the adapter.
 
-Fixes: 3368c784bcf7 ("Staging: Octeon Ethernet: Convert to NAPI.")
+In the Rust API, the `I2cAdapter::get` method returns an
+`ARef<I2cAdapter>` upon success. Incrementing this reference count in an
+atomic context (for example, via `ARef::clone`, which relies on
+`AlwaysRefCounted::inc_ref`) could trigger a sleep-in-atomic bug due to the
+mutex locking inside `i2c_get_adapter`.
+
+Since cloning an `ARef` implies we already hold a valid reference to
+the adapter, the IDR table lookup and its associated lock are
+unnecessary. The fix consists of bypassing `i2c_get_adapter` and
+instead calling `__module_get` and `get_device` directly to increment
+the counters.
+
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260511150931.93382-1-ayushmukkanwar%40gmail.com
-Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Closes: https://sashiko.dev/#/patchset/20260524181151.24988-1-nico.antinori.7@gmail.com
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
 ---
-Changes since v1:
-  - Added Fixes, Reported-by and Closes tags 
-  - Added compile-tested-only note
+Citing the second part of Sashiko's report:
 
-Note: This patch has only been compile tested. No runtime testing
-was performed as I do not have access to Octeon hardware.
+> Furthermore, if the adapter is unregistered and removed from the IDR,
+> bindings::i2c_get_adapter() will return NULL and fail to increment the
+> reference count. Since inc_ref() ignores the return value, wouldn't dropping
+> that cloned ARef unconditionally call dec_ref() (i2c_put_adapter)?
 
- drivers/staging/octeon/ethernet-rx.c | 2 ++
- 1 file changed, 2 insertions(+)
+`inc_ref` no longer relies on `i2c_get_adapter` to increment the
+reference counts for the module and the device. Also, being able to
+execute `<I2cAdapter as AlwaysRefCounted>::inc_ref` implies the
+existence of a shared reference, meaning that the adapter is still
+registered in the IDR.
 
-diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
-index cd36b5ba6f6c..3e9d58d32156 100644
---- a/drivers/staging/octeon/ethernet-rx.c
-+++ b/drivers/staging/octeon/ethernet-rx.c
-@@ -535,6 +535,8 @@ void cvm_oct_rx_shutdown(struct platform_device *pdev)
- 		else
- 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
- 
-+		napi_disable(&plat->rx_group[i].napi);
-+
- 		/* Free the interrupt handler */
- 		free_irq(plat->rx_group[i].irq, &plat->rx_group[i].napi);
- 
--- 
-2.54.0
+> Could this lead to an underflow, double-put, and a use-after-free of the
+> adapter and its module? Or if the IDR index was reused, might it increment
+> the new adapter's refcount while decrementing the old one twice?
+
+I don't believe this situation is possible.
+
+When `i2c_del_adapter` is executed in `i2c-core-base.c`, the kernel waits for
+all references to be dropped prior to removing the device from the IDR.
+
+This guarantees that no `ARef` is still alive when the IDR removal happens,
+effectively eliminating the risk of an underflow, double-put, or calling
+`dec_ref` on an invalid reference.
+
+ rust/kernel/i2c.rs | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+index 624b971ca8b0..d89c42691dfe 100644
+--- a/rust/kernel/i2c.rs
++++ b/rust/kernel/i2c.rs
+@@ -426,8 +426,11 @@ pub fn get(index: i32) -> Result<ARef<Self>> {
+ // SAFETY: Instances of `I2cAdapter` are always reference-counted.
+ unsafe impl AlwaysRefCounted for I2cAdapter {
+     fn inc_ref(&self) {
+-        // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
+-        unsafe { bindings::i2c_get_adapter(self.index()) };
++        // SAFETY: The existence of a shared reference guarantees that the refcounts are non-zero.
++        unsafe {
++            bindings::__module_get((*self.as_raw()).owner);
++            bindings::get_device(&raw mut (*self.as_raw()).dev);
++        }
+     }
+
+     unsafe fn dec_ref(obj: NonNull<Self>) {
+--
+2.47.3
 
