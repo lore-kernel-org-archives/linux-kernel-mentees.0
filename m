@@ -1,91 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B68298CAB;
-	Mon, 15 Jun 2026 22:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1910647CC69
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Jun 2026 17:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781562003; cv=none; b=llykMQgxmvJWEBLIEj11U58treyX1RogCR7d3FxdFSiTnMrMwbrkZWrAQUPe8UtFpU7aM6QOpR4CA3bFnA8tXrD5ZTQ5e9qXlJaL59IyS1O1FS4UVKvF8t8jmC1s7ZvXZrbUKmYA6xJM37se8yqGwqFVfj36D6ePQBmXmFR2eUM=
+	t=1781631688; cv=none; b=tG5nYeYLYl1sSMX+gPTnYF+BHy81bkWUxcgdrCM2bwOLgC9GKaUKkKahIJ5o+iw2m/pq7k4Z0RdxBEwR0mxWD8brxxUo2p6HJRT1xoDA4jBJUZflmg2gulctnriJUqSkRhSukGcLxshNUCZ0fMQY59mEpPo7pYysdIEhxROf1+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781562003; c=relaxed/simple;
-	bh=JDEqnZn52hZmi3gZV5sDDioiTbJ2eh0scnxmG5HJgtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jhkQ0D7bRo13zHJq/LinV4bR7ycUtmIBnYm0mtpMMuM1AnIjJC1iDkWPP32Lx+L0VviEA1qyq6bHr+UbR/lP0eKYdOtV7ArpnTfhEkB+ZNvnM8+JQubKS183KDBjqJmq7NNtCOi0eBnNXndUqJlRR5zeqUd4db+aknKg0XBqX1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgjGGgCw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781631688; c=relaxed/simple;
+	bh=56iPGefvrDIOQ0kYSPHWkBcVy4fG83iGF+E4yp8AZ4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HeW+uXPURXKD86s0y/BzuR+OMtjB9wnl1FPUKQSGUoG+snDUbJFiM7tq2y+eZswYTfV6KVERFU2B7TgOrwL1AotDmzVeDpQrgRrSHqjMCIAIJ4jSOgm9+Ut2Wz6Ae0rrsQolAisOmscCiByk4Ug3yoA+JBaWYDXw3zUvBrGLM8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdZIclam; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgjGGgCw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53191F000E9;
-	Mon, 15 Jun 2026 22:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781562002;
-	bh=S59B5iEoxKxgkxdni1SOgQkhWceDxo41odxPzintQYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IgjGGgCwGb9apO5vEyKF+mFUUEMZfld7DrO0NMECnlbzN2jUAglxV2fsBKnaYaBNz
-	 wx+EMp5Wgo+Vfd2W9g2GHRoNEEfWqVEftyDuCkWtFKwhmKJf2i9pgFDzn38y0ouMQW
-	 8Z8bYzdoMfqFzPK3aq/bDx9e8wBKUMcV1DCzulGaiyQS3IiZChDo4DaX738FB8uAdD
-	 i6U5bSwCkF/yHD2PL5bG7J9ONO242nx3ltTOgJbGHX9GnKjEMi7TpWTKWupUIEM/Ye
-	 egS+VxeMHeKRd+kGtKnU40kYHbnTGgT8aEk3pMP9qMW6t/cVSUl8+hAAQBeqsPNvs0
-	 x0VaivFmaZPnw==
-Date: Mon, 15 Jun 2026 17:19:58 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ninad Naik <ninadnaik07@gmail.com>
-Cc: broonie@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	david.daney@cavium.com, linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v2] spi: dt-bindings: octeon: Convert to DT schema
-Message-ID: <20260615221958.GA1821217-robh@kernel.org>
-References: <20260613192233.2229933-1-ninadnaik07@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdZIclam"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4600ddc4017so3676126f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 16 Jun 2026 10:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781631683; x=1782236483; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VKy4647HVZtA5TmBvoQR4FjcGycfij8utQ+A9hIT6Tg=;
+        b=WdZIclam20jPXh2rPPulk5EEe2qMk3sCA/PzmVjOz8jYUT1sQuXps8qnFG8nuM/PKk
+         lG3+YLFV35wF8mMmlmSSOEI7/aeH4mFo+s4ny+qFKw7u/i5ZGKoH0KCRXo5Rc68Oybiz
+         tYI5eASO6y3u0V57jxrTpckig7yFVf8rbcomfPRPLm3Zm7fpBgv1KfVNle+mUiSrvo8s
+         ta1dZb8o6EDqLWLOLGhSF+h+/7Xc2+Mggx54NP3zd49DvpqxwFhovMi8F8Uj8juxKD+z
+         Yzv/jQBiahrSlq/vHlc7Xdn6h8zsZOJIhfBuS8ka6Ji7w1hU2aPeV9PDKRV9vuyZYQKv
+         vV+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781631683; x=1782236483;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VKy4647HVZtA5TmBvoQR4FjcGycfij8utQ+A9hIT6Tg=;
+        b=K/PQZk9fkDIKoCVKTzBBpB4vYaq68O/fc119+agkfNxRUfMwtKKK/NpNdIwbXARfV2
+         X1vEJUIPp0y5G6TVRckiZzWtxZlk5MILJbBtFJ04+AM0E1UTQIhs6ScfoKXuwpWup75E
+         p/4rMGKpJzfbeKd0k0jHyLJpQR8rWVn34F3cOnhYaV+A5m69NaIaOKgIQG6g508epgKP
+         fy5ffrYZIyFwePXTkfOAxvnq6rv9HFNFlwSyucOIJuLD3JpIGrTPh00iagjjh/adoWUr
+         ULkJtk5ZhTHyD9ViTcAiV1MbQV4NcA/BNJUMUKi9xM+nFyaXhqHxKDl/LRnmGrttGxJv
+         cufA==
+X-Forwarded-Encrypted: i=1; AFNElJ9xXm9E6PvQsin58dtlFj4C+rl6Lmg/lIb7GmXy7fCamHZ7H5SD1dtzTa+CtLgWcS7CNsADmWEQW6Jjxnfo5G4eAYu0tQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRA6L1epPiFDiFqypRBM+XAdlo3B4NWy1cJR0TT84j46ODwLI3
+	l7XbcL4VJZOOTG8Sm98WzkbusKz6yjT8EJ6kgadWFcAHsIyhCgR3e30=
+X-Gm-Gg: Acq92OFAf5CBBSsVM12zTyCAO1qA5pPHkIsLSds2CnevA9kgXnjIW+UiCftuwwdiDIU
+	qC5RHc9VzUE0zuiMjfx+x1MO36dfRfn7R5ecrszP9Kdb6bFpz5UouSR3brWHYzMJqX63rcma3Sf
+	TuetGgXkIURfRvRSSGGque709guAYKjJBa6PivjwMo5JmK3XA+vxS24uphf1aftvBLJmAT5t5SP
+	PQ0Gkzqhrwj4DbsjCHN64Rglqd4P44gxukTMBDPlSy5xv/VsFNrsnVlJP9Rg4tQeHuyITrLU02G
+	hH+UKt/FhfG2Yeumvespeo0EOawBt9ZcL6mN3WGt8Cr9trbLt4YrL6GbEGiEIt3XEqIl4JN3flg
+	XXgk/ykj5tTDBssF6Ztli2rnuj8DRswsZc0HNqp1TaiVYfYlbTxLRfi5hy3wcB1McEH/d4qWMu+
+	wAGFkHuWGvilF5XwfZRQEURJ/wsoIr6ravPdtQaqX7i8/1Pwnm+lbVRyAwvFzRMwM0lhZu+Wm/9
+	oS5YbYLifpC29KqzrKTJM7q4WFZ4jmtpsOkP8jBwaxy10g71LBP9w==
+X-Received: by 2002:a5d:5a02:0:b0:45e:e509:d2fa with SMTP id ffacd0b85a97d-46236275eb2mr616305f8f.3.1781631683244;
+        Tue, 16 Jun 2026 10:41:23 -0700 (PDT)
+Received: from archtop.localdomain (92-242-249-94.broadband.mtnet.hr. [92.242.249.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d70sm46775690f8f.19.2026.06.16.10.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 10:41:22 -0700 (PDT)
+From: Jakov Novak <jakovnovak30@gmail.com>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-kernel-mentees@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Hsin-Wei Hung <hsinweih@uci.edu>,
+	Florian Lehner <dev@der-flo.net>,
+	Jakov Novak <jakovnovak30@gmail.com>
+Subject: [PATCH 5.15.y] mm: Fix copy_from_user_nofault().
+Date: Tue, 16 Jun 2026 19:40:10 +0200
+Message-ID: <20260616174009.9906-2-jakovnovak30@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260613192233.2229933-1-ninadnaik07@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 14, 2026 at 12:52:33AM +0530, Ninad Naik wrote:
-> Convert octeon-3010 to DT schema
-> 
-> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
-> ---
-> Changes in v2:
-> - Change the maintainer from Mark Brown to David Daney.
-> - Use soc node wrapper instead of root node in the example to handle
-> address-cells and size-cells requirements.
-> - Remove interrupt controller provider from the example.
-> 
->  .../bindings/spi/cavium,octeon-3010-spi.yaml  | 61 +++++++++++++++++++
->  .../devicetree/bindings/spi/spi-octeon.txt    | 33 ----------
->  2 files changed, 61 insertions(+), 33 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/spi/spi-octeon.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
-> new file mode 100644
-> index 000000000000..e35e661d0a58
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/spi/cavium,octeon-3010-spi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cavium, Inc. OCTEON SoC SPI master controller
-> +
-> +description:
-> +  The Cavium OCTEON SPI controller is an SPI master controller found in
-> +  OCTEON SoCs.
-> +
-> +maintainers:
-> +  - David Daney <david.daney@cavium.com>
+From: Alexei Starovoitov <ast@kernel.org>
 
-David doesn't seem to be active and I'm pretty sure this email doesn't 
-work any more. Just put me if there is no one else.
+[ Upstream commit d319f344561de23e810515d109c7278919bff7b0 ]
 
-Rob
+There are several issues with copy_from_user_nofault():
+
+- access_ok() is designed for user context only and for that reason
+it has WARN_ON_IN_IRQ() which triggers when bpf, kprobe, eprobe
+and perf on ppc are calling it from irq.
+
+- it's missing nmi_uaccess_okay() which is a nop on all architectures
+except x86 where it's required.
+The comment in arch/x86/mm/tlb.c explains the details why it's necessary.
+Calling copy_from_user_nofault() from bpf, [ke]probe without this check is not safe.
+
+- __copy_from_user_inatomic() under CONFIG_HARDENED_USERCOPY is calling
+check_object_size()->__check_object_size()->check_heap_object()->find_vmap_area()->spin_lock()
+which is not safe to do from bpf, [ke]probe and perf due to potential deadlock.
+
+Fix all three issues. At the end the copy_from_user_nofault() becomes
+equivalent to copy_from_user_nmi() from safety point of view with
+a difference in the return value.
+
+Reported-by: Hsin-Wei Hung <hsinweih@uci.edu>
+Signed-off-by: Alexei Starovoitov <ast@kernel.org>
+Signed-off-by: Florian Lehner <dev@der-flo.net>
+Tested-by: Hsin-Wei Hung <hsinweih@uci.edu>
+Tested-by: Florian Lehner <dev@der-flo.net>
+Link: https://lore.kernel.org/r/20230410174345.4376-2-dev@der-flo.net
+[ merge conflicts 
+
+  copy_from_user_nofault: caused by force_uaccess_begin and
+  force_uaccess_end functions. moved the code around to call those
+  functions in the same way after the additional checks.
+
+  check_heap_object: completely different implementation in 5.15.y.
+  removed any changes from this commit as the current implementation
+  doesn't call the same lock which caused problems. ]
+Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+---
+Note: I have checked all syzbot issues linked with this backport and
+verified that they work locally (the ones with repros) and on the
+syzbot servers and I ran KUnit tests to make sure this doesn't break anything.
+This is my first time sending a patch to the stable repo, so I am a bit
+unsure if there is more to be done for testing, apart from inspecting the
+code and running those mentioned tests.
+
+ mm/maccess.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/mm/maccess.c b/mm/maccess.c
+index ded4bfaba7f3..2b186ce822c9 100644
+--- a/mm/maccess.c
++++ b/mm/maccess.c
+@@ -5,6 +5,7 @@
+ #include <linux/export.h>
+ #include <linux/mm.h>
+ #include <linux/uaccess.h>
++#include <asm/tlb.h>
+ 
+ bool __weak copy_from_kernel_nofault_allowed(const void *unsafe_src,
+ 		size_t size)
+@@ -221,13 +222,18 @@ long strncpy_from_kernel_nofault(char *dst, const void *unsafe_addr, long count)
+ long copy_from_user_nofault(void *dst, const void __user *src, size_t size)
+ {
+ 	long ret = -EFAULT;
+-	mm_segment_t old_fs = force_uaccess_begin();
++	mm_segment_t old_fs;
+ 
+-	if (access_ok(src, size)) {
+-		pagefault_disable();
+-		ret = __copy_from_user_inatomic(dst, src, size);
+-		pagefault_enable();
+-	}
++	if (!__access_ok(src, size))
++		return ret;
++
++	if (!nmi_uaccess_okay())
++		return ret;
++
++	old_fs = force_uaccess_begin();
++	pagefault_disable();
++	ret = __copy_from_user_inatomic(dst, src, size);
++	pagefault_enable();
+ 	force_uaccess_end(old_fs);
+ 
+ 	if (ret)
+-- 
+2.54.0
+
