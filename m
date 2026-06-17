@@ -1,107 +1,105 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E303148A8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7175D2EEE74
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Jun 2026 07:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781670124; cv=none; b=QdqmzgWueScCilld2ohsYeBkQ1l6C8ph9XpIuQuxEXdCUTaoDnjgu1/0es+EM73z0btz1IhJ/h1wrCHhSatPVXO2KGEEXDZ6110CWYtzZXFKl8vrtq0eQqznKHno1zZ3mtyfJfEoRmfulOEl10uPociREIkzgKq+Bo7rIH/usLU=
+	t=1781681718; cv=none; b=LdrFUiTWa5W+yxzHw8iFIniBrtGuiyFtyYI6dRZpQDkk5NHeBwruviDwa6yui/QyYCKXpEqKvNRWdIwkU/uEc8fVid2s7xpGiNJe7TfR3hSodfAUNVamIx83z5Cw4AfvmwgcTtYL4DnWMv47o0vP2z5z0JYPgLFYB8x1DLdOvzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781670124; c=relaxed/simple;
-	bh=35DEzLO5ORXnNrvPEy+FOgRJHSFAGlodR7f8F449hsU=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=sCOsSzggHh0LHnIAPrFz6xI8p2HwSEgqOoSm30BTmF8VfI0zd2C+V62EFEwnWxwApT9TRXY99KNamdb5DkDyc84zHqHkDvPc90V3tpsa4hCRWLDcL1WtkSQ3rbuJXGBt+QnB52FBfB3j7QNnK/YQv+dQFdPag0R0m3zXK7T+5rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4G3SEB3; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1781681718; c=relaxed/simple;
+	bh=0+urfASc2gfxIY6c/RRftPzs6EUNdqaNb5wjiCzOB5w=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ajvcsbqTiKlcVmuQmH8lxDVLi6qPv5MgaQMbY+5jmTtGd96jbnrNVsGtQ6yfSNK4fTPoxPR/lUsjhcnOO7xNlbSmpqr4KzIP1PKWvJB1iwNmGRZyGBR6W1cTf1zp9ki2mKVtuNbhP8tRXSxkjPWYuZfm3QLYznRb1HnqL+C5Dp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v/8IAX9l; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4G3SEB3"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 48EF44EC6F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:03 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id GyuJcaIo877y for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Jun 2026 04:22:02 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=nathan@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 992324EC6E
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 992324EC6E
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O4G3SEB3
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 992324EC6E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:02 +0000 (UTC)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id C171842D77;
-	Wed, 17 Jun 2026 04:22:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E28B1F000E9;
-	Wed, 17 Jun 2026 04:21:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781670121;
-	bh=fUF3YzkrYB+RRcfsJuk2wfkqiVjO5X03v+8FeRfbDKw=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=O4G3SEB3lpIALqka75onflTJ39hWm6DM1PxEl+NruzoPMhKHrXjn9tIBE2lZ26qI7
-	 x8BIvJT+F/hJJtmqieTB0M/ljPTmcqtuavl+4H/LztyC28MuAMwBDi24f/EXJjj18L
-	 m2o4kzJVxAwLR2rGUpTCd4NVuzf2oILPkww984q/NAPPn+sG2ADxtsyHpPowugK39Z
-	 Su89Qesof9i8z84iAW65immWL/BxyDc92IIDpEQN2CGwtsJM/47dNPHKRDjtBOavu0
-	 yWFWM6QPQwD/KZwtQVivVMPbSrbLkZzy/lVIQJAq0MHCGiHixmJL+CROh+CHypnjg5
-	 1uDVafkOXi9dw==
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v/8IAX9l"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-4619ee2bb93so1118059f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Jun 2026 00:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781681716; x=1782286516; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0+urfASc2gfxIY6c/RRftPzs6EUNdqaNb5wjiCzOB5w=;
+        b=v/8IAX9lNt5ShaUd3XEi68ZSr4qwwuAAEGPZ/X2QNPwptKPf0MYnYSuYFw5RCIs/J+
+         mTgzHJE6DyLH/IKj+aX+cBp3mwA6BuXdTbKnB1dqVOzk4xhU/smQAIxmOJi1Ib5ZaqOf
+         phriFqp0aWis105WmYgFwec9m8e4IyZzXXYntqVnW/EnBTE5jdV/FgmqmI/A6BPSZfzL
+         kuPCxlvF1cS2m2meH90kU2WNNhesL9QmPVIA4Z2FHehF14QEO1hOuFY2Jg0LF2OK38fY
+         069qgAeS55kM+Pu6N6G6j9aY2ObJwDFwPo3tjOaHAcyrMvJebRg//eBILm2EW7G+14lT
+         mXnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781681716; x=1782286516;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0+urfASc2gfxIY6c/RRftPzs6EUNdqaNb5wjiCzOB5w=;
+        b=fbqNi6QnrTcoGprTjkXUacKJhfPYZ6EpBlvG8vHApu9ijuzQ1kZyUw4kS6gAghbTjm
+         48/g2QYYazLd8gjsZZvcEKFQF+/FJ7LxH6bHkFiUatlRwYG50ssqHCOBv4iGUb6AczoJ
+         vrJVHSFDC8/QfcO36NFzNBbm0Oa5wk8cpNkysFWzVYvM5RSBUnNfjeInt0UT1ebA7vAW
+         9TkzR+SUa7l66JYLYr6awcv/FVX/v097ZcyZi7m42DzSvMYvTK9BiHYyFb6xaEwX6UZG
+         LCt7ZTq32zG8A29eYigSg8of8EKDCzSjstob6Y6j7iPLDzrOXmdLfh4jZov5hXDFJQgl
+         2gUw==
+X-Forwarded-Encrypted: i=1; AFNElJ9FG78z/e8F48seErYTsiSS17Nqty93vWWxAIJea6pZ414xDLoI177o4ODMgK6aLkPwoW3NO2E14mfDEpuccQas3vq7cA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywyi2F1IbZeLF9Jed6AtDeJbIUhJyaCtk8PlabTQTzGpj26JHvg
+	NzyGaZgGDYPeYKCyABwClzAbKkyJiDsTLGw5FgZz4s0dglUyMYjXPaz4SfccQOuYnxz8hISEsmi
+	FMOXOwHkFeQLz9OPkXA==
+X-Received: from wrwo4.prod.google.com ([2002:a5d:6844:0:b0:45e:ed83:d3e7])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:4906:b0:45e:9420:ed16 with SMTP id ffacd0b85a97d-462370e1644mr4713138f8f.10.1781681715479;
+ Wed, 17 Jun 2026 00:35:15 -0700 (PDT)
+Date: Wed, 17 Jun 2026 07:35:13 +0000
+In-Reply-To: <20260616223614.16444-1-nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+References: <20260616223614.16444-1-nico.antinori.7@gmail.com>
+Message-ID: <ajJOMehwVZoX3o4J@google.com>
+Subject: Re: [PATCH] usb: rust: mark Device and Interface methods as inline
+From: Alice Ryhl <aliceryhl@google.com>
+To: "=?utf-8?Q?Nicol=C3=A1s?= Antinori" <nico.antinori.7@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] modpost: release allocation when early return no
- suffix .o in read_symbols()
-From: Nathan Chancellor <nathan@kernel.org>
-To: Robertus Diawan Chris <robertusdchris@gmail.com>
-Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
- me@brighamcampbell.com
-In-Reply-To: <20260610052550.187006-1-robertusdchris@gmail.com>
-References: <20260610052550.187006-1-robertusdchris@gmail.com>
-Date: Tue, 16 Jun 2026 21:21:52 -0700
-Message-Id: <178167011232.2064238.5669414796099955471.b4-review@b4>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=974; i=nathan@kernel.org;
- h=from:subject:message-id; bh=35DEzLO5ORXnNrvPEy+FOgRJHSFAGlodR7f8F449hsU=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFlGCs8Ll1ze2eO5g2nyzBAjYe97Djm7Fp9JidhrbtZ82
- ujf12lXOkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBECj8zMvReM10urMu/e7kk
- U76tYZn3TK/l61XeB4Txq9q+mbZhihzDH+4LogKa+yL8n7OfEBOb9M503g7NGteZKzfyqFyukBX
- 8xQQA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 10 Jun 2026 12:25:50 +0700, Robertus Diawan Chris <robertusdchris@gmail.com> wrote:
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index abbcd3fc1394..8e231544f9f3 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1585,6 +1585,7 @@ static void read_symbols(const char *modname)
->  
->  	if (!strends(modname, ".o")) {
->  		error("%s: filename must be suffixed with .o\n", modname);
-> +		parse_elf_finish(&info);
->  		return;
->  	}
->  
+On Tue, Jun 16, 2026 at 07:36:06PM -0300, Nicol=C3=A1s Antinori wrote:
+> When building the kernel using llvm-19.1.7-rust-1.85.1-x86_64, the
+> following symbols are generated:
+>=20
+> $ nm vmlinux | grep ' _R'.*usb.*Device | rustfilt
+> ...
+> ffffffff823f2490 T <kernel::usb::Device as kernel::sync::aref::AlwaysRefC=
+ounted>::dec_ref
+> ffffffff823f2470 T <kernel::usb::Device as kernel::sync::aref::AlwaysRefC=
+ounted>::inc_ref
+> ...
+>=20
+> $ nm vmlinux | grep ' _R'.*usb.*Interface | rustfilt
+> ffffffff823f2450 T <kernel::usb::Interface as kernel::sync::aref::AlwaysR=
+efCounted>::dec_ref
+> ffffffff823f2430 T <kernel::usb::Interface as kernel::sync::aref::AlwaysR=
+efCounted>::inc_ref
+> ...
+>=20
+> However, these Rust symbols are trivial wrappers around the
+> `usb_get_dev`, `usb_put_dev`, `usb_get_intf` and `usb_put_intf`
+> functions. It doesn't make sense to go through a trivial wrapper
+> for these functions.
+>=20
+> Link: https://github.com/Rust-for-Linux/linux/issues/1145
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
 
-Thanks for the patch! While this change appears to be correct, would
-moving the strends() if block before the parse_elf() one resolve this as
-well? I think I would prefer going that route because neither check
-really depends on the other and we have to think less about unwinding
-with the checks flipped. Furthermore, modpost is a relatively short
-running host utility, so I don't really think it is worth optimizing for
-resource leaks like this.
-
--- 
-Cheers,
-Nathan
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
