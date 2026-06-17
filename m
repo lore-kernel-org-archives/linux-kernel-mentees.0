@@ -1,157 +1,107 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9BF2E6CC7
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 17 Jun 2026 03:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781666325; cv=pass; b=PMLVvHOE3IBTT3u+h+jMOaYUlq0wKq9qJ9uf54nE+81cEbMlgVCwdYlBXXM8CaximL1Y5qajTvEhmdEdJJzcYTAADe2ktwec5MASc+Ov4vhIIqrwAXv847m2Sj7S4PyzTlxRLnVBDxhedzBlXqy3byrffXMmeqKYKEJfVHpgC4M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781666325; c=relaxed/simple;
-	bh=As/OYRmDRQeeEEyY9JPteOXJwaf7/p4cnVfFxvK960U=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=CYeOgsCZimvuP65NivD8rN+JTImRxLa3PiNZtZBaU/7HIqQtHXSKA+OHBlNPBOiQ9l9epucWqw2KpPRv13YZY3/QYKg8UGIq0Z68qEwJy2FW5cjBiAUW4U59+fTj9ESUmx6higZljntbbygq+nVxSs75oBY2qDHfIbrjPnE9oRo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Uko+vrlR; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E303148A8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781670124; cv=none; b=QdqmzgWueScCilld2ohsYeBkQ1l6C8ph9XpIuQuxEXdCUTaoDnjgu1/0es+EM73z0btz1IhJ/h1wrCHhSatPVXO2KGEEXDZ6110CWYtzZXFKl8vrtq0eQqznKHno1zZ3mtyfJfEoRmfulOEl10uPociREIkzgKq+Bo7rIH/usLU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781670124; c=relaxed/simple;
+	bh=35DEzLO5ORXnNrvPEy+FOgRJHSFAGlodR7f8F449hsU=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=sCOsSzggHh0LHnIAPrFz6xI8p2HwSEgqOoSm30BTmF8VfI0zd2C+V62EFEwnWxwApT9TRXY99KNamdb5DkDyc84zHqHkDvPc90V3tpsa4hCRWLDcL1WtkSQ3rbuJXGBt+QnB52FBfB3j7QNnK/YQv+dQFdPag0R0m3zXK7T+5rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4G3SEB3; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Uko+vrlR"
-ARC-Seal: i=1; a=rsa-sha256; t=1781666312; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=gqzy+CAt9KPM9lz3sNdFpPZs/drbXSFOTr5dWLxkLxnfWk3fwypoMNSuBW1n0X0K4+NyjhpHEmtJophDp1iyzmvBV2CZFZGqsJP1tmiakaiaZWHnfFtGo7i4cMdDnmjPV4+EdWvtKjjVmktqQFPvQrm03e0RsTh8gwRT5FOoWEo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781666312; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SKRJlpRkL9FI3myjW9Ab+zQ3ZYFtMYfDVHaW7LEnSNM=; 
-	b=efnXMhMRByjPVgf8cRTXwAI1zG0OMSvs6dqsdZlD5baELbCFxUhwSLu+WgpVKI26SZukaqzhlmDHxd72bFjyCAHyxlt3lXs2zlXehpnbvN4vqTNNpF4fWYMay3YwOPqreOn+tmC5tK4bouMNNyY0AWZLp8ATxiYgagCi3mdyvbc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781666312;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=SKRJlpRkL9FI3myjW9Ab+zQ3ZYFtMYfDVHaW7LEnSNM=;
-	b=Uko+vrlRprwJhusCVbWOB66Y/+98KoGCPnPCOE24RLDBi4SnA5XXRGre12RYeSUI
-	58nrolDdQgWLEMo46RkD6msrBSw8VMf8+t86chGEMqbkrx10AEQixa8Oc2ztVtIIxpF
-	4UvEPwvW7v1/HKpgYKMbhcEX1kJiS+4Ud4rq+nvk=
-Received: by mx.zohomail.com with SMTPS id 1781666310399651.7240345470009;
-	Tue, 16 Jun 2026 20:18:30 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4G3SEB3"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 48EF44EC6F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:03 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.101
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id GyuJcaIo877y for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Jun 2026 04:22:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=nathan@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 992324EC6E
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 992324EC6E
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O4G3SEB3
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 992324EC6E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 04:22:02 +0000 (UTC)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by sea.source.kernel.org (Postfix) with ESMTP id C171842D77;
+	Wed, 17 Jun 2026 04:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E28B1F000E9;
+	Wed, 17 Jun 2026 04:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781670121;
+	bh=fUF3YzkrYB+RRcfsJuk2wfkqiVjO5X03v+8FeRfbDKw=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=O4G3SEB3lpIALqka75onflTJ39hWm6DM1PxEl+NruzoPMhKHrXjn9tIBE2lZ26qI7
+	 x8BIvJT+F/hJJtmqieTB0M/ljPTmcqtuavl+4H/LztyC28MuAMwBDi24f/EXJjj18L
+	 m2o4kzJVxAwLR2rGUpTCd4NVuzf2oILPkww984q/NAPPn+sG2ADxtsyHpPowugK39Z
+	 Su89Qesof9i8z84iAW65immWL/BxyDc92IIDpEQN2CGwtsJM/47dNPHKRDjtBOavu0
+	 yWFWM6QPQwD/KZwtQVivVMPbSrbLkZzy/lVIQJAq0MHCGiHixmJL+CROh+CHypnjg5
+	 1uDVafkOXi9dw==
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH] usb: rust: mark Device and Interface methods as inline
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260616223614.16444-1-nico.antinori.7@gmail.com>
-Date: Wed, 17 Jun 2026 00:18:09 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Alice Ryhl <aliceryhl@google.com>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Benno Lossin <lossin@kernel.org>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Boqun Feng <boqun@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <684C71F0-8C6A-4E73-9DF1-586DA5AE6C47@collabora.com>
-References: <20260616223614.16444-1-nico.antinori.7@gmail.com>
-To: =?utf-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] modpost: release allocation when early return no
+ suffix .o in read_symbols()
+From: Nathan Chancellor <nathan@kernel.org>
+To: Robertus Diawan Chris <robertusdchris@gmail.com>
+Cc: nathan@kernel.org, nsc@kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
+ me@brighamcampbell.com
+In-Reply-To: <20260610052550.187006-1-robertusdchris@gmail.com>
+References: <20260610052550.187006-1-robertusdchris@gmail.com>
+Date: Tue, 16 Jun 2026 21:21:52 -0700
+Message-Id: <178167011232.2064238.5669414796099955471.b4-review@b4>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=974; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=35DEzLO5ORXnNrvPEy+FOgRJHSFAGlodR7f8F449hsU=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlGCs8Ll1ze2eO5g2nyzBAjYe97Djm7Fp9JidhrbtZ82
+ ujf12lXOkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBECj8zMvReM10urMu/e7kk
+ U76tYZn3TK/l61XeB4Txq9q+mbZhihzDH+4LogKa+yL8n7OfEBOb9M503g7NGteZKzfyqFyukBX
+ 8xQQA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
+On Wed, 10 Jun 2026 12:25:50 +0700, Robertus Diawan Chris <robertusdchris@gmail.com> wrote:
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index abbcd3fc1394..8e231544f9f3 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1585,6 +1585,7 @@ static void read_symbols(const char *modname)
+>  
+>  	if (!strends(modname, ".o")) {
+>  		error("%s: filename must be suffixed with .o\n", modname);
+> +		parse_elf_finish(&info);
+>  		return;
+>  	}
+>  
 
+Thanks for the patch! While this change appears to be correct, would
+moving the strends() if block before the parse_elf() one resolve this as
+well? I think I would prefer going that route because neither check
+really depends on the other and we have to think less about unwinding
+with the checks flipped. Furthermore, modpost is a relatively short
+running host utility, so I don't really think it is worth optimizing for
+resource leaks like this.
 
-> On 16 Jun 2026, at 19:36, Nicol=C3=A1s Antinori =
-<nico.antinori.7@gmail.com> wrote:
->=20
-> When building the kernel using llvm-19.1.7-rust-1.85.1-x86_64, the
-> following symbols are generated:
->=20
-> $ nm vmlinux | grep ' _R'.*usb.*Device | rustfilt
-> ...
-> ffffffff823f2490 T <kernel::usb::Device as =
-kernel::sync::aref::AlwaysRefCounted>::dec_ref
-> ffffffff823f2470 T <kernel::usb::Device as =
-kernel::sync::aref::AlwaysRefCounted>::inc_ref
-> ...
->=20
-> $ nm vmlinux | grep ' _R'.*usb.*Interface | rustfilt
-> ffffffff823f2450 T <kernel::usb::Interface as =
-kernel::sync::aref::AlwaysRefCounted>::dec_ref
-> ffffffff823f2430 T <kernel::usb::Interface as =
-kernel::sync::aref::AlwaysRefCounted>::inc_ref
-> ...
->=20
-> However, these Rust symbols are trivial wrappers around the
-> `usb_get_dev`, `usb_put_dev`, `usb_get_intf` and `usb_put_intf`
-> functions. It doesn't make sense to go through a trivial wrapper
-> for these functions.
->=20
-> Link: https://github.com/Rust-for-Linux/linux/issues/1145
-> Suggested-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
-> ---
-> rust/kernel/usb.rs | 4 ++++
-> 1 file changed, 4 insertions(+)
->=20
-> diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-> index 7aff0c82d0af..efbbee319b1a 100644
-> --- a/rust/kernel/usb.rs
-> +++ b/rust/kernel/usb.rs
-> @@ -393,6 +393,7 @@ fn as_ref(&self) -> &Device {
->=20
-> // SAFETY: Instances of `Interface` are always reference-counted.
-> unsafe impl AlwaysRefCounted for Interface {
-> +    #[inline]
->     fn inc_ref(&self) {
->         // SAFETY: The invariants of `Interface` guarantee that =
-`self.as_raw()`
->         // returns a valid `struct usb_interface` pointer, for which =
-we will
-> @@ -400,6 +401,7 @@ fn inc_ref(&self) {
->         unsafe { bindings::usb_get_intf(self.as_raw()) };
->     }
->=20
-> +    #[inline]
->     unsafe fn dec_ref(obj: NonNull<Self>) {
->         // SAFETY: The safety requirements guarantee that the refcount =
-is non-zero.
->         unsafe { bindings::usb_put_intf(obj.cast().as_ptr()) }
-> @@ -444,6 +446,7 @@ fn as_raw(&self) -> *mut bindings::usb_device {
->=20
-> // SAFETY: Instances of `Device` are always reference-counted.
-> unsafe impl AlwaysRefCounted for Device {
-> +    #[inline]
->     fn inc_ref(&self) {
->         // SAFETY: The invariants of `Device` guarantee that =
-`self.as_raw()`
->         // returns a valid `struct usb_device` pointer, for which we =
-will
-> @@ -451,6 +454,7 @@ fn inc_ref(&self) {
->         unsafe { bindings::usb_get_dev(self.as_raw()) };
->     }
->=20
-> +    #[inline]
->     unsafe fn dec_ref(obj: NonNull<Self>) {
->         // SAFETY: The safety requirements guarantee that the refcount =
-is non-zero.
->         unsafe { bindings::usb_put_dev(obj.cast().as_ptr()) }
-> --=20
-> 2.47.3
->=20
->=20
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+-- 
+Cheers,
+Nathan
 
