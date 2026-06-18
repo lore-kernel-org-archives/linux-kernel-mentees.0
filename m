@@ -1,132 +1,163 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692133803F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 22:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C424C31F9AA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 15:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781735461; cv=none; b=mgbao6VBJ3HlLELe2As8/xGsq2oZk63DPnsiIedayZDe0I81Lc3GXZz8rS8ADkiPxK/llK0PdbQiWcNiYsL/Pmez07yx/yOSZtH640xjThilz4rOYBuS0N074UE2TLfrwQR2jGqKGki2LPAfgCnVurQgewY3qVXHJXRNjfmQC8Y=
+	t=1781796762; cv=none; b=DoqieWN3cc6XSJXL/cKKUXQGT1S1aq2qEEJNTMOLDZGMaISWcOJTE+cFhTLNFfsis462Z0h49lepRGylfu8FWAKKSWk2c1OFwsBtfJHfmhnTuRcqEkBHbZHZpfOoykSFdLo7alfe9U+PLsJzI7nYtEEBExO9ku9sC797axCbB78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781735461; c=relaxed/simple;
-	bh=Ix5IqDnIc6LqNbWylW/sj3UnwyPoCxbyCegDUzuVC5Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXnZX+82U0VCGs932TmfLk20w58xwEVQD1Z7n6qoBTQNMVP3lAw/tyOLvRIPEs0sxTGURFv8mYLwnw+vA5tQNpIB+Jyp4Ts+OW/32kOxWmFnJP/kgXoyTtczwcOSaYxti0JTo1kHKMzklCI0tSxtbJru4KahCRAJCFjUkMtZH/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J3KdhQeJ; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1781796762; c=relaxed/simple;
+	bh=kJtsp1IazgSMj1nbHUhrUJKr18wuS2KWcV03+qv/vOw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Gwcqb32a8mkVFiQdnm0uFL5cTQ09KufoJhF5UrLv8++dI80p7wFrOmYUpX+b4h6RxUTaogqNi/5D7i9Tz8YjpQtdfhnpjGwuvuobMHxpE3ogExLXVhjq7iobZ04Yh7FiITzNUDgH+wOly5uXqywctV9C3xu7rymEcp+s3xfLJfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evXU48KU; arc=none smtp.client-ip=74.125.82.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J3KdhQeJ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1EB4A82134
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 22:31:00 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -5.792
-X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id G534KrG1yr7H for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Jun 2026 22:30:59 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=nathan@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 7840782133
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7840782133
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J3KdhQeJ
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7840782133
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 17 Jun 2026 22:30:59 +0000 (UTC)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id A1C9340244;
-	Wed, 17 Jun 2026 22:30:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B741F000E9;
-	Wed, 17 Jun 2026 22:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781735458;
-	bh=E5oop4TgsnZNMoD4GFdU48MAJHaPqsNP5SYe53mN4XI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J3KdhQeJIW3JD4Eb5Wn7WYwq2dcQooTmOMjA9JFDrbW2yZ/Xn/gMqExnzHgw2FOIw
-	 qKLvHrG1F3sCTX+dfmsa69odAXCzrAVWVOlpkofK8jIKOiE4djJptXyXXOKXB0T01z
-	 ihGVbrYAQf1jmy16T6iImgarvnb+t94VDkr+MnLerdLlOyDoZrl8ii+MQD8+jiGTGZ
-	 DPYtChJyMhTGGp3qWZIJovGCY0Y0zUkKvIg8QC3WmW1liResKLp1g5w4ETZl1q/ifa
-	 ZpzOCehHaCCG8LjAgRS5zA54PR0mfy18D84AnGnhSHX3YpyiYdim4vebiCeBUestrD
-	 c7mVo8LsEPFEg==
-Date: Wed, 17 Jun 2026 15:30:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Robertus Diawan Chris <robertusdchris@gmail.com>
-Cc: nsc@kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, me@brighamcampbell.com
-Subject: Re: [PATCH] modpost: release allocation when early return no suffix
- .o in read_symbols()
-Message-ID: <20260617223054.GA3913876@ax162>
-References: <20260610052550.187006-1-robertusdchris@gmail.com>
- <178167011232.2064238.5669414796099955471.b4-review@b4>
- <20260617214635.GA4766@soyboi>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evXU48KU"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-137335bc3caso1613417c88.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 08:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781796759; x=1782401559; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZP2Cpfm9UZ2KtOTUXD2ERtet4jXDhXqiOeuJJjteN/I=;
+        b=evXU48KUIFLyOeLXtPm4nIhPYYZ6WUPNNsQ/7PjFMRfX3DwXOFHNxOJqwwq8aVkLsn
+         T3+pynLnDbwB0F/h4g14dEaY3ED74oojTJUTt6sJiVWV7Ua+G8zK/gya8vu9BQefdBTu
+         itPv2ObAgLMEY9TCvCviCdtxZkYDML+QQg5T8eOC0ltVlRTvSnyZXXOVJd4BDmvOIM/b
+         f1HQ0cCjs1L2Dg139mJu75jjY2H8C3xfrQ9MfjWTcCfRr09HvnNh5tcwvBCoVIu8qxBm
+         VrknEwKf7hRQ0gQCEhhci6L6/qOd+mX5IsQ/yAnpjuI6E3kvcgHyNdmq2LQc3WHB+iXu
+         VTqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781796759; x=1782401559;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZP2Cpfm9UZ2KtOTUXD2ERtet4jXDhXqiOeuJJjteN/I=;
+        b=Sx0yWQrMFdCzQr7KndEdNg+usZ8oYgKViCI2Ti1ZOfYBgx/zfTnqjbdqv+aqqXZhDS
+         xJrLEAk8fJwM/1p9NgFbhVKl8Dpr4EHlPgr6Actbh6wPOsyLhCl52dc9UY45urQlaCQw
+         c8VhTpr4K0Iko4ILLhyerKGaviqmDdsmQb+bnimM1XCIOkv1o6QFGHGQH/57bJBTFAe4
+         QYhUMZrXTzXZu+9Y3IKY/snxvUzBqy31qKUWWXtzWqpui4JSYZ2gVVj5fsvRkn/Qog7i
+         lZRSuWiEVduvTD5kwIfeBgjDiOiaohZtApNZPCsJhp40IgXeFjJMlCfmseA+q/eN9Kuy
+         11QA==
+X-Forwarded-Encrypted: i=1; AFNElJ/v5Jwd4CBcQLF3Q0hiPyPOSS+ltbqf+6r1mgm+c2yv8q4qFFAN7hOuf6fWNb0Y8JbnQT4RGj7zEIZDbjLL8+W/WMo4nQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJTra2pjQrsjfblfDVmS9g8aQAL/5AwZ651MDh6nkm0vxlzSnq
+	3KcPczg59BYikS9CnrAJwiOCLaKwplsJtUryPckDDVmtaYuGdfTlcTc=
+X-Gm-Gg: AfdE7cmAOjFkU9R40fnObkcI1x9RynnQhFMwUH0uaM2rVBoe792AJeUhwJXZ8ffICqS
+	1GGDHbrP8HMFC09ESS148V6+pXhzVFjsW247AfDada6wTpqy/ZQz4kr/M/jTzqJj4e4WcxO6qjU
+	jJlTNAC4C+d57WwBVOQ25ElKStJ2QuEkVl3r2krnjgZBX5M+VhomwTAYM5MAIpVqIerWHknOljU
+	znaOJJ4R9vrlKuSPJ8q1XJrVxG2nkiqNOjP4tJKe5yObzBp64+I+++xp7zTEP6ACuRhLaWjo2yd
+	3goJvKxekuMCctvZKL+JsMxMIoz0pHkbdn+w7LS/priV8SMH1mXxMVquYEFoUhlZh8jYyLYqrzI
+	42hmB1DEaLnNVx1pcCtyOPopwQM0omAEA0Ms4cBLu/X3OJSkxplJM4YzjUSZ2vPkcqSGNqIwb4R
+	xJu7Mtzuiq6iwgQ/vcRgTf8pDXw6jx7v1G8oKSRpJiAvZP7K8N
+X-Received: by 2002:a05:7022:69a3:b0:138:3613:dc6 with SMTP id a92af1059eb24-139a205f34bmr134839c88.14.1781796758001;
+        Thu, 18 Jun 2026 08:32:38 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b964862sm19182868c88.10.2026.06.18.08.32.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2026 08:32:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617214635.GA4766@soyboi>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 18 Jun 2026 12:32:30 -0300
+Message-Id: <DJCA8F2F93US.1KMA54SKQ364K@gmail.com>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
+ Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, <linux-kernel-mentees@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Sashiko"
+ <sashiko-bot@kernel.org>
+Subject: Re: [PATCH] rust: i2c: avoid locking when calling
+ I2cAdapter::inc_ref
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Gary Guo" <gary@garyguo.net>, "Igor Korotin" <igor.korotin@linux.dev>
+X-Mailer: aerc 0.20.0
+References: <20260615201141.8920-1-nico.antinori.7@gmail.com>
+ <DJBDWVUWH3OT.1GDEIJT0R4UTK@garyguo.net>
+In-Reply-To: <DJBDWVUWH3OT.1GDEIJT0R4UTK@garyguo.net>
 
-Hi Robertus,
+Hello Gary,
 
-On Thu, Jun 18, 2026 at 04:46:35AM +0700, Robertus Diawan Chris wrote:
-> On Tue, Jun 16, 2026 at 09:21:52PM -0700, Nathan Chancellor wrote:
-> > On Wed, 10 Jun 2026 12:25:50 +0700, Robertus Diawan Chris <robertusdchris@gmail.com> wrote:
-> > > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > > index abbcd3fc1394..8e231544f9f3 100644
-> > > --- a/scripts/mod/modpost.c
-> > > +++ b/scripts/mod/modpost.c
-> > > @@ -1585,6 +1585,7 @@ static void read_symbols(const char *modname)
-> > >
-> > >  	if (!strends(modname, ".o")) {
-> > >  		error("%s: filename must be suffixed with .o\n", modname);
-> > > +		parse_elf_finish(&info);
-> > >  		return;
-> > >  	}
-> > >
-> >
-> > Thanks for the patch! While this change appears to be correct, would
-> > moving the strends() if block before the parse_elf() one resolve this as
-> > well?
-> 
-> Yes, moving the strends() if block before the parse_elf() also resolve
-> this too. The reason I didn't do that because I am still not sure if
-> changing the order will have any effect. I already take a look at the
-> code and it looks like strends() if block and the parse_elf() didn't
-> depends on each other, but just in case I missed something, I decided
-> not to change the execution order and just add parse_elf_finish().
+On Wed Jun 17, 2026 at 11:12 AM -03, Gary Guo wrote:
+> On Mon Jun 15, 2026 at 9:10 PM BST, Nicol=C3=A1s Antinori wrote:
+>> diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
+>> index 624b971ca8b0..d89c42691dfe 100644
+>> --- a/rust/kernel/i2c.rs
+>> +++ b/rust/kernel/i2c.rs
+>> @@ -426,8 +426,11 @@ pub fn get(index: i32) -> Result<ARef<Self>> {
+>>  // SAFETY: Instances of `I2cAdapter` are always reference-counted.
+>>  unsafe impl AlwaysRefCounted for I2cAdapter {
+>>      fn inc_ref(&self) {
+>> -        // SAFETY: The existence of a shared reference guarantees that =
+the refcount is non-zero.
+>> -        unsafe { bindings::i2c_get_adapter(self.index()) };
+>> +        // SAFETY: The existence of a shared reference guarantees that =
+the refcounts are non-zero.
+>> +        unsafe {
+>> +            bindings::__module_get((*self.as_raw()).owner);
+>> +            bindings::get_device(&raw mut (*self.as_raw()).dev);
+>
+> Instead of open coding this sequence, it would be better to add a C API t=
+hat
+> does exactly this (getting another reference from existing one).
 
-Yeah, I can definitely see why you went the route that you did.
+I based this solution on the logic used in I2cClient (where only
+get_device is needed) and by verifying which counters the C
+implementation (i2c_get_adapter) increments.
 
-> > I think I would prefer going that route because neither check really
-> > depends on the other and we have to think less about unwinding
-> > with the checks flipped.
-> 
-> Now that you already confirm that neither check depends on each other, I
-> am more confident to take this approach.
+The i2c_get_adapter function in i2c-core-base.c performs two increments
+(module increment is done by calling try_module_get, but in this case,
+because inc_ref operates on an already live instance, unconditionally=20
+incrementing the count with `__module_get` should be safe).
 
-Sounds good to me!
+If I understand correctly, the idea would be to introduce a helper=20
+function on the C side, for example:
+void i2c_adapter_increment(struct i2c_adap *adap);
 
-> > Furthermore, modpost is a relatively short running host utility, so
-> > I don't really think it is worth optimizing for resource leaks like
-> > this.
-> 
-> I want to confirm something first, do you mind if I send v2 patch with
-> the change of moving strends() if block before parse_elf() in
-> read_symbols()? I mean, if you feel like this is unnecessary, I will
-> drop this patch. I don't mind either way.
+We would perform the increments there and call it from Rust. Using this=20
+in inc_ref would be safe because the existence of &self guarantees that=20
+we already have a valid, live instance.
 
-I do not mind taking patches that silence static checker warnings when
-they are either small or do not make the code much more complicated to
-understand. I think this change would satisfy both of those points, so
-feel free to send a v2. I just do not see these type of fixes as high
-priority.
+Is there any concern regarding this function beign exposed to the C
+side? To use it safely in C, callers would have to ensure that *adap
+points to a valid instance.
 
--- 
-Cheers,
-Nathan
+>
+> That said, is there an actual user that needs this, or are we just implem=
+enting
+> AlwaysRefCounted preemptively?
+
+The only user I could find at the moment is the example driver
+(impl platform::Driver for SampleDriver ..) in
+samples/rust/rust_i2c_client.rs.
+
+Implementing AlwaysRefCounted is required for types wrapped in ARef,
+which is an smart pointer that handles custom reference counting.
+Since I2cAdapter::get returns an ARef<I2cAdapter> upon success, the=20
+trait must be implemented.
+
+Thank you!
+
+>
+> Best,
+> Gary
+>
+>> +        }
+>>      }
+>>
+>>      unsafe fn dec_ref(obj: NonNull<Self>) {
+>> --
+>> 2.47.3
+
