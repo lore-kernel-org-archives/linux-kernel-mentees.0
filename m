@@ -1,163 +1,211 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C424C31F9AA
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 15:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C522EAB72
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 18:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781796762; cv=none; b=DoqieWN3cc6XSJXL/cKKUXQGT1S1aq2qEEJNTMOLDZGMaISWcOJTE+cFhTLNFfsis462Z0h49lepRGylfu8FWAKKSWk2c1OFwsBtfJHfmhnTuRcqEkBHbZHZpfOoykSFdLo7alfe9U+PLsJzI7nYtEEBExO9ku9sC797axCbB78=
+	t=1781805810; cv=none; b=vDcDcCOaMhjJP38/ftYCmnsxbAt1pfSGWRyduGhd8VThicjCTUdDjE47Bly5VIuQ2F1rjqVElKRtOTRBV8fYO6ol3wZu9SYgZOKIgwPvlXYKybs+iHzTQVVkwSvGZdrx9fQHvH/FkktM9w/75w6D/ZqQbX17jShqZSwNzRGBvRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781796762; c=relaxed/simple;
-	bh=kJtsp1IazgSMj1nbHUhrUJKr18wuS2KWcV03+qv/vOw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Gwcqb32a8mkVFiQdnm0uFL5cTQ09KufoJhF5UrLv8++dI80p7wFrOmYUpX+b4h6RxUTaogqNi/5D7i9Tz8YjpQtdfhnpjGwuvuobMHxpE3ogExLXVhjq7iobZ04Yh7FiITzNUDgH+wOly5uXqywctV9C3xu7rymEcp+s3xfLJfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evXU48KU; arc=none smtp.client-ip=74.125.82.46
+	s=arc-20240116; t=1781805810; c=relaxed/simple;
+	bh=oGC7L5TtVt/RanN5pjTzlERB2K6nlzG3KqEBZucZ1/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mkAbRR7I7+drXqKaMaRvRKDHpCSbrrdGcUKsMhFpnbqBARmZoJvX0N9fNXs5BaHKxeyx/FoHZYRP1teRLEYgkfToL+Q9EmmURDLJUTo4EsdGnL7QZuq68l11Tr85/VVQQ/3wzUW70++niqWbOxfcCfOKUA/z5ue0y0be8ZTTISA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUyKnnwd; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evXU48KU"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-137335bc3caso1613417c88.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 08:32:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUyKnnwd"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c897468a244so458899a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 18 Jun 2026 11:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781796759; x=1782401559; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZP2Cpfm9UZ2KtOTUXD2ERtet4jXDhXqiOeuJJjteN/I=;
-        b=evXU48KUIFLyOeLXtPm4nIhPYYZ6WUPNNsQ/7PjFMRfX3DwXOFHNxOJqwwq8aVkLsn
-         T3+pynLnDbwB0F/h4g14dEaY3ED74oojTJUTt6sJiVWV7Ua+G8zK/gya8vu9BQefdBTu
-         itPv2ObAgLMEY9TCvCviCdtxZkYDML+QQg5T8eOC0ltVlRTvSnyZXXOVJd4BDmvOIM/b
-         f1HQ0cCjs1L2Dg139mJu75jjY2H8C3xfrQ9MfjWTcCfRr09HvnNh5tcwvBCoVIu8qxBm
-         VrknEwKf7hRQ0gQCEhhci6L6/qOd+mX5IsQ/yAnpjuI6E3kvcgHyNdmq2LQc3WHB+iXu
-         VTqw==
+        d=gmail.com; s=20251104; t=1781805808; x=1782410608; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=grMDKhiWxgS01CbGWcoqJuDZbxUtQgSQcTHTndsyXt4=;
+        b=mUyKnnwdlXCTciJJyzE4BR8Us+P8gQIObN/lpJ/+8LkuF1pLmB609hXarlKIASMHNj
+         Y/+HPpMX8+vOI7OlxvsS6CvzLZ/9RePtGTkU/Ra4TqGt6XtOwX+tS+aCwnydU2M9v9pA
+         RyuN0ZUzwWrieJY3sfP1KXudMbXKNc+r34YLTYyWdt0gWx9OrBEYSTb7iUYQkHB5ozy1
+         w7zEegWGZtI36dhxpPfeUbUPItoenvgUGCUVa7I0owLz5fddDpsxUg/UzWkp6Sc3Hz0m
+         F4X4L63GyXouDHtSFCpvxmBenZ2tDqpmcfqtcq/M16+skdbK1HdT2qzSb/EyNEF3cWGJ
+         nqxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781796759; x=1782401559;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZP2Cpfm9UZ2KtOTUXD2ERtet4jXDhXqiOeuJJjteN/I=;
-        b=Sx0yWQrMFdCzQr7KndEdNg+usZ8oYgKViCI2Ti1ZOfYBgx/zfTnqjbdqv+aqqXZhDS
-         xJrLEAk8fJwM/1p9NgFbhVKl8Dpr4EHlPgr6Actbh6wPOsyLhCl52dc9UY45urQlaCQw
-         c8VhTpr4K0Iko4ILLhyerKGaviqmDdsmQb+bnimM1XCIOkv1o6QFGHGQH/57bJBTFAe4
-         QYhUMZrXTzXZu+9Y3IKY/snxvUzBqy31qKUWWXtzWqpui4JSYZ2gVVj5fsvRkn/Qog7i
-         lZRSuWiEVduvTD5kwIfeBgjDiOiaohZtApNZPCsJhp40IgXeFjJMlCfmseA+q/eN9Kuy
-         11QA==
-X-Forwarded-Encrypted: i=1; AFNElJ/v5Jwd4CBcQLF3Q0hiPyPOSS+ltbqf+6r1mgm+c2yv8q4qFFAN7hOuf6fWNb0Y8JbnQT4RGj7zEIZDbjLL8+W/WMo4nQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJTra2pjQrsjfblfDVmS9g8aQAL/5AwZ651MDh6nkm0vxlzSnq
-	3KcPczg59BYikS9CnrAJwiOCLaKwplsJtUryPckDDVmtaYuGdfTlcTc=
-X-Gm-Gg: AfdE7cmAOjFkU9R40fnObkcI1x9RynnQhFMwUH0uaM2rVBoe792AJeUhwJXZ8ffICqS
-	1GGDHbrP8HMFC09ESS148V6+pXhzVFjsW247AfDada6wTpqy/ZQz4kr/M/jTzqJj4e4WcxO6qjU
-	jJlTNAC4C+d57WwBVOQ25ElKStJ2QuEkVl3r2krnjgZBX5M+VhomwTAYM5MAIpVqIerWHknOljU
-	znaOJJ4R9vrlKuSPJ8q1XJrVxG2nkiqNOjP4tJKe5yObzBp64+I+++xp7zTEP6ACuRhLaWjo2yd
-	3goJvKxekuMCctvZKL+JsMxMIoz0pHkbdn+w7LS/priV8SMH1mXxMVquYEFoUhlZh8jYyLYqrzI
-	42hmB1DEaLnNVx1pcCtyOPopwQM0omAEA0Ms4cBLu/X3OJSkxplJM4YzjUSZ2vPkcqSGNqIwb4R
-	xJu7Mtzuiq6iwgQ/vcRgTf8pDXw6jx7v1G8oKSRpJiAvZP7K8N
-X-Received: by 2002:a05:7022:69a3:b0:138:3613:dc6 with SMTP id a92af1059eb24-139a205f34bmr134839c88.14.1781796758001;
-        Thu, 18 Jun 2026 08:32:38 -0700 (PDT)
-Received: from localhost ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b964862sm19182868c88.10.2026.06.18.08.32.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2026 08:32:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781805808; x=1782410608;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=grMDKhiWxgS01CbGWcoqJuDZbxUtQgSQcTHTndsyXt4=;
+        b=okpoUYrhoobI9JuEYaFuH6ZfG422vXnVr50jNYCdiOto9hYix0yIP7/loBFvowDBfV
+         BWU1ETPoU9IsyQf3izJankHXqMfunxdDxkWWNBM6tROL3zOGLXGpF+e8sNBEOw7AU9os
+         v/x3OLzutMytUN2PizU14sU4+YhJpib+ND03W40eLttPf2G/KnWCPUvhqlblkPLPZhgK
+         pcTkePDgEguu/NPEzzWL4xMitgmojgmgAo6qahPM0OytkeJe7O019kY5tTgsQI35Gv53
+         CLD2G4TTlc2uc7ct3cKWw8PYMzJ4Aw1VERfqBjlGDplM6hkORTN2YonSx9ZHxGIUKH/R
+         Bfmg==
+X-Forwarded-Encrypted: i=1; AFNElJ9pZcVSBLDCyBIkGs9BCFl1bLnb5HLpldA71L8puePyV+3mJUSk38IbVZZsQ5WJkW5SYXt5a2+n1Mbgnh1SRWbQ6T3xoA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxl0Dgovo0tDPobVMnQLNivY1fl8dWc1RGAdw8E0l6mVLg+RQTU
+	zCyk6rY0wLZPh7o1WVvZlru6A81OI6uPm3jDMTWdngodIukF2s9sn8kz
+X-Gm-Gg: AfdE7clDoAK/LgKpv2cA42a4RhCqUf/0bgrZF5ilY2nWrxsm2cB2UeDpF8da0s8gxI8
+	ioY4VQpSC87Py+VyVveEvRQFCkm4LS3uO/MAvbi9eAsjQ9VCBJjXsNqXIVu3mg/Ob5gMJN8vxFJ
+	w3Xa00WeNxfPGGovu13YiwFywx0PcWH7rNh3MqVV3l70022U6DbKWazZwkVUD5XdhSBonhp5om+
+	VHnJyZgBl16IZF9bAJQ+gVFwDq5Pr89104KmQwL+1mDz2HKPtZJfkM7IvaxcvFIMwSoQQY/BisL
+	/Rjt9kKTaNlKiRsN+t856/ngbSRJD1StIb7qjLDP5yNQ5aObjuLM6RNDNG4ebYQw19baRr7ZOwL
+	3n0Kd1ZqVHt/uCnCBntiGCPAXQdedyQGvrRxqdF3ZZzBuEY0xPy+nfBjmRvO1T5eS32b8ekyBXe
+	REh+2vJvotrl7PY+USO3c78NJIQ1gyZq2RMv+4U5FjIVWYAxD104L0yiWNC6pSlng2dJkXyQ==
+X-Received: by 2002:a17:902:ecc1:b0:2b0:608d:d8a8 with SMTP id d9443c01a7336-2c718cc4b81mr2759425ad.1.1781805808229;
+        Thu, 18 Jun 2026 11:03:28 -0700 (PDT)
+Received: from fedora ([103.181.54.100])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6be262b93sm64348865ad.68.2026.06.18.11.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 11:03:27 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	david.daney@cavium.com
+Cc: linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH v3] spi: dt-bindings: octeon: Convert to DT schema
+Date: Thu, 18 Jun 2026 23:31:49 +0530
+Message-ID: <20260618180149.475658-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 18 Jun 2026 12:32:30 -0300
-Message-Id: <DJCA8F2F93US.1KMA54SKQ364K@gmail.com>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
- Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
- "Trevor Gross" <tmgross@umich.edu>, <linux-kernel-mentees@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Sashiko"
- <sashiko-bot@kernel.org>
-Subject: Re: [PATCH] rust: i2c: avoid locking when calling
- I2cAdapter::inc_ref
-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-To: "Gary Guo" <gary@garyguo.net>, "Igor Korotin" <igor.korotin@linux.dev>
-X-Mailer: aerc 0.20.0
-References: <20260615201141.8920-1-nico.antinori.7@gmail.com>
- <DJBDWVUWH3OT.1GDEIJT0R4UTK@garyguo.net>
-In-Reply-To: <DJBDWVUWH3OT.1GDEIJT0R4UTK@garyguo.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hello Gary,
+Convert octeon-3010 to DT schema
 
-On Wed Jun 17, 2026 at 11:12 AM -03, Gary Guo wrote:
-> On Mon Jun 15, 2026 at 9:10 PM BST, Nicol=C3=A1s Antinori wrote:
->> diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
->> index 624b971ca8b0..d89c42691dfe 100644
->> --- a/rust/kernel/i2c.rs
->> +++ b/rust/kernel/i2c.rs
->> @@ -426,8 +426,11 @@ pub fn get(index: i32) -> Result<ARef<Self>> {
->>  // SAFETY: Instances of `I2cAdapter` are always reference-counted.
->>  unsafe impl AlwaysRefCounted for I2cAdapter {
->>      fn inc_ref(&self) {
->> -        // SAFETY: The existence of a shared reference guarantees that =
-the refcount is non-zero.
->> -        unsafe { bindings::i2c_get_adapter(self.index()) };
->> +        // SAFETY: The existence of a shared reference guarantees that =
-the refcounts are non-zero.
->> +        unsafe {
->> +            bindings::__module_get((*self.as_raw()).owner);
->> +            bindings::get_device(&raw mut (*self.as_raw()).dev);
->
-> Instead of open coding this sequence, it would be better to add a C API t=
-hat
-> does exactly this (getting another reference from existing one).
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+Changes in v3:
+- Change the maintainer from David Daney to Rob Herring
 
-I based this solution on the logic used in I2cClient (where only
-get_device is needed) and by verifying which counters the C
-implementation (i2c_get_adapter) increments.
+Changes in v2:
+- Change the maintainer from Mark Brown to David Daney.
+- Use soc node wrapper instead of root node in the example to handle
+address-cells and size-cells requirements.
+- Remove interrupt controller provider from the example.
 
-The i2c_get_adapter function in i2c-core-base.c performs two increments
-(module increment is done by calling try_module_get, but in this case,
-because inc_ref operates on an already live instance, unconditionally=20
-incrementing the count with `__module_get` should be safe).
+ .../bindings/spi/cavium,octeon-3010-spi.yaml  | 61 +++++++++++++++++++
+ .../devicetree/bindings/spi/spi-octeon.txt    | 33 ----------
+ 2 files changed, 61 insertions(+), 33 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/spi/spi-octeon.txt
 
-If I understand correctly, the idea would be to introduce a helper=20
-function on the C side, for example:
-void i2c_adapter_increment(struct i2c_adap *adap);
-
-We would perform the increments there and call it from Rust. Using this=20
-in inc_ref would be safe because the existence of &self guarantees that=20
-we already have a valid, live instance.
-
-Is there any concern regarding this function beign exposed to the C
-side? To use it safely in C, callers would have to ensure that *adap
-points to a valid instance.
-
->
-> That said, is there an actual user that needs this, or are we just implem=
-enting
-> AlwaysRefCounted preemptively?
-
-The only user I could find at the moment is the example driver
-(impl platform::Driver for SampleDriver ..) in
-samples/rust/rust_i2c_client.rs.
-
-Implementing AlwaysRefCounted is required for types wrapped in ARef,
-which is an smart pointer that handles custom reference counting.
-Since I2cAdapter::get returns an ARef<I2cAdapter> upon success, the=20
-trait must be implemented.
-
-Thank you!
-
->
-> Best,
-> Gary
->
->> +        }
->>      }
->>
->>      unsafe fn dec_ref(obj: NonNull<Self>) {
->> --
->> 2.47.3
+diff --git a/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+new file mode 100644
+index 000000000000..f0b708e1ccbb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/spi/cavium,octeon-3010-spi.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/spi/cavium,octeon-3010-spi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cavium, Inc. OCTEON SoC SPI master controller
++
++description:
++  The Cavium OCTEON SPI controller is an SPI master controller found in
++  OCTEON SoCs.
++
++maintainers:
++  - Rob Herring <robh@kernel.org>
++
++allOf:
++  - $ref: spi-controller.yaml#
++
++properties:
++  compatible:
++    const: cavium,octeon-3010-spi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        spi@1070000001000 {
++            compatible = "cavium,octeon-3010-spi";
++            reg = <0x10700 0x00001000 0x0 0x100>;
++            interrupts = <0 58>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            eeprom@0 {
++                compatible = "st,m95256", "atmel,at25";
++                reg = <0>;
++                spi-max-frequency = <5000000>;
++                spi-cpha;
++                spi-cpol;
++                pagesize = <64>;
++                size = <32768>;
++                address-width = <16>;
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/spi/spi-octeon.txt b/Documentation/devicetree/bindings/spi/spi-octeon.txt
+deleted file mode 100644
+index 431add192342..000000000000
+--- a/Documentation/devicetree/bindings/spi/spi-octeon.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Cavium, Inc. OCTEON SOC SPI master controller.
+-
+-Required properties:
+-- compatible : "cavium,octeon-3010-spi"
+-- reg : The register base for the controller.
+-- interrupts : One interrupt, used by the controller.
+-- #address-cells : <1>, as required by generic SPI binding.
+-- #size-cells : <0>, also as required by generic SPI binding.
+-
+-Child nodes as per the generic SPI binding.
+-
+-Example:
+-
+-	spi@1070000001000 {
+-		compatible = "cavium,octeon-3010-spi";
+-		reg = <0x10700 0x00001000 0x0 0x100>;
+-		interrupts = <0 58>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		eeprom@0 {
+-			compatible = "st,m95256", "atmel,at25";
+-			reg = <0>;
+-			spi-max-frequency = <5000000>;
+-			spi-cpha;
+-			spi-cpol;
+-
+-			pagesize = <64>;
+-			size = <32768>;
+-			address-width = <16>;
+-		};
+-	};
+-
+-- 
+2.54.0
 
