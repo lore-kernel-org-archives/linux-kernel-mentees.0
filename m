@@ -1,72 +1,78 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F579340411
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Jun 2026 08:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AECA1509AB
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Jun 2026 18:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781943547; cv=none; b=W9/BavwpThRFU6u9of5Zn+TnmaDc3n4fSLVlgR/UedBOQsB7RzWCuMsOKTcSQxOXGAeAVOpvCxSbTNWdtNe1xky1LGRZ023Wwh47Q4Qauhx1nM044+IBjiZhw7rObEF1vBmzZ5klTCjpYzepDt+6TRIq2hTnHErMiq09uUlbsZU=
+	t=1781978511; cv=none; b=ud4+w+lqx0oBOQxMAGUflSQ0/jNcEcvB1kRySvNbcmXWXawXq4KuYmOPkOzwtSey2cmrPVhMzFFLGa9UIy1tQG81/cpcrKZNGSPzZHWiphsKQXfbuojgi49pfpV17abeaVTVTcQ4/mgfnHITvwngqOQLCMnOLMmkYckbiae1hh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781943547; c=relaxed/simple;
-	bh=ebjICIaKnIiWqN5sCqRzBeqtjhGLBHhcjtqnFhx4W3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nsdO9LreFzXmLWkgNvuSV9AiVNrrMVh3ou89hl5ESg4ONC/qdqt3vwmMkcnkgFcoPgt+bSQC3qSPw/bF0ZFxA1u7hJleti9ETs0JrwNQZRbMCXvbI6Jp8rh+LISkAS4v4+ZXw2e4NtNYWJHkValECY0Mez1TeYx9CGy4/H4SVcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxbZn6R1; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1781978511; c=relaxed/simple;
+	bh=81qX+qAPsLCiqIdHPLg1+JhVNjcZxVE57fRIFw3hA+8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CyJE+mnFx6icm8iVaGQhLV4OHJLMEwtP1gBB9h7LMdrNcROj/92KoP9GAjEDOkVbREHBfIz3V9dZi8oNXcE6NFd8KDnoiYLdbQtZQDLgtw1vB2KMDrMgsT5QVDITa9azXbWuHYbRIwcBmt16Dyxu8eOsOSDfyeT1pJEHp2vX7TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bXhI3rRz; arc=none smtp.client-ip=74.125.82.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxbZn6R1"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36dac5d5d05so1177268a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Jun 2026 01:19:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bXhI3rRz"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-139aff562e1so492242c88.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 20 Jun 2026 11:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781943546; x=1782548346; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781978508; x=1782583308; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
-        b=LxbZn6R1b/G4MjT1K+H3k521qGcKUcme5hMFsQ+I3FVfyT/lvTMZDhs5fRUcpAldSL
-         S2mDYu4hHCifo6Fwi2RBnszoxUuKEL5hrVCR9M6wGC1P7SRpBjFZthlznjESo39RCBJH
-         6a4RN0bu6DVX1voPCTJ2m69/PGYgWd2rvK9SuVO6WN9qpgS5uGQ/If27IhF2+0iPPe5u
-         V9moXncDwJRUeaVO4roqCPrLWSZIp+wABiaWL0obPiIVgQSQgeudJwk7jiwwekL6K6iu
-         Jo95wSqWkiKvzbMcBjASzZ+G0JOk4a1jBS0N/P8LVw1d9b/ewJMgnhbqaAGD4rhGqoIX
-         CUHg==
+        bh=TU1KHjg1xw4SOUVLZNaBDJ/t1F+t4VC9J/t07Bu+tLw=;
+        b=bXhI3rRzoZRp9Sn6ys6wkNJ4JWa4aj2qGfZnMSbKTtIDYrLPzrlEII26sU60pE12sc
+         HByW5ZQ45OAdZQYKtO/DRfwS0o8s9OUutb0BOOxutzm/IQn/d9C3U88SDdl5DRYsM41/
+         NrNO8pFrtYS74OwRuazPixSCovN8LiwumfH8vfWuh/nQqZoELUJH/dRpBEOFKXJsMPqZ
+         JbFUsmomEZCKuRCFqS3W0kcBdWF351h+tSdA+t/VDm8aX1Q+7Jjangc0q7q4iT2rtRtU
+         PCvaEPnI17cCZ8Yy+d25JylKYoeJ3yKJr3D1We7oBaTCMm4CGvwS+ok1HzLWTuRvco51
+         GvxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781943546; x=1782548346;
+        d=1e100.net; s=20251104; t=1781978508; x=1782583308;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
-        b=jVtWQy9gL+cIQo7jjjKfNHkq8ARPdZCLiuZSWtGjD1YhGQa59pwuZSxIBR4hnE1TQS
-         pq6hFN18jtw7rQnRqgLdC09ui9vYmN6N2ksCDxSBmUtfHrv/VZ5Uwu0dssKCDTcmvwh7
-         fBy4VwmGEhOOr2PpWnki7e9kjAdq31Zl9GEM4Zrve0RPpU2qNWncE2leuB4hXkCBv6vO
-         o5zjEvlI96OqpZ4zry7qb3PEKHRF1g/0/DPLQMPyLwTRCdGCuuW9tyyQgUAIvpjqFJSI
-         tYoPRjgfP9k9Rruuf+UTNnSPJKDeYGhdZivjmd2628H8dwj3LJ2rM/yguVkPfS9DWgeM
-         FGZA==
-X-Forwarded-Encrypted: i=1; AFNElJ+EspXuwGObGAZ9ecLD1YanILWMusaJ0nyl1VwCichArg6xQnhV5SQeAUtoevIAgUE97zI6WmJWF4V8LQlxC2W6wqt/Sg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQhbz/Ln42criBWkux5SU0rQCIAxmLO1DnRjlvgjrxGfP2Uk1U
-	zyoH11FSM1Do/BHPY9Tc4qhXClRA3OWKCosdqLUcA+4UrD7F+IrV2ZiA
-X-Gm-Gg: AfdE7cmIs2pfAVg3AORyWgJOduzF4VriY0/eZCbqB5/NDmzPZ8WXXBE9dWRFqoslP5r
-	An3XbsWFYhNV6S3C2lZ5i52qe5s+hlHT/LIvgZgpFP8vbNFPH3FW6cdriF/gFWqPgVZ9axUeKxS
-	JTcJxOQyNL1VlGTP6P92B3Gnk5TVT5u9Dsym9Z1jMtGcXQJqlugUj20nvzwce1w3k19D3/ROlU7
-	VlohjlEEpaMCZR8ytSfo21ZL7Zv7LBfgML8jaxgPlcKCeOVVH5D3tUsFOmA8Vtuh254BDpzvQyv
-	QGgzasG47UqKuWmQikszoLh+YPxMJ/0QPNfAOJI0SMkmGVSWSAEqMHSoZGf2+YcGjVEeLFK9rfs
-	vzcUnUVQUyHS00toDqxkqgJkp2lPsM9sNSggXwMYnvTyhIIf7cRLakSmu/0rFEKMNf7FLO3+e90
-	HOY3CnqQdaErDC4PmJna7WH0DYIPoJv8yHYmXE
-X-Received: by 2002:a17:90b:4d11:b0:37c:6973:5a65 with SMTP id 98e67ed59e1d1-37d15e89d6cmr7349122a91.17.1781943545714;
-        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:5c2d:70e2:75f2:925])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4eede23esm1601366a91.2.2026.06.20.01.19.02
+        bh=TU1KHjg1xw4SOUVLZNaBDJ/t1F+t4VC9J/t07Bu+tLw=;
+        b=lRkU7FpLGDKgMiWkqDVyxd4czbWgUhlEgcGoiRJQh1qDHaCG5z5BEIVjhWHFr7sEe+
+         WqRejME3luUbE+nefQgiQXlKE7BZonk/bRr3HKfLqF0HlpJwUV0pTXxU0bkXriwObJKW
+         kBRD+wR6VglUeJFEp7xr8azm0Pn82ibRa6spOkCSYO2NVGOCbADWqFU0ec1euK5NNj8N
+         qqKD8DnB7/zjhslqurCygmptoQSHGpzPSIhRXPdsOR6tbjkixiHKVz93IUzZ9Ntkx2cL
+         Zo6chMIeTKS8W2H1CfrmB3/1VhTL8vd/49rPRPfVHyfkezwPVOModlymr7bvmzMFdHfr
+         Ujqg==
+X-Forwarded-Encrypted: i=1; AFNElJ9eq5fCPcFrp1pe39FzB6uV1oRHBFzDTWn49I5aIWBO4QnGf9hBeLRR5dJBNTbtu0AGfPSkBkTeNQWygR4j8MigA+3W7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLM68JsZonlwDiWcN1+Dc3ewMgEwJ52JPurnLQkUvkSjyhwBOR
+	fTUDrzZ9yN3FIvZBdUwANNlCiVgsiFIoaIGjcy1ajRLgEyfjyjuae1gV
+X-Gm-Gg: AfdE7cnRvcd33x3amgvU4FFRSUcod4rN7lU8FGfy5vJXIep7c2GmrU/D6OwVeTbl0N7
+	O/J4IWyi+kjF5pR9UrtSJOGBVMjsOLN4v601jNwHs4nT8H2k8dwvMo6ace+QkwUA9AG5C4GWGq/
+	Odua7JJsnI76CXsBnZ3BOHFdk1TUfJ5M4oozwjOtZY9bumnw+OeCMm/ljjWma7ZX2MauYlk5S+0
+	quN/xjHpGaT6m6swhoIonoopN8wKz0q+2xrp1vkIgWbypm3ytBHeaNR0qlBmbHJu/A8KO5+Sl4A
+	CF28OqI4g3rP/vp1RMU1qeGnxNgUqR86WUlwdnGO0HiJ4oyLQhsGQt/6jFr6ZEDuI5WuGipxT3m
+	zIVmRWb38SgfnImu0aQNsrDcMun6tg+fV/Yffas2mGedcsQod0lnwnFXIDflB+1iycz7JPB8zph
+	JtBBtunYnv4uR/8ttvQj60VWDCKA==
+X-Received: by 2002:a05:7300:1826:b0:2f3:5266:fdfc with SMTP id 5a478bee46e88-30c071a7ff2mr5939362eec.33.1781978507455;
+        Sat, 20 Jun 2026 11:01:47 -0700 (PDT)
+Received: from mo-Inspiron-5559.. ([2001:fb1:da:4242:fb25:44f6:726:5eda])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c1ba57db7sm4025121eec.7.2026.06.20.11.01.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
+        Sat, 20 Jun 2026 11:01:46 -0700 (PDT)
+From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+To: rostedt@goodmis.org
+Cc: mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: Documentation: fix v4l2-subdev incorrect ops field and category references
-Date: Sat, 20 Jun 2026 15:18:42 +0700
-Message-ID: <20260620081843.7641-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	woradorn.laon@gmail.com
+Subject: [PATCH] tracing: Use seq_buf for string concatenation
+Date: Sun, 21 Jun 2026 00:54:41 +0700
+Message-ID: <20260620175441.223342-1-woradorn.laon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -75,67 +81,77 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The v4l2-subdev documentation incorrectly refers to the "core" ops
-while it should have been the "video" ops where the actual
-operation (g_std) belongs to. The docs also declares a duplicate
-"video" struct member instead of "pad" in the subdev ops struct example.
+In preparation for removing the strlcat API[1],
+replace the string concatenation logic with a struct seq_buf,
+which tracks the current position and the remaining space internally.
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+The backing buffer bootup_event_buf allocation is unchanged.
+Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
+
+Link: https://github.com/KSPP/linux/issues/370 [1]
+
+Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
 ---
- Documentation/driver-api/media/v4l2-subdev.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ kernel/trace/trace_events.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index 13aec460e..d30bb656b 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -77,7 +77,7 @@ It looks like this:
- 		const struct v4l2_subdev_tuner_ops *tuner;
- 		const struct v4l2_subdev_audio_ops *audio;
- 		const struct v4l2_subdev_video_ops *video;
--		const struct v4l2_subdev_pad_ops *video;
-+		const struct v4l2_subdev_pad_ops *pad;
- 	};
+diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
+index c46e623e7e0d..15164723e028 100644
+--- a/kernel/trace/trace_events.c
++++ b/kernel/trace/trace_events.c
+@@ -22,6 +22,7 @@
+ #include <linux/sort.h>
+ #include <linux/slab.h>
+ #include <linux/delay.h>
++#include <linux/seq_buf.h>
  
- The core ops are common to all subdevs, the other categories are implemented
-@@ -300,31 +300,31 @@ directly:
+ #include <trace/events/sched.h>
+ #include <trace/syscall.h>
+@@ -4501,13 +4502,23 @@ extern struct trace_event_call *__start_ftrace_events[];
+ extern struct trace_event_call *__stop_ftrace_events[];
  
- .. code-block:: c
+ static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
++static struct seq_buf bootup_event_seq;
++static bool bootup_event_seq_initialized;
  
--	err = sd->ops->core->g_std(sd, &norm);
-+	err = sd->ops->video->g_std(sd, &norm);
+ static __init int setup_trace_event(char *str)
+ {
+-	if (bootup_event_buf[0] != '\0')
+-		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
++	if (!bootup_event_seq_initialized) {
++		seq_buf_init(&bootup_event_seq, bootup_event_buf, COMMAND_LINE_SIZE);
++		bootup_event_seq_initialized = true;
++	}
++
++	if (seq_buf_used(&bootup_event_seq) > 0)
++		seq_buf_puts(&bootup_event_seq, ",");
  
- but it is better and easier to use this macro:
+-	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
++	seq_buf_puts(&bootup_event_seq, str);
++
++	if (seq_buf_has_overflowed(&bootup_event_seq))
++		return -ENOMEM;
  
- .. code-block:: c
+ 	trace_set_ring_buffer_expanded(NULL);
+ 	disable_tracing_selftest("running event tracing");
+@@ -4766,7 +4777,7 @@ static __init int event_trace_enable(void)
+ 	 */
+ 	__trace_early_add_events(tr);
  
--	err = v4l2_subdev_call(sd, core, g_std, &norm);
-+	err = v4l2_subdev_call(sd, video, g_std, &norm);
+-	early_enable_events(tr, bootup_event_buf, false);
++	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), false);
  
- The macro will do the right ``NULL`` pointer checks and returns ``-ENODEV``
- if :c:type:`sd <v4l2_subdev>` is ``NULL``, ``-ENOIOCTLCMD`` if either
--:c:type:`sd <v4l2_subdev>`->core or :c:type:`sd <v4l2_subdev>`->core->g_std is ``NULL``, or the actual result of the
--:c:type:`sd <v4l2_subdev>`->ops->core->g_std ops.
-+:c:type:`sd <v4l2_subdev>`->video or :c:type:`sd <v4l2_subdev>`->video->g_std is ``NULL``, or the actual result of the
-+:c:type:`sd <v4l2_subdev>`->ops->video->g_std ops.
+ 	trace_printk_start_comm();
  
- It is also possible to call all or a subset of the sub-devices:
+@@ -4794,7 +4805,7 @@ static __init int event_trace_enable_again(void)
+ 	if (!tr)
+ 		return -ENODEV;
  
- .. code-block:: c
+-	early_enable_events(tr, bootup_event_buf, true);
++	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), true);
  
--	v4l2_device_call_all(v4l2_dev, 0, core, g_std, &norm);
-+	v4l2_device_call_all(v4l2_dev, 0, video, g_std, &norm);
- 
- Any subdev that does not support this ops is skipped and error results are
- ignored. If you want to check for errors use this:
- 
- .. code-block:: c
- 
--	err = v4l2_device_call_until_err(v4l2_dev, 0, core, g_std, &norm);
-+	err = v4l2_device_call_until_err(v4l2_dev, 0, video, g_std, &norm);
- 
- Any error except ``-ENOIOCTLCMD`` will exit the loop with that error. If no
- errors (except ``-ENOIOCTLCMD``) occurred, then 0 is returned.
+ 	return 0;
+ }
 -- 
-2.53.0
+2.43.0
 
