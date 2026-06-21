@@ -1,83 +1,60 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD403C07A
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Jun 2026 14:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D17238159
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Jun 2026 17:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782052645; cv=none; b=OzxoDaCMqdo/1+PRorrKoe9yqbN9E+bMKa/UQkoDfhvyu8PFsHQ8QhtkOswK9DEojEjGoTMxK8f0yRAxtD0QhxtzBXMjn2NnUH8wrV8YKOx4rWReciw32/M2E4rKYlqaWn2/jNnSgBeESLeycGBMpPmj12lZBda6QfyJBiX3bQ4=
+	t=1782062204; cv=none; b=IPMicG9VJw2XA+MnZeIqR7APWu2i+Qa6EhTid+6O4cvXvTYCUaQo7z/3rVqBZaTbomsUgoytqLjkadP7MTgZ/o+/TAA8usyrqzhyFnW/yxCjnZz4hYYY4RmmumwYaFI5vEOeUkr3foFtp2yXlbz14D2PbiSM9QrSXYL8EsgGvYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782052645; c=relaxed/simple;
-	bh=K2tL7wkhVh01MN6j5dGnacIcNMp+BZ1s6cPhbWcKcTI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LNUq0Ye6FL7W+JZzigev6WKMDks67VDCqiVJGxvmqBhr3RTVLRV1vyPHXFoQ983rIUK3G6EfOYYdCEzLpb8GaQYmEOiJ/qfoavaaC3+7t9kcMbNAxsXTPOpOFCfjnulhsEYQlGD7y8i67BD47OropobqVw/bnM8gwzTAbA79IRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/i/7pko; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782062204; c=relaxed/simple;
+	bh=PYIMUPD3AKX4CJIC+IT5NFVlBmhjj2gGWN3cHcV/ny8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=m02vxCm84FRuyoouO58fQilEeZS3ZL6x8OPA5H6elUEWMTTAIcvDI0+/Wulug6vJ+VXDPOgcRgvwG3j69A3UynUrHRxyYofJ4cFNyQfEjBPc5wBh0Wq/kAvPdo1Qjb6WWOkd7/zUgSt5p9Gh6VS1YdfORClNuHEKQdxbKjsr+Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=hIlEOycc; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/i/7pko"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8df26121c88so15033096d6.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Jun 2026 07:37:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="hIlEOycc"
+X-KPN-MessageId: f1a9766b-6d94-11f1-9e8e-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id f1a9766b-6d94-11f1-9e8e-005056999439;
+	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id f1a82abf-6d94-11f1-91a1-00505699891e;
+	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782052642; x=1782657442; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kVQ3xkWLXL4IaDjUu6wCV48CVGQrhtl6ZKE5IwOl7lU=;
-        b=M/i/7pkoWo+o9PlxIv+QS6MACBPc9SdHN0pAz7DB2sLTXksdgr2QqrtCcSDrw7Th6q
-         T+Ddj4pOZxS+jeqTuVAo8to/wO3ysrpmHWt/+Zb2pkqWbcXBnK5gKZmwtE8+gX7PCZy0
-         7hGYEn7tzmvcGBzEJfLyoWPs5UmLSjq2LQdROSxodt3cUU1QrsuPbJYXE2UmlfJ0OpMM
-         PRSMVKd3L6QWqzLYC3I3rF6to6uDFKzPnuwCpOIXc9jORcB3DYrNvcNGthY1QcrkZgxL
-         iSTasvYCKFmZHJuj2xdV+g5izPa9UMoXK1NDlNhIUY5IuopCIGeJqzkess9r1or5QZMa
-         rdhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782052642; x=1782657442;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kVQ3xkWLXL4IaDjUu6wCV48CVGQrhtl6ZKE5IwOl7lU=;
-        b=BcGN9++0HCJYkCso2NYbm2/eVKC270nJHTCPVNZyX5azB76FtIms9vbc+etdxNhj1V
-         JOv4sjHE70AJD4GD14LW5VD1HsH3O7cZEKbcptByKgVs1rDoPOKEZeDz9DKTSgdac4Vw
-         TejjD48d36hXRjlf6qlMydbV6PvqMSBmLpJVNNy7Zt06E3c5rK703OcHar89MC7T6i/v
-         3JKs9lbZs5AgytEypyuiSIkICgDlcoOPt5najPc1+AEJoVfjx+EhsBain85TayW0UPdO
-         qffDZztwPrKQKYe1oX9L1yII3TYfEJ2UsOrj4fCekTIe4jvJCEn2xHxhW+5bmVrXBOLb
-         otXQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoGpJaxyrbG7077WJw17p+z4VhQfjZ4B5qy5b+fBtFjNfz4U84uSqIG+51l9a5Hmrr2PV+fdlZBHHCsDaI+fK9EK5BPiw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc4+2Q7jv6eWHnea1FLDn9ccyCbf/HpPtoJMfHD16b4uyzDXz7
-	OPVZHnnPS2qq0noCpCkWXDFH897J1DIC7qZiciDVGVZZ1YnfSj83G1Q=
-X-Gm-Gg: AfdE7ckRPHomAw14EFna8qmrpU5JrTGVCAui11PJlg5lfufjkIfwpsJRb6vtb/qpij2
-	kz/juaQGbHPlYTDRAg9WCmqrCn6KFOAMVcpJlxCtzKCbT1tB7Ty0/4DHsf6smqfyWrzrbCVsNur
-	O3PCSNgm1soRCSfqwg2fyzRhJnjdr9qEPUS0eKdnUuHVE0Spj+R7P6QI6+s/m+iDmu97KulgxsD
-	KtbNU3YA4Zn6gHf3shbhIuYLPclQNFWiSS3WTY2Q8K3fCXeUSI7mrFIxhvujMvoDpHkEMVJcIbb
-	U6YRijGi5FkwIn0aJidLR+bvUOVovHz2Oy+IZ9yuEKtC7kZRgAYmEVN3eMAZwX3hoygMs9Gjrrm
-	apXCglXpAMTqdXC5FxbkFh7PKGl8M0bR2+vYx+QxiOHPo/EuLAGtcez67y12SHsFXDv179IZNiC
-	Y75Aiqd8uhjuWYdQF6lS2G5vZCCQ6s2Zu5fgvMzIfLiOzbl3TCygDUOlLPBrPNxbeX
-X-Received: by 2002:ad4:5dc7:0:b0:8ce:b2e9:a4b9 with SMTP id 6a1803df08f44-8de3bef23demr215020686d6.12.1782052642405;
-        Sun, 21 Jun 2026 07:37:22 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df7f018011sm65579506d6.5.2026.06.21.07.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 07:37:22 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	nova-gpu@lists.linux.dev
-Subject: [PATCH] gpu: nova-core: parse structs via zerocopy
-Date: Sun, 21 Jun 2026 11:36:44 -0300
-Message-ID: <20260621143647.264770-1-nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=AgwUlvkvdVPsfsg7AKOcX+bnU/0pIR65cfU+vu3313k=;
+	b=hIlEOyccXgbbsnumur7UImx7rxa2RiVjw14vUxr44wSwaKgm/WhUsf8/hAHXxadq1ZgW0uR1Gfup6
+	 zcbMf26c9Lqdac4Gzkul9HfVsIdwfJ2nG6alFjSb+ZUbeonj+dD+GhMS056+2iaXpC0asLdmfoPje6
+	 uyTli+D12wBaqjD1fNXbCnV98mSJTkvqzuNOhX2Jm4KfIU/I7i9oShAw1XDVmchRbqAUcbcKqfJ38c
+	 5InEDqu6Z6rUM8iLmIG6ezqVYAsmZOzcjzAv2CwQStD9U7CIrO1jIFnzpj+CqT3Ozrc/ZLwyh6F0q8
+	 MT0FDYpGOejmA2C5IzNW1iH6Hekr6Mg==
+X-KPN-MID: 33|zV4dEls6C4crfDir2+UZIpGFiLqTMyiyl6bIU5JQdDoQtxSg5hq593U0k2PA2Mb
+ ZSRTRTzura5jEIsrBS68NK/WjQeSu8Y7BeJcvn+6iOdg=
+X-CMASSUN: 33|eS54b1dhrtIOizHOqjVgpqCmrVIMyIa7gQmI+mqdc9DL2gA4+DX2LD2WeJQkrde
+ ZkYMZVQb6QjfOLkDtgeFDLg==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id f19a84bb-6d94-11f1-8edb-00505699eff2;
+	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
+Date: Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>, rostedt@goodmis.org
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com
+Message-ID: <70408559.2499685.1782062190117@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260620175441.223342-1-woradorn.laon@gmail.com>
+References: <20260620175441.223342-1-woradorn.laon@gmail.com>
+Subject: Re: [PATCH] tracing: Use seq_buf for string concatenation
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,183 +62,98 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Replace the unsafe `kernel::transmute::FromBytes` trait implementation
-for the `FalconUCodeDescV3`, `PcirStruct`, `BitHeader`, `NpdeStruct`,
-and `PmuLookupTableHeader` structs with the derivable
-`zerocopy::FromBytes` trait.
 
-This change eliminates the manual unsafe implementations in favor of a
-derivable trait. When this trait is derived, validity checks are
-performed at compile time to make sure that the type can safely
-implement `FromBytes`.
+> Op 20-06-2026 19:54 CEST schreef Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>:
+> 
+>  
+> In preparation for removing the strlcat API[1],
+> replace the string concatenation logic with a struct seq_buf,
+> which tracks the current position and the remaining space internally.
+> 
+> The backing buffer bootup_event_buf allocation is unchanged.
+> Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
+> 
+> Link: https://github.com/KSPP/linux/issues/370 [1]
+> 
+> Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+> ---
+>  kernel/trace/trace_events.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
+> index c46e623e7e0d..15164723e028 100644
+> --- a/kernel/trace/trace_events.c
+> +++ b/kernel/trace/trace_events.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/sort.h>
+>  #include <linux/slab.h>
+>  #include <linux/delay.h>
+> +#include <linux/seq_buf.h>
+>  
+>  #include <trace/events/sched.h>
+>  #include <trace/syscall.h>
+> @@ -4501,13 +4502,23 @@ extern struct trace_event_call *__start_ftrace_events[];
+>  extern struct trace_event_call *__stop_ftrace_events[];
+>  
+>  static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1241
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
-NOTE: Compile-tested only. I don't own a piece of hardware where I can
-test the nova driver.
+Isn't this now unused?
 
- drivers/gpu/nova-core/firmware.rs |  6 +----
- drivers/gpu/nova-core/vbios.rs    | 38 ++++++++-----------------------
- 2 files changed, 11 insertions(+), 33 deletions(-)
+> +static struct seq_buf bootup_event_seq;
+> +static bool bootup_event_seq_initialized;
+>  
 
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index ad37994ac15a..0afd1d3fe5ad 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -86,7 +86,7 @@ pub(crate) struct FalconUCodeDescV2 {
+I think this can be refactored to avoid the bool. And should bootup_event_seq not be
+__initdata?
 
- /// Structure used to describe some firmwares, notably FWSEC-FRTS.
- #[repr(C)]
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- pub(crate) struct FalconUCodeDescV3 {
-     /// Header defined by `NV_BIT_FALCON_UCODE_DESC_HEADER_VDESC*` in OpenRM.
-     hdr: u32,
-@@ -117,10 +117,6 @@ pub(crate) struct FalconUCodeDescV3 {
-     _reserved: u16,
- }
+>  static __init int setup_trace_event(char *str)
+>  {
+> -	if (bootup_event_buf[0] != '\0')
+> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
+> +	if (!bootup_event_seq_initialized) {
+> +		seq_buf_init(&bootup_event_seq, bootup_event_buf, COMMAND_LINE_SIZE);
+> +		bootup_event_seq_initialized = true;
+> +	}
+> +
+> +	if (seq_buf_used(&bootup_event_seq) > 0)
+> +		seq_buf_puts(&bootup_event_seq, ",");
+>  
+> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
+> +	seq_buf_puts(&bootup_event_seq, str);
+> +
+> +	if (seq_buf_has_overflowed(&bootup_event_seq))
+> +		return -ENOMEM;
+>  
+>  	trace_set_ring_buffer_expanded(NULL);
+>  	disable_tracing_selftest("running event tracing");
+> @@ -4766,7 +4777,7 @@ static __init int event_trace_enable(void)
+>  	 */
+>  	__trace_early_add_events(tr);
+>  
+> -	early_enable_events(tr, bootup_event_buf, false);
+> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), false);
 
--// SAFETY: all bit patterns are valid for this type, and it doesn't use
--// interior mutability.
--unsafe impl FromBytes for FalconUCodeDescV3 {}
--
- /// Enum wrapping the different versions of Falcon microcode descriptors.
- ///
- /// This allows handling both V2 and V3 descriptor formats through a
-diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-index 8b7d17a24660..754812bcbdde 100644
---- a/drivers/gpu/nova-core/vbios.rs
-+++ b/drivers/gpu/nova-core/vbios.rs
-@@ -13,11 +13,8 @@
-         Alignment, //
-     },
-     sync::aref::ARef,
--    transmute::FromBytes,
- };
+What if trace_event is empty? Then setup_trace_event does not run AFAIK. See the
+WARN_ON in seq_buf_str too. Have you tested this?
 
--use zerocopy::FromBytes as _;
--
- use crate::{
-     driver::Bar0,
-     firmware::{
-@@ -301,7 +298,7 @@ pub(crate) fn fwsec_image(&self) -> &FwSecBiosImage {
- }
+>  
+>  	trace_printk_start_comm();
+>  
+> @@ -4794,7 +4805,7 @@ static __init int event_trace_enable_again(void)
+>  	if (!tr)
+>  		return -ENODEV;
+>  
+> -	early_enable_events(tr, bootup_event_buf, true);
+> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), true);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.43.0
 
- /// PCI Data Structure as defined in PCI Firmware Specification
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- #[repr(C)]
- struct PcirStruct {
-     /// PCI Data Structure signature ("PCIR" or "NPDS")
-@@ -330,12 +327,9 @@ struct PcirStruct {
-     max_runtime_image_len: u16,
- }
-
--// SAFETY: all bit patterns are valid for `PcirStruct`.
--unsafe impl FromBytes for PcirStruct {}
--
- impl PcirStruct {
-     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
--        let (pcir, _) = PcirStruct::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (pcir, _) = PcirStruct::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         // Signature should be "PCIR" (0x52494350) or "NPDS" (0x5344504e).
-         if &pcir.signature != b"PCIR" && &pcir.signature != b"NPDS" {
-@@ -371,7 +365,7 @@ fn image_size_bytes(&self) -> usize {
- /// This is the head of the BIT table, that is used to locate the Falcon data. The BIT table (with
- /// its header) is in the [`PciAtBiosImage`] and the falcon data it is pointing to is in the
- /// [`FwSecBiosImage`].
--#[derive(Debug, Clone, Copy)]
-+#[derive(Debug, Clone, Copy, FromBytes)]
- #[repr(C)]
- struct BitHeader {
-     /// 0h: BIT Header Identifier (BMP=0x7FFF/BIT=0xB8FF)
-@@ -390,12 +384,9 @@ struct BitHeader {
-     checksum: u8,
- }
-
--// SAFETY: all bit patterns are valid for `BitHeader`.
--unsafe impl FromBytes for BitHeader {}
--
- impl BitHeader {
-     fn new(data: &[u8]) -> Result<Self> {
--        let (header, _) = BitHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (header, _) = BitHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         // Check header ID and signature
-         if header.id != 0xB8FF || &header.signature != b"BIT\0" {
-@@ -533,7 +524,7 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
- /// PCI Data Structure. It contains some fields that are redundant with the PCI Data Structure, but
- /// are needed for traversing the BIOS images. It is expected to be present in all BIOS images
- /// except for NBSI images.
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- #[repr(C)]
- struct NpdeStruct {
-     /// 00h: Signature ("NPDE")
-@@ -548,12 +539,9 @@ struct NpdeStruct {
-     last_image: u8,
- }
-
--// SAFETY: all bit patterns are valid for `NpdeStruct`.
--unsafe impl FromBytes for NpdeStruct {}
--
- impl NpdeStruct {
-     fn new(dev: &device::Device, data: &[u8]) -> Option<Self> {
--        let (npde, _) = NpdeStruct::from_bytes_copy_prefix(data)?;
-+        let (npde, _) = NpdeStruct::read_from_prefix(data).ok()?;
-
-         // Signature should be "NPDE" (0x4544504E).
-         if &npde.signature != b"NPDE" {
-@@ -845,6 +833,7 @@ fn new(data: &[u8]) -> Result<Self> {
- }
-
- #[repr(C)]
-+#[derive(FromBytes)]
- struct PmuLookupTableHeader {
-     version: u8,
-     header_len: u8,
-@@ -852,9 +841,6 @@ struct PmuLookupTableHeader {
-     entry_count: u8,
- }
-
--// SAFETY: all bit patterns are valid for `PmuLookupTableHeader`.
--unsafe impl FromBytes for PmuLookupTableHeader {}
--
- /// The [`PmuLookupTableEntry`] structure is used to find the [`PmuLookupTableEntry`] for a given
- /// application ID.
- ///
-@@ -867,7 +853,7 @@ struct PmuLookupTable {
-
- impl PmuLookupTable {
-     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
--        let (header, _) = PmuLookupTableHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (header, _) = PmuLookupTableHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         let header_len = usize::from(header.header_len);
-         let entry_len = usize::from(header.entry_len);
-@@ -1013,15 +999,11 @@ pub(crate) fn header(&self) -> Result<FalconUCodeDesc> {
-         let data = self.base.data.get(falcon_ucode_offset..).ok_or(EINVAL)?;
-         match ver {
-             2 => {
--                let v2 = FalconUCodeDescV2::read_from_prefix(data)
--                    .map_err(|_| EINVAL)?
--                    .0;
-+                let (v2, _) = FalconUCodeDescV2::read_from_prefix(data).map_err(|_| EINVAL)?;
-                 Ok(FalconUCodeDesc::V2(v2))
-             }
-             3 => {
--                let v3 = FalconUCodeDescV3::from_bytes_copy_prefix(data)
--                    .ok_or(EINVAL)?
--                    .0;
-+                let (v3, _) = FalconUCodeDescV3::read_from_prefix(data).map_err(|_| EINVAL)?;
-                 Ok(FalconUCodeDesc::V3(v3))
-             }
-             _ => {
---
-2.47.3
-
+Thanks,
+Jori.
