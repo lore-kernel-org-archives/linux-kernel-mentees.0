@@ -1,111 +1,117 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6A43491D0
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 10:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB64379ED7
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 10:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782124218; cv=none; b=nzoJCgUX0wWaq6CtT2E0HiBXDSn2iCgzXszgChsQGHJlfHH2Gx5L9yp+XE038j2BGiFh6IACwmGGRg1tUZwIKkvZ7wahOThDDai41Ukzi9TR7gR10DY08BjWepdjqPbjK1q2Sc7ZQy8bsqa01DSLboB1zXmCTsxpySDWovRxHqU=
+	t=1782125844; cv=none; b=al8cOGfuBnUsmW/LZIq3J2VSaAmJcZjPdmjQckYKNiaw10e9644vhjDdjnV1dHO5sc72wlUQooAejMGFJObAhgcS0eDv4/0k0jLldhKPYZJE2903aL0H7eLky4DNaKWPfIkREv0mhPhZmfWVjOuX6fGwRIvSO7n0D1WHtBUsAKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782124218; c=relaxed/simple;
-	bh=Ii1KCfk/Q6UmKa4S2HR7teKRK6ri3Hm0oX1mojujygk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h32M8vUo16Yoy9WLnAtBj+s5NWfscT3ioSN+uq+gqc+/hvf3S/JMib+yUddDfjPEnAx1m+xs/uY35TqZfZ4g3qn39wA6UQByKYQrW9etUB4tEUhLGvG9Zmt0n02kdxn1iF8N+AommfkooORnAfczTZaC4kJWv+EgXy9zcHl/6Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gJXvaMAk; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1782125844; c=relaxed/simple;
+	bh=LWHVuMY1/ncBwfRP7JCD6/Wpmd4uhdg2Wme/B92jfYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vxq0JFEvc2tVy601maAqQIk0ljyjXlKY0Y05fdvQyVRgWZ5uMJVk2wvpENPteTEEJNa27iC6Nnvgh/mkz9BBSucR34WxwZ+nKZNeb+jk60vgjT+EjuiyZe708EOiC/Lrd7kxbLyAUHG/AmMErY1j/XBuZ757EkQNnivYp/Z7W4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rL8jrUMT; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gJXvaMAk"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0aa420401so25320615ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 03:30:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rL8jrUMT"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c0115a3794bso768892966b.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 03:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782124217; x=1782729017; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ii1KCfk/Q6UmKa4S2HR7teKRK6ri3Hm0oX1mojujygk=;
-        b=gJXvaMAkWuLwYeTdVwssb4bnBGac8z31npn7dtIIqx+DIBEL6l6NoPMKaZvvOw6RVE
-         yfzUoSigLQXFEzv/ODJmAFmY6RJmh7sDu20blkpN3bCIc4p/MaJtUke80cRBsQyDUfv+
-         RvFYeh3wjGnzWoJrLgwOY3BrwhvpJE88lcvFTtDoe2YIcZ70U78yDXKQqNYCh7MW2vNa
-         7+92GTPMY3buGGQH0tM2jexuHp2Cyhu6TQS6pQxpcnIuVQqqW0eAJ/IBa2xsuH6PcqTO
-         YC0twtlw3zGolw+guULw8dce7wwAfavegKvB0sFV3P7848f4M/U9Rdmg8FfC+ORvcqVL
-         uvqw==
+        d=gmail.com; s=20251104; t=1782125841; x=1782730641; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZWK0XbJl/m0yxPi2tihir84Vy/CVlnAxBTBF0YEc9Mg=;
+        b=rL8jrUMTPmwTY6KhmoNaXU7Y+JJCkaZF1xx1xb+Oi6TfQz9JmDwONCwCQxu5pcUoWH
+         vhS82i85AtBsCUzlY1TlI/LEEY9G+J0Nyex9qAWVjsjz5cCbdIFd4cv2u4HA28GxC2ly
+         36XaD7H3K2fd31P/OHgz6b2ynSTRSCWQpNEaiUM7PFR2nX+QJoz8JfQ9w4WoAZGq3GCn
+         8jInpM9qIJSf5RZNfcHFfm/WhpC9SEfh9TQxqGwdEj3fF7ubmPQ6TPJqEJMhn+6pBKxY
+         zyxuA99DbGZW7KCJiCivYUsGqe95gH4o/c2WIHbYcvEKjrHcoQuufig0VX7LEimPII84
+         0Pxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782124217; x=1782729017;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ii1KCfk/Q6UmKa4S2HR7teKRK6ri3Hm0oX1mojujygk=;
-        b=joeTUEL1uOid8OC3gKxYiQ0yO/RX1ptoI3TTJ/tDLtBnM2Ye2qJDMsdu56DqJgtEjO
-         SBbvdydFCeKK9I8KAglZih7kwYrLG4ODRIh8E3RLFtEyafYr7iXKtiG3SInRjvcNQ5mS
-         i1QHCYLFUW5sKwmJSVUYvrph5wRnkLhjk69uw8dEptnP9acA89g0aZEphTDu4k9sgaBh
-         zdXAkwNk53H8uv9PJHwSUBmFenO9IPAOKenzg4mxCufOQsdP2cvK83q/X70yn5Iqui6W
-         eQKb1apHpD/LqEG36cwAprBUpIp4XsJL6PO0GKf8kq2bU2RwWMwGKlKXVDgIiSm7s2lt
-         jlJQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr5XKLpOYfrQWjnpk4HroCq0bHE8jKiP8q4+ZDTiv++YhZLpbvTYriZ1MZjSyh8O8gMbdBQ6T7sLdBv2jAweMS5CIYUEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Kyo0S/lKQXmhltELhny8mM3AN8Q/ctHuxCIyVvmZBg+w9MxT
-	e5bm7rGaC5Mn7r5Q8Hae0I+ytrd0JK+SYhNm2+C36YpCMbvG++uwc9DG
-X-Gm-Gg: AfdE7ckQIToylvNFzxEK4D7X+KJumDiGOUu4ALf//QrIMAXQRxujpU2fQvshCCAy+uQ
-	GguuOrRhtIUV2IcIBpKh8J+BrfzZ+mmovK3y9wMv3B/ufHy7SrO48ZkymgmvcUfDdNncXPhIfCJ
-	xB0YSdHFdd1ngrmPvFSW9s57CSiWvSMAjXY8kdwp5CSOEovTR5BOT0ih9KtuRtE5hFQ3NbUhxFD
-	S2dhiGGVo0sFpgQ3o7bCDTQxhzbUhQ54Dc5Ez8ll1ALnvwsS0WhbEHLJ5ceYiFkcVvp+HO2i8Wy
-	8zfWDJhJSXdsmWvfawJsuBfySJ9iyrT37LUmQbhv+RF9B3TGkv7HD4uP1+Cn1q08bJiKfplk8ig
-	Q8ae4QBmEd2zJlCk122rZA3BM/T/85WZK3NJwKyGgOodvfMHVZ7STYbCDztjvS0AIeN2fT7NGMZ
-	ovih04ix1JCGExQw==
-X-Received: by 2002:a17:902:d4cb:b0:2c6:f3ae:2383 with SMTP id d9443c01a7336-2c725b93678mr133806555ad.13.1782124216347;
-        Mon, 22 Jun 2026 03:30:16 -0700 (PDT)
-Received: from fedora ([106.219.196.189])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c742fdd411sm80718545ad.0.2026.06.22.03.30.11
+        d=1e100.net; s=20251104; t=1782125841; x=1782730641;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZWK0XbJl/m0yxPi2tihir84Vy/CVlnAxBTBF0YEc9Mg=;
+        b=pQdtj3q7EsbtR1K7GjAZ7RGNnjofO8CxeBGE3qYPecIRZ9HMyMYN93cvH2pq2NWHk3
+         lTQq7TyZWO/1K+SrxfqQfXkHCIkvTzo59Qk8lL69oqY0cPokwMb9zuLzKfS1gF0Zs5ME
+         Q/PENsPQ2PLxdctysxiXi102XpndYap/3f3RilF0RBTZbvxvGjvP7dr6Olcyz6iBUN/b
+         67gUo4o95eKY463UwUclsy16Hyj5wUrzxHm74PJpZQatCNSLIObdlXQHXSw21WbBY/Uj
+         JBXX/b++xYSSTFTncU5Xq9eb4wf/sKG6jOUvmQzAAnGFqo32PjrMF39Gf3sFOMxl73ZK
+         Rxyw==
+X-Forwarded-Encrypted: i=1; AFNElJ8xy/LtoST1iy9AwkoywX8XcpfM6dFl5RwPWBj/rp+/HM1Ve54RVWmvxrcNTOsoTuFc3bdD00WQ982xtwkxFNH+Qz6/DA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJ8f3dMF0Wgwhk40oQ5CUF+oN1TPnC3JnsznORzNIfR4WrVx2o
+	u5nO7JBirkIzOZz3lQQADtiNVP0V7qbhC/UjJQvRWp6GUltarKiXkUBo
+X-Gm-Gg: AfdE7cnPUbtrb5Q+MVcnQYuvk8jEa/U84QxYr0ggFXUz/nSVD892djX18Spc3yR2g8D
+	7q/OAx48RC551STGsxYtqiKloIKeqdvWjomjF4gmTI18D9/p7Alt9Jd7U8KwknQXHlIpFRwfae2
+	ia8T0X8EsK5+nBXoqZMj3pQXJFmk1bRNEKFo05Gd33nFrzhZCUybg3rvO6dEOpstdsMuHC8rZxh
+	I5zkwMVHDwe/A50IxP+raJRhl87kTQjffr1t6XO8NQj6Ov4OrEY6/W1liF/cdGdINrH0X+exELc
+	BLtMoOGxsZ1TtxZWHwsFeWPv48AW4q+uZ8PWmPFK+5xIKuqthpdPutnjZJcwBzNx2YFBWOtLxJ6
+	sWlZGeQPSenwe10WVABSxYxhxiCODoogtwOAI2QOqId434TUsxFursRkx+IDdPOctIUrXztOJ+x
+	u+iwyNvDFy
+X-Received: by 2002:a17:906:ee8d:b0:c0f:c475:6bd6 with SMTP id a640c23a62f3a-c0fc4756e1cmr42963466b.13.1782125841003;
+        Mon, 22 Jun 2026 03:57:21 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e99b968sm335639766b.24.2026.06.22.03.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 03:30:16 -0700 (PDT)
-From: Sajal Gupta <sajal2005gupta@gmail.com>
-To: error27@gmail.com
-Cc: linux-raid@vger.kernel.org,
-	song@kernel.org,
-	yukuai3@huawei.com,
-	tomasz.majchrzak@intel.com,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
+        Mon, 22 Jun 2026 03:57:20 -0700 (PDT)
+Date: Mon, 22 Jun 2026 13:57:16 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sajal Gupta <sajal2005gupta@gmail.com>
+Cc: linux-raid@vger.kernel.org, song@kernel.org, yukuai3@huawei.com,
+	tomasz.majchrzak@intel.com, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] md/raid5-ppl: convert pending_flushes from atomic_t to refcount_t
-Date: Mon, 22 Jun 2026 15:58:58 +0530
-Message-ID: <20260622102859.38034-1-sajal2005gupta@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <ajj1yljwrUk0bZwp@stanley.mountain>
+Subject: Re: [PATCH] md/raid5-ppl: convert pending_flushes from atomic_t to
+ refcount_t
+Message-ID: <ajkVDGAdveCH_urr@stanley.mountain>
 References: <ajj1yljwrUk0bZwp@stanley.mountain>
+ <20260622102859.38034-1-sajal2005gupta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260622102859.38034-1-sajal2005gupta@gmail.com>
 
-Hi Dan,
+On Mon, Jun 22, 2026 at 03:58:58PM +0530, Sajal Gupta wrote:
+> Hi Dan,
+> 
+> > Have you tested this at all because it doesn't seem at all correct to
+> > me...
+> 
+> I have only done compile test, sorry, I forgot to mention that.
+> 
+> > How I imagined this would work would be:
+> > patch 1: add a break statement to fix the use after free
+> > patch 2: s/atomic_t/recount_t/
+> 
+> > The difference between atomic_t and refcount_t is that refount_t warns
+> > about overflows and underflows.
+> 
+> I did it like this because that is the pattern mostly used in the codebase.
+> Simple s/atomic_t/recount_t/ would have
+> refcount_set(&io->pending_flushes, 0) in init
+> and then later refcount_set(&io->pending_flushes, raid_disks) in
+> ppl_do_flush, which is not the usual way. I am treating it as a proper reference
+> counter rather than a mechanical type swap.
+> 
+> If that is too invasive, I’ll rework it into the break fix first, and do
+> s/atomic_t/recount_t cleanup separately.
 
-> Have you tested this at all because it doesn't seem at all correct to
-> me...
+Heh.  Yeah...  There is not a chance I would merge a patch like this
+without testing.
 
-I have only done compile test, sorry, I forgot to mention that.
+It also really feels like an AI patch and you're supposed to say when you
+use AI to generate patches.
 
-> How I imagined this would work would be:
-> patch 1: add a break statement to fix the use after free
-> patch 2: s/atomic_t/recount_t/
+regards,
+dan carpenter
 
-> The difference between atomic_t and refcount_t is that refount_t warns
-> about overflows and underflows.
-
-I did it like this because that is the pattern mostly used in the codebase.
-Simple s/atomic_t/recount_t/ would have
-refcount_set(&io->pending_flushes, 0) in init
-and then later refcount_set(&io->pending_flushes, raid_disks) in
-ppl_do_flush, which is not the usual way. I am treating it as a proper reference
-counter rather than a mechanical type swap.
-
-If that is too invasive, I’ll rework it into the break fix first, and do
-s/atomic_t/recount_t cleanup separately.
-
-Thanks,
-Sajal
