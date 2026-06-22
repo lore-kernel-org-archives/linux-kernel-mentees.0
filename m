@@ -1,211 +1,103 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55E838F23D
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 08:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E244439182F
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 08:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782116297; cv=none; b=qYUOOSAOmNqWM1qpxCHu9+V0LUJJnA70e9clCOghdraVRgyWbeEwRCF0uOxHw6/tL4lItvokZK4ajViCryvMHM0RQ08FHQS19J+YeRlCsxfELeuwUj5DaeSGlF2td/N90/Kl2ZyJGTTxG6Cm7N3G7pEwElipZIyS+zPVBjdpIG4=
+	t=1782117729; cv=none; b=ph+E75591WbRZ4sJ9KzvC+D4WjjGZTw5AalzYub7CK5nbQOhCENv9fIh3h07k3p/xmdM83siTpKBymM3tmDU5bpQhSViGbkNcwF4MmBQ+zx7wZd1tpC9yk786ENobBuhTTVWihNBXOkAehrKi9zrEYGg2ONM700ZDEI7qNcB8ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782116297; c=relaxed/simple;
-	bh=kchaHGbuD3Cp5Gw9qsC+6xIIPUpTFqc4APXbX8vshqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OnpdT3X/gva0VSGEtljhpzYSbyi9KnmWk73Gnhat7Ri+tHT7bT4kY/LsI9DwAuDa6AFnKsfuUysY/So5wY/S7LEcE2XTDb39do6pi8k5E4jWRaW/urWOeuujKpC24Y8r6eTYLrnLyKzh6rnaNGcVCF/YClqiPbp7r5C8SPccHSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s5zlPutt; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1782117729; c=relaxed/simple;
+	bh=9x5gGNzm/CgGZAAOloa8x0P1VWHqZMFZ/VdZWA1YZ6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=os+YjCjInkIwkxQ1gTPlkiTIFJQXDwe/BtONERzA4Kriz5g/5okDxuTU5nMp0DZVPpoH4F7tgYF7EpfM6h2tzetAUmj3oX2kQ6mrHPRwsQKniuBR63NG+l5m4Bi84hmfSAO9Y0Rq0vPjl3PUCDAHcr5jvBypqO05Rt5J+sFpLiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iiJ6rf2K; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s5zlPutt"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c85d4b4245aso2907408a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 01:18:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iiJ6rf2K"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6977c0814d1so2705306a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 01:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782116295; x=1782721095; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WnzEGAPdTbj50+aOsUk+pqnINR3riAsvsyCwurmkB1E=;
-        b=s5zlPuttGLvvd+GUx410u3iheqqDHo+oldYLZMCsAUaDvZ/ZanvrwHhOcAY3ZqUrNw
-         Cl1pT+77UNftJC7654R37PucMiPUIobB0HRh32h2a6Gbnh/xifHvK9BnlqwVARNZZZG7
-         BD2afCCWmAU9WeJBa/u6f45DnXaTVnocBjqnLakqBG7e498fHSwXEpX2FTBghqMCRoIH
-         LgsvDSF/jU8LGLfsShGaYeFfUg+VXhnFR3+/gA595Ptq8LPk0KTDX9s9LRAiX9U/lU0K
-         fiZdZPBaTiYJdQjzjWFRXqcnLjbmOa9ChzwlyJPeTEjcGOWvyAAycaDHfdUIGWD+69yL
-         3xrg==
+        d=gmail.com; s=20251104; t=1782117726; x=1782722526; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nXaROWcX8niDcdghF4hGnIFPotv9p/zfW7hZ5AJ/2K4=;
+        b=iiJ6rf2KQ4ol9mfMQMJ2Sn/SzJyOFYAL12ydQVNzzvUdLAoVeq85dFXQvwENivWb00
+         0Anc4IzVzoJAAmMY83zS/emclUgRL7E85tlEng/lPGwYRBKmSD9Gc1MzBkUaI/ZYqwxP
+         ofn5nd+b4TDhrg7kNewy90Qax8aZl6XFUdEQAGNB6UEsa5rDSCuQS+LnwaNCIb8BREue
+         cK5WfAmYt0vU+ILA79IEpqo44EdtObLzaV8J8BOcWZV1Yd30bPfqMck0QkeIV/oVYVqx
+         r+DtUbTouDq49mQE2knXQ9uSKvEqGgzpBianetbak7t7hGkhsS4YkXi6D8afEf7b/pJS
+         V56A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782116295; x=1782721095;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WnzEGAPdTbj50+aOsUk+pqnINR3riAsvsyCwurmkB1E=;
-        b=dkbKPlHb3kxuAYsw0pIpwsA8/FjSJJyoiGeOavzIgc/WV3qfZf7yaAJkXZak6jPS7L
-         E2+WqWNCjoOOFSYBgMRbl8KIX0qIoDbVLsG1zR08CQYWW8pUszgK/OpsaMzCwK/xkwgK
-         HkmYy9KEZl8gGYXiEdxTb9TjvOIYVCVjX+GcmFh7F/HjZtBtUcSCaEnSHUc9KKJUMELq
-         /IiRh5LEkbW/UpeU7dFtxyoQIeoNRb1N9/UVSZhgyvUUtbeiT3Oo5S2rLwUhdvZryz4G
-         0Zj62bhbAD3dbJKgltnfl5Yzbd5wxMMNrJE3aeHrVZXv6bQDzQZXIA/SvvxvkDB6zKst
-         fjCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+KIDwjmPr45TFX/e7rwP7IMMA/fYo7mtMRhBaSOH9Zpu1OIkj0afYcrznVL5gHXJaxHvgeYzaXTONTuge2LbC1XrLkcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKzpi8RIU2I7RtvcGq0r61mYpPOnlPFDV9p/jdEhTcLX31uBy8
-	MThTu2qEqQwzRKDzBUhxvNBK3lTdIDWwB3Sxx551yI5J8sBF6nCwTs6X
-X-Gm-Gg: AfdE7cnHceBwOPRy7vtAjKv4CWiYWWzsa91HLWYyqj9QFdJwDzr5LGfc1CExsRbmtGU
-	C6JqFaTE7R/acZCBUd+2+a+7xG+o95Xv/gfxqPa0RvR1hdJ0ns3mpXNHPS2a9jnf5rJuK2jCNKb
-	uPMCUs2FGkctuNKtQ9jTQWu9j/8mw6FyIXC8xnAF+crq2MlsZGclr/0RIGxB5/5Kj/c+5lVnOvg
-	2acVWdv7iA6GceqeuFGrNtAr5IA4StXBlHB19WgfveIuQCoFi0zJEwvLDkI4/QhWeiTPMp73ks+
-	DlgRIvIx3W9O3CUHYEN3S09LokVLOFq09v3swLGAYnjvqlJpCLGOUyW+FzAOdDCPSGYFGrIxEUO
-	2rsvq/3kr5JIF7ly/OZ6obRGWgfOcqV/220lXKx12kU0U0RvdOfyZFloO+OhScLMTa+ugagK0PA
-	LzuX5wrVA17/Y6+0pkL32EfUuG0ttOGs0MFU0aRBGdOa3JEBLpC3cVNhXsSyOqQO0PZvB/hWdLR
-	23B
-X-Received: by 2002:a05:6a20:431a:b0:3b4:640e:f6b1 with SMTP id adf61e73a8af0-3bb32914066mr14471224637.10.1782116294931;
-        Mon, 22 Jun 2026 01:18:14 -0700 (PDT)
-Received: from ?IPV6:2001:fb1:d9:863a:1c8e:6f40:7f4b:ee15? ([2001:fb1:d9:863a:1c8e:6f40:7f4b:ee15])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc5efcb1csm5846563a12.30.2026.06.22.01.18.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2026 01:18:14 -0700 (PDT)
-Message-ID: <ea5c9577-5d16-435b-9e1c-aa562a1cc6d9@gmail.com>
-Date: Mon, 22 Jun 2026 15:18:08 +0700
+        d=1e100.net; s=20251104; t=1782117726; x=1782722526;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nXaROWcX8niDcdghF4hGnIFPotv9p/zfW7hZ5AJ/2K4=;
+        b=MOHs8uG+VsGh4uvYKFF0HzyvI2CO19TfsTgdg0tM35Hs1vdVdocr5WTY2jnTdq+84p
+         sNpDYhW4hnPWs9GmO9+xIe5tiRaPTLNEg5+1cA00e7THu8rg9mGtG5HFl84dIH0PXxya
+         wAih+Vi6T42KZdBmQ36q14ZseYUgPG5fTHtdcRyE2yUrM8XPBhYwGomUjP9fj2Mh4MEI
+         bi6RZFxmIWgFsEugLMyeHAhzMcZEFCWOsQ7jsyU4gYDo7GqmNToEFy0pYoM52ccj1pCg
+         4lrZX0PNpTBsifkrJ9oEkE8s6ZvyHmMK7Pdm+gAlglzaLJVzjIga0bd5k8CBJxEzvHuu
+         15jQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8gbYSwLBIcg+0crRNxn4GQoBd5vhb9xg9sGGyCPY/JFHhcbq2bEy3DVhG1HtY073S3PEgJGDW6qQGen08lLGEuVmCQsg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWZPTwpOJ2uSBe7VJc7T2bQYVJC4g5BwYh6OGeBicn3aWgSUMS
+	WAIwvBYzWmnokRxkg4b7DCIMWHZDT26ohkMVSXsMYFdJ+ksPfmnihxlZ
+X-Gm-Gg: AfdE7ckOTdEYlnZgs0zGFAW+bdTlkxRdXWr8X11K9fRvSc3G4MYSxO06In8on4xOsp3
+	3NodHDLAXnbgQLPyFWv6sH0Qx31YccWv6FfYG6z6F8+Sw/6G9tbMJfyz0vxgiwBwiN7h0zlBB2T
+	H1kV6Xnn/AhAyz2d+FejRoc+gj16bR4e6My0HR9UwHchV0PIgB1uREkmhOTiOhaAqGt29C5TF98
+	0BFsJrO/eBy53SDo0oJ7Rz8/4TCyo0xlu+pVvN2k2riJ7C7aRn6Ab8ZxACTWrVGy7WQxrRbQ1zu
+	Bjk4ZkQ7IuTxK0A2fS6f/LAuR9aPpUjbZidJZXne2ImZa6YLhiPo2F9/dBNyR6GYUJhRoNmRD/w
+	HjitGKKzgkT4JWkwthqADbMGDG5Z9O4R7cfqFRILOTCpbitzKNJdsJh1TH7Rp83+DNQA9KF41+s
+	THQ0lZKllP
+X-Received: by 2002:a17:907:c01c:b0:bec:687f:6603 with SMTP id a640c23a62f3a-c097c0af677mr640172966b.28.1782117726151;
+        Mon, 22 Jun 2026 01:42:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be30b35sm2545215a12.16.2026.06.22.01.42.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 01:42:05 -0700 (PDT)
+Date: Mon, 22 Jun 2026 11:42:01 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Sajal Gupta <sajal2005gupta@gmail.com>
+Cc: linux-raid@vger.kernel.org, song@kernel.org, yukuai3@huawei.com,
+	tomasz.majchrzak@intel.com, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] md/raid5-ppl: convert pending_flushes from atomic_t to
+ refcount_t
+Message-ID: <ajj1WdhoW-Y3GE4Q@stanley.mountain>
+References: <20260622080656.22786-1-sajal2005gupta@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tracing: Use seq_buf for string concatenation
-To: Jori Koolstra <jkoolstra@xs4all.nl>, rostedt@goodmis.org
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- shuah@kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com
-References: <20260620175441.223342-1-woradorn.laon@gmail.com>
- <70408559.2499685.1782062190117@kpc.webmail.kpnmail.nl>
-Content-Language: en-US
-From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
-In-Reply-To: <70408559.2499685.1782062190117@kpc.webmail.kpnmail.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622080656.22786-1-sajal2005gupta@gmail.com>
 
-On 22/6/2569 BE 00:16, Jori Koolstra wrote:
+On Mon, Jun 22, 2026 at 01:34:32PM +0530, Sajal Gupta wrote:
+> The old atomic_t based counter allowed ppl_do_flush() to continue using io
+> after it could already have been freed by ppl_io_unit_finished(), leading
+> to a use-after-free.
 > 
->> Op 20-06-2026 19:54 CEST schreef Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>:
->>
->>  
->> In preparation for removing the strlcat API[1],
->> replace the string concatenation logic with a struct seq_buf,
->> which tracks the current position and the remaining space internally.
->>
->> The backing buffer bootup_event_buf allocation is unchanged.
->> Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
->>
->> Link: https://github.com/KSPP/linux/issues/370 [1]
->>
->> Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
->> ---
->>  kernel/trace/trace_events.c | 21 ++++++++++++++++-----
->>  1 file changed, 16 insertions(+), 5 deletions(-)
->>
->> diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
->> index c46e623e7e0d..15164723e028 100644
->> --- a/kernel/trace/trace_events.c
->> +++ b/kernel/trace/trace_events.c
->> @@ -22,6 +22,7 @@
->>  #include <linux/sort.h>
->>  #include <linux/slab.h>
->>  #include <linux/delay.h>
->> +#include <linux/seq_buf.h>
->>  
->>  #include <trace/events/sched.h>
->>  #include <trace/syscall.h>
->> @@ -4501,13 +4502,23 @@ extern struct trace_event_call *__start_ftrace_events[];
->>  extern struct trace_event_call *__stop_ftrace_events[];
->>  
->>  static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
+> Convert pending_flushes from atomic_t to refcount_t with a proper ownership
+> model. The creator holds a reference for the duration of ppl_do_flush(),
+> and each submitted flush bio holds a reference until its endio callback
+> runs. This makes the io lifetime explicit and removes the need for the
+> second loop in ppl_do_flush().
 > 
-> Isn't this now unused?
-> 
->> +static struct seq_buf bootup_event_seq;
->> +static bool bootup_event_seq_initialized;
->>  
-> 
-> I think this can be refactored to avoid the bool. And should bootup_event_seq not be
-> __initdata?
-> 
->>  static __init int setup_trace_event(char *str)
->>  {
->> -	if (bootup_event_buf[0] != '\0')
->> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
->> +	if (!bootup_event_seq_initialized) {
->> +		seq_buf_init(&bootup_event_seq, bootup_event_buf, COMMAND_LINE_SIZE);
->> +		bootup_event_seq_initialized = true;
->> +	}
->> +
->> +	if (seq_buf_used(&bootup_event_seq) > 0)
->> +		seq_buf_puts(&bootup_event_seq, ",");
->>  
->> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
->> +	seq_buf_puts(&bootup_event_seq, str);
->> +
->> +	if (seq_buf_has_overflowed(&bootup_event_seq))
->> +		return -ENOMEM;
->>  
->>  	trace_set_ring_buffer_expanded(NULL);
->>  	disable_tracing_selftest("running event tracing");
->> @@ -4766,7 +4777,7 @@ static __init int event_trace_enable(void)
->>  	 */
->>  	__trace_early_add_events(tr);
->>  
->> -	early_enable_events(tr, bootup_event_buf, false);
->> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), false);
-> 
-> What if trace_event is empty? Then setup_trace_event does not run AFAIK. See the
-> WARN_ON in seq_buf_str too. Have you tested this?
-> 
->>  
->>  	trace_printk_start_comm();
->>  
->> @@ -4794,7 +4805,7 @@ static __init int event_trace_enable_again(void)
->>  	if (!tr)
->>  		return -ENODEV;
->>  
->> -	early_enable_events(tr, bootup_event_buf, true);
->> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), true);
->>  
->>  	return 0;
->>  }
->> -- 
->> 2.43.0
-> 
-> Thanks,
-> Jori.
+> Fixes: 1532d9e87e8b ("raid5-ppl: PPL support for disks with write-back cache enabled")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Closes: https://lore.kernel.org/all/ajJF2wKYWRk4GGCK@stanley.mountain/
+> Signed-off-by: Sajal Gupta <sajal2005gupta@gmail.com>
+> ---
 
-Thank you, Jori, for your review. I will send v2.
-I tested both empty and non-empty trace_event cases with QEMU, and both now boot successfully. 
+Have you tested this at all because it doesn't seem at all correct to
+me...
 
-The logs below demonstrate this.
+regards,
+dan carpenter
 
-Non-empty trace_event:
-
-qemu-system-x86_64 \
-    -kernel arch/x86/boot/bzImage \
-    -initrd initramfs.cpio.gz \
-    -append "console=ttyS0 trace_event=:mod:rproc_qcom_common,:mod:qrtr,:mod:qcom_aoss trace_event=:mod:rproc_qcom_common" \
-    -nographic \
-    -m 512M
-
-[    0.082316] Kernel command line: console=ttyS0 trace_event=:mod:rproc_qcom_common,:mod:qrtr,:mod:qcom_aoss trace_event=:mod:rproc_qcom_common
-[    0.083324] bootup_event_buf: :mod:rproc_qcom_common,:mod:qrtr,:mod:qcom_aoss
-[    0.083413] bootup_event_buf: :mod:rproc_qcom_common,:mod:qrtr,:mod:qcom_aoss,:mod:rproc_qcom_common
-[    0.083689] printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
-
-Empty trace_event:
-
-qemu-system-x86_64 \
-    -kernel arch/x86/boot/bzImage \
-    -initrd initramfs.cpio.gz \
-    -append "console=ttyS0" \
-    -nographic \
-    -m 512M
-
-[    0.085213] Kernel command line: console=ttyS0
-[    0.086458] printk: log buffer data + meta data: 262144 + 917504 = 1179648 bytes
-
-Thanks,
-Woradorn
