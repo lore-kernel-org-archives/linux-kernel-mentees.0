@@ -1,159 +1,245 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D17238159
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 21 Jun 2026 17:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C98245020
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 22 Jun 2026 05:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782062204; cv=none; b=IPMicG9VJw2XA+MnZeIqR7APWu2i+Qa6EhTid+6O4cvXvTYCUaQo7z/3rVqBZaTbomsUgoytqLjkadP7MTgZ/o+/TAA8usyrqzhyFnW/yxCjnZz4hYYY4RmmumwYaFI5vEOeUkr3foFtp2yXlbz14D2PbiSM9QrSXYL8EsgGvYQ=
+	t=1782105645; cv=none; b=FJi8/TBYAN1sylTp1DaoObbX91APbFXcKU9XmvNRbEOlfaf7bnBctv3+H8VVIgasxGbvweLnIbw3omJDSljdhpsecutU3kfimN2qphiMCaQ5oekdcEySDPSy9r1bwZYQMKoE2AtibUbG/0UVolUll39D7xR+8ELboqX4xN6cuT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782062204; c=relaxed/simple;
-	bh=PYIMUPD3AKX4CJIC+IT5NFVlBmhjj2gGWN3cHcV/ny8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=m02vxCm84FRuyoouO58fQilEeZS3ZL6x8OPA5H6elUEWMTTAIcvDI0+/Wulug6vJ+VXDPOgcRgvwG3j69A3UynUrHRxyYofJ4cFNyQfEjBPc5wBh0Wq/kAvPdo1Qjb6WWOkd7/zUgSt5p9Gh6VS1YdfORClNuHEKQdxbKjsr+Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=hIlEOycc; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1782105645; c=relaxed/simple;
+	bh=FUGyhmgFs0kFqTa0WIscJrsvga+WPhwKNJ/Q6QQ1Q3U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=enAarJrLDoZX8FplKFSvYR1h+k4ACXaMwKRrQ8saokK5Uy/ECKS0/mg9WlGHZosfT3HKY9gargvhevKBfX/7hXQTyIWgRVtZp5tfit0dSebEMuLmdtH94kBAQkRTazNdP+NPSmb/bK1wHziD/X95GdoaqKvbmBSCpnwkuHEqCXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=kSf0QZWm; arc=none smtp.client-ip=203.205.221.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="hIlEOycc"
-X-KPN-MessageId: f1a9766b-6d94-11f1-9e8e-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id f1a9766b-6d94-11f1-9e8e-005056999439;
-	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id f1a82abf-6d94-11f1-91a1-00505699891e;
-	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=AgwUlvkvdVPsfsg7AKOcX+bnU/0pIR65cfU+vu3313k=;
-	b=hIlEOyccXgbbsnumur7UImx7rxa2RiVjw14vUxr44wSwaKgm/WhUsf8/hAHXxadq1ZgW0uR1Gfup6
-	 zcbMf26c9Lqdac4Gzkul9HfVsIdwfJ2nG6alFjSb+ZUbeonj+dD+GhMS056+2iaXpC0asLdmfoPje6
-	 uyTli+D12wBaqjD1fNXbCnV98mSJTkvqzuNOhX2Jm4KfIU/I7i9oShAw1XDVmchRbqAUcbcKqfJ38c
-	 5InEDqu6Z6rUM8iLmIG6ezqVYAsmZOzcjzAv2CwQStD9U7CIrO1jIFnzpj+CqT3Ozrc/ZLwyh6F0q8
-	 MT0FDYpGOejmA2C5IzNW1iH6Hekr6Mg==
-X-KPN-MID: 33|zV4dEls6C4crfDir2+UZIpGFiLqTMyiyl6bIU5JQdDoQtxSg5hq593U0k2PA2Mb
- ZSRTRTzura5jEIsrBS68NK/WjQeSu8Y7BeJcvn+6iOdg=
-X-CMASSUN: 33|eS54b1dhrtIOizHOqjVgpqCmrVIMyIa7gQmI+mqdc9DL2gA4+DX2LD2WeJQkrde
- ZkYMZVQb6QjfOLkDtgeFDLg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh06 (cpxoxapps-mh06.personalcloud.so.kpn.org [10.128.135.212])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id f19a84bb-6d94-11f1-8edb-00505699eff2;
-	Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
-Date: Sun, 21 Jun 2026 19:16:30 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>, rostedt@goodmis.org
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org,
-	skhan@linuxfoundation.org, me@brighamcampbell.com
-Message-ID: <70408559.2499685.1782062190117@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260620175441.223342-1-woradorn.laon@gmail.com>
-References: <20260620175441.223342-1-woradorn.laon@gmail.com>
-Subject: Re: [PATCH] tracing: Use seq_buf for string concatenation
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="kSf0QZWm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1782105632; bh=g8N60X99d2aVR3z2NaXfeFloP3gSbdhAWhaH2CYENF8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kSf0QZWm575QPeLx9wwFsWLRqCNyffgF3uDSkRoRghzEx9rIT1pk4maKFYvpj6NEm
+	 GthJJV4yArbVmeUvypBualvvegetgjK9u4z6Xx7I3mfbCRQVQnw1IC64TWMMAdeZRh
+	 SlzPnfJZlVZMx18HdDtu29e2TgpagxhH+R02uORU=
+Received: from [192.168.3.157] ([115.156.144.140])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 51D0E4C8; Mon, 22 Jun 2026 13:20:29 +0800
+X-QQ-mid: xmsmtpt1782105629tugcldrx1
+Message-ID: <tencent_1388B255DE88642FE401446B38E546119407@qq.com>
+X-QQ-XMAILINFO: N/WmRbclY25Ggpn5sZdHH8gXsJS6xOSe46hIoajdW/pWjhwmcou+8+DDJFKU3e
+	 4OGU9jQJSmAwPGzRA4yzDIkaAeY7OKdHTGQFMLPQZEBWVOhvW0YCBe+/E/sNE7zVmRzosdtwrH7p
+	 db6qsADRvxV4UkPm3BodVGjD68WR0Wvt0SEK2zV3IUZYizTYaJtgz4tg+b0Y0u4UcMnR6yvzWerX
+	 7DUr90oaKSijJ2xVZWZdt5/qKdpDzqnrKHIFc4C/hWxKo1GDUb79vN1qn/G/0Jml+aka3XM3IaW5
+	 XYHUIH4KOq1lhZw2oCi1146g/cOa+k2NMmX9tXaDqD4NSoL3ICEWWD7hUAfykjOIAYJKlAte6BrO
+	 pokitpRF4eDa2r3Vm8aVAsIx+fR9bWqVpIR0nTINUxIYY4ttQ06Dj0cFGS4XZl4Sm6CcjNDrBN8w
+	 9n94nENPvLZ3+rL56qTgX/r/JUIwg8O6Fu16H64sTID+MEf3fOoPMbhwk7H0V9mGgsREC2ghTLrX
+	 PuoxhdA6e5s2vkQyAYQ1byUDH01zGS8Nn+rfAhd/APOQWXoMHa0RU3dpwfyrH4VpJNah+o2Ha6Ak
+	 I1I9bLzEIU8vMe+m00HottXVj4+TZcEU3jZW9b5pVunKDUT9xSz/18QOLVbjijHDkZMR0zBNijmc
+	 prI1eRRJnwJ/R6JTGeN0EwNOhNoNjTqmRInnYL+BHplfo9ML/azYuUZ3BNDBnEiNAbJRmlph2XSl
+	 ReXUKw3ldwWUoJIEcHShuEJyT5AJGzTkw6xn8fjGZkdeLfJpeNilck4C+jVja/hS8q3e4OIgTFna
+	 ZVbCHUwU4xqRcxlNMgVG08TBj0SoM1i+o74r53iz8KkKl05Fc7zcim3DUgHhuyNwuTvZMNAlTMCM
+	 2b7TqUnyVhIdZ0sJW/pnseX/QckrOW8hPll31ygEO3YKb/6FXqVRmMo0UN9FTY6VmwwN/TEBy8nd
+	 SoMdcW7k92X+jkNXk5HpTWe12mtz0/NmfxGoqVhaWscoA1dJTPysr3ogvwzUpFKtt0XmmMsZSga5
+	 Urg0aWnQULltOW2RPeG1MHfOPYJwZdMj1BgHFidI/ywPwSU4pe7w5U5OLyuJgq1+goLI8m4A==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-OQ-MSGID: <15c9fd4d-dfb9-4648-901d-1a445c71266e@qq.com>
+Date: Mon, 22 Jun 2026 13:20:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] tracing: Use seq_buf for string concatenation
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>, rostedt@goodmis.org
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ shuah@kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com,
+ jkoolstra@xs4all.nl
+References: <20260620175441.223342-1-woradorn.laon@gmail.com>
+From: XIAO WU <xiaowu.417@qq.com>
+In-Reply-To: <20260620175441.223342-1-woradorn.laon@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Woradorn,
 
-> Op 20-06-2026 19:54 CEST schreef Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>:
-> 
->  
-> In preparation for removing the strlcat API[1],
-> replace the string concatenation logic with a struct seq_buf,
-> which tracks the current position and the remaining space internally.
-> 
-> The backing buffer bootup_event_buf allocation is unchanged.
-> Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
-> 
-> Link: https://github.com/KSPP/linux/issues/370 [1]
-> 
-> Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
-> ---
->  kernel/trace/trace_events.c | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
-> 
-> diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-> index c46e623e7e0d..15164723e028 100644
-> --- a/kernel/trace/trace_events.c
-> +++ b/kernel/trace/trace_events.c
-> @@ -22,6 +22,7 @@
->  #include <linux/sort.h>
->  #include <linux/slab.h>
->  #include <linux/delay.h>
-> +#include <linux/seq_buf.h>
->  
->  #include <trace/events/sched.h>
->  #include <trace/syscall.h>
-> @@ -4501,13 +4502,23 @@ extern struct trace_event_call *__start_ftrace_events[];
->  extern struct trace_event_call *__stop_ftrace_events[];
->  
->  static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
+Thanks for this cleanup — replacing strlcat with seq_buf is a nice
+improvement in general, and it's good to see the KSPP goal of removing
+strlcat making progress.
 
-Isn't this now unused?
+I came across an automated AI code review of this patch on the Sashiko
+platform[1] that flagged a regression risk, and I was able to verify it
+by testing the patched kernel in QEMU.
 
-> +static struct seq_buf bootup_event_seq;
-> +static bool bootup_event_seq_initialized;
->  
+TL;DR: This patch introduces an unavoidable WARN_ON on every normal
+boot (without the trace_event= parameter), which will crash systems
+configured with panic_on_warn.
 
-I think this can be refactored to avoid the bool. And should bootup_event_seq not be
-__initdata?
+ > @@ -4501,13 +4502,23 @@ extern struct trace_event_call 
+*__start_ftrace_events[];
+ >  extern struct trace_event_call *__stop_ftrace_events[];
+ >
+ >  static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
+ > +static struct seq_buf bootup_event_seq;
+ > +static bool bootup_event_seq_initialized;
 
->  static __init int setup_trace_event(char *str)
->  {
-> -	if (bootup_event_buf[0] != '\0')
-> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
-> +	if (!bootup_event_seq_initialized) {
-> +		seq_buf_init(&bootup_event_seq, bootup_event_buf, COMMAND_LINE_SIZE);
-> +		bootup_event_seq_initialized = true;
-> +	}
-> +
-> +	if (seq_buf_used(&bootup_event_seq) > 0)
-> +		seq_buf_puts(&bootup_event_seq, ",");
->  
-> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
-> +	seq_buf_puts(&bootup_event_seq, str);
-> +
-> +	if (seq_buf_has_overflowed(&bootup_event_seq))
-> +		return -ENOMEM;
->  
->  	trace_set_ring_buffer_expanded(NULL);
->  	disable_tracing_selftest("running event tracing");
-> @@ -4766,7 +4777,7 @@ static __init int event_trace_enable(void)
->  	 */
->  	__trace_early_add_events(tr);
->  
-> -	early_enable_events(tr, bootup_event_buf, false);
-> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), false);
+The new seq_buf and the bool are not annotated __initdata, unlike
+bootup_event_buf.  If bootup_event_buf is reclaimed after init, the
+seq_buf will hold a dangling pointer to freed memory indefinitely.
 
-What if trace_event is empty? Then setup_trace_event does not run AFAIK. See the
-WARN_ON in seq_buf_str too. Have you tested this?
+ >  static __init int setup_trace_event(char *str)
+ >  {
+ > -    if (bootup_event_buf[0] != '\0')
+ > -        strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
+ > +    if (!bootup_event_seq_initialized) {
+ > +        seq_buf_init(&bootup_event_seq, bootup_event_buf, 
+COMMAND_LINE_SIZE);
+ > +        bootup_event_seq_initialized = true;
+ > +    }
+ > +
+ > +    if (seq_buf_used(&bootup_event_seq) > 0)
+ > +        seq_buf_puts(&bootup_event_seq, ",");
+ >
+ > -    strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
+ > +    seq_buf_puts(&bootup_event_seq, str);
 
->  
->  	trace_printk_start_comm();
->  
-> @@ -4794,7 +4805,7 @@ static __init int event_trace_enable_again(void)
->  	if (!tr)
->  		return -ENODEV;
->  
-> -	early_enable_events(tr, bootup_event_buf, true);
-> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), true);
->  
->  	return 0;
->  }
-> -- 
-> 2.43.0
+ > @@ -4766,7 +4777,7 @@ static __init int event_trace_enable(void)
+ > -    early_enable_events(tr, bootup_event_buf, false);
+ > +    early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), 
+false);
+
+ > @@ -4794,7 +4805,7 @@ static __init int event_trace_enable_again(void)
+ > -    early_enable_events(tr, bootup_event_buf, true);
+ > +    early_enable_events(tr, (char *)seq_buf_str(&bootup_event_seq), 
+true);
+
+This is the main issue: both event_trace_enable() and
+event_trace_enable_again() unconditionally call seq_buf_str() on the
+still-zero-initialized seq_buf.  When booting without trace_event= on
+the kernel command line, setup_trace_event() never runs, so
+bootup_event_seq remains zero-initialized with size==0.  The
+seq_buf_str() function hits WARN_ON(s->size == 0) in
+include/linux/seq_buf.h:100.
+
+I built a kernel with this patch applied and booted it in QEMU without
+the trace_event= parameter.  The WARN_ON fires twice on every boot:
+
+Kernel version: 7.1.0-next-20260618-gaa8f0a630773 #1 PREEMPT(full)
+
+Boot 1, WARN 1 — trace_event_init():
+```
+[    4.339900][    T0] ------------[ cut here ]------------
+[    4.340592][    T0] s->size == 0
+[    4.340596][    T0] WARNING: include/linux/seq_buf.h:100
+                          at trace_event_init+0x1370/0x16c0,
+                          CPU#0: swapper/0/0
+[    4.344985][    T0] RIP: 0010:trace_event_init+0x1370/0x16c0
+[    4.355743][    T0] Call Trace:
+[    4.356106][    T0]  <TASK>
+[    4.356441][    T0]  trace_init+0x95/0x10c0
+[    4.361793][    T0]  start_kernel+0x225/0x4e0
+[    4.362409][    T0]  x86_64_start_reservations+0x18/0x30
+[    4.362979][    T0]  x86_64_start_kernel+0x11a/0x160
+[    4.363544][    T0]  common_startup_64+0x13e/0x158
+[    4.363872][    T0]  </TASK>
+```
+
+Boot 1, WARN 2 — event_trace_enable_again():
+```
+[    4.760317][    T1] ------------[ cut here ]------------
+[    4.760944][    T1] s->size == 0
+[    4.760947][    T1] WARNING: include/linux/seq_buf.h:100
+                          at event_trace_enable_again+0x1c2/0x230,
+                          CPU#0: swapper/0/1
+[    4.765947][    T1] RIP: 0010:event_trace_enable_again+0x1c2/0x230
+[    4.777045][    T1] Call Trace:
+[    4.777759][    T1]  do_one_initcall+0x128/0x700
+[    4.779617][    T1]  kernel_init_freeable+0x398/0x940
+[    4.780790][    T1]  kernel_init+0x21/0x2c0
+[    4.781862][    T1]  ret_from_fork+0xb2c/0xdd0
+[    4.782908][    T1]  </TASK>
+```
+
+These two WARN_ONs fire identically on every boot (verified across
+three separate QEMU sessions).  On systems with panic_on_warn=1 this
+will cause a kernel panic during every boot.
+
+This matches what Jori already asked about in their review —
+if the trace_event parameter is not provided, setup_trace_event() never
+runs, and the uninitialized seq_buf triggers WARN_ON at both call sites.
+
+Full PoC (compile with:  gcc -Wall -o poc poc.c):
+```c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/syscall.h>
+
+int main(void)
+{
+     char *log_buf;
+     ssize_t log_size;
+     const size_t buf_size = 4194304; /* 4 MB, enough for full dmesg */
+
+     log_buf = calloc(1, buf_size);
+     if (!log_buf) {
+         perror("calloc");
+         return 1;
+     }
+
+     /* SYSLOG_ACTION_READ_ALL = 3: read the full kernel ring buffer */
+     log_size = syscall(SYS_syslog, 3, log_buf, buf_size - 1);
+     if (log_size < 0) {
+         perror("syslog(SYSLOG_ACTION_READ_ALL)");
+         free(log_buf);
+         return 1;
+     }
+     log_buf[log_size] = '\0';
+
+     /*
+      * The WARN_ON(s->size == 0) in include/linux/seq_buf.h:100
+      * produces a message containing "s->size == 0" followed by
+      * "WARNING:" within a few lines.  Search for this signature.
+      */
+     if (strstr(log_buf, "s->size == 0") &&
+         strstr(log_buf, "seq_buf.h")) {
+         printf("BUG TRIGGERED: WARN_ON in seq_buf_str() found in kernel 
+log\n");
+
+         /* Print the first occurrence with context */
+         char *p = strstr(log_buf, "s->size == 0");
+         char *start = p;
+         while (start > log_buf && *start != '\n' && (p - start) < 512)
+             start--;
+         if (*start == '\n') start++;
+
+         char *end = strstr(p, "---[ end trace");
+         size_t len = end ? (size_t)(end - start + 30) : 2048;
+         if (len > (size_t)(log_buf + log_size - start))
+             len = log_buf + log_size - start;
+         printf("%.*s\n", (int)len, start);
+         free(log_buf);
+         return 0;
+     }
+
+     printf("BUG NOT DETECTED: seq_buf WARN_ON not found.\n"
+            "Either the kernel is unpatched or trace_event= was on the 
+command line.\n");
+     free(log_buf);
+     return 1;
+}
+```
+
+[1] 
+https://sashiko.dev/#/patchset/20260620175441.223342-1-woradorn.laon%40gmail.com
 
 Thanks,
-Jori.
+Xiao
+
+
