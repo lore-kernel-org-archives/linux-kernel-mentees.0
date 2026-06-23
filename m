@@ -1,97 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6BE377544;
-	Tue, 23 Jun 2026 10:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB1DF736
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 12:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782210184; cv=none; b=TJ8Z34jg9KivSq/5x6ZqaWWxmVorcccO4Mn9k3ZuNqKJvy29WFYRrxiYUvKXRZO04Z2NyCl2M4+zO1v9/6t9nSuXjsYi6JDipZl+vC8KGx9sLeD4bGP9CzVheMh1TB4v/UOVTbDO34ick9Jv07RAFSinBEgZT+yZrz8stRQTkfs=
+	t=1782219047; cv=none; b=mq3sGNj9hZOqZ8pR+Zx3WrmFAOsQtzjqNVW8tDH1R2ScrbYR4x4U56QT1kUeMhrCfDT649K97jXTa+8ZZ/3Pf6Zq9DxHw9sEwTVeG6qdL6LXu5Uz/g7LsltyCv7e7vozdWgzcpZK81VDhJy591/Jk54BDHhzwC3dN3lIgi2wXww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782210184; c=relaxed/simple;
-	bh=VcLFiuENyyd3m/b4a3E+So1QsoqXa7Lc8NGW4N5fCW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tz06Lo7lU1q5RfWsGSpMujaIGLKJqaUHtjvfEsCayEZbYYH+7QhoVOVLdH24idAb96DQQrHFBzIDOMUGGreTJb6yCORQzPyXuotNIFEFg1Y4y5hKI/fBvoD+wapsmxv0K6ELZVaGwbHgbfAPvpMwJbqoYUKgxluiBEl6LtZGRmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+oZS+CS; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782219047; c=relaxed/simple;
+	bh=TOUR2POP2vlf8YUNKv3dyet+eahX6OSdriA3fkqSbFk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YBKPSg4G3kZ+me5rjbReO5XHbhWo9/L3XaWqsdQOq0xrGyfFcHM6zofsXw7so+rHcXNC8q8raBLCpQEh0H6C8ejeDtZaGc1HqLBBH3loWDLrTfYhK7ZGMFm6l76bEQk/XHm8dBqYBfBLWJ7WcvENW+yWK6MrgiVnm3zvakIUr5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A6wyLdMp; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+oZS+CS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782210183; x=1813746183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VcLFiuENyyd3m/b4a3E+So1QsoqXa7Lc8NGW4N5fCW4=;
-  b=S+oZS+CSAhU6Y98vuVz1BVBIsWiz9wkV6SCn1ak0OHayEkp+/THtt1ti
-   DHBjyQKhvUl6grcwjWec41Fw9Hl4DWrcK2E/YlPYsPS3yi/KvTfGylb79
-   MesUep+ksYzdKDluHtD4RXgCGxxXCYf8CUxUXzytngQ27TfCC99Jcop4C
-   EspA9ulq+mCBGanJYaHn514G6InDWFHYrvmf1uIK92bDgZCr3wXXb62P2
-   HgqGdPqUHaRX2RMpcsxc0O2h40C4fGLPOw01SjjfOvE/tY8NbnSBKuIy4
-   vrH1bgWBMyuNeYzem4yIpjjhZqnbEhYqplE+fgZCnBOqoMCsusrLCz08A
-   w==;
-X-CSE-ConnectionGUID: PyRkm3RoTrqCc915hY0ePQ==
-X-CSE-MsgGUID: ifHJmdsASMyT0a79xfvz5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="86856121"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="86856121"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:23:02 -0700
-X-CSE-ConnectionGUID: EuFLw/PpT8mMtaz73qmLHA==
-X-CSE-MsgGUID: 8j8e1yFVTDSG/5DLJv65KA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="279659047"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:23:00 -0700
-Date: Tue, 23 Jun 2026 13:22:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	~lkcamp/patches@lists.sr.ht, linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] staging: media: atomisp: use kvmalloc_objs() for
- overflow-safe allocation
-Message-ID: <ajpegTS1vfclimCQ@ashevche-desk.local>
-References: <20260622224402.34001-1-rodrigo.gobbi.7@gmail.com>
- <20260622224402.34001-3-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A6wyLdMp"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-519f9f13b06so38482031cf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 05:50:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782219046; x=1782823846; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dGj3g1KCk+kZNll4UB6dOm+IXncrIJjrxvMy5Ft1TB0=;
+        b=A6wyLdMprywZCG4Di/xGHXB+7wVQiNPCyOaqt1G2iBBZgWPmgcfKVVyh0tG5j6DmfA
+         gI0M5XQfNrTam7b9sZVFdYrSG0bG/+MTfciVfhlQzs9awepfkvQeB3uGkK0F/lWUWBAq
+         dvnMgTihwCc1Ywnkw/5R1MSHlJ3SFLEJ0MT7lD2/9Q71uxjD6y0Z/+aKsMpjRltHZB4X
+         DM4iOn+27Pgy12Foss/ICL7KeV8Md7tjGW8fWTQH0BkRqVmuxwL0MfPnPgRBn7Lhn0Zf
+         kKTaP+BBC+7MRU7DYPScIhXwRB//4x5KEDRZlW4qbJtWLmmrg0OZSbFCp47uu9Jn+2ml
+         eXdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782219046; x=1782823846;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dGj3g1KCk+kZNll4UB6dOm+IXncrIJjrxvMy5Ft1TB0=;
+        b=LJN7NIt+CYmfE66CLR/gY9w4p4mxGl6ISZM0Mj7FZL9xIMSaTpfBpQ6fmpZ6HtbWn4
+         /95Tty2BlJ2enK0nBODqeYawhhfrOk+iFTO48GCMw2Ai0KDZKT+bGC7BAsNP1oBjRYQW
+         KCEHLW2WXvHOTwP69ufKgrsvQqEziyG2Pn7YJm0tI8Ix9pyf9VZ4fh9/my2KH9Cg6sgr
+         NvNbptgEeUJrjaRpY7nLWSQAtOAEJulco+fHE+CDGIOZhnO9XLDP8ui/zqC58AkvLcY6
+         ZjRaRxbD0ek50vveZKPrBfSWAmXIMnq0mnb9fxUYZITfFAbvzcicAnssesMuazUzmW1n
+         qJ9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8lQhnFIreagjHL27AQflTmJYPi7ciUC3QkNCLcuz1qvvQj85oWgz6YbGzPvKth9FBIRODxh1O1sXKJVQ5JAfxqekMQPg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFWxF2M9byJALgynyl/64lLVuP5bVm6gzdD0BQ097EzUydD3Pi
+	qpFXcdc0+AFDmuI3+mnrbRFCbhH9nFKQgdJsr3gvPMYvjMcjWkCROEk=
+X-Gm-Gg: AfdE7ckszzYh9VnIaA5tPBXlQ1NAPGYlARvl7njtqLN9JzXXsrSEOgHgbZokNSFi8ck
+	sxZvy7yrTjbUCC/LhEsOlcA4hENhRRk8uN231G9yGCqf0Gwr1W87TsPDFXgZ27kuVhGCtySrT3u
+	9qLwFfcA6GlDoDzayrHWj7JTqCzQ9cjKqTJ8icaeedDtCZYhZQpjVPVC6PPFbqw0GOvAMPkLl+Q
+	Bpj47Aqk8W8++O500bPGXR7gajXcnlCF3LZ9inIlIY5yhCMh6lwTyXyQVh6ZKuazMob9q5qiS9X
+	LRnVUMlnZT7vSCcrFVnhiXcrxLEUY9fXzSDaD1SHPnLpFtL81tXS0m6k6wjkgR7BvLJddnOYJRy
+	LWfDVKKf5nswFygrJSWkklVWvRBybmu4RA+vtDdPXUez3EuocxAP5YWUJQ2h1np65zOQZbJP29j
+	bOZJdtCS3KXQeFOU/6bSkUMBpURgF5b5VpnhsEJX54cPh0sRDz
+X-Received: by 2002:a05:622a:408d:b0:517:917d:e3d7 with SMTP id d75a77b69052e-51a54807d1fmr37051071cf.28.1782219045378;
+        Tue, 23 Jun 2026 05:50:45 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a51106a09sm22340861cf.0.2026.06.23.05.50.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2026 05:50:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260622224402.34001-3-rodrigo.gobbi.7@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 23 Jun 2026 09:50:38 -0300
+Message-Id: <DJGFX7B3FJJP.3CI7CU0US8FYB@gmail.com>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, "David Airlie"
+ <airlied@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>, "Simona
+ Vetter" <simona@ffwll.ch>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>
+Subject: Re: [PATCH] gpu: nova-core: parse structs via zerocopy
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Alistair Popple" <apopple@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20260621143647.264770-1-nico.antinori.7@gmail.com>
+ <ajjj1yyMcrCA8H19@nvdebian.thelocal> <DJFUZJYZHOT1.M74T83PJE8GM@gmail.com>
+ <DJFVRMR67B0W.2AJBHU1PWDPFT@kernel.org>
+ <ajnPpyQcirSDIZTu@nvdebian.thelocal>
+In-Reply-To: <ajnPpyQcirSDIZTu@nvdebian.thelocal>
 
-On Mon, Jun 22, 2026 at 07:42:43PM -0300, Rodrigo Gobbi wrote:
-> Several allocations in sh_css_params.c still size their buffers with
-> open-coded multiplication (e.g. width * height * sizeof(*p)), which can
-> silently overflow and under-allocate.
-> 
-> Convert them to kvmalloc_objs() with array_size(), which saturate to
-> SIZE_MAX on overflow so kvmalloc() returns NULL instead of allocating
-> too few bytes.
+On Mon Jun 22, 2026 at 9:23 PM -03, Alistair Popple wrote:
+> On 2026-06-23 at 07:02 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
+>> On Mon Jun 22, 2026 at 10:26 PM CEST, Nicol=C3=A1s Antinori wrote:
+>> > I did my work on rust-next [1] because drm-rust-next does not have the
+>> > zerocopy crate present yet [2]. linux-next contains both zerocopy [3]=
+=20
+>> > and the new users of transmute::FromBytes if I am not mistaken (BitTok=
+en,
+>> > PciRomHeader, and PmuLookupTableEntry), so I can make the changes ther=
+e.
+>>=20
+>> The drm-rust tree is a bit special, as it remains open for contributions=
+ even
+>> after it has been tagged for inclusion into Linus's (including throughou=
+t the
+>> merge window). However, all changes staged in drm-rust-next are not goin=
+g into
+>> linux-next until -rc1 is released.
+>>=20
+>> IOW, until -rc1 is released this may or may not resolve all conflicts wi=
+th
+>> drm-rust-next. Once -rc1 is released, it is backmerged into drm-rust-nex=
+t and
+>> drm-rust-next is picked up by linux-next again.
+>>=20
+>> Usually all of this remains rather transparent to contributors, but you =
+hit the
+>> case of using a new feature introduced through another tree before drm-r=
+ust-next
+>> caught up with Linus's tree (which will happen next Sunday).
+>>=20
+>> Before drm-rust-next caught up, this patch can't be applied anyways, so =
+all
+>> good.
+>>=20
+>> > I am fairly new to kernel development, I apologize for the mix-up.
+>>=20
+>> No worries, you did nothing wrong; thanks for the contribution!
+>
+> Yes sorry if I gave the impression you did something wrong - this also to=
+ok me
+> a moment to untangle as an experienced contributor so perfectly understan=
+dable.
+> Appreciate your contribution and hope to see more of them in future.
+>
+>  - Alistair
+>
+>> - Danilo
 
-...
+Thank you both for the clarifications! I'll wait until the backmerge
+into drm-rust-next happens, then I'll rebase this patch along with
+the new conversions and send a v2.
 
-> +	me->hor_coefs = kvmalloc_objs(*me->hor_coefs,
-> +				      array_size(grid->num_hor_coefs,
-> +						 IA_CSS_DVS_NUM_COEF_TYPES));
-
-Here and elsewhere with long line, do like you have done in one case
-with a temporary variable cnt. It makes same number of lines of code,
-but readability is better.
-
->  	if (!me->hor_coefs)
->  		goto err;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Nicol=C3=A1s
