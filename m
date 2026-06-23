@@ -1,61 +1,64 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5B73C1F26
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 22:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638AE3C1F45
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 22:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782252640; cv=none; b=CXDAj0WY+JU18S5zcKRBvUPrRiwe/beaAxs5iJOXW0GGuIdgbc87T5fnebDF14fUQ+eybQa8jmjz91/4MZlDYV1IFjh15x719CB+q++DSMYL+kJKIQjlxuY7CExCahpjtKIH6vDx7RCmsvYBHHnIAsOShPoVBrqknOaE6WdiD0I=
+	t=1782252643; cv=none; b=YVILRGBMHNF3ypuWNrrsn9sWsdsaWOPy0xTGWYm8nWGPRf1t3wUUd73YISVXmjT2+YIy+4Js4D9dKMEqiAf3dAmS5m92TKgNjht/LCxNwUtGSa7m8QVK/YVl+/3jfCp/qMRQMlAcEVgfU5ysABWS60Ix5Cd6klG+RzcKH9rVgMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782252640; c=relaxed/simple;
-	bh=2ZmnH69X9i6LOFCWhM4qK/TDF+q7CGkCI6G71ROtLpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBCGrTyvWs040ucfHJZP7UtBQbebFxti1TI4HxdB6XCgAy02WVP7ZLFyUq9JW/QeUZMQgLEk0xGNNROeaF6Sm6s8UR71fkwjC+zrWozFaUk6yn4ytb3n9edDSmO1ZVLQpvzQ6mcueLMUbRtX4jVxlpt0KvqED0QTbge5jw7reiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFRxpD8D; arc=none smtp.client-ip=74.125.82.171
+	s=arc-20240116; t=1782252643; c=relaxed/simple;
+	bh=eAQ4oMX0/Xkapoymki25CS2DNK7+/uNx6TNxx66H3KM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YXyoHsMbXYjUxEM6f0oL0XTTUtjHGHaxIElt9qUmiljGKyI0dhzJmNG791xgPwOv7NbH4TiXX9q/X4L1hakQPMhajOlGJdPNJpJIQsGZoQWYJuVPNneZ53UBrOc9tx9lPDyOYlqkIHpt4fX5F9o/FA3tj/kUIwon7Z2n2aZyFAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jK4Auq6i; arc=none smtp.client-ip=74.125.82.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFRxpD8D"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-30bf854d5feso781084eec.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 15:10:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jK4Auq6i"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-30c6c8d7503so37244eec.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 15:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782252637; x=1782857437; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zef6035xk0sI/Vr1UN1WS9r7Ogg1PRDClgF390fpwy0=;
-        b=iFRxpD8Df2yPnkHtfvcImwN+8vupZ4cIVArfxytdyjLtnmJHzh/UqO8U4CmGu6EZx7
-         cAk3DAOXZl42zMxyjrmFXfn5YmAC+MFJn0pBn2E76FFaXqDKAk/BoVbU42Iv5omhJVxu
-         NdgDQ/NwRE1+B5ntQK6ECATFB3OKUAjDxv/YmMDbgGQsc63AFbWxRfuh84Ira3P+GiG/
-         MOue7bRTeH2b27Nzs9RLdx+oYBnmk7oRkv3PNWxPZOBgDhzgO4g7A2oPbK7dTUKPk77g
-         omXLFNBwkt9aZL8dyoF4Ht3Dum4rBawcroo64Y+sTFmtTSeZYqAbIeoTDOP6HgeNYe2F
-         abeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782252637; x=1782857437;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782252640; x=1782857440; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zef6035xk0sI/Vr1UN1WS9r7Ogg1PRDClgF390fpwy0=;
-        b=fc1/pSRj0755pneLMNrWBy82UcY9zrotnZz4xoo+OoDilDCnHxMEt08tg5MS5TMkoY
-         ZXXmbpTbrHVngkR6QVpL9LmjFzwEm4Vbb2ecJLiPajx78ywkzSfM4P5BqzDW4xdNWb7/
-         a0hFg1nqSkBaacheVFH3FXWSuRXcSoqszppZM/3NGLnQU6XNvAIDj/JKBJgVeCM1lO2P
-         YHP/37zxnTW5N0EAgNPj9mLgul78cUb2Xp9uELANxw3//7twqVCbCSsKMqsLKmbl9J8I
-         uTbXk9eomZGlY4HpqlTYNwGjyxJ3FWA7ZOZNsrcloIsKy7XasJKOaXq3cPFzVqV2vylt
-         Yr0g==
-X-Forwarded-Encrypted: i=1; AHgh+Rrq1TypV0r4B3JKK7/dt8TE9W4DbCQYxq1fWw6Ct+A9dFQ1ukX1qSNjhpxVjy1Z89t06t2sp9PsHdDnyRqnpwmIi/Yxag==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZvfv3EsR2B86SG1+f8pg/LsXfr/GuWXgdlqiI+DSlso0egNIH
-	TEqhQ88IYR/h2PsAUFXu+waV1WSrRsfte4fbSYisBGdm6MZhgpgh5GGmGbXQyUP1
-X-Gm-Gg: AfdE7cnhz+K254jZAPW+QM3fQNNYnW7zEfPej1TNX8veE6KBJHQIPMJ109VsyG0XDa2
-	vxzTK4POF8UB2AXrJti9GKU3FCPuoeR91D7A+Ao7+luLh1fCU/LQDkr4H8n0VPw3zNCyoBepMTV
-	k+zyeNcp5iY72uo8YsoY/TEZb2EY3CanJ107e/NDFSlpvfbwTQnMkignZJ68C4okBptdMC7H38l
-	W23B69MvbYRB7sBXfPSnGUMIa5RAWohkjlhlnCA/61iuvPHUr+QweE3QjKC1uzZoSYYPxeNXeDl
-	Iin4uBGYtg55wh2FeQwKzSVzmsVn+Idq0yus3uD8KQC8Q6dK57jOEyF41UyL/KZ0SnvXp62Tc2i
-	5uLvpWYgkV8UCTaDR/HWN08Ijl7VMMCySa0cs69W1+jg1q2InHi7D1RwLtUb/LJTewswHIlQ+mw
-	BIrSnd5V+BXKDb6lxP3B00eWdCWsz1hnn7K34ocCml0eK6ZO47HDANGhcwOKLdZ1wCx+Q=
-X-Received: by 2002:a05:7300:b918:b0:304:de8e:17b with SMTP id 5a478bee46e88-30c68c4219amr1110911eec.5.1782252636568;
-        Tue, 23 Jun 2026 15:10:36 -0700 (PDT)
+        bh=Z4xS8phRqWxiljJHmmeogtt69A2jDuGD7tOCK9G/dU0=;
+        b=jK4Auq6isFqPU6cYmIGfEgioFQb7On7TxSDtkAehsZiupJTizqhNKaXeB1WmguDNsZ
+         anl2UniP10VEC5vCbUNZQo5IO5poYasMc4ZFvyeraHw++EdO7MjwnfClUmYiNMHMnXhb
+         Pb0yjBiw+rm1Ag/40hzO/0i4ZfAeOf34mvMPtqIlj+NQwt3UKqFnxAWOgap+MfhqSzBf
+         VmdwXoQvRWAtuSizth8tYEy7ODkCDNrrEdAAV89Ebd6y+z+5lytoWgBwQEk1CmKhGqua
+         kOkaC7wK3E/y2+TInQCCzBC3nh7dz7qQtsIhZyqOFkWCEEqqdETbIAbD9vOWS5ExC1l/
+         PmRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782252640; x=1782857440;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Z4xS8phRqWxiljJHmmeogtt69A2jDuGD7tOCK9G/dU0=;
+        b=md1pxpF83LnNgf31xaJ4H6uYVKCpSb0fVQ7atm+NI3m6IRxJIMH38BGCwrH2eE9JA2
+         PnA++AM9HVRdMLBgkJSZdNRSL1G8zfcp+nnf/0P0h2bq0a1lKi///MuDkD0AuZ+jAmo1
+         Yf9tVuoFKdYcM1E8whrZlrnLrnqSepAb4OQMuUkee2bwYvrUc7r8eaRRRANsNTMUMR+c
+         DsUlBRD7VfKJtsU+6+61I3qUWMtXcdWpKVT/l+8381JICZZhuiog4O+u9Yd+KPXDdZOv
+         UJ4uKwNeZIwSRDkXqsLXBFk5FT4NzTNgtMJKlOM7wdIaV9KUCHzKjhmuMN4PpGngK99o
+         /76Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpXpZipbJp4wlW/sI1xYLQjZDFOgLU98mFfzp3lHnuftUewitBq3mc30/oRKea+QsnP1vBgIwpUMnRGG3qPQrmF8xQWsw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9B52InhgGvliLTwLfeBgO7n3hw9IgnWr9nq1BUXNMTy3abvg1
+	/J0UP8xj1sh/rEQaON4/9AiIUnABbtts/Fd4xcS4iSeHc3iTHJT67IlH
+X-Gm-Gg: AfdE7ck4QffuZyn2t4mhsmwc9ENKitgFb2WrvYDm0E5YOltnVJiHPgbK7nsTSM8IcPB
+	ejx+tGcI/9+JiJMNpKCCPq4qkMbGQqmiVN8JLm/re+srbREKRX6RzmcztZRiLbxdG7A1lXCuzYz
+	++wDVj4tWIIHXejg84CaImHy3uruk25qMOk13p5qiKQ0P0L76u+fQg0xoXGB9JVm2ItiYJW8Qdk
+	6Ue9vNfydFl17eJSLInZrkJHuV4agw3Ak2OGXTqeRVDF+aJTIyA4SdNquiUOir9GTgD38jjuTSx
+	1/jcaUNSm+7l9JCsZlv1ETOiikPLUPCFYzU5L77FaZqQsIS/+Tg4uSYuXK9qPslxfg7Scj1XYVt
+	2L7JlF1DFZX1SMdmcXK+noQANhZOEqHFXng6X7SeEmeErxoE4ELUO2LcbUe3omfz3iff8LOkymr
+	86+HKJ/fpQ0VMqySxCKOd9mP2cnJm6Zdx2FZtU0iUB3VlgINHq4oXLTrkCAfJtcorrtKeJRGq+Q
+	voQJw==
+X-Received: by 2002:a05:7300:f191:b0:30c:5a7b:ae2a with SMTP id 5a478bee46e88-30c69343b90mr948131eec.24.1782252640508;
+        Tue, 23 Jun 2026 15:10:40 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:82a2:c10d:2699:12a0:58d6])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c5178a68dsm9059903eec.22.2026.06.23.15.10.32
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c5178a68dsm9059903eec.22.2026.06.23.15.10.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:10:36 -0700 (PDT)
+        Tue, 23 Jun 2026 15:10:40 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 To: andy@kernel.org,
 	hansg@kernel.org,
@@ -68,10 +71,12 @@ Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v3 0/3] staging: media: atomisp: use kvmalloc_objs() and drop redundant OOM messages
-Date: Tue, 23 Jun 2026 19:09:25 -0300
-Message-ID: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
+Subject: [PATCH v3 1/3] staging: media: atomisp: use kvmalloc_objs() in make_histogram()
+Date: Tue, 23 Jun 2026 19:09:26 -0300
+Message-ID: <20260623221028.40238-2-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
+References: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,44 +85,48 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several allocations in the atomisp driver still size their buffers with
-open-coded multiplication, e.g. width * height * sizeof(*p). When the
-dimensions are large the product can silently wrap, causing kvmalloc()
-to allocate an undersized buffer.
+Replace kvmalloc() with multiply with kvmalloc_objs(), which handles
+the size multiplication internally with overflow checking, silenting
+checkpatch warn.
 
-Convert the remaining sites to kvmalloc_objs() with array_size(), which
-saturate to SIZE_MAX on overflow so kvmalloc() returns NULL instead of
-allocating too few bytes.
-
-This continues the work started in commit [2], and picks up the stalled
-sites from [1], unifying with [3].
-
-While here, drop the redundant IA_CSS_ERROR("out of memory") messages on
-the touched allocation paths: the memory management core already emits a
-far more detailed warning on allocation failure as raised at [1].
-
-[1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
-[2] https://github.com/torvalds/linux/commit/d178c7ca8fefc28115d35b94c3b1f4d653e34182
-[3] https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
+Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 ---
-Changelog:
-v3: keep original author chain/tags at v2 and v3; minor cnt usage at v2 for readability;
-v2: https://lore.kernel.org/all/20260622224402.34001-1-rodrigo.gobbi.7@gmail.com/
-v1: https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
----
-Feng Ning (1):
-  staging: media: atomisp: use kvmalloc_objs() for overflow-safe
-    allocation
+ drivers/staging/media/atomisp/pci/sh_css_metrics.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-Rodrigo Gobbi (2):
-  staging: media: atomisp: use kvmalloc_objs() in make_histogram()
-  staging: media: atomisp: drop redundant out-of-memory messages
-
- .../media/atomisp/pci/sh_css_metrics.c        |  11 +-
- .../media/atomisp/pci/sh_css_param_dvs.c      |   5 -
- .../staging/media/atomisp/pci/sh_css_params.c | 101 +++++++-----------
- 3 files changed, 41 insertions(+), 76 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_metrics.c b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
+index edf473dd86ca..90d92ab8d52b 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_metrics.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
+@@ -4,6 +4,8 @@
+  * Copyright (c) 2015, Intel Corporation.
+  */
+ 
++#include <linux/slab.h>
++
+ #include "assert_support.h"
+ #include "sh_css_metrics.h"
+ 
+@@ -59,16 +61,13 @@ make_histogram(struct sh_css_pc_histogram *histogram, unsigned int length)
+ 		return;
+ 	if (histogram->run)
+ 		return;
+-	histogram->run = kvmalloc(length * sizeof(*histogram->run),
+-				  GFP_KERNEL);
++	histogram->run = kvmalloc_objs(*histogram->run, length);
+ 	if (!histogram->run)
+ 		return;
+-	histogram->stall = kvmalloc(length * sizeof(*histogram->stall),
+-				    GFP_KERNEL);
++	histogram->stall = kvmalloc_objs(*histogram->stall, length);
+ 	if (!histogram->stall)
+ 		return;
+-	histogram->msink = kvmalloc(length * sizeof(*histogram->msink),
+-				    GFP_KERNEL);
++	histogram->msink = kvmalloc_objs(*histogram->msink, length);
+ 	if (!histogram->msink)
+ 		return;
+ 
 -- 
 2.48.1
 
