@@ -1,110 +1,151 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810112609EE
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 04:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA550358367
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Jun 2026 04:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782276081; cv=none; b=Cxpo6jBSEVTysXpRK/OFhKacHtjsE/A4sqZAjqgQOupsq6InsbVZpWFtG9aTsULNQC1lXEJ9wgp3j9uh10AA3suXBMR6Zkt1WARGiR2HRLmmeRvfIj1Z4NgdgiiWgI1RFqUIpg3AypwW8O46AgQ2eU2B3gw0blJu86mauCYdIFY=
+	t=1782276471; cv=none; b=LKf7gLDvwUQH9iu8LgYaDBZ+Ar0G7VU8pcDYOg/8bgwSWTNW3BcfpAGQ773MmkKWgbgV9GFfNpdEjM3sdggFfJ+s3DzE0p180FD08Qmc0jVBitKtIMCEXgPlBlqiEf9tKmKApS6WMN588di1gpsPcHH5Mio+rjBE/3bV7b8cnUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782276081; c=relaxed/simple;
-	bh=HLVy3TH9ZBdUC9IImCHUkld1iGj1Bi82eoMFoRdb5ZQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=jtt0xzxOuGsyj/wfVoUk+aPguQvcjjIoM9y59utH5hMNTliMNjfSKBcPjO/m5I88Kx7bj/HKYzJSpPnR/T4H+D1WFZOt6GzmqNjkpiLu5uKmzb/i2acFH5jWaHUhBB0H6eOE/sufYim37iFD21AZX/Wh3f9fOSHjpTJu9CvHhgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=WmHu+geZ; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1782276471; c=relaxed/simple;
+	bh=jRPLZg+8fNMW5u2wGN78PrvNp59RpT5vmLJ7fYW+9oc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ie9uXs/iweMjoRiirXFIDQ/P+2KDHF4jICh5MBLuAC0iuIi506hzHt4a91GgH4KwuZGLcVIs51egZ+J9gphifSL+zUKmJF32l2mIL7+Pb1KhtwiIvpV1ecYtFS/dS9VpyOwQ7B5XP416B6qkxCpA60tA5WMHZmxPpJV+kTxMeXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JEgYXcgu; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="WmHu+geZ"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e93f93ed01so464815a34.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 23 Jun 2026 21:41:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JEgYXcgu"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7504B40B80
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Jun 2026 04:47:50 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id IhA0TbVbet8V for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 24 Jun 2026 04:47:49 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1232; helo=mail-dl1-x1232.google.com; envelope-from=robertusdchris@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7B944409D3
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7B944409D3
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JEgYXcgu
+Received: from mail-dl1-x1232.google.com (mail-dl1-x1232.google.com [IPv6:2607:f8b0:4864:20::1232])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7B944409D3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 24 Jun 2026 04:47:49 +0000 (UTC)
+Received: by mail-dl1-x1232.google.com with SMTP id a92af1059eb24-1363fe80fe8so1198582c88.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 23 Jun 2026 21:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1782276079; x=1782880879; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HLVy3TH9ZBdUC9IImCHUkld1iGj1Bi82eoMFoRdb5ZQ=;
-        b=WmHu+geZwmOJCJ79nL1hH+EHQY0kme5sdpzU1Z4iJAUYvpHqCVIVuUNdyI6NKeeLYi
-         gwB1niRUkJlcRxD5+JrOivIX4lgWq2q3Hbem3x4ONqpV8X7SjaTva9cbhLj9KWcMcRuA
-         r1fUaFO3ITMw1pVq3R4leUTIo9FjcXSjI/LVs19RUgjx1BuIV4h78A8A6THuhL67Yjl8
-         d13eXhZ2H16YKHediAgc8Oay/ILee5bNsH4zw6Rm+hCAUIGh/1h0IYWbdKpLK5Xf3IpW
-         W9uxoD9DJFHMUCYG2B72T1wiCPBWVMY/1+Dd1f7qDZBV6RICPKvSY58f6aiimMBye3Ii
-         5Q5Q==
+        d=gmail.com; s=20251104; t=1782276468; x=1782881268; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XRwHfaKON0xRqsVNb+TGm3rmHJoOA8bDDixkKlocDy0=;
+        b=JEgYXcguWOS4lHKH+Km5xPoKeoCrwbxNoT5iQXk9Sih32gxJ8Da7pDhfcM2RUVT66h
+         MR3y6wg/KvevR1oXyYne2/Qk8FQllaIVZuX+yrglpU4k96tvzwT4tWGY1lgFysz5HF4n
+         xKpL/2TjbzoZWLXYPM+z69jkqCRnKD1TegmNdfwcZQ94yaWykIG4QN7trIeoX8DOSAGV
+         I4nx+J+FPiLtutevp6lSMwOommDfYIMdlxvyiax91Cm25Q9GPC/iL4awByWMc/BFTkjW
+         jaK7vZnK41+AiLm8r62nzsYA6x44LPUKKmIbUIGemfMRKSKNE6TNhRTusQ8g5ZFzrKMr
+         P1Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782276079; x=1782880879;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HLVy3TH9ZBdUC9IImCHUkld1iGj1Bi82eoMFoRdb5ZQ=;
-        b=PNb/giz01PhhmAc5gyOEO8lC72silvwcfdPBA+aOQjcznzYk+ClZT8Yekw7kM7IUNi
-         8lGzQpR0BezhGAXKb67SZYkJwxhXkBYa2+Dfb1Bvsh9fIrBRi4iEWHM241VYTBojomfT
-         WCO522bVkSfbENR3jxu+MOVwXm+pzKQZVhndGIpVsYAaQP1fYUJYb9iuYAL1Mxv3M5HA
-         m2GDe/pk2uKAlGv05zfCu065UpWG8ng+Ad/Eqf/emWjYyO7jxwrmWlMGnr+oBSqmZ5XO
-         woDHvLA4aB81R7A+yw1pKPlW8Wfl/RQZq8Zf9ISDut6CFP49WWs5JdRGSzYc8c6xeFi/
-         zDIg==
-X-Forwarded-Encrypted: i=1; AFNElJ8e2FTrwPrRTV6gW4rxlJWxZeJLdlDRayWaVTinhMfGucOwNG9+c3DI6J+Anyi1c/dIfo8fb1aSfpAuyv3tGubYfSlDrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0ybow7yCdNX6/26hYRZUSLG0ZByMLLqHL6LRGeu6iVB5jpkdl
-	+NacVN4nLy+d37omqBEA9L6nFNPoipxc3ul0RYHicg7t0XvCd1kG7DhA+ry53jcMZLU=
-X-Gm-Gg: AfdE7cny+pgnJ1aF5Mjx2vYrMbYrQ2MchmhF8U+GzIUZrZufJEShibEhXsl7OKvZSrl
-	HeDJk/9kANx9aGUgxjKiQ1PyPhRkuVqbkM0mZzim8miXQbnAckF2naloWaorS95U3nO3aGH39i/
-	wkjFvxrMwsAJPxG5SEW9j6LdyuaP4MS/rDvVsQGB+lm5LYmbJG3TGXSm3THt8a5H90FT52rKy0W
-	SeXyvbBvh0kLeQfDuHgU2qCgJpWkIhPtVMp5SDSvKsYGGXvJhzAmUFxsSKV7xXhGrxoBeMT4N1Y
-	VTIums5cjRYI95ALQh9ezYGQS7liOL4+gy9577NLTVzafO9q3/u58vkJYA2b7mN8BlwtsAyZlQm
-	SlF5C2FnwntSzJPyf4u+kIVD0aMEnirXJ1iV4fJgkwX7UepdEaPY/sivx67sy6huUdFuBl3TYbh
-	3F24gd9EaddoNAuw5eT0iKgz/oWBQ4obKdp9R4/7VyvjhbTs3t4D/4zLQAIDKfukEPqM+g
-X-Received: by 2002:a05:6830:6508:b0:7dd:9b19:a875 with SMTP id 46e09a7af769-7e94083e3b9mr14683547a34.2.1782276079546;
-        Tue, 23 Jun 2026 21:41:19 -0700 (PDT)
-Received: from brighamcampbell.com ([2605:fb40:0:c09:9ca9:e0fd:b7cd:be76])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e944068bb7sm10280395a34.9.2026.06.23.21.41.18
+        d=1e100.net; s=20251104; t=1782276468; x=1782881268;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XRwHfaKON0xRqsVNb+TGm3rmHJoOA8bDDixkKlocDy0=;
+        b=PW8+I1gIEjGx47Eejld++9JX1KJCTnE8ibArbpa6x3AmmOJ/fxg+61loVX+H+0zZRy
+         TZSde7+WaA5rCOH1juzgkXdZ4HShcmu4emoSZc+SNwUsC84ec+jv+oPxETKCvG1bVObC
+         QqC4rgHIISPbnWolhIAC/Hhkb2sAc18C6EJfx9isGLSXhB4PtQGngBdtsNNxoMVonm/0
+         kicHNQUgcJ7FtmTMgbalkQC/CQtMF4wnbLxWz3PG9qbjDdulsoOANIMDq5/EIx0WYG9y
+         dOe950+hT++toRZ5QvZufpg13ZwmhydS/EEwmcdW+p210aWVM7hUYMJVlNqo8HPKRry6
+         Dl3Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rozg959ah6rjKbRiOyIDUN5VL6bHHCskhLpVx9lp6ZXNtily9ZedUXAqZQc7PAXHk7GpHxr7IcsiAdU05049xiN1792dQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy/gVoz0v7dK7hPxxX9pYdTPi2ce2Y0Ni8m/7uIB+l3P+U5M0vQ
+	LCfuaNsRqSC/e38qvIYHHA7KmLzwG08kRBed50uc5TZ+rbv34VhhBn3L
+X-Gm-Gg: AfdE7cnHYpCfBHXlwOPfr/VPrF/LVNKP85d+btIWq48nuAx07h0054pW1UFDBHmYuaY
+	qB8o+3LIAhtMzkc0neW5TryhDrkLFThEe8vdNVw/BOIcJLEfvTrbhy1p54d6tSE841MTN++k3DD
+	vywQ0kvrIWNjWjI4LqDh9WiZs8anPz/PD7QMeFFwK/1J2v9eJNrCcRGyeJBG6p3EHHNrJfHrMW9
+	TP1CNU5DyHHr7Tr3NTFdC7HdSkyfOy/k03dmtq07SuGf5ALXtu8rS0KwTOeHVVKqITKY9AhrFst
+	M6oGI5ua4xq1zV9iji/RYJ/+/ETd3RN7yaZwai74OkA5H8HrAZQJwLO0sy9F2p4X3zIX50W5Srv
+	ahpGH6vUTzpJ6O2UfJg7SZEv5P/KJDYt7iQ6Aus/WM8gSDPYJn/YsaH9EOnd3c+f1Yq+vesQ2c7
+	3CtGoXCcG/R44hQvI=
+X-Received: by 2002:a05:7300:d518:b0:304:5db8:da95 with SMTP id 5a478bee46e88-30c6938977dmr1842774eec.23.1782276467886;
+        Tue, 23 Jun 2026 21:47:47 -0700 (PDT)
+Received: from soyboi ([2402:8780:1073:548:421c:c183:7a07:f0d9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c5c5e20easm8715259eec.18.2026.06.23.21.47.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 21:41:18 -0700 (PDT)
+        Tue, 23 Jun 2026 21:47:47 -0700 (PDT)
+From: Robertus Diawan Chris <robertusdchris@gmail.com>
+To: nathan@kernel.org,
+	nsc@kernel.org
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com
+Subject: [PATCH v2] modpost: prevent leak when early return no suffix .o in read_symbols()
+Date: Wed, 24 Jun 2026 11:47:42 +0700
+Message-ID: <20260624044742.144852-1-robertusdchris@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Jun 2026 22:42:47 -0600
-Message-Id: <DJH0687PNY2P.1WOW0ATJ2KZA9@brighamcampbell.com>
-Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Sajal Gupta" <sajal2005gupta@gmail.com>, <linux-raid@vger.kernel.org>,
- <song@kernel.org>
-Cc: <yukuai3@huawei.com>, <tomasz.majchrzak@intel.com>,
- <linux-kernel@vger.kernel.org>, <error27@gmail.com>,
- <skhan@linuxfoundation.org>, <me@brighamcampbell.com>,
- <linux-kernel-mentees@lists.linux.dev>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
-In-Reply-To: <20260622142146.56637-1-sajal2005gupta@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon Jun 22, 2026 at 8:06 AM MDT, Sajal Gupta wrote:
-> Compile tested only.
+The allocation for elf info symsearch and hdr from parse_elf() haven't
+been released when return because of modname didn't have suffix ".o".
+And it seems like the suffix ".o" check did not depends on parse_elf()
+to succeed first. So, move the suffix ".o" check before checking
+parse_elf() result to prevent resource leak when the modname didn't have
+suffix ".o" and return early.
 
-It looks like you're on the right track, but this could use some
-testing. My analysis here may be incorrect, but it looks like it should
-be pretty easy to test this patch by compiling and running on a system
-with a RAID5 array, PPL enabled, and no RAID journal. I expect the call
-stack would look something like the following (feel free to correct me,
-anyone...):
+This is reported by Coverity Scan as "Resource leak".
 
-ppl_do_flush
-ppl_stripe_write_finished
-log_stripe_write_finished
-handle_stripe
-...
+Fixes: 8c9ce89c5b63 ("modpost: simplify mod->name allocation")
+Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
+---
+v1 -> v2:
+- Move the suffix ".o" check before parse_elf() instead of adding
+  parse_elf_finish() in the suffix ".o" check because the suffix ".o"
+  check did not depends on parse_elf() and to minimize overhead handling
+  the check (suggested by Nathan Chancellor).
+- To make the subject title represents the new change better, change the
+  subject title from "modpost: release allocation when early return no
+  suffix .o in read_symbols()" to "modpost: prevent leak when early
+  return no suffix .o in read_symbols()".
 
-To be sure, you can add a tracepoint[^1] inside ppl_do_flush.
+v1:
+https://lore.kernel.org/all/20260610052550.187006-1-robertusdchris@gmail.com/
 
-Dan was probably reluctant to make the change himself, opting to instead
-submit a KTODO because the change is relatively straightforward, but
-testing is a little more involved. Testing is particularly important
-with respect to subsystems pertaining to the filesystem because latent
-regressions could mean permanent data loss.
+ scripts/mod/modpost.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Cheers,
-Brigham
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index abbcd3fc1394..6eb2714521a7 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1580,14 +1580,14 @@ static void read_symbols(const char *modname)
+ 	struct elf_info info = { };
+ 	Elf_Sym *sym;
+ 
+-	if (!parse_elf(&info, modname))
+-		return;
+-
+ 	if (!strends(modname, ".o")) {
+ 		error("%s: filename must be suffixed with .o\n", modname);
+ 		return;
+ 	}
+ 
++	if (!parse_elf(&info, modname))
++		return;
++
+ 	/* strip trailing .o */
+ 	mod = new_module(modname, strlen(modname) - strlen(".o"));
+ 
 
-[1]: https://docs.kernel.org/trace/tracepoints.html
+base-commit: 8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+-- 
+2.54.0
+
