@@ -1,75 +1,76 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1C72C11F3
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 11:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FDC1925BC
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 13:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782301612; cv=none; b=MTw/Mbi9qznBZ07B971PFyHlqQIUvJiOIDUpiJYHet9N4tiNIMsnKYayNI3gDs2kdN6pKfJ5AgsHwtyMM06HBkdoROEapBxXK46iz8l1Brh73FYRk2sGxnJDsa3YwjZqlghwUicY9cydpuAigkJ58c86/6l4np/Z5wlj2bJ0/eU=
+	t=1782306183; cv=none; b=N3Slcd8KO/InVh5JoUdSRjh62P7miIhVve1piF9zoKvCGZEjRb0phxvWJipDkGJLZtM3n84VATzMJEq/cpNHY/Uk2kj+PRVjW8TSD5u3SX4w8ovdFv3B3hDBnHY/nibMtLnZMC0s4Wks/So9KTrPgNYlQASw6vGT5dftX6wVrlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782301612; c=relaxed/simple;
-	bh=hUG3sRV5RMfHn1ZN0bBsvFTkVjqprDKCzLA//HYhC5A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c9yUbsvL9bNVFOhdk4ocN7DSlmrSbdD5WQSc0jGgYBVTsZpJIBZoANQXP6DZMrlknefEJSiUNhOvC2oEQDoWRur5SJ5iv0L6+D0vY/urQS9wbrk5reMwfsF1KTCjCwui2VLRJAdyfw2+I0eTkzk8KvA3LPNbp458ElnLpYkHr3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rtT5EyHt; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1782306183; c=relaxed/simple;
+	bh=QDHxV7W+oqGlbIXZMJ7I++MZaMSnKMppWqlbLCG4DYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ia94oJrFUZEmxazpeodp9aMronfRPlWBlIxvV4W/5y5PbvWJ347UJcbsb2b+Kck6g3iuUzotHnjZY26G6eqZUJyUKMN40V4Qxk4X5p8++63oSSti+515b6H5PwLoLOEQ22AK6PnuFZSRLnARaxsEu50jnQOU+PkmgUf0cZvQqCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elFy8CFj; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtT5EyHt"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45fe59255beso508006f8f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 04:46:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elFy8CFj"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2c68190ade4so14167805ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 06:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782301609; x=1782906409; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782306181; x=1782910981; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
-        b=rtT5EyHtg5E4owpW6mfs2aJB/zDixofapOTIxek0UoCbsdNEisHQSyW35rQkr9IpJ5
-         FDbIrDAY3X89sp5soRq7S52cZxdPBQZojI9xwOv83Yq/SoarzWnbL2BtAA1DwSA9+46e
-         jQOwUX+UyCe9i4vITeC/OwenmhBiUa2ZDVH6gEoUWM8BHmgrei1v3/Uc7EpGQ0nEYia1
-         pbcvE101LrwXYWGJU3mIB4ug+n3L5wuk6e/NMpl3dnEs2d90RC9OYmasByseYl2ozNQB
-         xb0D987VXGaQib+uEHAO+fcTHgzLorCo2nEomb0gdhNI4YY3ADVZdXYjxHgkRt47iD/X
-         hJkA==
+        bh=JQUuPMmuv/cgtI0GhaDa2PT2gy6UgZhnkw9/EmvR3IU=;
+        b=elFy8CFjYOBKoAw2Wtgl7ViNSbPXDNwaKVmzkWL5HUQ5gKIDur8Acfy3yiFQUwe2sv
+         Z44ER9Aj+mDsFA2XVb72Y8hJQ4Fzz+h5wOEIQMVZ+soc0eocpo3B56lwR4ATwqNXJssB
+         qY2/idqANbscmETNFKaOlzku8nzFFX2kUxpE9pFQJPjt7DWgViOt7V3dwV7DYTHVdAcb
+         IyWDF0CvIDwPlSPfCwXneaiinrlyUU1iIj9x8o+VgXt9rCE9giLsl3LcQAbOv39SHJeW
+         g8QKbsaOZhI2/rm46Uztj/InPM2Uvv6cj02lY8VFApQoV+dxjLJLsE4ElzHE9KsSMUbL
+         d22A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782301609; x=1782906409;
+        d=1e100.net; s=20251104; t=1782306181; x=1782910981;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
-        b=hIPeauE2U0SkCQY2MWJf1nUpyDIhOcY7Im05AG5qWQAuMmba9tfR9C+nqJdCTmbCQa
-         ArO5KRErprPSWB6qhSvahdJ7Lt7PzXbD+qLrfbxAp/4pMFZxNbW8u5+EJ/MiyxOFQOVf
-         fJtgXbgFtAYMM4WIxBblKTaUWjEvgG88sDtxPMwpvKeF43QBVllj6DYyiCb9T47iOOZF
-         Day/DOkfb7AEj25pk8t948o8b1LAAvBkbxGQCGo3VKzWiYPcMmj0CgE0F+YfXo12k46g
-         DTG5SPyk6IxJHMyiafxb7F3m2SgwbCvHw+SrNPHUkJwL5KvdMFffHPuOvWSydypqwlAW
-         DkSg==
-X-Forwarded-Encrypted: i=1; AHgh+RoXl0QAhHWfs31V5Y9a/+5VmlRKLbJnNY0LUj9x8XjqMF9PIijdvjqKpEC24FmToAv9CAoxOuwPd8pigvr1qWn0SgLbFA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyA0LT9wFJVXFtC94qxYyyIzyZhAq2/bhfTIBh3SXy28d3xDuO2
-	R2Q8u0rRsVagUSX/CgfAM5ZBneoC38Xp/VGWzvFBwzw3w4qAX2BxY4Q=
-X-Gm-Gg: AfdE7ck2iG4gfO1kpedbBribtvRVI/WQKJAkiCKZZ9oFXkBpn02hUBLKQUgXvh3Fy0z
-	fSfmMpqMcv3jOaDeAYe4GTKtIWLZXW1YMqgdHJuGmCpQavbpGigMrCNY+YJdR4k5xy9iJIRk97R
-	ydvc0rn/V+vt7cnoGtqOoRTkyTsM+/OqzjTR7eiQHppi2poVYDGkOWRV6SzIjDuBbnqXaC8y7xW
-	iLZ/5ixLAB5hqr4ZjuiEV523nlmR9xDQVoye2wFvbdgXJi/KaZs0Xh05g9Un9Jo7uRapHQe1N4N
-	lyOJzvHNFN89lfJhKNietWL2GYXPgOE/EgsR+sNqXmmrZ7dr3zjQKnli1yD/KUhps8cTJ1T8NCR
-	FnZbOfjXCLqfwAlMiJo5gVdmf4zH7yZJI4CGlLb0Xqcfq81+2FGiUMcrfB68cEdQqa1ijfjJsCE
-	P/s94mLauVKM/gH8EZV10oTB0QNXNMDUIIt0TcSfQ8FMOwzD78OW/wBzuxmqfI66HBp0v4CYBDP
-	yYs1yETbg7Db0CnDnYvlA5uQy/27/m3NMbD+4y4
-X-Received: by 2002:a05:6000:29d0:b0:462:d07e:4bc4 with SMTP id ffacd0b85a97d-46ad8a3a16fmr8045661f8f.7.1782301608585;
-        Wed, 24 Jun 2026 04:46:48 -0700 (PDT)
-Received: from archtop.localdomain (92-242-248-0.broadband.mtnet.hr. [92.242.248.0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm6396036f8f.9.2026.06.24.04.46.46
+        bh=JQUuPMmuv/cgtI0GhaDa2PT2gy6UgZhnkw9/EmvR3IU=;
+        b=PBkwh+ESdciBi6lmy4WCCHUwq6ChcPGrWD08VQwLCIht8H76b1Cyy0uYCQihI/VFkC
+         OpPx/JpuBxJo5WvxphmA8QsxX0y/L+8te26sQ8H/HBcpPm1Sstg8oP4OXH1V1wDfiSyb
+         L0Unlnp1ixae+ybH7VmtPBBB8taEIZS8fOwE5q4XDDSvOxQubfmN76szzLGaYw5qscpB
+         A9sTU0/ZGA7X49FU844UbZZh+pob7IzQ8Kb6kkDyZyMGo/vsWQlMswQC7s6qUuvFwHzi
+         q0oI82B9QOZu6LhkKG8x7IFvf+aKiXobMJ07VRFnddpPNQqISveBwtLJqvndnab4FlVW
+         eBtg==
+X-Forwarded-Encrypted: i=1; AHgh+RoTwOFNWz1pkTESDN53vTtiv1zNB0PLgtxcFfwvac1S9+N88nASXU/Um8sApPsXl++nzA8ZrD+0EuauYtoG93wcpNtLZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaCec7rWMdJ9utBcIIyy0D5gbu2w/ISOZtGixI1y4uDwzRMDtF
+	HKcM5WDDv+Oq2bs/kRUYS0cyyP/WSyL6H56VQn+CiJ32h84/HqPZNY7l
+X-Gm-Gg: AfdE7ckbyfHWbzgdBizCUeSbmr1HS0DCiuHtZ6NAtrFdkFFWsb/9AjYLk1cXZEQyzg/
+	Kk6ZEOxWJK3am5hZg0XH5/zvPN720WvfvRhT/UGMMi3UTDJnsVtmD4iRdhNEioHyr2h9djcF9WV
+	R/2DNHWvD6zHe1DVLd0Wl2Q0W6Ng9m3NhJR3fPLn+C4FgCBd5p1y48RrSJes7l6KCLq0+dI6vEs
+	6u1W135ZhfVVr07iK6Qaajnmv3igTne8eFK9wRsmjkjR9JX1/BOXcsYnBqRV9NzwdhweCYFWUZE
+	ielJG/cxB7h8mou+7liPaKD5BAoFJUSDkB7MWEDNwOp5rt0nXpPU8PR/yhPxyCzTaMTRv7ej/r6
+	54vesu8yAUH+J5ZiXVwFcowGW/yb6L0VnYxCVk+ufTtInK5nVoW6K7pdAv6brBJ2AgOzbjA41Kg
+	HB1Y+pE/RlRP2LM9f035JLWAKPKm2KMlQrJKuxo9CA+z80fQ8=
+X-Received: by 2002:a17:902:e5cd:b0:2c6:a4ed:efec with SMTP id d9443c01a7336-2c7c40168b9mr61894555ad.27.1782306177091;
+        Wed, 24 Jun 2026 06:02:57 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7444aad8esm134704505ad.76.2026.06.24.06.02.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 04:46:47 -0700 (PDT)
-From: Jakov Novak <jakovnovak30@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Prashanth K <prashanth.k@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org,
+        Wed, 24 Jun 2026 06:02:56 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: anup@brainfault.org
+Cc: atish.patra@linux.dev,
+	cleger@rivosinc.com,
+	ajones@ventanamicro.com,
+	skhan@linuxfoundation.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
 	linux-kernel-mentees@lists.linux.dev,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jakov Novak <jakovnovak30@gmail.com>
-Subject: [PATCH] usb: dwc3: fix kernel-doc string in struct dwc3_ep
-Date: Wed, 24 Jun 2026 13:46:15 +0200
-Message-ID: <20260624114615.18593-1-jakovnovak30@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	SeungJu Cheon <suunj1331@gmail.com>
+Subject: [PATCH] KVM: riscv: SBI FWFT: Apply LOCK flag only on successful set
+Date: Wed, 24 Jun 2026 22:02:38 +0900
+Message-ID: <20260624130238.524706-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -78,34 +79,38 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Building the documentation currently with make htmldocs gives the
-following errors:
+kvm_sbi_fwft_set() applies the caller's flags to conf->flags before
+invoking the set() callback. If the callback returns an error, the LOCK
+bit persists and the feature becomes permanently locked without its value
+ever being changed.
 
-  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
-  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
+Move the flags assignment after the callback so LOCK takes effect only
+on success.
 
-This is because the member variable regs of the struct dwc3_ep was
-removed in a previous patch. Remove regs from the kernel-doc
-string, fixing the warning.
-
-Fixes: abdd1eef04f0cb3b ("usb: dwc3: Remove of dep->regs")
-Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+Fixes: 6b72fd170592 ("RISC-V: KVM: add support for FWFT SBI extension")
+Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- drivers/usb/dwc3/core.h | 1 -
- 1 file changed, 1 deletion(-)
+ arch/riscv/kvm/vcpu_sbi_fwft.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index e0dee9d28740..034e8d7717e1 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -722,7 +722,6 @@ struct dwc3_event_buffer {
-  * @cancelled_list: list of cancelled requests for this endpoint
-  * @pending_list: list of pending requests for this endpoint
-  * @started_list: list of started requests on this endpoint
-- * @regs: pointer to first endpoint register
-  * @trb_pool: array of transaction buffers
-  * @trb_pool_dma: dma address of @trb_pool
-  * @trb_enqueue: enqueue 'pointer' into TRB array
+diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
+index ab39ac464ffd..1342adb3180c 100644
+--- a/arch/riscv/kvm/vcpu_sbi_fwft.c
++++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+@@ -327,9 +327,11 @@ static int kvm_sbi_fwft_set(struct kvm_vcpu *vcpu, u32 feature,
+ 	if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
+ 		return SBI_ERR_DENIED_LOCKED;
+ 
+-	conf->flags = flags;
++	ret = conf->feature->set(vcpu, conf, false, value);
++	if (ret == SBI_SUCCESS)
++		conf->flags = flags;
+ 
+-	return conf->feature->set(vcpu, conf, false, value);
++	return ret;
+ }
+ 
+ static int kvm_sbi_fwft_get(struct kvm_vcpu *vcpu, unsigned long feature,
 -- 
-2.54.0
+2.52.0
 
