@@ -1,104 +1,111 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756AD38C421
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 08:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1C72C11F3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 11:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782288469; cv=none; b=ZKvOSmS3u2nxCB/7srgfpfeLmrEbmHTg3PZPmHi/VVHI3xLrMmax8WJKUUG67SNyc+DnvCMmDqOwQl6g1aT6F/ff4bFFeHFznyDehlE+g6xyPDJSB0nLtFzkAcB0tazP8XBO8ptcR2R3p2gYZyTmSjKzS/DM8HbUqF9lFuE7O/s=
+	t=1782301612; cv=none; b=MTw/Mbi9qznBZ07B971PFyHlqQIUvJiOIDUpiJYHet9N4tiNIMsnKYayNI3gDs2kdN6pKfJ5AgsHwtyMM06HBkdoROEapBxXK46iz8l1Brh73FYRk2sGxnJDsa3YwjZqlghwUicY9cydpuAigkJ58c86/6l4np/Z5wlj2bJ0/eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782288469; c=relaxed/simple;
-	bh=H/uiRK4DFgVrmzx9/oy4BmqlpiOITf+qW/INtAGh284=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p62Xn40lXb2JitZ/mjPvPj/rSzVniS6EzOx4lebhDVuayisVA6ySXCvpFd5MwhyNiGx39vfzLxN5A+MUBmpFqgUnozK+1BUjoWL4uqTIEnlKEVHu8dQZd0csqw04n6aKJtkXiaR4jp3wfWls9r3b+PLdUE6YK2Ly/ndzzpYfGaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OCqBocr7; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1782301612; c=relaxed/simple;
+	bh=hUG3sRV5RMfHn1ZN0bBsvFTkVjqprDKCzLA//HYhC5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c9yUbsvL9bNVFOhdk4ocN7DSlmrSbdD5WQSc0jGgYBVTsZpJIBZoANQXP6DZMrlknefEJSiUNhOvC2oEQDoWRur5SJ5iv0L6+D0vY/urQS9wbrk5reMwfsF1KTCjCwui2VLRJAdyfw2+I0eTkzk8KvA3LPNbp458ElnLpYkHr3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rtT5EyHt; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCqBocr7"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-691c5776f35so1180717a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 01:07:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtT5EyHt"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45fe59255beso508006f8f.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 24 Jun 2026 04:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782288467; x=1782893267; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WTmHFwXKHWJsH9a/uyEYwOmNv8DNfdZVtbBq17LT/RE=;
-        b=OCqBocr7hpgmPqn3zsouC8VpRg3c4QaouZgirG+TSkbupvZ1930R1sVnIBBArrSDkQ
-         HeqsiOnCnR9t+3MdeIme1fvS1nhfpBZEtpCGp6E1QRZKzwoRLDmJc5tmER/mB+3ZkENz
-         zAbViHOWgCZCG0OHBKwJnTLy6BDr7yjDJ/yf9rBggOF9epNG4al0mEJRbHbtyDTwSe35
-         3B3ywjWXf+IR/HLYZZ4hiHqAGCWMZqDGfwTW3Sehek/3RoTigLBy3dnBGtUcazOFAQFt
-         bFmZQnbFhi6h53nD9oKINv/Mjp5uXrOjd2W8F9TEgJ6owaqIc5RBuSkmRdOoUKqgAPjg
-         0rZA==
+        d=gmail.com; s=20251104; t=1782301609; x=1782906409; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
+        b=rtT5EyHtg5E4owpW6mfs2aJB/zDixofapOTIxek0UoCbsdNEisHQSyW35rQkr9IpJ5
+         FDbIrDAY3X89sp5soRq7S52cZxdPBQZojI9xwOv83Yq/SoarzWnbL2BtAA1DwSA9+46e
+         jQOwUX+UyCe9i4vITeC/OwenmhBiUa2ZDVH6gEoUWM8BHmgrei1v3/Uc7EpGQ0nEYia1
+         pbcvE101LrwXYWGJU3mIB4ug+n3L5wuk6e/NMpl3dnEs2d90RC9OYmasByseYl2ozNQB
+         xb0D987VXGaQib+uEHAO+fcTHgzLorCo2nEomb0gdhNI4YY3ADVZdXYjxHgkRt47iD/X
+         hJkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782288467; x=1782893267;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WTmHFwXKHWJsH9a/uyEYwOmNv8DNfdZVtbBq17LT/RE=;
-        b=AWTRW4Xp7uC8EfWSDwowF4CsDoGj5wZQHdYgcSCQS275/BpEQWONR72vu1siGnU2vQ
-         FxOn9qODo3nuQIJMEGfeIPKJrPRa0c4RLDr+exdSNwzfPisoRPpqJ1NLdo5KmilDwgz0
-         geuTFW2XCww/0Z26GQIDjL8q3dM8Wb9Fx7KEKFATMF1sbwcAUx/LwGsksUMZ7XW9aGdG
-         0UDyDDw01mvzdHuDUiVxf8758Jv124WcwrUm4SbG/QVeTPRafQOOk1nFtMXUmwt4oFGL
-         +u8zhffdZNh+9gkobwqacMj6+oPf6bDy1hyBYdw7DjpWATDzl7fxwBkQXNpAt2sjQTt1
-         iNXw==
-X-Forwarded-Encrypted: i=1; AHgh+RoU7nUpfCNTCuWKMhNwQCx5oR2GIzlpKn7oWaTtec0xuf2M4/InZBaMft9JLbSpB0zADM2Siklf6CHguPNxx+RDbMShvw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywie3C0JKddOWfYI7+04YpjtzvW1SwZMOQOUW++JpI40gO0S2O+
-	fO5RVs83pzHgTNoKgqnSLqyC2g49itOtLsI0ZPmFi0MGxCynaobfgTcw
-X-Gm-Gg: AfdE7cmZUT3TyXtntqcclHaXjYh9KwSgTRycs9r0onR0Rzo1KWkbocXiMZNyFZeckjW
-	mtuRb6fhn4k5bDNm0hQ+A8bzAP7ettS3XN/Kbn773WaRc+pH0s4iB0TZ6qPKf4yWNMSY6GQqbBI
-	qh8qEUeBJj2YkuWcLi50GUCkTXHLd9Whuj4zUdvK7I8jrVu6Kr2KzuvWW1ugXq9WjS/6/tK/cL/
-	FLnKdBqY9YBuIees+3TFxPXdHv7SD940+eL9lcqQFXDi6N8xHJGNiHqsI9B3yR2mw1LUlSoBkjg
-	moq0mn35Ppy7lLOe7gBkYe3gqEAEp9kFOdpr6llL3s3dJKt3NsViAg449542mKT2i9FbAPFk4XT
-	hUoilTPMzbo4we0wn+38Aerr6lLSFgzqcxvdY+jQ0AuZoDA/LPrDiRMoCgcH4dRe+HJ58XfBn9N
-	yPU/R4Q147
-X-Received: by 2002:a05:6402:1e8e:b0:697:f686:80c7 with SMTP id 4fb4d7f45d1cf-697f68683cbmr783796a12.26.1782288466773;
-        Wed, 24 Jun 2026 01:07:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-697f49d73fdsm652987a12.22.2026.06.24.01.07.45
+        d=1e100.net; s=20251104; t=1782301609; x=1782906409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
+        b=hIPeauE2U0SkCQY2MWJf1nUpyDIhOcY7Im05AG5qWQAuMmba9tfR9C+nqJdCTmbCQa
+         ArO5KRErprPSWB6qhSvahdJ7Lt7PzXbD+qLrfbxAp/4pMFZxNbW8u5+EJ/MiyxOFQOVf
+         fJtgXbgFtAYMM4WIxBblKTaUWjEvgG88sDtxPMwpvKeF43QBVllj6DYyiCb9T47iOOZF
+         Day/DOkfb7AEj25pk8t948o8b1LAAvBkbxGQCGo3VKzWiYPcMmj0CgE0F+YfXo12k46g
+         DTG5SPyk6IxJHMyiafxb7F3m2SgwbCvHw+SrNPHUkJwL5KvdMFffHPuOvWSydypqwlAW
+         DkSg==
+X-Forwarded-Encrypted: i=1; AHgh+RoXl0QAhHWfs31V5Y9a/+5VmlRKLbJnNY0LUj9x8XjqMF9PIijdvjqKpEC24FmToAv9CAoxOuwPd8pigvr1qWn0SgLbFA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyA0LT9wFJVXFtC94qxYyyIzyZhAq2/bhfTIBh3SXy28d3xDuO2
+	R2Q8u0rRsVagUSX/CgfAM5ZBneoC38Xp/VGWzvFBwzw3w4qAX2BxY4Q=
+X-Gm-Gg: AfdE7ck2iG4gfO1kpedbBribtvRVI/WQKJAkiCKZZ9oFXkBpn02hUBLKQUgXvh3Fy0z
+	fSfmMpqMcv3jOaDeAYe4GTKtIWLZXW1YMqgdHJuGmCpQavbpGigMrCNY+YJdR4k5xy9iJIRk97R
+	ydvc0rn/V+vt7cnoGtqOoRTkyTsM+/OqzjTR7eiQHppi2poVYDGkOWRV6SzIjDuBbnqXaC8y7xW
+	iLZ/5ixLAB5hqr4ZjuiEV523nlmR9xDQVoye2wFvbdgXJi/KaZs0Xh05g9Un9Jo7uRapHQe1N4N
+	lyOJzvHNFN89lfJhKNietWL2GYXPgOE/EgsR+sNqXmmrZ7dr3zjQKnli1yD/KUhps8cTJ1T8NCR
+	FnZbOfjXCLqfwAlMiJo5gVdmf4zH7yZJI4CGlLb0Xqcfq81+2FGiUMcrfB68cEdQqa1ijfjJsCE
+	P/s94mLauVKM/gH8EZV10oTB0QNXNMDUIIt0TcSfQ8FMOwzD78OW/wBzuxmqfI66HBp0v4CYBDP
+	yYs1yETbg7Db0CnDnYvlA5uQy/27/m3NMbD+4y4
+X-Received: by 2002:a05:6000:29d0:b0:462:d07e:4bc4 with SMTP id ffacd0b85a97d-46ad8a3a16fmr8045661f8f.7.1782301608585;
+        Wed, 24 Jun 2026 04:46:48 -0700 (PDT)
+Received: from archtop.localdomain (92-242-248-0.broadband.mtnet.hr. [92.242.248.0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm6396036f8f.9.2026.06.24.04.46.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 01:07:46 -0700 (PDT)
-Date: Wed, 24 Jun 2026 11:07:42 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: Sajal Gupta <sajal2005gupta@gmail.com>, linux-raid@vger.kernel.org,
-	song@kernel.org, yukuai3@huawei.com, tomasz.majchrzak@intel.com,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
-Message-ID: <ajuQTrWQpQzgI_OV@stanley.mountain>
-References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
- <DJH0687PNY2P.1WOW0ATJ2KZA9@brighamcampbell.com>
+        Wed, 24 Jun 2026 04:46:47 -0700 (PDT)
+From: Jakov Novak <jakovnovak30@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Prashanth K <prashanth.k@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jakov Novak <jakovnovak30@gmail.com>
+Subject: [PATCH] usb: dwc3: fix kernel-doc string in struct dwc3_ep
+Date: Wed, 24 Jun 2026 13:46:15 +0200
+Message-ID: <20260624114615.18593-1-jakovnovak30@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJH0687PNY2P.1WOW0ATJ2KZA9@brighamcampbell.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 23, 2026 at 10:42:47PM -0600, Brigham Campbell wrote:
-> On Mon Jun 22, 2026 at 8:06 AM MDT, Sajal Gupta wrote:
-> > Compile tested only.
-> 
-> It looks like you're on the right track, but this could use some
-> testing. My analysis here may be incorrect, but it looks like it should
-> be pretty easy to test this patch by compiling and running on a system
-> with a RAID5 array, PPL enabled, and no RAID journal. I expect the call
-> stack would look something like the following (feel free to correct me,
-> anyone...):
+Building the documentation currently with make htmldocs gives the
+following errors:
 
-Heh...  That doesn't sound easy at all.  (0_0)
+  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
+  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
 
-I just left this one because it's not really a big deal.  It probably
-isn't even a real bug.  We call increment the refcount in a loop and
-then decrement it in another loop.  It's not the right way.  Sajal's
-first approach is the right direction this should go but *that* patch
-would require testing.
+This is because the member variable regs of the struct dwc3_ep was
+removed in a previous patch. Remove regs from the kernel-doc
+string, fixing the warning.
 
-Adding a break here doesn't require testing because it can't possibly
-break anything which is not already broken.
+Fixes: abdd1eef04f0cb3b ("usb: dwc3: Remove of dep->regs")
+Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+---
+ drivers/usb/dwc3/core.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index e0dee9d28740..034e8d7717e1 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -722,7 +722,6 @@ struct dwc3_event_buffer {
+  * @cancelled_list: list of cancelled requests for this endpoint
+  * @pending_list: list of pending requests for this endpoint
+  * @started_list: list of started requests on this endpoint
+- * @regs: pointer to first endpoint register
+  * @trb_pool: array of transaction buffers
+  * @trb_pool_dma: dma address of @trb_pool
+  * @trb_enqueue: enqueue 'pointer' into TRB array
+-- 
+2.54.0
+
