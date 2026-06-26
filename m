@@ -1,145 +1,121 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C8A3E4C7B
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Jun 2026 10:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782468253; cv=none; b=GhBp0jvh6BonY/mTeoO/9QNbJSmpGQg260zVg4lMBDD0GkJbPG32pYYyYnuY3RMyp6T9O7lwKqZo5pyakcPeGqp/3w12YHbYF2xDtsSezfgkktYQEY7PKidjswOb4SFp1Z6X1bN7u2RkWo+84WOT0/8sJtTCI4So+beVr6Tajjs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782468253; c=relaxed/simple;
-	bh=Bdl152pzFf7aWbtoJlbgiblz0+jWiyoHZ5m/pPAcdzA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=Y8wB8fzZMKME02b9Hh4f/d8Cb9VHtCsfoAe8fV5hwAH7bspNJCCN3hkFa+SGlyellO0InECxdWDdTeZDBHBTBL7WOBjTVCjp9hZBrrB1yqzD5yhBNT/1/aDfOcP7QEUQOAS0eVuYFm7ORQzPysohOAt7Ke0hF7Bh7f+l0xnm81M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AMhWy/Ij; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE390369D64
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Jun 2026 12:38:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782477513; cv=pass; b=r8D2de26oCXvxapK9YfNuNZwx/jIfRPBI4I0f+UAiLtnVsMRQFR9cVAQREOYVPsO5n2UB3khEmhO8ahunsN1va0T43k2xfgEnKBddebvle6bBQASIkRQyMasHkM+Dskf3jZn1AmW5C+WJw8L3W09UNM9aN5ZlCogfaGe8+ogu8I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782477513; c=relaxed/simple;
+	bh=FHE24Esf7ZACzZX3hr5BkL/1ragaLXiwUjw1Use/2sM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cVt9Lj7VxmlvWJXQWu1+Dxz7D4xakWxtfvvDheAv8kSdndXQfrNVch78Ac5+3YSGLVcHwBbhvs665EZb0dKMq9qoGI8Oy7IJwGAkk4caV8gwUDEtRZMBZ9TkX9xz/aI+fUt6YxpmfT0yIVQrsmkpf5ULXco1nNnmB/AfGGB1pLg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sob05GeE; arc=pass smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AMhWy/Ij"
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 000551E7;
-	Fri, 26 Jun 2026 12:03:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782468208;
-	bh=Bdl152pzFf7aWbtoJlbgiblz0+jWiyoHZ5m/pPAcdzA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=AMhWy/Ijnd3/IrcXSSZRs/TtjQgApSC5zA4fxAgkCr9MRsHxcbYctZ+zSIvBGJhac
-	 BfeFEaPcatCuPEEMOS/HlTQkUATEmInDSLSOglxU99ryuEr25A5SPpOjWohcvSVRQs
-	 tF5RAw1+ixPP0Oy2kw1ZBDFVQI6K53284sAfPuP0=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sob05GeE"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-922e181f199so81923285a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 26 Jun 2026 05:38:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782477512; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Vk6RFE04sLv76hpXgIOuonMlBvI7CddM2VAi/i5VYf4b/YQfaSipGxNsPElhxREHWf
+         Pi75kbBKJlL5sJebbC2T0nhmnuqsdOEvZDODsNkfBxO/r5AkWlbYGIdS/NDEpcgGcCfo
+         FEHT21UwtoFHFpSCWa7EDaQjwi9EgxMcJVxFhF01ybRaF0RYygal6B0IL0Eia12k1LMh
+         1o5ItP7BP4JDN5lGLA5Bo3vSniazvhg2dHXLB6ZZWTWHPMvJxv1IEbTulAHNekci1vg7
+         WHsxVvO0Mg5V5cVxmHTynTLdCqrP4rcReAbhxv/M38TcwYa22/BPDQFhbhexEWiQeamp
+         WxVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FHE24Esf7ZACzZX3hr5BkL/1ragaLXiwUjw1Use/2sM=;
+        fh=XGNY3rwT0l73avjQzCrS9j9nh56RNUaXYqp2oCzJ6ZU=;
+        b=Io/1G1D9WA5rDjJp/z9OAvb0URnlGn1XzleK1HeTeb9a0hS2LFiBuGSDqymysO8NrX
+         dLRJD6B8q33oXWAtGTDdIyZUCP6spj+izw0czQpjSCicbjKnl3HSSXXYkC/TxDpkGjzn
+         AQfh0bwYmd2UK4mdpAL5x70I2qO3/MuUvuOYrA3QfZKnswEX6/o46S25kDFN3brV4pyI
+         sStMyKDeuB+6ALRLjAiosARZQxl5MWEP8kZL03VobFtpuxnEkgnnO1rR7yuS4NFfY0+C
+         x7oPpXgfrm3nfpZAqlf+FzU8M6RJWIUigOhQf10JCpe4LrtnbJC14WzYxvz50lvOOw55
+         gF/A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782477512; x=1783082312; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FHE24Esf7ZACzZX3hr5BkL/1ragaLXiwUjw1Use/2sM=;
+        b=sob05GeE8oVcWzahFmENCCWsEi6yrX9w6/wcTWFETh+t3r8qSLhyvcVZm3CSLVZyMf
+         phJ/BVBlpo2OChTV9WeqIfdUnKG8RUrxx9W4+nJ6ZVKPBb0AspC73w/tMRLs3HMiNHhN
+         M1pnasziaNYkTbGdptjgnq5ZEhz+HwTZjz43FoLG94H5rZIsBY5DHJhXgGX7f7d3Fd9m
+         X0iushN3xnsfOQnYrEV1sN7gNN2iisKIyOlViU4XGf3sa5m4m7/VFQr2kIzKxAb0dPbb
+         R+5fpBLR7izt7gcxgoM00U0bED2h5b5nWejYR6sD86z4FYhxN9K03h86iNGFQt8wrfIT
+         Gihg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782477512; x=1783082312;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FHE24Esf7ZACzZX3hr5BkL/1ragaLXiwUjw1Use/2sM=;
+        b=FllH0KyR9o3I4HRiLFSqc0b8Ca5uQMLe7Yw6UgPgK7QKYengBpDZpe+PtBps0zznh9
+         x6S5n/ObuG7SYRBRYZwjD+ABAQuho4UteOBeumNnZf9YFqNZdzC09dp9Wye0iy1X7DLF
+         cBa8vT/sD0b72AIjEyGSO0X1usFSrtyR72qG3HMUJQAk1FtlZtx1kP3OuwVE5j7hua7Z
+         Mmt/SdWHM3vQTaCr+CfgW4tbYA31BmGDt1ZVCGkN2Iaa6qV4HEoQjs6hLowedhkhm2EU
+         FnaBIGPmzxZKX+a2ms3HBnxC1ria3C5NgEhAQvF2PI+hNTy9TBwpb31Nf3awcPIryvej
+         q9Og==
+X-Forwarded-Encrypted: i=1; AFNElJ/Nke9coMxE4/w0xUmckx/oDjOGNFq1QNwzitmo+lztnbYQGKkEKRcAEipv/mypRQdp0agAH3Q82fIlDNV+79MBtmpIlw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4NfMmnnLK6UG+B+Y+MK1hq+v+jO2WZopVjmf8w1lJwpaCohBx
+	OHPSiULs42DT9Vg+bIembEWfYGhcXcCuy1aVUxwttyu/fEbnEWBqhq9Wsz0T/ClijWPcQ00Q2SY
+	8hKX3ZZI1CgH5Mw7Aq4U+urjlYiOijR8=
+X-Gm-Gg: AfdE7clB9ODmzcPOZQbCfQXn8bzeUNS0jWSP1PW4OVk/7poIT7/9Ld+wUBbcsVVbJmi
+	zEo3k7BPbn+ah6Mvto88fHjm+fzy0AbHjfh84Rq7HzlXyc9xqzlV7AuDV9rOYrwWkStQ/OvNPS4
+	Lw3uP4SBrs2G7D/2qBhmXGY2QDp/i/s1vaYLo6y1Ejisz1L48Mp3NOgmqkmmEM6sSjjBwhsHfmT
+	d5aTH5F0IRV7eXsrnxWopTyss7Wk1yRFd0Rptsxu6wPrFLjmYpNOihrdtIWbStn+xTagIZHUpOO
+	eYC02jlMjvkuP1+bbErDm+Pl5ebxuAG2kJWwq2ZADGhN7+iLEPUKdS3rhllo74o=
+X-Received: by 2002:a05:620a:4589:b0:915:8865:dc01 with SMTP id
+ af79cd13be357-9293ddb0539mr1062831085a.46.1782477511763; Fri, 26 Jun 2026
+ 05:38:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260625160228.59672-1-tharitt97@gmail.com>
-References: <20260625160228.59672-1-tharitt97@gmail.com>
+References: <20260625160228.59672-1-tharitt97@gmail.com> <178246824177.1799417.1678746966574660598@freya>
+In-Reply-To: <178246824177.1799417.1678746966574660598@freya>
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Date: Fri, 26 Jun 2026 19:38:20 +0700
+X-Gm-Features: AVVi8CcFyQoU98IjgiX9d9v5xaZ8339Wm9OfGaHdAcfegTSWA-faGgeYzWknwZs
+Message-ID: <CACak8wPuBaGCBbBrpoPQ5ftQRtqwijvN_VJoRGs7FzYBGck-iA@mail.gmail.com>
 Subject: Re: [PATCH] media: imx219: fix test pattern ordering and add patterns
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Date: Fri, 26 Jun 2026 15:34:01 +0530
-Message-ID: <178246824177.1799417.1678746966574660598@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tharit,
+Hi Jai,
 
-Thank you for the patch.
+Thanks for the review
 
-Quoting Tharit Tangkijwanichakul (2026-06-25 21:32:28)
-> The test pattern menu currently maps 0 to color bars and 1 to a solid
-> color, whereas the imx219 datasheet specifies the reverse layout. fix
-> the ordering to align with the hardware specification.
->=20
+> Do you have a strong reason to switch this to the datasheet values?
 
-I'm not aware why the order was originally switched for the control menu.
-Do you have a strong reason to switch this to the datasheet values?
+I must say there is no strong reason. I'm totally new here and come from
+the perspective of someone studying how to write a camera sensor driver.
+The datasheet says that writing 0x1 to reg 0x0601 will set the mode to solid
+color test pattern. So it is "natural" to expect that I should set
+test_pattern=1 to do so via v4l2-ctl.
 
-I ask because this might break what userspace applications expect
-(libcamera) and also automated capture tests (that compare md5sums of the
-test pattern) in vendor board-farms.
+> I ask because this might break what userspace applications expect
+> (libcamera) and also automated capture tests (that compare md5sums of the
+> test pattern) in vendor board-farms.
 
-Moreover, given this is a menu control with (correct) string descriptions
-for what pattern will be selected, I don't see why the order should
-strictly match the sensor register values except that it would be "nice".
+This was totally oblivious to me when I made the change.
+I agree with you on this point. Breaking userspace does not sound like
+a good idea.
 
-Thanks,
-    Jai
+I'm open to making a v3 patch and only introduce new test patterns to
+the driver.
 
-> Additionally, add 5 missing test patterns to complete the available
-> hardware test patterns.
->=20
-> The changes were validated on a raspberry pi 5 with an imx219 sensor
-> using v4l2-ctl and rpicam-still.
->=20
-> Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-> ---
->  drivers/media/i2c/imx219.c | 31 +++++++++++++++++++++++--------
->  1 file changed, 23 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 223d3753c..8f0c04afd 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -110,11 +110,16 @@
-> =20
->  /* Test Pattern Control */
->  #define IMX219_REG_TEST_PATTERN                CCI_REG16(0x0600)
-> -#define IMX219_TEST_PATTERN_DISABLE    0
-> -#define IMX219_TEST_PATTERN_SOLID_COLOR        1
-> -#define IMX219_TEST_PATTERN_COLOR_BARS 2
-> -#define IMX219_TEST_PATTERN_GREY_COLOR 3
-> -#define IMX219_TEST_PATTERN_PN9                4
-> +#define IMX219_TEST_PATTERN_DISABLE                    0
-> +#define IMX219_TEST_PATTERN_SOLID_COLOR                        1
-> +#define IMX219_TEST_PATTERN_COLOR_BARS                 2
-> +#define IMX219_TEST_PATTERN_GREY_COLOR                 3
-> +#define IMX219_TEST_PATTERN_PN9                                4
-> +#define IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS         5
-> +#define IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS     6
-> +#define IMX219_TEST_PATTERN_COLUMN_COUNTER             7
-> +#define IMX219_TEST_PATTERN_INV_COLUMN_COUNTER         8
-> +#define IMX219_TEST_PATTERN_PN31                       9
-> =20
->  /* Test pattern colour components */
->  #define IMX219_REG_TESTP_RED           CCI_REG16(0x0602)
-> @@ -235,18 +240,28 @@ static const s64 imx219_link_freq_4lane_menu[] =3D {
-> =20
->  static const char * const imx219_test_pattern_menu[] =3D {
->         "Disabled",
-> -       "Color Bars",
->         "Solid Color",
-> +       "Color Bars",
->         "Grey Color Bars",
-> -       "PN9"
-> +       "PN9",
-> +       "16 Split Color Bars",
-> +       "16 Split Inverted Color Bars",
-> +       "Column Counter",
-> +       "Inverted Column Counter",
-> +       "PN31"
->  };
-> =20
->  static const int imx219_test_pattern_val[] =3D {
->         IMX219_TEST_PATTERN_DISABLE,
-> -       IMX219_TEST_PATTERN_COLOR_BARS,
->         IMX219_TEST_PATTERN_SOLID_COLOR,
-> +       IMX219_TEST_PATTERN_COLOR_BARS,
->         IMX219_TEST_PATTERN_GREY_COLOR,
->         IMX219_TEST_PATTERN_PN9,
-> +       IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS,
-> +       IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS,
-> +       IMX219_TEST_PATTERN_COLUMN_COUNTER,
-> +       IMX219_TEST_PATTERN_INV_COLUMN_COUNTER,
-> +       IMX219_TEST_PATTERN_PN31
->  };
-> =20
->  /* regulator supplies */
->=20
-> base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
-> --=20
-> 2.53.0
->=20
->
+Best,
+Tharit
