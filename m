@@ -1,174 +1,230 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013017.outbound.protection.outlook.com [40.107.201.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7432BDC0E;
-	Sat, 27 Jun 2026 08:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782549311; cv=fail; b=LQ2gUz+jixFNsIs+JzgDMuSkvtgXZMd55BSock1WQIF9GOe7R2V/Jx+hx7evPElholoUF0IzLCy1UvohQ5GkMNZZgAbgwOwQ18KpcVFr0pgOnk1FgW/CFU5oFXn8klyo2nEHF5CHtrGgrX/14Oc9Dq8dhAyNFy0DP6LqNYjOTkw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782549311; c=relaxed/simple;
-	bh=UMdztxafF6HQmcUZSsyd8y8VQ3WznDrgEJXHi4WKOSQ=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=HwZvZd+9LsfIk2Ua67Ds5riCSm6fvcVeUlsG66DGcLEuuyqFoSr4d6pwl4O0NeNfB9zmZvCKDLeY1KfjqpDmxwA8UHwGdahTZh/QxdV5PAQNccAFvF6l9YyTArXH2ZDSZlAn1eaRPcp/769ucg5dtiNwx4xbS5q2kZOt7ATvwjQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kPBPYaxH; arc=fail smtp.client-ip=40.107.201.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C556397321
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 27 Jun 2026 10:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782557738; cv=none; b=IouOej1BfbwZGo9LwhP70vLldg8DILW0sYAw82YIa5UzFt+lOqPL/GQdc9JssT235JnvnpMuAtbyUX6l1TXwOaVq86ur9x2q9VGducqVxdbxKVWlePvoeMMTXP+2kqQIUhmVnk1wgAoYCz3PuoOLNP5DdwIruF2k1FrBMgpkOoo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782557738; c=relaxed/simple;
+	bh=kVL1u7e2q+LOcCuGSRh3tx166iySQpDeLE0uWIsPFx4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VtTUbsJt09/ujoz8UWmG+r+f0lXXgQ+JnL6kL0v9Ni25hCXN+XNqyw3rZXQQpGIdRxcBpqKL9FzXp6HGrM+lDU/QJmwe1mthkN+gSBAxUDDmdsoY76XY1dP4p+ba2g+0UcIQqkX9mFXaKto9Hw9eeLen9doKnxrM5MMgBMER5gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZCgzAzrV; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kPBPYaxH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lLwwEd8izuhu9ozVVDNYnI9Djx0HjO9v+wg2UlWUpdyvLRvQbMKS0hFGZmf7lJuRG/TiXdPA+5O0QWNhYGn8RVoI7Rs/iSKtND/R9qPW2+G66l222uDiUpd4WwM0wAELClMy/485WAmk/65SsivkQtJfS9XkzA6JW1Uw8tDlmgJjLnK3mxyL2Fl0OZuvQjooP82jxnDWJsem9Amvy2RlLjnZzCz9lzFeMBPzF+senjD6ykzUqsw3i0pIGZLn4zXfCPLK1DGBN0Kp3MFiTuQ45sgg3uENuaUU22GvVPQUY9/7Ul7fS6N+mecZaf60iUwF3DgBpQ7hiAbi07FEsMqKRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kpmTB5WxFoJVzGbNVsbe0DYzdYzxr2pFzgmSMQWoa+8=;
- b=and312SIeJJyO5Rf8W6ZFOoW4jgLTyyY6ibQNVrZo/pJaJ5muwsuGVtfoLRl6iHIN75jSaM7PtNPDoIh9rHVA8KX/jfRfLRYkNVPL0bIbFAK0542F3AnIPprtJiHkk+W2Vx/sDr6F/2ElpfeWT2pxJuWhT6AiztTY+0sAhGj2T0NHx2PqZ8d4DZBcUe49bdLX9I4zq2bPdVeRN2A+erneFJJLW+/qQNW2Hz2A0W3F0nPuqMvJaHhnHgPrxX6VbYexg5bmVtnfyGRHEebvf1y0wZTATiX811vXHt7puh6CC0HHmgVlnvi5l4mfj17VC6xJNhJ4NM/M5oPnqm++F7/GQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kpmTB5WxFoJVzGbNVsbe0DYzdYzxr2pFzgmSMQWoa+8=;
- b=kPBPYaxHOoP5/I2avBbc7jeEYrHqwXZT5GBnmp4eOKVdnxYKkdupY7IqMx6U9rFGAaxepTojb5Yn90+9LcBGXuVj/ay31gFAqlxbiBQdwG5mtCkvOzNnuXyEHmOiFIQM5WBip7vIa5d4ww00wur5fRsmZMSxW7ALGd6lfpoxPqNF33A0ufwmm1Vg0y8ACws3J7ylZMuQy3Cs/NRq55GtJjLEhkiGCLf/480rLdaoXoiwx/geZ/wUYtAD4m/ow2oJvN6FGyn90wjMBFXZB+uOobmVBB9vxnNB+azHX1M6yD3XtqLGnTTRxrWntvmDmT+6nH9BzBENBS7LQVfp+Dtt2g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH7PR12MB7164.namprd12.prod.outlook.com (2603:10b6:510:203::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Sat, 27 Jun
- 2026 08:35:04 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0159.016; Sat, 27 Jun 2026
- 08:35:03 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 17:34:59 +0900
-Message-Id: <DJJOZNFW51LZ.IKTXQ8ZIVO55@nvidia.com>
-To: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-Cc: "Joerg Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- "Miguel Ojeda" <ojeda@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Robin Murphy" <robin.murphy@arm.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
- "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <iommu@lists.linux.dev>,
- <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH] rust: iommu: replace core::mem::zeroed with
- pin_init::zeroed
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20260626203122.713317-1-nico.antinori.7@gmail.com>
-In-Reply-To: <20260626203122.713317-1-nico.antinori.7@gmail.com>
-X-ClientProxiedBy: TYCP301CA0003.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:386::9) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCgzAzrV"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so16248685e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 27 Jun 2026 03:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782557735; x=1783162535; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DLzuYgF/9ZgCU+ncM87SrlvZIAMdu0dBEfSPlmMNg6E=;
+        b=ZCgzAzrV8bwczhaMGEqj9SOWST9hGrncWVrfumHOhJ5lc5ywyWegdYQAEb84846CX0
+         rYgZjXuQA9HZ40EdaBK4bEVB5i3HvidvRCaY3QcoB78mMv891iA1qq7rZ6/ij5uoMy9v
+         uXnZOF12T/NceZ2FWd+h4G+aFjAHJHOPsdrR4IVbW0weQ958DBj0kcAI4YiCeEUJGnew
+         ygV0Pqns6wI1c1QT7w0h7u/n8vKizR+buBOtH0Y1VSJ0jY4gWd1hf0VwupnoxGmJCSKF
+         Kk++rJ4DodFysAKmQ4Q+D2L1Sz4iCQlgXCXUs2PUvOBYHl9a/2V9T+kc5a6WNLNyeSNC
+         Mttg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782557735; x=1783162535;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DLzuYgF/9ZgCU+ncM87SrlvZIAMdu0dBEfSPlmMNg6E=;
+        b=iQ8RQ1lZOrthl6OevwOeHHkMg1tuULgrm1VvtKti4wwvqfouM5i5EcuixhHwTkzJcn
+         goBivHREWr6LvBDc430PESB43bY4tcfK+VWi1X5QzbQeUK46KrtBfJRsRZQCt1rTmm5i
+         3DAeuvs0oDHva+MzL1fdvA5RDc6gIRCVV9iVxZdZEIXuja3w4wOeJVnnPdr5qOLqkZnA
+         SlkxoColEx5yepcX0CK4zmg9m4BMlbgcDwV6+WechWtmiaiDeemNna7nl+mqyhWfxLRV
+         jVcQmpaPznRZUIza+BFMqX3ekcxqPNnEJLGWhk8faoWjLIQKNP5JVXHjC6sCmQTk9kH0
+         Q6WQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9z/pCtVCPVU7sEu0HCkJ9Rm/msWegYC+L99okoYWU9+KOKUKNOzoHrjXhyIl5sPyusbYsvaGgDtzTVQcxZ7+Pk+suH4Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4y4j7PWV6s+elfly5H1+8Yp2pHHO3QczKCtXXpvTsgxPjpu4u
+	uXTOYcUZSs8UmDnG5cgTkskEAStUQpJ3X9cnvixvVMxZCbWxW4Prc2jt
+X-Gm-Gg: AfdE7cmcp748780JXxITFhtwQ5/uirS89LCLMJ451nUsSyzL20Hmj4yXOI9yxzzzKVH
+	ijr24n2N84GGhsLLuA+Tu4gme8A4sztlRl0xz9Dauxzf8AYLmT6JDKNnheyiC9V/Fa1HnUEgB9g
+	So549IhJ+5LHxDwR2FH+498NEmoFhdmE8RO+QeDDkgG9GES9vvUGfrvENjRaYz7j9tK0+ti55PL
+	+YczodiQzu9beggzclg/wP4KccQRles/sAQ9mVZGBIQYCZBJtXaVSD07B8UuH3vt9rZGaaBVch5
+	S6icoutScreRUjL+QOvbRkp2sPcAQsM/xEBSfzicmL0n7BCo9iSFBXV3zsiHh6RG97fLmiF27ui
+	rJe0wtjtGncMw2YDjy6Q/szugauhQ19rmt6t6OfN9ke1b4WaSZyoL8J/b9Uf5g28inlGhWjIPv7
+	2ZBxSryNcDPORlBp+G0D5P62oR+3sqrhaAnQdkSduaAyb84+yajrPssrw9z+0/AuiabfRw37b/0
+	08/
+X-Received: by 2002:a05:600c:3492:b0:492:39b6:5a30 with SMTP id 5b1f17b1804b1-4926719847bmr135969575e9.35.1782557735296;
+        Sat, 27 Jun 2026 03:55:35 -0700 (PDT)
+Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492690168d5sm208127095e9.14.2026.06.27.03.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2026 03:55:34 -0700 (PDT)
+From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-kernel-mentees@lists.linux.dev,
+	=?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+Subject: [PATCH v2] drm/qxl: fix use-after-free in qxl_irq_handler on PCI
+Date: Sat, 27 Jun 2026 12:54:46 +0200
+Message-ID: <20260627105445.89827-2-megia.oscar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7164:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1d68fd4-4cde-4448-8a20-08ded426fc11
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|10070799003|366016|18002099003|22082099003|11063799006|6133799003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	nWqXllGLpJVM5qLvbEFaiXxh4oo1T1VKLqGOwe3oYgAXjrhcUu1qW40kHrgmqFGFpfDsReUSJwnWI3dkh64+EpCKcpU2IUsXLTBAIVuwoUiav0pSWyNYhPm3vkjThT/E5Zoxi/IowR3myeRDaikeJOe2gXIkW238DsZMXiAaMFG592fnE5R/ndOzwY0lw4aH3DgiUcTZnNlkKYNCoGChBXbaT8CrMu7ToGKWLui/RIs5OQIgr6+mX7OUhODPanI5wCb6+seSsJVDTqoaBTAL9h5vPyiCiY9zyNpuQBj3Wj72ZO1L1U7tj7gMLwMiQFKfbzwSkzHN8byC6x+aglQRJapvSV2o3HFqGJhzZ98uciBv0jthslW/hOitYaS7Q7pm+bYPW1dhphclMxKsOMZvcvYrV/R0molmNa4ACB42r0o4zmDIt3tmUN7Of4qHZ9zgNRrbDmyIB/kd2b6X5yQEnyuwalTnH+VIoqp3ICelX2pl0rpEiKWKisgKH/5FIS9E4vlRa9hOJKtrDTw3uP5spWM2+Qkbtc7LxjHbxUaeOk8W8wyQaHYPrdyVMJxJzkhsHqcCxb/37PDNCx/kGIeDvNeItVvjdLplA7F5/s9zCc0DXdwZYyLKYS2qvzgQhwhIKxZb++5cwl+n/Bes7tIVKPghqeepP6h3RTE4FmZdt/M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(10070799003)(366016)(18002099003)(22082099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bGU0TzVMQUFvZm5PR3ZSeTJBdWJWMWRhQmdCRXFMTk92YkVtUzJkREFxeVly?=
- =?utf-8?B?ZUVqUzF3VXNSVWJYT3FHblZ4RGQvd0lMYlI4Y2pzV0xyZVZMNkxQRFgxMEVa?=
- =?utf-8?B?TmtaOFlLaml5eUNpVXlzSEFrU1cvQkpzM2JZaDJNeFB0cFcydS9PMkkwbEth?=
- =?utf-8?B?azhNMEJ0NjA2L0VYTzkwakg0VjBoNTUwSGpSOXlBbDR0R1ZaKy80dTNWZEVx?=
- =?utf-8?B?QVkrSFQrS0hONXhKV3hmK0VJblUyMUlZS09xMFlCM0hTVFg0RVBnVFNKM1Vl?=
- =?utf-8?B?TTljanJKVjV2Yit5eENPamMvbkcyUU5oYUNEWkh1UEFMT0x0ZXlxcjJpb09y?=
- =?utf-8?B?WXh0a3B4ZlplT3V1RTk2cUxXMVNUdkZsSWZNNGJIMEtaSHlma1RyQVF6UDBj?=
- =?utf-8?B?TXNjcnhmZUMvKzFld1NGSlExS3FTa25rZlJ3Q1J4dGlDZ2RoMVpuaHowYjlD?=
- =?utf-8?B?TFdYZUs5WWVJU2NzeHQ3R3lCVzlhRmx4SDBkcnFYa1Vic21ROHNIaVdQaDND?=
- =?utf-8?B?MnF2cjZJWWV5eGF5dW1SZTk0UTZ5Z2NLdVB0d1ZLeFREbXIvTmVtUGpMZlVJ?=
- =?utf-8?B?RlhUN25ZZnFhQnlmNDl1WDRJSjJ2SVlNN1NCMUxRSCtWNytJT1BiUmpmQTJX?=
- =?utf-8?B?dE9QKyt2MlFvS1NqU1grK2NTL1dVVmV0bWc5Q1p4TWZIUS90REQyNCtuM2x6?=
- =?utf-8?B?em45MEVoTFNvNDg1eFZ3dFM5TUI0SUZxbDFJd2Q3dnlIdG11WmJ0Z3lqbjB5?=
- =?utf-8?B?SVpDYlVVZ25KTHkwdXdqb2NyY0VnZ2t3VStmTWdSeUlVYTYrL042Z25rT1Yy?=
- =?utf-8?B?UERZUFphem9FYTNMMjZlNitYVU4vTHU5K2l3NkpsM1p0OUh1M01ORTVHeDJz?=
- =?utf-8?B?ekRhMTVSbzFCM25wK0s2Ym44c0hJNnd6cU5IeDRFUHpCMVlSa2FYM2JVQkpu?=
- =?utf-8?B?SkVqWjd6MEN1OVN3MzI2ejJRbG1TZFphMzhnMCt6c2x6MWlHdmJhNXdHR0Jv?=
- =?utf-8?B?dDJJT2QvWFhrQ0NKU2U5dkxka0tHOGxqUFZVOTdNTU1Jc0R4S1FSMm5kZG10?=
- =?utf-8?B?K3VYdFJmVE42U0d0NGJLT1ZXd3pTemc2WGV4cTRoS3g4eVkxWThsN3RXVS9p?=
- =?utf-8?B?cnQvTUlRaE9TQnpKUTlsTUh4ZEhXZ2pGRjhFdElCalpRTG5HdTFlOWs3bVRk?=
- =?utf-8?B?UlFZN3IzNnVjSk40L1JoUG9qSmhhQmQ3d29hZlVzQkR1NlVFbzFSaFhJZlhR?=
- =?utf-8?B?M0tTc01PcU0xNVVVSzNnZWd6TWNhYmxyRERjKzRpRG5zNHAyakk3UEloN0Qw?=
- =?utf-8?B?dUc5aW1pd2lxcW5JZjArekFMcU4xVnMwL2dEVG8yd2xmWGlka1owZTFmdlVo?=
- =?utf-8?B?LzBxOGJ5ZGVHQkNscVB5S1F2MnZGK21ucUdVSktINW9EZGxkeEt1RUhOWXRp?=
- =?utf-8?B?K1V4b05KUGp3WWtqR25QSWwzblVLSS9LY2NnazJ5c2hmbjRQVkRpTHlrZTJG?=
- =?utf-8?B?VnllNEU4TDAwUnRmakx0WEMyQkJIc3VlNjdkR0VJbzUvNlVRVXp6TnMxQnpj?=
- =?utf-8?B?N3hNN0xvemFSdmlMdTRVRENFeDBFM3ZTVjZIRElNYmh3Yk1GSVMvRVJsM3NC?=
- =?utf-8?B?SHVMR3hEdFRwUUF6Z2l4K0xLY2ZKOWZ2SzgxNlJwU01BNWowRWVJZzlnWVhv?=
- =?utf-8?B?aW9URW9zeEJZSjdEWTYrYldPWUZwaDZJVG9PYTl5UW5Ddk1YOWxvTUlRK0lp?=
- =?utf-8?B?OEVXa3JkbGJnNStCOGJQNTdSOG82aTJMY1B1VkNBZmZVSGRFcHdJZzRjVXI1?=
- =?utf-8?B?bnBuMDh6b3VBM3JlekF6S1FPUVRjSS92V3hTLzFhOFZkNmMvdmFGSmxGSHQz?=
- =?utf-8?B?WmhOc1pmWVFiMUpVK0xZa2JXYUhnd25VWmpManpzcXZac1B6MWExUllXKzc3?=
- =?utf-8?B?aFJwS3VZQklXYkZNNXEzd2ZnZmVUMXRaSnc5Y0JlYWowUFRuUW96QlpVVzJm?=
- =?utf-8?B?MDMzQkRlMThnRVVxcTV1WTRWRHBxRHpTdlU5V29ucVoyTFdQT0Z2UXFTOWNt?=
- =?utf-8?B?eDErT3N1TmEyN0tLV1YrbXd4cDB6aVV5THp0OTZqd21aVi9lV1M4cWVZNjdt?=
- =?utf-8?B?OHg0M01oOXRCVENuVmpDdEx5T2l4dWlNWlhxR3RqVDl3TkJQTWxNSUlHMWh2?=
- =?utf-8?B?ZEFpc1A0U0tMVCs0NjZwK29ESCsyZnhTckZuczlINlBzQjdicWZQMjlUaHlL?=
- =?utf-8?B?UDVOL0ZJL0owWmZwRzF5TVFseEJMNnJOWnRpSTRlanFDRk83RFdLeUxpNitR?=
- =?utf-8?B?bVJGMmVqZm1FTzVURG9OMVNTSlRHZEFwVWpDd0pPYUc3a2N4UmtpdHFhbG1k?=
- =?utf-8?Q?+pNNnWx5bPLFfBMyD9tvbAmGTX9v3ZyAO4dGR+fYgRYBv?=
-X-MS-Exchange-AntiSpam-MessageData-1: d4LdVKNeMyIuBw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1d68fd4-4cde-4448-8a20-08ded426fc11
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2026 08:35:03.8292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yP3iqHeuKYNuEcd/BOdcv8ls7BVjsxUYlMySbI15+FTLbIJP5eL82rqIPwDqe/s2ZFFvqZ7ZM/tRiLI2EtElxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7164
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat Jun 27, 2026 at 5:31 AM JST, Nicol=C3=A1s Antinori wrote:
-> All types in `bindings` implement `Zeroable` if they can. This enables
-> using `pin_init::zeroed()` for `io_pgtable_cfg` initialization instead
-> of relying on `..unsafe { core::mem::zeroed() }`.
->
-> This change improves readability and removes an unnecessary unsafe
-> block.
->
-> Link: https://github.com/Rust-for-Linux/linux/issues/1189
-> Suggested-by: Benno Lossin <lossin@kernel.org>
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
-> ---
->  rust/kernel/iommu/pgtable.rs | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/rust/kernel/iommu/pgtable.rs b/rust/kernel/iommu/pgtable.rs
-> index c88e38fd938a..8faa1d8d9fad 100644
-> --- a/rust/kernel/iommu/pgtable.rs
-> +++ b/rust/kernel/iommu/pgtable.rs
-> @@ -102,8 +102,7 @@ pub unsafe fn new_raw(dev: &Device<Bound>, config: Co=
-nfig) -> Result<IoPageTable
->              coherent_walk: config.coherent_walk,
->              tlb: &raw const NOOP_FLUSH_OPS,
->              iommu_dev: dev.as_raw(),
-> -            // SAFETY: All zeroes is a valid value for `struct io_pgtabl=
-e_cfg`.
-> -            ..unsafe { core::mem::zeroed() }
-> +            ..pin_init::zeroed()
+while :; do
+    echo [pci qxl id] > /sys/bus/pci/drivers/qxl/unbind
+    echo [pci qxl id] > /sys/bus/pci/drivers/qxl/bind
+done
 
-Note that you can also use `..Zeroable::zeroed()` here since we are not
-in const context. Not sure which one we prefer in this case, but I'd
-personally err on the side of not referring to `pin_init` unless we are
-dealing with a pinned object or need to because of a const requirement.
+After a few seconds, it reports:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in qxl_irq_handler+0x269/0x2b0
+Read of size 8 at addr ffff888001c6cd48 by task swapper/0/0
+
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+     7.1.0-10963-g1a3746ccbb0a #31 PREEMPT(lazy)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+               BIOS Arch Linux 1.17.0-2-2 04/01/2014
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0x4d/0x70
+ print_report+0x14b/0x4b0
+ ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+ ? profile_tick+0x56/0x90
+ ? tick_nohz_handler+0x23c/0x5c0
+ kasan_report+0x117/0x140
+ ? qxl_irq_handler+0x269/0x2b0
+ ? qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ __handle_irq_event_percpu+0x116/0x450
+ ? __pfx__raw_spin_lock+0x10/0x10
+ handle_irq_event+0xa6/0x1c0
+ handle_fasteoi_irq+0x271/0xb10
+ ? __pfx_handle_fasteoi_irq+0x10/0x10
+ __common_interrupt+0x60/0x130
+ common_interrupt+0x7a/0x90
+ </IRQ>
+ <TASK>
+  asm_common_interrupt+0x26/0x40
+ RIP: 0010:pv_native_safe_halt+0xf/0x20
+ Code: 42 de 00 c3 cc cc cc cc 0f 1f 00 90 90 90 90 90 90 90 90 90
+       90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d a3 cf 20 00
+       fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90
+       90 90 90 90 90
+ RSP: 0018:ffffffffb8207e48 EFLAGS: 00000206
+ RAX: ffff8880b296f000 RBX: ffffffffb82146c0 RCX: 0000000000000001
+ RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000067a04
+ RBP: fffffbfff70428d8 R08: ffffffffb7247e1d R09: 1ffff1100d846202
+ R10: ffffed100d846203 R11: ffffed100d846203 R12: 0000000000000000
+ R13: 0000000000000000 R14: 1ffffffff7040fcd R15: dffffc0000000000
+  ? ct_kernel_exit.constprop.0+0x9d/0xc0
+  default_idle+0x9/0x10
+o  default_idle_call+0x37/0x60
+  do_idle+0x3a8/0x5d0
+  ? __pfx___schedule+0x10/0x10
+  ? __pfx_do_idle+0x10/0x10
+  cpu_startup_entry+0x4e/0x60
+  rest_init+0x11a/0x120
+  start_kernel+0x382/0x390
+  x86_64_start_reservations+0x24/0x30
+  x86_64_start_kernel+0xd6/0xe0
+  common_startup_64+0x13e/0x158
+  </TASK>
+
+The qxl_pci_remove() function does not call free_irq(), allowing the IRQ
+handler to fire after the device has been torn down, accessing freed
+memory (qdev->ram_header, qdev->io_base).
+
+I followed these steps to unload driver at link.
+
+Added Disable the device from generating IRQs, Release the IRQ (free_irq())
+at the start of qxl_pci_remove() to ensure no IRQs fire
+after teardown begins.
+
+Added at end Disable the device.
+
+Fix: Added goto fini in ttm_device_fini() on error.
+Bug: qxl_ttm_init never calls ttm_device_fini on failure
+If qxl_ttm_init_mem_type() fails after ttm_device_init() succeeded,
+ttm_glob_use_count stays incremented. All subsequent bind/unbind cycles
+see refcount > 0 and skip ttm_pool_mgr_{init,fini}() entirely.
+The global pool types are never finalized, and the list_lru_destroy fix
+in ttm_pool_mgr_fini never runs.
+
+Assisted-by: OpenCode:1.17.8-Big Pickle
+Fixes: 48bd85808443 ("drm/qxl: Convert to Linux IRQ interfaces")
+Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+Link: https://www.kernel.org/doc/html/latest/PCI/pci.html
+---
+ drivers/gpu/drm/qxl/qxl_drv.c | 7 +++++++
+ drivers/gpu/drm/qxl/qxl_ttm.c | 8 ++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 1e6a2392d7c6..1613547c1856 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -154,12 +154,19 @@ static void
+ qxl_pci_remove(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
++	struct qxl_device *qdev = to_qxl(dev);
++
++	qdev->ram_header->int_mask = 0;
++	outb(0, qdev->io_base + QXL_IO_UPDATE_IRQ);
++	free_irq(pdev->irq, dev);
++	cancel_work_sync(&qdev->client_monitors_config_work);
+ 
+ 	drm_kms_helper_poll_fini(dev);
+ 	drm_dev_unregister(dev);
+ 	drm_atomic_helper_shutdown(dev);
+ 	if (pci_is_vga(pdev) && pdev->revision < 5)
+ 		vga_put(pdev, VGA_RSRC_LEGACY_IO);
++	pci_disable_device(pdev);
+ }
+ 
+ static void
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index 5d495c4798a3..bdcc7560f3f1 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -207,13 +207,13 @@ int qxl_ttm_init(struct qxl_device *qdev)
+ 	r = qxl_ttm_init_mem_type(qdev, TTM_PL_VRAM, num_io_pages);
+ 	if (r) {
+ 		DRM_ERROR("Failed initializing VRAM heap.\n");
+-		return r;
++		goto fini;
+ 	}
+ 	r = qxl_ttm_init_mem_type(qdev, TTM_PL_PRIV,
+ 				  qdev->surfaceram_size / PAGE_SIZE);
+ 	if (r) {
+ 		DRM_ERROR("Failed initializing Surfaces heap.\n");
+-		return r;
++		goto fini;
+ 	}
+ 	DRM_INFO("qxl: %uM of VRAM memory size\n",
+ 		 (unsigned int)qdev->vram_size / (1024 * 1024));
+@@ -222,6 +222,10 @@ int qxl_ttm_init(struct qxl_device *qdev)
+ 	DRM_INFO("qxl: %uM of Surface memory size\n",
+ 		 (unsigned int)qdev->surfaceram_size / (1024 * 1024));
+ 	return 0;
++
++fini:
++	ttm_device_fini(&qdev->mman.bdev);
++	return r;
+ }
+ 
+ void qxl_ttm_fini(struct qxl_device *qdev)
+-- 
+2.54.0
+
