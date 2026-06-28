@@ -1,164 +1,409 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020140.outbound.protection.outlook.com [52.101.195.140])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673102DC765;
-	Sun, 28 Jun 2026 17:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782668097; cv=fail; b=fUgCO5C7xSP3IjTYgFd/8SBUMH2OWSa1H9pCTkWiX4NLgBlHtfZ1p8F4+BtnQpbQm3IHgfBIwacMdwB+LxULG2O94bEZ52w6g8L46R/SqiQpDcHid1Ss3O7AI9b4QpZ8Va4J5gm0k6/N4RwC2WVUPfXXbbI6kmRZtuYvUufELhI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782668097; c=relaxed/simple;
-	bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=i7DVJtTKg/Xiq9LVDzCIgbikOIjh7r7NJhVD5jrKopN/g2J+g10GriaCNXv1ntCx21NRdzkwU+HME60BpZgLKqrfH+IT/hg0tJwIQUADdpqifou3KpWgKE4NqFPkHE22SYeExpLjyv74k6nn3KFm4hucKdsCKugDPBIBXOjiGvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=jD0KRnFd; arc=fail smtp.client-ip=52.101.195.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5306D2417DE;
+	Sun, 28 Jun 2026 19:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782676383; cv=none; b=Tf7Qg2gq7Rq8qhF2Fwn/TRGaGJqEg4JBXCZw4sbk6Pl375zcvKT1xe7gFT41PrYCDr3kq2IV0R6BRM02MRS/0LU3WsyegPWqk5ueuN+PtPxEvPwVo4jO+3IGPlv9IvUPyqPhXn3/sYkwydK9Y5WVdvJdLjfmWn+5xP9+zFXu/0g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782676383; c=relaxed/simple;
+	bh=tbTFVHYxs0NQJweIMgiCoEBQo3PEMy1G/3is7IudK98=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=e3mncjxGiVwQ6J7eh/UccYd4eCqS5PhU6yiztAkJa9HcTf8OpzkM6iOMgHyn1RixZEsNsYpwX6pk/rLQmQv0X5KXqVKwWES+Kizt7PA2+WmWie+Xfg97mfPtq1W25pLvgR4lbDN/+aCQJDBFa7ObnMClPaTekbvGWsqtzcHCzxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NS+gCR+N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="jD0KRnFd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X6Zww4dhN/g/r51RxRANkugQ+YDaH2vDUeZp+CgybgoMFpKq4WRJhr/+ryeC2A9oRCuPKbjX40ycsa4f4987SHo7sXQ9JlVnnPmtd0I6fsnGafd7HA+U97UIbNRZ3lgNwce2BB8760x4GzLLuDjCQIJwxpq88lpfOd8EuwUz2cE6oAr9Ia10CqxdKFmevxy5RWD7EhOmKp9N2Z3cruIDUWs6niucjxCXi7ON8qKtB4DbdOfM+Tciy/tlq46tcD+Lk27mLg2VRiaiOoGxbU1rs/PikFATZ+LcKmapU+gJ3HSu0gYjNaOBhape8FG9h/FFtxmvQR3ROzL2YKU+Z8eIKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
- b=WpsYM+KYhR27j9DE11zOB3qWBUIOmCPTmIYRyfkN/v6tbyMiaL57yFYgDEjC7IU2Yv5MGrEO0M0v8j3GygwoXrF9Zci1NW8YmPfNW3pVHUdrw0gxqReLvWVy9unbKPCIQw5cQemg6kREzjn345+Ity4RCocCmHsRBy/5xDIBJFTqbmhrJjNJ8xGzsB96dZp/ruvlL54zbOaUg9zRe+S1kUBPNWt8MqQnwUJy85SRkHSpO4TxOylZSfCAR12NX3iuwaD8+TxzfTeWJpRiNrVE3CQMwMUJO+TKFufYjNWpN34lGdPBeBqE2YeGsTPUE+22ntHml+N93ANBIkLNvvA5Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
- b=jD0KRnFdWrZuk6O4c4t36arWXThBodgH6f+C3xrMZRfFPfw66uRjjYB9apFzvjNGSs+mckfhLOTD4qkyccHJnKQpN51KgE22UQrcpOki9Z3igwZG4WP44IpZzHsplapamqkDen6zkxlpO5wIIuzlHA4Y+8s3ox4K8BfTKCgw3fY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB6607.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:302::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Sun, 28 Jun
- 2026 17:34:50 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Sun, 28 Jun 2026
- 17:34:50 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 28 Jun 2026 18:34:49 +0100
-Message-Id: <DJKV3IQ0SXA1.30T5Y71AL6KV7@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Benno Lossin" <lossin@kernel.org>, "Gary Guo"
- <gary@kernel.org>
-Cc: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, "Joerg
- Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- "Miguel Ojeda" <ojeda@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Robin Murphy" <robin.murphy@arm.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
- "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <iommu@lists.linux.dev>,
- <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH] rust: iommu: replace core::mem::zeroed with
- pin_init::zeroed
-X-Mailer: aerc 0.21.0
-References: <20260626203122.713317-1-nico.antinori.7@gmail.com>
- <DJJOZNFW51LZ.IKTXQ8ZIVO55@nvidia.com>
- <CANiq72kdCAyRUmXFcqQfkHpk1miG8Gagsn0_5U8p4WpKxv9d_g@mail.gmail.com>
-In-Reply-To: <CANiq72kdCAyRUmXFcqQfkHpk1miG8Gagsn0_5U8p4WpKxv9d_g@mail.gmail.com>
-X-ClientProxiedBy: LO4P123CA0230.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NS+gCR+N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB841F000E9;
+	Sun, 28 Jun 2026 19:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1782676380;
+	bh=U//UbbS2hyX+F5puvnM6xANnRSjaQPlt4Wa3h4HjpiU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=NS+gCR+N86VhInwLVhN3CDWGb/wye+hQm40hKn1/UXq7pftjuq5dcym3jrHiLCoJq
+	 WFNnRQqCB4QH6wAdZIfDmz3sPOVNhBO3b5DL9F2jkXqlT6GhFQTX119PsxcSJhS7/S
+	 iTYbOdF2eZz9qiBBJzywJlAwiQu+TbSTit91XhLw=
+Date: Sun, 28 Jun 2026 12:53:00 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Adi Nata <adinata.softwareengineer@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Maxim Kaurkin <maxim.kaurkin@baikalelectronics.ru>, Serge Semin
+ <Sergey.Semin@baikalelectronics.ru>, linux-hwmon@vger.kernel.org, Guenter
+ Roeck <linux@roeck-us.net>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
+Subject: Re: [PATCH] lib/math: add KUnit test suite for polynomial_calc()
+Message-Id: <20260628125300.28f9b8b531e216b2e1d3ede0@linux-foundation.org>
+In-Reply-To: <20260606030319.316752-1-adinata.softwareengineer@gmail.com>
+References: <20260606030319.316752-1-adinata.softwareengineer@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 905457ed-4dbe-4295-b67d-08ded53b8e7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|10070799003|376014|4143699003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	oK1JQgfkAxqNYV/5aj6Y7Mwx7L0ts77Frgn6OIjHUJ+9A6ocjUFmauRCH1Vp5ZNHi8Nvz3QGdGuINTOsYkQGVx30WbdTZuIOE6b4aLrBuAshglPbueQ21xjZGQ8YByYOAFl37cCIDftGfgXdonq0QPT51TrVkWn5rkAVqPNNJBhe+pULgcGrwVOeSGgSuapEhueIrLWj+jxe0OQ8x7SL45FCV0OjHiODZgJbbf/TGGGZrB0Dqvkzv4ZH25RMU4htEbab74qP7ub1HEaxiEt+gXNcBr7rjwb1GrvzJEuDhx8PEp89vZBjJi05KmCpo/vjII0oSfBVrlI+kIXrGipzV/Q2XqW6+ZQ6SQwLN8wudpcJ/Kjqaibl6qIAMcDxaPZm0gtsD0pvMcfaCrw6T3rx9ROVC+SqsFCWMHd0BdHAL/eYZ8800cINc2lzYRB00w3byiKl4gdQIFHA3Bga/7ZRLhikCPPT8jF3whNmlpLpvLVJbwLOShdHnaX8WysEFn3ZkXh0RuHWlCYRD7S/zkj9JJtwSzpocNZNwsRQAuc5hkAqapXyS3GFEsYc85yz1AXgoBgM0TGC3eFZahQa6mee8+gtVfpXZIwuzdU4fHTtZ+SIg2wZhh49GB38kfJ1/7rY+ia0yTiSBlGBn7j05LlebIrcRTtEoea8ru6DjUIeL6g=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(10070799003)(376014)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UGNxSjJvM0prRHNQd2pwcitpc1NKbXltRktLOEJ6NUR0c1JZUS9tUDgzZ3JQ?=
- =?utf-8?B?S09WVGtVTFhTNkZyTi9VZWlMc3liNzhXaDBCZ01DVEZtNDdtZzdvQzdaVWpY?=
- =?utf-8?B?Qkw1dFhMQ0ZpN3pSRUgvRktnV1RmQ0dZMXNtWTVKK01MUXF6bUtqNzhtMXZo?=
- =?utf-8?B?NVBaWjY2bFVEalBYanRrYXpwaWw0WlFudzJTcTYxM0FpTlZyK1NyQXU5SXV5?=
- =?utf-8?B?QXpiSHozelJSUDUwVTI1WiszNDI1ampsOW9uTWVCTldhNVNoanNpRWo4YXhZ?=
- =?utf-8?B?aFBTOG1rT2M4UmRpWnlTWHYxN0QwR01qQnU1Q01qa2FHQnBNYXZiSkRER0Jo?=
- =?utf-8?B?Mm1mY0c0ellsWFI1ZDdLSnF5RnM2c3RUMG1LY0h3QjJYb2RIcis0YjJ4cWRL?=
- =?utf-8?B?L2NGUEVuTzBXbkI3N2hhditCMzZBTnBuQ21WZWd1anBTUVhUUDE1aXk5N0kv?=
- =?utf-8?B?R3pDenVjVEFSbVFsaUlETkdkL04zdzZndGdMWG5oQkZKRjNkTDlSTmw4TldZ?=
- =?utf-8?B?NlRkOTZQQXpCYUQvT2h0LzZ1UE9tMk1oSWxkdnNJWHNuL0dSSHJzVmo3RVdm?=
- =?utf-8?B?RmlMQS9RWllBVGNGS1JERFN3QlNoOENPZmZ0dzdQazNuOUdXTi94RDJVc1B3?=
- =?utf-8?B?YzhubFdpb2dncTdONmFubW1JWWQ3VzE0NEZYNHl6STdycFRnMEpYcS9Vbmpa?=
- =?utf-8?B?L0NMSFNDcTMyemVNR2VqdThJWGJvSlFRUVdGczFxbVFodkJMZS8veTlqWmJ4?=
- =?utf-8?B?bEZxRVUxK2hnTFl3TUw0MlpMSW5SL21Hd3NObFJqMUFNNkp2Z2s1cGZqOU02?=
- =?utf-8?B?OFBpTnNMbER2WHMrYjJsSFkwNzRueTFNcWtOSXMvUmw2TzgreVltWkJuWTkr?=
- =?utf-8?B?SHcxMlRBQU54clNTay9kdklSU3V2WmMzMWVlYXhpZGlkQVZ0cU9XQWdlb09X?=
- =?utf-8?B?Zmo4bmRsdVlIa2swODNqMEc5Q3ZDbll3WlBXdlJlV2lwOGhqb2srdCsvaTZF?=
- =?utf-8?B?b0lTMXZJN3FKb1VGUDR2Qnk2UUZ4bGxyMmMzdGdGdC9FWlZJbHcvMjRoRWtW?=
- =?utf-8?B?cmprNmZiOW9LcjJJRW8vQnJKWmhrY1loVFEzZFhDQ1hXcTNHa1Jib3RaOFRR?=
- =?utf-8?B?UjlQTE9XdUc4SWRiTjNTWlBDY3ptbGVSZmlHWUhxM0ZJdFdlWTgzOW9RT2Jq?=
- =?utf-8?B?YkY4Z2I1ZkNreWxOSVhDTTU2RnNFbmlaVlR2MjNWajROUDJNYnlxemg0S0t6?=
- =?utf-8?B?OGFmbHE0MmNGMmZJbWZCMHZIODRqcDJnaTMyVzhLa21rNndPcUtwakdJM0JY?=
- =?utf-8?B?Slc2N05CSXdQUytVdDBTbXBTOVFaWFFsQk5oUnlOVFlXaHdVaUFsWUJ1RjBH?=
- =?utf-8?B?bUNYbWNYeTFGYlc5aFNoR1JUeFI5S0dLTWhrdWh3YUJDbGNWUXo2VU9NdmZj?=
- =?utf-8?B?OHh4bzBlYXZBL3ZrcWh0QzVzWVk4cmpVdmNhTnVMa09DaFRSRjloK0JlTkEy?=
- =?utf-8?B?MjF2WGlaLzNtbldnZUFYekpTY2RPWWYwWGR0Rk9mMSs2NnhJT0pjVyswVTR1?=
- =?utf-8?B?Rkd0bkNEZDhha1RJajlzaUVKd0thbllmMmRqdjhmQlJkUUxpSzVYbUtRRFk4?=
- =?utf-8?B?RmkrSDdNNkRzT0RUeVBPNnN2a2xkSEJRcHNjVFoxMFZXV3hyUWQyL05Zb2Q3?=
- =?utf-8?B?RUZ0TVNacmhMaWpuZ1ZxbFhlV3ptSDM3eGRQOHI0SnBXRmZ2bDNtRGRNS0dY?=
- =?utf-8?B?bWpvM2VlWERSNUs4R0pUVUxZUEo3S2hIa044MGxLYlVKT0RMWWNVaElwdThl?=
- =?utf-8?B?Rk5QWTF0VG91cXRkSnNvbXdHaXNaNUZNQkhZMC9nYVZ5akdSN0Y2ZmJuaEN6?=
- =?utf-8?B?NVJUZjFLaU5pQitOeGowa2JuVHQ1ejlteHNTc2dTckpGakNuOGQ3Q2Z3NDh3?=
- =?utf-8?B?WkRRTEZ5YUYvYnVtOTF4a1RnYTdqS2pwcEg2T295YmIrdDhORWR0UURya1JG?=
- =?utf-8?B?OU9hOUg4SVp0M0cybkJlalpXTU0rL1lUTFUvUDFxSE02WkVxeThQNnJUZ09i?=
- =?utf-8?B?REVQeURObHM4VG9kQXZheDNsSGlCdlB5amd1bUI5ZEpZZG1JK1AvVWt2YTV6?=
- =?utf-8?B?TzlDdk9reXRSeVpmT2Q5VTZPM1V5ZXl0WjVEK294S0NmZmhVVEVQdk5OMlky?=
- =?utf-8?B?RVQ3SjN3S2w0ck1VdjBoWGNCT2RsZ0t6amx3MERkMW1ueTZWc3RyL25neDJn?=
- =?utf-8?B?QnZtb29xaEQzWCszRDNSbkhqM0FTL0xOS1U2WUQ0Qk8vUDdTWk8vTmUwT09l?=
- =?utf-8?B?bXBsbGZXZi9LVEpVZ0xNcm5EN3VRZjhXQjhDeVdQOU1vbE1hMWk4Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 905457ed-4dbe-4295-b67d-08ded53b8e7d
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2026 17:34:50.4423
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +hVkNkrwdwmy1fxbLiQYjb8ftA1y6YYCqjLOg6cFV2jWrEQUoM8awmkSlZfZq0tLtr1vORmWUQ7LaLyRJlzdHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6607
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun Jun 28, 2026 at 11:31 AM BST, Miguel Ojeda wrote:
-> On Sat, Jun 27, 2026 at 10:35=E2=80=AFAM Alexandre Courbot <acourbot@nvid=
-ia.com> wrote:
->>
->> Note that you can also use `..Zeroable::zeroed()` here since we are not
->> in const context. Not sure which one we prefer in this case, but I'd
->> personally err on the side of not referring to `pin_init` unless we are
->> dealing with a pinned object or need to because of a const requirement.
->
-> That sounds reasonable -- Benno/Gary, any comments?
+On Sat,  6 Jun 2026 11:03:09 +0800 Adi Nata <adinata.softwareengineer@gmail.com> wrote:
 
-`Zeroable::zeroed()` should be preferred where possible. Currently init mac=
-ros
-also recognize and turn them into zero-init if used inside init macros --
-outside init macros they don't matter, but in a future where const trait me=
-thods
-are stable we would want to prefer `Zeroable::zeroed()` anyway.
+> Add a KUnit test suite for the polynomial_calc() function, which had
+> no in-kernel test coverage. The tests verify correct evaluation of
+> constant, linear, quadratic, and cubic polynomials, including negative
+> coefficients, negative input data, zero-coefficient terms.
+> 
+> The Kconfig entry uses 'select POLYNOMIAL' rather than 'depends on
+> POLYNOMIAL' because POLYNOMIAL is a promptless tristate that cannot
+> be manually enabled on UML without an explicit selector.
 
-Best,
-Gary
+Looks nice, thanks.  Let's cc the polynomial authors.  And the hwmon
+people - the only subsystem which uses polynomial_calc().
+
+And the Kunit people.
+
+AI review thinks the Kconfig text doesn't match the code:
+
+	https://sashiko.dev/#/patchset/20260606030319.316752-1-adinata.softwareengineer@gmail.com
+
+
+From: Adi Nata <adinata.softwareengineer@gmail.com>
+Subject: lib/math: add KUnit test suite for polynomial_calc()
+Date: Sat, 6 Jun 2026 11:03:09 +0800
+
+Add a KUnit test suite for the polynomial_calc() function, which had no
+in-kernel test coverage.  The tests verify correct evaluation of constant,
+linear, quadratic, and cubic polynomials, including negative coefficients,
+negative input data, zero-coefficient terms.
+
+The Kconfig entry uses 'select POLYNOMIAL' rather than 'depends on
+POLYNOMIAL' because POLYNOMIAL is a promptless tristate that cannot
+be manually enabled on UML without an explicit selector.
+
+Link: https://lore.kernel.org/20260606030319.316752-1-adinata.softwareengineer@gmail.com
+Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+Cc: Maxim Kaurkin <maxim.kaurkin@baikalelectronics.ru>
+Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>
+Cc: David Gow <david@davidgow.net>
+Cc: Rae Moar <raemoar63@gmail.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ lib/Kconfig.debug                 |   17 +
+ lib/math/tests/Makefile           |    1 
+ lib/math/tests/polynomial_kunit.c |  270 ++++++++++++++++++++++++++++
+ 3 files changed, 288 insertions(+)
+
+--- a/lib/Kconfig.debug~lib-math-add-kunit-test-suite-for-polynomial_calc
++++ a/lib/Kconfig.debug
+@@ -3476,6 +3476,23 @@ config GCD_KUNIT_TEST
+ 
+ 	  If unsure, say N
+ 
++config POLYNOMIAL_KUNIT_TEST
++	tristate "Polynomial calculation (polynomial_calc) test" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	select POLYNOMIAL
++	default KUNIT_ALL_TESTS
++	help
++	  This option enables the KUnit test suite for the polynomial_calc()
++	  function, which evaluates integer polynomials using factor
++	  redistribution to avoid overflow.
++
++	  The test suite verifies correctness for constant, linear, and
++	  quadratic polynomials, negative coefficients, per-step dividers,
++	  divider_leftover, total_divider scaling, and a real sensor
++	  N-to-temperature conversion polynomial.
++
++	  If unsure, say N
++
+ config PRIME_NUMBERS_KUNIT_TEST
+ 	tristate "Prime number generator test" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
+--- a/lib/math/tests/Makefile~lib-math-add-kunit-test-suite-for-polynomial_calc
++++ a/lib/math/tests/Makefile
+@@ -4,5 +4,6 @@ obj-$(CONFIG_GCD_KUNIT_TEST)		+= gcd_kun
+ obj-$(CONFIG_INT_LOG_KUNIT_TEST)	+= int_log_kunit.o
+ obj-$(CONFIG_INT_POW_KUNIT_TEST)	+= int_pow_kunit.o
+ obj-$(CONFIG_INT_SQRT_KUNIT_TEST)	+= int_sqrt_kunit.o
++obj-$(CONFIG_POLYNOMIAL_KUNIT_TEST)	+= polynomial_kunit.o
+ obj-$(CONFIG_PRIME_NUMBERS_KUNIT_TEST)	+= prime_numbers_kunit.o
+ obj-$(CONFIG_RATIONAL_KUNIT_TEST)	+= rational_kunit.o
+diff --git a/lib/math/tests/polynomial_kunit.c a/lib/math/tests/polynomial_kunit.c
+new file mode 100644
+--- /dev/null
++++ a/lib/math/tests/polynomial_kunit.c
+@@ -0,0 +1,270 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <kunit/test.h>
++#include <linux/polynomial.h>
++
++struct polynomial_test_param {
++	const struct polynomial *poly;
++	long data;
++	long expected;
++	const char *name;
++};
++
++/* f(x) = 5 */
++static const struct polynomial poly_constant = {
++	.total_divider = 1,
++	.terms = {
++		{0, 5, 1, 1},
++	}
++};
++
++/* f(x) = 2x^2 + 3x + 5 */
++static const struct polynomial poly_simple = {
++	.total_divider = 1,
++	.terms = {
++		{2, 2, 1, 1},
++		{1, 3, 1, 1},
++		{0, 5, 1, 1},
++	}
++};
++
++/* f(x) = -5x + 100 */
++static const struct polynomial poly_negative_coef = {
++	.total_divider = 1,
++	.terms = {
++		{1, -5, 1, 1},
++		{0, 100, 1, 1},
++	}
++};
++
++/* f(x) = (150x + 50) / 10 */
++static const struct polynomial poly_total_divider = {
++	.total_divider = 10,
++	.terms = {
++		{1, 150, 1, 1},
++		{0,  50, 1, 1},
++	}
++};
++
++/*
++ * f(x) = x / 2
++ * divider=2 applied once per multiply: mult_frac(coef, data, 2) = coef*data/2
++ */
++static const struct polynomial poly_step_divider = {
++	.total_divider = 1,
++	.terms = {
++		{1, 1, 2, 1},
++		{0, 0, 1, 1},
++	}
++};
++
++/*
++ * f(x) = (100/500) * x^2 = 0.2 * x^2
++ * Encoded as coef=100, divider=10, divider_leftover=5:
++ *   denom = 10^2 * 5 = 500
++ */
++static const struct polynomial poly_leftover = {
++	.total_divider = 1,
++	.terms = {
++		{2, 100, 10, 5},
++		{0,   0,  1, 1},
++	}
++};
++
++/*
++ * f(x) = 2x^3  (single high-degree term, no constant)
++ * Used to exercise the power loop alone.
++ */
++static const struct polynomial poly_cubic = {
++	.total_divider = 1,
++	.terms = {
++		{3, 2, 1, 1},
++		{0, 0, 1, 1},
++	}
++};
++
++/*
++ * f(x) = 4x + 1  with a zero-coefficient quadratic term.
++ * The deg-2 term contributes nothing regardless of input.
++ */
++static const struct polynomial poly_zero_coef = {
++	.total_divider = 1,
++	.terms = {
++		{2, 0, 1, 1},
++		{1, 4, 1, 1},
++		{0, 1, 1, 1},
++	}
++};
++
++/*
++ * f(x) = 9  with total_divider = 0.
++ * The implementation treats 0 as 1 via `total_divider ?: 1`, so the
++ * result must equal the constant term unchanged.
++ */
++static const struct polynomial poly_zero_total_divider = {
++	.total_divider = 0,
++	.terms = {
++		{0, 9, 1, 1},
++	}
++};
++
++
++static const struct polynomial_test_param test_params[] = {
++	{
++		.poly     = &poly_constant,
++		.data     = 0,
++		.expected = 5,
++		.name     = "Constant polynomial at x=0",
++	},
++	{
++		.poly     = &poly_constant,
++		.data     = 42,
++		.expected = 5,
++		.name     = "Constant polynomial is independent of input",
++	},
++	{
++		.poly     = &poly_simple,
++		.data     = 0,
++		.expected = 5,	/* zero input collapses all power terms */
++		.name     = "Zero input yields constant term only",
++	},
++	{
++		.poly     = &poly_simple,
++		.data     = 10,
++		.expected = 235,	/* 2*100 + 3*10 + 5 */
++		.name     = "Simple quadratic at x=10",
++	},
++	{
++		.poly     = &poly_negative_coef,
++		.data     = 10,
++		.expected = 50,		/* -5*10 + 100 */
++		.name     = "Negative coefficient at x=10",
++	},
++	{
++		.poly     = &poly_negative_coef,
++		.data     = 20,
++		.expected = 0,		/* -5*20 + 100 = 0 */
++		.name     = "Negative coefficient result is zero",
++	},
++	{
++		.poly     = &poly_total_divider,
++		.data     = 3,
++		.expected = 50,		/* (150*3 + 50) / 10 = 500/10 */
++		.name     = "total_divider scales the final sum",
++	},
++	{
++		.poly     = &poly_step_divider,
++		.data     = 100,
++		.expected = 50,		/* 1*100/2 */
++		.name     = "Per-step divider halves input",
++	},
++	{
++		.poly     = &poly_leftover,
++		.data     = 30,
++		.expected = 180,	/* 100*30^2 / (10^2 * 5) = 90000/500 */
++		.name     = "divider_leftover with quadratic term",
++	},
++	/* Boundary: unit and negative-unit input */
++	{
++		/*
++		 * data=1: each mult_frac(tmp, 1, divider) strips one factor of
++		 * divider from coef per degree, so coef is left-shifted right
++		 * until intermediate precision is exhausted.
++		 * 2*1 + 3*1 + 5 = 10
++		 */
++		.poly     = &poly_simple,
++		.data     = 1,
++		.expected = 10,
++		.name     = "Boundary: data=1 (unit input)",
++	},
++	{
++		/*
++		 * data=-1: even degrees produce positive contributions,
++		 * odd degrees produce negative ones.
++		 * 2*(-1)^2 + 3*(-1) + 5 = 2 - 3 + 5 = 4
++		 */
++		.poly     = &poly_simple,
++		.data     = -1,
++		.expected = 4,
++		.name     = "Boundary: data=-1 (negative unit input)",
++	},
++
++	/* Boundary: negative non-trivial input */
++	{
++		/*
++		 * 2*(-3)^2 + 3*(-3) + 5 = 18 - 9 + 5 = 14
++		 * Verifies sign handling for negative data across all degrees.
++		 */
++		.poly     = &poly_simple,
++		.data     = -3,
++		.expected = 14,
++		.name     = "Boundary: negative data with quadratic",
++	},
++
++	/* Boundary: total_divider = 0 is treated as 1 */
++	{
++		.poly     = &poly_zero_total_divider,
++		.data     = 42,
++		.expected = 9,
++		.name     = "Boundary: total_divider=0 defaults to 1",
++	},
++
++	/* Boundary: zero-coefficient high-degree term */
++	{
++		/*
++		 * The deg-2 term has coef=0, so it contributes 0 regardless
++		 * of data. Result: 0 + 4*10 + 1 = 41
++		 */
++		.poly     = &poly_zero_coef,
++		.data     = 10,
++		.expected = 41,
++		.name     = "Boundary: zero-coefficient term is inert",
++	},
++
++	/* Boundary: single high-degree term, no constant */
++	{
++		/* 2 * 5^3 = 250; also verifies the loop terminates on deg-0 */
++		.poly     = &poly_cubic,
++		.data     = 5,
++		.expected = 250,
++		.name     = "Boundary: single cubic term",
++	},
++	{
++		/* 2 * (-2)^3 = -16; odd power preserves sign of negative data */
++		.poly     = &poly_cubic,
++		.data     = -2,
++		.expected = -16,
++		.name     = "Boundary: single cubic term, negative data",
++	},
++
++};
++
++static void get_desc(const struct polynomial_test_param *param, char *desc)
++{
++	strscpy(desc, param->name, KUNIT_PARAM_DESC_SIZE);
++}
++
++KUNIT_ARRAY_PARAM(polynomial, test_params, get_desc);
++
++static void polynomial_calc_test(struct kunit *test)
++{
++	const struct polynomial_test_param *param = test->param_value;
++
++	KUNIT_EXPECT_EQ(test, polynomial_calc(param->poly, param->data),
++			param->expected);
++}
++
++static struct kunit_case polynomial_test_cases[] = {
++	KUNIT_CASE_PARAM(polynomial_calc_test, polynomial_gen_params),
++	{}
++};
++
++static struct kunit_suite polynomial_test_suite = {
++	.name = "math-polynomial",
++	.test_cases = polynomial_test_cases,
++};
++
++kunit_test_suites(&polynomial_test_suite);
++
++MODULE_DESCRIPTION("math.polynomial_calc KUnit test suite");
++MODULE_LICENSE("GPL");
+_
+
