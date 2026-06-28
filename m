@@ -1,270 +1,164 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020140.outbound.protection.outlook.com [52.101.195.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0152B2417DE
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 15:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673102DC765;
+	Sun, 28 Jun 2026 17:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782661598; cv=pass; b=i645t/hLnpDERvWtFOELIx8n4KNqqelEfHz026SbuyDuo4j/CMtle653kLtxrPenOVzC3SpjQMHw4PgrwhD9h/VcBt8krrdjqnFOkDDlAYdP+suif+tjFqXXh3lXiA2XpdImS/Vun2cTJ5m5WSz8CZh4QGiL76zese3NGaeHoOs=
+	t=1782668097; cv=fail; b=fUgCO5C7xSP3IjTYgFd/8SBUMH2OWSa1H9pCTkWiX4NLgBlHtfZ1p8F4+BtnQpbQm3IHgfBIwacMdwB+LxULG2O94bEZ52w6g8L46R/SqiQpDcHid1Ss3O7AI9b4QpZ8Va4J5gm0k6/N4RwC2WVUPfXXbbI6kmRZtuYvUufELhI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782661598; c=relaxed/simple;
-	bh=mdUFdyP/nhhnBe5dNeChW8hWoOFKVd+UnuxhJd/prVE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WIqZhVzREKE6FQyFLYW2QDYOuXhnKU4xLwM8oLtXHDksZ4lAycG0OKAFloL/KzCPSwimff+cqiZ8A9jrVdi5iw6h48tEE8S4DO3lCIYN1CqmDkTj2wOkZuATAZITjPJmRywrfu4Ms4B+l7hI7/wf5vue415HGVvRvelLjD9iyCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ggoJ9T2+; arc=pass smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782668097; c=relaxed/simple;
+	bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=i7DVJtTKg/Xiq9LVDzCIgbikOIjh7r7NJhVD5jrKopN/g2J+g10GriaCNXv1ntCx21NRdzkwU+HME60BpZgLKqrfH+IT/hg0tJwIQUADdpqifou3KpWgKE4NqFPkHE22SYeExpLjyv74k6nn3KFm4hucKdsCKugDPBIBXOjiGvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=jD0KRnFd; arc=fail smtp.client-ip=52.101.195.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ggoJ9T2+"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-43cce34c881so1548525fac.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 08:46:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782661595; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KXM8v7c2H/1sE0JCkzDRJxtt23sGqU+MPTJbYtjw3Ey0sK+7MOCvlYfdcMIUgwsBhB
-         tCRv33ZaEnvFcl3zrhybrpbeCHvaVbafmJIpyQ4P2CvzNMl4UmX9/e1cbpYwRcUr61L2
-         Ai843dHuCkmd/rGwRtOI+ABqq4Iy8EAeo0oiXkuwSR6JHUHF2rzRj56dA+gf0jZaI3CI
-         PtjiFDePw6DHKCJMY9cL5NriUdfL4kWcSLn/V4jqwv8B0/ruk6oGCN02ZzladiFrH4Tf
-         kDtl2oPGJxmzQqBORFNb/Jt+XJJ6aDlOD/NVE0TQEzwvduW8JnOXyWIlrOG6Sr5BcgvW
-         A3jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TwK/D+sxvlgb/lYLKarrnyvpZOyu6UoNhP89AnfQs5Y=;
-        fh=4ygHPyEWzd5GtiQPm6GgfYRblSRnfryQuCVNSsIqdNM=;
-        b=bcd5IEbfoOFMjE6/FdBvm2GaS6SbQ6D6OtZEH3CVE0j6YfiOQZIjYB3a83miE90KPP
-         ks/t2Le5S2Xl4jfKG+g3YWlPA1S6q1Z4j/gJj1dAnFOhlDdfVgYNF+QSvlSo9LGDcxBB
-         yZ5CiaSGWjSTGuLOahDXKL2L0yyjsryLp0qA9qj5ZAOayMaCrHnwVW3U4EL7IyN2ND2U
-         MIodbcq5ZuaBQ+lPgC/Lb8kbtwGkvlvmSeD7v9ikigeSN738Q8ugG5tcA5M0mrWM7kW7
-         RFpscBFfPiq9mbQSvrwBv31p3awfAPJ1kZ6xeumQpy2xrRw3S0edMYS5k2nUzMJttnmh
-         +OzA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782661595; x=1783266395; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TwK/D+sxvlgb/lYLKarrnyvpZOyu6UoNhP89AnfQs5Y=;
-        b=ggoJ9T2+WjIiqZNziGKrfP5kRm7SpSUwWIvnGga7DUTICPxd2OALtMoVqu4YJyBPWe
-         dLuXZQAYjEG6EtKbhDXeHA05k2k5T1Kk8ay+bTrVE2ajsZgQ7f+oG3DCfRv03+RCPBKj
-         o0L+U7tnG38ZE5VMNSAEfIzj2gGlMENOPwd1inrmjaBaF65Kgrk1p78GCWyQlz9VfoNi
-         i2xidhiUQO5d78cG+wJXJ3S6km+07vFHXzPMqkemnceRr4wvw3ZD/H4qrUwA/X1opsQh
-         HZ6tWO753CS+HpLx4i/Hd57aH3Rf6+JKPWanMLsa6Z1+2mKsAyLyfng8fQf/wROlQHxs
-         o6Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782661595; x=1783266395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TwK/D+sxvlgb/lYLKarrnyvpZOyu6UoNhP89AnfQs5Y=;
-        b=sM9nWx3+G7vr6ZZHEs/EAYtbW5Yr+9fM9PeEgU4fBXhyBdHsj7zhDX6etuHePVbrdc
-         r4W0n/m4oGtUBQadoaz/NNkHAjvF2aYrJv6TDJb6l/UA/yUeDqX1bkoVRCqLE/JpVMVL
-         cLCAVylbBcPcvpeRpU8EvIhCGZwJtwf6IfnTTM+IXi5YioNMFti6VajAGn9IiHnQWhtX
-         nVFDHfWtCU/5779bvZxYXkrCrH8CrHgHhVZ0WPjJ1o9x/jlcBRu39fE4M8vvFC8M0zRV
-         NMDcG/j8oank3rW1FeY/zPQJqmPo/Eom0WLqno9AG1tbT51Im2x8dHgjlNWGLxMgKeit
-         kJhA==
-X-Forwarded-Encrypted: i=1; AHgh+RqFP1l8WtNMN6TvPui3U/bjtiaCtxafeI95oMEklPgFk/dTKPxJNack+XTt8jkQ2OxkpiIFp0bjrwNfGYqOeK/V125UjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yybt5p5a815Vdl5wSqnyYRpBkkEX1IgUyy9mtbT2PTvexkab/6+
-	w7JtDcW8O04ivR4QynnJskGzty28FuDcuKadqXaRviZLSVt7tNybLSXHQOJZ0YudTsH7zkk+lPw
-	fRf+Xy6Su+AGXuL9mwVF1NYUFfljAEgA=
-X-Gm-Gg: AfdE7ckZQiWIvSI0oCAPhnotttVA8ShthCjaedXnhPnvbwDPAFy+hoLsN5kZagWIxlf
-	0i6HptNy6u83+9rZ0JmzBuIiP4WXHEm4AvNQX1huA3bKvR0vXquODfLsOn4jstxR+lEsFfP7kV4
-	4XMdTTTRyiGC3Vz4bTHkTvywVLzBFsKfT+DVAp2m687nSsBTFd5PIAMNhqhU0tc+qxGGwoYsvqY
-	GALyTKMJ5ERGmB+kw/HER7Bi5MPWSEYzyWSd8BB3eoRdCghWRqUQUfQzs+z+jdb7N2e3YTbR4Fp
-	hleRp477mca8ENNufhnAdLhJ+tQcir5JaPio
-X-Received: by 2002:a05:6870:658e:b0:448:5591:15d9 with SMTP id
- 586e51a60fabf-448559126f7mr4849762fac.37.1782661594757; Sun, 28 Jun 2026
- 08:46:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="jD0KRnFd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X6Zww4dhN/g/r51RxRANkugQ+YDaH2vDUeZp+CgybgoMFpKq4WRJhr/+ryeC2A9oRCuPKbjX40ycsa4f4987SHo7sXQ9JlVnnPmtd0I6fsnGafd7HA+U97UIbNRZ3lgNwce2BB8760x4GzLLuDjCQIJwxpq88lpfOd8EuwUz2cE6oAr9Ia10CqxdKFmevxy5RWD7EhOmKp9N2Z3cruIDUWs6niucjxCXi7ON8qKtB4DbdOfM+Tciy/tlq46tcD+Lk27mLg2VRiaiOoGxbU1rs/PikFATZ+LcKmapU+gJ3HSu0gYjNaOBhape8FG9h/FFtxmvQR3ROzL2YKU+Z8eIKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
+ b=WpsYM+KYhR27j9DE11zOB3qWBUIOmCPTmIYRyfkN/v6tbyMiaL57yFYgDEjC7IU2Yv5MGrEO0M0v8j3GygwoXrF9Zci1NW8YmPfNW3pVHUdrw0gxqReLvWVy9unbKPCIQw5cQemg6kREzjn345+Ity4RCocCmHsRBy/5xDIBJFTqbmhrJjNJ8xGzsB96dZp/ruvlL54zbOaUg9zRe+S1kUBPNWt8MqQnwUJy85SRkHSpO4TxOylZSfCAR12NX3iuwaD8+TxzfTeWJpRiNrVE3CQMwMUJO+TKFufYjNWpN34lGdPBeBqE2YeGsTPUE+22ntHml+N93ANBIkLNvvA5Bg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5ed8HqsKbtoxoRyjp2VDMwDp0e0mVdcucX0p36pRSYY=;
+ b=jD0KRnFdWrZuk6O4c4t36arWXThBodgH6f+C3xrMZRfFPfw66uRjjYB9apFzvjNGSs+mckfhLOTD4qkyccHJnKQpN51KgE22UQrcpOki9Z3igwZG4WP44IpZzHsplapamqkDen6zkxlpO5wIIuzlHA4Y+8s3ox4K8BfTKCgw3fY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO6P265MB6607.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:302::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Sun, 28 Jun
+ 2026 17:34:50 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Sun, 28 Jun 2026
+ 17:34:50 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 28 Jun 2026 18:34:49 +0100
+Message-Id: <DJKV3IQ0SXA1.30T5Y71AL6KV7@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "Benno Lossin" <lossin@kernel.org>, "Gary Guo"
+ <gary@kernel.org>
+Cc: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, "Joerg
+ Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
+ <boqun@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ "Miguel Ojeda" <ojeda@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Robin Murphy" <robin.murphy@arm.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <iommu@lists.linux.dev>,
+ <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH] rust: iommu: replace core::mem::zeroed with
+ pin_init::zeroed
+X-Mailer: aerc 0.21.0
+References: <20260626203122.713317-1-nico.antinori.7@gmail.com>
+ <DJJOZNFW51LZ.IKTXQ8ZIVO55@nvidia.com>
+ <CANiq72kdCAyRUmXFcqQfkHpk1miG8Gagsn0_5U8p4WpKxv9d_g@mail.gmail.com>
+In-Reply-To: <CANiq72kdCAyRUmXFcqQfkHpk1miG8Gagsn0_5U8p4WpKxv9d_g@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0230.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a6::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260628154051.232214-1-megia.oscar@gmail.com>
-In-Reply-To: <20260628154051.232214-1-megia.oscar@gmail.com>
-From: David Kahurani <k.kahurani@gmail.com>
-Date: Sun, 28 Jun 2026 18:46:23 +0300
-X-Gm-Features: AVVi8CeTf6DizADkLm61AypxDKstCAaBxgLYQTdLkrxOaMXxh3_00Jp7bzgcmN8
-Message-ID: <CAAZOf24EO8Aiu=nOzzKCPBzgwvJ+Kw=PaWNyOPP4L1A8PfduMg@mail.gmail.com>
-Subject: Re: [PATCH v2] Memory leak error in qxl unbind
-To: =?UTF-8?B?w5NzY2FyIE1lZ8OtYSBMw7NwZXo=?= <megia.oscar@gmail.com>
-Cc: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev, 
-	qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6607:EE_
+X-MS-Office365-Filtering-Correlation-Id: 905457ed-4dbe-4295-b67d-08ded53b8e7d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|10070799003|376014|4143699003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	oK1JQgfkAxqNYV/5aj6Y7Mwx7L0ts77Frgn6OIjHUJ+9A6ocjUFmauRCH1Vp5ZNHi8Nvz3QGdGuINTOsYkQGVx30WbdTZuIOE6b4aLrBuAshglPbueQ21xjZGQ8YByYOAFl37cCIDftGfgXdonq0QPT51TrVkWn5rkAVqPNNJBhe+pULgcGrwVOeSGgSuapEhueIrLWj+jxe0OQ8x7SL45FCV0OjHiODZgJbbf/TGGGZrB0Dqvkzv4ZH25RMU4htEbab74qP7ub1HEaxiEt+gXNcBr7rjwb1GrvzJEuDhx8PEp89vZBjJi05KmCpo/vjII0oSfBVrlI+kIXrGipzV/Q2XqW6+ZQ6SQwLN8wudpcJ/Kjqaibl6qIAMcDxaPZm0gtsD0pvMcfaCrw6T3rx9ROVC+SqsFCWMHd0BdHAL/eYZ8800cINc2lzYRB00w3byiKl4gdQIFHA3Bga/7ZRLhikCPPT8jF3whNmlpLpvLVJbwLOShdHnaX8WysEFn3ZkXh0RuHWlCYRD7S/zkj9JJtwSzpocNZNwsRQAuc5hkAqapXyS3GFEsYc85yz1AXgoBgM0TGC3eFZahQa6mee8+gtVfpXZIwuzdU4fHTtZ+SIg2wZhh49GB38kfJ1/7rY+ia0yTiSBlGBn7j05LlebIrcRTtEoea8ru6DjUIeL6g=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(10070799003)(376014)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UGNxSjJvM0prRHNQd2pwcitpc1NKbXltRktLOEJ6NUR0c1JZUS9tUDgzZ3JQ?=
+ =?utf-8?B?S09WVGtVTFhTNkZyTi9VZWlMc3liNzhXaDBCZ01DVEZtNDdtZzdvQzdaVWpY?=
+ =?utf-8?B?Qkw1dFhMQ0ZpN3pSRUgvRktnV1RmQ0dZMXNtWTVKK01MUXF6bUtqNzhtMXZo?=
+ =?utf-8?B?NVBaWjY2bFVEalBYanRrYXpwaWw0WlFudzJTcTYxM0FpTlZyK1NyQXU5SXV5?=
+ =?utf-8?B?QXpiSHozelJSUDUwVTI1WiszNDI1ampsOW9uTWVCTldhNVNoanNpRWo4YXhZ?=
+ =?utf-8?B?aFBTOG1rT2M4UmRpWnlTWHYxN0QwR01qQnU1Q01qa2FHQnBNYXZiSkRER0Jo?=
+ =?utf-8?B?Mm1mY0c0ellsWFI1ZDdLSnF5RnM2c3RUMG1LY0h3QjJYb2RIcis0YjJ4cWRL?=
+ =?utf-8?B?L2NGUEVuTzBXbkI3N2hhditCMzZBTnBuQ21WZWd1anBTUVhUUDE1aXk5N0kv?=
+ =?utf-8?B?R3pDenVjVEFSbVFsaUlETkdkL04zdzZndGdMWG5oQkZKRjNkTDlSTmw4TldZ?=
+ =?utf-8?B?NlRkOTZQQXpCYUQvT2h0LzZ1UE9tMk1oSWxkdnNJWHNuL0dSSHJzVmo3RVdm?=
+ =?utf-8?B?RmlMQS9RWllBVGNGS1JERFN3QlNoOENPZmZ0dzdQazNuOUdXTi94RDJVc1B3?=
+ =?utf-8?B?YzhubFdpb2dncTdONmFubW1JWWQ3VzE0NEZYNHl6STdycFRnMEpYcS9Vbmpa?=
+ =?utf-8?B?L0NMSFNDcTMyemVNR2VqdThJWGJvSlFRUVdGczFxbVFodkJMZS8veTlqWmJ4?=
+ =?utf-8?B?bEZxRVUxK2hnTFl3TUw0MlpMSW5SL21Hd3NObFJqMUFNNkp2Z2s1cGZqOU02?=
+ =?utf-8?B?OFBpTnNMbER2WHMrYjJsSFkwNzRueTFNcWtOSXMvUmw2TzgreVltWkJuWTkr?=
+ =?utf-8?B?SHcxMlRBQU54clNTay9kdklSU3V2WmMzMWVlYXhpZGlkQVZ0cU9XQWdlb09X?=
+ =?utf-8?B?Zmo4bmRsdVlIa2swODNqMEc5Q3ZDbll3WlBXdlJlV2lwOGhqb2srdCsvaTZF?=
+ =?utf-8?B?b0lTMXZJN3FKb1VGUDR2Qnk2UUZ4bGxyMmMzdGdGdC9FWlZJbHcvMjRoRWtW?=
+ =?utf-8?B?cmprNmZiOW9LcjJJRW8vQnJKWmhrY1loVFEzZFhDQ1hXcTNHa1Jib3RaOFRR?=
+ =?utf-8?B?UjlQTE9XdUc4SWRiTjNTWlBDY3ptbGVSZmlHWUhxM0ZJdFdlWTgzOW9RT2Jq?=
+ =?utf-8?B?YkY4Z2I1ZkNreWxOSVhDTTU2RnNFbmlaVlR2MjNWajROUDJNYnlxemg0S0t6?=
+ =?utf-8?B?OGFmbHE0MmNGMmZJbWZCMHZIODRqcDJnaTMyVzhLa21rNndPcUtwakdJM0JY?=
+ =?utf-8?B?Slc2N05CSXdQUytVdDBTbXBTOVFaWFFsQk5oUnlOVFlXaHdVaUFsWUJ1RjBH?=
+ =?utf-8?B?bUNYbWNYeTFGYlc5aFNoR1JUeFI5S0dLTWhrdWh3YUJDbGNWUXo2VU9NdmZj?=
+ =?utf-8?B?OHh4bzBlYXZBL3ZrcWh0QzVzWVk4cmpVdmNhTnVMa09DaFRSRjloK0JlTkEy?=
+ =?utf-8?B?MjF2WGlaLzNtbldnZUFYekpTY2RPWWYwWGR0Rk9mMSs2NnhJT0pjVyswVTR1?=
+ =?utf-8?B?Rkd0bkNEZDhha1RJajlzaUVKd0thbllmMmRqdjhmQlJkUUxpSzVYbUtRRFk4?=
+ =?utf-8?B?RmkrSDdNNkRzT0RUeVBPNnN2a2xkSEJRcHNjVFoxMFZXV3hyUWQyL05Zb2Q3?=
+ =?utf-8?B?RUZ0TVNacmhMaWpuZ1ZxbFhlV3ptSDM3eGRQOHI0SnBXRmZ2bDNtRGRNS0dY?=
+ =?utf-8?B?bWpvM2VlWERSNUs4R0pUVUxZUEo3S2hIa044MGxLYlVKT0RMWWNVaElwdThl?=
+ =?utf-8?B?Rk5QWTF0VG91cXRkSnNvbXdHaXNaNUZNQkhZMC9nYVZ5akdSN0Y2ZmJuaEN6?=
+ =?utf-8?B?NVJUZjFLaU5pQitOeGowa2JuVHQ1ejlteHNTc2dTckpGakNuOGQ3Q2Z3NDh3?=
+ =?utf-8?B?WkRRTEZ5YUYvYnVtOTF4a1RnYTdqS2pwcEg2T295YmIrdDhORWR0UURya1JG?=
+ =?utf-8?B?OU9hOUg4SVp0M0cybkJlalpXTU0rL1lUTFUvUDFxSE02WkVxeThQNnJUZ09i?=
+ =?utf-8?B?REVQeURObHM4VG9kQXZheDNsSGlCdlB5amd1bUI5ZEpZZG1JK1AvVWt2YTV6?=
+ =?utf-8?B?TzlDdk9reXRSeVpmT2Q5VTZPM1V5ZXl0WjVEK294S0NmZmhVVEVQdk5OMlky?=
+ =?utf-8?B?RVQ3SjN3S2w0ck1VdjBoWGNCT2RsZ0t6amx3MERkMW1ueTZWc3RyL25neDJn?=
+ =?utf-8?B?QnZtb29xaEQzWCszRDNSbkhqM0FTL0xOS1U2WUQ0Qk8vUDdTWk8vTmUwT09l?=
+ =?utf-8?B?bXBsbGZXZi9LVEpVZ0xNcm5EN3VRZjhXQjhDeVdQOU1vbE1hMWk4Zz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 905457ed-4dbe-4295-b67d-08ded53b8e7d
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2026 17:34:50.4423
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +hVkNkrwdwmy1fxbLiQYjb8ftA1y6YYCqjLOg6cFV2jWrEQUoM8awmkSlZfZq0tLtr1vORmWUQ7LaLyRJlzdHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6607
 
-On Sun, Jun 28, 2026 at 6:41=E2=80=AFPM =C3=93scar Meg=C3=ADa L=C3=B3pez <m=
-egia.oscar@gmail.com> wrote:
+On Sun Jun 28, 2026 at 11:31 AM BST, Miguel Ojeda wrote:
+> On Sat, Jun 27, 2026 at 10:35=E2=80=AFAM Alexandre Courbot <acourbot@nvid=
+ia.com> wrote:
+>>
+>> Note that you can also use `..Zeroable::zeroed()` here since we are not
+>> in const context. Not sure which one we prefer in this case, but I'd
+>> personally err on the side of not referring to `pin_init` unless we are
+>> dealing with a pinned object or need to because of a const requirement.
 >
-> I discovered OOM after run script below around two hours in my computer:
->
-> while :; do
->     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/unbind
->     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/bind
-> done
->
-> If you run 10000 times above script kmemleak does not report any
-> memory leak, but if you run above script about two hours several
-> OOM ocurs and at the end kernel panic.
->
-> The OOM isn't just a simple leak; it's a refcount corruption that renders
-> the list_lru fix dead code after the first mid-init failure.
->
-> Here's the chain:
->
-> Bug 1: ttm_global_init ignores ttm_pool_mgr_init() return
-> If shrinker_alloc() fails under memory pressure, ttm_pool_mgr_init
-> returns -ENOMEM with pool types already initialized (64 list_lru_init
-> calls done). ttm_global_init ignored this and returned 0, leaving orphane=
-d
-> pool types with a NULL mm_shrinker.
->
-> Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
-> refcount + debugfs.
->
-> Bug 2: ttm_pool_mgr_init leaks pool types on shrinker_alloc failure
-> If shrinker_alloc fails after all 64 pool types were list_lru_init'd,
-> the function returned -ENOMEM without undoing them. With Bug 1 now
-> triggering proper error handling, this undo is necessary.
->
-> Fix: err_shrinker: label that finalizes + destroys all 64 pool types
-> before returning.
->
-> You must apply the patch from the link "[PATCH v2] drm/qxl: fix
-> use-after-free to qxl_irq_handler in PCI mode" before testing.
-> If you don't apply this patch, you will get a UAF error when running
-> the script above.
->
-> Assisted-by: OpenCode:1.17.8-Big Pickle
-> Link: https://lore.kernel.org/virtualization/20260627105445.89827-2-megia=
-.oscar@gmail.com/T/#u
-> Signed-off-by: =C3=93scar Meg=C3=ADa L=C3=B3pez <megia.oscar@gmail.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_device.c |  5 ++++-
->  drivers/gpu/drm/ttm/ttm_pool.c   | 37 ++++++++++++++++++++++++++------
->  include/drm/ttm/ttm_pool.h       |  2 ++
->  3 files changed, 37 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_d=
-evice.c
-> index d3bfb9a696a7..c880a0430363 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -96,7 +96,10 @@ static int ttm_global_init(void)
->                 >> PAGE_SHIFT;
->         num_dma32 =3D min(num_dma32, 2UL << (30 - PAGE_SHIFT));
->
-> -       ttm_pool_mgr_init(num_pages);
-> +       ret =3D ttm_pool_mgr_init(num_pages);
-> +       if (ret)
-> +               goto out;
-> +
->         ttm_tt_mgr_init(num_pages, num_dma32);
->
->         glob->dummy_read_page =3D alloc_page(__GFP_ZERO | GFP_DMA32 |
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_poo=
-l.c
-> index 278bbe7a11ad..e0c82804a07d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -1198,6 +1198,17 @@ void ttm_pool_fini(struct ttm_pool *pool)
->          * that no shrinker is concurrently freeing pages from the pool.
->          */
->         ttm_pool_synchronize_shrinkers();
-> +
-> +       for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> +               for (j =3D 0; j < NR_PAGE_ORDERS; ++j) {
-> +                       struct ttm_pool_type *pt;
-> +
-> +                       pt =3D ttm_pool_select_type(pool, i, j);
-> +                       if (pt !=3D &pool->caching[i].orders[j])
-> +                               continue;
-> +                       list_lru_destroy(&pt->pages);
-> +               }
-> +       }
->  }
->  EXPORT_SYMBOL(ttm_pool_fini);
->
-> @@ -1386,6 +1397,7 @@ static inline u64 ttm_get_node_memory_size(int nid)
->  int ttm_pool_mgr_init(unsigned long num_pages)
->  {
->         unsigned int i;
-> +       int ret =3D 0;
->
->         int nid;
->         for_each_node(nid) {
-> @@ -1423,8 +1435,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->  #endif
->
->         mm_shrinker =3D shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool=
-");
-> -       if (!mm_shrinker)
-> -               return -ENOMEM;
-> +       if (!mm_shrinker) {
-> +               ret =3D -ENOMEM;
-> +               goto err_shrinker;
-> +       }
->
->         mm_shrinker->count_objects =3D ttm_pool_shrinker_count;
->         mm_shrinker->scan_objects =3D ttm_pool_shrinker_scan;
-> @@ -1434,6 +1448,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->         shrinker_register(mm_shrinker);
->
->         return 0;
-> +
-> +err_shrinker:
-> +       ttm_pool_type_fini_and_list_lru_destroy();
-> +       return ret;
->  }
->
->  /**
-> @@ -1442,17 +1460,24 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->   * Cleanup the global pools and unregister the MM shrinker.
->   */
->  void ttm_pool_mgr_fini(void)
-> +{
-> +       shrinker_free(mm_shrinker);
-> +       ttm_pool_type_fini_and_list_lru_destroy();
-> +       WARN_ON(!list_empty(&shrinker_list));
-> +}
-> +
-> +void ttm_pool_type_fini_and_list_lru_destroy(void)
->  {
->         unsigned int i;
->
->         for (i =3D 0; i < NR_PAGE_ORDERS; ++i) {
->                 ttm_pool_type_fini(&global_write_combined[i]);
-> +               list_lru_destroy(&global_write_combined[i].pages);
->                 ttm_pool_type_fini(&global_uncached[i]);
-> -
-> +               list_lru_destroy(&global_uncached[i].pages);
->                 ttm_pool_type_fini(&global_dma32_write_combined[i]);
-> +               list_lru_destroy(&global_dma32_write_combined[i].pages);
->                 ttm_pool_type_fini(&global_dma32_uncached[i]);
-> +               list_lru_destroy(&global_dma32_uncached[i].pages);
->         }
-> -
-> -       shrinker_free(mm_shrinker);
-> -       WARN_ON(!list_empty(&shrinker_list));
->  }
-> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-> index 26ee592e1994..bda8e816a206 100644
-> --- a/include/drm/ttm/ttm_pool.h
-> +++ b/include/drm/ttm/ttm_pool.h
-> @@ -97,4 +97,6 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, s=
-truct ttm_tt *tt,
->  int ttm_pool_mgr_init(unsigned long num_pages);
->  void ttm_pool_mgr_fini(void);
->
-> +void ttm_pool_type_fini_and_list_lru_destroy(void);
-> +
->  #endif
-> --
-> 2.54.0
->
->
+> That sounds reasonable -- Benno/Gary, any comments?
 
-This bug is specific so Qemu, so...
+`Zeroable::zeroed()` should be preferred where possible. Currently init mac=
+ros
+also recognize and turn them into zero-init if used inside init macros --
+outside init macros they don't matter, but in a future where const trait me=
+thods
+are stable we would want to prefer `Zeroable::zeroed()` anyway.
+
+Best,
+Gary
