@@ -1,127 +1,240 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001BF33BBC5
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 10:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782642706; cv=pass; b=CEIsbe5qnWfigwyhI+NnqQIYN/mDTKy+mcbAJxN9BcyGjVetG3Wj8539nn2jM4SpmkURZgsWGJgoP405Vx9wO0SS6myxqMr31IvLI9LqyCfgM1saWnlRfdzMaV0BuWcwieoTgrT2xX04RnasYYlD3yRDET07IVycZ+HzCPaUbzo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782642706; c=relaxed/simple;
-	bh=p9T7gPyArMS/KVn5vgGJ/6O04XuwG8iFCNcQCBiuYx4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r7r6lZPUTnNuO+7rw5VgVrFl/YndtZIPISGLc6eSZlvAJREL074oUrXFbcL/zvBUvDCsUMlm1X0TyuQg+H7BFoNl8GXee0itPscov3i1XLeCyXKOmhU7Q/kKvrjYYpcSlaXUTGco7AZ4SkUc/JCiDADCeVlT9Drq2qsexZRXEVY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XImHuX1G; arc=pass smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E0E355F41
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 15:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782661272; cv=none; b=bRGDQti+ntBc7Ezi+OAnUX0XUt9Yt5dm6tps9+BGqZW65Mh99lOH+LDDY928zqiGfLr8A77khZUURY/OjLmubZeaeNLEPxTNiYcWRPItaYIqGMP9//gqNuFRLBFZKh0kh2yVHuJoOMUMLusVxUjiw2sTcVdFdUrUUTPhB3lBEP4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782661272; c=relaxed/simple;
+	bh=QvFemZzsQhTAE5tHNh0abPt1RWzBZZji6FWWT2yknho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jjyDEwd5xxW+vMJmmBcVruPFzlpH51XY6VYuMmaclPyq5k/zTOMHO1tYOZn6NBgsAX6tTVpBmAxUsP4RswRdZmSIv3/aghI3YQJNww84U1aBxeZQCs6qg51odTu+02P1Eaq5C+zcbckXBSx/CH9QUTa2DhOYHU2q+3TE9LWZ5Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jEXK8evW; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XImHuX1G"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30c5912314fso274059eec.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 03:31:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782642704; cv=none;
-        d=google.com; s=arc-20260327;
-        b=U0E26fOJyqdEYBvrT8Rda7IWPb3plPZn/xYCq+prdw13Kviy4ZmI2BThB9NqZ5UoD6
-         QIxCPiKrmf6eShREBo/c6XejDUjz7AWaxCckeXPTJqhTSP1MDPN7EkjMMuOAWHbZ08gV
-         P0OgN/2AZxGZ9Ee2qUKGZw3BwQHf+Wx21NW+u6yqQUYOL/d5C04IvAPjSgPbUa0xqh+H
-         KGl5Mi+cq2EVCZier9kzAUcagqAX9XXRuSFVxNuKjLc/OegTX52UE9trOgxyNnKVP7zD
-         e9959dnWbpI+pYBSaeuK9wqu5/exkM/8GBmyDb0holF61CJVby8NYMgxGxSpQpH58FwM
-         OsGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=p9T7gPyArMS/KVn5vgGJ/6O04XuwG8iFCNcQCBiuYx4=;
-        fh=Ken6dNfe4eq//gCmMG6Nnx/SdrcPQfiOWRxZqXl+rR8=;
-        b=lnPg6OwV3RsUSyVMJlrOqqhS82IEldidRY981UUdRGZbsuwIEHmAfD48EO/GGqk8Bl
-         /uu2QbAyQrXXKUPMcxxJS1x2+MW6DxYAdb8b/azJ/1+ZAg/1YTS8YnoodBRE2sK5PYoL
-         EGoBDEouzwtlgmNg0UQI+q/8D2vu+muvO46abUxZ8ZlBr4l0uJJ1+9+CPOh1p5bLyL15
-         scZ14b4RMyjqRaDTSMHqFJQvjHG2N2lKuWXPzRIIl8KjN5AU4TIWEkZ/KG2nmoNOem6p
-         Llso5jNkoKYJ7pJXDbED74RsjM8qMjV4vyY2cyWt6rtEcu5EBeHsPnzqKky9NoX+8mtk
-         rZqw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jEXK8evW"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so6814845e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 28 Jun 2026 08:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782642704; x=1783247504; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=p9T7gPyArMS/KVn5vgGJ/6O04XuwG8iFCNcQCBiuYx4=;
-        b=XImHuX1G6eROIok1u7J+vgm2WZ53YfuiJSht2tGm4+AkbxKeGhRPAF9d981do9Q2Dy
-         i/INKaN8zsdO5sXHXMvN2NEvMlnnoIvQZP4xANcs2tpmxLaht5yUGJbqhGSVeaN/1f+f
-         06GXOF7alyzr7zXPtD3NeApakaE3J+qG7G/X8sz9riF9At1unUaux6rwbsEKSV5cu0BO
-         v1DJwQxDIwhDWBKYJBSILrR60J4PiOAVzdn4CmuuDsE204jL063NPRFa//5dgrCrej+m
-         2l+of9Tf/HPTYgyHDitVtyK/kirZjeExYx+upJl458HpD4R5axMJ1OKE8Ba1VT7xuPfr
-         Q/Sg==
+        d=gmail.com; s=20251104; t=1782661270; x=1783266070; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bdP/kJNcUoKP2dTQekglHV9xkq62178db/T4WFfvdsg=;
+        b=jEXK8evWrXgp5SYMdoQcWsf9gW42fwFpLegH+2pKi/VxqDt5fw/BwNei56GniBsg0U
+         Ol/egwis4BuOmuGq/uom26uApwXO7plmrhxh59IDzatti82UdpbQao6V2fWFIiRFhHH3
+         43loZ4iv/RenW3D3CwFpodmyE6hRXScAGKM16DpRFCrPGm8FjR60v3ijXuzFcB4qcthZ
+         /SW2LnSamgdOOvvcwHp1vIydl5MvyMoqELtEIMqWjRoRTdiW/jfpcvQjqZw1fa3dYhyP
+         KM4P/zWCErGG2OAjwpOIqrz9uHi6l75ToBCmU76/zH98OmWfAUgLQ5kDqKW1/fZiy00w
+         /N/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782642704; x=1783247504;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p9T7gPyArMS/KVn5vgGJ/6O04XuwG8iFCNcQCBiuYx4=;
-        b=NAdY2l0qqEPiCD+xJky8P6uJjy/yMrfxA9u9WySFFC3IPTeXdmWL2lTiJkjDBNjDJI
-         AFO1aTYCmRchDO5OcfPorRsYtx4s5OtMYYEW+WOa3ZdDmF8Fm4y/yk0RKlfxRiTnV8JB
-         AjyRgqNz4hxU8xux3rxf89PAav21i9J+8A+dbT98NXUbJAoYHHcDeXsbluxeAy/HOX36
-         vSXZtE2CA79t+xHW6AOPfABX9lIuao+EHfvx0SppiMRVoQQzFXH14IQXGGYlA/iqi09n
-         qJuAU6nnUAzeTYSyZgfI6iRwZdWeW86Me9wMCfjd34YAdIlNv5xxMzY1UlnPllmR6aZ4
-         yuIA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0/cIaEWWlBthowutRckI0Zr3d0bUZzat9HssvXaJgSk0G9WWhMyGEo+4UtauJBS1J+OZQy+pJzNQ7IM+uRDjT03/k2g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFFFgt+SLpLEUBOvRhAzUzRAQU0HErVG0jHSlEbuK2bD0vJsS2
-	uexOOGgS4eqc2BJF5Jhia8tm1Q9laKWjIgx+Vf1yGlLEtn1njKAcWCdMtbIaDiAg6ZQJ1MijTTW
-	59xCtDepgWmX4ztXJq0DMO/qiisYlRTk=
-X-Gm-Gg: AfdE7clvfe23WW37eCR+AtHcP0VxfKUjyY9Fr/KwW0cSF24L17e/pXvRBH6LbOl/Fmq
-	glxvGKHZavayaBpehkcTtfmB5lp77Hf5unwRHA5D8HAKp/Uxre8Sc4Kmc4LlX/optErwV8mGrZK
-	ubS4+S1a7aLHlsLlifmFDztG2v7HQZ3qBHc7cpMS35DNASflL+9f0XRviC3LB5VEeKIwZ8u0NQt
-	jaGwE7IiWsdIsyrwR3BRHQtfHryM1kRlM6BvosYTSf/YytVkg/P1fpYNBH19fT+onb95pYOxfGP
-	3lBTXEb/SnSFQADX2i1fpSkyxpxawFbA/jvnMvj0E/+dDY56aSvVrOcWegsUfIQ+41nHv6gW7dJ
-	pLh2G1KGNYKWu
-X-Received: by 2002:a05:7300:d517:b0:30b:6192:5b9 with SMTP id
- 5a478bee46e88-30c84def54emr5929447eec.8.1782642703979; Sun, 28 Jun 2026
- 03:31:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782661270; x=1783266070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bdP/kJNcUoKP2dTQekglHV9xkq62178db/T4WFfvdsg=;
+        b=Oi7h834MSfbLFH8e5NAnF/+5gctj6nyavXQoI4TGDE+Wioy9L/N1Ou3efHqOk+7J5K
+         SNDyArI9RaLbDObVd94djybPmu8jO79u7OjcaNfYSEQOGx0871bu3jwqKKs6ckY/OT5g
+         v/jy79GV2mQbD/upQrMwNILFVvRB1bwpRIW2UVq98Su+5NYnSQRLsykdL+eWQF1dmVkh
+         jBXlOhYYXp9V2KVyqmBpvkm9hZZqvORwD0uLl44MzgW6GdgUIVhLOQpgnEl+pRJjhw8t
+         bLpDlbNR5Xwvq1xxF8JwhpeaaISBNpelmRosG4kzb4OL1UlvuPdDc1gWB4IBKfbQZWrp
+         v4Pg==
+X-Forwarded-Encrypted: i=1; AFNElJ8hIZgSW098o97xKg7zDMCPG8L8lUuaOFEulbyik3LljX1RwFVOi20mwW8g4y2PSJiC8zZywskCSYRSBX3KgNpx/tvVYw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxj0hunGaef7uMci31zy/mQiEuBES7dUR/X4ttqeNbvCy8I0ipa
+	9qE6HKsQxLo5ASZR84sMFMMH24MBUy7+MImir2JCPkbF+78U4MyOQjQX
+X-Gm-Gg: AfdE7cnV7roXE/wVRuQtj1XajyuCoD3Bbzj2a51Y8wiBxt6AzbEiBkX/O9dbPSdv3wM
+	5BSA0Zhu8cas5c1jvmVTcpJY8f80+y/b7LhPAuH7SaK43wuGxweWhBJIGpZRkXUkCP8v4oEcJrd
+	JRuFh8CvuwX7ScQ3G+oTShsNWThZxL8RyuWH89jXGp/bEYFdJ3v0rcK3pxmSfMum2gSuzcRgEDf
+	SYAP+JcZD8ox7WnZdF/ryWfzn1/leo364NgIj5ffDpK+3iK2eQqoXLtdc5eqlC3PDGgD5MI/07P
+	BkIwXSU00JjHaMz2WggssykEWvcIKircrpMHlTwwhGCJaYyfazSPPzslG7SL230LXBoWlGH+Rds
+	vmBUMVIcsdwVyugqYur/S8Za3XVTOKtrqHbWyVJVrhsRPACAY3MsWPtpzk8tknm4jLIoNTZaNYK
+	GKvvaBr2GEC7Hktm9n9LOZsUjxpxJ3H5fjOJ9cUCrhtq/ZU1Pn/3oSq4QZ9kXvMST3yWtY7kd6i
+	5DL
+X-Received: by 2002:a05:600c:3b89:b0:492:37a3:acda with SMTP id 5b1f17b1804b1-4925a0444c4mr347631285e9.0.1782661269651;
+        Sun, 28 Jun 2026 08:41:09 -0700 (PDT)
+Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4721c88bfcasm12707909f8f.10.2026.06.28.08.41.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2026 08:41:07 -0700 (PDT)
+From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+To: Christian Koenig <christian.koenig@amd.com>
+Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2] Memory leak error in qxl unbind
+Date: Sun, 28 Jun 2026 17:40:43 +0200
+Message-ID: <20260628154051.232214-1-megia.oscar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260626203122.713317-1-nico.antinori.7@gmail.com> <DJJOZNFW51LZ.IKTXQ8ZIVO55@nvidia.com>
-In-Reply-To: <DJJOZNFW51LZ.IKTXQ8ZIVO55@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 28 Jun 2026 12:31:31 +0200
-X-Gm-Features: AVVi8Cfa2gu-uh51v2W-N-eZdtsPgwAWc2f3g7iiuHZxmyLE0nd_b1sk7GagU0s
-Message-ID: <CANiq72kdCAyRUmXFcqQfkHpk1miG8Gagsn0_5U8p4WpKxv9d_g@mail.gmail.com>
-Subject: Re: [PATCH] rust: iommu: replace core::mem::zeroed with pin_init::zeroed
-To: Alexandre Courbot <acourbot@nvidia.com>, Benno Lossin <lossin@kernel.org>, Gary Guo <gary@kernel.org>
-Cc: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Boqun Feng <boqun@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 27, 2026 at 10:35=E2=80=AFAM Alexandre Courbot <acourbot@nvidia=
-.com> wrote:
->
-> Note that you can also use `..Zeroable::zeroed()` here since we are not
-> in const context. Not sure which one we prefer in this case, but I'd
-> personally err on the side of not referring to `pin_init` unless we are
-> dealing with a pinned object or need to because of a const requirement.
+I discovered OOM after run script below around two hours in my computer:
 
-That sounds reasonable -- Benno/Gary, any comments?
+while :; do
+    echo [pci qxl id] > /sys/bus/pci/drivers/qxl/unbind
+    echo [pci qxl id] > /sys/bus/pci/drivers/qxl/bind
+done
 
-By the way, speaking of that: the docs of `zeroed()` (both of them)
-could mention the existence of the other (and the `const fn`
-difference).
+If you run 10000 times above script kmemleak does not report any
+memory leak, but if you run above script about two hours several
+OOM ocurs and at the end kernel panic.
 
-I guess this will eventually go through IOMMU, but I can also take it
-via `rust-next` if needed.
+The OOM isn't just a simple leak; it's a refcount corruption that renders
+the list_lru fix dead code after the first mid-init failure.
 
-Thanks!
+Here's the chain:
 
-Cheers,
-Miguel
+Bug 1: ttm_global_init ignores ttm_pool_mgr_init() return
+If shrinker_alloc() fails under memory pressure, ttm_pool_mgr_init
+returns -ENOMEM with pool types already initialized (64 list_lru_init
+calls done). ttm_global_init ignored this and returned 0, leaving orphaned
+pool types with a NULL mm_shrinker.
+
+Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
+refcount + debugfs.
+
+Bug 2: ttm_pool_mgr_init leaks pool types on shrinker_alloc failure
+If shrinker_alloc fails after all 64 pool types were list_lru_init'd,
+the function returned -ENOMEM without undoing them. With Bug 1 now
+triggering proper error handling, this undo is necessary.
+
+Fix: err_shrinker: label that finalizes + destroys all 64 pool types
+before returning.
+
+You must apply the patch from the link "[PATCH v2] drm/qxl: fix
+use-after-free to qxl_irq_handler in PCI mode" before testing.
+If you don't apply this patch, you will get a UAF error when running
+the script above.
+
+Assisted-by: OpenCode:1.17.8-Big Pickle
+Link: https://lore.kernel.org/virtualization/20260627105445.89827-2-megia.oscar@gmail.com/T/#u
+Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_device.c |  5 ++++-
+ drivers/gpu/drm/ttm/ttm_pool.c   | 37 ++++++++++++++++++++++++++------
+ include/drm/ttm/ttm_pool.h       |  2 ++
+ 3 files changed, 37 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index d3bfb9a696a7..c880a0430363 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -96,7 +96,10 @@ static int ttm_global_init(void)
+ 		>> PAGE_SHIFT;
+ 	num_dma32 = min(num_dma32, 2UL << (30 - PAGE_SHIFT));
+ 
+-	ttm_pool_mgr_init(num_pages);
++	ret = ttm_pool_mgr_init(num_pages);
++	if (ret)
++		goto out;
++
+ 	ttm_tt_mgr_init(num_pages, num_dma32);
+ 
+ 	glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32 |
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 278bbe7a11ad..e0c82804a07d 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -1198,6 +1198,17 @@ void ttm_pool_fini(struct ttm_pool *pool)
+ 	 * that no shrinker is concurrently freeing pages from the pool.
+ 	 */
+ 	ttm_pool_synchronize_shrinkers();
++
++	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
++		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
++			struct ttm_pool_type *pt;
++
++			pt = ttm_pool_select_type(pool, i, j);
++			if (pt != &pool->caching[i].orders[j])
++				continue;
++			list_lru_destroy(&pt->pages);
++		}
++	}
+ }
+ EXPORT_SYMBOL(ttm_pool_fini);
+ 
+@@ -1386,6 +1397,7 @@ static inline u64 ttm_get_node_memory_size(int nid)
+ int ttm_pool_mgr_init(unsigned long num_pages)
+ {
+ 	unsigned int i;
++	int ret = 0;
+ 
+ 	int nid;
+ 	for_each_node(nid) {
+@@ -1423,8 +1435,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ #endif
+ 
+ 	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+-	if (!mm_shrinker)
+-		return -ENOMEM;
++	if (!mm_shrinker) {
++		ret = -ENOMEM;
++		goto err_shrinker;
++	}
+ 
+ 	mm_shrinker->count_objects = ttm_pool_shrinker_count;
+ 	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
+@@ -1434,6 +1448,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+ 	shrinker_register(mm_shrinker);
+ 
+ 	return 0;
++
++err_shrinker:
++	ttm_pool_type_fini_and_list_lru_destroy();
++	return ret;
+ }
+ 
+ /**
+@@ -1442,17 +1460,24 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+  * Cleanup the global pools and unregister the MM shrinker.
+  */
+ void ttm_pool_mgr_fini(void)
++{
++	shrinker_free(mm_shrinker);
++	ttm_pool_type_fini_and_list_lru_destroy();
++	WARN_ON(!list_empty(&shrinker_list));
++}
++
++void ttm_pool_type_fini_and_list_lru_destroy(void)
+ {
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < NR_PAGE_ORDERS; ++i) {
+ 		ttm_pool_type_fini(&global_write_combined[i]);
++		list_lru_destroy(&global_write_combined[i].pages);
+ 		ttm_pool_type_fini(&global_uncached[i]);
+-
++		list_lru_destroy(&global_uncached[i].pages);
+ 		ttm_pool_type_fini(&global_dma32_write_combined[i]);
++		list_lru_destroy(&global_dma32_write_combined[i].pages);
+ 		ttm_pool_type_fini(&global_dma32_uncached[i]);
++		list_lru_destroy(&global_dma32_uncached[i].pages);
+ 	}
+-
+-	shrinker_free(mm_shrinker);
+-	WARN_ON(!list_empty(&shrinker_list));
+ }
+diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+index 26ee592e1994..bda8e816a206 100644
+--- a/include/drm/ttm/ttm_pool.h
++++ b/include/drm/ttm/ttm_pool.h
+@@ -97,4 +97,6 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+ int ttm_pool_mgr_init(unsigned long num_pages);
+ void ttm_pool_mgr_fini(void);
+ 
++void ttm_pool_type_fini_and_list_lru_destroy(void);
++
+ #endif
+-- 
+2.54.0
+
