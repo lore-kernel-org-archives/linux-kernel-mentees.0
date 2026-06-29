@@ -1,381 +1,122 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447B840FD80
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 14:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A0B397342
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 18:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742823; cv=none; b=rrz880xhMkSiegBmMXtwSYPYFwIEMUDhjBpEhAiHny9rwmi5xjkB65+iMhlvrKTIjFVeOdRG1SDhGhXQYr6nTezlc9IypCJ082MwOJOgpCbhfgG1NUxkuf3aFkv8OPWOzXnGhZPEOXIxFp6FrhQEJS+vvSGc8r6Jet8+hM387yg=
+	t=1782758881; cv=none; b=SAjN2RYuoUHa/1WO/62VP590nZx8oh1XFBtVbNKyTg4PCVefduqMXejz9ttV2hdvyoRxZVr1ZdMJD2tgEWLtKQZ+jwLFYkJr3q2De4ZS+aeYm5QCSNgRzisSXBa92fjEB2lkqiRgbyKYJdMSRZq4sQ0nPJxEEbwI60jolWKaAN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742823; c=relaxed/simple;
-	bh=x++pQE5GKKnJe3Jn2ShXEdP1AjYJx61jjswnatHuIlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=M5qFJsXrexcFLta0zymzHaRjbeUcnj5win8t4tvTQ2aHwVfJDKFpFB4GR+3jsZJWhZhHrHqh5kyi8lkaOdw+Z9//D0OPDR5f9smY0UFExD4Ba+Cy+cii3gPWiqY8Hdv1fDaTbxUgqNlNhI3XSEn2usEFPZ4nmOFLFnReUVjAFOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTZeogLJ; arc=none smtp.client-ip=74.125.82.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTZeogLJ"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30bf8b2bd20so6710062eec.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 07:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782742821; x=1783347621; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AupvSFaqPtFwZHXXd++aD6dS9DxYuU7xGlZB7kUfSKk=;
-        b=QTZeogLJBakdkFB6VKWPboBAkaZsjrg3w+JPG2XsAVsMg8LUCQ0tWlP5hJS4r71slS
-         /J/zNGpu3GvD3zRtNWk9V94XIbzZDmv2KasLPAHfD3Er/cOXa7Yt0GvQkO1QMWAWPkcq
-         L6+OWwwlNm8ONdupy8MMlqJwO6L9ZJ69Nl3WI7oHLVUFP0QrNmRw9tLoqlrom4+Hu4ei
-         aDi0mBSNGosJPDlsp8IKF7ZMZxUUKt3nhZLoa1kSl6Oxocn2fJmu8txE9nJB3Grsiecu
-         CpJMIhjdBVsHtLG5SYIUcMcTe6Ofom+xJpKiChJCYzt7AwNipCuowtiwkqxz9m1XOYRw
-         bdGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742821; x=1783347621;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AupvSFaqPtFwZHXXd++aD6dS9DxYuU7xGlZB7kUfSKk=;
-        b=kSL++epvSCGh+YvSWiS94WdbSO/sMBtbvnF4gJEaqbV4ODKfy3uGd1Cmv+TYZjD2XA
-         NkQOTL6dT+bgrI0+4NYlC3zaZx/eHRxCbTWHLuXuW5WDgL5J6t1QCz5LYdlqJ9H1c4FI
-         m9jdL2dfvPJZCJVDcz0/vkXTF/2Ue3Kdwqm0z2DLRyas4rsq9MOhmcMfA1zpPg+llO6p
-         3Tn+058hs6DCwirIMDpHHlf/8M34RgiKnwCBhiJ+PCI0y0zWDmFlv+Ft0BCUJJS+33Oz
-         iJp8fvykcnYhpJNSFGOF4XIKAkNzjViXeAUxO1Hbq+/F0Uaqu5VVYXngwDmqsEmjc4S7
-         fj6A==
-X-Forwarded-Encrypted: i=1; AHgh+RoKNyUpGOhTUwSYt9hWGewT+0jPwWc4JIvt+CZFG3VbGxvPwSlApHZ14U20dshQHQWiKsWDXmsOmXn+dL+xqbl4Qi4qbg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzRrFpYKxrEI/b8xIHulmnIlhsVj5KpR/nI+jKE/QdgaFx0p5o
-	AJ+obbMminG9j+s1VVpIUwUmY1zIjIK636pGT7pCTgJ84ih9GSrEIAE=
-X-Gm-Gg: AfdE7cmRbOjJpCW7Rxikl3k7dDGn2/v6QxioCs7C9VcH+8AZIpYE0Wt5uWTdgMzEHDR
-	8C9a1naepOr5q0qT86ExHQ7PBnMRRy5ZeLHOGcAFNHvdwiXsWraZG4c65lqmJh5v2BmoVq3Ejun
-	sTsC5dIG4tywsvBGOELfXnYB5/eQ2eUS+hQlPl9rkZKaV+XtC9UvKh4oNX59qm0IoKTI89fDCWJ
-	6bAerzaBX03G7Ak7LH260Z0R0PqBdGur7A5c9RYO+qYoKuahUiH8N8mnf8g8MpmvIo4wHsoCLq1
-	eIpaM6FMqXo25ehxDI+i+msgmvRFS0sXqtZFdtLJma9/fiRmNLduTlDrAekug4ol7GrxAMmCnGy
-	dFhen4p6eZ5Yy4Fzp8TDe+VGa2tE6lWNNZ/ZOU7pxL5gJmkWPCZO7SGydkBVq44LMpSt0CwT862
-	9Uv7TJzNW4G077E0ijj3ZLuNzon7zr2FYFNxbV7axKA09vVPJzkEW3CqXn7A934n/A
-X-Received: by 2002:a05:693c:88cd:10b0:30c:ab97:d7b3 with SMTP id 5a478bee46e88-30cab97dc2dmr6285271eec.45.1782742821002;
-        Mon, 29 Jun 2026 07:20:21 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52eed6sm44396852eec.9.2026.06.29.07.20.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:20:20 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	David Airlie <airlied@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Pedro Yudi Honda <niyudi.honda@usp.br>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	nova-gpu@lists.linux.dev
-Subject: [PATCH v2] gpu: nova-core: parse structs via zerocopy
-Date: Mon, 29 Jun 2026 11:20:05 -0300
-Message-ID: <20260629142007.269873-1-nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1782758881; c=relaxed/simple;
+	bh=wKaUsPjJpGeMfKpYuC4iyNqlvAL/iPh0MiK8ewG7bc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ja8aO5Td7T0NB3z+jHpIJ87aJ+7N6qj/xaZB8bo2RpzTY55pJSfeF3/JIagi/zMCwN8haSmAhAPrOUyNEyRdM12i0KBbg85maSohVaxzDEjX6qvUlijxomjqzLbIYm3i7j35aqqeL+Wvms7XFcnjnXn3Lfhz9lmOlVuFOWB5VwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 9155F4023E;
+	Mon, 29 Jun 2026 18:39:51 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id 45CAB20029;
+	Mon, 29 Jun 2026 18:39:49 +0000 (UTC)
+Date: Mon, 29 Jun 2026 14:39:47 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ shuah@kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com,
+ jkoolstra@xs4all.nl
+Subject: Re: [PATCH v2] tracing: Use seq_buf for string concatenation
+Message-ID: <20260629143947.2216574e@robin>
+In-Reply-To: <20260622094623.18469-1-woradorn.laon@gmail.com>
+References: <20260622094623.18469-1-woradorn.laon@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 45CAB20029
+X-Stat-Signature: aptfh4i5r149ds46za3fzkzu6y1t5f3i
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/UdX3MuGmiVV3BjQtK1+UnHsQyKqT0O+w=
+X-HE-Tag: 1782758389-37090
+X-HE-Meta: U2FsdGVkX18QUzxvTblpzQCS47wkO+lDIZQ0iluXK9Zy1hVMrp5amtfLymFYuTh9MRCzYYtomV1RKJr+kekZuATvf6nKP1IQ0C8zESXk33hipQDxL0sXEymmrEWdFCRJFdJHmE9wESi810B8Bb373YMYfsPQXf7hmVsiFBxVq77q3WxDAXC1n8pf1WzE9QVLcuL4OXuOO+CW+6h6EYJmidCr7TyIV7LmVWjXxwTPEbVIqsBgdpFn4/eYcaChXjr1OPqHDAmK4Q5iy9tq/orW/doEVk0Lxw5vYUqhQkUOi6r1GvsUAsKl0nJsqvGVS2XzLTP697Zgb2Ms2DR14hPbIqGBydCiEvIv
 
-Replace the unsafe `kernel::transmute::FromBytes` trait implementation
-for the `FalconUCodeDescV3`, `PcirStruct`, `BitHeader`, `BitToken`,
-`NpdeStruct`, `PciRomHeader`, `PmuLookupTableEntry` and
-`PmuLookupTableHeader` structs with the derivable `zerocopy::FromBytes`
-trait.
+On Mon, 22 Jun 2026 16:46:23 +0700
+Woradorn Laodhanadhaworn <woradorn.laon@gmail.com> wrote:
 
-This change eliminates the manual unsafe implementations in favor of a
-derivable trait. When this trait is derived, validity checks are
-performed at compile time to ensure that the type can safely implement
-`FromBytes`.
+>  
+>  #include <trace/events/sched.h>
+>  #include <trace/syscall.h>
+> @@ -4500,14 +4501,20 @@ static void __add_event_to_tracers(struct trace_event_call *call)
+>  extern struct trace_event_call *__start_ftrace_events[];
+>  extern struct trace_event_call *__stop_ftrace_events[];
+>  
+> -static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1241
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
-Changelog:
-v2:
- - Rebased on top of drm-rust-next
- - Added derive macro FromBytes for BitToken, PciRomHeader, and
-   PmuLookupTableEntry
-v1: Link to lore [1]
+Keep the above string and just assign it.
 
-NOTE: Compile-tested only. I don't own a piece of hardware where I can
-test the nova driver.
+> +static struct seq_buf bootup_event_buf __initdata = {
+> +	.buffer = (char[COMMAND_LINE_SIZE]) {},
+> +	.size = COMMAND_LINE_SIZE,
+> +};
 
-NOTE 2: In firmware.rs, the BinHdr struct is another user of
-transmute::FromBytes, but that conversion is intentionally omitted
-here as it is handled in Pedro's patch series [2].
+static struct seq_buf bootup_event_seq __initdata = {
+	.buffer = bootup_event_buf;
+	.size = sizeof(bootup_event_buf);
+};
 
-[1]: https://lore.kernel.org/nova-gpu/20260621143647.264770-1-nico.antinori.7@gmail.com/
-[2]: https://lore.kernel.org/nova-gpu/20260625205146.5047-2-niyudi.honda@usp.br/
+>  
+>  static __init int setup_trace_event(char *str)
+>  {
+> -	if (bootup_event_buf[0] != '\0')
+> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
+> +	if (seq_buf_used(&bootup_event_buf) > 0)
+> +		seq_buf_puts(&bootup_event_buf, ",");
+> +
+> +	seq_buf_puts(&bootup_event_buf, str);
+>  
+> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
+> +	if (seq_buf_has_overflowed(&bootup_event_buf))
+> +		return -ENOMEM;
+>  
+>  	trace_set_ring_buffer_expanded(NULL);
+>  	disable_tracing_selftest("running event tracing");
+> @@ -4766,7 +4773,7 @@ static __init int event_trace_enable(void)
+>  	 */
+>  	__trace_early_add_events(tr);
+>  
+> -	early_enable_events(tr, bootup_event_buf, false);
+> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), false);
 
- drivers/gpu/nova-core/firmware.rs |  6 +--
- drivers/gpu/nova-core/vbios.rs    | 64 +++++++++----------------------
- 2 files changed, 20 insertions(+), 50 deletions(-)
+The above then would be:
 
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 80e948bf7511..a94820a3b335 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -88,7 +88,7 @@ pub(crate) struct FalconUCodeDescV2 {
+	seq_buf_str(&bootup_event_seq);
+	early_enable_events(tr, bootup_event_buf, false);
 
- /// Structure used to describe some firmwares, notably FWSEC-FRTS.
- #[repr(C)]
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- pub(crate) struct FalconUCodeDescV3 {
-     /// Header defined by `NV_BIT_FALCON_UCODE_DESC_HEADER_VDESC*` in OpenRM.
-     hdr: u32,
-@@ -119,10 +119,6 @@ pub(crate) struct FalconUCodeDescV3 {
-     _reserved: u16,
- }
+Don't typecast a const char* to non const.
 
--// SAFETY: all bit patterns are valid for this type, and it doesn't use
--// interior mutability.
--unsafe impl FromBytes for FalconUCodeDescV3 {}
--
- /// Enum wrapping the different versions of Falcon microcode descriptors.
- ///
- /// This allows handling both V2 and V3 descriptor formats through a
-diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-index c6e6bfcd6a1f..c03650ee5226 100644
---- a/drivers/gpu/nova-core/vbios.rs
-+++ b/drivers/gpu/nova-core/vbios.rs
-@@ -13,11 +13,8 @@
-     register,
-     sizes::SZ_4K,
-     sync::aref::ARef,
--    transmute::FromBytes,
- };
+>  
+>  	trace_printk_start_comm();
+>  
+> @@ -4794,7 +4801,7 @@ static __init int event_trace_enable_again(void)
+>  	if (!tr)
+>  		return -ENODEV;
+>  
+> -	early_enable_events(tr, bootup_event_buf, true);
+> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), true);
 
--use zerocopy::FromBytes as _;
--
- use crate::{
-     driver::Bar0,
-     firmware::{
-@@ -359,7 +356,7 @@ pub(crate) fn fwsec_image(&self) -> &FwSecBiosImage {
- }
+Same here.
 
- /// PCI Data Structure as defined in PCI Firmware Specification
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- #[repr(C)]
- struct PcirStruct {
-     /// PCI Data Structure signature ("PCIR" or "NPDS")
-@@ -388,15 +385,12 @@ struct PcirStruct {
-     max_runtime_image_len: u16,
- }
+-- Steve
 
--// SAFETY: all bit patterns are valid for `PcirStruct`.
--unsafe impl FromBytes for PcirStruct {}
--
- impl PcirStruct {
-     /// The bit in `last_image` that indicates the last image.
-     const LAST_IMAGE_BIT_MASK: u8 = 0x80;
-
-     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
--        let (pcir, _) = PcirStruct::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (pcir, _) = PcirStruct::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         // Signature should be "PCIR" (0x52494350) or "NPDS" (0x5344504e).
-         if &pcir.signature != b"PCIR" && &pcir.signature != b"NPDS" {
-@@ -432,7 +426,7 @@ fn image_size_bytes(&self) -> usize {
- /// This is the head of the BIT table, that is used to locate the Falcon data. The BIT table (with
- /// its header) is in the [`PciAtBiosImage`] and the falcon data it is pointing to is in the
- /// [`FwSecBiosImage`].
--#[derive(Debug, Clone, Copy)]
-+#[derive(Debug, Clone, Copy, FromBytes)]
- #[repr(C)]
- struct BitHeader {
-     /// 0h: BIT Header Identifier (BMP=0x7FFF/BIT=0xB8FF)
-@@ -451,12 +445,9 @@ struct BitHeader {
-     checksum: u8,
- }
-
--// SAFETY: all bit patterns are valid for `BitHeader`.
--unsafe impl FromBytes for BitHeader {}
--
- impl BitHeader {
-     fn new(data: &[u8]) -> Result<Self> {
--        let (header, _) = BitHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (header, _) = BitHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         // Check header ID and signature
-         if header.id != 0xB8FF || &header.signature != b"BIT\0" {
-@@ -468,7 +459,7 @@ fn new(data: &[u8]) -> Result<Self> {
- }
-
- /// BIT Token Entry: Records in the BIT table followed by the BIT header.
--#[derive(Debug, Clone, Copy)]
-+#[derive(Debug, Clone, Copy, FromBytes)]
- #[repr(C)]
- struct BitToken {
-     /// 00h: Token identifier
-@@ -481,9 +472,6 @@ struct BitToken {
-     data_offset: u16,
- }
-
--// SAFETY: all bit patterns are valid for `BitToken`.
--unsafe impl FromBytes for BitToken {}
--
- impl BitToken {
-     /// BIT token ID for Falcon data.
-     const ID_FALCON_DATA: u8 = 0x70;
-@@ -508,7 +496,7 @@ fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
-                 .and_then(|data| data.get(..entry_size))
-                 .ok_or(EINVAL)?;
-
--            let (token, _) = BitToken::from_bytes_copy_prefix(entry).ok_or(EINVAL)?;
-+            let (token, _) = BitToken::read_from_prefix(entry).map_err(|_| EINVAL)?;
-
-             // Check if this token has the requested ID
-             if token.id == token_id {
-@@ -525,7 +513,7 @@ fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
- ///
- /// This header is at the beginning of every image in the set of images in the ROM. It contains a
- /// pointer to the PCI Data Structure which describes the image.
--#[derive(Debug, Clone, Copy)]
-+#[derive(Debug, Clone, Copy, FromBytes)]
- #[repr(C)]
- struct PciRomHeader {
-     /// 00h: Signature (0xAA55)
-@@ -536,13 +524,10 @@ struct PciRomHeader {
-     pci_data_struct_offset: u16,
- }
-
--// SAFETY: all bit patterns are valid for `PciRomHeader`.
--unsafe impl FromBytes for PciRomHeader {}
--
- impl PciRomHeader {
-     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
--        let (rom_header, _) = PciRomHeader::from_bytes_copy_prefix(data)
--            .ok_or(EINVAL)
-+        let (rom_header, _) = PciRomHeader::read_from_prefix(data)
-+            .map_err(|_| EINVAL)
-             .inspect_err(|_| dev_err!(dev, "Not enough data for ROM header\n"))?;
-
-         // Check for valid ROM signatures.
-@@ -564,7 +549,7 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
- /// PCI Data Structure. It contains some fields that are redundant with the PCI Data Structure, but
- /// are needed for traversing the BIOS images. It is expected to be present in all BIOS images
- /// except for NBSI images.
--#[derive(Debug, Clone)]
-+#[derive(Debug, Clone, FromBytes)]
- #[repr(C)]
- struct NpdeStruct {
-     /// 00h: Signature ("NPDE")
-@@ -579,15 +564,12 @@ struct NpdeStruct {
-     last_image: u8,
- }
-
--// SAFETY: all bit patterns are valid for `NpdeStruct`.
--unsafe impl FromBytes for NpdeStruct {}
--
- impl NpdeStruct {
-     /// The bit in `last_image` that indicates the last image.
-     const LAST_IMAGE_BIT_MASK: u8 = 0x80;
-
-     fn new(dev: &device::Device, data: &[u8]) -> Option<Self> {
--        let (npde, _) = NpdeStruct::from_bytes_copy_prefix(data)?;
-+        let (npde, _) = NpdeStruct::read_from_prefix(data).ok()?;
-
-         // Signature should be "NPDE" (0x4544504E).
-         if &npde.signature != b"NPDE" {
-@@ -784,7 +766,7 @@ fn falcon_data_offset(&self, dev: &device::Device) -> Result<usize> {
-         let data = &self.base.data;
-         let (ptr, _) = data
-             .get(offset..)
--            .and_then(u32::from_bytes_copy_prefix)
-+            .and_then(|p| u32::read_from_prefix(p).ok())
-             .ok_or(EINVAL)?;
-
-         usize::from_safe_cast(ptr)
-@@ -814,6 +796,7 @@ fn try_from(base: BiosImage) -> Result<Self> {
- /// The [`PmuLookupTableEntry`] structure is a single entry in the [`PmuLookupTable`].
- ///
- /// See the [`PmuLookupTable`] description for more information.
-+#[derive(FromBytes)]
- #[repr(C, packed)]
- struct PmuLookupTableEntry {
-     application_id: u8,
-@@ -821,9 +804,6 @@ struct PmuLookupTableEntry {
-     data: u32,
- }
-
--// SAFETY: all bit patterns are valid for `PmuLookupTableEntry`.
--unsafe impl FromBytes for PmuLookupTableEntry {}
--
- impl PmuLookupTableEntry {
-     /// PMU lookup table application ID for firmware security license ucode.
-     #[expect(dead_code)]
-@@ -836,6 +816,7 @@ impl PmuLookupTableEntry {
- }
-
- #[repr(C)]
-+#[derive(FromBytes)]
- struct PmuLookupTableHeader {
-     version: u8,
-     header_len: u8,
-@@ -843,9 +824,6 @@ struct PmuLookupTableHeader {
-     entry_count: u8,
- }
-
--// SAFETY: all bit patterns are valid for `PmuLookupTableHeader`.
--unsafe impl FromBytes for PmuLookupTableHeader {}
--
- /// The [`PmuLookupTableEntry`] structure is used to find the [`PmuLookupTableEntry`] for a given
- /// application ID.
- ///
-@@ -857,7 +835,7 @@ struct PmuLookupTable {
-
- impl PmuLookupTable {
-     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
--        let (header, _) = PmuLookupTableHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
-+        let (header, _) = PmuLookupTableHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
-
-         let header_len = usize::from(header.header_len);
-         let entry_len = usize::from(header.entry_len);
-@@ -872,8 +850,8 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
-
-         let mut entries = KVVec::with_capacity(entry_count, GFP_KERNEL)?;
-         for i in 0..entry_count {
--            let (entry, _) = PmuLookupTableEntry::from_bytes_copy_prefix(&data[i * entry_len..])
--                .ok_or(EINVAL)?;
-+            let (entry, _) = PmuLookupTableEntry::read_from_prefix(&data[i * entry_len..])
-+                .map_err(|_| EINVAL)?;
-             entries.push(entry, GFP_KERNEL)?;
-         }
-
-@@ -929,15 +907,11 @@ pub(crate) fn header(&self) -> Result<FalconUCodeDesc> {
-         let ver = data.get(1).copied().ok_or(EINVAL)?;
-         match ver {
-             2 => {
--                let v2 = FalconUCodeDescV2::read_from_prefix(data)
--                    .map_err(|_| EINVAL)?
--                    .0;
-+                let (v2, _) = FalconUCodeDescV2::read_from_prefix(data).map_err(|_| EINVAL)?;
-                 Ok(FalconUCodeDesc::V2(v2))
-             }
-             3 => {
--                let v3 = FalconUCodeDescV3::from_bytes_copy_prefix(data)
--                    .ok_or(EINVAL)?
--                    .0;
-+                let (v3, _) = FalconUCodeDescV3::read_from_prefix(data).map_err(|_| EINVAL)?;
-                 Ok(FalconUCodeDesc::V3(v3))
-             }
-             _ => {
---
-2.47.3
+>  
+>  	return 0;
+>  }
 
