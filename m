@@ -1,304 +1,381 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012044.outbound.protection.outlook.com [52.101.43.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C8B3CC7EF
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 08:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782722285; cv=fail; b=O+waDl/Me8JbgN05MGUsN82xKjpPuj77sAbgAr5ehMBLEjeasFXtbZX5sRhsvOFxRO8JozQ7JrUps3KuKsvgW0v6I9Tb6UnLRZBFzlNCE34tEZlG0fx14TCuEOOFRsHFPzFRkZYa8FcJ91tx7JPbz1BTUbgcwUiFXxaW2hK8zBI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782722285; c=relaxed/simple;
-	bh=LXcmsvogNKMhzX3YgvjTkhYwc8/lTqI/m72mOxtv3/s=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g37fdW83/VLACJMVEKqY8mORMG0BiIYGceztU3B0vwQFik6hJ/a29MmmMTxqC4Mlg9A7SCsySsO/ra/wj+Xq+xQyyFEhdhVyRPRI45RJfr7o8a0vgDaXCb8muwFMkZkGf1RmAWXQtf+otbKqLaHWctJrvOZUsLq3Wv8iyhx83+M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IyVUvGrm; arc=fail smtp.client-ip=52.101.43.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447B840FD80
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 14:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782742823; cv=none; b=rrz880xhMkSiegBmMXtwSYPYFwIEMUDhjBpEhAiHny9rwmi5xjkB65+iMhlvrKTIjFVeOdRG1SDhGhXQYr6nTezlc9IypCJ082MwOJOgpCbhfgG1NUxkuf3aFkv8OPWOzXnGhZPEOXIxFp6FrhQEJS+vvSGc8r6Jet8+hM387yg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782742823; c=relaxed/simple;
+	bh=x++pQE5GKKnJe3Jn2ShXEdP1AjYJx61jjswnatHuIlA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=M5qFJsXrexcFLta0zymzHaRjbeUcnj5win8t4tvTQ2aHwVfJDKFpFB4GR+3jsZJWhZhHrHqh5kyi8lkaOdw+Z9//D0OPDR5f9smY0UFExD4Ba+Cy+cii3gPWiqY8Hdv1fDaTbxUgqNlNhI3XSEn2usEFPZ4nmOFLFnReUVjAFOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTZeogLJ; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IyVUvGrm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EuEDY+SIXCslOip1QicHcsfA3MX4/ziA3p5n6O5R/tlXhyhybFA5TFhUt1egIkBEbibfWiNIvCYYWoQSIElFgR79gqFCutIL9rXGMizFrxEiIVS/Ctaoe6OMzo9WQ+2cF7CyQmQPlstB4ChMulsXdIntMmNAd4EnmaR9/p0OvJ3LIRods+R2/2J4z0X/SwPMo+67VY9uR7PMwi0pcRPbAAg2K6Q2N4Mrwlcf7EgORpi5YMlKWvYXh6M4IX+yGzdrz7mAdVhqUJzFy7gi9Cau09a/M7J3GtCDdaGgOMs8Cwvf7YMi9lOKVgKlD9gP39kF9VHbAqPEXMovrtnDACMoYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IWZN1J00AfWjq7+oxypIyDauw6+b6i0YqyjYqYvIHm8=;
- b=qwNFNi1eifgZbKeCtuLYK3sEcCTJa/NsNH4g7Uv3g93qkp0wkZZq5zbx1MXjUx7yIPDiUELQi4RJ73YnmW9Z9oXL5B6xVsThvw/zfSOjETJ54796Y8cbZNecpaZAb0T8uHXvSFt+x3w91kP75RH17+14r0iBi52tb+TrdvJ5DSM1LlK8zGJbbvDSYoiiUB58sPAlvuRy5rEaRa+VZyUJAGPbynJ8eH7jW/HbpNJonAOWAcqgIY3hThwiqNLyBoH9S3wPnLW87MPTAnnPrL3LndpsNDFPboHDHARoUB3kr/AAixoIfdO7WfAM8rJKitikeBs7X364x0PUfFKkvdpX4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IWZN1J00AfWjq7+oxypIyDauw6+b6i0YqyjYqYvIHm8=;
- b=IyVUvGrmwsHLCcCBHBrPsZcBhvvUgA8wltCk9EVnzaqg6HSg/HHlk60T/dzXl+bQhisTCeQwYQEeGmlHPEpnZesz7uX+/0J/wVIGS3HPercLP/zuGKJwF/p06S04UZAs+nECRvqibpVFOy9HrWa63XfAZiujFSc/LtFRF+OWqo8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by LV3PR12MB9166.namprd12.prod.outlook.com (2603:10b6:408:19c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
- 2026 08:38:00 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 08:37:59 +0000
-Message-ID: <b1ee5096-31e4-4442-aabb-3de2638aa701@amd.com>
-Date: Mon, 29 Jun 2026 10:37:55 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Memory leak error in qxl unbind
-To: =?UTF-8?B?w5NzY2FyIE1lZ8OtYSBMw7NwZXo=?= <megia.oscar@gmail.com>
-Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20260628154051.232214-1-megia.oscar@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260628154051.232214-1-megia.oscar@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0205.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e5::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTZeogLJ"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30bf8b2bd20so6710062eec.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 07:20:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782742821; x=1783347621; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AupvSFaqPtFwZHXXd++aD6dS9DxYuU7xGlZB7kUfSKk=;
+        b=QTZeogLJBakdkFB6VKWPboBAkaZsjrg3w+JPG2XsAVsMg8LUCQ0tWlP5hJS4r71slS
+         /J/zNGpu3GvD3zRtNWk9V94XIbzZDmv2KasLPAHfD3Er/cOXa7Yt0GvQkO1QMWAWPkcq
+         L6+OWwwlNm8ONdupy8MMlqJwO6L9ZJ69Nl3WI7oHLVUFP0QrNmRw9tLoqlrom4+Hu4ei
+         aDi0mBSNGosJPDlsp8IKF7ZMZxUUKt3nhZLoa1kSl6Oxocn2fJmu8txE9nJB3Grsiecu
+         CpJMIhjdBVsHtLG5SYIUcMcTe6Ofom+xJpKiChJCYzt7AwNipCuowtiwkqxz9m1XOYRw
+         bdGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782742821; x=1783347621;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AupvSFaqPtFwZHXXd++aD6dS9DxYuU7xGlZB7kUfSKk=;
+        b=kSL++epvSCGh+YvSWiS94WdbSO/sMBtbvnF4gJEaqbV4ODKfy3uGd1Cmv+TYZjD2XA
+         NkQOTL6dT+bgrI0+4NYlC3zaZx/eHRxCbTWHLuXuW5WDgL5J6t1QCz5LYdlqJ9H1c4FI
+         m9jdL2dfvPJZCJVDcz0/vkXTF/2Ue3Kdwqm0z2DLRyas4rsq9MOhmcMfA1zpPg+llO6p
+         3Tn+058hs6DCwirIMDpHHlf/8M34RgiKnwCBhiJ+PCI0y0zWDmFlv+Ft0BCUJJS+33Oz
+         iJp8fvykcnYhpJNSFGOF4XIKAkNzjViXeAUxO1Hbq+/F0Uaqu5VVYXngwDmqsEmjc4S7
+         fj6A==
+X-Forwarded-Encrypted: i=1; AHgh+RoKNyUpGOhTUwSYt9hWGewT+0jPwWc4JIvt+CZFG3VbGxvPwSlApHZ14U20dshQHQWiKsWDXmsOmXn+dL+xqbl4Qi4qbg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzRrFpYKxrEI/b8xIHulmnIlhsVj5KpR/nI+jKE/QdgaFx0p5o
+	AJ+obbMminG9j+s1VVpIUwUmY1zIjIK636pGT7pCTgJ84ih9GSrEIAE=
+X-Gm-Gg: AfdE7cmRbOjJpCW7Rxikl3k7dDGn2/v6QxioCs7C9VcH+8AZIpYE0Wt5uWTdgMzEHDR
+	8C9a1naepOr5q0qT86ExHQ7PBnMRRy5ZeLHOGcAFNHvdwiXsWraZG4c65lqmJh5v2BmoVq3Ejun
+	sTsC5dIG4tywsvBGOELfXnYB5/eQ2eUS+hQlPl9rkZKaV+XtC9UvKh4oNX59qm0IoKTI89fDCWJ
+	6bAerzaBX03G7Ak7LH260Z0R0PqBdGur7A5c9RYO+qYoKuahUiH8N8mnf8g8MpmvIo4wHsoCLq1
+	eIpaM6FMqXo25ehxDI+i+msgmvRFS0sXqtZFdtLJma9/fiRmNLduTlDrAekug4ol7GrxAMmCnGy
+	dFhen4p6eZ5Yy4Fzp8TDe+VGa2tE6lWNNZ/ZOU7pxL5gJmkWPCZO7SGydkBVq44LMpSt0CwT862
+	9Uv7TJzNW4G077E0ijj3ZLuNzon7zr2FYFNxbV7axKA09vVPJzkEW3CqXn7A934n/A
+X-Received: by 2002:a05:693c:88cd:10b0:30c:ab97:d7b3 with SMTP id 5a478bee46e88-30cab97dc2dmr6285271eec.45.1782742821002;
+        Mon, 29 Jun 2026 07:20:21 -0700 (PDT)
+Received: from localhost.localdomain ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52eed6sm44396852eec.9.2026.06.29.07.20.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 07:20:20 -0700 (PDT)
+From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
+To: Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>
+Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	David Airlie <airlied@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Pedro Yudi Honda <niyudi.honda@usp.br>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	nova-gpu@lists.linux.dev
+Subject: [PATCH v2] gpu: nova-core: parse structs via zerocopy
+Date: Mon, 29 Jun 2026 11:20:05 -0300
+Message-ID: <20260629142007.269873-1-nico.antinori.7@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV3PR12MB9166:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8761a5bd-92a1-4f0b-0eaf-08ded5b9b9cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|6133799003|22082099003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	5R+eCifdSR+IekDDgHWs3nXyNcJMjKBlEmmE8sE1Wuba3rn79+v98FAnyUiuhIg4Cv7KkhG7m/Nly03yqxxwtZB3SVQDrSvDIPWoFBjRtiYA3ty7AjaAExKJHwb5LFpoVMmhgwvvVuh6av6lNVCByqIsok8wVSUbbpuOug65+M+3+jOCP1qD6AND8NHqxJUUoa7FyAiz1loEsYcUuCZOyn/M3w6/H+OCLOeAblQOCJER+tRcPM0oyypzzbiV1/Vt+6BPkr/RVHQ+r/o0USOvxNd3weth2SF5fsPx+Bu9ljpJlB0cTBPscLJUcixwBiPwj26HTiiEkPCr2Z5s58CM4k/QdNaZlrmar3gwBKJANFnGjMNrA1jRS5yVoxUDnd2GFSoujGxEAqJtb/JkhHGUpm8pgeWLLspuDM8XMe1JAffkXLjBK019+NhU1EqSnZM3XpQD0wDMDvTIIGqytCRvfDPkfvhk307Xy0YPi8cgEU1YpTwfI06ocOOcvRXMR0yOEa+GPr0xeqRDQZqzyQqAy4M7h4y1bhNWN1V6kuaGQatGeOdnXFgBCexnq1UOx2W++raHi+9vgOqc8QL88pROkcGBlhBzqF1RL7Ale29vNTM+3+Ou+PmRo2X0BUroLWG5
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cWEzVmoweWxsV1FBNVVoR09BQlhzbkNORVA3RDVjNGJqMk1FYlo5S3ppbTBT?=
- =?utf-8?B?aXE1T2MzL01BQ2JZRWJsaGN4T3J3VXVDVW1qMk0rMENxUmVWZDZMVFZTTlVP?=
- =?utf-8?B?b3l6ajZEckF0dlEwZEVjRUYzN09QR1p4bkFFKy83ekc1R2dMc3hJY0Vpa0N0?=
- =?utf-8?B?TVVuMitESEZEaC81S0NxUzdGSDdRR21FS0dIelVXWHB3L29KM0lQTnZyN2kx?=
- =?utf-8?B?SEdTUUQ0KzBVK25qSHBDYjdNYWZTY0dGWU9LMzBZdnVrNE56T0NmUDRIajMy?=
- =?utf-8?B?Kzg3M0xuVXMxU3hZNDdlZUZpWkZvdGlKU0cvM2o4RU9OOXFVcVVYQzFXc0M5?=
- =?utf-8?B?RGRJditReDM2TSthd0wwNy8yaDRaM3I2YVBKVW1wL3lrbnV5T3BsUkJ6UXdo?=
- =?utf-8?B?V2RKK2pNMWFKRmU4bzZpY21tUDJnM1JGY295dGllQUNyZzBNazgzMWxEdFlj?=
- =?utf-8?B?WnRKR1h0OTcrSUJuUStPTHlqdU5vRXFyRlFpTTEvSlpnUVFyNDNWKzlkNU5V?=
- =?utf-8?B?MGZ1ajBkQ0hrcjM4VUE0TWYzQmVHM1BtWXFqL3BkMEYzVENQNEwzMzl0aE5B?=
- =?utf-8?B?cHpBQVo4c1pPSjNXS2owaDJ6M1BwRVkxL1RjK0hJSERpOFU3YWY0RVBrYkdu?=
- =?utf-8?B?NGpJZGwwd1FoNUs2eXdueWwzZ0RmUmdzb1FuU3pDQ0NzMTVzaGcrajVzaFp3?=
- =?utf-8?B?bVhIWFI0SEY4UHk0V0ZDZ2sreDg0MGpiTk93eEkxZWpPa0VXNUVLSGZEdVY4?=
- =?utf-8?B?eXU3YlVZVVN3L0VnUDRMZjdabTRlbnpDNmgvTXBRcU1VNGY4OVl2MkhZYTJT?=
- =?utf-8?B?ZWdpR0syOC9QSVdnZTN5OTVNZ3MyYzBGc2NIbXZ0VHNtUnNyYTh3MXFwcXdr?=
- =?utf-8?B?S3RDZkdTdzVJM2p2U0pReFNWaFVhOTYzWmFoZ3lLU2tWMUNTamlWU2ZlUnJh?=
- =?utf-8?B?UElXTU9vanBmTmsweGx2SXBZczRqcDNTa3dBb0ZSODJtUkMxdWpBS3ZFSmQ2?=
- =?utf-8?B?YjdaSW1NNm9LUmRqZjJXaFBsSGZYKzdKVGdWcWhDcURNRzN1ejBvTUpZdlBN?=
- =?utf-8?B?UGVKb2lKVmhQbmppdGFPZXc0eVpuRytBYVFXdE1JT0lJUDZGS2FkWWpDaDBv?=
- =?utf-8?B?SEVmMEZMaWhXbXMrK21zRXFCSkR6c1grZ0Vyb20weWRBT1c1a0ZCeHJEdVVy?=
- =?utf-8?B?aVZXTXJ0TEJid1p1T0ppOXFCNzdnNVJ0amNFZGV3VlZvdThyODVDMkpCQ0VJ?=
- =?utf-8?B?OVRjZEtsa0I1cFVsRXJOdGxqYTdSK2pqY2NWMDBZeUI2SUJlMlkxbTQ5bkdG?=
- =?utf-8?B?RmdlT0VkNTQxSWR3TFJpTEplT2w5b3NJTkFSeEMzZkVzUE5HMFFLbllYdzZn?=
- =?utf-8?B?RDNaT1FWbEVnUnB4cGRMd0xxV2dOTVhVcXVOVmZCaFg3dmRPLzBmTFhObmN0?=
- =?utf-8?B?eEhGWlJMbTk2bUUxUTFsS0MyTDZjRW84STM1MERXVDkyNW5rcTlkUnlhMWh6?=
- =?utf-8?B?ZzNBdE1sZWc5TCtCWGRYWFpsOUVhQWE2V3VPWTg2VXRpVzNZYUZEbThWck5j?=
- =?utf-8?B?TTlGVDhaQ1VGV3l2SithZDNtQzVZcGcvcmZlTHVYYW9zTWFZc3pTTTE2SmtD?=
- =?utf-8?B?TDFBQy9lU0pEbGhZdkxjU3BpZFovRWcyNkNiZEc0bGxrVnFHUUdrTE5NaUdk?=
- =?utf-8?B?NmpIdkpsSGlnc1FjS2UrMkprOTQycWpyeEU2QXJTMjNOMnB2QzNMVjhTVDJu?=
- =?utf-8?B?MGRaamRuUU82V3dZcitoTmROa3ZVVTczSjFxc2lrNThjME0zVzBvak45UEFl?=
- =?utf-8?B?U2t5aGFiMG1vNXVoVmJyRll2TXZoVGhaeWVaWm5xbmFlTFBYeXZZeTVFQVdF?=
- =?utf-8?B?QW1XWWExcDl0YStHalZvUXB1SEV3UmRTbmE2UE9pbThaVWx1N3dDaVdDbzN5?=
- =?utf-8?B?bmp2MEhzaU4wQ2NFWXhiSHRrQkhqV0lUNGo4dWMvOXc4SW9FeVVrcGVwRWYx?=
- =?utf-8?B?V3NEdllpV3JVVmpVUEhGVUhZazMrYXMrK3hwR3JVME9sMFRPVitxbUtST2pj?=
- =?utf-8?B?RW0vRzVWZ1owcjFzU3ZpOFBVaG1VSkZ2WGNuTHdQbFJUcFlCRnpJTGY3VExn?=
- =?utf-8?B?bVptcUdUWGM0dWpJWjVXMEJBZDdVRG44bmlrTjIyODZydFBFZVRZQTkxSzBC?=
- =?utf-8?B?eDZGYkl1cEdkcE5HTGZDVmtucis1bXhldUdud2k2SjR2Y0MyN2t1V242QVZS?=
- =?utf-8?B?Q3NzOXdBQjZrazA1azk4ME4wMS9LYTFaRk9wMDVydVZtRWthRThpekVEOFlr?=
- =?utf-8?Q?oDhMLKcy3RTXamPCSM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8761a5bd-92a1-4f0b-0eaf-08ded5b9b9cc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 08:37:59.8428
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: muvysDWxdcvjuKrT/DuAoe577i+SPb2gXWty6j6ZXM9EGFMxVnxPbjczbL65wgPG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9166
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 6/28/26 17:40, Óscar Megía López wrote:
-> I discovered OOM after run script below around two hours in my computer:
-> 
-> while :; do
->     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/unbind
->     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/bind
-> done
-> 
-> If you run 10000 times above script kmemleak does not report any
-> memory leak, but if you run above script about two hours several
-> OOM ocurs and at the end kernel panic.
-> 
-> The OOM isn't just a simple leak; it's a refcount corruption that renders
-> the list_lru fix dead code after the first mid-init failure.
-> 
-> Here's the chain:
-> 
-> Bug 1: ttm_global_init ignores ttm_pool_mgr_init() return
-> If shrinker_alloc() fails under memory pressure, ttm_pool_mgr_init
-> returns -ENOMEM with pool types already initialized (64 list_lru_init
-> calls done). ttm_global_init ignored this and returned 0, leaving orphaned
-> pool types with a NULL mm_shrinker.
-> 
-> Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
-> refcount + debugfs.
-> 
-> Bug 2: ttm_pool_mgr_init leaks pool types on shrinker_alloc failure
-> If shrinker_alloc fails after all 64 pool types were list_lru_init'd,
-> the function returned -ENOMEM without undoing them. With Bug 1 now
-> triggering proper error handling, this undo is necessary.
-> 
-> Fix: err_shrinker: label that finalizes + destroys all 64 pool types
-> before returning.
-> 
-> You must apply the patch from the link "[PATCH v2] drm/qxl: fix
-> use-after-free to qxl_irq_handler in PCI mode" before testing.
-> If you don't apply this patch, you will get a UAF error when running
-> the script above.
-> 
-> Assisted-by: OpenCode:1.17.8-Big Pickle
-> Link: https://lore.kernel.org/virtualization/20260627105445.89827-2-megia.oscar@gmail.com/T/#u
-> Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_device.c |  5 ++++-
->  drivers/gpu/drm/ttm/ttm_pool.c   | 37 ++++++++++++++++++++++++++------
->  include/drm/ttm/ttm_pool.h       |  2 ++
->  3 files changed, 37 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index d3bfb9a696a7..c880a0430363 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -96,7 +96,10 @@ static int ttm_global_init(void)
->                 >> PAGE_SHIFT;
->         num_dma32 = min(num_dma32, 2UL << (30 - PAGE_SHIFT));
-> 
-> -       ttm_pool_mgr_init(num_pages);
-> +       ret = ttm_pool_mgr_init(num_pages);
-> +       if (ret)
-> +               goto out;
-> +
+Replace the unsafe `kernel::transmute::FromBytes` trait implementation
+for the `FalconUCodeDescV3`, `PcirStruct`, `BitHeader`, `BitToken`,
+`NpdeStruct`, `PciRomHeader`, `PmuLookupTableEntry` and
+`PmuLookupTableHeader` structs with the derivable `zerocopy::FromBytes`
+trait.
 
-Please put that into a separate patch.
+This change eliminates the manual unsafe implementations in favor of a
+derivable trait. When this trait is derived, validity checks are
+performed at compile time to ensure that the type can safely implement
+`FromBytes`.
 
->         ttm_tt_mgr_init(num_pages, num_dma32);
-> 
->         glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32 |
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 278bbe7a11ad..e0c82804a07d 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -1198,6 +1198,17 @@ void ttm_pool_fini(struct ttm_pool *pool)
->          * that no shrinker is concurrently freeing pages from the pool.
->          */
->         ttm_pool_synchronize_shrinkers();
-> +
-> +       for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> +               for (j = 0; j < NR_PAGE_ORDERS; ++j) {
-> +                       struct ttm_pool_type *pt;
-> +
-> +                       pt = ttm_pool_select_type(pool, i, j);
-> +                       if (pt != &pool->caching[i].orders[j])
-> +                               continue;
-> +                       list_lru_destroy(&pt->pages);
-> +               }
-> +       }
->  }
->  EXPORT_SYMBOL(ttm_pool_fini);
-> 
-> @@ -1386,6 +1397,7 @@ static inline u64 ttm_get_node_memory_size(int nid)
->  int ttm_pool_mgr_init(unsigned long num_pages)
->  {
->         unsigned int i;
-> +       int ret = 0;
-> 
->         int nid;
->         for_each_node(nid) {
-> @@ -1423,8 +1435,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->  #endif
-> 
->         mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
-> -       if (!mm_shrinker)
-> -               return -ENOMEM;
-> +       if (!mm_shrinker) {
-> +               ret = -ENOMEM;
-> +               goto err_shrinker;
-> +       }
-> 
->         mm_shrinker->count_objects = ttm_pool_shrinker_count;
->         mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
-> @@ -1434,6 +1448,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->         shrinker_register(mm_shrinker);
-> 
->         return 0;
-> +
-> +err_shrinker:
-> +       ttm_pool_type_fini_and_list_lru_destroy();
-> +       return ret;
+Link: https://github.com/Rust-for-Linux/linux/issues/1241
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+Changelog:
+v2:
+ - Rebased on top of drm-rust-next
+ - Added derive macro FromBytes for BitToken, PciRomHeader, and
+   PmuLookupTableEntry
+v1: Link to lore [1]
 
-Instead of the error handling move shrinker_alloc() before initializing the pool types.
+NOTE: Compile-tested only. I don't own a piece of hardware where I can
+test the nova driver.
 
->  }
-> 
->  /**
-> @@ -1442,17 +1460,24 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->   * Cleanup the global pools and unregister the MM shrinker.
->   */
->  void ttm_pool_mgr_fini(void)
-> +{
-> +       shrinker_free(mm_shrinker);
-> +       ttm_pool_type_fini_and_list_lru_destroy();
-> +       WARN_ON(!list_empty(&shrinker_list));
-> +}
-> +
-> +void ttm_pool_type_fini_and_list_lru_destroy(void)
->  {
->         unsigned int i;
-> 
->         for (i = 0; i < NR_PAGE_ORDERS; ++i) {
->                 ttm_pool_type_fini(&global_write_combined[i]);
-> +               list_lru_destroy(&global_write_combined[i].pages);
->                 ttm_pool_type_fini(&global_uncached[i]);
-> -
-> +               list_lru_destroy(&global_uncached[i].pages);
->                 ttm_pool_type_fini(&global_dma32_write_combined[i]);
-> +               list_lru_destroy(&global_dma32_write_combined[i].pages);
->                 ttm_pool_type_fini(&global_dma32_uncached[i]);
-> +               list_lru_destroy(&global_dma32_uncached[i].pages);
->         }
-> -
-> -       shrinker_free(mm_shrinker);
-> -       WARN_ON(!list_empty(&shrinker_list));
->  }
-> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-> index 26ee592e1994..bda8e816a206 100644
-> --- a/include/drm/ttm/ttm_pool.h
-> +++ b/include/drm/ttm/ttm_pool.h
-> @@ -97,4 +97,6 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->  int ttm_pool_mgr_init(unsigned long num_pages);
->  void ttm_pool_mgr_fini(void);
-> 
-> +void ttm_pool_type_fini_and_list_lru_destroy(void);
+NOTE 2: In firmware.rs, the BinHdr struct is another user of
+transmute::FromBytes, but that conversion is intentionally omitted
+here as it is handled in Pedro's patch series [2].
 
-That function doesn't need to be exported and so doesn't belong into the header.
+[1]: https://lore.kernel.org/nova-gpu/20260621143647.264770-1-nico.antinori.7@gmail.com/
+[2]: https://lore.kernel.org/nova-gpu/20260625205146.5047-2-niyudi.honda@usp.br/
 
-Regards,
-Christian.
+ drivers/gpu/nova-core/firmware.rs |  6 +--
+ drivers/gpu/nova-core/vbios.rs    | 64 +++++++++----------------------
+ 2 files changed, 20 insertions(+), 50 deletions(-)
 
-> +
->  #endif
-> --
-> 2.54.0
-> 
+diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
+index 80e948bf7511..a94820a3b335 100644
+--- a/drivers/gpu/nova-core/firmware.rs
++++ b/drivers/gpu/nova-core/firmware.rs
+@@ -88,7 +88,7 @@ pub(crate) struct FalconUCodeDescV2 {
+
+ /// Structure used to describe some firmwares, notably FWSEC-FRTS.
+ #[repr(C)]
+-#[derive(Debug, Clone)]
++#[derive(Debug, Clone, FromBytes)]
+ pub(crate) struct FalconUCodeDescV3 {
+     /// Header defined by `NV_BIT_FALCON_UCODE_DESC_HEADER_VDESC*` in OpenRM.
+     hdr: u32,
+@@ -119,10 +119,6 @@ pub(crate) struct FalconUCodeDescV3 {
+     _reserved: u16,
+ }
+
+-// SAFETY: all bit patterns are valid for this type, and it doesn't use
+-// interior mutability.
+-unsafe impl FromBytes for FalconUCodeDescV3 {}
+-
+ /// Enum wrapping the different versions of Falcon microcode descriptors.
+ ///
+ /// This allows handling both V2 and V3 descriptor formats through a
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index c6e6bfcd6a1f..c03650ee5226 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -13,11 +13,8 @@
+     register,
+     sizes::SZ_4K,
+     sync::aref::ARef,
+-    transmute::FromBytes,
+ };
+
+-use zerocopy::FromBytes as _;
+-
+ use crate::{
+     driver::Bar0,
+     firmware::{
+@@ -359,7 +356,7 @@ pub(crate) fn fwsec_image(&self) -> &FwSecBiosImage {
+ }
+
+ /// PCI Data Structure as defined in PCI Firmware Specification
+-#[derive(Debug, Clone)]
++#[derive(Debug, Clone, FromBytes)]
+ #[repr(C)]
+ struct PcirStruct {
+     /// PCI Data Structure signature ("PCIR" or "NPDS")
+@@ -388,15 +385,12 @@ struct PcirStruct {
+     max_runtime_image_len: u16,
+ }
+
+-// SAFETY: all bit patterns are valid for `PcirStruct`.
+-unsafe impl FromBytes for PcirStruct {}
+-
+ impl PcirStruct {
+     /// The bit in `last_image` that indicates the last image.
+     const LAST_IMAGE_BIT_MASK: u8 = 0x80;
+
+     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
+-        let (pcir, _) = PcirStruct::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
++        let (pcir, _) = PcirStruct::read_from_prefix(data).map_err(|_| EINVAL)?;
+
+         // Signature should be "PCIR" (0x52494350) or "NPDS" (0x5344504e).
+         if &pcir.signature != b"PCIR" && &pcir.signature != b"NPDS" {
+@@ -432,7 +426,7 @@ fn image_size_bytes(&self) -> usize {
+ /// This is the head of the BIT table, that is used to locate the Falcon data. The BIT table (with
+ /// its header) is in the [`PciAtBiosImage`] and the falcon data it is pointing to is in the
+ /// [`FwSecBiosImage`].
+-#[derive(Debug, Clone, Copy)]
++#[derive(Debug, Clone, Copy, FromBytes)]
+ #[repr(C)]
+ struct BitHeader {
+     /// 0h: BIT Header Identifier (BMP=0x7FFF/BIT=0xB8FF)
+@@ -451,12 +445,9 @@ struct BitHeader {
+     checksum: u8,
+ }
+
+-// SAFETY: all bit patterns are valid for `BitHeader`.
+-unsafe impl FromBytes for BitHeader {}
+-
+ impl BitHeader {
+     fn new(data: &[u8]) -> Result<Self> {
+-        let (header, _) = BitHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
++        let (header, _) = BitHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
+
+         // Check header ID and signature
+         if header.id != 0xB8FF || &header.signature != b"BIT\0" {
+@@ -468,7 +459,7 @@ fn new(data: &[u8]) -> Result<Self> {
+ }
+
+ /// BIT Token Entry: Records in the BIT table followed by the BIT header.
+-#[derive(Debug, Clone, Copy)]
++#[derive(Debug, Clone, Copy, FromBytes)]
+ #[repr(C)]
+ struct BitToken {
+     /// 00h: Token identifier
+@@ -481,9 +472,6 @@ struct BitToken {
+     data_offset: u16,
+ }
+
+-// SAFETY: all bit patterns are valid for `BitToken`.
+-unsafe impl FromBytes for BitToken {}
+-
+ impl BitToken {
+     /// BIT token ID for Falcon data.
+     const ID_FALCON_DATA: u8 = 0x70;
+@@ -508,7 +496,7 @@ fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
+                 .and_then(|data| data.get(..entry_size))
+                 .ok_or(EINVAL)?;
+
+-            let (token, _) = BitToken::from_bytes_copy_prefix(entry).ok_or(EINVAL)?;
++            let (token, _) = BitToken::read_from_prefix(entry).map_err(|_| EINVAL)?;
+
+             // Check if this token has the requested ID
+             if token.id == token_id {
+@@ -525,7 +513,7 @@ fn from_id(image: &PciAtBiosImage, token_id: u8) -> Result<Self> {
+ ///
+ /// This header is at the beginning of every image in the set of images in the ROM. It contains a
+ /// pointer to the PCI Data Structure which describes the image.
+-#[derive(Debug, Clone, Copy)]
++#[derive(Debug, Clone, Copy, FromBytes)]
+ #[repr(C)]
+ struct PciRomHeader {
+     /// 00h: Signature (0xAA55)
+@@ -536,13 +524,10 @@ struct PciRomHeader {
+     pci_data_struct_offset: u16,
+ }
+
+-// SAFETY: all bit patterns are valid for `PciRomHeader`.
+-unsafe impl FromBytes for PciRomHeader {}
+-
+ impl PciRomHeader {
+     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
+-        let (rom_header, _) = PciRomHeader::from_bytes_copy_prefix(data)
+-            .ok_or(EINVAL)
++        let (rom_header, _) = PciRomHeader::read_from_prefix(data)
++            .map_err(|_| EINVAL)
+             .inspect_err(|_| dev_err!(dev, "Not enough data for ROM header\n"))?;
+
+         // Check for valid ROM signatures.
+@@ -564,7 +549,7 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
+ /// PCI Data Structure. It contains some fields that are redundant with the PCI Data Structure, but
+ /// are needed for traversing the BIOS images. It is expected to be present in all BIOS images
+ /// except for NBSI images.
+-#[derive(Debug, Clone)]
++#[derive(Debug, Clone, FromBytes)]
+ #[repr(C)]
+ struct NpdeStruct {
+     /// 00h: Signature ("NPDE")
+@@ -579,15 +564,12 @@ struct NpdeStruct {
+     last_image: u8,
+ }
+
+-// SAFETY: all bit patterns are valid for `NpdeStruct`.
+-unsafe impl FromBytes for NpdeStruct {}
+-
+ impl NpdeStruct {
+     /// The bit in `last_image` that indicates the last image.
+     const LAST_IMAGE_BIT_MASK: u8 = 0x80;
+
+     fn new(dev: &device::Device, data: &[u8]) -> Option<Self> {
+-        let (npde, _) = NpdeStruct::from_bytes_copy_prefix(data)?;
++        let (npde, _) = NpdeStruct::read_from_prefix(data).ok()?;
+
+         // Signature should be "NPDE" (0x4544504E).
+         if &npde.signature != b"NPDE" {
+@@ -784,7 +766,7 @@ fn falcon_data_offset(&self, dev: &device::Device) -> Result<usize> {
+         let data = &self.base.data;
+         let (ptr, _) = data
+             .get(offset..)
+-            .and_then(u32::from_bytes_copy_prefix)
++            .and_then(|p| u32::read_from_prefix(p).ok())
+             .ok_or(EINVAL)?;
+
+         usize::from_safe_cast(ptr)
+@@ -814,6 +796,7 @@ fn try_from(base: BiosImage) -> Result<Self> {
+ /// The [`PmuLookupTableEntry`] structure is a single entry in the [`PmuLookupTable`].
+ ///
+ /// See the [`PmuLookupTable`] description for more information.
++#[derive(FromBytes)]
+ #[repr(C, packed)]
+ struct PmuLookupTableEntry {
+     application_id: u8,
+@@ -821,9 +804,6 @@ struct PmuLookupTableEntry {
+     data: u32,
+ }
+
+-// SAFETY: all bit patterns are valid for `PmuLookupTableEntry`.
+-unsafe impl FromBytes for PmuLookupTableEntry {}
+-
+ impl PmuLookupTableEntry {
+     /// PMU lookup table application ID for firmware security license ucode.
+     #[expect(dead_code)]
+@@ -836,6 +816,7 @@ impl PmuLookupTableEntry {
+ }
+
+ #[repr(C)]
++#[derive(FromBytes)]
+ struct PmuLookupTableHeader {
+     version: u8,
+     header_len: u8,
+@@ -843,9 +824,6 @@ struct PmuLookupTableHeader {
+     entry_count: u8,
+ }
+
+-// SAFETY: all bit patterns are valid for `PmuLookupTableHeader`.
+-unsafe impl FromBytes for PmuLookupTableHeader {}
+-
+ /// The [`PmuLookupTableEntry`] structure is used to find the [`PmuLookupTableEntry`] for a given
+ /// application ID.
+ ///
+@@ -857,7 +835,7 @@ struct PmuLookupTable {
+
+ impl PmuLookupTable {
+     fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
+-        let (header, _) = PmuLookupTableHeader::from_bytes_copy_prefix(data).ok_or(EINVAL)?;
++        let (header, _) = PmuLookupTableHeader::read_from_prefix(data).map_err(|_| EINVAL)?;
+
+         let header_len = usize::from(header.header_len);
+         let entry_len = usize::from(header.entry_len);
+@@ -872,8 +850,8 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
+
+         let mut entries = KVVec::with_capacity(entry_count, GFP_KERNEL)?;
+         for i in 0..entry_count {
+-            let (entry, _) = PmuLookupTableEntry::from_bytes_copy_prefix(&data[i * entry_len..])
+-                .ok_or(EINVAL)?;
++            let (entry, _) = PmuLookupTableEntry::read_from_prefix(&data[i * entry_len..])
++                .map_err(|_| EINVAL)?;
+             entries.push(entry, GFP_KERNEL)?;
+         }
+
+@@ -929,15 +907,11 @@ pub(crate) fn header(&self) -> Result<FalconUCodeDesc> {
+         let ver = data.get(1).copied().ok_or(EINVAL)?;
+         match ver {
+             2 => {
+-                let v2 = FalconUCodeDescV2::read_from_prefix(data)
+-                    .map_err(|_| EINVAL)?
+-                    .0;
++                let (v2, _) = FalconUCodeDescV2::read_from_prefix(data).map_err(|_| EINVAL)?;
+                 Ok(FalconUCodeDesc::V2(v2))
+             }
+             3 => {
+-                let v3 = FalconUCodeDescV3::from_bytes_copy_prefix(data)
+-                    .ok_or(EINVAL)?
+-                    .0;
++                let (v3, _) = FalconUCodeDescV3::read_from_prefix(data).map_err(|_| EINVAL)?;
+                 Ok(FalconUCodeDesc::V3(v3))
+             }
+             _ => {
+--
+2.47.3
 
