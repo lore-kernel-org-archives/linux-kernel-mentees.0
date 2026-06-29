@@ -1,409 +1,304 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012044.outbound.protection.outlook.com [52.101.43.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5306D2417DE;
-	Sun, 28 Jun 2026 19:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782676383; cv=none; b=Tf7Qg2gq7Rq8qhF2Fwn/TRGaGJqEg4JBXCZw4sbk6Pl375zcvKT1xe7gFT41PrYCDr3kq2IV0R6BRM02MRS/0LU3WsyegPWqk5ueuN+PtPxEvPwVo4jO+3IGPlv9IvUPyqPhXn3/sYkwydK9Y5WVdvJdLjfmWn+5xP9+zFXu/0g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782676383; c=relaxed/simple;
-	bh=tbTFVHYxs0NQJweIMgiCoEBQo3PEMy1G/3is7IudK98=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=e3mncjxGiVwQ6J7eh/UccYd4eCqS5PhU6yiztAkJa9HcTf8OpzkM6iOMgHyn1RixZEsNsYpwX6pk/rLQmQv0X5KXqVKwWES+Kizt7PA2+WmWie+Xfg97mfPtq1W25pLvgR4lbDN/+aCQJDBFa7ObnMClPaTekbvGWsqtzcHCzxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NS+gCR+N; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C8B3CC7EF
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 29 Jun 2026 08:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782722285; cv=fail; b=O+waDl/Me8JbgN05MGUsN82xKjpPuj77sAbgAr5ehMBLEjeasFXtbZX5sRhsvOFxRO8JozQ7JrUps3KuKsvgW0v6I9Tb6UnLRZBFzlNCE34tEZlG0fx14TCuEOOFRsHFPzFRkZYa8FcJ91tx7JPbz1BTUbgcwUiFXxaW2hK8zBI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782722285; c=relaxed/simple;
+	bh=LXcmsvogNKMhzX3YgvjTkhYwc8/lTqI/m72mOxtv3/s=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=g37fdW83/VLACJMVEKqY8mORMG0BiIYGceztU3B0vwQFik6hJ/a29MmmMTxqC4Mlg9A7SCsySsO/ra/wj+Xq+xQyyFEhdhVyRPRI45RJfr7o8a0vgDaXCb8muwFMkZkGf1RmAWXQtf+otbKqLaHWctJrvOZUsLq3Wv8iyhx83+M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IyVUvGrm; arc=fail smtp.client-ip=52.101.43.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NS+gCR+N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB841F000E9;
-	Sun, 28 Jun 2026 19:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1782676380;
-	bh=U//UbbS2hyX+F5puvnM6xANnRSjaQPlt4Wa3h4HjpiU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=NS+gCR+N86VhInwLVhN3CDWGb/wye+hQm40hKn1/UXq7pftjuq5dcym3jrHiLCoJq
-	 WFNnRQqCB4QH6wAdZIfDmz3sPOVNhBO3b5DL9F2jkXqlT6GhFQTX119PsxcSJhS7/S
-	 iTYbOdF2eZz9qiBBJzywJlAwiQu+TbSTit91XhLw=
-Date: Sun, 28 Jun 2026 12:53:00 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- Maxim Kaurkin <maxim.kaurkin@baikalelectronics.ru>, Serge Semin
- <Sergey.Semin@baikalelectronics.ru>, linux-hwmon@vger.kernel.org, Guenter
- Roeck <linux@roeck-us.net>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
-Subject: Re: [PATCH] lib/math: add KUnit test suite for polynomial_calc()
-Message-Id: <20260628125300.28f9b8b531e216b2e1d3ede0@linux-foundation.org>
-In-Reply-To: <20260606030319.316752-1-adinata.softwareengineer@gmail.com>
-References: <20260606030319.316752-1-adinata.softwareengineer@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IyVUvGrm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EuEDY+SIXCslOip1QicHcsfA3MX4/ziA3p5n6O5R/tlXhyhybFA5TFhUt1egIkBEbibfWiNIvCYYWoQSIElFgR79gqFCutIL9rXGMizFrxEiIVS/Ctaoe6OMzo9WQ+2cF7CyQmQPlstB4ChMulsXdIntMmNAd4EnmaR9/p0OvJ3LIRods+R2/2J4z0X/SwPMo+67VY9uR7PMwi0pcRPbAAg2K6Q2N4Mrwlcf7EgORpi5YMlKWvYXh6M4IX+yGzdrz7mAdVhqUJzFy7gi9Cau09a/M7J3GtCDdaGgOMs8Cwvf7YMi9lOKVgKlD9gP39kF9VHbAqPEXMovrtnDACMoYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IWZN1J00AfWjq7+oxypIyDauw6+b6i0YqyjYqYvIHm8=;
+ b=qwNFNi1eifgZbKeCtuLYK3sEcCTJa/NsNH4g7Uv3g93qkp0wkZZq5zbx1MXjUx7yIPDiUELQi4RJ73YnmW9Z9oXL5B6xVsThvw/zfSOjETJ54796Y8cbZNecpaZAb0T8uHXvSFt+x3w91kP75RH17+14r0iBi52tb+TrdvJ5DSM1LlK8zGJbbvDSYoiiUB58sPAlvuRy5rEaRa+VZyUJAGPbynJ8eH7jW/HbpNJonAOWAcqgIY3hThwiqNLyBoH9S3wPnLW87MPTAnnPrL3LndpsNDFPboHDHARoUB3kr/AAixoIfdO7WfAM8rJKitikeBs7X364x0PUfFKkvdpX4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IWZN1J00AfWjq7+oxypIyDauw6+b6i0YqyjYqYvIHm8=;
+ b=IyVUvGrmwsHLCcCBHBrPsZcBhvvUgA8wltCk9EVnzaqg6HSg/HHlk60T/dzXl+bQhisTCeQwYQEeGmlHPEpnZesz7uX+/0J/wVIGS3HPercLP/zuGKJwF/p06S04UZAs+nECRvqibpVFOy9HrWa63XfAZiujFSc/LtFRF+OWqo8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by LV3PR12MB9166.namprd12.prod.outlook.com (2603:10b6:408:19c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 08:38:00 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 08:37:59 +0000
+Message-ID: <b1ee5096-31e4-4442-aabb-3de2638aa701@amd.com>
+Date: Mon, 29 Jun 2026 10:37:55 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Memory leak error in qxl unbind
+To: =?UTF-8?B?w5NzY2FyIE1lZ8OtYSBMw7NwZXo=?= <megia.oscar@gmail.com>
+Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20260628154051.232214-1-megia.oscar@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260628154051.232214-1-megia.oscar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0205.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e5::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|LV3PR12MB9166:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8761a5bd-92a1-4f0b-0eaf-08ded5b9b9cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|6133799003|22082099003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	5R+eCifdSR+IekDDgHWs3nXyNcJMjKBlEmmE8sE1Wuba3rn79+v98FAnyUiuhIg4Cv7KkhG7m/Nly03yqxxwtZB3SVQDrSvDIPWoFBjRtiYA3ty7AjaAExKJHwb5LFpoVMmhgwvvVuh6av6lNVCByqIsok8wVSUbbpuOug65+M+3+jOCP1qD6AND8NHqxJUUoa7FyAiz1loEsYcUuCZOyn/M3w6/H+OCLOeAblQOCJER+tRcPM0oyypzzbiV1/Vt+6BPkr/RVHQ+r/o0USOvxNd3weth2SF5fsPx+Bu9ljpJlB0cTBPscLJUcixwBiPwj26HTiiEkPCr2Z5s58CM4k/QdNaZlrmar3gwBKJANFnGjMNrA1jRS5yVoxUDnd2GFSoujGxEAqJtb/JkhHGUpm8pgeWLLspuDM8XMe1JAffkXLjBK019+NhU1EqSnZM3XpQD0wDMDvTIIGqytCRvfDPkfvhk307Xy0YPi8cgEU1YpTwfI06ocOOcvRXMR0yOEa+GPr0xeqRDQZqzyQqAy4M7h4y1bhNWN1V6kuaGQatGeOdnXFgBCexnq1UOx2W++raHi+9vgOqc8QL88pROkcGBlhBzqF1RL7Ale29vNTM+3+Ou+PmRo2X0BUroLWG5
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cWEzVmoweWxsV1FBNVVoR09BQlhzbkNORVA3RDVjNGJqMk1FYlo5S3ppbTBT?=
+ =?utf-8?B?aXE1T2MzL01BQ2JZRWJsaGN4T3J3VXVDVW1qMk0rMENxUmVWZDZMVFZTTlVP?=
+ =?utf-8?B?b3l6ajZEckF0dlEwZEVjRUYzN09QR1p4bkFFKy83ekc1R2dMc3hJY0Vpa0N0?=
+ =?utf-8?B?TVVuMitESEZEaC81S0NxUzdGSDdRR21FS0dIelVXWHB3L29KM0lQTnZyN2kx?=
+ =?utf-8?B?SEdTUUQ0KzBVK25qSHBDYjdNYWZTY0dGWU9LMzBZdnVrNE56T0NmUDRIajMy?=
+ =?utf-8?B?Kzg3M0xuVXMxU3hZNDdlZUZpWkZvdGlKU0cvM2o4RU9OOXFVcVVYQzFXc0M5?=
+ =?utf-8?B?RGRJditReDM2TSthd0wwNy8yaDRaM3I2YVBKVW1wL3lrbnV5T3BsUkJ6UXdo?=
+ =?utf-8?B?V2RKK2pNMWFKRmU4bzZpY21tUDJnM1JGY295dGllQUNyZzBNazgzMWxEdFlj?=
+ =?utf-8?B?WnRKR1h0OTcrSUJuUStPTHlqdU5vRXFyRlFpTTEvSlpnUVFyNDNWKzlkNU5V?=
+ =?utf-8?B?MGZ1ajBkQ0hrcjM4VUE0TWYzQmVHM1BtWXFqL3BkMEYzVENQNEwzMzl0aE5B?=
+ =?utf-8?B?cHpBQVo4c1pPSjNXS2owaDJ6M1BwRVkxL1RjK0hJSERpOFU3YWY0RVBrYkdu?=
+ =?utf-8?B?NGpJZGwwd1FoNUs2eXdueWwzZ0RmUmdzb1FuU3pDQ0NzMTVzaGcrajVzaFp3?=
+ =?utf-8?B?bVhIWFI0SEY4UHk0V0ZDZ2sreDg0MGpiTk93eEkxZWpPa0VXNUVLSGZEdVY4?=
+ =?utf-8?B?eXU3YlVZVVN3L0VnUDRMZjdabTRlbnpDNmgvTXBRcU1VNGY4OVl2MkhZYTJT?=
+ =?utf-8?B?ZWdpR0syOC9QSVdnZTN5OTVNZ3MyYzBGc2NIbXZ0VHNtUnNyYTh3MXFwcXdr?=
+ =?utf-8?B?S3RDZkdTdzVJM2p2U0pReFNWaFVhOTYzWmFoZ3lLU2tWMUNTamlWU2ZlUnJh?=
+ =?utf-8?B?UElXTU9vanBmTmsweGx2SXBZczRqcDNTa3dBb0ZSODJtUkMxdWpBS3ZFSmQ2?=
+ =?utf-8?B?YjdaSW1NNm9LUmRqZjJXaFBsSGZYKzdKVGdWcWhDcURNRzN1ejBvTUpZdlBN?=
+ =?utf-8?B?UGVKb2lKVmhQbmppdGFPZXc0eVpuRytBYVFXdE1JT0lJUDZGS2FkWWpDaDBv?=
+ =?utf-8?B?SEVmMEZMaWhXbXMrK21zRXFCSkR6c1grZ0Vyb20weWRBT1c1a0ZCeHJEdVVy?=
+ =?utf-8?B?aVZXTXJ0TEJid1p1T0ppOXFCNzdnNVJ0amNFZGV3VlZvdThyODVDMkpCQ0VJ?=
+ =?utf-8?B?OVRjZEtsa0I1cFVsRXJOdGxqYTdSK2pqY2NWMDBZeUI2SUJlMlkxbTQ5bkdG?=
+ =?utf-8?B?RmdlT0VkNTQxSWR3TFJpTEplT2w5b3NJTkFSeEMzZkVzUE5HMFFLbllYdzZn?=
+ =?utf-8?B?RDNaT1FWbEVnUnB4cGRMd0xxV2dOTVhVcXVOVmZCaFg3dmRPLzBmTFhObmN0?=
+ =?utf-8?B?eEhGWlJMbTk2bUUxUTFsS0MyTDZjRW84STM1MERXVDkyNW5rcTlkUnlhMWh6?=
+ =?utf-8?B?ZzNBdE1sZWc5TCtCWGRYWFpsOUVhQWE2V3VPWTg2VXRpVzNZYUZEbThWck5j?=
+ =?utf-8?B?TTlGVDhaQ1VGV3l2SithZDNtQzVZcGcvcmZlTHVYYW9zTWFZc3pTTTE2SmtD?=
+ =?utf-8?B?TDFBQy9lU0pEbGhZdkxjU3BpZFovRWcyNkNiZEc0bGxrVnFHUUdrTE5NaUdk?=
+ =?utf-8?B?NmpIdkpsSGlnc1FjS2UrMkprOTQycWpyeEU2QXJTMjNOMnB2QzNMVjhTVDJu?=
+ =?utf-8?B?MGRaamRuUU82V3dZcitoTmROa3ZVVTczSjFxc2lrNThjME0zVzBvak45UEFl?=
+ =?utf-8?B?U2t5aGFiMG1vNXVoVmJyRll2TXZoVGhaeWVaWm5xbmFlTFBYeXZZeTVFQVdF?=
+ =?utf-8?B?QW1XWWExcDl0YStHalZvUXB1SEV3UmRTbmE2UE9pbThaVWx1N3dDaVdDbzN5?=
+ =?utf-8?B?bmp2MEhzaU4wQ2NFWXhiSHRrQkhqV0lUNGo4dWMvOXc4SW9FeVVrcGVwRWYx?=
+ =?utf-8?B?V3NEdllpV3JVVmpVUEhGVUhZazMrYXMrK3hwR3JVME9sMFRPVitxbUtST2pj?=
+ =?utf-8?B?RW0vRzVWZ1owcjFzU3ZpOFBVaG1VSkZ2WGNuTHdQbFJUcFlCRnpJTGY3VExn?=
+ =?utf-8?B?bVptcUdUWGM0dWpJWjVXMEJBZDdVRG44bmlrTjIyODZydFBFZVRZQTkxSzBC?=
+ =?utf-8?B?eDZGYkl1cEdkcE5HTGZDVmtucis1bXhldUdud2k2SjR2Y0MyN2t1V242QVZS?=
+ =?utf-8?B?Q3NzOXdBQjZrazA1azk4ME4wMS9LYTFaRk9wMDVydVZtRWthRThpekVEOFlr?=
+ =?utf-8?Q?oDhMLKcy3RTXamPCSM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8761a5bd-92a1-4f0b-0eaf-08ded5b9b9cc
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 08:37:59.8428
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: muvysDWxdcvjuKrT/DuAoe577i+SPb2gXWty6j6ZXM9EGFMxVnxPbjczbL65wgPG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9166
 
-On Sat,  6 Jun 2026 11:03:09 +0800 Adi Nata <adinata.softwareengineer@gmail.com> wrote:
-
-> Add a KUnit test suite for the polynomial_calc() function, which had
-> no in-kernel test coverage. The tests verify correct evaluation of
-> constant, linear, quadratic, and cubic polynomials, including negative
-> coefficients, negative input data, zero-coefficient terms.
+On 6/28/26 17:40, Óscar Megía López wrote:
+> I discovered OOM after run script below around two hours in my computer:
 > 
-> The Kconfig entry uses 'select POLYNOMIAL' rather than 'depends on
-> POLYNOMIAL' because POLYNOMIAL is a promptless tristate that cannot
-> be manually enabled on UML without an explicit selector.
+> while :; do
+>     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/unbind
+>     echo [pci qxl id] > /sys/bus/pci/drivers/qxl/bind
+> done
+> 
+> If you run 10000 times above script kmemleak does not report any
+> memory leak, but if you run above script about two hours several
+> OOM ocurs and at the end kernel panic.
+> 
+> The OOM isn't just a simple leak; it's a refcount corruption that renders
+> the list_lru fix dead code after the first mid-init failure.
+> 
+> Here's the chain:
+> 
+> Bug 1: ttm_global_init ignores ttm_pool_mgr_init() return
+> If shrinker_alloc() fails under memory pressure, ttm_pool_mgr_init
+> returns -ENOMEM with pool types already initialized (64 list_lru_init
+> calls done). ttm_global_init ignored this and returned 0, leaving orphaned
+> pool types with a NULL mm_shrinker.
+> 
+> Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
+> refcount + debugfs.
+> 
+> Bug 2: ttm_pool_mgr_init leaks pool types on shrinker_alloc failure
+> If shrinker_alloc fails after all 64 pool types were list_lru_init'd,
+> the function returned -ENOMEM without undoing them. With Bug 1 now
+> triggering proper error handling, this undo is necessary.
+> 
+> Fix: err_shrinker: label that finalizes + destroys all 64 pool types
+> before returning.
+> 
+> You must apply the patch from the link "[PATCH v2] drm/qxl: fix
+> use-after-free to qxl_irq_handler in PCI mode" before testing.
+> If you don't apply this patch, you will get a UAF error when running
+> the script above.
+> 
+> Assisted-by: OpenCode:1.17.8-Big Pickle
+> Link: https://lore.kernel.org/virtualization/20260627105445.89827-2-megia.oscar@gmail.com/T/#u
+> Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_device.c |  5 ++++-
+>  drivers/gpu/drm/ttm/ttm_pool.c   | 37 ++++++++++++++++++++++++++------
+>  include/drm/ttm/ttm_pool.h       |  2 ++
+>  3 files changed, 37 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+> index d3bfb9a696a7..c880a0430363 100644
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -96,7 +96,10 @@ static int ttm_global_init(void)
+>                 >> PAGE_SHIFT;
+>         num_dma32 = min(num_dma32, 2UL << (30 - PAGE_SHIFT));
+> 
+> -       ttm_pool_mgr_init(num_pages);
+> +       ret = ttm_pool_mgr_init(num_pages);
+> +       if (ret)
+> +               goto out;
+> +
 
-Looks nice, thanks.  Let's cc the polynomial authors.  And the hwmon
-people - the only subsystem which uses polynomial_calc().
+Please put that into a separate patch.
 
-And the Kunit people.
+>         ttm_tt_mgr_init(num_pages, num_dma32);
+> 
+>         glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32 |
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index 278bbe7a11ad..e0c82804a07d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -1198,6 +1198,17 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>          * that no shrinker is concurrently freeing pages from the pool.
+>          */
+>         ttm_pool_synchronize_shrinkers();
+> +
+> +       for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+> +               for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+> +                       struct ttm_pool_type *pt;
+> +
+> +                       pt = ttm_pool_select_type(pool, i, j);
+> +                       if (pt != &pool->caching[i].orders[j])
+> +                               continue;
+> +                       list_lru_destroy(&pt->pages);
+> +               }
+> +       }
+>  }
+>  EXPORT_SYMBOL(ttm_pool_fini);
+> 
+> @@ -1386,6 +1397,7 @@ static inline u64 ttm_get_node_memory_size(int nid)
+>  int ttm_pool_mgr_init(unsigned long num_pages)
+>  {
+>         unsigned int i;
+> +       int ret = 0;
+> 
+>         int nid;
+>         for_each_node(nid) {
+> @@ -1423,8 +1435,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>  #endif
+> 
+>         mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+> -       if (!mm_shrinker)
+> -               return -ENOMEM;
+> +       if (!mm_shrinker) {
+> +               ret = -ENOMEM;
+> +               goto err_shrinker;
+> +       }
+> 
+>         mm_shrinker->count_objects = ttm_pool_shrinker_count;
+>         mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
+> @@ -1434,6 +1448,10 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>         shrinker_register(mm_shrinker);
+> 
+>         return 0;
+> +
+> +err_shrinker:
+> +       ttm_pool_type_fini_and_list_lru_destroy();
+> +       return ret;
 
-AI review thinks the Kconfig text doesn't match the code:
+Instead of the error handling move shrinker_alloc() before initializing the pool types.
 
-	https://sashiko.dev/#/patchset/20260606030319.316752-1-adinata.softwareengineer@gmail.com
+>  }
+> 
+>  /**
+> @@ -1442,17 +1460,24 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>   * Cleanup the global pools and unregister the MM shrinker.
+>   */
+>  void ttm_pool_mgr_fini(void)
+> +{
+> +       shrinker_free(mm_shrinker);
+> +       ttm_pool_type_fini_and_list_lru_destroy();
+> +       WARN_ON(!list_empty(&shrinker_list));
+> +}
+> +
+> +void ttm_pool_type_fini_and_list_lru_destroy(void)
+>  {
+>         unsigned int i;
+> 
+>         for (i = 0; i < NR_PAGE_ORDERS; ++i) {
+>                 ttm_pool_type_fini(&global_write_combined[i]);
+> +               list_lru_destroy(&global_write_combined[i].pages);
+>                 ttm_pool_type_fini(&global_uncached[i]);
+> -
+> +               list_lru_destroy(&global_uncached[i].pages);
+>                 ttm_pool_type_fini(&global_dma32_write_combined[i]);
+> +               list_lru_destroy(&global_dma32_write_combined[i].pages);
+>                 ttm_pool_type_fini(&global_dma32_uncached[i]);
+> +               list_lru_destroy(&global_dma32_uncached[i].pages);
+>         }
+> -
+> -       shrinker_free(mm_shrinker);
+> -       WARN_ON(!list_empty(&shrinker_list));
+>  }
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 26ee592e1994..bda8e816a206 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -97,4 +97,6 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  int ttm_pool_mgr_init(unsigned long num_pages);
+>  void ttm_pool_mgr_fini(void);
+> 
+> +void ttm_pool_type_fini_and_list_lru_destroy(void);
 
+That function doesn't need to be exported and so doesn't belong into the header.
 
-From: Adi Nata <adinata.softwareengineer@gmail.com>
-Subject: lib/math: add KUnit test suite for polynomial_calc()
-Date: Sat, 6 Jun 2026 11:03:09 +0800
+Regards,
+Christian.
 
-Add a KUnit test suite for the polynomial_calc() function, which had no
-in-kernel test coverage.  The tests verify correct evaluation of constant,
-linear, quadratic, and cubic polynomials, including negative coefficients,
-negative input data, zero-coefficient terms.
-
-The Kconfig entry uses 'select POLYNOMIAL' rather than 'depends on
-POLYNOMIAL' because POLYNOMIAL is a promptless tristate that cannot
-be manually enabled on UML without an explicit selector.
-
-Link: https://lore.kernel.org/20260606030319.316752-1-adinata.softwareengineer@gmail.com
-Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: Maxim Kaurkin <maxim.kaurkin@baikalelectronics.ru>
-Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>
-Cc: David Gow <david@davidgow.net>
-Cc: Rae Moar <raemoar63@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- lib/Kconfig.debug                 |   17 +
- lib/math/tests/Makefile           |    1 
- lib/math/tests/polynomial_kunit.c |  270 ++++++++++++++++++++++++++++
- 3 files changed, 288 insertions(+)
-
---- a/lib/Kconfig.debug~lib-math-add-kunit-test-suite-for-polynomial_calc
-+++ a/lib/Kconfig.debug
-@@ -3476,6 +3476,23 @@ config GCD_KUNIT_TEST
- 
- 	  If unsure, say N
- 
-+config POLYNOMIAL_KUNIT_TEST
-+	tristate "Polynomial calculation (polynomial_calc) test" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	select POLYNOMIAL
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables the KUnit test suite for the polynomial_calc()
-+	  function, which evaluates integer polynomials using factor
-+	  redistribution to avoid overflow.
-+
-+	  The test suite verifies correctness for constant, linear, and
-+	  quadratic polynomials, negative coefficients, per-step dividers,
-+	  divider_leftover, total_divider scaling, and a real sensor
-+	  N-to-temperature conversion polynomial.
-+
-+	  If unsure, say N
-+
- config PRIME_NUMBERS_KUNIT_TEST
- 	tristate "Prime number generator test" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
---- a/lib/math/tests/Makefile~lib-math-add-kunit-test-suite-for-polynomial_calc
-+++ a/lib/math/tests/Makefile
-@@ -4,5 +4,6 @@ obj-$(CONFIG_GCD_KUNIT_TEST)		+= gcd_kun
- obj-$(CONFIG_INT_LOG_KUNIT_TEST)	+= int_log_kunit.o
- obj-$(CONFIG_INT_POW_KUNIT_TEST)	+= int_pow_kunit.o
- obj-$(CONFIG_INT_SQRT_KUNIT_TEST)	+= int_sqrt_kunit.o
-+obj-$(CONFIG_POLYNOMIAL_KUNIT_TEST)	+= polynomial_kunit.o
- obj-$(CONFIG_PRIME_NUMBERS_KUNIT_TEST)	+= prime_numbers_kunit.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST)	+= rational_kunit.o
-diff --git a/lib/math/tests/polynomial_kunit.c a/lib/math/tests/polynomial_kunit.c
-new file mode 100644
---- /dev/null
-+++ a/lib/math/tests/polynomial_kunit.c
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <kunit/test.h>
-+#include <linux/polynomial.h>
-+
-+struct polynomial_test_param {
-+	const struct polynomial *poly;
-+	long data;
-+	long expected;
-+	const char *name;
-+};
-+
-+/* f(x) = 5 */
-+static const struct polynomial poly_constant = {
-+	.total_divider = 1,
-+	.terms = {
-+		{0, 5, 1, 1},
-+	}
-+};
-+
-+/* f(x) = 2x^2 + 3x + 5 */
-+static const struct polynomial poly_simple = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 2, 1, 1},
-+		{1, 3, 1, 1},
-+		{0, 5, 1, 1},
-+	}
-+};
-+
-+/* f(x) = -5x + 100 */
-+static const struct polynomial poly_negative_coef = {
-+	.total_divider = 1,
-+	.terms = {
-+		{1, -5, 1, 1},
-+		{0, 100, 1, 1},
-+	}
-+};
-+
-+/* f(x) = (150x + 50) / 10 */
-+static const struct polynomial poly_total_divider = {
-+	.total_divider = 10,
-+	.terms = {
-+		{1, 150, 1, 1},
-+		{0,  50, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = x / 2
-+ * divider=2 applied once per multiply: mult_frac(coef, data, 2) = coef*data/2
-+ */
-+static const struct polynomial poly_step_divider = {
-+	.total_divider = 1,
-+	.terms = {
-+		{1, 1, 2, 1},
-+		{0, 0, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = (100/500) * x^2 = 0.2 * x^2
-+ * Encoded as coef=100, divider=10, divider_leftover=5:
-+ *   denom = 10^2 * 5 = 500
-+ */
-+static const struct polynomial poly_leftover = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 100, 10, 5},
-+		{0,   0,  1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 2x^3  (single high-degree term, no constant)
-+ * Used to exercise the power loop alone.
-+ */
-+static const struct polynomial poly_cubic = {
-+	.total_divider = 1,
-+	.terms = {
-+		{3, 2, 1, 1},
-+		{0, 0, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 4x + 1  with a zero-coefficient quadratic term.
-+ * The deg-2 term contributes nothing regardless of input.
-+ */
-+static const struct polynomial poly_zero_coef = {
-+	.total_divider = 1,
-+	.terms = {
-+		{2, 0, 1, 1},
-+		{1, 4, 1, 1},
-+		{0, 1, 1, 1},
-+	}
-+};
-+
-+/*
-+ * f(x) = 9  with total_divider = 0.
-+ * The implementation treats 0 as 1 via `total_divider ?: 1`, so the
-+ * result must equal the constant term unchanged.
-+ */
-+static const struct polynomial poly_zero_total_divider = {
-+	.total_divider = 0,
-+	.terms = {
-+		{0, 9, 1, 1},
-+	}
-+};
-+
-+
-+static const struct polynomial_test_param test_params[] = {
-+	{
-+		.poly     = &poly_constant,
-+		.data     = 0,
-+		.expected = 5,
-+		.name     = "Constant polynomial at x=0",
-+	},
-+	{
-+		.poly     = &poly_constant,
-+		.data     = 42,
-+		.expected = 5,
-+		.name     = "Constant polynomial is independent of input",
-+	},
-+	{
-+		.poly     = &poly_simple,
-+		.data     = 0,
-+		.expected = 5,	/* zero input collapses all power terms */
-+		.name     = "Zero input yields constant term only",
-+	},
-+	{
-+		.poly     = &poly_simple,
-+		.data     = 10,
-+		.expected = 235,	/* 2*100 + 3*10 + 5 */
-+		.name     = "Simple quadratic at x=10",
-+	},
-+	{
-+		.poly     = &poly_negative_coef,
-+		.data     = 10,
-+		.expected = 50,		/* -5*10 + 100 */
-+		.name     = "Negative coefficient at x=10",
-+	},
-+	{
-+		.poly     = &poly_negative_coef,
-+		.data     = 20,
-+		.expected = 0,		/* -5*20 + 100 = 0 */
-+		.name     = "Negative coefficient result is zero",
-+	},
-+	{
-+		.poly     = &poly_total_divider,
-+		.data     = 3,
-+		.expected = 50,		/* (150*3 + 50) / 10 = 500/10 */
-+		.name     = "total_divider scales the final sum",
-+	},
-+	{
-+		.poly     = &poly_step_divider,
-+		.data     = 100,
-+		.expected = 50,		/* 1*100/2 */
-+		.name     = "Per-step divider halves input",
-+	},
-+	{
-+		.poly     = &poly_leftover,
-+		.data     = 30,
-+		.expected = 180,	/* 100*30^2 / (10^2 * 5) = 90000/500 */
-+		.name     = "divider_leftover with quadratic term",
-+	},
-+	/* Boundary: unit and negative-unit input */
-+	{
-+		/*
-+		 * data=1: each mult_frac(tmp, 1, divider) strips one factor of
-+		 * divider from coef per degree, so coef is left-shifted right
-+		 * until intermediate precision is exhausted.
-+		 * 2*1 + 3*1 + 5 = 10
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = 1,
-+		.expected = 10,
-+		.name     = "Boundary: data=1 (unit input)",
-+	},
-+	{
-+		/*
-+		 * data=-1: even degrees produce positive contributions,
-+		 * odd degrees produce negative ones.
-+		 * 2*(-1)^2 + 3*(-1) + 5 = 2 - 3 + 5 = 4
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = -1,
-+		.expected = 4,
-+		.name     = "Boundary: data=-1 (negative unit input)",
-+	},
-+
-+	/* Boundary: negative non-trivial input */
-+	{
-+		/*
-+		 * 2*(-3)^2 + 3*(-3) + 5 = 18 - 9 + 5 = 14
-+		 * Verifies sign handling for negative data across all degrees.
-+		 */
-+		.poly     = &poly_simple,
-+		.data     = -3,
-+		.expected = 14,
-+		.name     = "Boundary: negative data with quadratic",
-+	},
-+
-+	/* Boundary: total_divider = 0 is treated as 1 */
-+	{
-+		.poly     = &poly_zero_total_divider,
-+		.data     = 42,
-+		.expected = 9,
-+		.name     = "Boundary: total_divider=0 defaults to 1",
-+	},
-+
-+	/* Boundary: zero-coefficient high-degree term */
-+	{
-+		/*
-+		 * The deg-2 term has coef=0, so it contributes 0 regardless
-+		 * of data. Result: 0 + 4*10 + 1 = 41
-+		 */
-+		.poly     = &poly_zero_coef,
-+		.data     = 10,
-+		.expected = 41,
-+		.name     = "Boundary: zero-coefficient term is inert",
-+	},
-+
-+	/* Boundary: single high-degree term, no constant */
-+	{
-+		/* 2 * 5^3 = 250; also verifies the loop terminates on deg-0 */
-+		.poly     = &poly_cubic,
-+		.data     = 5,
-+		.expected = 250,
-+		.name     = "Boundary: single cubic term",
-+	},
-+	{
-+		/* 2 * (-2)^3 = -16; odd power preserves sign of negative data */
-+		.poly     = &poly_cubic,
-+		.data     = -2,
-+		.expected = -16,
-+		.name     = "Boundary: single cubic term, negative data",
-+	},
-+
-+};
-+
-+static void get_desc(const struct polynomial_test_param *param, char *desc)
-+{
-+	strscpy(desc, param->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(polynomial, test_params, get_desc);
-+
-+static void polynomial_calc_test(struct kunit *test)
-+{
-+	const struct polynomial_test_param *param = test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, polynomial_calc(param->poly, param->data),
-+			param->expected);
-+}
-+
-+static struct kunit_case polynomial_test_cases[] = {
-+	KUNIT_CASE_PARAM(polynomial_calc_test, polynomial_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite polynomial_test_suite = {
-+	.name = "math-polynomial",
-+	.test_cases = polynomial_test_cases,
-+};
-+
-+kunit_test_suites(&polynomial_test_suite);
-+
-+MODULE_DESCRIPTION("math.polynomial_calc KUnit test suite");
-+MODULE_LICENSE("GPL");
-_
+> +
+>  #endif
+> --
+> 2.54.0
+> 
 
