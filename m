@@ -1,91 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794923537DE;
-	Tue, 30 Jun 2026 11:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3DB40FDAC
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Jun 2026 13:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782818195; cv=none; b=X0ZVhIxi5/C1Xf+LrpqDoZcTS1ES9Wvapj+rN9lULviAg1nCtkc28THwlziU9soEXI7tU05j3BdjfXuHHjysED4wHo8z9BOlBUKwp+jqNuClxhROOMhjkrmlne4ljKMCcd+F2LkVeL2/6miL6LZYLVKUEy+y6FOF9m6/jobrIWc=
+	t=1782824892; cv=none; b=RFvXGtMtGuPJ+PqanI1akJG5QHcPPoFR9IH3lkW5zvnpEDOz4HXrw/fsrNOvk3BNNfXGv/ISwlt9OoNBlxsRqKfJSFVBTgNJkgmrxVLhm9cCAlJp6VUslPMeLULKvzMaC7RVLoAK8qJHh0qisfysZGm1q9Dxhncx9xuGx8IGvvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782818195; c=relaxed/simple;
-	bh=+/JESTVsFDcoGuMP/FgRRyUeBmA9JLzIgr4Vp6EzN6M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HWu9zpegYHCSTufqhhfXpdFcm5W3BeJsmFz4+vr9t25EXjFpLFflh81vTDtO9uIbKSmHB5CK1m5S+yQTWplWDMfvXrPHW7W/w43hAf1+VHmC/55Z52X3rJscnd+CBgap3v2mH/TL32C5ytlKsZGrrUicBAPkq1fbl5qGobQUJiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lhOHaHXd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782824892; c=relaxed/simple;
+	bh=v90WNkUJaI76E3J1bgXlk2sMkqnYwKRFGAk2rrarAXw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k9jwRZs2t6fvoHT/8W5uEfMtGuDWm8MIzNK3wMu5LFAicN8zdZ76KR9rAfruCDQf07cYi/kVWE8RPEMC9bbUMSQLjQVjFl2Auyhvn6gTuwNN6YQ54G6SWOr1ClhT4OKkT7qQT6ZaOkIw5F8lwOzd2710N+Xz3E3T+1lnUG+bhtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kRemJdsu; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lhOHaHXd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9BE1F000E9;
-	Tue, 30 Jun 2026 11:16:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782818194;
-	bh=gW8Bndv8QKhGjBf6SmFc2HG7s+OzjKpn0rdNZPfQmiE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=lhOHaHXdwAOtzMatMbWXvAMmH/VRdCeXIYozgkjUCTcJ5LUVIiYp6TpeA7N6nZRZC
-	 xN7bCU7e6yvghuleLbKTQcy1FCH9hKutrJou/ycDbCQFX5CeuNT7OWlkotCXl+wx/W
-	 eR+GQJArUZ1S7+Rbv8Us8rCnDgG0r+0t0a9wOi1MY79NVAMwoX7RflFgEBLjO5HHmu
-	 yR65q57af+0tItc+Cq4v1l5EsG0K7tMAK8GgHa3m5kN+uIW7mWEaPHUIFNbsXOCVLd
-	 V+tkynqWTtd91xXsMAQDn4g15zmB/jfeS0WUx6xYIltpxhr5zuoPrmZgos2gGfJQ0Q
-	 cCxDQpdK69sWQ==
-From: Mark Brown <broonie@kernel.org>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- david.daney@cavium.com, Ninad Naik <ninadnaik07@gmail.com>
-Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, me@brighamcampbell.com, 
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-In-Reply-To: <20260618180149.475658-1-ninadnaik07@gmail.com>
-References: <20260618180149.475658-1-ninadnaik07@gmail.com>
-Subject: Re: [PATCH v3] spi: dt-bindings: octeon: Convert to DT schema
-Message-Id: <178275394462.47562.15525184882513666560.b4-ty@b4>
-Date: Mon, 29 Jun 2026 18:25:44 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kRemJdsu"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-847917c3678so229220b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 30 Jun 2026 06:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782824890; x=1783429690; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z6j0F+xqCQECDY9wnaqI3d2SI54fqdn+nhFSDa4vOUo=;
+        b=kRemJdsu4ewxfb+0lt5gpBujQuh/F1BVKjW3Q0/U5Xv1/aABHf2x8mKEzNpT5+VcA/
+         QgXEgH9VM5zyuRI9k/7rLIokyaijwt8mD9jGnvV2nSPOs/aBP8KIgdqAZ5uwg6Wt7xB6
+         SwS5J43bweU4EN7xoUOPECKGJ24td6FIomy8/UNS7iBLTo6GWSjKjz0BGA1bGoQjul1J
+         8gorD60R5/ZUC/MRettTCoM/vRiHmnqTmynqnVAgttPdBzpZRxTzi9CbpG3X/O0s5Or2
+         7B7Y/iLFioCHL6jwI4W5ZRvhsHP7cXWkdvQQKZuV1pQteNswUTBc3lxWXTEdGCIBaOtg
+         QGCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782824890; x=1783429690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z6j0F+xqCQECDY9wnaqI3d2SI54fqdn+nhFSDa4vOUo=;
+        b=ASkUD8q/ADpPkSNv3qaQ5vyb/wCnPNxaHW0yLButg5Fr2N8/QpjOAURW+7fxWoMYs9
+         m7ZJB9/6pdDwy9/+npj4zEBXLAMUYiK0uHcC869wgpPoUBa/AE9UoQzdE8HDDhDDHcIe
+         wj1FJh7zZWwGMzafbH0nxuHzspxah/jBQL+zTFMdpcsbwyyaik5vftS0djpjMeWDpejB
+         HiyMfUgxrg5qaoUKz7pxsvESaZPLbz+vTOBdDMHuvh4wQCEc+qct7hOuoL3rXU7CB9ue
+         iVh0by4oqz0HhBLOF/6dQDJQEINk+rb5MO9I/0WUg5XbL2/rprMwAsnFFISHQ8VyY7P6
+         GQLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpkNMQLJfiet/XObNDcA3CeP3ieWxJiA6XwRqqbF0YZpv7zxkhLX98B96KkBaPfao2YwsrBNRaxAxGIRlZf3Cwcpucmrg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJ0lFqRExkx9cEr1Xy8G/iZ+Y13goyj6Uw0pB9utYPweevHw1A
+	BJEhKOM9yCcRmS9luqEbIP0pYUO5SyP89FULFkK2WisxkHtFJtqsUKN5
+X-Gm-Gg: AfdE7cm2KE0mjiYHhNh2PtA4TcTy7zaLI694kPwnNmXERUuZOpL23RZ2P6qNU80uMnf
+	Nu9+VKsAnZzDPtIpuEH9JVCwS3O1oeTjg9E1R9VN/v8hAH5MEuqA9LRZF5JrR201kXkjretDkWf
+	iPltvu3vW7tcF0pKI+W62XYhsgG4rjNNoh/NyAIv7p1/63zeYekxz7jdomrTpsJqAHCLAtOocL6
+	gVuYMtLu59LFCaeW2ONHdVqMpP5Rwh+Vdsejtg5qGBEycIhmKPDYoKCRVjRoXsV3jxOLWqhcaFl
+	B2v8d7MC7DFe7QpzNZ000pkXJWnvodlCZBcoObqXJPh3laIfhsxaHw+41tcfljH3By4orxZv/2i
+	X0WieBGUDozCM9icI2jUHFeM0rC60lBYt03sh8NJV21qz/3QlgSyRNDuPopTPqo2X0ABWYf+9hN
+	Skb55SGKjaldLm0eF/R9/qX6PLITMBVnv140txkw==
+X-Received: by 2002:a05:6a00:85a3:b0:842:dd4:d9e2 with SMTP id d2e1a72fcca58-847a7ed202dmr1140309b3a.0.1782824889921;
+        Tue, 30 Jun 2026 06:08:09 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:1b46:470e:6375:45a7])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a03a6fd5sm1991541b3a.57.2026.06.30.06.08.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 06:08:09 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: tomi.valkeinen@ideasonboard.com,
+	kernel-list@raspberrypi.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH] media: raspberrypi: rp1-cfe: acquire state_lock in cfe_start_streaming()
+Date: Tue, 30 Jun 2026 20:07:56 +0700
+Message-ID: <20260630130756.28744-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1104; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+/JESTVsFDcoGuMP/FgRRyUeBmA9JLzIgr4Vp6EzN6M=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ6WP7aX+WmRfwVyfJ8p/6OJonHaNEPMoxTTFN
- 9er12Q4w5GJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakOljwAKCRAk1otyXVSH
- 0AgnB/9R1ftlqt+yfnfefzrGR9DVNQvDxSL4yL6muRaOrN4HzRHSkgHnNrPpnF7rtrpjzcAKwOr
- WWtFJ4WvJQH1z7ahK078iL38SowkEF9vvM1yhDAzanHaZRZRNb7jDXeSc6JWRAKXnpU7+ft48xJ
- rnP0qO/nSC9u9eU+RS1k90GgmAwjl0hrdsY2T7zQv5u2W7cWQXQkwZUx7TrCcpBa1QN3yDp4IU8
- ZLTOvSq+9lag5stqH/RBUBm7sALYiA1HsesqM5H/Z8KIm3llxDhScDEAdbPmt6s7a65fir5REcd
- nt/WSY18EaHL3AJqT2gFNbaAx7yLqXW49Ckd0qm7d1jIamSr
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Jun 2026 23:31:49 +0530, Ninad Naik wrote:
-> spi: dt-bindings: octeon: Convert to DT schema
+cfe_start_streaming() modifies shared device state without holding
+state_lock. The driver exposes multiple video nodes backed by
+a single cfe_device. While one node runs cfe_start_streaming(),
+another node's cfe_buffer_queue() may read the node state via
+test_all_nodes() under state_lock to decide whether to schedule a job.
+Another case is when node->fs_count is read by the interrupt handler
+in cfe_sof_isr().  Modifying this state without state_lock races
+against those readers.
 
-Applied to
+The counterpart cfe_stop_streaming() already takes state_lock around its
+state modification. Fix cfe_start_streaming() to do the same.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.3
+Found by code inspection.
 
-Thanks!
+Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[1/1] spi: dt-bindings: octeon: Convert to DT schema
-      https://git.kernel.org/broonie/spi/c/cb8c374a632b
+diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+index 8375ed3e9..d8ea71830 100644
+--- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
++++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+@@ -1151,6 +1151,7 @@ static int cfe_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	struct v4l2_subdev_state *state;
+ 	struct v4l2_subdev_route *route;
+ 	s64 link_freq;
++	unsigned long flags;
+ 	int ret;
+ 
+ 	cfe_dbg(cfe, "%s: [%s]\n", __func__, node_desc[node->id].name);
+@@ -1184,9 +1185,11 @@ static int cfe_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	state = v4l2_subdev_lock_and_get_active_state(&cfe->csi2.sd);
+ 
++	spin_lock_irqsave(&cfe->state_lock, flags);
+ 	clear_state(cfe, FS_INT | FE_INT, node->id);
+ 	set_state(cfe, NODE_STREAMING, node->id);
+ 	node->fs_count = 0;
++	spin_unlock_irqrestore(&cfe->state_lock, flags);
+ 
+ 	ret = cfe_start_channel(node);
+ 	if (ret)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
+prerequisite-patch-id: 4c010e20cdeb611d14546bc729b513f959e25afd
+-- 
+2.53.0
 
