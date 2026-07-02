@@ -1,57 +1,57 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145523A5E90
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5EF3D903B
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990541; cv=none; b=ZEnSO4nWrThhBQQsVqjxZ8mohxlLo7o5SRh7wnzCpbDiOzaj4q9lyYYJ/548lYPJtDgRlltMmy7cZxeN4RlStp+qAaYzkzVaUkRuBtDdlKFYAAdFRHV2m4fkf/pQDSwTUJLLhzE9/3/mJcJ9mporgX2r+LvZyT0NlqEpJusdQoA=
+	t=1782990566; cv=none; b=dWNPDbaZlH913fDFXei71efzv76TbMPEC+8zShJrsPVtSRUr+8BrCuVZcGcMzQzfRpikjE4n9V8sdWOIlXTOJtgEn5JhDu3jjM2e/DnosixNTjhNdb45aDRaUSj9wc/8RLfavE+SN8C/qp1IzYBrRlImD9Dqlwb2+Ch5IF8iQC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990541; c=relaxed/simple;
-	bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
+	s=arc-20240116; t=1782990566; c=relaxed/simple;
+	bh=H7+MDSBOZd4JQF5N1xSQnYga2rWSArQZ7jzGQ1exNGg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tM7+OZhrzISaFgWFixyCFKPeWTpSmQSb1Owhi1QQJztBqBarxx/T61P1u4kV02TSPESW5BtPe7lpWi9hK51zKgtzQJvt+IxerPVbImn2G1h0N+bBKdi6pSTl3uzqCStnGNBw2WW8NubM+ala34YT9NTcuN81rymG0Z4P1WaKNqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FD0wExz/; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=KrAisc6NHV2MjZH+ZJnkltGTlzlCXwMObNAQ2DmImDsJ/6OZC0nqfyfkhhoKIzrKS78FwUkjS1f+0l7BtK2GYb00wzW58z2SagcreA72nO9ZHB80d6LsZE/XTfffq3jpyRVnnh4HTgsXLRHFTFzG7Qu31cq3R905e3JpWs6Mr9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wk0S2VyW; arc=none smtp.client-ip=209.85.218.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FD0wExz/"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-492488f8583so25430665e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:08:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wk0S2VyW"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c11f2b9f62fso136993266b.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:09:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782990538; x=1783595338; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782990564; x=1783595364; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
-        b=FD0wExz/IucIe8f6TX8R27xzNI18CaOSdtpr5eN3up0efcIM64BK9/gEA636Bqw1HP
-         s+GCzz0r+ApEhGdoHnOGChmZeFdGue+u5Cv2zhbWBW33potjc6atDju88JnXhUDQp0uM
-         aJ1gMHa3oSzPthfI9b5fnDb+EHS0GWU5eAU/iLt4Ql6yEEnRg5/NfVbQ0mz86Zt92uSw
-         tE1QzncfiPeDcgZrJ2vkZFJa3qMfUqqevneNr03VsuD7KYdc7bUYCiA/d1Uqxkl3+AWZ
-         6/hhNiNwJYav58U52GIbWQy47MLCr3Z+zlhRmGEgFcMFC/5Eys3hwn0oFnubSWk0mmyo
-         9H6w==
+        bh=Te4HA4w2tioRKQn5/3FcPTwYWbx1EGaNajEvJ+1ehUQ=;
+        b=wk0S2VyWMqDZ9vNKfF0vi3nb1xNtWU9VSFzNj/UsOI4Vb0GlLS77sJJnHSqwZtRTl5
+         t0ucDzmkvaKnCMKkfcxXOZcrEN4lovx2oKpJku3cwXeZeqEnJ840y3wXRywB/N65LsRS
+         oP4RRBeMDgiTpn2PNwwjXPcy7MEigRXfmAbjLu00+ewmiQuyBKmbelTCgSZgwPhDI8AI
+         sUYdneWr+CAv+hCDfpayThnvCH3b9OLA2sNUX6H2EbYhsiM76H4YvJiqvGwAnA6x0Ldu
+         y+K71Oq56R+MquLwzwWk2FIfkBFjiKZfzPTPbmrfIil2CjZMRHGJjmgbOSOwOHLGCRcQ
+         iVSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782990538; x=1783595338;
+        d=1e100.net; s=20251104; t=1782990564; x=1783595364;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
-        b=gRR6uewt/FLOHSRmKgTmfpfdw/n/n8Ddh1GqJ4dYqXEkVZ3A2WtDaNdF67OYDLHcmQ
-         Qr3n7TOZ8qbcNIwf/q0gXijOntoQ3RgxEXVJ2VmR3AxWkoO/pVwvknmJtEs0T+OzHD6a
-         4NUyi+X/cAVlwkN4cIR9TPAG6czTcg8TpYaK56ktfzELp+W0k7dB6pk0KYjjg1Gow/cb
-         c5xqti4z98njxrJ1wIrFtLhKLo+/WwWxnUJjdNh+EQawxYCnJPsiVyaEhOMHvQ5nZu1o
-         qg9m5z4CsAT4B7AFCNEYo8Dvv1V/h39D7hlSFH28PtoCnAvLjZ0fU2AxHwN5IYzDiD7k
-         c/Iw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Jo5tmoqFlbKHFhhezA1rr52qA4pvlW0jiohsoo1SNSPfmIBJDK6WQTknH+N91sCkltSRPat7NcDFMZfHHiH9yNS893g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDN9Q0GUssZIxF+CKHt+5PzcIoeNTYAd4lJjwLOj+cC5mP8ISd
-	oFEE5qsvkdBE92tB4pUxtRQouDouMABHD4V9y+hpJdm2Wfz6NVJBR9h5ixKvbrM/fcksfWZ7dRO
-	88qa5Wfo1DzIEItx52A==
-X-Received: from wmer11.prod.google.com ([2002:a05:600c:434b:b0:493:aecc:774a])
+        bh=Te4HA4w2tioRKQn5/3FcPTwYWbx1EGaNajEvJ+1ehUQ=;
+        b=YzGy2vIvWK79oug1JASEvS51q9nmzbo7Uf7zPMZk0QtsgLWtRDY2tFqKye1FWMbOK1
+         NaQ5HQGDf/8VNmOMldEws1yS562VEf1u82borE+8B0XZ1ii6uHGqn22BNOUIOjLeUN5Q
+         giKqFeSsr9hVovJ1kI7kSEj0ixpEvzSd/Y37BuQUMxsUTDbL4ZSjylwQk8z9xhZQMXLQ
+         +vPAfocBMeG5hwZ8QvmqIiagYGqeEM78kXBc45Qd0olFYiGMkO33mb6zQyEAVrH0v2hF
+         fFbnjEt7LKlwUtcvOLmwz8HPe0Xa7dGKaYVgfXTLv1R3BiJq/ix/tDfUMtiMRW1+8h6d
+         uCbg==
+X-Forwarded-Encrypted: i=1; AHgh+RpoKie74RFe7E7fIs7GjRYNCXVBIKxn33qGhe//kEMvDMT0dc7phc3gyuACl1vThTQrNAMSRGMAH2Qzj/hNRis1FBoUnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGCfpgeFksAwx8JpqhYazsxFU0cv7hj0V8BhoR3Wd/IqjauLJk
+	itSDdcJGSmnM7poCtZiuvYur0ipxAY+PtEKIjrNyegn6CpQiTYaJnEbzgKgBXyleZcwZ0Y4XVBJ
+	IpxLzmvDrqUKnPJeMbg==
+X-Received: from ejyr1.prod.google.com ([2002:a17:906:a201:b0:c12:7b32:c50])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:34d4:b0:493:bd2f:c5fc with SMTP id 5b1f17b1804b1-493c2b3d569mr78696805e9.15.1782990538252;
- Thu, 02 Jul 2026 04:08:58 -0700 (PDT)
-Date: Thu, 2 Jul 2026 11:08:56 +0000
-In-Reply-To: <20260626214404.852685-1-nico.antinori.7@gmail.com>
+ 2002:a17:906:3646:b0:c12:507d:40c3 with SMTP id a640c23a62f3a-c12ae89f339mr226088666b.63.1782990563650;
+ Thu, 02 Jul 2026 04:09:23 -0700 (PDT)
+Date: Thu, 2 Jul 2026 11:09:22 +0000
+In-Reply-To: <DJMHZB23PNGV.2SM0ER4JFQYI@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -59,11 +59,13 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260626214404.852685-1-nico.antinori.7@gmail.com>
-Message-ID: <akZGyP9dGcQDcQUp@google.com>
+ <CANiq72k8KOmVLrHGOa9SidU=vYqGUqi5dmyW9J1auVMnqaQAeg@mail.gmail.com> <DJMHZB23PNGV.2SM0ER4JFQYI@gmail.com>
+Message-ID: <akZG4sDyogS9nBf8@google.com>
 Subject: Re: [PATCH] rust_binder: use pin_init::zeroed for file_operations initialization
 From: Alice Ryhl <aliceryhl@google.com>
 To: "=?utf-8?Q?Nicol=C3=A1s?= Antinori" <nico.antinori.7@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
 	Christian Brauner <christian@brauner.io>, Carlos Llamas <cmllamas@google.com>, 
 	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -77,17 +79,25 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 26, 2026 at 06:44:02PM -0300, Nicol=C3=A1s Antinori wrote:
-> All types in `bindings` implement `Zeroable` if they can. This enables
-> using `pin_init::zeroed()` for `file_operations` initialization instead
-> of relying on `unsafe { core::mem::MaybeUninit::zeroed().assume_init() }`=
-.
+On Tue, Jun 30, 2026 at 12:43:25PM -0300, Nicol=C3=A1s Antinori wrote:
+> On Sun Jun 28, 2026 at 7:16 AM -03, Miguel Ojeda wrote:
+> > On Fri, Jun 26, 2026 at 11:44=E2=80=AFPM Nicol=C3=A1s Antinori
+> > <nico.antinori.7@gmail.com> wrote:
+> >>
+> >> -    // SAFETY: All zeroes is safe for the `file_operations` type.
+> >> -    let zeroed_ops =3D unsafe { core::mem::MaybeUninit::zeroed().assu=
+me_init() };
+> >> +    let zeroed_ops =3D pin_init::zeroed();
+> >
+> > I would just remove the variable and put `zeroed()` directly in the
+> > fops initializer like we do in other cases, but it is fine of course.
 >=20
-> This change improves readability and removes an unnecessary unsafe
-> block.
->=20
-> Link: https://github.com/Rust-for-Linux/linux/issues/1189
-> Suggested-by: Benno Lossin <lossin@kernel.org>
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+> I thought of that as well but I tried to touch as little as possible (I
+> assumed that was in a variable for a reason). I can send a v2 if that is=
+=20
+> preferred!
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+I think it was extracted to a variable for line length reasons. You can
+remove the variable if you want.
+
+Alice
