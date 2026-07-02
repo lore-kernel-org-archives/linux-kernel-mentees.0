@@ -1,103 +1,166 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022106.outbound.protection.outlook.com [52.101.96.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5EF3D903B
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990566; cv=none; b=dWNPDbaZlH913fDFXei71efzv76TbMPEC+8zShJrsPVtSRUr+8BrCuVZcGcMzQzfRpikjE4n9V8sdWOIlXTOJtgEn5JhDu3jjM2e/DnosixNTjhNdb45aDRaUSj9wc/8RLfavE+SN8C/qp1IzYBrRlImD9Dqlwb2+Ch5IF8iQC0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990566; c=relaxed/simple;
-	bh=H7+MDSBOZd4JQF5N1xSQnYga2rWSArQZ7jzGQ1exNGg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KrAisc6NHV2MjZH+ZJnkltGTlzlCXwMObNAQ2DmImDsJ/6OZC0nqfyfkhhoKIzrKS78FwUkjS1f+0l7BtK2GYb00wzW58z2SagcreA72nO9ZHB80d6LsZE/XTfffq3jpyRVnnh4HTgsXLRHFTFzG7Qu31cq3R905e3JpWs6Mr9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wk0S2VyW; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A303EAC84;
+	Thu,  2 Jul 2026 11:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.106
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782990671; cv=fail; b=Hw4LZC4nchltInOu9jG7INw6L0mX/PXoOtv1sZK6+5CgZ7h3DXrJA7JKiD0hCYL8XVj/rdbeRwHmOoX9gRDcz2zQKIgoN5KQOk0EXUHGhRUmDdovDROt4w1LYVBgjIuw3Y5FB4oE9+9C0SkC84QoIrAKxfRkKOzyqfxSqJT1rqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782990671; c=relaxed/simple;
+	bh=xR8DKJqAOOqT+oHkmbW7CB/Vx3FcGelsHgrTSmbJYW0=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=Isv2AY2/5E5p8P/YYscMnBDkGutu1CtKwks8rmMsBVIZZ50Fqvwv4DyI5WMYo2znjcgF7KYZlDRQPGzs17sczT1whOECnxb2bXsQE8FJhUgzlBAQzQ5iq9/DrXZE45RaAkL1Pgl/nD1AFesPW5R2EytyBsz8dwuU3VAMIaXgctM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=RDKuiGE3; arc=fail smtp.client-ip=52.101.96.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wk0S2VyW"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-c11f2b9f62fso136993266b.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782990564; x=1783595364; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Te4HA4w2tioRKQn5/3FcPTwYWbx1EGaNajEvJ+1ehUQ=;
-        b=wk0S2VyWMqDZ9vNKfF0vi3nb1xNtWU9VSFzNj/UsOI4Vb0GlLS77sJJnHSqwZtRTl5
-         t0ucDzmkvaKnCMKkfcxXOZcrEN4lovx2oKpJku3cwXeZeqEnJ840y3wXRywB/N65LsRS
-         oP4RRBeMDgiTpn2PNwwjXPcy7MEigRXfmAbjLu00+ewmiQuyBKmbelTCgSZgwPhDI8AI
-         sUYdneWr+CAv+hCDfpayThnvCH3b9OLA2sNUX6H2EbYhsiM76H4YvJiqvGwAnA6x0Ldu
-         y+K71Oq56R+MquLwzwWk2FIfkBFjiKZfzPTPbmrfIil2CjZMRHGJjmgbOSOwOHLGCRcQ
-         iVSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782990564; x=1783595364;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Te4HA4w2tioRKQn5/3FcPTwYWbx1EGaNajEvJ+1ehUQ=;
-        b=YzGy2vIvWK79oug1JASEvS51q9nmzbo7Uf7zPMZk0QtsgLWtRDY2tFqKye1FWMbOK1
-         NaQ5HQGDf/8VNmOMldEws1yS562VEf1u82borE+8B0XZ1ii6uHGqn22BNOUIOjLeUN5Q
-         giKqFeSsr9hVovJ1kI7kSEj0ixpEvzSd/Y37BuQUMxsUTDbL4ZSjylwQk8z9xhZQMXLQ
-         +vPAfocBMeG5hwZ8QvmqIiagYGqeEM78kXBc45Qd0olFYiGMkO33mb6zQyEAVrH0v2hF
-         fFbnjEt7LKlwUtcvOLmwz8HPe0Xa7dGKaYVgfXTLv1R3BiJq/ix/tDfUMtiMRW1+8h6d
-         uCbg==
-X-Forwarded-Encrypted: i=1; AHgh+RpoKie74RFe7E7fIs7GjRYNCXVBIKxn33qGhe//kEMvDMT0dc7phc3gyuACl1vThTQrNAMSRGMAH2Qzj/hNRis1FBoUnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGCfpgeFksAwx8JpqhYazsxFU0cv7hj0V8BhoR3Wd/IqjauLJk
-	itSDdcJGSmnM7poCtZiuvYur0ipxAY+PtEKIjrNyegn6CpQiTYaJnEbzgKgBXyleZcwZ0Y4XVBJ
-	IpxLzmvDrqUKnPJeMbg==
-X-Received: from ejyr1.prod.google.com ([2002:a17:906:a201:b0:c12:7b32:c50])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:906:3646:b0:c12:507d:40c3 with SMTP id a640c23a62f3a-c12ae89f339mr226088666b.63.1782990563650;
- Thu, 02 Jul 2026 04:09:23 -0700 (PDT)
-Date: Thu, 2 Jul 2026 11:09:22 +0000
-In-Reply-To: <DJMHZB23PNGV.2SM0ER4JFQYI@gmail.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="RDKuiGE3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Cow+EElfUlUg611y/2vEkblLSKcsYk7kJjY17TJrIR7ibQDm/hUl84Wl1lzx70oVLmKWSY/95gE5lZF3jFwTnmjNe6CHlRwwNQRh8IQA8OwA4cWU5IfY2MSElwB7fK6JCw1coxGLIV7pRibzA9PGLeg8xvqT9/Z2WRuYW7adP3VwV3fDbqHo+84AxMUsZ5a+lWnUbsz3WyiFfxrcZQZOWtMHf45Ni5CYKrQMlaqxA6hPST/tSzNqPDog9SR8BjjMKBhIhDQ5rsSV1kfQ8CoaPUOWGT+Q4YhDWv/gjcOO5UY8v64pdoNR8EvFMHjYH5o5buQpqxEMQfl7W7rq+ZmuQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yy23mlVrp7XqSSlIrAHH5RUG1Od/NeuCBeGGs958/co=;
+ b=M1KXgW630o9gLrr9uTodxgE4Nshz+nu3fs6p1l9y9rSNWD36woAP6mDysXg5G88F+dUcfYssp6+wRFALv1pz1PWMZ89wGkSQV6CORi9BuXaW03Anldq/6xXiksxgyFz4T5znBxwp0XSpj1BSuNwLa2HemLw9ABX8L5Y5CTMcat5AXoqSUkndxB72f7INjdbVbjSBY1kI6sFWQY8LrMHA/fMk+qLzIlXgheQTq26S6GAbX88X27dvSvSy4Vlc/CgUNEcNA/nNNIklVTNz4qPW6z6OXUmGTJfmppf7KuH8aADU/sQP5XyRbpX798844KdM1R9MNv1Y8t7OJEwXJwf6/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yy23mlVrp7XqSSlIrAHH5RUG1Od/NeuCBeGGs958/co=;
+ b=RDKuiGE3gzTaIj65keg/pUGlvMXZr0NXivmKuIa/0UqCtSFz3GuTkiPmtFt75wbOe8F1seZ6dbwZN8GH8DG7RM7ACQmTAjkXIt5NOgB2NNLWxDD2dX7e2BV9B6RTsnaqnX9aU8BuXZ0i1DlYe9nlbLOPIopYeQYPIOfNixRELHY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB2646.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:88::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
+ 2026 11:11:05 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Thu, 2 Jul 2026
+ 11:11:05 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 02 Jul 2026 12:11:05 +0100
+Message-Id: <DJO1FVUK9ZD5.31NEM51PY0WJ6@garyguo.net>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
+ Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda"
+ <ojeda@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <iommu@lists.linux.dev>,
+ <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH v2] rust: iommu: replace core::mem::zeroed with
+ Zeroable::zeroed
+From: "Gary Guo" <gary@garyguo.net>
+To: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, "Joerg
+ Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260629201046.423464-1-nico.antinori.7@gmail.com>
+In-Reply-To: <20260629201046.423464-1-nico.antinori.7@gmail.com>
+X-ClientProxiedBy: LO4P265CA0146.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260626214404.852685-1-nico.antinori.7@gmail.com>
- <CANiq72k8KOmVLrHGOa9SidU=vYqGUqi5dmyW9J1auVMnqaQAeg@mail.gmail.com> <DJMHZB23PNGV.2SM0ER4JFQYI@gmail.com>
-Message-ID: <akZG4sDyogS9nBf8@google.com>
-Subject: Re: [PATCH] rust_binder: use pin_init::zeroed for file_operations initialization
-From: Alice Ryhl <aliceryhl@google.com>
-To: "=?utf-8?Q?Nicol=C3=A1s?= Antinori" <nico.antinori.7@gmail.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
-	Christian Brauner <christian@brauner.io>, Carlos Llamas <cmllamas@google.com>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9bc17748-69aa-4b93-1304-08ded82a9c57
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|7416014|10070799003|376014|56012099006|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	/ssZioQE4sKaKhn+eGMOEs4EKHebtzRq3iknykuWfswHxeR6WTGDBQeWGtysaXX9EGh29/oSoU6qvVW6XQmGoigRAb/cQyR8/yjxmsANV2zuRvJnfYaYjphDk+t0MBpFq5R86x7UX/LxjmliZcdFL4Irkls7er41c/dxeDdGN3/0HOxrOHZpBIDyJuYLkkAY4Njgpzw/yUWUuiCznbu/RULyJnMri79sWc7xEGiuir6gbLB+Enl48m+Y72QHgpLrpSNbN459fLZ6svDMY/YmpLJ+HyRbAGa7hwP/n072+SyTVHFZEWeq/UTmLhwgLhUEYKSTNdt+3qdFdpBw93cR8qe1PUddmFb9KpY0OU7GY/nhrKW15yoK9AaVwu5bP1mTp2tIZsm57XC1YwPe2w+nO0javQA+5TDWlz6IDMc6xKxAKm75fdgZ/fL01v8rQTmxR2R6yDGXtdxf78X1NQahDW1j8KXuq+8ZWStZGM520kYm9biLTBqtRr2GhMLZW8OXbcUTRjjlBjfF3HeTPYJuNFK0T0sKr4ov4vxopi6xZxedFa2NIZ7DAayzKaMfJ7ZUbGLOZSeQYi0rf0iD+HIeyhpOcn5ZfepR2tQMyZIWELo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(7416014)(10070799003)(376014)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WktzaGxqckhxT2lMYmRjaVFJeHkwQXl2UW83OWJIZkhvVzZ1c1gvRVB6N0F3?=
+ =?utf-8?B?OFZQQVJlbEdBZU9CMVFZVUVueVdyUGR1V0QzU2NMNGFUUkVKVGRnYXk4cllm?=
+ =?utf-8?B?WDBLa1BRclQyZ1U0TExiK0RDc3R1YjZaUE9VOWlTN1k3WmR3N1NTTFZoTjlO?=
+ =?utf-8?B?dWtSRmlJakpHdzYvVjdiT0xLV0FHejlEd2JHdWZyaGE3cmE2MVhRbDJ6LytT?=
+ =?utf-8?B?NG90SkJrMGZVQU5wazJhWEg5K2NFWWF4WjdPVlpHNk4wdXFTcVZ2WUo3QkhO?=
+ =?utf-8?B?ZkRzOXY5dE9EazQvak16VktjemhYa0FZNEVoUVBmSml5OFN5bm5TVnd2VTZK?=
+ =?utf-8?B?WlMzekZRZjk0ckppUGxvV0FYZTJZT3VzdDRINDhkTmppWUxaK2trK3BuYWJK?=
+ =?utf-8?B?ZW5teHh3eEFBTUdHajVEVFptZzExMmlXQllDWnpSc21Edjk3OEZvQWZtYWp6?=
+ =?utf-8?B?OU1KZDlZRzArL2JKOFhheS8zczBwZHlGY3hwVXRlNGNUbE5lUkUxSHdLbitE?=
+ =?utf-8?B?Y2dObEtkdzFlRjI2OEJRMEpXUm9Vd2M1RXZCVWFoZExMdTFhdTF3V0hZNi9v?=
+ =?utf-8?B?QUFZd3h2bXM2ZHRxbWtGQmtySlU4YjUrR1VoUlo2b0RBVHk2aHMyeDA0OFgy?=
+ =?utf-8?B?ZnlSRXpoT2JobDFWWDFjVWowaFhNb3phekoySi9PNzhIbnNLR3B4ME1TZ3M2?=
+ =?utf-8?B?MjBRVG9jYSsrcWVaOVVuTXAybmFzdVpCMmxCZUk1TzJzencxZGJlTURmeVNG?=
+ =?utf-8?B?YXZsWUdCWERVT3ZxYlhVNnF2NlJ6YmwrMjRaUVcxeGJ4NklPR1lWK0JxbGtr?=
+ =?utf-8?B?OUlDY3ZlbFBTSHAyc3JtR08xRnRWSW1TV2tUOW9oenM0OUR5N2s3QlNwMG5T?=
+ =?utf-8?B?MFpiRERubEVpclNVY3JvdmJkTjFoLzNjQWhmcWJMd2Nabjl1Z1lwbWtmYnhn?=
+ =?utf-8?B?YldtK1VjQnkvVGF4OVY2bEhRYllSQUlrdnRNQ3ZhTDRCMlQxb1JQZWNlbTdz?=
+ =?utf-8?B?NDRuUjZranBBZGI2NjM4VVZ4MUNzM0daQzArK3pFU0FkVnZLTE9wdHhNV2lr?=
+ =?utf-8?B?RWNJMDZWUW90VkdDYklDaXk3Tlpua29FZzdRT2xDeFdRR1pHTmdZR1hBejJa?=
+ =?utf-8?B?U2hSVVEvekRVRndLQW1OMEpBdXc0UFdyeVpMUTlaNldNM0d5eFpROEowWnlz?=
+ =?utf-8?B?blJZeU9EdmlqaHhBSk1XVHRHMTlhNFBoOHpsajlITnBsY3V3Vzg0cWsvRlBK?=
+ =?utf-8?B?UlFrekl6KzNJS0Jvdm9QcUZPWC9aVkdtQk9YUldpYVY3ZEZFZzZBRnFocDRs?=
+ =?utf-8?B?UEdsbnBSSnBFM1pCdkZlbzhvQ3lvdHNCcW0yQnhIOHhyRndTMUNRZFRIVElO?=
+ =?utf-8?B?Q1ZyYkxGNU02bUt4NXljVnRQaUIrb1hDdUNOQmt0VzZISjJNdlYvYWNNNnA5?=
+ =?utf-8?B?Rm81dHh0b3NFd1RxZlhzNEFrZVZsb1BMN2JGdkFmSVFBM2xCcXZMZ2laZUM1?=
+ =?utf-8?B?dktQejZBMDRTZlgvTDlXZDBPUkR2c2NyL0hLbjBudTlSZlQ4cHJScUhtMUk5?=
+ =?utf-8?B?RVNGRFNLeWgvUEJGOFloaWRlM3V6M0t0a25COW9ZVmVrV2hxY2RYS3BXTEQ0?=
+ =?utf-8?B?TFBkVDV1d2t5R2tDSlp5T21mMVh1VzNsYk5Da1k5TG5JN1Z2Wk5LRXROOTBV?=
+ =?utf-8?B?QXUvWk03Qk9oZ0d3aUNIZ0wwSUxhSDFONHpjZjF2eXlQNkY3bkQwWG5GRGJG?=
+ =?utf-8?B?OXpPVk5EOVNZb3JXVEhwcmVWcnFCNkdTa3BEczJtbDNIbmIybzN3VUNhS0xh?=
+ =?utf-8?B?bFZNZURFbXV5UnFlZjJUeCtwdFFQSWxZK2lmU0QyQlcrUlVqbnBDYURvSHE1?=
+ =?utf-8?B?K0lVWFFUVnBNR1YzeHVROHpJMVZuYnI1bkliOTFEeWhZZkNoRTZHVUNJOWJZ?=
+ =?utf-8?B?Z2R5SEJDUVNnbU9MNVVsSWU3cmV1N2gzdlVqRkNna01ncWs1MG1DcFI1QmpE?=
+ =?utf-8?B?Y1V4dTUxenN3bW1YUE45OGkwWGlTa2VSTlVMY2lmdzBHL254bnhnUnFGazJX?=
+ =?utf-8?B?ek5OL1hVU1VQM3J0ejVtRWRwaWl6Y05IRjVuKzJUUzFQdEhydHljMzcrelNy?=
+ =?utf-8?B?YWNYbkZua3lzY2w2OFR4NmtaUjNJSmlHM1lKMG1SQnRrWDNCbUEwZGd0bEU0?=
+ =?utf-8?B?MXk3akpRc0FzQURYNzBsRCtEMktXVGZ1R1FHR0tTWG9zUG0xZjB0MDdBVHhT?=
+ =?utf-8?B?MHdDUmlBWlJGdno0clJIdDFuZDE3akgwdTdCbTJFbE5JdnhpT2dUZmpFT3FV?=
+ =?utf-8?B?QWhrSmI1Q3huMGdQRjFkTE1wY2xSR09jK0VadWc2a0xNU3d6cEs4Zz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bc17748-69aa-4b93-1304-08ded82a9c57
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 11:11:05.7069
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FVaveT6v2dTiPD3ejtgo6jKgqzO8ddTz939THXWtDjyOOR4K6JMXCDqpMbIHscTkHuR5n5l0bWvoASM98v8PCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2646
 
-On Tue, Jun 30, 2026 at 12:43:25PM -0300, Nicol=C3=A1s Antinori wrote:
-> On Sun Jun 28, 2026 at 7:16 AM -03, Miguel Ojeda wrote:
-> > On Fri, Jun 26, 2026 at 11:44=E2=80=AFPM Nicol=C3=A1s Antinori
-> > <nico.antinori.7@gmail.com> wrote:
-> >>
-> >> -    // SAFETY: All zeroes is safe for the `file_operations` type.
-> >> -    let zeroed_ops =3D unsafe { core::mem::MaybeUninit::zeroed().assu=
-me_init() };
-> >> +    let zeroed_ops =3D pin_init::zeroed();
-> >
-> > I would just remove the variable and put `zeroed()` directly in the
-> > fops initializer like we do in other cases, but it is fine of course.
+On Mon Jun 29, 2026 at 9:10 PM BST, Nicol=C3=A1s Antinori wrote:
+> All types in `bindings` implement `Zeroable` if they can. This enables
+> using `Zeroable::zeroed` for `io_pgtable_cfg` initialization instead
+> of relying on `..unsafe { core::mem::zeroed() }`.
 >=20
-> I thought of that as well but I tried to touch as little as possible (I
-> assumed that was in a variable for a reason). I can send a v2 if that is=
-=20
-> preferred!
+> This change improves readability and removes an unnecessary unsafe
+> block.
+>=20
+> Link: https://github.com/Rust-for-Linux/linux/issues/1189
+> Suggested-by: Benno Lossin <lossin@kernel.org>
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
 
-I think it was extracted to a variable for line length reasons. You can
-remove the variable if you want.
+Acked-by: Gary Guo <gary@garyguo.net>
 
-Alice
+> ---
+> Changelog:
+> v2: replaced `..pin_init::zeroed()` with `..Zeroable::zeroed()` as
+>     discussed in v1 thread.
+> v1:
+>   https://lore.kernel.org/rust-for-linux/20260626203122.713317-1-nico.ant=
+inori.7@gmail.com/T/#u
+>=20
+>  rust/kernel/iommu/pgtable.rs | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+
