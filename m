@@ -1,106 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5049647AF71
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 09:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D535E3C9EC2
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985500; cv=none; b=u3dVirL9t7DspKuzuO1RgbEtmeeFXJAUDN00eHsdZ5yHmGo+quPalesWim6jnsZkVzvQ+ZIjxAGgIk4Yhie3SO+jbDXPoJ6NSo4t+pA4sbmOkO0SsFDYr11kK1storLb+B+UZLcSw9hw2K1qN5Xu9eROqFatuvqdaFE/dVl6tyI=
+	t=1782990387; cv=none; b=E6HW4doUyE83qbSQ/2vk4bi5YsF14SJQvOZeiGnJ7A27ylJbfY2a33dHyv7TYd12vt9y3EUpgVnBzy8nFsby9IoTXU4enzaPHazcXW3e6xid6PjXwKJDlDfyBmwch3KjumqWmaAsYHRjy6jyjnWPSWNlXzvob7byONBJIUnUBOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985500; c=relaxed/simple;
-	bh=njX6AqcZxdx+fpRpgPhZLLEkCXUSm6mASPzKGycuge0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Efa6JvCKVkzqQo2mBTkqfnOgemZRQo3gtARJGhjUoNSzwlmRB0P2+nku0Yw3yVDcLsuhSVQDX6JI6ClI3CTA+lKWLXy0P5JhLlFGFaP4XukatDbDtYD1mO2NgyG9/n/C8u3IwY31nsEUSCX/sPnq3puEWjBJKjqkS9RgM9vo/w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEt5YlMC; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782990387; c=relaxed/simple;
+	bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=a9Ec0ew1P1QicrNAIiWQpmZ+db1cqZDL4Ana254eeQ9Iuzl+rHnrTu87fF5rMKsszJGb8jiuZaK0ijxqnI8sDyNaqw6jFNSI76pmtmQjXRQQSAEw3vnEHnKvmFeY+7Ein1ekORgvFZw4cPeSG5vX7fM4b2Xhtj3kWidXFAPTRs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T1IpeGV0; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEt5YlMC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782985500; x=1814521500;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=njX6AqcZxdx+fpRpgPhZLLEkCXUSm6mASPzKGycuge0=;
-  b=BEt5YlMCexLewo1Bit04XqtY8Dw/DBaaKmqD3s4VnIuAN061cV18V4FU
-   0w5iTGC8HA91imrGTIm0IJYKPPiOndTup7v4n8SRSetliTGjMf6pWiiOl
-   /9OCcdYAdRMoRP+xxKsd1TSB+Zm/iLjFYa6MO3q3o7ainEDJtWhnQtac8
-   RT6Tev4xDmuN/N+SAYW+E1Xauk9+Bsw+sgt1SRO/xvtVd20m23WZjzBKh
-   F2gkEvxRzbdd6v7AXeoJLV9wCla0jwkx3DdSyveSB117Dlw3J3NRweAtf
-   NkJyV41yGhTBdeReNuRy3EjXnzrzrw7u4iIxCy9Nt8HvQFHZNqAtlmItF
-   g==;
-X-CSE-ConnectionGUID: h5QXsCQgSVmRvf9B5SN32w==
-X-CSE-MsgGUID: ibIxX79cQP6+HTcqM4Rjsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="94389868"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="94389868"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:44:59 -0700
-X-CSE-ConnectionGUID: 4T265IUiRj6kFAXvvMPgrg==
-X-CSE-MsgGUID: URwbqx4MQ7iWzUFg5d38+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="246462011"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:44:56 -0700
-Date: Thu, 2 Jul 2026 12:44:54 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Vidhu Sarwal <vidhu.linux@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] iio: light: al3010: fix incorrect scale for the highest
- gain range
-Message-ID: <akYzFtxKhq5U2kFY@ashevche-desk.local>
-References: <20260702052913.114130-1-vidhu.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T1IpeGV0"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-4731a357b0aso1689252f8f.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782990383; x=1783595183; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
+        b=T1IpeGV0ZonrH2krw6LFk51tZVy2v42a1o4yxihdTwORlrx7zwohCqd6kjdPdYyP9I
+         dAU9HC3pOUKlrlCHGJD+Z7McArU2AuN6U0u978suU+SdRGWe1Q0nFixPdbzpsMrNcxIf
+         Xr75FAL0gx1GO1Qb9PQFM6lpw0kpQEdkowMbI6cK4LW4QZkm1gLzXw89XLsXQWdF+HXC
+         cTKBC5WvQsWAKXXvb/4PPeva0EYymVmRbCW9syZl/ibpHhuZDUkOmuNKr1XuQw5gOmFr
+         DGy7dI1xlcwJlhZO/ElpkQNGNLGegsANyOjY6pL9p0JyGKLXjvtxqhDE8ccTBziI4pj+
+         lD6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782990383; x=1783595183;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
+        b=ZiwT3Qcr3ZKljreewdRUYYPhTmmcG8T3hOwZLLLaMOcYAp5DBGinjkNFvvMn/4SX7e
+         0SbLjIL5Ixp2oNdH9PC03pAZZ9TxRLwbWezfby2wty7ten7L14tdU/6Av923GGRx1POh
+         mHz9VTF0z1vRKMZsEEeCnDHY5YyCNjJieLd2Nu6GUdWeF4eyQp5cZORvzAv4YvLsgg66
+         UQkRP3wkCiCXI+5LFTvBoLpBUQGxZ7CPlCO4UjpooPdWCFCmVY74DgfRFG0eMhQhNjPg
+         Iw0ho0722PWkHeChFAvDa+GUX5J+Tb/T1QdnJufrbV1oO4Oq0N7VFRjue2onUwimVJeW
+         rBLw==
+X-Forwarded-Encrypted: i=1; AFNElJ9GZ7iNe4kV/Cay3WgkRdXllIi3jwddTD+FhBd6P8VJE02Qy+jRDGtgiBI3Ap59nxSyLOX57owVLGj3x/osWiZEBUtoBQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsGoS7SmB19Hgb2vaH0BZ1+EHlTVUekFSaZIEdaZtbT+oS76OU
+	Dzwx6V3t8GfhvcVxoEa5FRu4wby3YJlayQxRfMjLIGZspsyzYanDSig9vFljjUM12p41sZcn5Ha
+	3fhZXCJTxkF145E6QLg==
+X-Received: from wmsm38.prod.google.com ([2002:a05:600c:3b26:b0:492:49e7:fff3])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:26d2:b0:490:9782:3eb8 with SMTP id 5b1f17b1804b1-493c3cedeb1mr40482955e9.25.1782990383098;
+ Thu, 02 Jul 2026 04:06:23 -0700 (PDT)
+Date: Thu, 2 Jul 2026 11:06:21 +0000
+In-Reply-To: <20260629201046.423464-1-nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702052913.114130-1-vidhu.linux@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+References: <20260629201046.423464-1-nico.antinori.7@gmail.com>
+Message-ID: <akZGLXnmUaF0XPtL@google.com>
+Subject: Re: [PATCH v2] rust: iommu: replace core::mem::zeroed with Zeroable::zeroed
+From: Alice Ryhl <aliceryhl@google.com>
+To: "=?utf-8?Q?Nicol=C3=A1s?= Antinori" <nico.antinori.7@gmail.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Benno Lossin <lossin@kernel.org>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, Robin Murphy <robin.murphy@arm.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 02, 2026 at 10:59:13AM +0530, Vidhu Sarwal wrote:
-> al3010_scales[] encodes the highest gain range as {0, 1187200}.
-> For IIO_VAL_INT_PLUS_MICRO, the fractional part must be less than
-> 1000000, so the scale 1.1872 should instead be represented as
-> {1, 187200}.
-> 
-> Since write_raw() compares the value from userspace against this
-> table, writing  1.1872 scale never matches the malformed
-> entry and returns -EINVAL. As a result, the highest gain range cannot
-> be selected. Reading the scale in that state also reports the malformed
-> value.   
+On Mon, Jun 29, 2026 at 05:10:41PM -0300, Nicol=C3=A1s Antinori wrote:
+> All types in `bindings` implement `Zeroable` if they can. This enables
+> using `Zeroable::zeroed` for `io_pgtable_cfg` initialization instead
+> of relying on `..unsafe { core::mem::zeroed() }`.
+>=20
+> This change improves readability and removes an unnecessary unsafe
+> block.
+>=20
+> Link: https://github.com/Rust-for-Linux/linux/issues/1189
+> Suggested-by: Benno Lossin <lossin@kernel.org>
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
 
-Trailing spaces in the last line of the above paragraph.
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
-> 
-> Fixes: c36b5195ab70 ("iio: light: add Dyna-Image AL3010 driver")
-> Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
-
-...
-
->  static const int al3010_scales[][2] = {
-> -	{0, 1187200}, {0, 296800}, {0, 74200}, {0, 18600}
-> +	{1, 187200}, {0, 296800}, {0, 74200}, {0, 18600}
-
-While at it, add a trailing comma.
-
->  };
-
-Otherwise LGTM, thanks.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Joerg, is this cleanup you can pick up? Thanks!
