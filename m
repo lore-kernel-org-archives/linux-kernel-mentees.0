@@ -1,87 +1,87 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D535E3C9EC2
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145523A5E90
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 11:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782990387; cv=none; b=E6HW4doUyE83qbSQ/2vk4bi5YsF14SJQvOZeiGnJ7A27ylJbfY2a33dHyv7TYd12vt9y3EUpgVnBzy8nFsby9IoTXU4enzaPHazcXW3e6xid6PjXwKJDlDfyBmwch3KjumqWmaAsYHRjy6jyjnWPSWNlXzvob7byONBJIUnUBOA=
+	t=1782990541; cv=none; b=ZEnSO4nWrThhBQQsVqjxZ8mohxlLo7o5SRh7wnzCpbDiOzaj4q9lyYYJ/548lYPJtDgRlltMmy7cZxeN4RlStp+qAaYzkzVaUkRuBtDdlKFYAAdFRHV2m4fkf/pQDSwTUJLLhzE9/3/mJcJ9mporgX2r+LvZyT0NlqEpJusdQoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782990387; c=relaxed/simple;
-	bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
+	s=arc-20240116; t=1782990541; c=relaxed/simple;
+	bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=a9Ec0ew1P1QicrNAIiWQpmZ+db1cqZDL4Ana254eeQ9Iuzl+rHnrTu87fF5rMKsszJGb8jiuZaK0ijxqnI8sDyNaqw6jFNSI76pmtmQjXRQQSAEw3vnEHnKvmFeY+7Ein1ekORgvFZw4cPeSG5vX7fM4b2Xhtj3kWidXFAPTRs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T1IpeGV0; arc=none smtp.client-ip=209.85.221.73
+	 To:Cc:Content-Type; b=tM7+OZhrzISaFgWFixyCFKPeWTpSmQSb1Owhi1QQJztBqBarxx/T61P1u4kV02TSPESW5BtPe7lpWi9hK51zKgtzQJvt+IxerPVbImn2G1h0N+bBKdi6pSTl3uzqCStnGNBw2WW8NubM+ala34YT9NTcuN81rymG0Z4P1WaKNqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FD0wExz/; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T1IpeGV0"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-4731a357b0aso1689252f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:06:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FD0wExz/"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-492488f8583so25430665e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 04:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782990383; x=1783595183; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
-        b=T1IpeGV0ZonrH2krw6LFk51tZVy2v42a1o4yxihdTwORlrx7zwohCqd6kjdPdYyP9I
-         dAU9HC3pOUKlrlCHGJD+Z7McArU2AuN6U0u978suU+SdRGWe1Q0nFixPdbzpsMrNcxIf
-         Xr75FAL0gx1GO1Qb9PQFM6lpw0kpQEdkowMbI6cK4LW4QZkm1gLzXw89XLsXQWdF+HXC
-         cTKBC5WvQsWAKXXvb/4PPeva0EYymVmRbCW9syZl/ibpHhuZDUkOmuNKr1XuQw5gOmFr
-         DGy7dI1xlcwJlhZO/ElpkQNGNLGegsANyOjY6pL9p0JyGKLXjvtxqhDE8ccTBziI4pj+
-         lD6Q==
+        d=google.com; s=20251104; t=1782990538; x=1783595338; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
+        b=FD0wExz/IucIe8f6TX8R27xzNI18CaOSdtpr5eN3up0efcIM64BK9/gEA636Bqw1HP
+         s+GCzz0r+ApEhGdoHnOGChmZeFdGue+u5Cv2zhbWBW33potjc6atDju88JnXhUDQp0uM
+         aJ1gMHa3oSzPthfI9b5fnDb+EHS0GWU5eAU/iLt4Ql6yEEnRg5/NfVbQ0mz86Zt92uSw
+         tE1QzncfiPeDcgZrJ2vkZFJa3qMfUqqevneNr03VsuD7KYdc7bUYCiA/d1Uqxkl3+AWZ
+         6/hhNiNwJYav58U52GIbWQy47MLCr3Z+zlhRmGEgFcMFC/5Eys3hwn0oFnubSWk0mmyo
+         9H6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782990383; x=1783595183;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hEjKsLw6JbLkC66BSkq1CjuR6SFo/HJNCc8wlFrl71g=;
-        b=ZiwT3Qcr3ZKljreewdRUYYPhTmmcG8T3hOwZLLLaMOcYAp5DBGinjkNFvvMn/4SX7e
-         0SbLjIL5Ixp2oNdH9PC03pAZZ9TxRLwbWezfby2wty7ten7L14tdU/6Av923GGRx1POh
-         mHz9VTF0z1vRKMZsEEeCnDHY5YyCNjJieLd2Nu6GUdWeF4eyQp5cZORvzAv4YvLsgg66
-         UQkRP3wkCiCXI+5LFTvBoLpBUQGxZ7CPlCO4UjpooPdWCFCmVY74DgfRFG0eMhQhNjPg
-         Iw0ho0722PWkHeChFAvDa+GUX5J+Tb/T1QdnJufrbV1oO4Oq0N7VFRjue2onUwimVJeW
-         rBLw==
-X-Forwarded-Encrypted: i=1; AFNElJ9GZ7iNe4kV/Cay3WgkRdXllIi3jwddTD+FhBd6P8VJE02Qy+jRDGtgiBI3Ap59nxSyLOX57owVLGj3x/osWiZEBUtoBQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsGoS7SmB19Hgb2vaH0BZ1+EHlTVUekFSaZIEdaZtbT+oS76OU
-	Dzwx6V3t8GfhvcVxoEa5FRu4wby3YJlayQxRfMjLIGZspsyzYanDSig9vFljjUM12p41sZcn5Ha
-	3fhZXCJTxkF145E6QLg==
-X-Received: from wmsm38.prod.google.com ([2002:a05:600c:3b26:b0:492:49e7:fff3])
+        d=1e100.net; s=20251104; t=1782990538; x=1783595338;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jVCZGfbP7HC+WzTxesl+YUJReLdqruEqQo/d3g5mQHQ=;
+        b=gRR6uewt/FLOHSRmKgTmfpfdw/n/n8Ddh1GqJ4dYqXEkVZ3A2WtDaNdF67OYDLHcmQ
+         Qr3n7TOZ8qbcNIwf/q0gXijOntoQ3RgxEXVJ2VmR3AxWkoO/pVwvknmJtEs0T+OzHD6a
+         4NUyi+X/cAVlwkN4cIR9TPAG6czTcg8TpYaK56ktfzELp+W0k7dB6pk0KYjjg1Gow/cb
+         c5xqti4z98njxrJ1wIrFtLhKLo+/WwWxnUJjdNh+EQawxYCnJPsiVyaEhOMHvQ5nZu1o
+         qg9m5z4CsAT4B7AFCNEYo8Dvv1V/h39D7hlSFH28PtoCnAvLjZ0fU2AxHwN5IYzDiD7k
+         c/Iw==
+X-Forwarded-Encrypted: i=1; AFNElJ8Jo5tmoqFlbKHFhhezA1rr52qA4pvlW0jiohsoo1SNSPfmIBJDK6WQTknH+N91sCkltSRPat7NcDFMZfHHiH9yNS893g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDN9Q0GUssZIxF+CKHt+5PzcIoeNTYAd4lJjwLOj+cC5mP8ISd
+	oFEE5qsvkdBE92tB4pUxtRQouDouMABHD4V9y+hpJdm2Wfz6NVJBR9h5ixKvbrM/fcksfWZ7dRO
+	88qa5Wfo1DzIEItx52A==
+X-Received: from wmer11.prod.google.com ([2002:a05:600c:434b:b0:493:aecc:774a])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:26d2:b0:490:9782:3eb8 with SMTP id 5b1f17b1804b1-493c3cedeb1mr40482955e9.25.1782990383098;
- Thu, 02 Jul 2026 04:06:23 -0700 (PDT)
-Date: Thu, 2 Jul 2026 11:06:21 +0000
-In-Reply-To: <20260629201046.423464-1-nico.antinori.7@gmail.com>
+ 2002:a05:600c:34d4:b0:493:bd2f:c5fc with SMTP id 5b1f17b1804b1-493c2b3d569mr78696805e9.15.1782990538252;
+ Thu, 02 Jul 2026 04:08:58 -0700 (PDT)
+Date: Thu, 2 Jul 2026 11:08:56 +0000
+In-Reply-To: <20260626214404.852685-1-nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260629201046.423464-1-nico.antinori.7@gmail.com>
-Message-ID: <akZGLXnmUaF0XPtL@google.com>
-Subject: Re: [PATCH v2] rust: iommu: replace core::mem::zeroed with Zeroable::zeroed
+References: <20260626214404.852685-1-nico.antinori.7@gmail.com>
+Message-ID: <akZGyP9dGcQDcQUp@google.com>
+Subject: Re: [PATCH] rust_binder: use pin_init::zeroed for file_operations initialization
 From: Alice Ryhl <aliceryhl@google.com>
 To: "=?utf-8?Q?Nicol=C3=A1s?= Antinori" <nico.antinori.7@gmail.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Benno Lossin <lossin@kernel.org>, 
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
+	Christian Brauner <christian@brauner.io>, Carlos Llamas <cmllamas@google.com>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
 	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Boqun Feng <boqun@kernel.org>, 
 	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	"Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, Robin Murphy <robin.murphy@arm.com>, 
+	Gary Guo <gary@garyguo.net>, "Onur =?utf-8?B?w5Z6a2Fu?=" <work@onurozkan.dev>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>, 
 	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev
+	rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 05:10:41PM -0300, Nicol=C3=A1s Antinori wrote:
+On Fri, Jun 26, 2026 at 06:44:02PM -0300, Nicol=C3=A1s Antinori wrote:
 > All types in `bindings` implement `Zeroable` if they can. This enables
-> using `Zeroable::zeroed` for `io_pgtable_cfg` initialization instead
-> of relying on `..unsafe { core::mem::zeroed() }`.
+> using `pin_init::zeroed()` for `file_operations` initialization instead
+> of relying on `unsafe { core::mem::MaybeUninit::zeroed().assume_init() }`=
+.
 >=20
 > This change improves readability and removes an unnecessary unsafe
 > block.
@@ -91,5 +91,3 @@ On Mon, Jun 29, 2026 at 05:10:41PM -0300, Nicol=C3=A1s Antinori wrote:
 > Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-
-Joerg, is this cleanup you can pick up? Thanks!
