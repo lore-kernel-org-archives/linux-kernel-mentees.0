@@ -1,143 +1,185 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012035.outbound.protection.outlook.com [52.101.48.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A2F335564
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  2 Jul 2026 20:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783025895; cv=none; b=Ve5DIeMZgIEAuvWnj19pEAIlofLX+RDVCTrikB59JSrYHlzzMOwp9Yva8jzuuvvypSBvUJD43p3vZvxaa3yxn5/zgiYLBIsOsJRfTYfkpYHoDjYZxxtdws58dSD73O1I6B9APEUxcYDYdZ/XwXUEfC0wjAe6P9LN0DcpZHlOrgY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783025895; c=relaxed/simple;
-	bh=eF5D6+Wt5BLWEeYKq/RyVR1wdlMPFm78cz7Uq2W8x2c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XoMBq6rfMkCWRHvap9dFs8oI1TYrSx2S7i8DrCXZbkl/uHGM62XSf3XF55AalRpruurO+ysOW0hPZGecqfdf4Qe8Gq1g7orAmZrEs+bZs0FTwwNFRcGv+35Op9J5BldS6JQna/2PyuAUiy8Z51dgAv8VpRfbp8W1773CrQKx/Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=daRM8eEi; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92524433E7D
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  3 Jul 2026 07:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783063109; cv=fail; b=LF/87hVS7gk02WMhbWhmZytqg6CkJtpdwd6T8c35NirPFKvGeYV8DSpibZKRix4apiYHpKtN/KpO6gv4cNBCuMsDIio7wRho1ymSVTFriR2nB1FlVEBxr3pS6pCQpciACsd7XLD7ehW2CVbS1mqDQDD5jdcSoaq58WcP9KSwe1M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783063109; c=relaxed/simple;
+	bh=7Oihs+w1FAt0dpM9TJ1NJTL+bvu8ITlwKC26+z1spsc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=gOB4iBR8xwPif1aeK7cGAa+JETiJKCt7BfSaIG9Qa6MeUywflkEUPbWSFcCJM1Z5Nd7gZFVKCbzG8sz1LWRHntmgsYcfP/sGZlBDsB/kbCeA8a4L/z8zPs+eesP5cGQA2k9xLuYHLyPAv8yoEo7Bx5W+GiYhzX6ZYIdUZgb5Wro=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=y18Php5u; arc=fail smtp.client-ip=52.101.48.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="daRM8eEi"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-845ea8924fdso2050590b3a.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 02 Jul 2026 13:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783025894; x=1783630694; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kCqGLz9eDC84KN5xIK2F/aNKUXkei/tGGB2b27ruMZU=;
-        b=daRM8eEid95BqOqy/H+/MutxTsG9kpmBPybvbc+D7hQ2ZcCLrZ34d9heP/PkuB/TV+
-         I10EVA+0CjLzKMrH6pxqP2Na4+MT6jcMECw/6a9mZ2eqfIiVVpUalkDU4sNHb5HM7Hm6
-         OqWZCkWL1VyMn3hq6nuZ5Ldts+Slg6QVAAMgURldtLh4bm/cqkM0TqOZCHXwuYV2eusb
-         T6bycKDm2nI01tQraUZ/aUTARPrCdXyL7Jmb2hYxcH3NN8buy7e2eUge+BbYV8WFCC+V
-         MyQYI5ljYjShvaOEJrfDsl7UvhnO15hF7m6gD+/uGDJKHUjxWpy56UOnEndci6Tjt0hE
-         Vd1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783025894; x=1783630694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kCqGLz9eDC84KN5xIK2F/aNKUXkei/tGGB2b27ruMZU=;
-        b=jwdjj4H4pwGHdDSGbOQ34Hro2sLfk8LRpe6kq9+62aWJriLuO5XMquEBR2sCcTXkVu
-         pBIWIpFQjAn898szqlnUCie5QRSWz+4gJLaMPgBB8dCKFfyPnc6DmHxGUoIsYuKwEelH
-         V+iNf+kCDLIywIfKQy/1vWAjyj9nGqLzlUWRHkUITpjtiK2UzHO7YbgtZ2DsMBnzuFge
-         srrVBeE9urxTMvXOu9tBV6hT+JZNgogdSDrZ3W95DLW/jd/H259j8zaFRvwrr+UuW7kd
-         72iGEDQ4VIwSwGLZytH9DpOaV0EP5wlCBzjrjpzZF35J7+fhLoJAGSr8/xX/btZFAFpR
-         +F5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ94p3JVyQnfZ0Ouji5G0y6wNhiR6OAMHRb6Tr+fb27iuj1RVQsLmL1qlIp3OlbzlKB4SxPPyyo1i3o8sXnBQZx9zRTPAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIf3HVjAvpUcJLfB4mzzYB03c3ljKGa6ygc5mcIBF4kXSdRIoH
-	UdSG6LWSgGb2gljebwiGOyBuZlT5Epkfp7SBqWJYvH7UQ4P0QA24EW0=
-X-Gm-Gg: AfdE7cmqR/pnTHR/13C1Ae63OV7g4opjFQqs/FHFcUIWB74O2/ADx0j0hmZ4OpKxtb3
-	qqVjbQGq60EgTIwX1jp9w//cewzGjX6wJSh0HzLfVH67yRUfmZacHkJbSgtMpYGv2awXFdchQI4
-	CCWw1r/kDJnKH+sWUeXy/V4UaRRIH+X4+Fr3z6XaltqxVeJ92AWKGoqGZCaKASfqgtqHXyhRcvo
-	tpC++IFpMi5Wd7L4n+WMsC2E+fTINPNaQY5YaWzEf6FHBLggSdlc66hJ0fe4XimvOijlv9WXUnB
-	/QKp5+nzasveDiFApqwfgGE7B+ee2Of4lE1sj+4bAHJsGDUl4BdBv6Egddnt4fL6U+wNY4QHrMH
-	gM6mzM8VPBQPWojnKh56bORj5EhNUue7II5puQAGAfSWrtzdKW4B0ipOy7FsFKo3vEOlKNjV/GW
-	GjAWGFYuWQrzpWO15O3XSufjBkwx13mLq/WWdv0+6h+T+Si+DIjg8Wz8MGSXDr0xzF
-X-Received: by 2002:a05:6a20:734f:b0:3bf:e2f1:1b17 with SMTP id adf61e73a8af0-3bfed5d84b3mr8082450637.50.1783025893429;
-        Thu, 02 Jul 2026 13:58:13 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f0bc3ea61sm13220729eec.30.2026.07.02.13.58.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 13:58:13 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>,
-	Christian Brauner <christian@brauner.io>,
-	Carlos Llamas <cmllamas@google.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2] rust_binder: use pin_init::zeroed for file_operations initialization
-Date: Thu,  2 Jul 2026 17:58:00 -0300
-Message-ID: <20260702205803.552476-1-nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="y18Php5u"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RlpnsF9x5atzy2bHlldDL7bz+DGBWfcGk+eCMAwGh+jrODyn6VwpblG89C5FEqUyQJ2B9+sEx789Lams8qp5IxHzTLUq0JS0WeEEFOQNc0LRuxq7Dg1yunu2siubyTyyrquGFblZZUcr6XpKpr4xtToezXU5JfaYAp3eJB2/CchHM7eHvUCJLI3BusjLfeWFKgRFNRIPCS4BAktEDBdnp0wFKtWEZTFh/V7TS8JUbbh6fVXGKLHhzSnkx2fSC+tDLgHmxBcRsCnbGYGCsbMvBW23L8oTul8JmNgX/wpQKnYY5h8yATDaHC6E9DyP+eI23s5j/t7Hnp2+aprS3zfVmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LbJjZJIrDSnwhHzE5qpUAoECLDEIg5imBWN1SxMXFd8=;
+ b=xGbAc3QdAvuEqRVfuqZmdqYdIioWP508/vUSX3P+LjB70lWn6CkYj1SbNi7+KzWRKPoorqfKg3kE13DZr8nfHoh85pZdEQFVv+1EZ3ip8abJVWdPE3mEd3Y3axk9NKc8dR+qnO2tPT1gfnXH+zvZQ1RbcIUpILj06pUICXFZv6Pe65mFNoJufA3lt1f1Pqhlkmh/GznI/U4yu9Bw1jdIwSmMQ/yYBNLuosVDKUHqv1iEbxfSbTnjBkYcy5U3UJ/cQJWsqDAhfuxQW24WfdCIxADHGJM4yTWl/Az4OGnhsQR3bmlfMINygnIo/uAnjEws6i1v9GX/lEIy6v1WEmM8xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LbJjZJIrDSnwhHzE5qpUAoECLDEIg5imBWN1SxMXFd8=;
+ b=y18Php5uxHUdrla10qgXD/j+TabtUek9UKXP69PyR9IN3EAmSDhjFIcBPwOTplpGPO/db+zFGcz7CpguhHB6Td80ga/ZjNeJ/iNZkja5BTyuf2E7VWYNZoiUMTlMaUsvRvxwBvC+GAbpi3TXxO7lOaJ4UiQkl11nZ4LE2MoLNEE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BL4PR12MB9505.namprd12.prod.outlook.com (2603:10b6:208:591::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
+ 2026 07:18:24 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0181.008; Fri, 3 Jul 2026
+ 07:18:24 +0000
+Message-ID: <c637c757-181b-494b-9866-27539b0fa474@amd.com>
+Date: Fri, 3 Jul 2026 09:18:19 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: docs: remove invalid struct member
+To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20260702171234.31030-1-nico.antinori.7@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260702171234.31030-1-nico.antinori.7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0375.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f8::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL4PR12MB9505:EE_
+X-MS-Office365-Filtering-Correlation-Id: afbec0df-f2ce-47b4-2cb8-08ded8d344ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|11063799006|56012099006|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	YJJm87SQYm1Q8wbcA3WVZ6IsfvriDNqA03rc99ud7aoAJEXkNwy8faGdWU3d1f+FESYKB3tVYnGNByJETFXW5QP++Sl/23hnIsK1dzCDVFk31u180Q1Dfstk+P/HgfofCC99Rt1VVIvJyoqi8SJ+AwQVJMnk5c76hZP2RwZcAxTZCjVZ1g1rhD7Ry5C9G01ms8ZPg/O25m7LhwNmo7jC8X64aYy6msiSlHbtMPz7I53fc9n/HesvoPQQPLzvEJVazXBDbXfRV6RZIsB2JFDJZ76As9p5iihqzZOTbPpDwqRuOx/80ARXcTPaLjKLnh8o2BqbTqtnbYFrRd8hOQIVrxHHRAx9S21br+jfThMpgmqsJOU6ibl3sB2iTZ2j5Bx5f45h7GGMfWUN4avGQtwwfWi6OpmZCU7kmU2BELxvurHV0c5Vf/cktZ+d1tzDiIfjMGNBf3C5vOUD0WWshtJV3QTeN2TOEQpDBvhuuTr7WhoL4sWYyzbvQI8G+jO4fkeMke12CHFLog3xLe5TmKQrwnDZR3pe4TbwXLjy8aUw2ocSHEwS8XpOkqh7aVOtctfzGvfk13zsDgi3RwsK0UrSbaFRrC5Lr38mY8rb48nOHmm/4CTRbrV1V412mteIrknJNxclt+w2Yt1R5IEA/mrZrdnLlYSzoSkhf/AcjwUPFvI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(11063799006)(56012099006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TDZPNHdGbE50eDdBbkJhUEppYnNmM01mT1JBbXJ4MytkV210SnVnbmRERVBt?=
+ =?utf-8?B?YmRGWXZMSXlwVEhieStwY0RUakZ0RnMvTTYzNlJKaHllUUc5S2FDOGIvK1dS?=
+ =?utf-8?B?NCtDSXBaSUZWYlFBek9iK3pFcXdkUmc1YjZQOGZ0QjU4WjZLNmJTUnU5bnBF?=
+ =?utf-8?B?VDhvVG9EVkJzUFFjOG1JdnM2d3ZpRGt3ci8vZmd4dE0yUUk3YlBuMjc5d2tX?=
+ =?utf-8?B?Q3FoVmk4NndaNzRHZUdBN0Y4ZFRPK0Yzdzhmc0dwRmZTOGtqaCs4OW5xSi96?=
+ =?utf-8?B?azZXdGpaeC9TWkF3dnNUQXQwQ3cyd0ZjRUtWQ0tEN29MZVUvTVEzMS9QcDZY?=
+ =?utf-8?B?USt2OS9kQ1l1RWQ3STVoNSt1NytmdEJSSHlHVEFsRFpieWc2ZGZtTzBkQm5x?=
+ =?utf-8?B?YXBjL2NpVVRJTHlhdS95N01LTE1pYjVaQnk4L25TVllORDRUUy92MjNRaDJI?=
+ =?utf-8?B?U3FUenE2UlIrQWdiSTd6Z1Nra3VHS0ovK1Q3UVBsVHJ1MmFqRWVod0dOTHkz?=
+ =?utf-8?B?NEE1eUhHSEJ3Yk9hREZ3b1NVaUNtakZOREdCazE5cTRrSVN2RGc0OEM4UmJ1?=
+ =?utf-8?B?Z2swbGlHVExJNEh4K2lKQndoaGdQWVVPKy9BZDhYNmVJM2tPUVdOaEJodTV3?=
+ =?utf-8?B?Zit3TXVPWkJFZ2pxNUV5NUdCdTVYYkdtU28vQ2FTSi8xNk5Sby9tVXByVWVh?=
+ =?utf-8?B?Uk1JdjRYdlk0VVg5Y3NKS1h4bjNVSHlXZEJVZFF1bnljZlZQdVhKS3VrRmZa?=
+ =?utf-8?B?ODV3K0w5RmdiMmhKZG9tcWo4azRIRWgrNmE2TEw3bXRHZDI3dkRGMWJOYmNz?=
+ =?utf-8?B?U09NMDdBdVpBZmtOdEQ1Rk50UEZIaHdyOVd5RGV6V1VER2FYN3ZjYUlweTdI?=
+ =?utf-8?B?Y1NKM3hjMWZDV1IvQ2Y0M1gxV0ZnMng3Q2ZMNFdWcXFoYVVBVENYVnlEV2NP?=
+ =?utf-8?B?M1paZWF2Y0kvQVJGOE5GemIzU1RqUlRYSjFDUkxxWVdlWHUxeERYNUc0MFYr?=
+ =?utf-8?B?WkRyQ0QvVVBnM3dqc1AxSGJORzQxM3lxKzhRUEYrczhMWVdyL0lwVGs1WDhY?=
+ =?utf-8?B?Qis1dW1hSm40T05tcWN1bU53b3BwL1UwWHd4WHkzOUVVVnV4aUlIY2Rta1Ry?=
+ =?utf-8?B?YUo0elc1a3lOdWNlMlNSakhQVFRyNjdBdzdjT1Z0L1hncEhtQ1hyN0cwSU5I?=
+ =?utf-8?B?Q0FZRURNYkw3TTFvcU1GTHk4eVNNWldUcC9jMWltNk12N2hCQ2dOMDBFd3Qr?=
+ =?utf-8?B?czQrVjRCYm5JZjhsODlGVmllaWhwNHQvLzhIOHJZWnRHWWZ2cEhxSWhHdmNp?=
+ =?utf-8?B?R3hLVFg5ZWF2Y0Y4WWpRVUtnd2VYUVZYdTlxeFRCZmIxNWRCRHcwazB6Tk1L?=
+ =?utf-8?B?SGsxS2d0UXR4OXJGcE1IckQ4NHBLSzVWQjZ2UHdacVhWY28yUG5MYUVoRk1s?=
+ =?utf-8?B?NWcvVE5DbThvNGhFcExzWTBEa3ZPK1QraWNFSzFId1BtUFJDVmpoaGxnOWdo?=
+ =?utf-8?B?R2QyNGFHRkFETXVReUo4c3FTbGtaR00vMFBzRzZwTnBnSFlnQjNQemIyNmcr?=
+ =?utf-8?B?NTJxek1URHJZMDdvOTBLakFXdXFlUW45NkxPSkxnRGc5aGNBZ3M1V2tWVFVP?=
+ =?utf-8?B?N2h3MUI4VlIvdWlFZmRSbitpeEJXU2ZZRjBKQXdIT3pEaW5RdldNdUJQc2FZ?=
+ =?utf-8?B?TE5WUDJmMlc5UDZIbkNMTVVMMGp0ekpHS2d6MmVQL3B0eTlmMi9ZV2pTVUJm?=
+ =?utf-8?B?aFllb1ozeGNEaGRoM3JYT25QMU5EOUZWaXBRTzB6a09hM0xkNXl3c3BjeVZK?=
+ =?utf-8?B?TkE0bXd3TURuWlBFMkNGWWRrUXpSSXJ0NnNkamh6QUdZT05OMzJ2TGVzRlAr?=
+ =?utf-8?B?U0Q2c2NWbkl5OHlHSUhtd1pXd0pHM2dYUzNTVmMxUDhxRnZWdU12UjY0dUJ2?=
+ =?utf-8?B?ckNkb01mZUtldldoVEVqR2FRcGE2RWM5OUZuWGY3SStzSC9sL2ZvQ1BGKzhN?=
+ =?utf-8?B?Z3UrczhvYVF6bDEwejNUeXJZWjhrQzdJY2VNRlBzbGxXMXJwVXpYVll0UlQr?=
+ =?utf-8?B?c05qTnJVN2g2MmhxOWgraWxRZ0Y5QTQ5b0hiK2d2U1U2UjdjTUg0bHJhVkNH?=
+ =?utf-8?B?UnNtU09CZXFsSE5ETnV2cjZYUVdvN2ZxVUNKeS9YWVRQZHhOMktQazIyL281?=
+ =?utf-8?B?QWFWMHlVSWV6VForYlNKc1YxbFZqWmdkQktFc2o5bmJpMXpTNno4M1Z0eDNV?=
+ =?utf-8?B?dTZtLzRNNnBNZlkzcU5ucWtGV1htWWpRdVVzaU1ZTVVsY05hZGJLTS9KRUVx?=
+ =?utf-8?Q?UcAwisOz/esAzeM8aA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: afbec0df-f2ce-47b4-2cb8-08ded8d344ca
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 07:18:23.9324
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SWRMWe1jB7LaZauD6E/1ZSDnkQISFdwFvcgho++oA5D3iETZkIr5TjkrRadGEMsR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9505
 
-All types in `bindings` implement `Zeroable` if they can. This enables
-using `pin_init::zeroed()` for `file_operations` initialization instead
-of relying on `unsafe { core::mem::MaybeUninit::zeroed().assume_init() }`.
+On 7/2/26 19:12, Nicolás Antinori wrote:
+> In the structs dma_fence_array and dma_fence_chain, the field 'lock'
+> has been removed, but its documentation comment remained. Remove the
+> stale descriptions to clear up the following kernel-doc warnings:
+> 
+> WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
+> WARNING: ./include/linux/dma-fence-array.h:47 Excess struct member 'lock' description in 'dma_fence_array'
+> WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
+> WARNING: ./include/linux/dma-fence-chain.h:48 Excess struct member 'lock' description in 'dma_fence_chain'
+> 
+> Fixes: 5943243914b9 ("dma-buf: use inline lock for the dma-fence-array")
+> Fixes: a408c0ca0c41 ("dma-buf: use inline lock for the dma-fence-chain")
+> Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
 
-This change improves readability and removes an unnecessary unsafe
-block.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1189
-Suggested-by: Benno Lossin <lossin@kernel.org>
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
-Changelog:
+Going to push that to drm-misc-next later today.
 
-v2: Removed zeroed_ops variable and moved pin_init::zeroed() inside the
-struct initialization. This is just a code style change suggested in
-the previous patch.
+Regards,
+Christian.
 
-v1: https://lore.kernel.org/rust-for-linux/20260626214404.852685-1-nico.antinori.7@gmail.com/T/#u
-
- drivers/android/binder/rust_binder_main.rs | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/android/binder/rust_binder_main.rs b/drivers/android/binder/rust_binder_main.rs
-index dc1941cd2407..cc9b10e41807 100644
---- a/drivers/android/binder/rust_binder_main.rs
-+++ b/drivers/android/binder/rust_binder_main.rs
-@@ -314,9 +314,6 @@ unsafe impl<T> Sync for AssertSync<T> {}
- #[no_mangle]
- #[used]
- pub static rust_binder_fops: AssertSync<kernel::bindings::file_operations> = {
--    // SAFETY: All zeroes is safe for the `file_operations` type.
--    let zeroed_ops = unsafe { core::mem::MaybeUninit::zeroed().assume_init() };
--
-     let ops = kernel::bindings::file_operations {
-         owner: THIS_MODULE.as_ptr(),
-         poll: Some(rust_binder_poll),
-@@ -326,7 +323,7 @@ unsafe impl<T> Sync for AssertSync<T> {}
-         open: Some(rust_binder_open),
-         release: Some(rust_binder_release),
-         flush: Some(rust_binder_flush),
--        ..zeroed_ops
-+        ..pin_init::zeroed()
-     };
-     AssertSync(ops)
- };
---
-2.47.3
+> ---
+>  include/linux/dma-fence-array.h | 1 -
+>  include/linux/dma-fence-chain.h | 1 -
+>  2 files changed, 2 deletions(-)
+> 
+> diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+> index 1b1d87579c38..0c49d7ccefb6 100644
+> --- a/include/linux/dma-fence-array.h
+> +++ b/include/linux/dma-fence-array.h
+> @@ -28,7 +28,6 @@ struct dma_fence_array_cb {
+>  /**
+>   * struct dma_fence_array - fence to represent an array of fences
+>   * @base: fence base class
+> - * @lock: spinlock for fence handling
+>   * @num_fences: number of fences in the array
+>   * @num_pending: fences in the array still pending
+>   * @fences: array of the fences
+> diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+> index df3beadf1515..42289f505164 100644
+> --- a/include/linux/dma-fence-chain.h
+> +++ b/include/linux/dma-fence-chain.h
+> @@ -20,7 +20,6 @@
+>   * @prev: previous fence of the chain
+>   * @prev_seqno: original previous seqno before garbage collection
+>   * @fence: encapsulated fence
+> - * @lock: spinlock for fence handling
+>   */
+>  struct dma_fence_chain {
+>         struct dma_fence base;
+> --
+> 2.47.3
+> 
 
