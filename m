@@ -1,78 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sg-3-42.ptr.tlmpb.com (sg-3-42.ptr.tlmpb.com [101.45.255.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4D9433E7F;
-	Sat,  4 Jul 2026 23:06:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0A23BD06
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Jul 2026 09:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783206385; cv=none; b=A5EXUDry0xhU0+0N3dHr/O/Ky+WxL9wfsYWThVPAulZAtKImN2LN7V2uYJewad4fkYmD+Q+8tTjnIAyjeknfaRKq6SrrU+8NdzFH6hlZorsUGS6RAXJTd1DCWVsYTgxqVVzWNWIgCnMg5U5/V5aVYp7s44kM3YFwG7e8Xx65/aw=
+	t=1783242234; cv=none; b=lSSuNEmKWnZGjn9n94KcJ5OnMllvVr8wwJmCvltTiwkDmv0Sly69H6oNK2+p9o0agLQc4x3jLB25xtvVhOlNWwsPBfMInDh6Egdi2k6ljIVm7tR0y/WGt7M3JtZBQPvC3Sq4owxdcpy4fx+E4Q8p1OE7xylZ8s81Xm6t/qrZyPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783206385; c=relaxed/simple;
-	bh=1q7wOW+/aBFf/iqT4oWppkZOn8TKbcDd0CGeatq746U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lxspgWUZY/wpE0KeY8RufP8ap40/QDEJ2qCgrKWjevFCVDVxxQjBNJo4jwhCJEYmv9m2aBAya5P4Y8T+98SH68RZ5iOu/1JvrHmbCTuqlOhyAzK0+Lf0tnosRcU0VH7bPwh+JVQ76TDEMOFmtd4XMcUnJQ1k9aGqrJ05Sbe3EE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEAHs6wi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783242234; c=relaxed/simple;
+	bh=oiCIHcIfIQBcWeIqkQZzwMqU/J6rdUbdguQMZIzOZkE=;
+	h=Message-Id:References:To:Date:In-Reply-To:From:Subject:
+	 Mime-Version:Content-Type:Cc; b=JAhFj5x2jvwo7yKSr53AofiGd2/ON/cU933vCpQJukhRrWRZ4an4e7j+qcyjgkTUBOqXqNw5DgK39aDSEPGYon8/tFUNmJGWMwjG+a75WsbBxnI7P2i9Ftp7BnU4mM9eQA/ey1m/zPymb8G5krimagyb0DJca5zGhum+mdnbhB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=IQS0KEKu; arc=none smtp.client-ip=101.45.255.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEAHs6wi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02EB11F000E9;
-	Sat,  4 Jul 2026 23:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783206384;
-	bh=dtdhWRsvcLD8x9kSSFf/H3/nDxcZaVMQ9mXA2216y9I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=LEAHs6wi6oCoa1vf49MpAoXxOrv9J7Znd3KsW5jqLn/vx6DQUGsON/UgLoehVC4rJ
-	 c+g0y2+uZIk4L/Lq1ByKqtSmFZZdxX3QqihHpmZIGiPnxz8bK2XupSs3UtV/sr6vV+
-	 E/J1SMxTMht7P4rYVgXvz/vjz4l2EXjBfVAN7YcTOrRmtLBYvp4siteoKGyx8LkNLx
-	 f5mx0ncN4lxajwjt4awLKQ2xenG8I0To0ZI5nLHp6Ce1tJuXb+sy+VrzE4gx6gQNFP
-	 gndvjxvnp3Di+zj9uH2+zpgiyTXNA2Ce661DuTfvO7rfJsvQuOozWPZW20fN34YpRo
-	 HSiSF3PrHtNEA==
-Date: Sun, 5 Jul 2026 00:06:16 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Vidhu Sarwal <vidhu.linux@gmail.com>, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] iio: light: al3010: fix incorrect scale for the
- highest gain range
-Message-ID: <20260705000616.3aaa1254@jic23-huawei>
-In-Reply-To: <akj49teBHChc17uB@ashevche-desk.local>
-References: <20260702052913.114130-1-vidhu.linux@gmail.com>
-	<20260704115245.11167-1-vidhu.linux@gmail.com>
-	<akj49teBHChc17uB@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="IQS0KEKu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1783242149;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=Qs7Xp3ARZD2S/wj6zbBaxP+K1SYcFlkplP1to+Nse4o=;
+ b=IQS0KEKuFD6hH8lAOLP7pnsZul7nmsvEImhjKhVk0nxcQoyaLJlwRPsqZVcpmX6LKw/0J3
+ aDY22XhTEy9epvKGAxn/Sv1Ir5jp1JC8sYrscDX3EtY8YBBwtuNuGdnOuSdN0L90RCE4ez
+ tTudhsJ2RTbY22NILCSEsCxANM2jmNeVg7+ckWtPLYvmofyCm8UGJ1cPdb3tUIKBN2xZW3
+ TNHodvZ12oIe3m7Ue3Fp0yiCfagYbhus9suTsvfZAI9VbOblp01Ee6yTWIhKCKqkMsftwl
+ kvX+sG1MIm8DJQdTrqLHS2hPu3UW53zYe8LYJRErD3GF1UbdnsqCY0DT1vsWbw==
+Message-Id: <05907420-cc63-4e1d-b5f8-1fed113434cc@fygo.io>
+References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
+User-Agent: Mozilla Thunderbird
+Content-Transfer-Encoding: quoted-printable
+Reply-To: yukuai@fygo.io
+To: "Sajal Gupta" <sajal2005gupta@gmail.com>, <linux-raid@vger.kernel.org>, 
+	<song@kernel.org>
+Date: Sun, 5 Jul 2026 17:02:20 +0800
+In-Reply-To: <20260622142146.56637-1-sajal2005gupta@gmail.com>
+Received: from [192.168.1.104] ([39.182.0.144]) by smtp.larksuite.com with ESMTPS; Sun, 05 Jul 2026 09:02:28 +0000
+From: "yu kuai" <yukuai@fygo.io>
+Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Cc: <tomasz.majchrzak@intel.com>, <linux-kernel@vger.kernel.org>, 
+	<error27@gmail.com>, <skhan@linuxfoundation.org>, 
+	<me@brighamcampbell.com>, <linux-kernel-mentees@lists.linux.dev>, 
+	<yukuai@fygo.io>
+X-Original-From: yu kuai <yukuai@fygo.io>
+X-Lms-Return-Path: <lba+26a4a1da4+d496d1+lists.linux.dev+yukuai@fygo.io>
 
-On Sat, 4 Jul 2026 15:13:42 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+=E5=9C=A8 2026/6/22 22:06, Sajal Gupta =E5=86=99=E9=81=93:
 
-> On Sat, Jul 04, 2026 at 05:22:45PM +0530, Vidhu Sarwal wrote:
-> > al3010_scales[] encodes the highest gain range as {0, 1187200}.
-> > For IIO_VAL_INT_PLUS_MICRO, the fractional part must be less than
-> > 1000000, so the scale 1.1872 should instead be represented as
-> > { 1, 187200 }.
-> > 
-> > Since write_raw() compares the value from userspace against this
-> > table, writing the advertised 1.1872 scale never matches the malformed
-> > entry and returns -EINVAL. As a result, the highest gain range cannot
-> > be selected. Reading the scale in that state also reports the malformed
-> > value.  
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
+> The loop in ppl_do_flush() continues iterating after calling
+> ppl_io_unit_finished(), touching io->pending_flushes and leading to a
+> use-after-free.
+>
+> Add a break statement to stop the loop once io is freed.
+>
+> Fixes: 1532d9e87e8b ("raid5-ppl: PPL support for disks with write-back ca=
+che enabled")
+> Reported-by: Dan Carpenter<error27@gmail.com>
+> Closes:https://lore.kernel.org/all/ajJF2wKYWRk4GGCK@stanley.mountain/
+> Signed-off-by: Sajal Gupta<sajal2005gupta@gmail.com>
+> ---
+> Compile tested only.
+>
+> Changes in v2:
+>   - drop the refcount_t conversion
+>
+> v1:https://lore.kernel.org/all/20260622080656.22786-1-sajal2005gupta@gmai=
+l.com/
+>
+>   drivers/md/raid5-ppl.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
-For future reference, please never send a new version in reply to an earlier
-version. It both gets very confusing as threads develop and also puts your
-patches way back in the maintainers inbox, which often slows down getting them
-applied.
+Looks correct.
 
-Applied and marked for stable 
+Reviewed-by: Yu Kuai <yukuai@fygo.io>
 
-thanks, Jonathan
+--=20
+Thanks,
+Kuai
