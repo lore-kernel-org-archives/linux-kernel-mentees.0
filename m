@@ -1,86 +1,164 @@
-Received: from sg-3-42.ptr.tlmpb.com (sg-3-42.ptr.tlmpb.com [101.45.255.42])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0A23BD06
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  5 Jul 2026 09:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.45.255.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D442A14B
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  6 Jul 2026 12:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783242234; cv=none; b=lSSuNEmKWnZGjn9n94KcJ5OnMllvVr8wwJmCvltTiwkDmv0Sly69H6oNK2+p9o0agLQc4x3jLB25xtvVhOlNWwsPBfMInDh6Egdi2k6ljIVm7tR0y/WGt7M3JtZBQPvC3Sq4owxdcpy4fx+E4Q8p1OE7xylZ8s81Xm6t/qrZyPc=
+	t=1783341284; cv=none; b=uGuuaioTA5VPYKLTNEqxzXcaiFbW25kNVHH4Tata1dBhBw/rOIh7KmMFXXhsK6DnmPaZ84Jun3VLAL6b6t4wFCixaNQjnkbgY8I3DlImqgav3dQ0Staw0/Jnhr91qe0H685QSd+q8ui2mWkaDKVQLoEuwCJFjT5y4I/7bLDvNJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783242234; c=relaxed/simple;
-	bh=oiCIHcIfIQBcWeIqkQZzwMqU/J6rdUbdguQMZIzOZkE=;
-	h=Message-Id:References:To:Date:In-Reply-To:From:Subject:
-	 Mime-Version:Content-Type:Cc; b=JAhFj5x2jvwo7yKSr53AofiGd2/ON/cU933vCpQJukhRrWRZ4an4e7j+qcyjgkTUBOqXqNw5DgK39aDSEPGYon8/tFUNmJGWMwjG+a75WsbBxnI7P2i9Ftp7BnU4mM9eQA/ey1m/zPymb8G5krimagyb0DJca5zGhum+mdnbhB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=IQS0KEKu; arc=none smtp.client-ip=101.45.255.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1783341284; c=relaxed/simple;
+	bh=DCZU1avBLdQ3mFCHVCs/pikkDIEkcElag6W6e5QxR+g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=HJWdflG5d49EAQmfS+EjaZ0Naspd6AnB2p8zp2+9Ol9ysOqgnQsRX0xEAklpHbXRof98DeJK3djV6sRCW4j4qGgm/OAfFP5AaDZOiu/Pvi7XkU9CVyujm3Qjwn+ZlYKeZ1O2Cp/aWJUAokkPZiQXvBz6GPQhj2RVPXA8DtF02B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0szpaay; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="IQS0KEKu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1783242149;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=Qs7Xp3ARZD2S/wj6zbBaxP+K1SYcFlkplP1to+Nse4o=;
- b=IQS0KEKuFD6hH8lAOLP7pnsZul7nmsvEImhjKhVk0nxcQoyaLJlwRPsqZVcpmX6LKw/0J3
- aDY22XhTEy9epvKGAxn/Sv1Ir5jp1JC8sYrscDX3EtY8YBBwtuNuGdnOuSdN0L90RCE4ez
- tTudhsJ2RTbY22NILCSEsCxANM2jmNeVg7+ckWtPLYvmofyCm8UGJ1cPdb3tUIKBN2xZW3
- TNHodvZ12oIe3m7Ue3Fp0yiCfagYbhus9suTsvfZAI9VbOblp01Ee6yTWIhKCKqkMsftwl
- kvX+sG1MIm8DJQdTrqLHS2hPu3UW53zYe8LYJRErD3GF1UbdnsqCY0DT1vsWbw==
-Message-Id: <05907420-cc63-4e1d-b5f8-1fed113434cc@fygo.io>
-References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
-User-Agent: Mozilla Thunderbird
-Content-Transfer-Encoding: quoted-printable
-Reply-To: yukuai@fygo.io
-To: "Sajal Gupta" <sajal2005gupta@gmail.com>, <linux-raid@vger.kernel.org>, 
-	<song@kernel.org>
-Date: Sun, 5 Jul 2026 17:02:20 +0800
-In-Reply-To: <20260622142146.56637-1-sajal2005gupta@gmail.com>
-Received: from [192.168.1.104] ([39.182.0.144]) by smtp.larksuite.com with ESMTPS; Sun, 05 Jul 2026 09:02:28 +0000
-From: "yu kuai" <yukuai@fygo.io>
-Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0szpaay"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-697cee2eb6dso2554205a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Jul 2026 05:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783341281; x=1783946081; darn=lists.linux.dev;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=x9DuFiLJFQhXF47fb9omkU+r2KlD4K7BS2Tl2g+RiHE=;
+        b=h0szpaaycyB1aSxQCsWAMYMXMWsMhEhMyBFzCsmkQVWLpqPfx8k3PRIKyBHavSJnCH
+         gRMOVOJVlb9hFjRszStjARalZuyy5LU2yzGs0g3CAdENaNU0CpwTe+p8IEKdyprMq3EY
+         Rm2MUpWNrUuDpm+KlFVnBqstQ7laStO0AclTztavH9+p+kRwfR8W5qfpBPaLYfnDmZd0
+         580f6SBIp+N+RTXx2dnEqKSr669pbEHbjMRi1h1vevtHKDSjbDFZ1ZcsPHnTSmAmeKNV
+         7R1dRvn59TOMlkpci/6Au2++80gmFS95Jx+e/L4K2yGXOjW1VTTgfQnnmMjewRS4eLwJ
+         YdxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783341281; x=1783946081;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x9DuFiLJFQhXF47fb9omkU+r2KlD4K7BS2Tl2g+RiHE=;
+        b=aXdk9xNndxYdpTf1pI6xKLdnMnx8OjoMAyp4REDRkqaQr/eM6R/Z3a+lS8weCvnshh
+         R42EPeJa6rN4N7FrLgzMJFfGyOL9qo2zUJUkcEpD2qoatSz52cKLAdqSlIuptYo3Z5iW
+         PwDlK8oCXmhjosAnK/eWGC4wux8EkwLtPJE3YZhBEqVzoPacX0alT7FxbS/TFsEH4WOm
+         zC3BG3m6E048W3X+4oByFZXY/Ldft28yUxWUVZ/Wobu1UalTe7Eyb8M2nW8Wvx5+lqm2
+         lD3rhAaH04Eh8G2WLcpoEh6UuKTlWvV96DUuF8k59moCRLHFpWuV+3KFYe8WkHN2KTdk
+         ob/g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp85BlfR2kpgIS8m7N1e8ZwHNTlOlAX6xD1YEsCWiHAGJ/M+MzQYNaQ4yOFVWB563hD0+SLgsqFevp5CdvSxwlL3Lw21A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL88QtN93y9XMOZUBGUSDTeIaQjOiu/3/P6zTnl1RRtrKdE52D
+	nYAjyd2AvJTIc+DBglp3RJW0qxaiRVMhZZlHAdIhDMpJ8bzvtMQQCXs=
+X-Gm-Gg: AfdE7cmXMg9LRFGDmPN6bJiake86yDBtvl/JT3s8lOfOCHMNjuVCmMGavui8X8taAgl
+	3fScA/HDiDH1poiqFbAW73AEqPzUWzMATBZB/+NfgrI4Wvuwm/juZqugrPjtb/tQCh6THw3RL5X
+	y2HigWsSSKUOddMfLxlchQF11WLvJWWXbGYu6nboB/6Dv2GdofWk3Gcuo3C03oeDaxntN7flhc/
+	KF6yZxf43XqeuOxnBWxSnMnI6UbsxossUD83CfEGjlobSCHl/w0RkOX754+OXk5/Q10Qu3Drwzt
+	+Uukl/WPSDLEyyZ13R2zNoaIJ3RC4GzuJsjhzx0f1I1WPw5Zz+fbvd14NgcxiuWgCN3eL4kiHTe
+	4LZLKGxwElaA9fVLmDaooH+n6XAzBLmBnd4G4gq19G2JSNvAB94PmMhGQyPnUSESZSB3om/pYbT
+	PBnUkDPC8HxoSE2UK5KKIv/27NqzA8+Z30bH+d1XFRkOmnDLFjCAM23mzefGE=
+X-Received: by 2002:a17:907:a709:b0:c12:caad:6efa with SMTP id a640c23a62f3a-c15a676bf23mr21887566b.4.1783341281063;
+        Mon, 06 Jul 2026 05:34:41 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19d7a375sm3926102a12.15.2026.07.06.05.34.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 05:34:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Cc: <tomasz.majchrzak@intel.com>, <linux-kernel@vger.kernel.org>, 
-	<error27@gmail.com>, <skhan@linuxfoundation.org>, 
-	<me@brighamcampbell.com>, <linux-kernel-mentees@lists.linux.dev>, 
-	<yukuai@fygo.io>
-X-Original-From: yu kuai <yukuai@fygo.io>
-X-Lms-Return-Path: <lba+26a4a1da4+d496d1+lists.linux.dev+yukuai@fygo.io>
+Date: Mon, 06 Jul 2026 09:34:34 -0300
+Message-Id: <DJRHPZG7YKTX.1HUB8IXSAR0R0@gmail.com>
+Subject: Re: [PATCH] drm/panel: novatek-nt37801: Use mipi_dsi_*_multi()
+ functions
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Doug Anderson" <dianders@chromium.org>
+Cc: "Krzysztof Kozlowski" <krzk@kernel.org>, "Brigham Campbell"
+ <me@brighamcampbell.com>, "David Airlie" <airlied@gmail.com>, "Jessica
+ Zhang" <jesszhan0024@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+X-Mailer: aerc 0.20.0
+References: <20260701125624.199786-1-nico.antinori.7@gmail.com>
+ <CAD=FV=VKKb1Xy2Y7D1Lv8DXhaG1_zHZqTk2Q74oT-YKGd5CCiQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=VKKb1Xy2Y7D1Lv8DXhaG1_zHZqTk2Q74oT-YKGd5CCiQ@mail.gmail.com>
 
-=E5=9C=A8 2026/6/22 22:06, Sajal Gupta =E5=86=99=E9=81=93:
+On Sat Jul 4, 2026 at 12:59 PM -03, Doug Anderson wrote:
+> Hi,
+>
+> On Wed, Jul 1, 2026 at 5:56=E2=80=AFAM Nicol=C3=A1s Antinori
+> <nico.antinori.7@gmail.com> wrote:
+>>
+>> Replace mipi_dsi_* functions with their non-deprecated mipi_dsi_*_multi
+>> counterparts. This change reduces error-checking boilerplate and improve=
+s
+>> readability.
+>>
+>> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+>> ---
+>> Note: I Compile-tested this patch since I don't own the panel to test it=
+.
+>>
+>>  drivers/gpu/drm/panel/panel-novatek-nt37801.c | 16 ++++++----------
+>>  1 file changed, 6 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt37801.c b/drivers/gpu=
+/drm/panel/panel-novatek-nt37801.c
+>> index d6a37d7e0cc6..daa356bbc182 100644
+>> --- a/drivers/gpu/drm/panel/panel-novatek-nt37801.c
+>> +++ b/drivers/gpu/drm/panel/panel-novatek-nt37801.c
+>> @@ -128,7 +128,8 @@ static int novatek_nt37801_off(struct novatek_nt3780=
+1 *ctx)
+>>  static int novatek_nt37801_prepare(struct drm_panel *panel)
+>>  {
+>>         struct novatek_nt37801 *ctx =3D to_novatek_nt37801(panel);
+>> -       struct device *dev =3D &ctx->dsi->dev;
+>> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
+>> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+>>         struct drm_dsc_picture_parameter_set pps;
+>>         int ret;
+>>
+>> @@ -145,15 +146,10 @@ static int novatek_nt37801_prepare(struct drm_pane=
+l *panel)
+>>
+>>         drm_dsc_pps_payload_pack(&pps, &ctx->dsc);
+>>
+>> -       ret =3D mipi_dsi_picture_parameter_set(ctx->dsi, &pps);
+>> -       if (ret < 0) {
+>> -               dev_err(panel->dev, "failed to transmit PPS: %d\n", ret)=
+;
+>> -               goto err;
+>> -       }
+>> -
+>> -       ret =3D mipi_dsi_compression_mode(ctx->dsi, true);
+>> -       if (ret < 0) {
+>> -               dev_err(dev, "failed to enable compression mode: %d\n", =
+ret);
+>> +       mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
+>> +       mipi_dsi_compression_mode_multi(&dsi_ctx, true);
+>> +       if (dsi_ctx.accum_err) {
+>> +               ret =3D dsi_ctx.accum_err;
+>>                 goto err;
+>>         }
+>
+> Sure, this looks pretty good.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> For bonus points, I think you could change novatek_nt37801_on() to
+> return "void" and take a "struct mipi_dsi_multi_context". Since
+> drm_dsc_pps_payload_pack() is harmless, the function can now just be:
+>
+>   novatek_nt37801_on(&dsi_ctx);
+>   drm_dsc_pps_payload_pack(&pps, &ctx->dsc);
+>   mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
+>   mipi_dsi_compression_mode_multi(&dsi_ctx, true);
+>   if (dsi_ctx.accum_err) {
+>     ...
+>   }
 
-> The loop in ppl_do_flush() continues iterating after calling
-> ppl_io_unit_finished(), touching io->pending_flushes and leading to a
-> use-after-free.
->
-> Add a break statement to stop the loop once io is freed.
->
-> Fixes: 1532d9e87e8b ("raid5-ppl: PPL support for disks with write-back ca=
-che enabled")
-> Reported-by: Dan Carpenter<error27@gmail.com>
-> Closes:https://lore.kernel.org/all/ajJF2wKYWRk4GGCK@stanley.mountain/
-> Signed-off-by: Sajal Gupta<sajal2005gupta@gmail.com>
-> ---
-> Compile tested only.
->
-> Changes in v2:
->   - drop the refcount_t conversion
->
-> v1:https://lore.kernel.org/all/20260622080656.22786-1-sajal2005gupta@gmai=
-l.com/
->
->   drivers/md/raid5-ppl.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
 
-Looks correct.
-
-Reviewed-by: Yu Kuai <yukuai@fygo.io>
-
---=20
-Thanks,
-Kuai
+Will send a v2 with those changes. Thank you for the suggestion!
