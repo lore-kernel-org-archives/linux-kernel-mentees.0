@@ -1,121 +1,152 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9504536F902
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Jul 2026 02:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D10414A3A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Jul 2026 13:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783391531; cv=none; b=pOYBpHXTEWvHxnwsnHkCDd0koHmr89Ttdbhf+EemlySriBs3WrS1EtfWrIojok9d5yVwtIP2q7zCzykopckmO0CdfO3A8Xq9cZTqAIm6aRKJXgXqG8GFRBZowoHDCB1it/uhK+jlg5QwDeFryLoXNdSZ4Xxf1k6GQ9yCcAO28vA=
+	t=1783429239; cv=none; b=t0Gr6LQUS7yR83EfDARBllv5kT9z/nvVJMKiOCJAc06rroI/8OKEndIqf1e9Cs01XADY4xQhD7ARep4YByFHqRfYGEWw4IwTQ9czHyi8glE8jM18FIwvVV/Gww1O4g/GRYLcRr+jvOe1oiGfReLuR7KsSBYUlkqIz07RcuyNPX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783391531; c=relaxed/simple;
-	bh=qrCzzfAoJOWqHGcmXakXv4hV01J1GN2MQWj19kFT8Gw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MqD/ugwRmyoqVc+s+dw0Ll0EO1JEk0h1ySzX/ZiGCfU/ykz9AsZl1KkE9Q3XBSdSEkGKwVE2yOL0WKBtFzD/rORHQqBjNyTaOoYEkrx4doia0o2FOmbdgLl4wJhrQqNECycTcduwal9E50/m6qmBC6yPs6LEYCZRWmmx9W9lGY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GAjgjgHn; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1783429239; c=relaxed/simple;
+	bh=Uf5wdHbvLT8glBukS87Z5XtjDjsk3W7uGIPm/Abkx0M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rtz7Pcgzunizxq8taU+MmBbwqwzRoL0qNQ2+1EmHEbz9yY5f8IwhV76X6ueRQKK0WV197HryFb4f1iaBFoJtbMIlfhWSqG2C+b9peEJgo4l3B+gcQdzWMvz9CTqMJc4FgZs2Fe9ktZ6iJdbPaMMBoL84UxLd4nnarkZUggIXoNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJyPflOV; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GAjgjgHn"
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5bd742e0c20so2649656e0c.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Jul 2026 19:32:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJyPflOV"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84830c774a0so556559b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Jul 2026 06:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783391527; x=1783996327; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hpzU4IzOiJcEhtdFeo7xYB0H/JZhSu55bWlqsKkTgM=;
-        b=GAjgjgHndCipK0RJl5dkBIbdW+cpU7yAX8SQqJPCoabTNioyWm1MG81/4iBB2s112q
-         e1TQj2y2H6z8zGKcT1ua7PjouyzKlT2NA4zBTNKtzNh8lriX33NVe92LrWuwSZ6OUvEq
-         oPqi/MpTzzzHUBcRbQ6i1eFh6WRrvBZqCgypo=
+        d=gmail.com; s=20251104; t=1783429238; x=1784034038; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EjSN27vhCfpwDogooT1C63qE/61HtdzQ904BFc54Umw=;
+        b=fJyPflOVQ4ZTBYcE5TJxcEO4ee/OseNt/OnC8oYb6XwPRqwhhr3oQJq2aN8qYpU+n3
+         +B7oP5zpGa7TgJA3AL5xXC9H7M+1pY69q1N4AztXdGy4KClbd6VjKIieTZN5DEM3Hj/9
+         N1S1aX8gxV+n6ngiS8GhRvgELsoKY3J6yRx1z/4edyFdJA27Gm6sfGdSnPMdfwOCPESg
+         YrIr7YF6S19doUe+IDtlEW5/qyyW9ZmHagzOC5gtrKAjbcjQ2ieXsDgTyGghTPZ6hU/R
+         U/Ll4b648RF+/2yj3/JlgPm0FPHfq0He5EiTJzvCSK9Mff/otyRNHI1SRTtk5F9KMA1u
+         esEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783391527; x=1783996327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8hpzU4IzOiJcEhtdFeo7xYB0H/JZhSu55bWlqsKkTgM=;
-        b=Gjmhmjckhl9CC+wpjcqDiomqauEta4z6lCX7F7jtaTW7tz3GGfbdKLHA2UQ0Q6tl+p
-         mq/XR4mXOLB38XYcMvM0IYQg1jXHgD3xdiwG/8x2uTc2o5+ZfS6ssM7bHMfmM3DekASz
-         RHss2QBItP3SIYrh5kjhy0Q7p+0ef0i2OaajXz3gKybHjCJnX8BABeTWxgb+pTi6WmZU
-         eB9SVQAv22Qxeb6GwX7CiblgBGqvFaR/lslLsKNN6XlcZFFkOfAPGnPFQ+K8qasds3p3
-         pqIDLMEW2j86EwhIJCD+SfA9rHQWzScbrv65wrM1fccOOfmtKm9wD4TRxi1D77SDxADw
-         +gKw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrwe5yqFbuoNcKxGukO1XecguDMBOyVkRlyY1LTCTTSRo9pk7i8DRwAzvuLG+RUvVJFEot20SBLxXuqz7lwILZ1ZEm+Zg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4mGsYOzTjbM8K81+TFBeiXpaV8ZYw13r3xgr/EmW1yKITtELJ
-	+4tk2OvbEagj7hNLwyXzP8ppX/2ZNHE1uqLej7kCBCP3lDaa9Xa2uYFajn780Ca3vaWBIPxcdJJ
-	56Fk=
-X-Gm-Gg: AfdE7ck81hDmW9DRBr3PXqLWH78YhkT+IXG3yAQquDYYwA1B0g2aBnWxtiGAcIMvlEK
-	7c+68UpsmbRWQVdFXlJh3CwRQgZ2/5Xlnrmq5VObndwfbDCy6i85rJ2KeY1JzLKjE2xwQMKzZJG
-	fWyaDPIeccMCQ85SKoauEJtn8ktNPj/LjoclGkHbaUwthu+q9SCxMMnRi9vSr1SRS7IyRvPaZB0
-	j/oUW6iUnkjibJ3tQseAfUizGeWBDMq5XfzL2/4C8VBeiGy2XEeL0Har7OicBEpZvUbezOTv7n/
-	eaKPn0GriRzD5jpxND1+ibE/D4s/MGpkV6bKaQLCSxDwQnSumrTw0NT509jHY9xfaiqfOWF/RSD
-	0d2/vWdRTVgDLZnKaOzxbVb2KAYMq9REY+Nnm9cnuFbsWP2W39zlphK+TcrshEvkwxv26oN7fKK
-	w3POKnZypXyaktsI2w5qG8VeSt3mRjMJh0Y3FDXESQCana1fvI3Xy6b5I=
-X-Received: by 2002:a05:6122:3b81:b0:5bd:cc32:280a with SMTP id 71dfb90a1353d-5be907438afmr1968786e0c.5.1783391526948;
-        Mon, 06 Jul 2026 19:32:06 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5be03ccd55esm5909387e0c.17.2026.07.06.19.32.05
-        for <linux-kernel-mentees@lists.linux.dev>
+        d=1e100.net; s=20251104; t=1783429238; x=1784034038;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EjSN27vhCfpwDogooT1C63qE/61HtdzQ904BFc54Umw=;
+        b=XC+PT5K7jLJGM1sno5psnkuf/M5fRstMuvPJYvxJLh0E2ZlexCXglr77k2JZfgV91x
+         +dQ2Zbtt9yqUNfr5pTuoC8pLufgo3h2U/MuBbpAnW2VArqv68vjcOgs2DuVR1NHF0sHs
+         EfRT8hnVMOf25zBEW8i6bzltocvrdM8k/2KT9TWTPGcKxtFZlFhl2VqKydxl5VjQBKBa
+         zxaI7Rfi0e2RZtl4c5Itzx8+Dn2Sl98kd5TvTvaimlnexSnLyMMfgDsi8zGjyWrfxgrY
+         C74+IbnWiz0fSJ0z2SiNLZz/K/qaDAzjmLi0X95Eh7/wroBHk3u1yupTHi+q7AZIXkPO
+         lUdg==
+X-Forwarded-Encrypted: i=1; AHgh+Rohm38xM/1qrzGoaXp2Vhp75UoeExER1WTzRrPrrkkG7fAjxpKdtwwLO5ABaMNyeN18dM3ZrCRubpx2UijkTFlzEqtScA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzawcJAWymrnguMB0w0DJV2tslACGrfy3J6bauwEnCtlEhRjdwn
+	ckmfgps+QLWb5jJSWVoWb6xY8khqxI9akGNbYKaS0kZr6O4BGd2rjAye
+X-Gm-Gg: AfdE7cnENHp0YfUdYJ3ZUmVV+xqDqjVtZ+BIeYoBYjHO7S0YV0KbxJ/rIN9q7YE9QZZ
+	e4/n9F32zgMCtVOJNgTvnhYk6+vvySgNXn27Fd8+/70kVVrvIB5hm+qWUMT8tbF3lsnHchB2aWI
+	3x1WGpvlBTy8U9sl5zt7Lf+CEro8Uahe3dJXv3vEvmzaYpdzOCSAL45u5HmTkJ8XhzmyoCZjK11
+	a3jJBXp8BGeHzv0Is3mBzIkk19bdRvZopSxxXlp4W1CLTgTLMKtYjb3CxsAKB748Lzj1NkBNhWo
+	ib/SErzYN8FSG24eplPK1XMnmX2swIj6dyiTmg6juYyuw8pqxAxtQPl6+nHgj3uJ7ZYicn8kJl4
+	5Qu8xo5k1Q/8Bvx9buZBeInxQMx6FRySLrVjYZmZsKougwsqhzN7K++agukfa9A5z78NSqzW7ir
+	UvY5EXl2zS0dJBEKJDVkQHdmB4ulwMV0qK502+DDTtQf2uDYDdf3biUPxZBwr07wInW+ZakrOuH
+	fkyforInW0DsOKtagmmDUU=
+X-Received: by 2002:a05:6a00:2195:b0:848:2f74:d8d3 with SMTP id d2e1a72fcca58-8482f74dc06mr2504483b3a.68.1783429237597;
+        Tue, 07 Jul 2026 06:00:37 -0700 (PDT)
+Received: from [192.168.0.101] ([202.179.95.46])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5af7d5b95sm1010719a12.3.2026.07.07.06.00.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 19:32:06 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-59d07df448bso3365251e0c.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 06 Jul 2026 19:32:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoMGl0uwypJeKp+Av8uEbTeq16Tgpse06AqLlipBv+t2ae94A+ODri0E6L9PhLOjP7D36G6yPaC1DZeLTvlM9qPZqzhQw==@lists.linux.dev
-X-Received: by 2002:a05:6122:218e:b0:5a0:2018:4dfa with SMTP id
- 71dfb90a1353d-5be89749afbmr1949268e0c.3.1783391524570; Mon, 06 Jul 2026
- 19:32:04 -0700 (PDT)
+        Tue, 07 Jul 2026 06:00:37 -0700 (PDT)
+Message-ID: <1b5ff53e-53fd-4600-97d8-7ba34d139e5e@gmail.com>
+Date: Tue, 7 Jul 2026 18:30:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706224414.1015766-1-nico.antinori.7@gmail.com>
-In-Reply-To: <20260706224414.1015766-1-nico.antinori.7@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Jul 2026 19:31:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UTtNdi_cUaqDXXWWFzZADh_HB=sJuZqKV=VB8tgFTwEg@mail.gmail.com>
-X-Gm-Features: AVVi8CeklK9TVcONBAUOBdeOyJD3ulzKuDFRIZUSZ2dDsrDnn4NDm00o4a5te_Y
-Message-ID: <CAD=FV=UTtNdi_cUaqDXXWWFzZADh_HB=sJuZqKV=VB8tgFTwEg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: novatek-nt37801: Use mipi_dsi_*_multi() functions
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, 
-	David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: leds: bcm6358: Convert to DT schema
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, jonas.gorski@gmail.com, noltari@gmail.com,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+References: <20260609181731.1379846-1-ninadnaik07@gmail.com>
+ <20260610-gifted-zebra-of-reward-2ab6c7@quoll>
+Content-Language: en-US
+From: Ninad Naik <ninadnaik07@gmail.com>
+In-Reply-To: <20260610-gifted-zebra-of-reward-2ab6c7@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
 
-On Mon, Jul 6, 2026 at 3:44=E2=80=AFPM Nicol=C3=A1s Antinori
-<nico.antinori.7@gmail.com> wrote:
+On 10/06/26 2:09 pm, Krzysztof Kozlowski wrote:
+> On Tue, Jun 09, 2026 at 11:47:01PM +0530, Ninad Naik wrote:
+>> +maintainers:
+>> +  - Álvaro Fernández Rojas <noltari@gmail.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: brcm,bcm6358-leds
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  "#address-cells":
+>> +    const: 1
+>> +
+>> +  "#size-cells":
+>> +    const: 0
+>> +
+>> +  brcm,clk-div:
+>> +    description: SCK signal divider.
+>> +    default: 1
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    enum: [1, 2, 4, 8]
+>> +
+>> +  brcm,clk-dat-low:
+>> +    description: Makes clock and data signals active low.
+>> +    type: boolean
+>> +
+>> +patternProperties:
+>> +  "^led@(0|1?[0-9a-f])$":
+> "0" is already in "[0-9a-f]".
+Thanks for pointing out. I will remove the redundant 0.
 >
-> Replace mipi_dsi_* functions with their non-deprecated mipi_dsi_*_multi
-> counterparts. This change reduces error-checking boilerplate and improves
-> readability.
->
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
-> ---
-> Changelog:
-> v2:
-> Implement feedback from the previous thread to simplify code in the
-> novatek_nt37801_prepare() function. This converts novatek_nt37801_on() to
-> return void and passes the mipi_dsi_multi_context struct directly as an
-> argument.
->
-> v1:
-> https://lore.kernel.org/dri-devel/20260701125624.199786-1-nico.antinori.7=
-@gmail.com/T/#u
->
->  drivers/gpu/drm/panel/panel-novatek-nt37801.c | 110 ++++++++----------
->  1 file changed, 48 insertions(+), 62 deletions(-)
+>> +    type: object
+>> +    $ref: common.yaml#
+>> +    description: Each LED is represented as a sub-node of
+>> +      this device.
+>> +
+>> +    properties:
+>> +      reg:
+>> +        description: LED pin number (0 to 31).
+>> +        maxItems: 1
+>> +
+>> +      label: true
+>> +
+>> +      default-state: true
+>> +
+>> +      linux,default-trigger: true
+>> +
+>> +      active-low: true
+> Drop all four above and switch to unevaluatedProperties: false.
+> unevaluatedProperties should be also placed after $ref: common.yaml for
+> example.
 
-Yah, looks great. Thanks!
+I explicitly listed those properties and used additionalProperties: 
+false based on Conor's feedback in v1, but now I agree that relying on 
+common.yaml with unevaluatedProperties: false is a cleaner and more 
+modern approach. I will drop the explicit properties in v3.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-...barring anything else coming  up, I'll plan to apply in ~1 week.
+Thanks,
 
--Doug
+Ninad Naik
+
