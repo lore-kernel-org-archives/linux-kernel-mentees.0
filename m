@@ -1,75 +1,73 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040CB33689A
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 16:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B10F345CC0
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 17:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783959858; cv=none; b=p5JBTkaMXupaF0l0K/MX5q5Lu2WTNZC7jqevroaqh628+eAmMks768sLz/O2Ae9Sn/P0YnKfi0DPcbp83goex1wgEzHPj0TTt6M4lZAUnRZbf1HIVWfAGFls13HYRheN2A2VaxvSr9UN3LDZ7+HPQwZNQlFXsYUpxj42PQpx3Bw=
+	t=1783965084; cv=none; b=glXiRc4MoywkmFaH5iD10YjSdWXK3u/bvjH3jRgRkdIu6W0023O5viC16FDjaV4k6r5kg36rLr4h3D7q+Z060siX+bv6jDMbDVSIaR0OScUU3qEZjAMdUldyIKd8vOGizm8OINjhw+A+loTiBp7riWSklL/5rTau3FdR9eb6ecE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783959858; c=relaxed/simple;
-	bh=3Q+AodIikP9xCHgmvXlA1vIHQzvTfE3RDiDZXjwgjxA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pxeLt2C0mvFqbvXlQkyUi/m+mpyRNZQlvtZbM5yN4hBK2gPjsRjlDFFY/IQg92zYgxTbSEYs7GoazdAFgsriUKshxM7thP7B8LGwtifszUl2kSK74TRwaKD+gEAc4DhfYl3y6liGNXT7O/4e2X3O7NLuo4XsN5+CyBEbpCz1M1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZQ3Jy2V; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1783965084; c=relaxed/simple;
+	bh=lIuSLdLFUMYHYIkQND+5ezv/2Gm5SAaNrjxK7kuHO+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cZGWpOYtOJU+Rr7qQ6xVqJPAHz/215hx7Q9u8w05CztTjPQzNN3nGhGuU1GgKX85VAQr0w+V7ilxBN3j/PSDgvhRVeiOKrpulhkeCZ2EjKMf60s9zosS5Wd2bhoSIlam1gRlQXJTLbvQ+RbuQlYHY/ThE/3KSJ+eZZ6phV/2p3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTnoiAQI; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZQ3Jy2V"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2cc891373e0so37984205ad.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 09:24:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTnoiAQI"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38dd55ad76cso120044a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 10:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783959856; x=1784564656; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783965083; x=1784569883; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WQC/83rTdPxjmMhg2uRtbJr8hdPQYpkf0x/BDJRkMyg=;
-        b=AZQ3Jy2VboWuoWMpgc7obOXMv/Pm1formhZBNieBATKd5AWxKfJkTTgcWSQNzqeTRr
-         1zaxXgvUrPVOcMu5C3tDHrMo3Kq9Kah0YezLV0i9Cv3KtMv89ZQ5qMbQJuT9qLtFZzEx
-         XS1DexAjBcU4gJYJH9P28xVcDz1iRdhiig3sUGaHkhzlNDjaEn79Q76xx/Od4jxiCtKl
-         p2iPFlI+VnRR5gKxKb8/4jon+YV7Wa3SypzWroAIewnDoWlX2X5ZTfsx9z9nhRd5byx+
-         J5ahkeehfVZccHQ79/7Wp5nhkZPLLEeEVCKs9qUzJEu1qqJlV3HGiWw7By9MlbxkGmmO
-         +rpQ==
+        bh=7b5s+xdKt531buNfoF0W/b2tSHU/H/fnzI1QXPkyZpQ=;
+        b=HTnoiAQI+hfpVL3o+r91CCnTd6mnKXr/3hXMUQUAxqr22ZZFWx5tAqEkj1z1Iu0gV/
+         6jLQKRy2I8YsAI25REco02dF0I5v1GHuwFdTeYRg1cixTisOyLa2H2o0+8xhDmMe8baB
+         u7rTWNWYA5NZc1m5Ppx1e1b5UKOIfFhlzSWIilMStOl8Ml3qODGr+JyQfDBPcZtWEo10
+         DC1OZxWNVM4SBAxbnZCOO3WQ5e6lRjHf6lb+5dT+siObsntDjN9jDlwEIc0/RXnPRf2w
+         cBKjItmSX/pw7q93eCU9zFxo2VMEtzWMkQe5e4MLVtBAcWf+axbmxCwWBC77wjOmXpoa
+         Jf5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783959856; x=1784564656;
+        d=1e100.net; s=20251104; t=1783965083; x=1784569883;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WQC/83rTdPxjmMhg2uRtbJr8hdPQYpkf0x/BDJRkMyg=;
-        b=aXWh6QU5cuOcnIuFUiy3/LDOdwnZplhNmrFGyDONi9FT/XFzX5Q7tEYlYPUegcGek+
-         264cxDTaKZgAVXjxd7IHmfFVPT4Q7avhF7ZrFYcQQyp8L+yX85pMFv4DjfEMc7npWk4m
-         oj85kAwzoCWuWrRWztMjdPTZGdjm3cvAvkGB9IWijBmYFYdMAj4G1vgxiiqZYSBAzsDi
-         xkz9YMJNEVHBF/aAajhS2dN2u6wtNxH+6XMxjY/H+iJxjH54oKnNIUf/D3GAcNsZxw48
-         1slcYCUcG+PhocWRvTGNBf58GD84Cv+7xEOgcCKUw7Db8pEWm7u9tXh2a0E7htfqfrsX
-         hV4g==
-X-Forwarded-Encrypted: i=1; AHgh+RpPlNDdJInr6m7g2C8zrNl5PermxKl/Ch1Z+x4L+lw8UQTG8qNQl66jdGiWkkFR4x3cNKjWPrwbpj4YwE7Egx54Q2eoag==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVUd9rJizbM7kCTJCIozN9sYKvYlJ2/a2POPl3L7JzED/cIil+
-	VhzvTiqD585e6K/uYWd6XmMeBnLz/vSJPHQdqGCnCXRKzQnLsNwabGcVg16CLcua
-X-Gm-Gg: AfdE7ckiyBXkrOAadIvqVOOnliHYv+Sssg4uf+1GuHYXWxY0Ac45Hjn+ENl1MaWfk6M
-	cs0gHM/1TJ5JY2jEIQ/iBiC2UaNm/Fa1VPMq1xtMew8mEmTXxDMUZ8UhnLwqyXMrKD9hi9KZz7k
-	t+EyNBoPC5OFyFcpZVf1A6i4qQv/w+HXPoF2Py7fPuUraSCzLWCk0op33KnkQjMIbB23B64b0vD
-	0j+B+qNA5fx2lJh8BQ3kc9oMjIaH1sosXdiBlVLCy4xnvHnnGIY3hkxXHqhRCuf2SHzFwOqfIGg
-	XoukKqUxxeqiA/78t9AckovXWkrfJ6//lXsx7pXyb8WacSkLEQR3JxxuGJusXKL/HpM+yw7lrtu
-	1CympENVF08Vp39Prn6LomISOEyqruJC2cEggeLe5P/VI2TUfWO6GVd10FKQiw82UbKT7CTxhvQ
-	q6Bm4iiqJ01yvaUVRmfRuiWfvaeZoKtqZfJhyR
-X-Received: by 2002:a17:902:d591:b0:2ca:c68:c554 with SMTP id d9443c01a7336-2ce9f15d1f6mr88684135ad.38.1783959856288;
-        Mon, 13 Jul 2026 09:24:16 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:fef1:348:93e9:93fd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d59e51sm103838005ad.76.2026.07.13.09.24.12
+        bh=7b5s+xdKt531buNfoF0W/b2tSHU/H/fnzI1QXPkyZpQ=;
+        b=nLXlJGSAUk8spTwyGtqRVuTQn87wDLeJHv/rw040tX1qvNNAutBdXd4cspbLFAFvKk
+         0XuxhcnVMvaEu1hywHLP9J9G6NCfREGTDCniHXlgE7+PqMBccN4kQWzxDhC9EIe5thpQ
+         rZ5resyuZcEUgaZUV6+BX39SsXQblWjM4BuwwTHCmhPNf9a4M0gYBO52GfdWPu1DN2t+
+         2+ZpLmAADT3Ae18GrWT44li2ht+DmhAILurn5rk0D94xAmGTi/Ur2831HowJa72G7q+l
+         grDVDg8fdj6F6dZySBorgkkWHZkH5xeJKz9gTIhJ2s9KIEF7YDhRsehK64M1tkNCvNzS
+         EYRQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrUy3KO+S6nLN72oKMgmHJ7+ISznllBOSUaHj59oJliKJwGTFcjK7zsBJ9RY3Y7H2SbwNMfkkqE4Y4sBeeLFqpLYgvuqA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwMli0w6DcK0fBNvkPg2yxocyP+UcSJcR+5vGdjzeXPFOyh9M8c
+	+BppMTSmc1NB2dTTRGitRhgMgjDDHgEbdUzPNrIeiQG9fLpkF3KCMDIO
+X-Gm-Gg: AfdE7ckm73YU0viUrpWjO+fhl+y5JNMxm4SDhVYXPpwgPaCSfiaEP2k1o32ByChPAoU
+	xOd3ujrALWojMD+tue2aH46DHWXiaNqSaNITPnSCEacqP5/jy489zqZi+Skq5g5up8n5rBEz82y
+	ryC8kEkVYm6qbkYzwY8WaDcA2kA6qw+3dD2ylZgaR5AykmqWFW39LE5intstr1e93gI9oHy8X7f
+	8d/dOP6s0PMj+1Kx+Uf6dSJeeht1GaPBdjQUZC4EoHSqVaMM8zVtVQC+YJRHido3ss2pUrmwN+2
+	NZPBqwhQEVmc+IAsC91AtOnkQ86zF30HwIrh2Rs+415kfUWSw/tJ8fHyCyLXQ8HsEkEZAr6njnD
+	AIKg4q9ahtfpQgjdB5lRpO0Ow0w58WXF2iLHnRqeYZ8o2U6f5TSR2a9rU2/aF49gnGTZYxY1Hgi
+	EIhMUggkSWdQA7JTo6eHurXe8ucgwjGQCg6BD+Qes=
+X-Received: by 2002:a17:90b:2548:b0:36b:4d63:4a93 with SMTP id 98e67ed59e1d1-38d15364030mr14878803a91.13.1783965082598;
+        Mon, 13 Jul 2026 10:51:22 -0700 (PDT)
+Received: from primary ([223.181.22.8])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f596asm72354027eec.2.2026.07.13.10.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 09:24:15 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: tfiga@chromium.org,
-	m.szyprowski@samsung.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
+        Mon, 13 Jul 2026 10:51:22 -0700 (PDT)
+From: Vidhu Sarwal <vidhu.linux@gmail.com>
+To: almaz.alexandrovich@paragon-software.com
+Cc: ntfs3@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev,
-	me@brighamcampbell.com,
-	koolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH] media: videobuf2: move vb2_querybuf() kernel-doc to header
-Date: Mon, 13 Jul 2026 23:24:03 +0700
-Message-ID: <20260713162403.13545-1-tharitt97@gmail.com>
+	Vidhu Sarwal <vidhu.linux@gmail.com>,
+	syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+Subject: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from reaching writeback error handling
+Date: Mon, 13 Jul 2026 14:11:40 +0530
+Message-ID: <20260713084140.249515-1-vidhu.linux@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -79,69 +77,60 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the function documentation for vb2_querybuf() from videobuf2-v4l2.c
-to videobuf2-v4l2.h to match other functions.
+attr_data_write_resident() returns the internal positive status code
+E_NTFS_NONRESIDENT when the DATA attribute becomes non-resident.
+ntfs_writepages() propagates this value into generic writeback error
+handling, which expects a standard negative errno and triggers
+WARN_ON_ONCE(err > 0).
 
-Leaving the comment in the source file prevents the kernel-doc parser
-from extracting it - thus become missing from the generated HTML.
+Translate positive E_NTFS_* status codes to -EIO before recording
+the writeback error. This prevents positive internal status codes from
+reaching generic writeback code while preserving the existing behaviour
+of treating this path as a writeback error.
 
-Additionally, format the comment block to be the same style as other
-functions in the header.
-
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
 ---
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 13 -------------
- include/media/videobuf2-v4l2.h                  | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 13 deletions(-)
+RFC:
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index 4baded4fd..5a1ee5eb9 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -635,19 +635,6 @@ struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp)
- }
- EXPORT_SYMBOL_GPL(vb2_find_buffer);
+I'd appreciate guidance on whether -EIO is the appropriate errno here.
+
+E_NTFS_NONRESIDENT indicates that the DATA attribute became
+non-resident during writeback. Translating it to -EIO prevents the
+positive internal status code from reaching generic writeback code and
+preserves the existing behaviour of treating this path as a writeback
+error.
+
+However, if the intended behaviour is to retry the write using the
+non-resident path instead of failing it, then the correct solution would
+be more than a simple errno translation. The proposed change assumes the
+current terminal-error behaviour is intentional.
+ fs/ntfs3/inode.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 0c9bd669117d..9458867c6b0b 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1019,6 +1019,15 @@ static int ntfs_writepages(struct address_space *mapping,
  
--/*
-- * vb2_querybuf() - query video buffer information
-- * @q:		vb2 queue
-- * @b:		buffer struct passed from userspace to vidioc_querybuf handler
-- *		in driver
-- *
-- * Should be called from vidioc_querybuf ioctl handler in driver.
-- * This function will verify the passed v4l2_buffer structure and fill the
-- * relevant information for the userspace.
-- *
-- * The return values from this function are intended to be directly returned
-- * from vidioc_querybuf handler in driver.
-- */
- int vb2_querybuf(struct vb2_queue *q, struct v4l2_buffer *b)
- {
- 	struct vb2_buffer *vb;
-diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
-index 71d2864fb..d51e10c10 100644
---- a/include/media/videobuf2-v4l2.h
-+++ b/include/media/videobuf2-v4l2.h
-@@ -72,6 +72,19 @@ struct vb2_v4l2_buffer {
-  */
- struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp);
- 
-+/**
-+ * vb2_querybuf() - Query video buffer information
-+ * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-+ * @b:		buffer structure passed from userspace to
-+ *		&v4l2_ioctl_ops->vidioc_querybuf handler in driver
-+ *
-+ * Should be called from vidioc_querybuf ioctl handler in driver.
-+ * This function will verify the passed v4l2_buffer structure and fill the
-+ * relevant information for the userspace.
-+ *
-+ * The return values from this function are intended to be directly returned
-+ * from vidioc_querybuf handler in driver.
-+ */
- int vb2_querybuf(struct vb2_queue *q, struct v4l2_buffer *b);
- 
- /**
+ 			folio_unlock(folio);
+ 			if (err2) {
++				/*
++				 * attr_data_write_resident() can return the
++				 * positive internal code E_NTFS_NONRESIDENT;
++				 * both mapping_set_error() and writeback_iter()
++				 * need a negative errno and warn on a positive
++				 * value.
++				 */
++				if (err2 > 0)
++					err2 = -EIO;
+ 				mapping_set_error(mapping, err2);
+ 				if (!err)
+ 					err = err2;
+
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
 -- 
 2.53.0
 
