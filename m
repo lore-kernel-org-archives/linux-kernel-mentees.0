@@ -1,166 +1,166 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3410125F994
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 04:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26B634EEE5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 04:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783918452; cv=none; b=XI9AfhGAadJmsjG92eqCzZUpWFauT50y5FsCiT6X+z4mbsO5G1fJ+xGgFg16eykl/IOPtIkRu7mJPxyBuWtdue2JqX8eVXb30bviUGiz1/dJf7g06Cj3KDkejoDzVkl/4SlnyvXQNYhyvxoApAj8xYVi3nYUsr/0CHbGBJEhLdc=
+	t=1783918679; cv=none; b=KFMahBxMhFbnPsGuTVmPxXc8yBqXcEOgbqUQf2goLS3dytn+eAOMLCrp9wbtXFzaT/69/ReErRlZ6ql6enhMRiNWSuNuk3dl1GngpGpJJGJRTrtlML/KAFhMP+fFwKdy4pi4tbbo/IbQ1zHfUunXDJ3ihKNcc18YCD2ksobrTG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783918452; c=relaxed/simple;
-	bh=aWyuivC0uBr2raUrYrGhB6xX3JmGBmcCaiXVvYEGVQ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MY1kBKzzJ2KeARDJnYa/Er+4WcSWTILAvtoN+SEEq0NCEkPgxkjuovYqUJsbzMghaMG8PYg0Ww6grpE17b5EoIKBQlUVxoprRSB3eLbSUY1vSOPLq4auf0f9tMBggPghoCb9NgpOSU+h6csnRakSXHgZbofrA2jZkcRoAQBS6RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGIIrp8m; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1783918679; c=relaxed/simple;
+	bh=LflzoFEAZCGohBe6+8suK5icx8InddD6Nep0mFpxNEM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RkAdDUNcFJAp+rAGCUVKurQT7Fca1VInrSl+X2LlJAwyI8MxF06EUPplD0S6rl5cv2WqXSCAvr2W3ok6Q2j0vAHjwCjvBVhgG4liEveBQmQK7tFu+vvIVLkmip5ixir1YYuWRJakpirkMOx4jAnjUqnTN1rT55kkwfWzP/4uqEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pyRQNuqv; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGIIrp8m"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cab973140bso31174545ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Jul 2026 21:54:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pyRQNuqv"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so22887985ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Jul 2026 21:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783918449; x=1784523249; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sFT84HfE6g23Y0JSEsGGMWs+C5GZdiRx3RFEfHBMGN4=;
-        b=mGIIrp8mS3IGZ/6LMGjJqK+56Ec7RkmvgYFz7y94NMdIKxSdu/YDiQeCLrjH4V2TAS
-         teFHSju/Qc16AjGYVXqgcHkjks/FSQLW0pTG0qFSH0sQKpGc8PZKlOpfTzsrMWpT9aQm
-         DXkOU42dfafLItXIRORUqGMSXuejpCHRgylDg6EOARSYMiMxJ5r31J1j4o9aHuVLo55/
-         aJvYuNOnAbvfnfvxIZN4t3ip07EE2NrTBr1dT/u6QiyGR7fQPjONG+EVU04xj0kYsT8P
-         Bvpc0yYjtk59HB23zVwSUcng0jtLoDfEi5ESK3LzEmcQWb6pCAZkKdGZ8fSMsEskPhxv
-         GlZA==
+        d=gmail.com; s=20251104; t=1783918677; x=1784523477; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I2Wy8lwvqhiTKT55Dm2cNnX9AvjqZigx9HgdgElZQis=;
+        b=pyRQNuqvbiv6G29TZok7eZOaejvQWs4IOToXdgbux4E6grDSppV9FTS6Et4mHiDeSh
+         oKmykKZz9L0M+0hRbJK9/S5n0+Q4ly4qs5X42thnCcl2UsFkW6ZJSUMyHTwQfPhHaiiW
+         b46p0ifBA08YtS0xeNuUkRZDkjLl44HlsQ7xoGdpHhV/e4s89daDJwo38GQcEr923aFP
+         3WFF87YMG7+YmvfQodTkajBLQAJnQBZT11+Tz3654A7VIGYN5p8tYszJ7sBjzthAOjzb
+         HpHfdkUUv+i60syf8NfnkyGndAmXh+MD1KgJqQZ1mg+zdMH4CD30qKGmC3TeTfIxl7VB
+         YMlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783918449; x=1784523249;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1783918677; x=1784523477;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sFT84HfE6g23Y0JSEsGGMWs+C5GZdiRx3RFEfHBMGN4=;
-        b=N7qyBraxPb6TNT4xwXRrQ2dfWxyKBWbO7cYcFp85LdS6SGR5OKBrK3LTY+n/l/pfvX
-         QXGE02qVcZyHG2f2Immrh6pvw04q/6msCyui/Uo7999vjP3sbxmG9xCwWNNmCxEt0qkw
-         aM/uXOCwJodxlJq7/5AbQyYAoCpybcglQYbxYVRRWkD7aNQ/bNiEAveGCzB0kwwH//Ds
-         yl6n/L4NEbFcH+NFGyM0B2MfduXbImE8cqWglHLXLCkUZasCIF3M4NcFAcVEWIQcCUDz
-         2SMuKXGWK2/1LNtqJ/Bu4lGwVYeWZ9IbY5yl21K6lhHgahRI78jp72BOEySPHeFNQOAb
-         0QWA==
-X-Forwarded-Encrypted: i=1; AHgh+RoxRjz65JhD7B3GJgXJZSZW0A5d7AS+USE8OkYUcCa88RuNBVzLRetcZdNg3M/oyCVo5211Y4WITI/md0J+PQfFkpFe+A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwoBiTX+Jo5rnYOvY13YreNmqPXw7VeN1OhwTZoa0MYcIPOzDA/
-	ISPyBInknnx/hZm9VMQ2anY4Uz5xeQxs+AdGku9LIgDFZGt/JPrVPnBe
-X-Gm-Gg: AfdE7cmIiEe2Lif0UKtlku8MBu0+6hoel1fFNv4ehDYD01vZC2q65WF6E1y19o5xugY
-	UR9SBSfH2AlzC1UkQsRacMoEl0IycyPHYq82gB/gMgWnrujZJZEiOSTqFGptrUuAhnOlF/7mle0
-	HM6kUBHr94j2UQ20gJBJ0dUciMbCl8FrBacL179z82C6ZRLcBROpElc+Ji/vHEaEopUvcU3IHOM
-	SO16PyQQBeINwROBUt/omukcWWfOC69fnzc0gx62q8WOUsbfrnBmI+h6Z+mK0hKqVoqcTX08E7m
-	AEqJTSGCnlG3Ql0ktU5rNktwr2iZ6kFzugJ3iMNphNrTUHZl4mK8Kr0iiB6tgk91xZ4GWKMI4Ib
-	vCSv+4aQ5pAMBNQZLbWAktD+rZa15Z+tBwBA2qCpxC/skMQHAZhmFxHv1KSPvVVubd7XrxuxvZJ
-	dU/2mtAi9djPJ2nFa75hls7CXhZaY=
-X-Received: by 2002:a17:903:b07:b0:2c9:ff29:3f91 with SMTP id d9443c01a7336-2ce9e7a5613mr78426635ad.6.1783918449548;
-        Sun, 12 Jul 2026 21:54:09 -0700 (PDT)
-Received: from mo-Inspiron-5559.. ([2001:fb1:db:5c33:ea21:9586:4d37:987d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bbaesm92010215ad.57.2026.07.12.21.54.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 21:54:08 -0700 (PDT)
-From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	shuah@kernel.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	woradorn.laon@gmail.com
-Subject: [PATCH v4] tracing: Use seq_buf for string concatenation
-Date: Mon, 13 Jul 2026 11:52:49 +0700
-Message-ID: <20260713045249.69942-1-woradorn.laon@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=I2Wy8lwvqhiTKT55Dm2cNnX9AvjqZigx9HgdgElZQis=;
+        b=TW1cK5yzIH2F0ioVlrzMRa0bepg8ZPkxpqKAOh5wIfZcYClGGHawWK7llQ5af6sKtQ
+         +aHW8d0NwJMlaKnsQyQY9DVDV8fSmG2hzwWhuag3rxVdrV84bNwWRa4VajYLlsqIPIRI
+         frPZNw4XDUZe649LsgEIiG+Y4ro30u2jqdmojGHH0LKw31m76XjjLf5lSwss1MrvWWkN
+         dISnymh4HZXi+blYwo5JfQmA6YrdBWlL/TzdZvJwhl8uANxc+xzci9Lk+ywTD/Mb2YTB
+         RDVltiLK/7lFUlWOSI9dZztQ/UaAffz8wIt6EmAKAcnmouuGC2OHvzyupkqm5ZeWOfk2
+         3CgA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2zshmVWzuU58D8SQITKlSb3u2s7tmT0v5lOBwCEbAjEbOgOGXwRNfafKUoLtIgn08JVirCC+WVNP36cX9dK11V6sy7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz49z7X7P5MaUMryqJBPNfCvnwF19hd6MJVAobMIiqtbauVL3Hm
+	Vsta8WX5vyafl5FR1LXzYTGiIEEebwccZG7Y/Vavu3GGhrrKDNqnp7fP
+X-Gm-Gg: AfdE7cnMO+tF9Sw5PUH3zswARBftwt3jFlZ24Wb4dQR1uinEfN8afFy3FttyBXW/fsE
+	4hSdXtot55O6AhUBJcxQLYFMx2qvhvtDd0/o5WrNd2hrLew7M6nWOLaVuHs4KXhG0YFyktBcJX/
+	6JyerkKMJ2kOW6m0AP1BsWBIHUqUjLp1+ZSjbUwnWWs/KdqwYWCn/1A5fGseiEXW8vP6pS54DRo
+	Yggpwsk950oupx7wpj9D9zJ7EtfPrdiRHkviTyE+lsvR0dboV1B31xSTg1mJaFyt5vGG9ngh5P4
+	fBpsG/bwLmm3ik/1cDl4SNPk0g5QpnJGWwbvkOdj3hWbRN/RCKdFk5r501VSWPsv2h7B3Ac5c14
+	hxk8L9/HwnWR6gaZhMGRwr4ZNjAuaW4bXS7guCiFeqT69QxFPm9HMWew20knIU4eZgh4fk05jVG
+	2+jMaRbf113NYa8YfMvxVtR6KW2EcILgbhzSirAah2Vq+za4MzszHahlNZwneZF1Xz3rFZvnwFJ
+	NjFpn9C373GzZU=
+X-Received: by 2002:a05:6a21:4d8f:b0:3c0:9c1a:894f with SMTP id adf61e73a8af0-3c110b33403mr8347974637.71.1783918677163;
+        Sun, 12 Jul 2026 21:57:57 -0700 (PDT)
+Received: from ?IPV6:2001:fb1:db:5c33:7066:708a:3018:7aec? ([2001:fb1:db:5c33:7066:708a:3018:7aec])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cabc7b2aa4bsm2033582a12.10.2026.07.12.21.57.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jul 2026 21:57:53 -0700 (PDT)
+Message-ID: <79f36674-5a35-4aaf-b5b1-bc6189c222ad@gmail.com>
+Date: Mon, 13 Jul 2026 11:57:46 +0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] tracing: Use seq_buf for string concatenation
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ shuah@kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com,
+ jkoolstra@xs4all.nl
+References: <20260622094623.18469-1-woradorn.laon@gmail.com>
+ <20260629143947.2216574e@robin>
+Content-Language: en-US
+From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+In-Reply-To: <20260629143947.2216574e@robin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In preparation for removing the strlcat API[1],
-replace the string concatenation logic with a struct seq_buf,
-which tracks the current position and the remaining space internally.
+On 30/6/2569 BE 01:39, Steven Rostedt wrote:
+> On Mon, 22 Jun 2026 16:46:23 +0700
+> Woradorn Laodhanadhaworn <woradorn.laon@gmail.com> wrote:
+> 
+>>  
+>>  #include <trace/events/sched.h>
+>>  #include <trace/syscall.h>
+>> @@ -4500,14 +4501,20 @@ static void __add_event_to_tracers(struct trace_event_call *call)
+>>  extern struct trace_event_call *__start_ftrace_events[];
+>>  extern struct trace_event_call *__stop_ftrace_events[];
+>>  
+>> -static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
+> 
+> Keep the above string and just assign it.
+> 
+>> +static struct seq_buf bootup_event_buf __initdata = {
+>> +	.buffer = (char[COMMAND_LINE_SIZE]) {},
+>> +	.size = COMMAND_LINE_SIZE,
+>> +};
+> 
+> static struct seq_buf bootup_event_seq __initdata = {
+> 	.buffer = bootup_event_buf;
+> 	.size = sizeof(bootup_event_buf);
+> };
+> 
+>>  
+>>  static __init int setup_trace_event(char *str)
+>>  {
+>> -	if (bootup_event_buf[0] != '\0')
+>> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
+>> +	if (seq_buf_used(&bootup_event_buf) > 0)
+>> +		seq_buf_puts(&bootup_event_buf, ",");
+>> +
+>> +	seq_buf_puts(&bootup_event_buf, str);
+>>  
+>> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
+>> +	if (seq_buf_has_overflowed(&bootup_event_buf))
+>> +		return -ENOMEM;
+>>  
+>>  	trace_set_ring_buffer_expanded(NULL);
+>>  	disable_tracing_selftest("running event tracing");
+>> @@ -4766,7 +4773,7 @@ static __init int event_trace_enable(void)
+>>  	 */
+>>  	__trace_early_add_events(tr);
+>>  
+>> -	early_enable_events(tr, bootup_event_buf, false);
+>> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), false);
+> 
+> The above then would be:
+> 
+> 	seq_buf_str(&bootup_event_seq);
+> 	early_enable_events(tr, bootup_event_buf, false);
+> 
+> Don't typecast a const char* to non const.
+> 
+>>  
+>>  	trace_printk_start_comm();
+>>  
+>> @@ -4794,7 +4801,7 @@ static __init int event_trace_enable_again(void)
+>>  	if (!tr)
+>>  		return -ENODEV;
+>>  
+>> -	early_enable_events(tr, bootup_event_buf, true);
+>> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), true);
+> 
+> Same here.
+> 
+> -- Steve
+> 
+>>  
+>>  	return 0;
+>>  }
+> 
 
-Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
+Thank you, Steven, for your review. I've sent v4:
+https://lore.kernel.org/all/20260713045249.69942-1-woradorn.laon@gmail.com
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-
-Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
----
-v1 -> v2: 
-	- Fixed WARN_ON when booting with empty trace_event.
-v2 -> v3: 
-	- Addressed Sashiko's concern about the compound literal backing buffer.
-	- Replaced the compund literal with an explicit declared buffer and pointed
-	seq_buf.buffer to it. This guarantees the backing storage is placed in 
-	`.init.data` and reclaimed after boot.
-v3 -> v4:
-	- Removed typecast a const char* to non const.
-
-v1: https://lore.kernel.org/all/20260620175441.223342-1-woradorn.laon@gmail.com
-v2: https://lore.kernel.org/all/20260622094623.18469-1-woradorn.laon@gmail.com
-v3: https://lore.kernel.org/all/20260623145147.12145-1-woradorn.laon@gmail.com
-Sashiko: https://sashiko.dev/#/patchset/20260622094623.18469-1-woradorn.laon%40gmail.com
-
- kernel/trace/trace_events.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index c46e623e7e0d..4f5a0e73a89b 100644
---- a/kernel/trace/trace_events.c
-+++ b/kernel/trace/trace_events.c
-@@ -22,6 +22,7 @@
- #include <linux/sort.h>
- #include <linux/slab.h>
- #include <linux/delay.h>
-+#include <linux/seq_buf.h>
- 
- #include <trace/events/sched.h>
- #include <trace/syscall.h>
-@@ -4501,13 +4502,20 @@ extern struct trace_event_call *__start_ftrace_events[];
- extern struct trace_event_call *__stop_ftrace_events[];
- 
- static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
-+static struct seq_buf bootup_event_seq __initdata = {
-+	.buffer = bootup_event_buf,
-+	.size = sizeof(bootup_event_buf),
-+};
- 
- static __init int setup_trace_event(char *str)
- {
--	if (bootup_event_buf[0] != '\0')
--		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
-+	if (seq_buf_used(&bootup_event_seq) > 0)
-+		seq_buf_puts(&bootup_event_seq, ",");
-+
-+	seq_buf_puts(&bootup_event_seq, str);
- 
--	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
-+	if (seq_buf_has_overflowed(&bootup_event_seq))
-+		return -ENOMEM;
- 
- 	trace_set_ring_buffer_expanded(NULL);
- 	disable_tracing_selftest("running event tracing");
-@@ -4766,6 +4774,7 @@ static __init int event_trace_enable(void)
- 	 */
- 	__trace_early_add_events(tr);
- 
-+	seq_buf_str(&bootup_event_seq);
- 	early_enable_events(tr, bootup_event_buf, false);
- 
- 	trace_printk_start_comm();
-@@ -4794,6 +4803,7 @@ static __init int event_trace_enable_again(void)
- 	if (!tr)
- 		return -ENODEV;
- 
-+	seq_buf_str(&bootup_event_seq);
- 	early_enable_events(tr, bootup_event_buf, true);
- 
- 	return 0;
--- 
-2.43.0
-
+Thanks,
+Woradorn
