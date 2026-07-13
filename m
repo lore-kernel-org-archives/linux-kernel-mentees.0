@@ -1,166 +1,151 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26B634EEE5
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 04:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783918679; cv=none; b=KFMahBxMhFbnPsGuTVmPxXc8yBqXcEOgbqUQf2goLS3dytn+eAOMLCrp9wbtXFzaT/69/ReErRlZ6ql6enhMRiNWSuNuk3dl1GngpGpJJGJRTrtlML/KAFhMP+fFwKdy4pi4tbbo/IbQ1zHfUunXDJ3ihKNcc18YCD2ksobrTG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783918679; c=relaxed/simple;
-	bh=LflzoFEAZCGohBe6+8suK5icx8InddD6Nep0mFpxNEM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RkAdDUNcFJAp+rAGCUVKurQT7Fca1VInrSl+X2LlJAwyI8MxF06EUPplD0S6rl5cv2WqXSCAvr2W3ok6Q2j0vAHjwCjvBVhgG4liEveBQmQK7tFu+vvIVLkmip5ixir1YYuWRJakpirkMOx4jAnjUqnTN1rT55kkwfWzP/4uqEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pyRQNuqv; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240493ADBA4
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 08:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783931611; cv=pass; b=TadwUKrY303CSc7P3I95t3FoV9WcrAnCcwmXVRXGZkXIdcF2kN/CmpNtCjkQ5GxbqzlfNPgn45fbuahhRKEeBKtLQlOJlyqvVWemliPMbogcTQJv3uqU8HeCzRzvpgN8kQ6SRM8NNTxYk9CeaEmkz0cPSNMub3CBZQRI6bh4Qps=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783931611; c=relaxed/simple;
+	bh=I8Ahcyx1157H3fyQeYshWuEx6yg3uTGMl/avrNEV+5Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q9XFeEyoRTF6aPZqYRMOwKCtSFb2e8v5KwFh3xMwuRQdykHenLqMdoUAhRqbXujD08ZWfjEqY4qL5LBOsgnlkwS+m5K8+jopAKgQ1xD3Ayn67eFhwr1ZELIADG0qyDDhP4epMy/E6EjM0/jS7DFGzsfJlEi6m8MQMbTec9lYYNI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=ul8hEJvV; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pyRQNuqv"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so22887985ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Jul 2026 21:57:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="ul8hEJvV"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493b1710405so14314885e9.2
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 01:33:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783931604; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eX89Wg7RM4HeN29mBYi6G5JUDhZXk1QSjFnubJ+ileEJo3C9vcxYsG8dYkztFcTTJZ
+         4+IZbVa+LWsAhfZiEyXRls5U4Jj7RCQ4WJk3mbm3W8k7nSb+6ey/blPe/JPZ9vucE/w2
+         y2Fd0bsSnP1Khan1iGFgotLHJgzgu+2XNboyisJHvmfTLXVu1fBeUniY2vgBDldSXJ1c
+         vEVg/cmb/iVdUUCLNSE6upCe7KQvpJAf2W2uGnbUPEwEPM2UOW+7BsUuZDoR23OR2zr2
+         bQkOvIatToYttKjdZeUVm9PXYBDJxEjm+KyTsB1MVm5DBET4ip6s2dUccbhUsnXpb8vm
+         QXaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=X/TTX6pDKN8WM9gjZfXrDKvUiLlBJOTFwE6JKAQaNe8=;
+        fh=oNiImXFJLz5/6aoT+/kHyqcBV3Gh4PGmKB+2dsajJdw=;
+        b=gjdz1V9HtlwTqnOnPcrXb31NtqT2qKcIWdJU1vockbi9yUuP9eFSyf8tpS5b23L2NX
+         b5epcA98sgKGshpWz3qtK/SEjDypg4TN4vW/fM26wy8M/V8tLO/CV9z2mKcOuhTGxGTS
+         R5hX6Gyz2qLasgkfXdSMnFF4HZ8hXa6Ms33Nv+PuO+Ams0XP2TAURnoVOk1aQUNlAr7r
+         V/lYPEq+AKB5BQVTOL4dZqToNIBP1RPnXBFGpE3jjBItpvVsu0PrR275IkAVXnO6+2xo
+         pogoF2e+K1dgvrV8TJUcK3jOcZET8q1XWYISxMf6rNR3Idtom/s2WFJ8b1U/F9omw7pd
+         ojRw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783918677; x=1784523477; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I2Wy8lwvqhiTKT55Dm2cNnX9AvjqZigx9HgdgElZQis=;
-        b=pyRQNuqvbiv6G29TZok7eZOaejvQWs4IOToXdgbux4E6grDSppV9FTS6Et4mHiDeSh
-         oKmykKZz9L0M+0hRbJK9/S5n0+Q4ly4qs5X42thnCcl2UsFkW6ZJSUMyHTwQfPhHaiiW
-         b46p0ifBA08YtS0xeNuUkRZDkjLl44HlsQ7xoGdpHhV/e4s89daDJwo38GQcEr923aFP
-         3WFF87YMG7+YmvfQodTkajBLQAJnQBZT11+Tz3654A7VIGYN5p8tYszJ7sBjzthAOjzb
-         HpHfdkUUv+i60syf8NfnkyGndAmXh+MD1KgJqQZ1mg+zdMH4CD30qKGmC3TeTfIxl7VB
-         YMlA==
+        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1783931604; x=1784536404; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=X/TTX6pDKN8WM9gjZfXrDKvUiLlBJOTFwE6JKAQaNe8=;
+        b=ul8hEJvVT2UQ+X5upOdJ3rSamVlyCAuZOTR0SeJ4lcXXiwQD4bibHCg+Y1wXq4ME1N
+         hyNV9ROzo/SQkTYcR1GIHHipqX/HGpnso0YPocsjRG4Hc1HNO1JL3a9EBWMPTEyjT2b2
+         WjKzd+mq7pIaEdojVH4aUm22lZqdzsddCLfUnMa6NidxzGCg1q+D0zqa2fopGyfhTpnG
+         hVCPd/QM+Lg07t6Fzzj6f56RoFBRWRrQ1ZY9KoOIs70XcC018AJi/GpYX0aMEJQ7zz4P
+         u64AsScrBTWQV2flMTCpcH8XPT+EB6oQIk9i8oLuA2OuO/RPSt00XFluUY24vYij0eJO
+         PO6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783918677; x=1784523477;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=I2Wy8lwvqhiTKT55Dm2cNnX9AvjqZigx9HgdgElZQis=;
-        b=TW1cK5yzIH2F0ioVlrzMRa0bepg8ZPkxpqKAOh5wIfZcYClGGHawWK7llQ5af6sKtQ
-         +aHW8d0NwJMlaKnsQyQY9DVDV8fSmG2hzwWhuag3rxVdrV84bNwWRa4VajYLlsqIPIRI
-         frPZNw4XDUZe649LsgEIiG+Y4ro30u2jqdmojGHH0LKw31m76XjjLf5lSwss1MrvWWkN
-         dISnymh4HZXi+blYwo5JfQmA6YrdBWlL/TzdZvJwhl8uANxc+xzci9Lk+ywTD/Mb2YTB
-         RDVltiLK/7lFUlWOSI9dZztQ/UaAffz8wIt6EmAKAcnmouuGC2OHvzyupkqm5ZeWOfk2
-         3CgA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2zshmVWzuU58D8SQITKlSb3u2s7tmT0v5lOBwCEbAjEbOgOGXwRNfafKUoLtIgn08JVirCC+WVNP36cX9dK11V6sy7g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz49z7X7P5MaUMryqJBPNfCvnwF19hd6MJVAobMIiqtbauVL3Hm
-	Vsta8WX5vyafl5FR1LXzYTGiIEEebwccZG7Y/Vavu3GGhrrKDNqnp7fP
-X-Gm-Gg: AfdE7cnMO+tF9Sw5PUH3zswARBftwt3jFlZ24Wb4dQR1uinEfN8afFy3FttyBXW/fsE
-	4hSdXtot55O6AhUBJcxQLYFMx2qvhvtDd0/o5WrNd2hrLew7M6nWOLaVuHs4KXhG0YFyktBcJX/
-	6JyerkKMJ2kOW6m0AP1BsWBIHUqUjLp1+ZSjbUwnWWs/KdqwYWCn/1A5fGseiEXW8vP6pS54DRo
-	Yggpwsk950oupx7wpj9D9zJ7EtfPrdiRHkviTyE+lsvR0dboV1B31xSTg1mJaFyt5vGG9ngh5P4
-	fBpsG/bwLmm3ik/1cDl4SNPk0g5QpnJGWwbvkOdj3hWbRN/RCKdFk5r501VSWPsv2h7B3Ac5c14
-	hxk8L9/HwnWR6gaZhMGRwr4ZNjAuaW4bXS7guCiFeqT69QxFPm9HMWew20knIU4eZgh4fk05jVG
-	2+jMaRbf113NYa8YfMvxVtR6KW2EcILgbhzSirAah2Vq+za4MzszHahlNZwneZF1Xz3rFZvnwFJ
-	NjFpn9C373GzZU=
-X-Received: by 2002:a05:6a21:4d8f:b0:3c0:9c1a:894f with SMTP id adf61e73a8af0-3c110b33403mr8347974637.71.1783918677163;
-        Sun, 12 Jul 2026 21:57:57 -0700 (PDT)
-Received: from ?IPV6:2001:fb1:db:5c33:7066:708a:3018:7aec? ([2001:fb1:db:5c33:7066:708a:3018:7aec])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cabc7b2aa4bsm2033582a12.10.2026.07.12.21.57.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jul 2026 21:57:53 -0700 (PDT)
-Message-ID: <79f36674-5a35-4aaf-b5b1-bc6189c222ad@gmail.com>
-Date: Mon, 13 Jul 2026 11:57:46 +0700
+        d=1e100.net; s=20251104; t=1783931604; x=1784536404;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=X/TTX6pDKN8WM9gjZfXrDKvUiLlBJOTFwE6JKAQaNe8=;
+        b=kus13w2Y+4C9rCGhIbWkVtnu1IDFH60vJyZwrmCg174k0065LT7jORLRfYBXp4T3Fl
+         M2mlBfUrc1IbV8twTtGnRAyOHd/pT7+733uh9UBFSp3PdTPrVc8TUcNq0Mo6cVXeQ34L
+         uUy3vDtiKd3UVBL0SPTGYCnEy2F8SEkVu9x2gkcR8tsUu/NpTAEwReWYPSuaVWFwcbzd
+         i3xpk0PVxJpXzl0wOgPaLuIG4xBK1pgjY0I2GWt4kVCfvgp49ydTbghnDDAl5dWvesKN
+         pNTKrT9ocF26/sjIaen5wTjY1WAlCqtsktw2MjcThKzZBOmTonCnzmaZt2DVl8XBf3vb
+         G/sg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9nPaUQJJsKh1KfLZ0GH/0vjkm1OVf2iWD84YmHhyps3yzl5d4HthIZ0K5Q80qjwSkih9+uNHABAkfXaKIBOG2EXntrA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyXrf5hsO26gTVAcXuhBKfDMwmR0qMGTLauLUnD7q3MeJXvNiyF
+	wijbnw55sWCd3h0gq8KUnpfgh4x4AZ1Q/pBW+9sSScrOAovWKz04+eU6raEu6sFoFksJp/ApeEJ
+	UlQpE1aMB/PA32pqFKgNTerlDMm5v7YcUkhnoWBF8FA==
+X-Gm-Gg: AfdE7ck8fdDh2SXCe+PXLFymPRI/cYguD5+kpElnfBbddu3zVYtpG2g06liaDalm2/l
+	w9bcEC/+to2z2sqtTf9NsGwjerzWaBjReYN8RCP/HKqGSRUnptPxAisbQqpqqNijnVVxWJPKXVS
+	wWbuJG73Z7R9mfVHeo5/M8+gHjgTiP3iKchJxWPUN9eDYUfKLuGxWJSveWYaCwNgIchFYe37nLG
+	0+Srzjec7oaZ+umEgBsvhvtGL3mnCcbTTjDOccaiCEEMnQhbeYGFXK3yhFhAQasrOeIhWSZuXrv
+	Vc18tbm2L/65c7RJ6buaNRWD6YakedLGJzoxFBmeNDbVC5yL7qoHC6JFsBh8EgA9BO6mKnsiuax
+	seOGwR3fICWV8sXRn
+X-Received: by 2002:a05:600c:638f:b0:493:f762:45d4 with SMTP id
+ 5b1f17b1804b1-493f87d9311mr77398405e9.2.1783931603573; Mon, 13 Jul 2026
+ 01:33:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] tracing: Use seq_buf for string concatenation
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- shuah@kernel.org, skhan@linuxfoundation.org, me@brighamcampbell.com,
- jkoolstra@xs4all.nl
-References: <20260622094623.18469-1-woradorn.laon@gmail.com>
- <20260629143947.2216574e@robin>
-Content-Language: en-US
-From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
-In-Reply-To: <20260629143947.2216574e@robin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260624130238.524706-1-suunj1331@gmail.com>
+In-Reply-To: <20260624130238.524706-1-suunj1331@gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 13 Jul 2026 14:03:10 +0530
+X-Gm-Features: AUfX_myLtlmicbiW4GefupawlEmm4GHGfSrV2gtz0C0tAQHCDS5effgNQRiwzOo
+Message-ID: <CAAhSdy2YUuC8BLVDp53VWGnUYLShGkuWeHr87mpe5RnZx3PLSQ@mail.gmail.com>
+Subject: Re: [PATCH] KVM: riscv: SBI FWFT: Apply LOCK flag only on successful set
+To: SeungJu Cheon <suunj1331@gmail.com>
+Cc: atish.patra@linux.dev, cleger@rivosinc.com, ajones@ventanamicro.com, 
+	skhan@linuxfoundation.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30/6/2569 BE 01:39, Steven Rostedt wrote:
-> On Mon, 22 Jun 2026 16:46:23 +0700
-> Woradorn Laodhanadhaworn <woradorn.laon@gmail.com> wrote:
-> 
->>  
->>  #include <trace/events/sched.h>
->>  #include <trace/syscall.h>
->> @@ -4500,14 +4501,20 @@ static void __add_event_to_tracers(struct trace_event_call *call)
->>  extern struct trace_event_call *__start_ftrace_events[];
->>  extern struct trace_event_call *__stop_ftrace_events[];
->>  
->> -static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
-> 
-> Keep the above string and just assign it.
-> 
->> +static struct seq_buf bootup_event_buf __initdata = {
->> +	.buffer = (char[COMMAND_LINE_SIZE]) {},
->> +	.size = COMMAND_LINE_SIZE,
->> +};
-> 
-> static struct seq_buf bootup_event_seq __initdata = {
-> 	.buffer = bootup_event_buf;
-> 	.size = sizeof(bootup_event_buf);
-> };
-> 
->>  
->>  static __init int setup_trace_event(char *str)
->>  {
->> -	if (bootup_event_buf[0] != '\0')
->> -		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
->> +	if (seq_buf_used(&bootup_event_buf) > 0)
->> +		seq_buf_puts(&bootup_event_buf, ",");
->> +
->> +	seq_buf_puts(&bootup_event_buf, str);
->>  
->> -	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
->> +	if (seq_buf_has_overflowed(&bootup_event_buf))
->> +		return -ENOMEM;
->>  
->>  	trace_set_ring_buffer_expanded(NULL);
->>  	disable_tracing_selftest("running event tracing");
->> @@ -4766,7 +4773,7 @@ static __init int event_trace_enable(void)
->>  	 */
->>  	__trace_early_add_events(tr);
->>  
->> -	early_enable_events(tr, bootup_event_buf, false);
->> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), false);
-> 
-> The above then would be:
-> 
-> 	seq_buf_str(&bootup_event_seq);
-> 	early_enable_events(tr, bootup_event_buf, false);
-> 
-> Don't typecast a const char* to non const.
-> 
->>  
->>  	trace_printk_start_comm();
->>  
->> @@ -4794,7 +4801,7 @@ static __init int event_trace_enable_again(void)
->>  	if (!tr)
->>  		return -ENODEV;
->>  
->> -	early_enable_events(tr, bootup_event_buf, true);
->> +	early_enable_events(tr, (char *)seq_buf_str(&bootup_event_buf), true);
-> 
-> Same here.
-> 
-> -- Steve
-> 
->>  
->>  	return 0;
->>  }
-> 
+On Wed, Jun 24, 2026 at 6:33=E2=80=AFPM SeungJu Cheon <suunj1331@gmail.com>=
+ wrote:
+>
+> kvm_sbi_fwft_set() applies the caller's flags to conf->flags before
+> invoking the set() callback. If the callback returns an error, the LOCK
+> bit persists and the feature becomes permanently locked without its value
+> ever being changed.
+>
+> Move the flags assignment after the callback so LOCK takes effect only
+> on success.
+>
+> Fixes: 6b72fd170592 ("RISC-V: KVM: add support for FWFT SBI extension")
+> Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 
-Thank you, Steven, for your review. I've sent v4:
-https://lore.kernel.org/all/20260713045249.69942-1-woradorn.laon@gmail.com
+LGTM.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Queued this patch as a fix for Linux-7.2-rcX
 
 Thanks,
-Woradorn
+Anup
+
+
+> ---
+>  arch/riscv/kvm/vcpu_sbi_fwft.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwf=
+t.c
+> index ab39ac464ffd..1342adb3180c 100644
+> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
+> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+> @@ -327,9 +327,11 @@ static int kvm_sbi_fwft_set(struct kvm_vcpu *vcpu, u=
+32 feature,
+>         if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
+>                 return SBI_ERR_DENIED_LOCKED;
+>
+> -       conf->flags =3D flags;
+> +       ret =3D conf->feature->set(vcpu, conf, false, value);
+> +       if (ret =3D=3D SBI_SUCCESS)
+> +               conf->flags =3D flags;
+>
+> -       return conf->feature->set(vcpu, conf, false, value);
+> +       return ret;
+>  }
+>
+>  static int kvm_sbi_fwft_get(struct kvm_vcpu *vcpu, unsigned long feature=
+,
+> --
+> 2.52.0
+>
