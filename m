@@ -1,177 +1,166 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06EA3D79F9
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Jul 2026 13:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783690058; cv=pass; b=LlTgQXyfobhueXY2wHy5YBAuYhqcACyq4PCXVWRu88n4ArMBRG0B6Xf9bfAoIy1RkiEu83+IH+wqggTdjFbwtaaKFZEGbGaMTO2SwuMtx+pTUPYIpB/GhidI9Og6QEdclD0IiKgilwoNJWh//hIDwFWaKe26p76rkz5ZqgocMuc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783690058; c=relaxed/simple;
-	bh=+VqRbJDfg9ALsRs4cpCZ2q2mdZVyKCDuuPstD47+C04=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=abJjwmMWQT7oRgoi2EnUT8ozG1gju0K+aiKj5pjrcWuZSD7BPu/H5m6QpFyqtTB1Wbp7TdvInFIupprF5iE/wIidEfMkAvFVR5kTTeMSnf2dHjOPaW7FFNCk6PTkIVX0PXYkIIqCFyGGn7XM/pr4rrOsEGfxcAWn+I+d8NcnNsE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q4wL2J4I; arc=pass smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3410125F994
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 13 Jul 2026 04:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783918452; cv=none; b=XI9AfhGAadJmsjG92eqCzZUpWFauT50y5FsCiT6X+z4mbsO5G1fJ+xGgFg16eykl/IOPtIkRu7mJPxyBuWtdue2JqX8eVXb30bviUGiz1/dJf7g06Cj3KDkejoDzVkl/4SlnyvXQNYhyvxoApAj8xYVi3nYUsr/0CHbGBJEhLdc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783918452; c=relaxed/simple;
+	bh=aWyuivC0uBr2raUrYrGhB6xX3JmGBmcCaiXVvYEGVQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MY1kBKzzJ2KeARDJnYa/Er+4WcSWTILAvtoN+SEEq0NCEkPgxkjuovYqUJsbzMghaMG8PYg0Ww6grpE17b5EoIKBQlUVxoprRSB3eLbSUY1vSOPLq4auf0f9tMBggPghoCb9NgpOSU+h6csnRakSXHgZbofrA2jZkcRoAQBS6RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGIIrp8m; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q4wL2J4I"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3860f32307bso209667a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Jul 2026 06:27:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783690056; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VasmTOejpwsQ9Wob22b8Lx3bluvibhif7IA6ZlsWX48JLnBduk0vLPHCxkEWdMtGxI
-         iYSfAQm577wNjINL4CGwqIVQDWrqrAm2yGyqFRwR0Cwg5uhMices3jA5nRoMSFwqIJ1e
-         u/6XZynGnRDOIngBprRYtoEbPfCQLd5JvRsYC/AXJafUaPytlfXqMgpMYxV75kmCc9fc
-         3ZApllJV4lBjLb6asgGZutq47yvWZ2hHkPk78e9TBDpO3EHwIMSTInemYVHBlthKPyUt
-         epXCm1KthElxHVuHKDrpGYabcBntNwP+rUQRxsvXUdgFtrD+Pc8VUc3GaIDGyjsFz4Ik
-         +wWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8Xz8mAiIS9bhxJSnBlNVStU7ycoiUswNHhwr3rObZng=;
-        fh=7GFlUNgwtQFaYoFMP7raUQrdeEPeL6ZBOLK6C1WWZiE=;
-        b=YExHAUyim66FaEDEmMXBMxJo3qWLt1P404KFA4YjlcqHVHVCyuW252BehlLcg8Gj7C
-         4VE1FUg3blz8ZejODzUwXChD0fWcHfc6kpGq7KMkLTqnHPxGQZya2/6RspcA+aWcso8w
-         ghjRHuWFf6FLlzWbiIL5rnO7Dl4Ibq5G1HRUtHN6tR24mH86/yXFH9D65O8WxPecOsdH
-         CcSr+LHzU1CEacM+fYoqG2GwM50PmRTZtkE9p7Xx+trgXyMZkeJDD874YI4KaDxfNEjc
-         Hu0aYNaPA18/KeYb+N9F8za7qAOY3ynLaVbkcsOpf09xZv6ju+Luz0YFRCs74O/dIGj5
-         lCVg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGIIrp8m"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cab973140bso31174545ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 12 Jul 2026 21:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783690056; x=1784294856; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8Xz8mAiIS9bhxJSnBlNVStU7ycoiUswNHhwr3rObZng=;
-        b=q4wL2J4I3+9u14EmPeG1jH7vQdz29PFlYpR4bgYKOvW7k2RLZrCzwpabaKpC5i/B+E
-         4OwuEF6V3oBwWKwuk4acbP1nFuqzmm0BsaOQTEncYnHNS8G2vpOW0BxTO3j8czhgQEkJ
-         ctRLmlxqpouGt9SvIjnMcIBugpOa6L8KiaLy8M23gwkjAPyw33SgNCedfUtCVA4X+OpU
-         njzhTGZ5iAzJ3SNoG3ntf6uyMg0iy5W+cfcCs3KN5CyS8jjz7hrT0c8guWsLL+xDvdTV
-         FJN5C2yu7Tyq74hbNJxDoOBwZgWEBVv6nwmweInqoaJNYll42P6213trE/ylFV/WeWvB
-         9TXg==
+        d=gmail.com; s=20251104; t=1783918449; x=1784523249; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sFT84HfE6g23Y0JSEsGGMWs+C5GZdiRx3RFEfHBMGN4=;
+        b=mGIIrp8mS3IGZ/6LMGjJqK+56Ec7RkmvgYFz7y94NMdIKxSdu/YDiQeCLrjH4V2TAS
+         teFHSju/Qc16AjGYVXqgcHkjks/FSQLW0pTG0qFSH0sQKpGc8PZKlOpfTzsrMWpT9aQm
+         DXkOU42dfafLItXIRORUqGMSXuejpCHRgylDg6EOARSYMiMxJ5r31J1j4o9aHuVLo55/
+         aJvYuNOnAbvfnfvxIZN4t3ip07EE2NrTBr1dT/u6QiyGR7fQPjONG+EVU04xj0kYsT8P
+         Bvpc0yYjtk59HB23zVwSUcng0jtLoDfEi5ESK3LzEmcQWb6pCAZkKdGZ8fSMsEskPhxv
+         GlZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783690056; x=1784294856;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8Xz8mAiIS9bhxJSnBlNVStU7ycoiUswNHhwr3rObZng=;
-        b=jH79xbefwWLb1+vt1simLwN/STQ0PTrZ4L4pyCf/4TpwEGYVkEkFFmkMaI/PwiOFcN
-         HPHulD0zNsZOczdZaMG8dryflY1yAhqtzwJhXZK/s27oWRjTdjgvjVUWqWRkI2ARE2TD
-         RHr0x7KasL6DJ09d/0GwX1GfLXRVh2nplG51RwGyDdV+g+zK5YZRO2IxFE8mb1+g23jK
-         dY+fT31BlXoB/Sn8jNoFzeLmcxyJ57ZbmXpQ5k+68DyJzWVVBw9rCDu/J7Pn5FKAVwL7
-         EEG08PsWqyEYM3oE2jzOs2Mix12lr2NrhOl4XShMB46XAuINf3Vwdpje4oQDhHJvg0WB
-         /f4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrbEPnLFCNFJIBnAFDYq1OIhlTHuwd5Vv1CXVrDdh5ul690cP32LyPogKPVwrlCzmRkxY2+mmLwGV0YhNXxd/vdJrlisg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9LEP1vIiuz6Hx19gZS29SPOgCqhNqVa68RdF5PF1hBzfNiods
-	058sqmU7i2aMUSDw2x2mr/gOctiK988EaCd0O29RGTHxSLks6IwYkckSampDcNyvKqp30aLGWjY
-	JvijMwaEp1wVb1p6aKsJSc+Qxttznls4=
-X-Gm-Gg: AfdE7cmAJBvXr0hiGYQAvCe6nLCnVAII1NFyrChjVTed8VqRTX8++vWPBwTXsLH2JsJ
-	nmdIt48a3Dh2HEHUEtS9PeOCEYH8d8vm5mZA6+T53ZZFek8n00tHGnUUOrI+5EwWh55oMSb7AVR
-	uXSAFl1hQxFc97v3p8YUpxSlVxG+m7spp2+TeIAoI/jZoD8MuCTS3FxCmwBIp2dcg3obaYEuBQl
-	Oz0A/Y3wUPI1g3EJGQj63DPzC22dtdeXj9aYx7kH853yp4nAQ9x6gCUC2RNtgwe5QDKtCw9zHRD
-	xGregDSt1Ef7upwDW9ulBCtQqwzGwAdp9LU1bNHi9xlhEmZQ1e/vrzKyLnGupGITz2zLhg==
-X-Received: by 2002:a17:90b:390e:b0:381:77cd:38ca with SMTP id
- 98e67ed59e1d1-38a20c48ce0mr6963500a91.4.1783690056153; Fri, 10 Jul 2026
- 06:27:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783918449; x=1784523249;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sFT84HfE6g23Y0JSEsGGMWs+C5GZdiRx3RFEfHBMGN4=;
+        b=N7qyBraxPb6TNT4xwXRrQ2dfWxyKBWbO7cYcFp85LdS6SGR5OKBrK3LTY+n/l/pfvX
+         QXGE02qVcZyHG2f2Immrh6pvw04q/6msCyui/Uo7999vjP3sbxmG9xCwWNNmCxEt0qkw
+         aM/uXOCwJodxlJq7/5AbQyYAoCpybcglQYbxYVRRWkD7aNQ/bNiEAveGCzB0kwwH//Ds
+         yl6n/L4NEbFcH+NFGyM0B2MfduXbImE8cqWglHLXLCkUZasCIF3M4NcFAcVEWIQcCUDz
+         2SMuKXGWK2/1LNtqJ/Bu4lGwVYeWZ9IbY5yl21K6lhHgahRI78jp72BOEySPHeFNQOAb
+         0QWA==
+X-Forwarded-Encrypted: i=1; AHgh+RoxRjz65JhD7B3GJgXJZSZW0A5d7AS+USE8OkYUcCa88RuNBVzLRetcZdNg3M/oyCVo5211Y4WITI/md0J+PQfFkpFe+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwoBiTX+Jo5rnYOvY13YreNmqPXw7VeN1OhwTZoa0MYcIPOzDA/
+	ISPyBInknnx/hZm9VMQ2anY4Uz5xeQxs+AdGku9LIgDFZGt/JPrVPnBe
+X-Gm-Gg: AfdE7cmIiEe2Lif0UKtlku8MBu0+6hoel1fFNv4ehDYD01vZC2q65WF6E1y19o5xugY
+	UR9SBSfH2AlzC1UkQsRacMoEl0IycyPHYq82gB/gMgWnrujZJZEiOSTqFGptrUuAhnOlF/7mle0
+	HM6kUBHr94j2UQ20gJBJ0dUciMbCl8FrBacL179z82C6ZRLcBROpElc+Ji/vHEaEopUvcU3IHOM
+	SO16PyQQBeINwROBUt/omukcWWfOC69fnzc0gx62q8WOUsbfrnBmI+h6Z+mK0hKqVoqcTX08E7m
+	AEqJTSGCnlG3Ql0ktU5rNktwr2iZ6kFzugJ3iMNphNrTUHZl4mK8Kr0iiB6tgk91xZ4GWKMI4Ib
+	vCSv+4aQ5pAMBNQZLbWAktD+rZa15Z+tBwBA2qCpxC/skMQHAZhmFxHv1KSPvVVubd7XrxuxvZJ
+	dU/2mtAi9djPJ2nFa75hls7CXhZaY=
+X-Received: by 2002:a17:903:b07:b0:2c9:ff29:3f91 with SMTP id d9443c01a7336-2ce9e7a5613mr78426635ad.6.1783918449548;
+        Sun, 12 Jul 2026 21:54:09 -0700 (PDT)
+Received: from mo-Inspiron-5559.. ([2001:fb1:db:5c33:ea21:9586:4d37:987d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bbaesm92010215ad.57.2026.07.12.21.54.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 21:54:08 -0700 (PDT)
+From: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	shuah@kernel.org,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	woradorn.laon@gmail.com
+Subject: [PATCH v4] tracing: Use seq_buf for string concatenation
+Date: Mon, 13 Jul 2026 11:52:49 +0700
+Message-ID: <20260713045249.69942-1-woradorn.laon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260708222035.7324-1-nico.antinori.7@gmail.com> <fd5ecc7b-b9b5-4653-b7ad-72bdcd0b8518@suse.de>
-In-Reply-To: <fd5ecc7b-b9b5-4653-b7ad-72bdcd0b8518@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 Jul 2026 09:27:24 -0400
-X-Gm-Features: AVVi8CfC8WMQvuOOX9IbEu4pHDNwlbHNhnBztQ4WqIxX3gf9mAdHkuUx5nllMac
-Message-ID: <CADnq5_OBYXSz2HG7SCA2eK5_z1J0SmJCwCW2RkGJ5d1-tAVC6g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Inline drm_simple_encoder_init()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, Brigham Campbell <me@brighamcampbell.com>, 
-	David Airlie <airlied@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Applied.  Thanks!
+In preparation for removing the strlcat API[1],
+replace the string concatenation logic with a struct seq_buf,
+which tracks the current position and the remaining space internally.
 
-On Thu, Jul 9, 2026 at 3:17=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
->
->
-> Am 09.07.26 um 00:20 schrieb Nicol=C3=A1s Antinori:
-> > Simple KMS helpers are deprecated because they introduce an unnecessary
-> > intermediate layer between atomic modesetting and the DRM driver.
-> >
-> > Inline the functionality of drm_simple_encoder_init() to remove
-> > dependencies on these deprecated helpers.
-> >
-> > Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c | 10 ++++++++--
-> >   1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_vkms.c
-> > index 170adaf7e76a..d5b0692fe860 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> > @@ -2,7 +2,7 @@
-> >
-> >   #include <drm/drm_atomic_helper.h>
-> >   #include <drm/drm_edid.h>
-> > -#include <drm/drm_simple_kms_helper.h>
-> > +#include <drm/drm_encoder.h>
-> >   #include <drm/drm_gem_framebuffer_helper.h>
-> >   #include <drm/drm_vblank.h>
-> >   #include <drm/drm_vblank_helper.h>
-> > @@ -316,6 +316,10 @@ static struct drm_plane *amdgpu_vkms_plane_init(st=
-ruct drm_device *dev,
-> >       return plane;
-> >   }
-> >
-> > +static const struct drm_encoder_funcs drm_encoder_funcs_cleanup =3D {
-> > +     .destroy =3D drm_encoder_cleanup,
-> > +};
-> > +
-> >   static int amdgpu_vkms_output_init(struct drm_device *dev, struct
-> >                                  amdgpu_vkms_output *output, int index)
-> >   {
-> > @@ -342,7 +346,9 @@ static int amdgpu_vkms_output_init(struct drm_devic=
-e *dev, struct
-> >
-> >       drm_connector_helper_add(connector, &amdgpu_vkms_conn_helper_func=
-s);
-> >
-> > -     ret =3D drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_VI=
-RTUAL);
-> > +     ret =3D drm_encoder_init(dev, encoder,
-> > +                            &drm_encoder_funcs_cleanup,
-> > +                            DRM_MODE_ENCODER_VIRTUAL, NULL);
-> >       if (ret) {
-> >               DRM_ERROR("Failed to init encoder\n");
-> >               goto err_encoder;
-> > --
-> > 2.47.3
-> >
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstr. 146, 90461 N=C3=BCrnberg, Germany, www.suse.com
-> GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG N=C3=BCrnberg)
->
->
+Use seq_buf_str() to NUL-terminate before passing to early_enable_events().
+
+Link: https://github.com/KSPP/linux/issues/370 [1]
+
+Signed-off-by: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>
+---
+v1 -> v2: 
+	- Fixed WARN_ON when booting with empty trace_event.
+v2 -> v3: 
+	- Addressed Sashiko's concern about the compound literal backing buffer.
+	- Replaced the compund literal with an explicit declared buffer and pointed
+	seq_buf.buffer to it. This guarantees the backing storage is placed in 
+	`.init.data` and reclaimed after boot.
+v3 -> v4:
+	- Removed typecast a const char* to non const.
+
+v1: https://lore.kernel.org/all/20260620175441.223342-1-woradorn.laon@gmail.com
+v2: https://lore.kernel.org/all/20260622094623.18469-1-woradorn.laon@gmail.com
+v3: https://lore.kernel.org/all/20260623145147.12145-1-woradorn.laon@gmail.com
+Sashiko: https://sashiko.dev/#/patchset/20260622094623.18469-1-woradorn.laon%40gmail.com
+
+ kernel/trace/trace_events.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
+index c46e623e7e0d..4f5a0e73a89b 100644
+--- a/kernel/trace/trace_events.c
++++ b/kernel/trace/trace_events.c
+@@ -22,6 +22,7 @@
+ #include <linux/sort.h>
+ #include <linux/slab.h>
+ #include <linux/delay.h>
++#include <linux/seq_buf.h>
+ 
+ #include <trace/events/sched.h>
+ #include <trace/syscall.h>
+@@ -4501,13 +4502,20 @@ extern struct trace_event_call *__start_ftrace_events[];
+ extern struct trace_event_call *__stop_ftrace_events[];
+ 
+ static char bootup_event_buf[COMMAND_LINE_SIZE] __initdata;
++static struct seq_buf bootup_event_seq __initdata = {
++	.buffer = bootup_event_buf,
++	.size = sizeof(bootup_event_buf),
++};
+ 
+ static __init int setup_trace_event(char *str)
+ {
+-	if (bootup_event_buf[0] != '\0')
+-		strlcat(bootup_event_buf, ",", COMMAND_LINE_SIZE);
++	if (seq_buf_used(&bootup_event_seq) > 0)
++		seq_buf_puts(&bootup_event_seq, ",");
++
++	seq_buf_puts(&bootup_event_seq, str);
+ 
+-	strlcat(bootup_event_buf, str, COMMAND_LINE_SIZE);
++	if (seq_buf_has_overflowed(&bootup_event_seq))
++		return -ENOMEM;
+ 
+ 	trace_set_ring_buffer_expanded(NULL);
+ 	disable_tracing_selftest("running event tracing");
+@@ -4766,6 +4774,7 @@ static __init int event_trace_enable(void)
+ 	 */
+ 	__trace_early_add_events(tr);
+ 
++	seq_buf_str(&bootup_event_seq);
+ 	early_enable_events(tr, bootup_event_buf, false);
+ 
+ 	trace_printk_start_comm();
+@@ -4794,6 +4803,7 @@ static __init int event_trace_enable_again(void)
+ 	if (!tr)
+ 		return -ENODEV;
+ 
++	seq_buf_str(&bootup_event_seq);
+ 	early_enable_events(tr, bootup_event_buf, true);
+ 
+ 	return 0;
+-- 
+2.43.0
+
