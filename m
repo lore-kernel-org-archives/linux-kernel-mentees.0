@@ -1,63 +1,64 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C83B42BE8D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 22:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89566431E79
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 22:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784069575; cv=none; b=QYcAucEHu9rQ+27jOrye+cR/bm/oys2hfbIUH/oJyLjXcfzEUgKuO3vvHqORFtoqXvp66ZBJWMn3Wc99QRVVQ2HoUpOjc6xpepztRiRQjhy71xpfYFjaSN/6LCTNj/Z00fpax6YrlRIDVVUkn89EsI9rGQQERKKwAuRhnjexW5M=
+	t=1784069577; cv=none; b=MK8teDJXJONW8JoM1LCbDGXPwrA7LOJWrpLKVz9MzpJkeKb2mBygyVVojRBF5VvnjA4Ba81iKBZOU8Z8yjr3siGcW73O2ddrKHVrGzWOPC1IKafUbPgsJnUYfEZBxl59wfl9+RHNTwP02CtbZDFigbY0Jx9J934ky72ITry+Tk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784069575; c=relaxed/simple;
-	bh=5xD+gbAAQfa7Zz6DBWl8uQYu5cCVQd7fsutssEb695I=;
+	s=arc-20240116; t=1784069577; c=relaxed/simple;
+	bh=aneHEOEVTUFpxhruqbXN4fpzumP0voPWx/etkXlO+EI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rwn7ZkeobK+s/ni2f88wjCbDIil9agCJvsdeRLWhj0uJH4rD9ERS8OcPjwJyozlnQJd4k16I2+Ry4nk00Xx5k5Tsmmp+3l9/DWiNloka/gc19rrFwEKu98TDMcm3agRl70TAoLEbr3auBLlg9VFIupe+AUkEpqemKqFLgir3AZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZgBJYmWX; arc=none smtp.client-ip=209.85.128.181
+	 MIME-Version; b=nMKUx8Vy1Q4H+F/CNHklNKzbml4FWZ1LFYp3CJijlQ4bPOGSO7J5JhAo3ndtDGrQM+e8sjSfTPs1I/oeQ3LDmfn4op6bxczbDl3XoV21k1xwioSq0pge3ZeSdEHyAjmDThhq1nJzEAOJkpj9F1JTAKM6zspE/+z1ylvXZuY8lfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PIpg5Aro; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZgBJYmWX"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81e8fa1b8d6so39823517b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 15:52:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PIpg5Aro"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ecf499af9so2218587b3.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 15:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784069571; x=1784674371; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784069575; x=1784674375; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fS/qYunkaEsTBnkedEsMK25XcSingk2GiGQfZYV0Pss=;
-        b=ZgBJYmWXOC3UG8mTZOzgl5kcAEiP70k/O6L3SrlzXAOfFQjGOvy58fb4N5XlxPtM4l
-         Py/kbDZhtMiI6jSldeX8XfOUewcrMr4J7NXnP5bj/EmXbEJZ6t3aPWh+3DVZPhrEXmxl
-         145iR7UjVd+oewSP22Unr95XsLVH8jbjvE60fvmOFJEKGzdu8XqF2xlo3OFowWMU/CxO
-         Rjinx5T1J5aVmgad7DWSET1JNeM9PE+rhbaBeF0AsVZU6dwbNWdmPdYgctH93OZY8/Pj
-         +jTHdo3w1jhXUd6auToww/gFSgHERoElD96oW9l9PvVY6yrzrcvi5kN739M39e1QX9qg
-         tIvA==
+        bh=huMAZLasX9MtSdlliVLSBQtahcShQoIS8BrLCB4qkoo=;
+        b=PIpg5AroIj6rM/6X2hjb3v2GmC+i7U2JLYOOUuT4zTczPokK6Uk9EzHn8xN/MKbs+3
+         ctY1e6wKCYjuFmF7e4l8zS3t/sTDchpEGs0d219zrKM4/ZPeBlcSKlesnNkwcmO/nFIG
+         daGRd0kSq7Q2yWw/BDPhsBWuSZ4y2H1hOM4rLnBm8R5Ko9gahy9x7/lgr2k8sH1WJVdr
+         VwEOVzUJT44vhpEoPWKycYUfc4JfhabNHJzd3I8OhSyD08sKs8iq8nUYx9Xhx5cEAb4H
+         eQ9tlIoUzwRnXAT59NG+T4bvSDvUaKIrl3rDzZNo4G5VkCtt++r9t5hqeAIza6s5y5fC
+         I3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784069571; x=1784674371;
+        d=1e100.net; s=20251104; t=1784069575; x=1784674375;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fS/qYunkaEsTBnkedEsMK25XcSingk2GiGQfZYV0Pss=;
-        b=WBhHEKFLRUajEZLrQu+CP/bDBvyDixHbk+QAbCSrjro+KvQ/wyHiZb0CdicW48fECB
-         VHM96rTiX19803cU1HqxPENMItkiqJ9XMLU0uRjO5f372r0VEakgjr5mBh4zWWwksayM
-         RyNfexspV3XR5zloPOVO4JDmBVEEe5fyXhrU6uOX+jto54TPSnSpwxo06/70VU658GpS
-         ICh0hLiRXwItmS5wgYygyTh+grKDvTSbN4cdWYz3f2DmnjiCG5dRy0T35Upkh2/adbjd
-         2O4Sm3KMPRlzCY4l9TSUWvjpzNVCZZBNIhCmvXOOYvlwFn8Kq2H6ou8pcPdK0t5KLOu+
-         phFg==
-X-Forwarded-Encrypted: i=1; AHgh+RoWETOlYjSyVdoQTd0jJnlZUCcqelsB7CsQLQxLt9uFr9rwY5xYmswRCNcJhIdOuoUnSIPXUleEQtfJnOKg9jg1WMB9nA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCIO6JuW412TR+6+t9OkS6D6o+LtsdWSuDzP3KMndEdTNeD+5X
-	JP2SaxmyyGw6hYv9oKgTmVTWxwxv2Prsk0eaOzp2Q1UC5CpZEFFJ5iFc
-X-Gm-Gg: AfdE7cnYbIjKbpxdob0hrsXRh86ODhEguj2HDpSi1qP/28NOYFKOgE0r+kvpXRQmW1e
-	s2XIfHpMDxt2JBCwLSQ5SgagRzPr4ssUl+Z0pouB4mKdZz9nPi/E0/sVJ5EZ95vunzW3gbot+Xz
-	GHKDqeNgUBJ3rJkIrFmRN2rIkVSAdOpbNyu9c94hkpOW2UNfn7NKrHCdWM39mDr9ta0Y38ZHi33
-	k6OVqlaFZtixEiMoIdCK9BaCJ7kgeJIDoTUZoaQ7Ml+FGWT6xxRWHaqWFCIdKlLi5nR+HK+4iaW
-	WbjeTUTXygloy88COOJYqNmfHC25gio+sUwErhxUiTi4tACWVTc3fuIAr1b+fRYVdFfsNwhCuVT
-	X5OOvVI0n8KykCTqNGQwZw+IJKlUcdhmRyffagog3srPPuO8zj4MZiYSpWEIpat8G07ue2fGYc+
-	A84gR30Y3Tc+VfZkhR4/rMP/BchISlNw3n0iNSQ2s4kbMs90LCWqwl19yTwj/knTmuxw==
-X-Received: by 2002:a05:690c:998b:b0:7fe:4069:d3fe with SMTP id 00721157ae682-81ebfdafedfmr30470587b3.30.1784069571383;
-        Tue, 14 Jul 2026 15:52:51 -0700 (PDT)
+        bh=huMAZLasX9MtSdlliVLSBQtahcShQoIS8BrLCB4qkoo=;
+        b=kKX8fwZOzIh+tZKg6OIHKMWSF4gHtqu71cXgRSvam5G8H+ObPU/kDjLoRfnlp5KqPv
+         5zrDNcYmGhn6ozsC3TJS3jUgQ2JpFT9VIFByD3N/vViM0k8HlE+ebLroHBn5FmT3zGcf
+         ObdBRswt1RFFbqJv/bTQ0H2PyC36GMuXBm0lCNTAc2CX0jTCF7k3SSoXYzScXp5Bb5H1
+         FdHuTQxygV1caiVAx6K/ocTVBr82aG2u0Not4d14UdJkcrzt4x4cCZwnJb3JMrXJ6YKx
+         TSPryvUazxbV1TbVew09nqVFe921jW+C0WJ6Rc/E5VKo2ZaqE3VTKOF/ixb/7qgOZJEg
+         Oa+g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp0/pzbnGAPyOiaeDIxob79pess3imBeeXOUED9hDK6DoNAefRkXRXLEQTdn1xKl0vuc2HWU23sOdyclex5mwePc6g2UQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywbd90qvHRqM3XppYUyX2398jcQ0zpxif4xOmpgwVCIG/K+QwTy
+	VUY/AvskhwAhkUnhz8nKBuvinSzO7zyb6tJLeN0W+3zt4PBPlKxJoBW0
+X-Gm-Gg: AfdE7cl7sctk3zmz5d3+BLvJ5lOEhct8MtxUK4/rl5Zv99Xxh70cCRPtB82xPWtFsac
+	f0DjgK9vwgQ3qrDu3JHuKZLcod2rsa05QcXeyT8QSFwalzZBKkoJ7GoY2k7+M5+y6PhBc0cAB3+
+	+qT3rHKM0ZziJRdRWYAGxIxKHVKutmJ1KaPshL/n1bKveGpCTn3bMUraleeyEdWbX15oW9nG70D
+	XNpKwEaorbyUv/HapIZ3sX6FlHdpFLxRTzojUeXEIWU9mWnLnD3u/CVNESiiw5Q3UqP8BzpejpH
+	kS48lzL+rB5PsTLDuxRI9MjJZ/fprHYT9SV+JI0Nx2QPfVvQ7+QYxQYFr5em3Kt/ki4hqZCOJAH
+	3APakIFD4UGZnWqhuPZXhb+eESDvc1wmgpiW+t5/6mGeWOI8f0dwB0b6nDC9mj3zEXkryIAFkxp
+	Uoql9aGG09sV6YPBxVApdtOeiOI71Qw+rbKHgssSVTK0uRhYVWn40SRjVkdxNBfzPpIbZ7m2oA5
+	kdQ
+X-Received: by 2002:a05:690c:4507:b0:7e8:6a6a:dc11 with SMTP id 00721157ae682-81ecf86d451mr4640387b3.19.1784069575635;
+        Tue, 14 Jul 2026 15:52:55 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:82a2:a510:f4e7:1a8:cf71])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c249b87sm153446897b3.49.2026.07.14.15.52.47
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c249b87sm153446897b3.49.2026.07.14.15.52.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 15:52:50 -0700 (PDT)
+        Tue, 14 Jul 2026 15:52:55 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 To: andy@kernel.org,
 	hansg@kernel.org,
@@ -70,9 +71,9 @@ Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v4 2/3] staging: media: atomisp: use kvmalloc_objs() for overflow-safe allocation
-Date: Tue, 14 Jul 2026 19:49:01 -0300
-Message-ID: <20260714225235.47134-3-rodrigo.gobbi.7@gmail.com>
+Subject: [PATCH v4 3/3] staging: media: atomisp: drop redundant out-of-memory messages
+Date: Tue, 14 Jul 2026 19:49:02 -0300
+Message-ID: <20260714225235.47134-4-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
 References: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
@@ -84,238 +85,63 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Feng Ning <feng@innora.ai>
+On allocation failure the memory management core already emits a
+detailed warning, so the driver's own IA_CSS_ERROR("out of memory")
+lines add nothing but noise.
 
-Replace open-coded width * height * sizeof() multiplications with
-kvmalloc_objs() and array_size() to prevent integer overflow in buffer
-allocations.
-
-The atomisp driver computes DVS and statistics buffer sizes using
-unchecked arithmetic.  When dimensions are large, the product can
-silently wrap, causing kvmalloc() to allocate an undersized buffer.
-
-kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
-on overflow, so kvmalloc() returns NULL instead of succeeding with too
-few bytes.  array_size() provides the same overflow protection for the
-two-factor dimension products.
+Remove them; the error handling itself is left unchanged.
 
 Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Feng Ning <feng@innora.ai>
-[rodrigo: rebased; convert only the sites left open-coded after
- commit d178c7ca8fef ("staging: media: atomisp: use array3_size()
- for overflow-safe allocation")]
 Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- .../staging/media/atomisp/pci/sh_css_params.c | 101 +++++++-----------
- 1 file changed, 36 insertions(+), 65 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 8420a22fd8f0..adc329be8b0b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+index ad2a9b84e232..c0102056d421 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -25,7 +25,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
  
- #include <linux/overflow.h>
- #include <linux/math.h>
-+#include <linux/slab.h>
- 
- #include "gdc_device.h"		/* gdc_lut_store(), ... */
- #include "isp.h"			/* ISP_VEC_ELEMBITS */
-@@ -4151,7 +4152,7 @@ struct ia_css_3a_statistics *
- ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
- {
- 	struct ia_css_3a_statistics *me;
--	int grid_size;
-+	size_t grid_size;
- 
- 	IA_CSS_ENTER("grid=%p", grid);
- 
-@@ -4162,8 +4163,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
- 		goto err;
- 
- 	me->grid = *grid;
--	grid_size = grid->width * grid->height;
--	me->data = kvmalloc(grid_size * sizeof(*me->data), GFP_KERNEL);
-+	grid_size = array_size(grid->width, grid->height);
-+	me->data = kvmalloc_objs(*me->data, grid_size);
- 	if (!me->data)
- 		goto err;
- 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
-@@ -4236,6 +4237,7 @@ struct ia_css_dvs_coefficients *
- ia_css_dvs_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
- {
- 	struct ia_css_dvs_coefficients *me;
-+	size_t cnt;
- 
- 	assert(grid);
- 
-@@ -4245,15 +4247,13 @@ ia_css_dvs_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
- 
- 	me->grid = *grid;
- 
--	me->hor_coefs = kvmalloc(grid->num_hor_coefs *
--				 IA_CSS_DVS_NUM_COEF_TYPES *
--				 sizeof(*me->hor_coefs), GFP_KERNEL);
-+	cnt = array_size(grid->num_hor_coefs, IA_CSS_DVS_NUM_COEF_TYPES);
-+	me->hor_coefs = kvmalloc_objs(*me->hor_coefs, cnt);
- 	if (!me->hor_coefs)
- 		goto err;
- 
--	me->ver_coefs = kvmalloc(grid->num_ver_coefs *
--				 IA_CSS_DVS_NUM_COEF_TYPES *
--				 sizeof(*me->ver_coefs), GFP_KERNEL);
-+	cnt = array_size(grid->num_ver_coefs, IA_CSS_DVS_NUM_COEF_TYPES);
-+	me->ver_coefs = kvmalloc_objs(*me->ver_coefs, cnt);
- 	if (!me->ver_coefs)
- 		goto err;
- 
-@@ -4277,6 +4277,7 @@ struct ia_css_dvs2_statistics *
- ia_css_dvs2_statistics_allocate(const struct ia_css_dvs_grid_info *grid)
- {
- 	struct ia_css_dvs2_statistics *me;
-+	size_t cnt;
- 
- 	assert(grid);
- 
-@@ -4286,59 +4287,37 @@ ia_css_dvs2_statistics_allocate(const struct ia_css_dvs_grid_info *grid)
- 
- 	me->grid = *grid;
- 
--	me->hor_prod.odd_real = kvmalloc(grid->aligned_width *
--					 grid->aligned_height *
--					 sizeof(*me->hor_prod.odd_real),
--					 GFP_KERNEL);
-+	cnt = array_size(grid->aligned_width, grid->aligned_height);
-+
-+	me->hor_prod.odd_real = kvmalloc_objs(*me->hor_prod.odd_real, cnt);
- 	if (!me->hor_prod.odd_real)
- 		goto err;
- 
--	me->hor_prod.odd_imag = kvmalloc(grid->aligned_width *
--					 grid->aligned_height *
--					 sizeof(*me->hor_prod.odd_imag),
--					 GFP_KERNEL);
-+	me->hor_prod.odd_imag = kvmalloc_objs(*me->hor_prod.odd_imag, cnt);
- 	if (!me->hor_prod.odd_imag)
- 		goto err;
- 
--	me->hor_prod.even_real = kvmalloc(grid->aligned_width *
--					  grid->aligned_height *
--					  sizeof(*me->hor_prod.even_real),
--					  GFP_KERNEL);
-+	me->hor_prod.even_real = kvmalloc_objs(*me->hor_prod.even_real, cnt);
- 	if (!me->hor_prod.even_real)
- 		goto err;
- 
--	me->hor_prod.even_imag = kvmalloc(grid->aligned_width *
--					  grid->aligned_height *
--					  sizeof(*me->hor_prod.even_imag),
--					  GFP_KERNEL);
-+	me->hor_prod.even_imag = kvmalloc_objs(*me->hor_prod.even_imag, cnt);
- 	if (!me->hor_prod.even_imag)
- 		goto err;
- 
--	me->ver_prod.odd_real = kvmalloc(grid->aligned_width *
--					 grid->aligned_height *
--					 sizeof(*me->ver_prod.odd_real),
--					 GFP_KERNEL);
-+	me->ver_prod.odd_real = kvmalloc_objs(*me->ver_prod.odd_real, cnt);
- 	if (!me->ver_prod.odd_real)
- 		goto err;
- 
--	me->ver_prod.odd_imag = kvmalloc(grid->aligned_width *
--					 grid->aligned_height *
--					 sizeof(*me->ver_prod.odd_imag),
--					 GFP_KERNEL);
-+	me->ver_prod.odd_imag = kvmalloc_objs(*me->ver_prod.odd_imag, cnt);
- 	if (!me->ver_prod.odd_imag)
- 		goto err;
- 
--	me->ver_prod.even_real = kvmalloc(grid->aligned_width *
--					  grid->aligned_height *
--					  sizeof(*me->ver_prod.even_real),
--					  GFP_KERNEL);
-+	me->ver_prod.even_real = kvmalloc_objs(*me->ver_prod.even_real, cnt);
- 	if (!me->ver_prod.even_real)
- 		goto err;
- 
--	me->ver_prod.even_imag = kvmalloc(grid->aligned_width *
--					  grid->aligned_height *
--					  sizeof(*me->ver_prod.even_imag),
--					  GFP_KERNEL);
-+	me->ver_prod.even_imag = kvmalloc_objs(*me->ver_prod.even_imag, cnt);
- 	if (!me->ver_prod.even_imag)
- 		goto err;
- 
-@@ -4377,51 +4356,43 @@ ia_css_dvs2_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
- 
- 	me->grid = *grid;
- 
--	me->hor_coefs.odd_real = kvmalloc(grid->num_hor_coefs *
--					  sizeof(*me->hor_coefs.odd_real),
--					  GFP_KERNEL);
-+	me->hor_coefs.odd_real = kvmalloc_objs(*me->hor_coefs.odd_real,
-+					       grid->num_hor_coefs);
- 	if (!me->hor_coefs.odd_real)
- 		goto err;
- 
--	me->hor_coefs.odd_imag = kvmalloc(grid->num_hor_coefs *
--					  sizeof(*me->hor_coefs.odd_imag),
--					  GFP_KERNEL);
-+	me->hor_coefs.odd_imag = kvmalloc_objs(*me->hor_coefs.odd_imag,
-+					       grid->num_hor_coefs);
- 	if (!me->hor_coefs.odd_imag)
- 		goto err;
- 
--	me->hor_coefs.even_real = kvmalloc(grid->num_hor_coefs *
--					   sizeof(*me->hor_coefs.even_real),
--					   GFP_KERNEL);
-+	me->hor_coefs.even_real = kvmalloc_objs(*me->hor_coefs.even_real,
-+						grid->num_hor_coefs);
- 	if (!me->hor_coefs.even_real)
- 		goto err;
- 
--	me->hor_coefs.even_imag = kvmalloc(grid->num_hor_coefs *
--					   sizeof(*me->hor_coefs.even_imag),
--					   GFP_KERNEL);
-+	me->hor_coefs.even_imag = kvmalloc_objs(*me->hor_coefs.even_imag,
-+						grid->num_hor_coefs);
- 	if (!me->hor_coefs.even_imag)
- 		goto err;
- 
--	me->ver_coefs.odd_real = kvmalloc(grid->num_ver_coefs *
--					  sizeof(*me->ver_coefs.odd_real),
--					  GFP_KERNEL);
-+	me->ver_coefs.odd_real = kvmalloc_objs(*me->ver_coefs.odd_real,
-+					       grid->num_ver_coefs);
- 	if (!me->ver_coefs.odd_real)
- 		goto err;
- 
--	me->ver_coefs.odd_imag = kvmalloc(grid->num_ver_coefs *
--					  sizeof(*me->ver_coefs.odd_imag),
--					  GFP_KERNEL);
-+	me->ver_coefs.odd_imag = kvmalloc_objs(*me->ver_coefs.odd_imag,
-+					       grid->num_ver_coefs);
- 	if (!me->ver_coefs.odd_imag)
- 		goto err;
- 
--	me->ver_coefs.even_real = kvmalloc(grid->num_ver_coefs *
--					   sizeof(*me->ver_coefs.even_real),
--					   GFP_KERNEL);
-+	me->ver_coefs.even_real = kvmalloc_objs(*me->ver_coefs.even_real,
-+						grid->num_ver_coefs);
- 	if (!me->ver_coefs.even_real)
- 		goto err;
- 
--	me->ver_coefs.even_imag = kvmalloc(grid->num_ver_coefs *
--					   sizeof(*me->ver_coefs.even_imag),
--					   GFP_KERNEL);
-+	me->ver_coefs.even_imag = kvmalloc_objs(*me->ver_coefs.even_imag,
-+						grid->num_ver_coefs);
- 	if (!me->ver_coefs.even_imag)
- 		goto err;
- 
+ 	dvs_config = kvmalloc_obj(struct ia_css_dvs_6axis_config);
+ 	if (!dvs_config)	{
+-		IA_CSS_ERROR("out of memory");
+ 		err = -ENOMEM;
+ 	} else {
+ 		/*Initialize new struct with latest config settings*/
+@@ -52,7 +51,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
+ 		dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
+ 						 GFP_KERNEL);
+ 		if (!dvs_config->xcoords_y) {
+-			IA_CSS_ERROR("out of memory");
+ 			err = -ENOMEM;
+ 			goto exit;
+ 		}
+@@ -60,7 +58,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
+ 		dvs_config->ycoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
+ 						 GFP_KERNEL);
+ 		if (!dvs_config->ycoords_y) {
+-			IA_CSS_ERROR("out of memory");
+ 			err = -ENOMEM;
+ 			goto exit;
+ 		}
+@@ -72,7 +69,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
+ 							      sizeof(uint32_t)),
+ 						  GFP_KERNEL);
+ 		if (!dvs_config->xcoords_uv) {
+-			IA_CSS_ERROR("out of memory");
+ 			err = -ENOMEM;
+ 			goto exit;
+ 		}
+@@ -81,7 +77,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
+ 							      sizeof(uint32_t)),
+ 						  GFP_KERNEL);
+ 		if (!dvs_config->ycoords_uv) {
+-			IA_CSS_ERROR("out of memory");
+ 			err = -ENOMEM;
+ 		}
+ exit:
 -- 
 2.48.1
 
