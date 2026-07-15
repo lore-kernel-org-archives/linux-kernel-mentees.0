@@ -1,82 +1,76 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89566431E79
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 22:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F9243C056
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Jul 2026 10:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784069577; cv=none; b=MK8teDJXJONW8JoM1LCbDGXPwrA7LOJWrpLKVz9MzpJkeKb2mBygyVVojRBF5VvnjA4Ba81iKBZOU8Z8yjr3siGcW73O2ddrKHVrGzWOPC1IKafUbPgsJnUYfEZBxl59wfl9+RHNTwP02CtbZDFigbY0Jx9J934ky72ITry+Tk8=
+	t=1784110256; cv=none; b=bagyUb6JS391LX4H5bkkTE1fEylkfftOQwXqdGmjGaOHMi8kNmiUbuVCjkKUtgz3/qyUHAeEM0PH7XdNHPcPFyHBWl9Z1uaw2SHK7gyJg50eJ4N5qs3qGORhYqjyCgPK+u734m8T5esS23Qw1po09tTNBrd+svQ1zV0urZnUq50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784069577; c=relaxed/simple;
-	bh=aneHEOEVTUFpxhruqbXN4fpzumP0voPWx/etkXlO+EI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nMKUx8Vy1Q4H+F/CNHklNKzbml4FWZ1LFYp3CJijlQ4bPOGSO7J5JhAo3ndtDGrQM+e8sjSfTPs1I/oeQ3LDmfn4op6bxczbDl3XoV21k1xwioSq0pge3ZeSdEHyAjmDThhq1nJzEAOJkpj9F1JTAKM6zspE/+z1ylvXZuY8lfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PIpg5Aro; arc=none smtp.client-ip=209.85.128.174
+	s=arc-20240116; t=1784110256; c=relaxed/simple;
+	bh=JfYz53bJftYARTtQYbhdqLN88JZ2JOJLHjD7XhU/M28=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=krHuNqe4kYrlKidP1wCYcJDYeuu6US4cBh6N9xTVX3Tp0ZRK9Z2BDMopl0m8pUyIoTmkwy3U+7We7oqPguAys0JMmiCsLveFKhJ8CePHhMijV+BSULeEJeyTrfqLE5Y4gfYYWehUXmahp2Bt9d3yix1JW5zHhlvw9bsLQr7oZok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/MqOb4P; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PIpg5Aro"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-81ecf499af9so2218587b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Jul 2026 15:52:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/MqOb4P"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2c6b67d5fa1so88025925ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Jul 2026 03:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784069575; x=1784674375; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=huMAZLasX9MtSdlliVLSBQtahcShQoIS8BrLCB4qkoo=;
-        b=PIpg5AroIj6rM/6X2hjb3v2GmC+i7U2JLYOOUuT4zTczPokK6Uk9EzHn8xN/MKbs+3
-         ctY1e6wKCYjuFmF7e4l8zS3t/sTDchpEGs0d219zrKM4/ZPeBlcSKlesnNkwcmO/nFIG
-         daGRd0kSq7Q2yWw/BDPhsBWuSZ4y2H1hOM4rLnBm8R5Ko9gahy9x7/lgr2k8sH1WJVdr
-         VwEOVzUJT44vhpEoPWKycYUfc4JfhabNHJzd3I8OhSyD08sKs8iq8nUYx9Xhx5cEAb4H
-         eQ9tlIoUzwRnXAT59NG+T4bvSDvUaKIrl3rDzZNo4G5VkCtt++r9t5hqeAIza6s5y5fC
-         I3Iw==
+        d=gmail.com; s=20251104; t=1784110254; x=1784715054; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qXsDMJk4sPduicJj2EHttKleB6YVypYjBplsn4iN7vc=;
+        b=a/MqOb4PYoWeM3pzqVotSRrYG2FOmx1pWDH/wRbGdzNj9RGmQI8tPjw0VX2Bj+L+1E
+         E02Ofk+1Jj7ceIxVtMcDnH6oALvnCRerV0BlXVbhv4hcUGBnMY12COClabJbIfKoyree
+         /jDFIq2RJXtUlus0HyaUe2RiCmfmFbRBZzUy+TXWdeKg4caP5QY4iHFZBV7VG2D/w2Tj
+         PYFGtJn1vzDXB8BW5VlmBQ+IL9nlbr+HzAKkkdrR4I/Pj6WlzZvp1fnwaZMJuhkAJWl9
+         PScQQ6Kez6ZoKh2LpLzyaK7EZgkPuefY8ECnMp/TOcnnKfKBKMivcX4fM4BoLw41Hg9h
+         Eqrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784069575; x=1784674375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=huMAZLasX9MtSdlliVLSBQtahcShQoIS8BrLCB4qkoo=;
-        b=kKX8fwZOzIh+tZKg6OIHKMWSF4gHtqu71cXgRSvam5G8H+ObPU/kDjLoRfnlp5KqPv
-         5zrDNcYmGhn6ozsC3TJS3jUgQ2JpFT9VIFByD3N/vViM0k8HlE+ebLroHBn5FmT3zGcf
-         ObdBRswt1RFFbqJv/bTQ0H2PyC36GMuXBm0lCNTAc2CX0jTCF7k3SSoXYzScXp5Bb5H1
-         FdHuTQxygV1caiVAx6K/ocTVBr82aG2u0Not4d14UdJkcrzt4x4cCZwnJb3JMrXJ6YKx
-         TSPryvUazxbV1TbVew09nqVFe921jW+C0WJ6Rc/E5VKo2ZaqE3VTKOF/ixb/7qgOZJEg
-         Oa+g==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0/pzbnGAPyOiaeDIxob79pess3imBeeXOUED9hDK6DoNAefRkXRXLEQTdn1xKl0vuc2HWU23sOdyclex5mwePc6g2UQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywbd90qvHRqM3XppYUyX2398jcQ0zpxif4xOmpgwVCIG/K+QwTy
-	VUY/AvskhwAhkUnhz8nKBuvinSzO7zyb6tJLeN0W+3zt4PBPlKxJoBW0
-X-Gm-Gg: AfdE7cl7sctk3zmz5d3+BLvJ5lOEhct8MtxUK4/rl5Zv99Xxh70cCRPtB82xPWtFsac
-	f0DjgK9vwgQ3qrDu3JHuKZLcod2rsa05QcXeyT8QSFwalzZBKkoJ7GoY2k7+M5+y6PhBc0cAB3+
-	+qT3rHKM0ZziJRdRWYAGxIxKHVKutmJ1KaPshL/n1bKveGpCTn3bMUraleeyEdWbX15oW9nG70D
-	XNpKwEaorbyUv/HapIZ3sX6FlHdpFLxRTzojUeXEIWU9mWnLnD3u/CVNESiiw5Q3UqP8BzpejpH
-	kS48lzL+rB5PsTLDuxRI9MjJZ/fprHYT9SV+JI0Nx2QPfVvQ7+QYxQYFr5em3Kt/ki4hqZCOJAH
-	3APakIFD4UGZnWqhuPZXhb+eESDvc1wmgpiW+t5/6mGeWOI8f0dwB0b6nDC9mj3zEXkryIAFkxp
-	Uoql9aGG09sV6YPBxVApdtOeiOI71Qw+rbKHgssSVTK0uRhYVWn40SRjVkdxNBfzPpIbZ7m2oA5
-	kdQ
-X-Received: by 2002:a05:690c:4507:b0:7e8:6a6a:dc11 with SMTP id 00721157ae682-81ecf86d451mr4640387b3.19.1784069575635;
-        Tue, 14 Jul 2026 15:52:55 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:82a2:a510:f4e7:1a8:cf71])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c249b87sm153446897b3.49.2026.07.14.15.52.51
+        d=1e100.net; s=20251104; t=1784110254; x=1784715054;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qXsDMJk4sPduicJj2EHttKleB6YVypYjBplsn4iN7vc=;
+        b=C+oJQvtzliSIKZ5xHHxZnzBijA7KRir0D4w0dFwiLMfAqcWRSWEY2YYaSy6i2g7hxB
+         +KOUtQyQOfMNWz795IqQ5w/I8SGi9gXMu+WGGyphhratbbwnEXhX3X3v3Lp3nKEoFLPa
+         /09mFELX+GhQQJpVzxMfhMrTrUun6du5M1TxfWJdwtv2mv+aUaXoLp3b9cGlR6LEU4re
+         Y1rHUxShsl5/jpAGq4RvmZhpVPfXyr+8VY5L60deO1+NH3IQjTRN+denZbp/uTXNpOcA
+         AibvB5xxBdWi6PgpvWbdk7VQxeV0y9dii0j8RXDWb000qtl23WAU5bvclG6jTMZ13zSL
+         mJKg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqhw2UEYBt10HeMCb7izr1KAfa/XV62KVo+35SqWC+N10mugZ4NziVtJs64sFI/13/AkzcT8HZwqbYJCtbf/998LGmNKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1ENlmWwMJ28CBTVANgBHXAnK35HB7jWa9O7VUDubwSl36Nf8j
+	jUovNZWru7Duvuvoj3TE2BKT3eXWQ6cB6a4dWueSTjvACRDaMaugWXEO
+X-Gm-Gg: AfdE7ckS6IBU9hYEdzWo95TEaGefUStuanyCTaA6NMXzSgaOdeOrueByD8yR5qm0f+C
+	1NKusjCR6EndiXlfc1zSOZIwNLq40dlM0RabwxW8oJMfgrKKmLUN5ZGTXPhB7JnVy7mQRXXGk52
+	5zq/qBQ44dXwD2luc/zVTPyeWMlLcM9ONIrOGkju48KPX5grM2+MyqEdXN7rOm1zg2kWbo8U5wh
+	kK0mM6Wrs/av2ciBoeBM5dmRprkYMATSJRL5f0YyD3qyy9PMojoHELeCt92zNUI5BOQ/PAaVaLX
+	Mijy6M4Pm2DC3pXE0tkwZjw5RZ/TPvPGdR/aeWqdkI4ayUiVXfifji51dj5ca4aQnmlkDVeYrTo
+	IjN3n5JY0PUCxk2fA/BmeBGrP/dLQxWW1HfUmbsyZCA2XwTIL6Hx2y11hJXdvcSDkuxlbKIP+CU
+	o2b9OipnubVgHFz5iRCvqRc/1gQJoDIihRRQ4nV3kX
+X-Received: by 2002:a17:90b:2544:b0:38e:408:9d7d with SMTP id 98e67ed59e1d1-38e1af44e01mr6101942a91.36.1784110253968;
+        Wed, 15 Jul 2026 03:10:53 -0700 (PDT)
+Received: from primary ([223.181.23.34])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3119c2a7bb5sm62079757eec.25.2026.07.15.03.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 15:52:55 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	feng@innora.ai
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-kernel-mentees@lists.linux.dev,
+        Wed, 15 Jul 2026 03:10:53 -0700 (PDT)
+From: Vidhu Sarwal <vidhu.linux@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v4 3/3] staging: media: atomisp: drop redundant out-of-memory messages
-Date: Tue, 14 Jul 2026 19:49:02 -0300
-Message-ID: <20260714225235.47134-4-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
-References: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Vidhu Sarwal <vidhu.linux@gmail.com>
+Subject: [PATCH 0/3] iio: light: opt4060: Fix integration time, pointer type and error message
+Date: Wed, 15 Jul 2026 06:45:41 +0530
+Message-ID: <20260715011544.281148-1-vidhu.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,63 +79,40 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On allocation failure the memory management core already emits a
-detailed warning, so the driver's own IA_CSS_ERROR("out of memory")
-lines add nothing but noise.
+This series fixes three issues in the opt4060 driver, all of which have
+been present since the driver was introduced.
 
-Remove them; the error handling itself is left unchanged.
+Patch 1 rejects integration time writes with a non-zero seconds part.
+Previously, opt4060_write_raw() only considered the microseconds
+component, so values such as 1.000600 were accepted and programmed as
+600 us.
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
----
- drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 5 -----
- 1 file changed, 5 deletions(-)
+Patch 2 fixes a pointer type mismatch in the call to
+div_u64_rem(). This is a type cleanliness fix and does not change
+runtime behaviour.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index ad2a9b84e232..c0102056d421 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -25,7 +25,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 
- 	dvs_config = kvmalloc_obj(struct ia_css_dvs_6axis_config);
- 	if (!dvs_config)	{
--		IA_CSS_ERROR("out of memory");
- 		err = -ENOMEM;
- 	} else {
- 		/*Initialize new struct with latest config settings*/
-@@ -52,7 +51,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 		dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
- 						 GFP_KERNEL);
- 		if (!dvs_config->xcoords_y) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -60,7 +58,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 		dvs_config->ycoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
- 						 GFP_KERNEL);
- 		if (!dvs_config->ycoords_y) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -72,7 +69,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 							      sizeof(uint32_t)),
- 						  GFP_KERNEL);
- 		if (!dvs_config->xcoords_uv) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -81,7 +77,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 							      sizeof(uint32_t)),
- 						  GFP_KERNEL);
- 		if (!dvs_config->ycoords_uv) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 		}
- exit:
+Patch 3 corrects a error in an error message that reported the
+wrong threshold register when a register read failed.
+
+The first 2 patches are similar to recently submitted patches on
+it's sister driver OPT4001 [1]. 
+
+Patch 3 is specific to opt4060.
+
+[1]: https://lore.kernel.org/all/20260714113134.3445-1-nikhilgtr@gmail.com/
+
+Vidhu Sarwal (3):
+  iio: light: opt4060: Reject integration times with a non-zero seconds
+    part
+  iio: light: opt4060: Fix pointer type passed to div_u64_rem()
+  iio: light: opt4060: Fix incorrect register name in threshold read
+    error message
+
+ drivers/iio/light/opt4060.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
 -- 
-2.48.1
+2.53.0
 
