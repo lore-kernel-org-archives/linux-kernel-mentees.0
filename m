@@ -1,61 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EBB422536;
-	Thu, 16 Jul 2026 13:08:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A39374195;
+	Thu, 16 Jul 2026 17:35:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784207290; cv=none; b=jEb5qjp1jMSCg5pDfnHbfoOqXFFsFhEKZuthFMrDk2X5I24+gx/Tmek7uSAV36ksNi138c+LheavQBmA8zF0MELhplQYA1TJOEROtoNvToMvTZTgNOWFz6IIwNcW77sYJhRGkkA7uy9K3bksBir3wTMWyWnxS7f+ustpmyXLGYc=
+	t=1784223340; cv=none; b=ajaagccvnzybsPnvD6YsrLV5f86Cu6r7ThvOKNJFP+89OMWfw01F0deCqCoZgHwCbOIEQDuj2YMzcaC7zoY41bTpEn0b2k/87aHiWdGg34roYxcI84QTkKXZ6Jn9fLk3Z3yhjb0hNrJqNRO0Hczr4SHRBq0uinD4nZ7eaIjSfWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784207290; c=relaxed/simple;
-	bh=NHWdFRHsjfAEVj9ehdcgejppFAoD8FBlB6+g2PxYo9Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CgkrV6Xjx6lZfvq4Ssr3o8pg7MyI6hcyuplf0209CJSRPiHN2GbQvrE2CP+MtBYswVzN+XdbblLkZfOQj5uX0rc6TlNpUSCAOqvEAkUltSIY/f0+4ZUYv1RhooSwO0HaljmiMfLGYVuXjWDTODzdmuR/YQPZVc46hiTITnRtaa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U73bS1DP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784223340; c=relaxed/simple;
+	bh=YwRmOEFI3f5URqYYo+eCqCa+D+XclSkaQGeBK/jZVos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foo/zPctJVBAlxsQpTyOauePO+QxO98SJPYTqBksz6vkeiWIkunAuQyJ/C6s7XMJ6K4QFfcLncKVe9+XyoAUoee8l4h645nFJhM4zd65YOQ6OcTNiZK2z8Gc9+jcWxYS6IBcjzz8DZ4puqJ7AkZZEnuridHQKvc7lMZ6J5z1/SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZgEcGcA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U73bS1DP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A901F000E9;
-	Thu, 16 Jul 2026 13:08:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZgEcGcA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 242D81F000E9;
+	Thu, 16 Jul 2026 17:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784207288;
-	bh=0Zby8rUww5DgSB7WsvxkwhJTKhb2piVNdDECZG5/Hlg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=U73bS1DPmQLRkA5pr4dWNPPh+nyimu95guHIukd0RNAmR3B3g7gM2zSlhM+C6KpaL
-	 Q2GBn2HApZnyTH2R1+um7C1TCmOilluTJhkhoHVzEw9WsjZzsmhVIjXHjxTVaG1K/g
-	 3U5NrMvXeoWoJDeg6KCXW3mXJdgqWzgCUxYhgf6bwguUwuYMmVwwtULDQypt+iOOL6
-	 bt2dWr+ltaFFAQVZ60lYTczrBwGpFR4pR7Zhgy1lGKByFOsL656bfQXjcYaar/zl8Q
-	 fvXYG60AnP8d2abiyQu2oTibbbal+waHZKhSfucSess7c0etb7iXWCVKI+BhsQ/fvj
-	 hxxhXDml16ysg==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, noltari@gmail.com, Ninad Naik <ninadnaik07@gmail.com>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, me@brighamcampbell.com
-In-Reply-To: <20260707184437.500278-1-ninadnaik07@gmail.com>
-References: <20260707184437.500278-1-ninadnaik07@gmail.com>
-Subject: Re: (subset) [PATCH v3] dt-bindings: leds: bcm6358: Convert to DT
- schema
-Message-Id: <178420728614.1348593.16669026578476244176.b4-ty@b4>
-Date: Thu, 16 Jul 2026 14:08:06 +0100
+	s=k20260515; t=1784223339;
+	bh=yf2oHsNRk8ZDkNH1BFO0UXsDSvAMijvnvwM4EvDInNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gZgEcGcABnGq3/tGZdLO4OlHyEubpxJf+OSCy0W6hvuvPeaL8h7GVKJK+5kyI0g7A
+	 zXXERFQi4Q6wEOfnEt+2G5FN3Fdx42fgzGmY/Z7C1m8HL9Y9tthuQoIpc3nBBnkie4
+	 9uowZVlTFc1k93B78AX8eAy19kH1ukCcplGj/MaoSHye+PmwEipzBnzhZ9O5N3wzu+
+	 iniEbbhoJaEFbieehJeW+ef+iyV1UmjhaUYLfdZDELdQYagbdwo9MlPndwx5+yZ5pT
+	 xO8hjIiEBrxjRRO/FZzIqSmzZhDZkkfN57WjYuB1RbXxt0Vz2TJ4htHEp9kcZ5TRXf
+	 /0c9ZoY2Fdhiw==
+Date: Thu, 16 Jul 2026 12:35:38 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ninad Naik <ninadnaik07@gmail.com>
+Cc: lee@kernel.org, pavel@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] dt-bindings: leds: lacie,ns2-leds: Convert to DT schema
+Message-ID: <20260716173538.GA534222-robh@kernel.org>
+References: <20260701175330.1645927-1-ninadnaik07@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701175330.1645927-1-ninadnaik07@gmail.com>
 
-On Wed, 08 Jul 2026 00:14:28 +0530, Ninad Naik wrote:
-> Convert the brcm,bcm6358 to DT schema.
+On Wed, Jul 01, 2026 at 11:23:30PM +0530, Ninad Naik wrote:
+> Convert lacie,ns2-leds to DT schema.
+> 
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+> ---
+>  .../bindings/leds/lacie,ns2-leds.yaml         | 87 +++++++++++++++++++
+>  .../devicetree/bindings/leds/leds-ns2.txt     | 35 --------
+>  2 files changed, 87 insertions(+), 35 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-ns2.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
+> new file mode 100644
+> index 000000000000..679a618906d8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/lacie,ns2-leds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dual-GPIO LEDs found on Network Space v2 (and parents)
+> +
+> +maintainers:
+> +  - Lee Jones <lee@kernel.org>
+> +  - Pavel Machek <pavel@kernel.org>
 
-Applied, thanks!
+This should be someone with the h/w, not subsystem maintainers.
 
-[1/1] dt-bindings: leds: bcm6358: Convert to DT schema
-      commit: 627666f7c9cd89e7c4023ba790a44610ccfb9471
+> +
+> +description: |
 
---
-Lee Jones [李琼斯]
+Dont need '|'.
 
+> +  The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
+> +  modes are available: off, on and SATA activity blinking. The LED modes are
+> +  controlled through two GPIOs (command and slow): each combination of values
+> +  for the command/slow GPIOs corresponds to a LED mode.
+
+Rest looks fine.
+
+Rob
