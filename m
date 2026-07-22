@@ -1,135 +1,319 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C879648164D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 11:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5A03BB680
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 12:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784720040; cv=none; b=d6dXg3ArZSdY5lp2vSaMWHadJ79w1qL1KZI5wHaSgkjFK5yr+qJDXS7Aok8Qh3uMnD/a9o3vZna7OYIvljr+Yz1FEyiGxKtnpuSCifzbsHNDL664d9/nQcy2YEiXxqXY9VLAK7WAm2QaDMRFRYI5z6ff/lUm2MURDRhZeub1BUk=
+	t=1784721944; cv=none; b=kVvoArukAVUkjUevk6kzwAAd4UJSiIMWEDWmCDFf08L+DC8Pld1aZWy22/mIJ3vZO3HiNVY+WPaRmh4jy5Ubn/rgVogd2c1ri55o+BjqE219QDcdl8t0UbN6CDbfTdCOyo1bu3c00m9LUnGUyktAhqkvoClHIKTjk/BrZBaUgHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784720040; c=relaxed/simple;
-	bh=4dZ9VLxDpR3TIfuk0B4upDrYn2kZuOWz/udMkCi9ovU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QEIDknDV56d42PlojKSnXIbVXfUMU95+pMLc3fR1KHpyD7tbV8s27sLksDgyFIdbY7LxSCi+1rhoZNcbaagD0A4IIPOJHvO7Vt3W/NiWPX1Pg8xA5wad8X7zl9nCD79VVFyeGLZHN9vMVr81+8+NMAH9GLQeCRTUeihhYEpB/+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcy1eaSq; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784721944; c=relaxed/simple;
+	bh=V+io0wsTinWn6oD1Zx+gfASkPSLTa7UT8PRA70m/HeE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TLe/cMzrDMpeXK+DNbxpfQ38RcZr4TT25lRp/i9MOqthqtPV2yZELa+v5BFwq9HAjW7WQ3T0LulT8IbM7cSeaJuOLTjSreKKGJpjFK6iMwh2HjdHAWDj8hwAzA1yQzaR78SOD7L21qFmRAkIzRtQodsVLzJM/GaCZXU3V9OWieE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzRtsYtg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcy1eaSq"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c96c92c0980so5956581a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 04:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784720038; x=1785324838; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YtTalQDtKgX2+sfw/36efx5Lj5w8MeFStk5ysuXqYT8=;
-        b=kcy1eaSqkYxNZovZEZlV9jmlBlzklEDznK/Z87Re96mXv2OCy8pt52Y1OrIby0DYrn
-         5k5Ksfrp3/+nVkFuPzBsw75JwLiTp8fkDatgIV5ISSiXtxE53TYz51S8pUYW6mmOtpCN
-         70zHxM6gOcD5vvprx6MHBC3bl18Lo+rfYX9m4mLg5UmTMWdsch1wUR3rvMrx8w+kNI7n
-         v3sHKjtqZ6ljghkPQKiW1wxgMCta3LDdKFZ85Du5OTbZOQsfysqzmP1np9ec0asb3M/8
-         nKZlf+2Ay/92+4y/5H5NrdteeGkF/DRtXXZZ2TX3QcO29jxrQTExBdck4heE/FLD2F6N
-         ahnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784720038; x=1785324838;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YtTalQDtKgX2+sfw/36efx5Lj5w8MeFStk5ysuXqYT8=;
-        b=evsT96XctNDwThtJphjX7sbzfUPyV0dz0BPhARMrh5jratz4mUP84jy+7oGxNqxywu
-         uME/22iqIuYTlJxEkO3xhTeB6p0y15/16dgJ3eFANWCm7NNfom7JKX9fcL4frxKCOObp
-         xbrqW/FDVotp0Dx4N/wzj0KNdwkJHsmC6XGhehKijKG6WLgrSYwm1ff/iW+x+SQdiagh
-         +tOUGkLXfTZfovkVxwk6LBeucy7dQg14LyzJFPtQ9hS+iTzwtspTKF5GJfyUbF39pW3R
-         umaMyDfsT5pmmsPDN+75oMF8XdGsmws+rnfIVTHC+PDwX7Rm5ytwVb4GTyNmsQDd9yN9
-         KEsw==
-X-Forwarded-Encrypted: i=1; AHgh+RocwJtHu/E41UsDNj5K4Fjfi1P508zBvcuDRKRG/7z8vEXPyvFACHptY+Aq9jMUKfzWvUx3nRPP47RLcT/zSNcIPQ8r0Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjDaN/KVzpYLIgjgcE/B7WB3ArRipH87Bq/5svjWsvXEIu+0GK
-	LdGbI16nZ/fA5g6s0TJs8BVIZlANlkM+Z4MLTiXpohOlKEot6SGndUm7
-X-Gm-Gg: AR+sD129w4N2WXtSj5O/QG1WMI6i7VVuwFZ8+20G/ZiSfrLHvx5IaWNpV0TJBYseUVH
-	7Zo8tn24fww8DdktewAdFq4yVuDtq1tuuTSeRaNnH83IaBN35eoKEb6DGq9W26jdDnzlMVlz/NX
-	UIPTU9ugupClMBoonHaDHNts5+CDDMnZ0V14Ajee4oo2qRECHgwxk6bh75/wVNVImaoOT2HlTLk
-	7WMa1BMCVIOjAqIuVpZNhm+vwTacMBuJPbEAS2oRNEgLqdPD+Wgek7lSw8TZ+cXNyO/9sg7RlMq
-	DcCQmZ1id592GUitNVzb/bOe4VJBsEeDY+v/V1qamraQcCPp6ap0+RaVYXqv6Ccc/1Tm2FwdpS+
-	/6w/HaFrCrjCEdnn+P4KLr8qt1U0R95etEb/ZoD0kiccCrH2V6IIpXWHnRTQBQzqq6JMs2Wz+fK
-	hW5aklF3ELu54U7NawOw==
-X-Received: by 2002:a05:6a20:4388:b0:3b3:fc6:622d with SMTP id adf61e73a8af0-3c3ada195d5mr24819669637.38.1784720038040;
-        Wed, 22 Jul 2026 04:33:58 -0700 (PDT)
-Received: from apt.tailc82bd0.ts.net ([140.123.97.23])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f1c376esm980979a12.29.2026.07.22.04.33.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 04:33:57 -0700 (PDT)
-From: Cheng-Han Wu <hank20010209@gmail.com>
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Cheng-Han Wu <hank20010209@gmail.com>
-Subject: [PATCH 2/2] mm/damon/core: remove unused damon_nr_running_ctxs()
-Date: Wed, 22 Jul 2026 19:33:38 +0800
-Message-ID: <20260722113338.302603-3-hank20010209@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260722113338.302603-1-hank20010209@gmail.com>
-References: <20260722113338.302603-1-hank20010209@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzRtsYtg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5064F1F00A3A
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 12:05:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784721942;
+	bh=q53a9xtYgK3+D61si9DmOvBLJsk88HnK6t4GhuJGx+8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=AzRtsYtgVJW7Ko14oaMYxoG4mxJlBdQyinOQxlSBE2xyO8CF852Rum9je+S7r/2S6
+	 ERuwEmjNaoJDdQDVc5HxB7UudEa7puCdQPsrLSqL+C7T4PyZt6Q9nnwsa4r1DOoO9N
+	 bpdMpnXBaiqTcCqZnVwHgIleeaqp8fe3ptRHzsem/xxkzJLajs4fZllFVedhEGU0kW
+	 Y1dI/bjHYKMFpJD4mgOI5w01/dOE64rxC4odCiMbdal3loeHv9jubEq0kwU2u1Gokx
+	 FtiSkl2Vatjpdr3beWCQxYf2z5U5sEIU5EmhgAdtpq6ZJ1+WBRRL6fyRJQPdz91R7U
+	 7iayXwXn0TqnA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c74c469e8so94182861fa.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 05:05:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqrgMcuJnL7jyoh7d8jDdXDm2NMmbVqYAYhCcl5Uylzj2w+aXymkVe2pyxc91+Qc8FhgAdPMHWzZ5d8ev3gspTlEUgtnQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyThODln8uZ5AAO9CU/IbQez2icsuQO3l4fLQ39+mvXnIa14jc
+	CVl51Bmmb85/+C5JqZG4ny3CfkRUKWcNEfRCppgt5GS3cirCAm9ciAX1VkR2G4O8GZbfyKiq4jt
+	26HudgE5gA/ZjmdyS5xcixUGBV5RkmEo=
+X-Received: by 2002:a2e:90c5:0:b0:39a:cfea:f17 with SMTP id
+ 38308e7fff4ca-39eb29145f4mr35999801fa.30.1784721940680; Wed, 22 Jul 2026
+ 05:05:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260609231626.38839-1-adinata.softwareengineer@gmail.com>
+In-Reply-To: <20260609231626.38839-1-adinata.softwareengineer@gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 22 Jul 2026 14:05:27 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hM+sGrH4wt3Ce__QwzH6fE_JsgXeTPZAypyye8R2NALA@mail.gmail.com>
+X-Gm-Features: AUfX_mwdPtI5tBefmHwa47xkd8_oaJOWWTw7Sf74CGGeDSuNB5VuHokWX-kuf5c
+Message-ID: <CAJZ5v0hM+sGrH4wt3Ce__QwzH6fE_JsgXeTPZAypyye8R2NALA@mail.gmail.com>
+Subject: Re: [PATCH] PM: hibernate: Mark undocumented snapshot helpers as non-kernel-doc
+To: Adi Nata <adinata.softwareengineer@gmail.com>
+Cc: rafael@kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-damon_nr_running_ctxs() has had no in-tree users since commit
-5ec4333b1967 ("mm/damon: remove DAMON debugfs interface") removed
-all of its callers.
+On Wed, Jun 10, 2026 at 1:16=E2=80=AFAM Adi Nata
+<adinata.softwareengineer@gmail.com> wrote:
+>
+> Several helpers in snapshot.c are introduced with kernel-doc (/**)
+> comment blocks but do not describe their parameters with @param
+> tags.This emits warnings when building
+> with extra warnings enabled (make W=3D1), for example:
+> kernel/power/snapshot.c:469: warning: Function parameter or member
+>     'zone' not described in 'add_rtree_block'
+> kernel/power/snapshot.c:469: warning: Function parameter or member
+>     'gfp_mask' not described in 'add_rtree_block'
+> kernel/power/snapshot.c:469: warning: Function parameter or member
+>     'safe_needed' not described in 'add_rtree_block'
+> kernel/power/snapshot.c:469: warning: Function parameter or member
+>     'ca' not described in 'add_rtree_block'
+>
+> These are file-local implementation details, not part of the
+> exported kernel API documented under Documentation/. Replace the
+> kernel-doc markers with plain block comments for the affected
+> functions.
+>
+> Properly documented symbols such as
+> alloc_rtree_node(), snapshot_read_next() and snapshot_write_next()
+> remain unchanged.
+>
+> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+> ---
+>  kernel/power/snapshot.c | 42 ++++++++++++++++++++---------------------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+>
+> diff --git a/kernel/power/snapshot.c b/kernel/power/snapshot.c
+> index a564650734dc..552958f58359 100644
+> --- a/kernel/power/snapshot.c
+> +++ b/kernel/power/snapshot.c
+> @@ -458,7 +458,7 @@ static struct rtree_node *alloc_rtree_node(gfp_t gfp_=
+mask, int safe_needed,
+>         return node;
+>  }
+>
+> -/**
+> +/*
+>   * add_rtree_block - Add a new leave node to the radix tree.
+>   *
+>   * The leave nodes need to be allocated in order to keep the leaves
+> @@ -528,7 +528,7 @@ static int add_rtree_block(struct mem_zone_bm_rtree *=
+zone, gfp_t gfp_mask,
+>  static void free_zone_bm_rtree(struct mem_zone_bm_rtree *zone,
+>                                int clear_nosave_free);
+>
+> -/**
+> +/*
+>   * create_zone_bm_rtree - Create a radix tree for one zone.
+>   *
+>   * Allocated the mem_zone_bm_rtree structure and initializes it.
+> @@ -566,7 +566,7 @@ static struct mem_zone_bm_rtree *create_zone_bm_rtree=
+(gfp_t gfp_mask,
+>         return zone;
+>  }
+>
+> -/**
+> +/*
+>   * free_zone_bm_rtree - Free the memory of the radix tree.
+>   *
+>   * Free all node pages of the radix tree. The mem_zone_bm_rtree
+> @@ -678,7 +678,7 @@ static int create_mem_extents(struct list_head *list,=
+ gfp_t gfp_mask)
+>         return 0;
+>  }
+>
+> -/**
+> +/*
+>   * memory_bm_create - Allocate memory for a memory bitmap.
+>   */
+>  static int memory_bm_create(struct memory_bitmap *bm, gfp_t gfp_mask,
+> @@ -720,7 +720,7 @@ static int memory_bm_create(struct memory_bitmap *bm,=
+ gfp_t gfp_mask,
+>         goto Exit;
+>  }
+>
+> -/**
+> +/*
+>   * memory_bm_free - Free memory occupied by the memory bitmap.
+>   * @bm: Memory bitmap.
+>   */
+> @@ -736,7 +736,7 @@ static void memory_bm_free(struct memory_bitmap *bm, =
+int clear_nosave_free)
+>         INIT_LIST_HEAD(&bm->zones);
+>  }
+>
+> -/**
+> +/*
+>   * memory_bm_find_bit - Find the bit for a given PFN in a memory bitmap.
+>   *
+>   * Find the bit in memory bitmap @bm that corresponds to the given PFN.
+> @@ -988,7 +988,7 @@ static void memory_bm_recycle(struct memory_bitmap *b=
+m)
+>         }
+>  }
+>
+> -/**
+> +/*
+>   * register_nosave_region - Register a region of unsaveable memory.
+>   *
+>   * Register a range of page frames the contents of which should not be s=
+aved
+> @@ -1305,7 +1305,7 @@ static unsigned int count_free_highmem_pages(void)
+>         return cnt;
+>  }
+>
+> -/**
+> +/*
+>   * saveable_highmem_page - Check if a highmem page is saveable.
+>   *
+>   * Determine whether a highmem page should be included in a hibernation =
+image.
+> @@ -1362,7 +1362,7 @@ static unsigned int count_highmem_pages(void)
+>  }
+>  #endif /* CONFIG_HIGHMEM */
+>
+> -/**
+> +/*
+>   * saveable_page - Check if the given page is saveable.
+>   *
+>   * Determine whether a non-highmem page should be included in a hibernat=
+ion
+> @@ -1440,7 +1440,7 @@ static inline bool do_copy_page(long *dst, long *sr=
+c)
+>         return !z;
+>  }
+>
+> -/**
+> +/*
+>   * safe_copy_page - Copy a page in a safe way.
+>   *
+>   * Check if the page we are going to copy is marked as present in the ke=
+rnel
+> @@ -1687,7 +1687,7 @@ static unsigned long preallocate_image_highmem(unsi=
+gned long nr_pages)
+>         return preallocate_image_pages(nr_pages, GFP_IMAGE | __GFP_HIGHME=
+M);
+>  }
+>
+> -/**
+> +/*
+>   *  __fraction - Compute (an approximation of) x * (multiplier / base).
+>   */
+>  static unsigned long __fraction(u64 x, u64 multiplier, u64 base)
+> @@ -1982,7 +1982,7 @@ int hibernate_preallocate_memory(void)
+>  }
+>
+>  #ifdef CONFIG_HIGHMEM
+> -/**
+> +/*
+>   * count_pages_for_highmem - Count non-highmem pages needed for copying =
+highmem.
+>   *
+>   * Compute the number of non-highmem pages that will be necessary for cr=
+eating
+> @@ -2003,7 +2003,7 @@ static unsigned int count_pages_for_highmem(unsigne=
+d int nr_highmem)
+>  static unsigned int count_pages_for_highmem(unsigned int nr_highmem) { r=
+eturn 0; }
+>  #endif /* CONFIG_HIGHMEM */
+>
+> -/**
+> +/*
+>   * enough_free_mem - Check if there is enough free memory for the image.
+>   */
+>  static int enough_free_mem(unsigned int nr_pages, unsigned int nr_highme=
+m)
+> @@ -2023,7 +2023,7 @@ static int enough_free_mem(unsigned int nr_pages, u=
+nsigned int nr_highmem)
+>  }
+>
+>  #ifdef CONFIG_HIGHMEM
+> -/**
+> +/*
+>   * get_highmem_buffer - Allocate a buffer for highmem pages.
+>   *
+>   * If there are some highmem pages in the hibernation image, we may need=
+ a
+> @@ -2035,7 +2035,7 @@ static inline int get_highmem_buffer(int safe_neede=
+d)
+>         return buffer ? 0 : -ENOMEM;
+>  }
+>
+> -/**
+> +/*
+>   * alloc_highmem_pages - Allocate some highmem pages for the image.
+>   *
+>   * Try to allocate as many pages as needed, but if the number of free hi=
+ghmem
+> @@ -2065,7 +2065,7 @@ static inline unsigned int alloc_highmem_pages(stru=
+ct memory_bitmap *bm,
+>                                                unsigned int n) { return 0=
+; }
+>  #endif /* CONFIG_HIGHMEM */
+>
+> -/**
+> +/*
+>   * swsusp_alloc - Allocate memory for hibernation image.
+>   *
+>   * We first try to allocate as many highmem pages as there are
+> @@ -2292,7 +2292,7 @@ static void duplicate_memory_bitmap(struct memory_b=
+itmap *dst,
+>         }
+>  }
+>
+> -/**
+> +/*
+>   * mark_unsafe_pages - Mark pages that were used before hibernation.
+>   *
+>   * Mark the pages that cannot be used for storing the image during resto=
+ration,
+> @@ -2330,7 +2330,7 @@ static int check_header(struct swsusp_info *info)
+>         return 0;
+>  }
+>
+> -/**
+> +/*
+>   * load_header - Check the image header and copy the data from it.
+>   */
+>  static int load_header(struct swsusp_info *info)
+> @@ -2483,7 +2483,7 @@ static int prepare_highmem_image(struct memory_bitm=
+ap *bm,
+>
+>  static struct page *last_highmem_page;
+>
+> -/**
+> +/*
+>   * get_highmem_page_buffer - Prepare a buffer to store a highmem image p=
+age.
+>   *
+>   * For a given highmem image page get a buffer that suspend_write_next()=
+ should
+> @@ -2706,7 +2706,7 @@ static int prepare_image(struct memory_bitmap *new_=
+bm, struct memory_bitmap *bm,
+>         return error;
+>  }
+>
+> -/**
+> +/*
+>   * get_buffer - Get the address to store the next image data page.
+>   *
+>   * Get the address that snapshot_write_next() should return to its calle=
+r to
+> @@ -2843,7 +2843,7 @@ int snapshot_write_next(struct snapshot_handle *han=
+dle)
+>         return PAGE_SIZE;
+>  }
+>
+> -/**
+> +/*
+>   * snapshot_write_finalize - Complete the loading of a hibernation image=
+.
+>   *
+>   * Must be called after the last call to snapshot_write_next() in case t=
+he last
+> --
 
-Remove the unused declaration and definition.
-
-Signed-off-by: Cheng-Han Wu <hank20010209@gmail.com>
----
- include/linux/damon.h |  1 -
- mm/damon/core.c       | 14 --------------
- 2 files changed, 15 deletions(-)
-
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 8e5589ccf50f..50659c9083a9 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -1064,7 +1064,6 @@ int damon_set_attrs(struct damon_ctx *ctx, struct damon_attrs *attrs);
- void damon_set_schemes(struct damon_ctx *ctx,
- 			struct damos **schemes, ssize_t nr_schemes);
- int damon_commit_ctx(struct damon_ctx *old_ctx, struct damon_ctx *new_ctx);
--int damon_nr_running_ctxs(void);
- bool damon_is_registered_ops(enum damon_ops_id id);
- int damon_register_ops(struct damon_operations *ops);
- int damon_select_ops(struct damon_ctx *ctx, enum damon_ops_id id);
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index da97b2dc39d1..891f851bcbbf 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -1847,20 +1847,6 @@ int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
- 	return err;
- }
- 
--/**
-- * damon_nr_running_ctxs() - Return number of currently running contexts.
-- */
--int damon_nr_running_ctxs(void)
--{
--	int nr_ctxs;
--
--	mutex_lock(&damon_lock);
--	nr_ctxs = nr_running_ctxs;
--	mutex_unlock(&damon_lock);
--
--	return nr_ctxs;
--}
--
- /* Returns the size upper limit for each monitoring region */
- static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
- {
--- 
-2.52.0
-
+Applied (under a modified subject) as 7.3 material, thanks!
