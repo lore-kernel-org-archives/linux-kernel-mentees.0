@@ -1,63 +1,63 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88A64D2EC6
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 11:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C879648164D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 11:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784720036; cv=none; b=CVNK3gXP2mOoBX3c/kjCKIPIPHm3h1XQRkqmL/Yeq5MOsODXYAYTJI0xOxE3ujIM1mSJxm122Cs7b92humeshWA9vUNvUt64RdeUG9worbj46XCaR+ozA3RRUjmD0O+0n+PFqL+/wdqOgN9P9L89KCeu8ShzeP2SuLarqCe3jrM=
+	t=1784720040; cv=none; b=d6dXg3ArZSdY5lp2vSaMWHadJ79w1qL1KZI5wHaSgkjFK5yr+qJDXS7Aok8Qh3uMnD/a9o3vZna7OYIvljr+Yz1FEyiGxKtnpuSCifzbsHNDL664d9/nQcy2YEiXxqXY9VLAK7WAm2QaDMRFRYI5z6ff/lUm2MURDRhZeub1BUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784720036; c=relaxed/simple;
-	bh=fdoT408pXeHyekonjoqrqHOqGsBjQl2gf0u8gJMxTvQ=;
+	s=arc-20240116; t=1784720040; c=relaxed/simple;
+	bh=4dZ9VLxDpR3TIfuk0B4upDrYn2kZuOWz/udMkCi9ovU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sl4UtZaBD+CvPzwwIKaD3ebFT/PrYgHVcX+czLsbBW96LW4MJ8ya8Q6/mx86KFubNDdkErWd8h0qmMZlNW/X6K+Erp+5w/NWzRFzNPLY+up2e8F73GpaGgnz5xMwGZdtjl7MniyGHOLJnwBr90z6XE0UzCArAg/AO64z8mRXTT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cB6eM9Ef; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=QEIDknDV56d42PlojKSnXIbVXfUMU95+pMLc3fR1KHpyD7tbV8s27sLksDgyFIdbY7LxSCi+1rhoZNcbaagD0A4IIPOJHvO7Vt3W/NiWPX1Pg8xA5wad8X7zl9nCD79VVFyeGLZHN9vMVr81+8+NMAH9GLQeCRTUeihhYEpB/+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcy1eaSq; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cB6eM9Ef"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84862b0d5f8so7317899b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 04:33:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcy1eaSq"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c96c92c0980so5956581a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 04:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784720035; x=1785324835; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784720038; x=1785324838; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LUhTDedR70ZXXTiOjTiOLU7QAjd8TnaNf50qKPQfc+o=;
-        b=cB6eM9Efd9nnclO6x5zEH6vgF7Qjh3rQmAcqvJCVxJw9wFdqEcZGb4yeTMVpGLzmfi
-         i/HIqM7fIVFD/7i2kGZwjevqsCS+iBNnsJRH3LVmx0uwEQoi74vgNMMqbk7nIQhznmUz
-         8HGs++M6W9YR9X6i9AldwUNse2fKrf3Wn0Tq77d3Y9tAaPmSdCsfbQUDP/bArH23d8Xi
-         TbLmXGyxIdFu7UB5Wk+9DTgjzqmW1dQPcjL0ycDT5frZbteE4Qz3cM97lotk78dS6wxr
-         j9xri0aBx52vRLAx5dRJUNkwL1Xa8LT5GAys+OWcEaskh3LJCLdqKsVkbEw1c9/7k/6f
-         r6FQ==
+        bh=YtTalQDtKgX2+sfw/36efx5Lj5w8MeFStk5ysuXqYT8=;
+        b=kcy1eaSqkYxNZovZEZlV9jmlBlzklEDznK/Z87Re96mXv2OCy8pt52Y1OrIby0DYrn
+         5k5Ksfrp3/+nVkFuPzBsw75JwLiTp8fkDatgIV5ISSiXtxE53TYz51S8pUYW6mmOtpCN
+         70zHxM6gOcD5vvprx6MHBC3bl18Lo+rfYX9m4mLg5UmTMWdsch1wUR3rvMrx8w+kNI7n
+         v3sHKjtqZ6ljghkPQKiW1wxgMCta3LDdKFZ85Du5OTbZOQsfysqzmP1np9ec0asb3M/8
+         nKZlf+2Ay/92+4y/5H5NrdteeGkF/DRtXXZZ2TX3QcO29jxrQTExBdck4heE/FLD2F6N
+         ahnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784720035; x=1785324835;
+        d=1e100.net; s=20251104; t=1784720038; x=1785324838;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LUhTDedR70ZXXTiOjTiOLU7QAjd8TnaNf50qKPQfc+o=;
-        b=F1paZ/pyckVC4gajfPjoAttRM190WPEfMyvak8qNEuT+c6BRe949VOgzDOLfSbf3He
-         u/nVm2XkfPuaL81acFjq4cSD9DUWWqlq+wqd++jnHpPthbjkP/+zxmDo0mz48AYPma+F
-         TMEusVrc43nmr9RZ7hYCxcplPre8it8KSM9Aze1pHG3Kblb1TISZ6ITn7Af+VBi6kfnz
-         gmxVff1j+hrRR44eYYX3OXD14U5EUYCzpOaCSIzynpOa1Ii4XEhUx2+CRfBT7+5F37vg
-         WM/AUNSyJRcvxpdQyDy8PFuT7f4Lp/mUOnQoKzt23sttwnd/P0DavJ3xN7QRt0/gX89j
-         xG2g==
-X-Forwarded-Encrypted: i=1; AHgh+RrPdapgo2z1m52EY5Jo02ZAEg/sO90aKcr6rsWN0TR3f8j9qQj6BiQm+THEZtihFLxyNiMbxmMszARtYqsOcQWrbkxKVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5Y1tpZ4H01V4m+CdECAwDYb5AbDZR2LkAK/EQLNr9D+suxQV7
-	6u+P4VJsDiA22bjBwVu0idnzPP3mTob5jf2JSHzu0v9z3LHQTIoElbbu
-X-Gm-Gg: AR+sD125RphzU7uj8X78BfFNiqFAyCM4+1+jmeiWZ2bIIwUpfjQfRA73Nz4/nye0Tmv
-	mveSP2tf5HlmfZHaNAWL8h+Atru1XKvNL40dSUSZNjWV6JHLWEMGfpuSYl6DBfzYwF0IwG1UcZy
-	WXKVTp8bbjexAf5zfegtfRf6PVwW/JubzTaIjF/zL80WpMbPUNVSSbVUOaF1coJsdoxAyDhPsph
-	2e+N3TGBeDh8h7zrB4neySPQABrbPd68+JLB0Rj9+TlyM8pxaS/VoheJWCmSsegRi0v96+/qVM0
-	D5fGvkKK0Uixn7MlLVWNG1iLCZZJlo6JeZKgDx94EfjTov2XtnvoFXL9YmYPkcBv2GdFIMUkuf3
-	RbPciGwiip2ixyMFUh8omXkv7DdwppruBNYdZWR0o3ZMuKxKeODTlVWYJ5L7kbKRTDrEXWNaJ0I
-	5wF/JpOazV/pNlS7IPLA==
-X-Received: by 2002:a05:6a00:986:b0:848:7071:9863 with SMTP id d2e1a72fcca58-84c29532099mr22204146b3a.53.1784720034864;
-        Wed, 22 Jul 2026 04:33:54 -0700 (PDT)
+        bh=YtTalQDtKgX2+sfw/36efx5Lj5w8MeFStk5ysuXqYT8=;
+        b=evsT96XctNDwThtJphjX7sbzfUPyV0dz0BPhARMrh5jratz4mUP84jy+7oGxNqxywu
+         uME/22iqIuYTlJxEkO3xhTeB6p0y15/16dgJ3eFANWCm7NNfom7JKX9fcL4frxKCOObp
+         xbrqW/FDVotp0Dx4N/wzj0KNdwkJHsmC6XGhehKijKG6WLgrSYwm1ff/iW+x+SQdiagh
+         +tOUGkLXfTZfovkVxwk6LBeucy7dQg14LyzJFPtQ9hS+iTzwtspTKF5GJfyUbF39pW3R
+         umaMyDfsT5pmmsPDN+75oMF8XdGsmws+rnfIVTHC+PDwX7Rm5ytwVb4GTyNmsQDd9yN9
+         KEsw==
+X-Forwarded-Encrypted: i=1; AHgh+RocwJtHu/E41UsDNj5K4Fjfi1P508zBvcuDRKRG/7z8vEXPyvFACHptY+Aq9jMUKfzWvUx3nRPP47RLcT/zSNcIPQ8r0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjDaN/KVzpYLIgjgcE/B7WB3ArRipH87Bq/5svjWsvXEIu+0GK
+	LdGbI16nZ/fA5g6s0TJs8BVIZlANlkM+Z4MLTiXpohOlKEot6SGndUm7
+X-Gm-Gg: AR+sD129w4N2WXtSj5O/QG1WMI6i7VVuwFZ8+20G/ZiSfrLHvx5IaWNpV0TJBYseUVH
+	7Zo8tn24fww8DdktewAdFq4yVuDtq1tuuTSeRaNnH83IaBN35eoKEb6DGq9W26jdDnzlMVlz/NX
+	UIPTU9ugupClMBoonHaDHNts5+CDDMnZ0V14Ajee4oo2qRECHgwxk6bh75/wVNVImaoOT2HlTLk
+	7WMa1BMCVIOjAqIuVpZNhm+vwTacMBuJPbEAS2oRNEgLqdPD+Wgek7lSw8TZ+cXNyO/9sg7RlMq
+	DcCQmZ1id592GUitNVzb/bOe4VJBsEeDY+v/V1qamraQcCPp6ap0+RaVYXqv6Ccc/1Tm2FwdpS+
+	/6w/HaFrCrjCEdnn+P4KLr8qt1U0R95etEb/ZoD0kiccCrH2V6IIpXWHnRTQBQzqq6JMs2Wz+fK
+	hW5aklF3ELu54U7NawOw==
+X-Received: by 2002:a05:6a20:4388:b0:3b3:fc6:622d with SMTP id adf61e73a8af0-3c3ada195d5mr24819669637.38.1784720038040;
+        Wed, 22 Jul 2026 04:33:58 -0700 (PDT)
 Received: from apt.tailc82bd0.ts.net ([140.123.97.23])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f1c376esm980979a12.29.2026.07.22.04.33.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f1c376esm980979a12.29.2026.07.22.04.33.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 04:33:54 -0700 (PDT)
+        Wed, 22 Jul 2026 04:33:57 -0700 (PDT)
 From: Cheng-Han Wu <hank20010209@gmail.com>
 To: SJ Park <sj@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -67,9 +67,9 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
 	Cheng-Han Wu <hank20010209@gmail.com>
-Subject: [PATCH 1/2] mm/damon/core: remove unused damon_targets_empty()
-Date: Wed, 22 Jul 2026 19:33:37 +0800
-Message-ID: <20260722113338.302603-2-hank20010209@gmail.com>
+Subject: [PATCH 2/2] mm/damon/core: remove unused damon_nr_running_ctxs()
+Date: Wed, 22 Jul 2026 19:33:38 +0800
+Message-ID: <20260722113338.302603-3-hank20010209@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260722113338.302603-1-hank20010209@gmail.com>
 References: <20260722113338.302603-1-hank20010209@gmail.com>
@@ -81,46 +81,55 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-damon_targets_empty() has had no in-tree users since commit
+damon_nr_running_ctxs() has had no in-tree users since commit
 5ec4333b1967 ("mm/damon: remove DAMON debugfs interface") removed
-its last caller.
+all of its callers.
 
 Remove the unused declaration and definition.
 
 Signed-off-by: Cheng-Han Wu <hank20010209@gmail.com>
 ---
- include/linux/damon.h | 1 -
- mm/damon/core.c       | 5 -----
- 2 files changed, 6 deletions(-)
+ include/linux/damon.h |  1 -
+ mm/damon/core.c       | 14 --------------
+ 2 files changed, 15 deletions(-)
 
 diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 0c8b7ddef9ab..8e5589ccf50f 100644
+index 8e5589ccf50f..50659c9083a9 100644
 --- a/include/linux/damon.h
 +++ b/include/linux/damon.h
-@@ -1054,7 +1054,6 @@ int damos_commit_quota_goals(struct damos_quota *dst, struct damos_quota *src);
- 
- struct damon_target *damon_new_target(void);
- void damon_add_target(struct damon_ctx *ctx, struct damon_target *t);
--bool damon_targets_empty(struct damon_ctx *ctx);
- void damon_free_target(struct damon_target *t);
- void damon_destroy_target(struct damon_target *t, struct damon_ctx *ctx);
- unsigned int damon_nr_regions(struct damon_target *t);
+@@ -1064,7 +1064,6 @@ int damon_set_attrs(struct damon_ctx *ctx, struct damon_attrs *attrs);
+ void damon_set_schemes(struct damon_ctx *ctx,
+ 			struct damos **schemes, ssize_t nr_schemes);
+ int damon_commit_ctx(struct damon_ctx *old_ctx, struct damon_ctx *new_ctx);
+-int damon_nr_running_ctxs(void);
+ bool damon_is_registered_ops(enum damon_ops_id id);
+ int damon_register_ops(struct damon_operations *ops);
+ int damon_select_ops(struct damon_ctx *ctx, enum damon_ops_id id);
 diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 644daf5a1656..da97b2dc39d1 100644
+index da97b2dc39d1..891f851bcbbf 100644
 --- a/mm/damon/core.c
 +++ b/mm/damon/core.c
-@@ -795,11 +795,6 @@ void damon_add_target(struct damon_ctx *ctx, struct damon_target *t)
- 	list_add_tail(&t->list, &ctx->adaptive_targets);
+@@ -1847,20 +1847,6 @@ int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+ 	return err;
  }
  
--bool damon_targets_empty(struct damon_ctx *ctx)
+-/**
+- * damon_nr_running_ctxs() - Return number of currently running contexts.
+- */
+-int damon_nr_running_ctxs(void)
 -{
--	return list_empty(&ctx->adaptive_targets);
+-	int nr_ctxs;
+-
+-	mutex_lock(&damon_lock);
+-	nr_ctxs = nr_running_ctxs;
+-	mutex_unlock(&damon_lock);
+-
+-	return nr_ctxs;
 -}
 -
- static void damon_del_target(struct damon_target *t)
+ /* Returns the size upper limit for each monitoring region */
+ static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
  {
- 	list_del(&t->list);
 -- 
 2.52.0
 
