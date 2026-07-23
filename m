@@ -1,201 +1,154 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562D038E8DC
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 15:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784821026; cv=none; b=SK65qL+yK5m08p0r/6zGXnYyYow3eZz05wTBRhetx5jNQLoSTnPAY0R0NZOJh/rTgG+fL/W5Jeg3/X611et5l9iwS4ZYs1tgrWZQe5UaUhcFpmNAUTlV6j92gquxguZAz9EwRLpngtpz8+wStYaCOfFVeQXxq2pMkSiF1//b3Rw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784821026; c=relaxed/simple;
-	bh=N4kUSU4o8AKluWDZEqHZBA5NgJOPOPim6YXMd4c1hiU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LmMRIsRlPRIK6m95qM7WnqkvfWUHajwHPmsVvrQHBakztQholjjhR2jDW+9gkw0I3tgMi0LSx22Wmpf3K7mb/whlx09W2hi6E0WGpAzdmV51e+Kv53deWvkmfqUngczaZkeAPE5kNQ5OeRGK6yIL/rAcVM77BymrikwRHqYnifk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k47TMsBF; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F91E485CC0
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 15:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784821688; cv=pass; b=MUyaRc5LoUemwr98146eug+c+Qk2vDgtR8LE39Kw5EJobugCE5XYEPr6qnoobY7ztrZZG1egqf9RLkAShnADSFz1DADZqAkiRDT6RERXC95YroC0s7IyDsSQq0JuKbfMDBFbHZnChqWnj8YXo1uncaKyOnwxLFag6KqzVqhspaM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784821688; c=relaxed/simple;
+	bh=5m89t1kVtJXwqB+lKT32rHOdq1cxYta4pNNHNACTl7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q3c8HOp+KCGbyTB6XbhF+vEe0LtVlK0cgbopPuyxNV/gLEAbW/xEgCioLQptTI+2M6hxpZMT1qFAJ5bCEH4f9lhNmUEli1R2EaiK4k5bvoQVGSGIoKCdnjbPxqx/Gs2e1HT/JpA3oncccHpoHBppSZkJ4GrzCuyT56ip1JAlAqg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=TkZ8ufJv; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k47TMsBF"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8485ef63b68so798286b3a.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 08:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784821025; x=1785425825; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=y/CrixQ3EkxP2WoSCLt7vnc1mcHljZIG3GR5HRF0Syc=;
-        b=k47TMsBFN/N+dVkiyL6JPNNiYpNBZ2oFrN1f/Mg9c7dvkx9eRuPZp1RxHkU+fLSEIm
-         0AkNn2QsqQSxiPDevNlrcWHSLjKX2SFjQH0rWffv38uggDe7vCcuj4ZLlY2EZUpf6d0/
-         1ClOHao0bqYG2W94EMzNZTIL5vJAA5StKMYlTagr0EA7QJhJLheP4cPhjMYnnMmuDaw4
-         RKa2f0NW9nzxhXikl3AGZKE7QfZUPiODGyNENlnviGsDC1q8NVebCLLbGtoqviwXuBuU
-         XX3FmnE2Ftzo/+Xv1ct6i9NCkr/utpXrSCzN3hAU16MSx4aguXgiPtRkz6Waiy4w3que
-         d8VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784821025; x=1785425825;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=y/CrixQ3EkxP2WoSCLt7vnc1mcHljZIG3GR5HRF0Syc=;
-        b=XI4INA7o9JefoC7hyTn/OB8MskR1sIyvA3NICA/qE2N0F0NSNb6FpR13rh8Bbl5cMe
-         qwlKfzymr/G94VX8XZwC3eG7oYYJCkrba5heesfPl/ZbRclHyXfd9AwuJMQ2rN9KNFZP
-         1jIBlV0WRkka7eQ/UFDWwBPUc455ofzI2Mui7gHqR22866sfSxzZxMd9vdPvBTPbeMIc
-         sY2dKvbAg6KTUHUsEaR678oftqwg45FQBXZVvFYdV9284v9YF5D26IbaSfDsHuglvak9
-         uW50UtEi6Yf6ZvoCaWJIDPLSyifldWY21eza2udzkDsUwX96nyZ9dXZn7IBBiHNzryEb
-         QHpg==
-X-Gm-Message-State: AOJu0YxpJ1LnkSjAbl1ii+GTG2UedEfiViTisVJpOcPEBupp/5wDStxE
-	CNfo9Lb2YvZdbWpOHFkhBbfukmuDIMKAybNT62p8JwlulANN5Q4ZOA4b
-X-Gm-Gg: AR+sD12fkVeo+Uph9gW2eC1i9fyZkowqfm15GsVCWcWw0vw+HCgInWrOIRIgmQDQym+
-	b6Sa+8krFcyRgAtBTiBf0VpZDwdWh5L7wTVWd4JA36BeriySiQgOfN96Q1cFTQbFuK2aem2MNiN
-	yiDY548ERDiGn6+E7/Owkb0sm/jQmJQf7CYgmPnbeIhiD82ItIlbw2HIUuEy7hE6OHEb+DtIycA
-	A7ClgNx3asCOSOYVv5bsyPbsT4jhXEJU/vD0OYUWMuIXm0Ns0lMjrl1guwdBDa0bX65uTD2of2G
-	4PPx7qtoEaSXLiXVEt4TWCMe+wqBeGxGKVN5ot23CrXTdygg6GMSwXctcXTeNgKNuLGTXjkkGSF
-	vJzvS3dzeq2gfeiDO+bQOIKPps6R8xLcWlC7zhDA98jeVd6HsLt9K0o+k59eP3wt4PPRRn0EN70
-	c6W2j30BOmQBHEYlRU0vSyYrOLiCufR2KVbZNvuulnltBWyrL2sKMS9sWnfInx
-X-Received: by 2002:a05:6a00:181d:b0:84c:4d9a:ae42 with SMTP id d2e1a72fcca58-84e2b8bf838mr4448206b3a.27.1784821024558;
-        Thu, 23 Jul 2026 08:37:04 -0700 (PDT)
-Received: from debian-rockchip-rock5b-rk3588.. ([184.22.136.124])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e1723643esm3212522b3a.3.2026.07.23.08.37.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 08:37:04 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcamplbell.com,
-	jkoolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH] media: verisilicon: vp9: do not arm watchdog on preparation failure
-Date: Thu, 23 Jul 2026 15:36:56 +0000
-Message-ID: <20260723153656.2167-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="TkZ8ufJv"
+ARC-Seal: i=1; a=rsa-sha256; t=1784821674; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nV3GWbEp0XVXoaHH8AELKpRqI5Ple7OfQZc6LPrS0wbJiCOiU1kZOu+gh9idRaimyX4rqaA+vPIKTMwfhTtmbDY+XJAqwFNooF2/CQjx0ytDw2VoJDYpZaEb7XOdWBbtjNmaSX/x2s6xKURT+4rW0TZSoaUT+Wpi80rMzvi4UOo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1784821674; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4f10VgaedUle4y917j0RkomsQFduTcKlicQl04iv244=; 
+	b=iDozdgvqLZVSbXnmx986QBg63V5ontWBSgTJFvFf3D4T0VVr0eupXl4Szo85VYBMjxh8PUGxzlvHSTeLsjxLzlSUzOlPG5MUg1bIofgAEhxBDhPeoiIO8BIX1mOzMx177gQJt5nMhJYEA9bv2g7E/dmaby8e+f4w75urHm6aIVU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784821674;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=4f10VgaedUle4y917j0RkomsQFduTcKlicQl04iv244=;
+	b=TkZ8ufJv+ODKNZ7LV1Wkje/LBQkGE/i2X/j6bwD+Ki/kmjhlXxn5vMWjhZotelwS
+	+nMbPXS+OUPGv2B4fz5IuVBTm/NGKObRlPMChnIJt7ohsB7FI8w60bbwvegZd8IrnL0
+	HfAvohhqLBHbwJOFyOfkqLnyomldxOab1GzlCqUE=
+Received: by mx.zohomail.com with SMTPS id 1784821672515696.391367355813;
+	Thu, 23 Jul 2026 08:47:52 -0700 (PDT)
+Message-ID: <f005676b-0229-47a2-9ea7-bd1809396c43@collabora.com>
+Date: Thu, 23 Jul 2026 17:47:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: hantro: disable runtime PM before hardware
+ teardown
+To: Tharit Tangkijwanichakul <tharitt97@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Hans Verkuil
+ <hverkuil@kernel.org>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
+ me@brighamcamplbell.com, jkoolstra@xs4all.nl
+References: <20260722160820.2401-1-tharitt97@gmail.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20260722160820.2401-1-tharitt97@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-hantro_g2_vp9_dec_run() calls hantro_end_prepare_run() when
-start_prepare_run() fails to find one of the required VP9 controls.
 
-hantro_end_prepare_run() completes the control request, but also schedules
-the hardware watchdog. Since the decode operation has not been started on
-this error path, the watchdog should not be scheduled.
+Le 22/07/2026 à 18:08, Tharit Tangkijwanichakul a écrit :
+> Removing the Hantro driver may trigger an SError on RK3588:
+> 	SError Interrupt on CPU6, code 0x00000000be000011 -- SError
+> 	...
+> 	do_serror+0x5c/0x74
+> 	el1h_64_error_handler+0x34/0x50
+> 	el1h_64_error+0x6c/0x70
+> 	regmap_mmio_read32le+0x10/0x20 (P)
+> 	_regmap_bus_reg_read+0x6c/0xb4
+> 	_regmap_read+0x60/0xdc
+> 	regmap_read+0x4c/0x80
+> 	rockchip_pd_power+0xe4/0x600
+> 	rockchip_pd_power_off+0x1c/0x60
+> 	_genpd_power_off+0x98/0x198
+> 	genpd_power_off.part.0+0x178/0x288
+> 	genpd_runtime_suspend+0x210/0x300
+> 	__rpm_callback+0x48/0x1e0
+> 	rpm_callback+0x74/0x80
+> 	rpm_suspend+0x10c/0x580
+> 	rpm_idle+0x134/0x1b8
+> 	update_autosuspend+0x30/0xc4
+> 	__pm_runtime_use_autosuspend+0x48/0x64
+> 	hantro_remove+0x8c/0xa8 [hantro_vpu]
+> 	...
+>
+> hantro_remove() currently asserts the device resets before disabling
+> runtime PM.
+>
+> Calling pm_runtime_dont_use_autosuspend() causes an idle device to be
+> runtime-suspended immediately. At that point the Hantro hardware has
+> already been torn down, while the generic power-domain genpd code
+> still performs the power-off sequence. genpd regmap_mmio_read causes panic
+> subsequently because the reset lines were asserted.
+>
+> Disable runtime PM before asserting the reset lines so that no runtime-PM
+> transition can race with hardware teardown.
+>
+> Apply the same ordering to the probe error paths as well.
+>
+> Fixes: ea71631b7129 ("media: hantro: add support for reset lines")
+> Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
 
-Factor the control-request completion out of hantro_end_prepare_run() and
-call it directly from the VP9 preparation error path. This preserves the
-pairing with hantro_start_prepare_run() without scheduling the watchdog.
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
-Testing:
-
-- Built with the Verisilicon Hantro driver enabled.
-- Not runtime-tested: the available RK3588 board does not expose a Hantro
-  G2 VP9 decoder.
-
- drivers/media/platform/verisilicon/hantro_drv.c    | 13 +++++++++----
- .../media/platform/verisilicon/hantro_g2_vp9_dec.c | 14 +++++++++-----
- drivers/media/platform/verisilicon/hantro_hw.h     |  1 +
- 3 files changed, 19 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 2e81877f640f..04167e4be003 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -147,10 +147,17 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
- 	}
- }
- 
--void hantro_end_prepare_run(struct hantro_ctx *ctx)
-+void hantro_complete_ctrl_request(struct hantro_ctx *ctx)
- {
- 	struct vb2_v4l2_buffer *src_buf;
- 
-+	src_buf = hantro_get_src_buf(ctx);
-+	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-+				   &ctx->ctrl_handler);
-+}
-+
-+void hantro_end_prepare_run(struct hantro_ctx *ctx)
-+{
- 	if (!ctx->is_encoder && ctx->dev->variant->late_postproc) {
- 		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
- 			hantro_postproc_enable(ctx);
-@@ -158,9 +165,7 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
- 			hantro_postproc_disable(ctx);
- 	}
- 
--	src_buf = hantro_get_src_buf(ctx);
--	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
--				   &ctx->ctrl_handler);
-+	hantro_complete_ctrl_request(ctx);
- 
- 	/* Kick the watchdog. */
- 	schedule_delayed_work(&ctx->dev->watchdog_work,
-diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-index 56c79e339030..e08db6e3f6f9 100644
---- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-@@ -36,12 +36,14 @@ static int start_prepare_run(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_
- 
- 	ctrl = v4l2_ctrl_find(&ctx->ctrl_handler, V4L2_CID_STATELESS_VP9_FRAME);
- 	if (WARN_ON(!ctrl))
--		return -EINVAL;
-+		goto err_complete_request;
-+
- 	*dec_params = ctrl->p_cur.p;
- 
- 	ctrl = v4l2_ctrl_find(&ctx->ctrl_handler, V4L2_CID_STATELESS_VP9_COMPRESSED_HDR);
- 	if (WARN_ON(!ctrl))
--		return -EINVAL;
-+		goto err_complete_request;
-+
- 	prob_updates = ctrl->p_cur.p;
- 	vp9_ctx->cur.tx_mode = prob_updates->tx_mode;
- 
-@@ -86,6 +88,10 @@ static int start_prepare_run(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_
- 	v4l2_vp9_fw_update_probs(&vp9_ctx->probability_tables, prob_updates, *dec_params);
- 
- 	return 0;
-+
-+err_complete_request:
-+	hantro_complete_ctrl_request(ctx);
-+	return -EINVAL;
- }
- 
- static struct hantro_decoded_buffer *
-@@ -894,10 +900,8 @@ int hantro_g2_vp9_dec_run(struct hantro_ctx *ctx)
- 	int ret;
- 
- 	ret = start_prepare_run(ctx, &decode_params);
--	if (ret) {
--		hantro_end_prepare_run(ctx);
-+	if (ret)
- 		return ret;
--	}
- 
- 	src = hantro_get_src_buf(ctx);
- 	dst = hantro_get_dst_buf(ctx);
-diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-index 13e573f1f19d..9d4e858f17c7 100644
---- a/drivers/media/platform/verisilicon/hantro_hw.h
-+++ b/drivers/media/platform/verisilicon/hantro_hw.h
-@@ -430,6 +430,7 @@ void hantro_watchdog(struct work_struct *work);
- void hantro_irq_done(struct hantro_dev *vpu,
- 		     enum vb2_buffer_state result);
- void hantro_start_prepare_run(struct hantro_ctx *ctx);
-+void hantro_complete_ctrl_request(struct hantro_ctx *ctx);
- void hantro_end_prepare_run(struct hantro_ctx *ctx);
- 
- irqreturn_t hantro_g1_irq(int irq, void *dev_id);
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
--- 
-2.47.3
-
+> ---
+>   drivers/media/platform/verisilicon/hantro_drv.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 2e81877f640f..bbeec5ae509a 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -1212,7 +1212,7 @@ static int hantro_probe(struct platform_device *pdev)
+>   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+>   	if (ret) {
+>   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> -		goto err_rst_assert;
+> +		goto err_pm_disable_assert_reset;
+>   	}
+>   
+>   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> @@ -1266,8 +1266,11 @@ static int hantro_probe(struct platform_device *pdev)
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   err_clk_unprepare:
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> -err_rst_assert:
+> +err_pm_disable_assert_reset:
+> +	pm_runtime_dont_use_autosuspend(vpu->dev);
+> +	pm_runtime_disable(vpu->dev);
+>   	reset_control_assert(vpu->resets);
+> +	return ret;
+>   err_pm_disable:
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
+> @@ -1287,9 +1290,9 @@ static void hantro_remove(struct platform_device *pdev)
+>   	v4l2_m2m_put(vpu->m2m_dev);
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> -	reset_control_assert(vpu->resets);
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
+> +	reset_control_assert(vpu->resets);
+>   }
+>   
+>   #ifdef CONFIG_PM
+>
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
