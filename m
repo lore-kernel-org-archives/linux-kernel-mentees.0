@@ -1,173 +1,128 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C28735F170
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 16:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD6F4C8FEA
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 13:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784736515; cv=none; b=JxrkJzyLe4/7M8HVFzdEk2BeBoM4qm0RrUkDjc54fvkWCNNmnhawroKAry3BxKxM4oWh6vH2Cr9zNYNnA9X3rooZg4Gsvs3expJpe8YbTD9d22Rjc/i+b74qFVvfnU4tHPr3cQ4SqD25kmADOyD5fqwtIrcNErFg5819RQ5+QIM=
+	t=1784813681; cv=none; b=tjNzdDctLKLK0QZ66rCBU+z125NwdHgWMtElq1x6BWfjHvaivN7TWLprtijQRb8/g3Z2u3vwqZp9tOvYYJCwEmlX6iEpbizu/deMett5UdN7jZOoKCqCAXomkMkBxMJdYz3KRqy8z93qLm1RwAUwKPAqQX1FnTXCWyiRwhpUzII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784736515; c=relaxed/simple;
-	bh=dBDV3Nz2W+SaK9NOSESL8fUFa+cz4Y8LfqqEjxW+iH0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mb3odhX2H6jonDo7EiYlT8oSja1q0uwFBc7ytyoZt67ljY2RGAxXU+l1QnNcBy3LBNEInB7bU5bTejUjT3Buu72KAGcKdSAdsXhnBAbQ4liGPgo96nu23nAgQ87z0/qDg2/yrVvZok+fPICtpXhdAk+hFB+3Op1YaXhchRIsBLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hd/cAn6A; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784813681; c=relaxed/simple;
+	bh=9FtWEIFpG6tgAt9b1D96McFiFcC5UkdGeZtbKvTQN/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MjCMyF8zXG0H3Obb2K53ws5bCUpnaCXdehwnRVMMEogkfWgsrqwg1XsADGRO7hOqk9iO3BpGgGDtPERWsisOJFl9GXwYaQHiPQIUckcZ+lCi1p89Yx+ykzZI8b1tU6KsIyfIDXo6627OFAW4WOiuVypIGf7CsJyTjjUEFjEvRz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=EbXbS1ck; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hd/cAn6A"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84a2dcede83so12514899b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 22 Jul 2026 09:08:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="EbXbS1ck"
+X-KPN-MessageId: 16cb8ce6-869b-11f1-b2a8-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 16cb8ce6-869b-11f1-b2a8-005056abbe64;
+	Thu, 23 Jul 2026 15:33:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784736514; x=1785341314; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZgrQnMgwlgoUFEsEQmGeH4aaMMul+JyM5frck2aQVIE=;
-        b=hd/cAn6AIFazn+bDqq3/Ve14CllxyE+mJidhYHgpskFJoAFT8SndkonkhkF8mhzpKM
-         TDGoHI6ecp0cQui3aNjSHw3XNtpc5pEL1hlkR8yE5f/5F4CZiNd0CVEmU0HSBAn8BXcp
-         Fe7zdMMBC1kxgvDE3myC9rg8UkociAF4ZiJ3elmFnvUq2BX4l6xMmycrJ+GNsYDlJaxX
-         RtaT6XsFWukf2RrszNbyX/5KYbXzAgwnp/Ygj3MnLpB2uHOLJynGutFQpdOtzzi36fej
-         pkSeyz7psI44Ygwh19zB9zTtXKfzler0iJ7838l2FD/Q7NMWQdWSXEZ418gI7ZpWV6JB
-         oomg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784736514; x=1785341314;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZgrQnMgwlgoUFEsEQmGeH4aaMMul+JyM5frck2aQVIE=;
-        b=PmLuAT6oVOQMZbIVuM5VQX5vxyflRTc6gOogir4AO8TlOMhmK+eP/FevNVKuyatNq7
-         JJWBFc3OrJrAY7rhT2tK6HFT66ccvTSWfKCn0h6zbrDvYof81U38jK8CqcVNclSVCXLO
-         6m1lp9h6TbDcKj03XZeT3AYAhi0STN0j4/JW6d1Dd6jTotRnVTGpgiWeG9DBacqDQr91
-         A8TVuUk70p1fj9hV8ha74fFbCC+/5/+wle9yGyTQ4TAQP5iM+R6x8zJOzao7cCC4g7Cw
-         6MDVTvcx2OeVlKiGO/WdLcMaGnLuOEvNor1RUuCPmnD+7UqF4nUGaQiv2O++fs7r/pAu
-         yqMw==
-X-Forwarded-Encrypted: i=1; AHgh+RqpEsP+CH8XNIuQ7DgImitnvEbbBx3dDF5qEocrINoa/lHvCAdtIb/iy1uLCNB5R5tYvyksPI8dnJcJm9XriRZ3t3JlBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+XlE1P+sCQR0qXlbqVf0MHpkhXlMLPP1tVe4iLFivFcU50s05
-	q3vKsMV0rmnccxs7dJVvCXWqgAxegipv6aZJOs9QscOcABdxNidPY+bT
-X-Gm-Gg: AR+sD10ZvZtKQPOeFgmwgtA4slcxPh6UaSf/VNrLiE2kOZRmhywrfbOlvV6zc0sfCgp
-	QuWEFad+dEbKXqyG6B3N7sWpv4MRrVsStY6VvXzQHSBEiK5TzzdmxBMdnIQvLBCdBOHX0pYR/3Y
-	eLalD74Bb/1uKJvJZN1YpIifts8RmLoXkvARJpBLUW4mt0BxnLdzU0sQFrEmL5GLmauc/hk5kSi
-	L7BZ4vN/r9rFFq677zKKYNHGlyYBrVKaBhjdvGDJvGPmpZ/ovzCbE+2h7BTn32JMnctrFybJZyV
-	TShDRVl1ZRPmOvc3axMdEtRBAPIhTnvR+aUOFGQG19KA3BvmqigseiUMuw2gdJMS1puwzVWUrnH
-	MzK/HYCAEgJZ3VqT9gpnqGmPCFz6k04IpHRloPzdkkvqTlxS0tU4gsnY7ska2d9lzftDu3k4UV+
-	IGooQYM6meNKjlXEhnMKe+lgpLFtBXDH4Ma6fRNq34cdhhoFC/DlFcdHDefNX/k9OFiM2fMgs=
-X-Received: by 2002:a05:6a00:451c:b0:842:6004:3fda with SMTP id d2e1a72fcca58-84c292e057dmr23852827b3a.25.1784736513793;
-        Wed, 22 Jul 2026 09:08:33 -0700 (PDT)
-Received: from debian-rockchip-rock5b-rk3588.. ([184.22.136.210])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e175a64e3sm1639440b3a.42.2026.07.22.09.08.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 09:08:33 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcamplbell.com,
-	jkoolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH] media: hantro: disable runtime PM before hardware teardown
-Date: Wed, 22 Jul 2026 16:08:19 +0000
-Message-ID: <20260722160820.2401-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=KpSvR4S//zefD0DiSj6pXOmDH269uZ752U7/HQff830=;
+	b=EbXbS1ckK77vWxJ5HZTDioRKFlI/ABX7kkQ7wFAraYoNi2COrQ8cZkiXhrCp44xQQPZn6FgUyu/ed
+	 BiQlJXTMIQydBf5ZMOMJNHane9aa931OG/8SZ+ZB4r8pPGsgQj39vfEz2gytv8BBxEO86hklMgriLa
+	 XbOCavhksDmWl3GdnXFCoP+yKK1gtP6vuFTRHs9qL6U4CWz6Rotev9m9DnNzBFPdSZzpQ08lJr5adw
+	 5s8P6yQaM3BUclBwachqkNmZXxLq904snxJTM9Vi0xCaJy5l7qwPharpq75OvFvb6Wyb2O8r/d5CX+
+	 URq4AqhzWswwKqbSCH7RNfW2sDe9FUA==
+X-KPN-MID: 33|Qm6/PpGqQ6OPlQ8r2Gzj4JR448pMebRMmWIJiKdAYyDRIa0iO9s0WvKpu6NRhCw
+ nGVHqBSoaxUAfTSzW0R2WcXzVgZAVM2HsJfOnKC0MrMo=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|MzMuqFopoN+46ZeGm+TkZbqyqnsOxOcc8IJUgXUqq//1sivcpbmryjrkv1s2DEB
+ lDaYcCKx7PoPSAxkSprlx1A==
+Received: from localhost (unknown [178.231.6.187])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 1696ed04-869b-11f1-a8b6-005056ab7447;
+	Thu, 23 Jul 2026 15:33:28 +0200 (CEST)
+Date: Thu, 23 Jul 2026 15:34:55 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Vidhu Sarwal <vidhu.linux@gmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+Subject: Re: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from
+ reaching writeback error handling
+Message-ID: <amIXogW-sKfOhuxO@daedalus>
+References: <20260713084140.249515-1-vidhu.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713084140.249515-1-vidhu.linux@gmail.com>
 
-Removing the Hantro driver may trigger an SError on RK3588:
-	SError Interrupt on CPU6, code 0x00000000be000011 -- SError
-	...
-	do_serror+0x5c/0x74
-	el1h_64_error_handler+0x34/0x50
-	el1h_64_error+0x6c/0x70
-	regmap_mmio_read32le+0x10/0x20 (P)
-	_regmap_bus_reg_read+0x6c/0xb4
-	_regmap_read+0x60/0xdc
-	regmap_read+0x4c/0x80
-	rockchip_pd_power+0xe4/0x600
-	rockchip_pd_power_off+0x1c/0x60
-	_genpd_power_off+0x98/0x198
-	genpd_power_off.part.0+0x178/0x288
-	genpd_runtime_suspend+0x210/0x300
-	__rpm_callback+0x48/0x1e0
-	rpm_callback+0x74/0x80
-	rpm_suspend+0x10c/0x580
-	rpm_idle+0x134/0x1b8
-	update_autosuspend+0x30/0xc4
-	__pm_runtime_use_autosuspend+0x48/0x64
-	hantro_remove+0x8c/0xa8 [hantro_vpu]
-	...
+On Mon, Jul 13, 2026 at 02:11:40PM +0530, Vidhu Sarwal wrote:
+> attr_data_write_resident() returns the internal positive status code
+> E_NTFS_NONRESIDENT when the DATA attribute becomes non-resident.
+> ntfs_writepages() propagates this value into generic writeback error
+> handling, which expects a standard negative errno and triggers
+> WARN_ON_ONCE(err > 0).
+> 
+> Translate positive E_NTFS_* status codes to -EIO before recording
+> the writeback error. This prevents positive internal status codes from
+> reaching generic writeback code while preserving the existing behaviour
+> of treating this path as a writeback error.
 
-hantro_remove() currently asserts the device resets before disabling
-runtime PM.
+Should attr_data_write_resident() be returning positive values on error?
+If this is correct, and this is a matter of data corruption you can use
+EFSCORRUPTED (EIO may also be fine if this is what NTFS uses in other
+places).
 
-Calling pm_runtime_dont_use_autosuspend() causes an idle device to be
-runtime-suspended immediately. At that point the Hantro hardware has
-already been torn down, while the generic power-domain genpd code
-still performs the power-off sequence. genpd regmap_mmio_read causes panic
-subsequently because the reset lines were asserted.
+Thanks,
+Jori.
 
-Disable runtime PM before asserting the reset lines so that no runtime-PM
-transition can race with hardware teardown.
-
-Apply the same ordering to the probe error paths as well.
-
-Fixes: ea71631b7129 ("media: hantro: add support for reset lines")
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
- drivers/media/platform/verisilicon/hantro_drv.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 2e81877f640f..bbeec5ae509a 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -1212,7 +1212,7 @@ static int hantro_probe(struct platform_device *pdev)
- 	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to prepare clocks\n");
--		goto err_rst_assert;
-+		goto err_pm_disable_assert_reset;
- 	}
- 
- 	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-@@ -1266,8 +1266,11 @@ static int hantro_probe(struct platform_device *pdev)
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- err_clk_unprepare:
- 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
--err_rst_assert:
-+err_pm_disable_assert_reset:
-+	pm_runtime_dont_use_autosuspend(vpu->dev);
-+	pm_runtime_disable(vpu->dev);
- 	reset_control_assert(vpu->resets);
-+	return ret;
- err_pm_disable:
- 	pm_runtime_dont_use_autosuspend(vpu->dev);
- 	pm_runtime_disable(vpu->dev);
-@@ -1287,9 +1290,9 @@ static void hantro_remove(struct platform_device *pdev)
- 	v4l2_m2m_put(vpu->m2m_dev);
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
--	reset_control_assert(vpu->resets);
- 	pm_runtime_dont_use_autosuspend(vpu->dev);
- 	pm_runtime_disable(vpu->dev);
-+	reset_control_assert(vpu->resets);
- }
- 
- #ifdef CONFIG_PM
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
--- 
-2.47.3
-
+> 
+> Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+> Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
+> ---
+> RFC:
+> 
+> I'd appreciate guidance on whether -EIO is the appropriate errno here.
+> 
+> E_NTFS_NONRESIDENT indicates that the DATA attribute became
+> non-resident during writeback. Translating it to -EIO prevents the
+> positive internal status code from reaching generic writeback code and
+> preserves the existing behaviour of treating this path as a writeback
+> error.
+> 
+> However, if the intended behaviour is to retry the write using the
+> non-resident path instead of failing it, then the correct solution would
+> be more than a simple errno translation. The proposed change assumes the
+> current terminal-error behaviour is intentional.
+>  fs/ntfs3/inode.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 0c9bd669117d..9458867c6b0b 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -1019,6 +1019,15 @@ static int ntfs_writepages(struct address_space *mapping,
+>  
+>  			folio_unlock(folio);
+>  			if (err2) {
+> +				/*
+> +				 * attr_data_write_resident() can return the
+> +				 * positive internal code E_NTFS_NONRESIDENT;
+> +				 * both mapping_set_error() and writeback_iter()
+> +				 * need a negative errno and warn on a positive
+> +				 * value.
+> +				 */
+> +				if (err2 > 0)
+> +					err2 = -EIO;
+>  				mapping_set_error(mapping, err2);
+>  				if (!err)
+>  					err = err2;
+> 
+> base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+> -- 
+> 2.53.0
+> 
