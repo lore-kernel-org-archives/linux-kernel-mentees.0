@@ -1,193 +1,109 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA22367F3A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 16:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784822720; cv=pass; b=mt9OZuLpLB2kjWCTfoq9ixhwS59vipHTpSEDgDkNFA+xp8XrNSoGfhzSVN5DqwaaeKlFxFVjp9WzoHVr/q9KhQibwewYpV+PZ05U64U+I1Wyz0ipmBeXoJSGHH2HIu5Eshd9zw8ofJYw28ooaTgu++GkvDCYZ4a6Mbvzb+Bu/es=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784822720; c=relaxed/simple;
-	bh=skLBzy+/vuF2Wqr1DEtLmyZrUGnFRZ3Dc/xMGl47KD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F0RYxaxUhyO+f2b5vbtVzon56C/a7GsOtd2Vx9q89XlJGF6n1r/VZ5PxZMmk9I0ojMV5JH/iUDJ5IT+8wzAHMnJBwMEFaOd1iirMsDa1+YB6TkzUozKU3EO5wDxJLrYirZ6vAloJmcuT7W8jXUjL3g2n0p8GRhbwvYoCReLDmU8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=eJpZoht0; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F9B35F193
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 16:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784823114; cv=none; b=OYa0lfo5BozN2JTTFKTjD6yigLbm5oTD21LoKvcYGNioW0sdXrzopRFoSVgu7DW3YzW909drVmllhGVjQ91dD+9wp9+tpmuaiL9aTbDFrbUT1nVkXxG08cssm8vsxP/23AH0viBQ/fXKrZHn0hFfZZTWr8s1mYZ2NkTXmG5agcE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784823114; c=relaxed/simple;
+	bh=YvHRvVSLzzqqzkfqQCcnLbqcQacT4HKjmF9ufos0CJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pVcQUoOEYDSfvFJggh+U0crA3TWvyYZZkLyZNJM+rqvb9XOMt+3UBMrS83OUfYA9vRgt8r8srS+lWzUK5j3Z755QvMJHGzhhyo0Go+9AwV0UPnD5ynGFux2fJAgOoE3zCH2hB87HxRjJvriLLQLWPZoWgVFYqt0fAIzs2zRN2Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6HVU+Zw; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="eJpZoht0"
-ARC-Seal: i=1; a=rsa-sha256; t=1784822708; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bHIn2xAiyt58HkFzp8U/ErAnHctniV0Mph1/awebdm1RH/oFCdM/TK10IcA3T5ZMvCqj0wzVHZfFjjzLMn0fcKB0AjisnyyEvpSLh6HThV5IZuS6HcR14dN4hkGzDAGeECVdpKIIT/aSCSHAAEDayYH9jewG3o6lCv38TWRlb0M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784822708; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=jWaDF4Uendc6ROAfttQ+OOquYaHx6ZKga5wEFtSlfs8=; 
-	b=jxZJ8I11B2gyDFF4mvu6V+iDhjEB3haISOrA+2aq1GLIhWyFkyEklOWXoe9tk3bhuxlWwivUKSdUadMUTgLaIRPdyWd5Cl5q0pOB776ILNFn7fh4cc8E7hKV5Z8UMQYpTj0pjSJlYpSsaUjxfW9CARw1qr87iLAB8qruX0sS4Mk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784822708;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=jWaDF4Uendc6ROAfttQ+OOquYaHx6ZKga5wEFtSlfs8=;
-	b=eJpZoht0fbVBi7sGRWtb7OXyoAw6dusENukbaco7c5lA9xLpINlI8LimibApz6ya
-	9TTyyFEtWEWrG1rWQUUkhgGEjcu3tPG/WkqQ/zftCZv9DE3RLX1I80LCSFgGSqwjSOl
-	Z7/rakAMLCSJBMk+MFScVT2ywVyiy9D9zB3cwJAs=
-Received: by mx.zohomail.com with SMTPS id 1784822706512651.4039423768537;
-	Thu, 23 Jul 2026 09:05:06 -0700 (PDT)
-Message-ID: <62e3c0b4-831b-45bb-a7b0-b97be2cb3722@collabora.com>
-Date: Thu, 23 Jul 2026 18:05:03 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6HVU+Zw"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cad8076b01so11082025ad.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 23 Jul 2026 09:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784823112; x=1785427912; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yZ9g9dFCni59wwbH19gzslxq3IGq2T1h0tJXe1RGXic=;
+        b=O6HVU+ZwE7Gi9i/W54pPqr5nnoXtWtgjE+Lulc2Y+mRn1BT+J0orKbAdk1X+E00heW
+         yg56IGFvoj3cSD/8UiT4bjpWmKyPPAJLyot5/BZTd6ZYtzdgqsljDZSj2+w62KH3NFtt
+         jarhvRZ3eJjBCa9Adp6u6ijmnPP19tRpMqBfAjWYgNWOYZRGUCOX2nyvxiZIdEKeQCGc
+         isNLYEQxeXcht7d6Ow47WEt+gZ8+8EqdeQV5fsn96CddzcjUD+xqTyOWTD4hYfQHgcL8
+         nwLzVG/juTxwphXkZaVECZdbH8/V7RKhyAAnx9wgSt8AFD0lqu51B6Bp4eBW86DLG2eI
+         nRTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784823112; x=1785427912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yZ9g9dFCni59wwbH19gzslxq3IGq2T1h0tJXe1RGXic=;
+        b=rnOahQxPPnMQvlOlm9cTIxKwkrCNLBBk3qxme6N+OH0gqsWM2s98JDbnt7k5fMUrdJ
+         DqbIcRjvnN6vmqrYogzwX5+dVlhGDt9t2dFS4Wjx65CfLUMkYdcYMOWQMXucXFDKpgLi
+         huuVAPd8k78wm+51clUxqqpPBtCLIHB7YgA+bNqQ5VOKMkG+4xYECVvOBWk8sjl1wJbn
+         dIShUiXlSdqarNHRV6d0PqiabIrX8w7IaKHV031cRewz/+G4rZvRhukuIR4QH9aKbWcn
+         nn9Y57OAvH7r9BJYCOAt3bBKnfb6GFxu9/WV6CAbYFeA406oIQmQNT+5ZZFMYnLZ4mj9
+         cT3g==
+X-Gm-Message-State: AOJu0YxUjyfMlEEuJ43i4I/hW90FksEAHIQmO79jYQjuVuyDBMa6JhvG
+	lkYJYbh4U7vDaFuxPfvql2WjCwfSKTOdzSAGVRxnbRJNThXX5fuxP+lsFAt+QtCed8s=
+X-Gm-Gg: AR+sD10m82eElYovbcpKx7ggGagydp6DiD5psGH9e4+pf0Az5IF6R7CIwVRbjBhm5BQ
+	eMD9etZyWwbOxJ0Y1W6pC6e80Xlxank7h/Ie9JvmBFiOuA+3lDbP7twSRPMM/QBIRRB+TVruHhu
+	Z7xYL26MzVBF/V6adf2qdvgHn9t0fKM19ihzoivk1lAdltDonf7QUKF8qF5GyUkXy312wp7oek7
+	Tmd2QPdjfenohUzHu9/RKua6qIZqA+HNab19sg6SgXRx+9wH44CN85iYK4NfxO+oJMA27TnD+Uo
+	W9fhI/HgaOjSGtzmMyY6AYmrz8DcYL2b0nro+fACEkF23a7jihIObybfHj3SzRFOohoNcjjw3G0
+	V+DnofOvo6+M5jP14ECuEKUUl+RA9pmJ5KowgbL3BuaLD8AZK8eqRqNLrJvdhbR6ex/tpbb5usI
+	IK9Zr97AGKYRqlAyxgzTHwiLIM8tuJtQVtKTbT3jmjQ3S7+Bwe9EYT7067jOj6lBYexn1BJ4/Rd
+	tg=
+X-Received: by 2002:a17:902:fd8d:b0:2c9:97a7:3289 with SMTP id d9443c01a7336-2cfa752eae6mr44864035ad.43.1784823112099;
+        Thu, 23 Jul 2026 09:11:52 -0700 (PDT)
+Received: from debian13.localdomain (bb219-75-96-14.singnet.com.sg. [219.75.96.14])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f362e00sm36303825ad.71.2026.07.23.09.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 09:11:51 -0700 (PDT)
+From: Adi Nata <adinata.softwareengineer@gmail.com>
+To: jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	mazziesaccount@gmail.com,
+	adinata.softwareengineer@gmail.com,
+	email@sirat.me,
+	u.kleine-koenig@baylibre.com,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] iio: chemical: cleanup codestyle warning
+Date: Fri, 24 Jul 2026 00:10:38 +0800
+Message-ID: <20260723161040.20318-1-adinata.softwareengineer@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: verisilicon: vp9: do not arm watchdog on
- preparation failure
-To: Tharit Tangkijwanichakul <tharitt97@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- me@brighamcamplbell.com, jkoolstra@xs4all.nl
-References: <20260723153656.2167-1-tharitt97@gmail.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20260723153656.2167-1-tharitt97@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Reported by checkpatch:
+FILE: drivers/iio/chemical/ccs811.c
 
-Le 23/07/2026 à 17:36, Tharit Tangkijwanichakul a écrit :
-> hantro_g2_vp9_dec_run() calls hantro_end_prepare_run() when
-> start_prepare_run() fails to find one of the required VP9 controls.
->
-> hantro_end_prepare_run() completes the control request, but also schedules
-> the hardware watchdog. Since the decode operation has not been started on
-> this error path, the watchdog should not be scheduled.
->
-> Factor the control-request completion out of hantro_end_prepare_run() and
-> call it directly from the VP9 preparation error path. This preserves the
-> pairing with hantro_start_prepare_run() without scheduling the watchdog.
+WARNING: Prefer __packed over __attribute__((__packed__))
++} __attribute__((__packed__));
 
-Nack.
-First it schedules a software timer not an hardware timer, which led after
-timeout to call hantro_job_finish_no_pm() with VB2_BUF_STATE_ERROR parameter.
-We need this call to complete v4l2_m2m job.
+Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+---
+ drivers/iio/chemical/ccs811.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you want to stop the task before the timeout you need to add something like
-hantro_end_prepare_run_with_error() where you do the correct sequence.
+diff --git a/drivers/iio/chemical/ccs811.c b/drivers/iio/chemical/ccs811.c
+index ce7187ccd706..0e5c79b775a2 100644
+--- a/drivers/iio/chemical/ccs811.c
++++ b/drivers/iio/chemical/ccs811.c
+@@ -70,7 +70,7 @@ struct ccs811_reading {
+ 	u8 status;
+ 	u8 error;
+ 	__be16 raw_data;
+-} __attribute__((__packed__));
++} __packed;
+ 
+ struct ccs811_data {
+ 	struct i2c_client *client;
+-- 
+2.47.3
 
-Regards,
-Benjamin
-
->
-> Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-> ---
-> Testing:
->
-> - Built with the Verisilicon Hantro driver enabled.
-> - Not runtime-tested: the available RK3588 board does not expose a Hantro
->    G2 VP9 decoder.
->
->   drivers/media/platform/verisilicon/hantro_drv.c    | 13 +++++++++----
->   .../media/platform/verisilicon/hantro_g2_vp9_dec.c | 14 +++++++++-----
->   drivers/media/platform/verisilicon/hantro_hw.h     |  1 +
->   3 files changed, 19 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-> index 2e81877f640f..04167e4be003 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -147,10 +147,17 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
->   	}
->   }
->   
-> -void hantro_end_prepare_run(struct hantro_ctx *ctx)
-> +void hantro_complete_ctrl_request(struct hantro_ctx *ctx)
->   {
->   	struct vb2_v4l2_buffer *src_buf;
->   
-> +	src_buf = hantro_get_src_buf(ctx);
-> +	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> +				   &ctx->ctrl_handler);
-> +}
-> +
-> +void hantro_end_prepare_run(struct hantro_ctx *ctx)
-> +{
->   	if (!ctx->is_encoder && ctx->dev->variant->late_postproc) {
->   		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
->   			hantro_postproc_enable(ctx);
-> @@ -158,9 +165,7 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
->   			hantro_postproc_disable(ctx);
->   	}
->   
-> -	src_buf = hantro_get_src_buf(ctx);
-> -	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> -				   &ctx->ctrl_handler);
-> +	hantro_complete_ctrl_request(ctx);
->   
->   	/* Kick the watchdog. */
->   	schedule_delayed_work(&ctx->dev->watchdog_work,
-> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> index 56c79e339030..e08db6e3f6f9 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
-> @@ -36,12 +36,14 @@ static int start_prepare_run(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_
->   
->   	ctrl = v4l2_ctrl_find(&ctx->ctrl_handler, V4L2_CID_STATELESS_VP9_FRAME);
->   	if (WARN_ON(!ctrl))
-> -		return -EINVAL;
-> +		goto err_complete_request;
-> +
->   	*dec_params = ctrl->p_cur.p;
->   
->   	ctrl = v4l2_ctrl_find(&ctx->ctrl_handler, V4L2_CID_STATELESS_VP9_COMPRESSED_HDR);
->   	if (WARN_ON(!ctrl))
-> -		return -EINVAL;
-> +		goto err_complete_request;
-> +
->   	prob_updates = ctrl->p_cur.p;
->   	vp9_ctx->cur.tx_mode = prob_updates->tx_mode;
->   
-> @@ -86,6 +88,10 @@ static int start_prepare_run(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_
->   	v4l2_vp9_fw_update_probs(&vp9_ctx->probability_tables, prob_updates, *dec_params);
->   
->   	return 0;
-> +
-> +err_complete_request:
-> +	hantro_complete_ctrl_request(ctx);
-> +	return -EINVAL;
->   }
->   
->   static struct hantro_decoded_buffer *
-> @@ -894,10 +900,8 @@ int hantro_g2_vp9_dec_run(struct hantro_ctx *ctx)
->   	int ret;
->   
->   	ret = start_prepare_run(ctx, &decode_params);
-> -	if (ret) {
-> -		hantro_end_prepare_run(ctx);
-> +	if (ret)
->   		return ret;
-> -	}
->   
->   	src = hantro_get_src_buf(ctx);
->   	dst = hantro_get_dst_buf(ctx);
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
-> index 13e573f1f19d..9d4e858f17c7 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -430,6 +430,7 @@ void hantro_watchdog(struct work_struct *work);
->   void hantro_irq_done(struct hantro_dev *vpu,
->   		     enum vb2_buffer_state result);
->   void hantro_start_prepare_run(struct hantro_ctx *ctx);
-> +void hantro_complete_ctrl_request(struct hantro_ctx *ctx);
->   void hantro_end_prepare_run(struct hantro_ctx *ctx);
->   
->   irqreturn_t hantro_g1_irq(int irq, void *dev_id);
->
-> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
