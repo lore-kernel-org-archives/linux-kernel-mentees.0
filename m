@@ -1,140 +1,166 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2FC3914FA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 12:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784897055; cv=pass; b=vA14kD0LnLHUEb6dBTe3338qt7Q3e27oooM+PIRYwjtnZFvZoSxq/GloTTtFv7IW5Y2prNDY9bd+UIsvZpYuHLgYFHjIFYDF9qxQ5GZl4g7oYY1o8vc9D2s6D7t+Jm13HQGWUZJpqFx8J6WS4nKT/he4gXwziESsVhefHgBOEj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784897055; c=relaxed/simple;
-	bh=E5JHc8HLuoo7DhyKVoM/oTbX8SZtTMnPKN+K2+UHJEY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rULb6eck0dJuWs/jB+Dhn866tHwQvX3p7p94J7EhRpJ8kvBu3fRAti/qw+RxRZ4EuGH0G44vAgpBayd29Y3933iQtpo5yILYwTenDeKIxNZb/jRoFRgEfm3ZRRkfzgVCLCpg3/AhP91w1/wHAwsfiH/uRpxMwM14b4dKSxuCp2k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b8nAyNWz; arc=pass smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265B735839E
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 13:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784898745; cv=none; b=XsVZ+dnB7/0GO8Cmm72RnDmS8VsjgwNKrsunkLMSVcowTWeINgtl/rPLSHb4Gcs/w2fo0jISUznryEigMIAVLEgMbsvVWsuj1qmVa++oYD6O3lJRKL0HbGoig6gZ3lZkPgBeaaT9WNVs1bF3Sz9QBe5t3EJOEP5rj4wvBagtB1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784898745; c=relaxed/simple;
+	bh=S7Y8t4dcIthKykzBNL2s+eXrDh6GtFtLucUjWpYDR94=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jmtoQa9cKHW4/ix5c9Fg9d8lHYrOpTjNoKhHGuJ7tlGIbBYYWlz9K+PyEkQnBR86ZPl2uPTIrEp/v9KUu0sXYwgkvOL1SwMvdTLYYX9OSnaUjAFN+AxDwskjuf9yNhc78JzOVveHCMJaWCBqalsiFd4ZrItMqQs+pcBNiQeP1yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iq18MoDD; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b8nAyNWz"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92e5c92c389so25333985a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 05:44:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784897053; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Q8+RPfgrZAeDg9X3O/6EfOUldFOweGK//jqA5UEKSuEBUGRRs7NDkUZ6eSzqvNh7EX
-         hgwNUfei2mpAuDB5SfT+J/ygA/16u9gmXCWA2HA5aTwP8YW7aP5Zkx3fXn5oM7uzASlQ
-         XxyBQPaAIP9GgJvfnsjO8EaERThJaFYwN85Nn5zw4HZ6JzHMxcqBvlY3jKV3LrhO8zo9
-         NaSMt+p43jIhgSfmR0uNk0NpphVHQtu9pZuEgzTQx8rgb+u9IyuLVfn4W9he7JaZwcLA
-         JucnrPvPVNlLR8FlO9qsr+iOPSBMFC5WhGYptIewPEHgfrJ3NdZE80fNwZrFkzFe8fX2
-         Nn7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=aC2psv7ALiBxeuXZI5bTG7C7BxKxDQncU75RPTVHyag=;
-        fh=3tUcoFWy00KS+Y1w2ye0uWWEw8R1Ijs7UN35CJpb5TI=;
-        b=OatTJ3gipYS/8ZGmVdyS9pah8mjZzaJDC68JcqUzo/cjNMDcDEwMLEiqnQ38oWEAg4
-         ynU/WaYqu7zyEUbbUtW7ielY9TPr5h72BTR7SJxMga+4Kx9IpA6Q+/5Yo1hCPB4GF7yA
-         8mRf7UlUYWLviviK1p2C7jsYJ1ORGy33F7DGjVmmsHxuuX6rkf44fbSZ1DIWmBNSpG8q
-         MAZAUxgrhz6pwF0svozGEVq6p0uZw7/VoVN8PacZ7pl1Z/Y4SP9ViVYUwiip9SqHDlfE
-         oPzwJ5NqJETTww5vRsoBUdD/Zlfml9Bmb+FAn+HLnWkNVMgPccJva0d+gzBg+MCS+ww4
-         twxQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iq18MoDD"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84864086bfeso367268b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 06:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784897053; x=1785501853; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aC2psv7ALiBxeuXZI5bTG7C7BxKxDQncU75RPTVHyag=;
-        b=b8nAyNWzxc76aSMxiCFOZYLX/VKd3I73INCJOJk8KAbneWIi9M+yNVCzLrwSCU277G
-         rmZs3kP1P6gAigxgUe5X/ww3PqG+Dwm+omAHHIbP1GDhEVhRM5z6BmVOdNaTaS9kml+o
-         EzrYqToaoKu5NIDzR4ctskjvvx6hqyr3Jrp47csr5tWWyJWg9Dbdr7bbemoHX/2mQzSQ
-         35Za1+7c8bZteLEkMSSTS5+LgPjMUhopIYBi3keAGKsxcOq4aiwoNF2jfbp/Xt8QrnYZ
-         wyU76CF4cxVHIQ4UjFIpGiRVJh+6WyAoYWJYF+m6n2PCjE1w09I+/AsUl5flgKGpFJdd
-         GiVw==
+        d=gmail.com; s=20251104; t=1784898742; x=1785503542; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sFKNVa2uScHavigTP/Jv9UBdhKrx9CJ9eCeBI3gBJk4=;
+        b=iq18MoDDXowvp0odM4CU3ZCJwE5eoeDE5eOPRjVuNWCInRPnLRJ5ctn4HsjJZgWZx5
+         8Uo6VKnB4vJjz2fyZXWJUiSe0D3yCmBJxFH47Euy3mmxdmJ7lEmW3ikYlNrxgER3yvI6
+         JLd3GulAmEimOhkUUFQz/DJ08jzvFe/LLJ48pV0qgr9fRD3NK02Cp9nBS+nMz3/W8rkP
+         dK2r/+hJlFhMRzYDIYXuk0lJYnb1di8F7BTG0oiCmyz81bTgNzlL4GYBVG7Fq9eJSgGA
+         WBiI9N/U1Z/QvlPQbUUp27lDXEu0aTtok3RbxBjQ+jH1atDX/JlHygn7Q0WKb/uFsyUp
+         2TVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784897053; x=1785501853;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=aC2psv7ALiBxeuXZI5bTG7C7BxKxDQncU75RPTVHyag=;
-        b=ob4uVzChTEw49nWixPDC8zsoYE51radwlkU9BMrn0Ep82+y+XLNdc3pRFwb/+WqE0A
-         oS7o8HgwJ4kTi2f66XlrbmQy1fK5PMcRCmd8el7SeDQqx3HM3p2m5DWL5x/59ObH05KL
-         cu8TRkYk4dZeCMJpm7gWi8L5mBYy9GQxvaJ7ERghtZYzk15bmE6r74jq5Tx2rtQxjKuG
-         X23Lr9XAOfbDnv/fbMk55kha8X6MquzU0fMlk/TzRPyVejO7C+xUKQICLsx+Rsp8/CCc
-         Bko8Nr0nfHs0Vkg2Yw01RCotLahCRe+T6iTQb+PVgIaYzXg0I2oF6m6dDLLVaQM9QYEw
-         GJsg==
-X-Forwarded-Encrypted: i=1; AHgh+RrEipfB+EX/nP1yFsOPs1mPn13MxfzAazH3TyAd/uGZS5U5+fw1TZhrncbgTDO05+ytQUuVrU1qlbiTvf82rm9Ot/oZEg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwieVuy/pxCvnLhnuarHu0i88mHHzRGWnwDBFFUblwSq6EtWYq8
-	/m40NH9YpmeEBjRnPFoYmxmvQgitOdR35VbBeHC0Fl4HGyNyADQNS2ZEwe4Ge+S/hNhf3jqTpyv
-	HWhn2DOQ+kL0eQSz/WHk/evPpKZabM1w=
-X-Gm-Gg: AR+sD10Z4f/sk9z8v9okS766KpSBoZPbfA3S6idsXh+vxn6tVDP4UWXGfXb63vSL2lF
-	wH4o6C8w/6xHRRdMPVh71JKeaL2eb036cZ8WxcMt+BCEi5uTABc3c4qnnBe0lw4w3MmotiYnCio
-	b+NdsYwdvg6wYHU2YsI//PUL5/5+oHQxbUc2bxqQKkSi5DvBk5q5nsBPVYb3ai+QnOwOWRbipt1
-	iN/9bo1kcRDVdLqiCO1gwsGACaxQXahU05vpnV35GxFoFv8Ra8DHxqpab71VP8maepZ8uMX4sdW
-	Tz2XjFWHVkfko/hHg9ZR1l8ZMREfFgBD/f7E462ztSOcFHCoyCHd
-X-Received: by 2002:a05:620a:6cca:b0:92e:cac7:96fc with SMTP id
- af79cd13be357-9310388efd2mr749905085a.24.1784897052712; Fri, 24 Jul 2026
- 05:44:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784898742; x=1785503542;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sFKNVa2uScHavigTP/Jv9UBdhKrx9CJ9eCeBI3gBJk4=;
+        b=bHqQX3tzMBBNWp7H6RhlGxdZ4nHGj+DnRpZSm9GFOp1kdU0WZZhk2UdwoSVpxmDuH5
+         CVPPK2s7ToSZHnqYcw81TLRM2IA3OiyjrThaL/VTIOTiYXrt+L71pxIHvCQznaEgIA1h
+         q6GbS0Dkb9qOBUJSU/IfYbl763N9GBiL5ABdk5zBGhbmTd+HseWOoAcbUc1mQ3B+DZvx
+         gpcmAajxEwj+zkcgi6pcB/kMS8Dlla9pJ66WhRbOclVdp0YmoPC+Si0P8io4fb6PVjp8
+         JktOsRnaBjDu75o5lxtJ2ScFAArcftRx5XLsTs6c3veLNPIo4fVyo+Z7mczsf+w3qn3M
+         GDNQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoLTuaHddBnpUaY78EowwYVx4lLgd7WAaEwFnjIx3s6tCSe+iziEyEs48ukaFwmPxmBmV6b6yqH4Q2iAoh+3c5yLOpVmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhwG2g2Ut3m3lnH2IyRB6qDSgy7IvZenEOOo5yX/A76QpeI1j6
+	jkPZsMtoJtuMyw/+TYQNDh10o/26jcC4C9IMTJP+hjvGVHXogqBOeiHN
+X-Gm-Gg: AR+sD12v3n+7ncsuVTXPIC2Qb5ItGbAww4eZlT9osJG4LzaZtgX2+v2Vnc+S13+Y7dp
+	UpZeDnbfwE7AYyUTTvgNFThifpDhulcpbdoImUO6YzOAe/acOGDhTiDUG52jDPaDFfmTR8pc8gK
+	N+fc1hotIHDH09aegxBV8oMFJtKEoJjp0jwQ1eZnmFsMU5mn7s+5XYTbgg2D2gU9QgRwwgnXOAg
+	rmhxp76DQzj+dQPo9EjEEBMS3XTf8Sz624y+xAqYuTC4BbnNAaoQgtE5S3oDyEGeooX+4FuxnFv
+	6Ux5dunk7IspbNsUDRJx6JqX+U402LWwIafpBvxBORbD+dODExy/ITK7J2tJ+q5ICOA4dCZ07Re
+	hgjzaC2ak6Q3FTEOSCUSSyzgxO1e12mCn9Gw6DnXngHKL/7T9XIa4fYMPi3oNReFZmkJTkPBDUC
+	P5GK5YreiCCZ8DXHWiRyi5FbCw4Wjv/HdbTkzGCMK/ByAz2hvGV4oL2nuKaBhG
+X-Received: by 2002:a05:6a00:139c:b0:848:4c3d:659f with SMTP id d2e1a72fcca58-84e2c29b83fmr8147681b3a.75.1784898742361;
+        Fri, 24 Jul 2026 06:12:22 -0700 (PDT)
+Received: from debian-rockchip-rock5b-rk3588.. ([184.22.139.118])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e175ce455sm4666968b3a.48.2026.07.24.06.12.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2026 06:12:21 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH v2] media: hantro: release runtime resources when device_run fails
+Date: Fri, 24 Jul 2026 13:12:08 +0000
+Message-ID: <20260724131208.2315-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CACak8wN-Y=oDbEVbou+RetS9X-Lca_MZHSY2NJFaGWR3LoVBKQ@mail.gmail.com>
+References: <CACak8wN-Y=oDbEVbou+RetS9X-Lca_MZHSY2NJFaGWR3LoVBKQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260724111548.2109-1-tharitt97@gmail.com> <193a0d2b4f7c33163cb6aee56ceee0bf5cb6c11c.camel@pengutronix.de>
-In-Reply-To: <193a0d2b4f7c33163cb6aee56ceee0bf5cb6c11c.camel@pengutronix.de>
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Date: Fri, 24 Jul 2026 19:44:00 +0700
-X-Gm-Features: AUfX_mxLzK4lEzDdIm63lfvgUd6SAd7_Ys3EmQdE2d3UhBcu1j4jPRBGqdfCOww
-Message-ID: <CACak8wN-Y=oDbEVbou+RetS9X-Lca_MZHSY2NJFaGWR3LoVBKQ@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: release runtime resources when device_run fails
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil@kernel.org>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	me@brighamcampbell.com, jkoolstra@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> But right below this, you are still letting
->
->         if (ctx->codec_ops->run(ctx))
->                 goto err_cancel_job;
->
-> without disabling the clocks.
->
-> >
-> > @@ -191,8 +192,12 @@ static void device_run(void *priv)
-> >
-> >       return;
-> >
-> > +err_disable_clock:
-> > +     clk_bulk_disable(vpu->variant->num_clocks, ctx->dev->clocks);
->
-> You have added vpu = ctx->dev, why not use vpu->clocks as second
-> parameter?
->
-> > +err_pm_put_autosuspend:
-> > +     pm_runtime_put_autosuspend(vpu->dev);
-> >  err_cancel_job:
-> > -     hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
-> > +     hantro_job_finish_no_pm(vpu, ctx, VB2_BUF_STATE_ERROR);
->
-> Why are you changing ctx->dev to vpu here, but not in the other
-> function calls in device_run(), e.g. pm_runtime_resume_and_get() and
-> clk_bulk_enable() above?
->
-> regards
-> Philipp
+device_run() acquires a runtime PM reference and enables the VPU clocks
+before invoking the codec-specific run callback.
 
-Hi Philipp,
+If clk_bulk_enable() fails, the runtime PM reference is left held. If
+the codec-specific run callback fails, both the enabled clocks and the
+runtime PM reference are left held.
 
-This is embarrassing. I did notice this, made a local change and
-forgot to re-run git add.
-I will fix this asap and send a v2.
+Add separate error paths to release the resources acquired by
+device_run(). Disable the clocks when the codec run callback fails, and
+drop the runtime PM reference when either clock enabling or the codec
+run callback fails.
 
-Best,
-Tharit
+Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+Changes in v2:
+	- Fix the codec run failure path to disable the clocks before dropping
+	  the runtime PM reference.
+	- Use a local vpu variable in device_run().
+
+Tested on a Rockchip RK3588 (Rock 5B) board with Fluster:
+  H.264 (JVT-AVC_V1):	     129/135, unchanged
+  MPEG-2 (MPEG2_VIDEO-MAIN): 23/43, unchanged
+  VP8 (VP8-TEST-VECTORS):    61/61, unchanged
+
+ drivers/media/platform/verisilicon/hantro_drv.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 2e81877f640f..72250bb56872 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -170,29 +170,34 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+ static void device_run(void *priv)
+ {
+ 	struct hantro_ctx *ctx = priv;
++	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src, *dst;
+ 	int ret;
+ 
+ 	src = hantro_get_src_buf(ctx);
+ 	dst = hantro_get_dst_buf(ctx);
+ 
+-	ret = pm_runtime_resume_and_get(ctx->dev->dev);
++	ret = pm_runtime_resume_and_get(vpu->dev);
+ 	if (ret < 0)
+ 		goto err_cancel_job;
+ 
+-	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
++	ret = clk_bulk_enable(vpu->variant->num_clocks, vpu->clocks);
+ 	if (ret)
+-		goto err_cancel_job;
++		goto err_pm_put_autosuspend;
+ 
+ 	v4l2_m2m_buf_copy_metadata(src, dst);
+ 
+ 	if (ctx->codec_ops->run(ctx))
+-		goto err_cancel_job;
++		goto err_disable_clock;
+ 
+ 	return;
+ 
++err_disable_clock:
++	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
++err_pm_put_autosuspend:
++	pm_runtime_put_autosuspend(vpu->dev);
+ err_cancel_job:
+-	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
++	hantro_job_finish_no_pm(vpu, ctx, VB2_BUF_STATE_ERROR);
+ }
+ 
+ static const struct v4l2_m2m_ops vpu_m2m_ops = {
+-- 
+2.47.3
+
