@@ -1,123 +1,115 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA09B33508E
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 04:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF0734B1AD
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 08:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784952936; cv=pass; b=muALvM/QUoM9uyCjHGN7u9DDFr0iY+PmAuZT5Ze73hlRDhMp2wv21fBOU3uxpChdrMINdZamYw1FMOPptWw46+m6t1dS0FsT4WPISKHGffuxXx7eTwsYzlgHCwf7JMIQn3z9vxkTquIQcgzeEbVuy/XkZk4EsETC90qrQprVcfg=
+	t=1784966451; cv=pass; b=m5g5pvwiA/bWu76F6IA3VkmRoDjbPdYx/6XUecYgz8wnRGU1nrD8UrYF9oAoDQdXSB82zunSrxzVdk70bTYvahNx1EhTgOMGa4qdY6Se3tgvxDHaL2hAHk44gCeXr/jhavpksuP4YCz5/Y7Uz83dNRNBsSo69W5H3s2e0osLAO0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784952936; c=relaxed/simple;
-	bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
+	s=arc-20240116; t=1784966451; c=relaxed/simple;
+	bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OIylKqQFcUhw/IGzH90KkPqJlB92PyDY3yRCkfE+rCsI4o1ujlkUPRFg3LGzopEkG67BLyEFCJom2CecLBz8PFAJ2PlfhQmqD40atlxL8Z2qiAGqEnHJHmek5TUkQqOqegSZsFVg9XcyImEjo2f2AURks53LXnAUJQS49WcFEM0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0hXWobH; arc=pass smtp.client-ip=209.85.210.42
+	 To:Cc:Content-Type; b=t1pDhwg5aWLqBmZJkatWF+9BxLytEXIKJogUozrDx3npSlfVNY14ts5fOlyXGzo2G0K868qLYEjjbf0apah0CyHYWvsL1TnjKz/4/AzOnBgSRjIiyJ1SKZVn9lfmKL6MuEoR0LYZ6O0mpzfCRrZA6a4ckL3j0paTauqlAi78kU0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4CRQrjy; arc=pass smtp.client-ip=209.85.222.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0hXWobH"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7ee4f241f42so1183161a34.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 21:15:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784952923; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4CRQrjy"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-92e57a753f9so109189185a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 01:00:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784966449; cv=none;
         d=google.com; s=arc-20260327;
-        b=h8PZ5h1Zki6S8qu18ARolRORs6KRYjmi+Mm//qnXpt+rhDRioN/pNQmgU9TvJJ2kMB
-         064HW/RSh1JqzTbzSlAEaNrvrMYr0916KMhVsoZEVkPYgsmklSdUNu+kaV2kA07XUbVK
-         IMA0UW4YWMMDjq+4DMHRBjlmL9H6ZLE+J9F3W94vzsFhmGMWr3ZuZrlbx+cRgckA4owK
-         Nf8opNPv4hWcihOiEN9x9SUXRJoppSwkpRQyIueQ0GBzVy3n52Ud7oklUzo6QxFT9htk
-         mK+HfQcJDRfnoQ6UiOxLEmmQ05O4w+YGBSmfx0B7oKbs0bp17kFgDQ2Ffnh0ANE1jROu
-         Kg0Q==
+        b=r11hPOFvI/Tj427uROX6uriMLniGxzYL42W/SqKQ8dPlQXeynbvfsnBxO2jxH7vRSs
+         uYJbXF59S188pRG4GzyPb1Ou1Gu5rLsY4HQXS0ab3DjLycu2aKsbqHrdT9YxOQlxtjz0
+         BKjKvGuggiDJTUYakLK966QNZfaFLeb5gckHBoYdOSugQHq5XxXdCmWJusx0oCMM2bgT
+         PXCTtXc/0GDcBXDz6llCbGbnXGJ2C8sI/9zjO3+DUdKcn8U/2vJl5McB4kOZR/KwY3M7
+         2AfBTqTcUtZ2Q1x2cGz9sOASoDXrlUq59H4HgNUOqtwI7lfK5N81bO7VMEURYeDg1zWt
+         Av8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
-        fh=elr+dfUawKEGANGozEoRaCY5VQTTYq1no4L14eW7EDM=;
-        b=IAyPYVKVTWXzjmgdSqg1frZ/PUbyBNrIjN/komuXv++q66YHHuy3caDaAC4FakFk8n
-         ASHt/mHPJf+eoNc27qd5pT4KPzFMKk/4HwoDZLcDhvUweCoeL+CN6IIQU8BwsXX3CNZ3
-         UDiXiSqI+Uh++W3wPVQjeS/hh+fpvGAr+j7XAa8RK+piCw68jM7zk0cfThnk4Txeb8Ep
-         jQSfMrF3zFCmWxt65Y9dcSv6BycS7r88uPa97K4Gb52yOOj23/oCBbwOqk/QRMoCqIq8
-         jIRULpI198eItDAPNCw2dmnqaDN7GBRrZEQKBiiq9D0cttmFWB+W31haoDqlfj/s2LPV
-         xdwg==;
+        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
+        fh=5QCNMB2ij1HStQn8+JpDGSbNzTXK7cxQJq5PeCu5s0I=;
+        b=Jqd6hcR51Jq2i8kDneV476JvEMWxPB5OgDyu7XHij2FQqQzFnPC08cogwByjGOau0J
+         evuFXdPf20fLtfuVu4jDO3WUv0jF3+RHCJygxY6l/On3a4ZO6+gUeyH8m1sxS1Uh2w6I
+         ND9314th6waVxdas5y/aDkB3H/Ej1r3DJ9DrfJicXLIYHK66JlMTA6sRPpDS+H3a3RZU
+         fqR196KHER1BR7W/tR6DTj8RTMiHueC/cqfcg9+eAHQtYpH83WFF/Hf3NHM5E65Qk73p
+         Qs53PXhhE8Ki+JgQ//hPIvihoHCFM7cIEKrHetzO46DgqiM76r1BDYIpth8JNKol77sD
+         IwnA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784952923; x=1785557723; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784966449; x=1785571249; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
-        b=I0hXWobHGLE3NZOJ1aPcrGRpj0DTSIrgYtFeZKHCANgtJpPCVK/KZKinaZK2PYHmOH
-         4yQ4NK1OPGdhkYvJ8Wmn6057ibRw6KjE3yciT5KNzjPTRbr8/ElZkIgh2J+HQtbZJmoM
-         o6mk6p0NRJdOq6jzlG9/BvvAdbJmAg4XAYqLCrlAbyryN7RkgG/ERyU+iC9oaOc2EE7+
-         K+cCTVX4d4rn7HqL3KGu0Jw6nn2tBfCfUbm5Dp6qlovqiIIVhD32h7eQ5wjCirdyrkXb
-         EE0sedynyPTyV6FEQgu82GE+AV8BjjSTfIb57r2sOTjLJmaDXQ09IWLzXmu1j/TUeoeY
-         fZ4A==
+        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
+        b=Z4CRQrjyLKFIbhO3S5rMnTCIHPh8sYGc3RvmW2i8o3H2wBXHDPFOAOmL1fF7ld9R+t
+         oHzgqdydX4luRhbVgoOuTFJG9+i3znhIw+56ySYU5NDyTDGp38nR7vATZs2L+RTHRkT7
+         Oe5aYwrNQBTUpD1W9kUeIH2JmG/vHoDdfRj+1gxq2hqpisMtuVRq4NCM8r0TFZ7yS/a3
+         m7hDBBsgD6zwN/TakS8hvkHK5I7k+0O/5TFByMmxZYiVCL0glVM3xB3XRQ37X3h/ZP6h
+         lVcl2Q4Bm+sq50rWL30FL4WfWP+3G7svJf/qHcwNOQh6BwQa5Ba0HwLmpMJLfPGjuEgn
+         emHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784952923; x=1785557723;
+        d=1e100.net; s=20251104; t=1784966449; x=1785571249;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
-        b=nvn9UxoJDlsFzkXvJEqPsIhd1nHZXtGmxDJi9AMRaAW3NebXPFBVZT/YwqwEeQ5fG0
-         9XIpGwU23zZsy6EkPQOiL6mrc5qa7id65ameLtlubSim3Kt5eEWJXgOnOGX656qIy1W+
-         Gnd/7zjnKXe1a5hSJJ8AT42r2qbqk465y3sVPXiiT30KRc2v5nOLqH9VYlIesyNBJJRf
-         VRT0WxFuIWu+8gSjcxi2IxXlZGroLx8BH20CsN4LRKQr/MCR4y1c9tou2YmekvE+yAwv
-         GWAE3INmcZgaJx7EDdfLVWqKhyuKfLO/kkaLKZj9cKqTDwkgyTL1oMXgfA5Yv2TDpJvO
-         Wayg==
-X-Forwarded-Encrypted: i=1; AHgh+RoRvdMujG/I56s5a5nvUMW1mi/8Angt9xQAC7k3u688KXwVj6hB+KeSQLiXhMX/Dn7/3jpHMhEyy8HY9tW8yy+HhUcaog==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKxrCvPehhTRDxiRNfBa2X4E48xvKQFgTo0Nv47OQogPAF4VZr
-	zf30G0odxFtbqEyLUSgZ6U7WsfnrHTIw6mNIU+7arcH0O6KQp9sWkyXvhv8VFKxyXD4ckqbE8+y
-	nH0bYmrGqSpWHVqfve+KYSQktafYYqqM=
-X-Gm-Gg: AR+sD11fr6bNUG28SKhc4rHJ9Hs1VwFkp+RRh7HuyJym5NoNkDlARPW/nMLdJsXeLea
-	sS0PaKSRj8SYDzW2N8eRJO5Im3s+c/BdDa9SpFqCCSM/nD1nkuy13yHqWrgjeZ+6cvZXs85Txsw
-	YeQkMIvxJMloGUN5sHKPYdoxNG0n7DCqugsRByxCT0BDL9CKCFQvQbNbbB94JyQD29pwFP8Cboh
-	x0ZlSTVMcbx4C0Hb+0OIbD6VvWbnWMhuS42jr3AO6w56vCN8kq1hk453eF0PnJMOQQJfoQsAAWx
-	ix35BA9i2A49WY38Jb7oDVGCHGp5d5Cz8860zXwnqnAPmbBHKxDykk/9Piawog==
-X-Received: by 2002:a9d:7ac7:0:b0:7e9:e288:5d45 with SMTP id
- 46e09a7af769-7ee6c2012e9mr2468001a34.18.1784952923486; Fri, 24 Jul 2026
- 21:15:23 -0700 (PDT)
+        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
+        b=PERaJ0r7arUbQOnl5JzFWcmxFXjGNT2wftBpIzWN0pM51i9Q3EZnnc9LqPNZBC5dA3
+         zaWs0EdLLkBmqK6UYJM7MFBcZctQL7T9d2R78UYp798x7ae2A/1ocoU96HZFtc4vOMmv
+         S9Zg9kn/6YH+sw6I3puQ/2/o7m8T7PdC11w5JTL8+wpRZyUdFTGfa124J7z2+Vn+3l4/
+         VRPx67NPWCz6yZlT4xQYYyuTHucX+FKQAKOf/6a93F5Z6n3kQxOxqG9fNJ631qjELrgJ
+         2It+oocW6akUKPLvCVPFq8C9xxi/pTucbag91+aIlC5QclB+Lr2s/FlpV0SnvZmkqpvB
+         ptow==
+X-Forwarded-Encrypted: i=1; AHgh+RoLkEFfsZxBBVAFMefnWPDjijtimf3iVcIfdB56fsS/wIGLhM2ktaT9jl11Ss/oOL5VQwYYGDZvTqpwkufl3lWIvLHALg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZIRFX1uvdi+0lNSLc9/4t3/rJmfDWeYoU2LrWmL4inwbqau+m
+	0qeuJ9MDl0UdI/+yTD4uJ9nmQTtPTPq1Huvh2oyKH/FbeuMZtVyIkA/e+bzq8RbL9KqejKUnwkw
+	W8qxnhWgtVG7XTIJZQyDoUGA9MVBgjOc=
+X-Gm-Gg: AR+sD11BVdm3Lq8cNPLo+XK1UHdLSHigx4upUMgW4zaypvqp9hHrVBvS/8G2s2v5C5n
+	TiA/WXLM4UEriBT7sIigEexO4yabDFmUA6HwIC5LELJVImk703GGTH/4CiW3Xy/UyaQjbdYNST0
+	BF9dTIpkDEq3GUreAzVNnMzIqC4gIWKRNiCJE7GpLicVnwYK0RIDEmff+2r/xCaUvSic6YgHyRW
+	lQDAQ/k7Ei0wUsn5s0dAPNlv19xRmOqDgt/Zu4Rokwo/BPLaksJbsQ8XzCOTU+MiygaPqX4phvq
+	eTTC99wtG6myVtw22Jyv5/Vtr+BPcLrLqLl103odehmymlEXnOR4AvUckSboRf8=
+X-Received: by 2002:a05:620a:2681:b0:930:dd19:11ba with SMTP id
+ af79cd13be357-932df6f0f30mr100360085a.92.1784966449572; Sat, 25 Jul 2026
+ 01:00:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713084140.249515-1-vidhu.linux@gmail.com> <amIXogW-sKfOhuxO@daedalus>
-In-Reply-To: <amIXogW-sKfOhuxO@daedalus>
-From: Vidhu Sarwal <vidhu.linux@gmail.com>
-Date: Sat, 25 Jul 2026 09:45:12 +0530
-X-Gm-Features: AUfX_mzFsWgUGldvlaqterMEytvI9E0k_JwQopj7dlGejEsO6Kb-qaXvx3qYaTg
-Message-ID: <CAFqz8LJLZ4c3qT9LWrW8BMVknrMtiRhJzwqa7VLQuxOMkJJr=A@mail.gmail.com>
-Subject: Re: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from
- reaching writeback error handling
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+References: <20260724111548.2109-1-tharitt97@gmail.com> <amOO86K_3wuTd_92@lizhi-Precision-Tower-5810>
+In-Reply-To: <amOO86K_3wuTd_92@lizhi-Precision-Tower-5810>
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Date: Sat, 25 Jul 2026 15:00:37 +0700
+X-Gm-Features: AUfX_mzCV0IN9fI_10kkKdi3HsilTau4VYjXeApWLMbv2AYQ88l9nYF0tHwG8Pk
+Message-ID: <CACak8wNJsmVKm3m+JwYPSxqfa26MVFRo3jE3YrppJPi5SBBAUg@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: release runtime resources when device_run fails
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil@kernel.org>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	me@brighamcampbell.com, jkoolstra@xs4all.nl
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 23, 2026 at 7:03 PM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+> Mix use runtime pm and clock is not good.
 >
-> Should attr_data_write_resident() be returning positive values on error?
-> If this is correct, and this is a matter of data corruption you can use
-> EFSCORRUPTED (EIO may also be fine if this is what NTFS uses in other
-> places).
+> You can put clk_bulk_enable() into runtime pm resume call back
+> and clk_bulk_disable() into runtime pm suspend call back.
+>
+> Frank
 
-Yes. attr_data_write_resident() intentionally returns the positive
-internal status code E_NTFS_NONRESIDENT when it detects that the DATA
-attribute has become non-resident. This is an ntfs3 specific
-used internally to signal the transition rather than a standard errno.
+Hi Frank,
 
-The issue is that ntfs_writepages() propagates this internal status into
-the generic writeback error handling without translating it first. The
-MM writeback code expects either 0 or a negative errno, so the positive
-value triggers the WARN_ON_ONCE(*error > 0).
+Thanks for the suggestion. I will inspect the hantro pm_runtime call
+sites and let me implement your suggestion into v3.
 
-I chose -EIO because this is not filesystem metadata corruption. The
-race is between is_resident() and attr_make_nonresident(), leaving the
-filesystem in a valid state but causing an internal status code to
-escape outside ntfs3. I think EFSCORRUPTED would imply metadata
-corruption, which didnt happen here.
-
-Thanks,
-Vidhu
+Best,
+Tharit
