@@ -1,236 +1,123 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB4A34D915
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 16:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784910326; cv=none; b=ERBDqLwvsO8jzPE/iwusXmbF+pF+CBR7J8HjCCrcxWnpdv6/Il6XYwtloh1OQF5gPWdZ0ieiJHe3Wly3rQGPHSUClGDbFVmm9QKDVIwLaeMhJDhSjR571t0Qlzfh2Xf24HUrH1LcMIm5UxBmplKABPf/6odcqu0BnIsbiA+t698=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784910326; c=relaxed/simple;
-	bh=QRhVBSuXVEoQIY3bGLpzbuEnhuAMXEhnpVZXREUzxAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=chkx9CWQhECYPkgQLo/ReLLJvo0NThKthrhCADomCnDC09Ttbrrl2Zmv8OTDzOSwNfg8r993JKrW8EbJFps4Qbl3dJJOcPoexf7Xzjr7qwS/n8823jugbEYAIHIwBECfahI0T+pd/eJC6mcPImChJ29X+maLmoAigbvPB+Y2GCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W7O1nhZQ; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA09B33508E
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 04:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784952936; cv=pass; b=muALvM/QUoM9uyCjHGN7u9DDFr0iY+PmAuZT5Ze73hlRDhMp2wv21fBOU3uxpChdrMINdZamYw1FMOPptWw46+m6t1dS0FsT4WPISKHGffuxXx7eTwsYzlgHCwf7JMIQn3z9vxkTquIQcgzeEbVuy/XkZk4EsETC90qrQprVcfg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784952936; c=relaxed/simple;
+	bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OIylKqQFcUhw/IGzH90KkPqJlB92PyDY3yRCkfE+rCsI4o1ujlkUPRFg3LGzopEkG67BLyEFCJom2CecLBz8PFAJ2PlfhQmqD40atlxL8Z2qiAGqEnHJHmek5TUkQqOqegSZsFVg9XcyImEjo2f2AURks53LXnAUJQS49WcFEM0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0hXWobH; arc=pass smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7O1nhZQ"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ca00f126b7eso445556a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 09:25:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0hXWobH"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7ee4f241f42so1183161a34.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 24 Jul 2026 21:15:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784952923; cv=none;
+        d=google.com; s=arc-20260327;
+        b=h8PZ5h1Zki6S8qu18ARolRORs6KRYjmi+Mm//qnXpt+rhDRioN/pNQmgU9TvJJ2kMB
+         064HW/RSh1JqzTbzSlAEaNrvrMYr0916KMhVsoZEVkPYgsmklSdUNu+kaV2kA07XUbVK
+         IMA0UW4YWMMDjq+4DMHRBjlmL9H6ZLE+J9F3W94vzsFhmGMWr3ZuZrlbx+cRgckA4owK
+         Nf8opNPv4hWcihOiEN9x9SUXRJoppSwkpRQyIueQ0GBzVy3n52Ud7oklUzo6QxFT9htk
+         mK+HfQcJDRfnoQ6UiOxLEmmQ05O4w+YGBSmfx0B7oKbs0bp17kFgDQ2Ffnh0ANE1jROu
+         Kg0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
+        fh=elr+dfUawKEGANGozEoRaCY5VQTTYq1no4L14eW7EDM=;
+        b=IAyPYVKVTWXzjmgdSqg1frZ/PUbyBNrIjN/komuXv++q66YHHuy3caDaAC4FakFk8n
+         ASHt/mHPJf+eoNc27qd5pT4KPzFMKk/4HwoDZLcDhvUweCoeL+CN6IIQU8BwsXX3CNZ3
+         UDiXiSqI+Uh++W3wPVQjeS/hh+fpvGAr+j7XAa8RK+piCw68jM7zk0cfThnk4Txeb8Ep
+         jQSfMrF3zFCmWxt65Y9dcSv6BycS7r88uPa97K4Gb52yOOj23/oCBbwOqk/QRMoCqIq8
+         jIRULpI198eItDAPNCw2dmnqaDN7GBRrZEQKBiiq9D0cttmFWB+W31haoDqlfj/s2LPV
+         xdwg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784910325; x=1785515125; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iIveEnsC2i4BV8ze8aVcBp+MK1iWZOOv1jA6qIdT6uQ=;
-        b=W7O1nhZQlPHQ46SmV3nOnL0KKdr8aknQ7TEfzqjqMvrakheeykhCNP71SmGm2oaE/u
-         aCu8dj1OL9o+g71hFdBdVRvUfR1Qld25AdeMjXmAfN0eks5ykPeg0wvzsddkqh6NEMyj
-         TKN5cuKYbuid6yrxOiJz7yWyIW1QkXxYXt1dRGaORzQcz3Pjxo0/jZiLJ84HNR/UT8fo
-         3kXWLVefz0wNHF1SSi/b1GbIqNN5x1R1pBqeDWjzfR4z1bIXONZiRsphTDCME9I40Fqn
-         zHd80wKLn0UsXL1na8Ib+kmI5pvCHERId/wB5w6rHRxp2suNwXDlE4UkK6nuhU0sJP2c
-         t2Jg==
+        d=gmail.com; s=20251104; t=1784952923; x=1785557723; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
+        b=I0hXWobHGLE3NZOJ1aPcrGRpj0DTSIrgYtFeZKHCANgtJpPCVK/KZKinaZK2PYHmOH
+         4yQ4NK1OPGdhkYvJ8Wmn6057ibRw6KjE3yciT5KNzjPTRbr8/ElZkIgh2J+HQtbZJmoM
+         o6mk6p0NRJdOq6jzlG9/BvvAdbJmAg4XAYqLCrlAbyryN7RkgG/ERyU+iC9oaOc2EE7+
+         K+cCTVX4d4rn7HqL3KGu0Jw6nn2tBfCfUbm5Dp6qlovqiIIVhD32h7eQ5wjCirdyrkXb
+         EE0sedynyPTyV6FEQgu82GE+AV8BjjSTfIb57r2sOTjLJmaDXQ09IWLzXmu1j/TUeoeY
+         fZ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784910325; x=1785515125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iIveEnsC2i4BV8ze8aVcBp+MK1iWZOOv1jA6qIdT6uQ=;
-        b=YVBbgMKeEftWyDNdX9Ekju6TivV98T/wY8bKxHYPZJWRd+ybQPhfDzy5fmyR6uAcgw
-         5GtiN8TzcV8uY2SsaLSkoLxshUl2h311O5/2ha40Ye80TiZWro99atrliEzA1YjjOv+8
-         ckSKNF6XzabIlBdnOBgS1rTim+zNwei+6IoDi8lMo0vRYDBn48qS6SWJVD1JA2czKwlx
-         dXuSkaNdaGFz0KsdzveiDF8rypzQAczYyEw+gnOBS6q3bdAGbw+7T6pgekPV0v13tg2W
-         35dQRBChEFw+MuXEgnNDWA+XssGMjIg1ycU3sQN+x+QnXMBRGopnD+MOH+ervX6vR77j
-         f6jQ==
-X-Forwarded-Encrypted: i=1; AHgh+RozZeBHdlmfo9GcZvCCGRe10JUmjpzkZ13ZPExo20uHwU8rn/TR8LD7eUT59cDfp1OLbx7I6PpgRolez6T5a48PSs9rAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyn/eSwzXXRMDU4NYq2oAmjaZZDjgG/PIt17W8Voc8Rk1CYBDpl
-	mLERgRJg7BodqTQF5nWGCnfS3kNAd0wXEDNFiot/TCp6qjQPZYNj79Il
-X-Gm-Gg: AR+sD12+hLv6dEtmqO5tbRscg6trTpOVOgREnsjcezUsuIA+FxYfEhmP7rbvXRvlbk7
-	L95E8hdM7OnGQzevSmyEtxiLGacEfmVddpogECUpg2GiRUYThKQIu1ipzPP4rwc+MUSGXPmYc9h
-	w54hK+OdB1PqFxy+xRzWM34LZ8lcu1BvcIEGroPJRhMTgnJDMKyxMvkicHkAhHlHejZxC+hjeSP
-	jTBgpgg+IPL6Cl2zzYVYxJb6wNP8YRBFiMubpVEn3yct0zztnD21N1RWe45qI12CvCifeX0OGzJ
-	RWhEFhez0plgq/qP7Vm31Z14FnOIq6V54pZMD350Amas552eC+HSpvS8+RjXK+6U0o4LNqxp9wI
-	iLC3A09PwLxedQ9ANibOhjrCaFZ1jnB1g0TwFl+MHyY0SotswVXIHgKlBwDJGVS9UkdNLwSV6ds
-	43HfxS7dGtzj//03vuDvYbeUMw104OdTXmBQlO42N/HRexf3feBHBEw/NRUKTKwrYZHWdn59kPd
-	I1pnIGVf52pkbOWtg==
-X-Received: by 2002:a05:6300:141:b0:3c3:a1a4:862c with SMTP id adf61e73a8af0-3c44b2680b9mr8889730637.68.1784910324540;
-        Fri, 24 Jul 2026 09:25:24 -0700 (PDT)
-Received: from fedora ([202.179.95.46])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e1255sm1323838eec.4.2026.07.24.09.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 09:25:23 -0700 (PDT)
-From: Ninad Naik <ninadnaik07@gmail.com>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	simon.guinot@sequanux.org
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Ninad Naik <ninadnaik07@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3] dt-bindings: leds: lacie,ns2-leds: Convert to DT schema
-Date: Fri, 24 Jul 2026 21:53:32 +0530
-Message-ID: <20260724162332.32291-1-ninadnaik07@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1784952923; x=1785557723;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PzCFk4xbsY3MKeojRX/yYHw+xRC2LcniEsfPHyAmr2w=;
+        b=nvn9UxoJDlsFzkXvJEqPsIhd1nHZXtGmxDJi9AMRaAW3NebXPFBVZT/YwqwEeQ5fG0
+         9XIpGwU23zZsy6EkPQOiL6mrc5qa7id65ameLtlubSim3Kt5eEWJXgOnOGX656qIy1W+
+         Gnd/7zjnKXe1a5hSJJ8AT42r2qbqk465y3sVPXiiT30KRc2v5nOLqH9VYlIesyNBJJRf
+         VRT0WxFuIWu+8gSjcxi2IxXlZGroLx8BH20CsN4LRKQr/MCR4y1c9tou2YmekvE+yAwv
+         GWAE3INmcZgaJx7EDdfLVWqKhyuKfLO/kkaLKZj9cKqTDwkgyTL1oMXgfA5Yv2TDpJvO
+         Wayg==
+X-Forwarded-Encrypted: i=1; AHgh+RoRvdMujG/I56s5a5nvUMW1mi/8Angt9xQAC7k3u688KXwVj6hB+KeSQLiXhMX/Dn7/3jpHMhEyy8HY9tW8yy+HhUcaog==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKxrCvPehhTRDxiRNfBa2X4E48xvKQFgTo0Nv47OQogPAF4VZr
+	zf30G0odxFtbqEyLUSgZ6U7WsfnrHTIw6mNIU+7arcH0O6KQp9sWkyXvhv8VFKxyXD4ckqbE8+y
+	nH0bYmrGqSpWHVqfve+KYSQktafYYqqM=
+X-Gm-Gg: AR+sD11fr6bNUG28SKhc4rHJ9Hs1VwFkp+RRh7HuyJym5NoNkDlARPW/nMLdJsXeLea
+	sS0PaKSRj8SYDzW2N8eRJO5Im3s+c/BdDa9SpFqCCSM/nD1nkuy13yHqWrgjeZ+6cvZXs85Txsw
+	YeQkMIvxJMloGUN5sHKPYdoxNG0n7DCqugsRByxCT0BDL9CKCFQvQbNbbB94JyQD29pwFP8Cboh
+	x0ZlSTVMcbx4C0Hb+0OIbD6VvWbnWMhuS42jr3AO6w56vCN8kq1hk453eF0PnJMOQQJfoQsAAWx
+	ix35BA9i2A49WY38Jb7oDVGCHGp5d5Cz8860zXwnqnAPmbBHKxDykk/9Piawog==
+X-Received: by 2002:a9d:7ac7:0:b0:7e9:e288:5d45 with SMTP id
+ 46e09a7af769-7ee6c2012e9mr2468001a34.18.1784952923486; Fri, 24 Jul 2026
+ 21:15:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260713084140.249515-1-vidhu.linux@gmail.com> <amIXogW-sKfOhuxO@daedalus>
+In-Reply-To: <amIXogW-sKfOhuxO@daedalus>
+From: Vidhu Sarwal <vidhu.linux@gmail.com>
+Date: Sat, 25 Jul 2026 09:45:12 +0530
+X-Gm-Features: AUfX_mzFsWgUGldvlaqterMEytvI9E0k_JwQopj7dlGejEsO6Kb-qaXvx3qYaTg
+Message-ID: <CAFqz8LJLZ4c3qT9LWrW8BMVknrMtiRhJzwqa7VLQuxOMkJJr=A@mail.gmail.com>
+Subject: Re: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from
+ reaching writeback error handling
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: almaz.alexandrovich@paragon-software.com, ntfs3@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Convert lacie,ns2-leds to DT schema.
+On Thu, Jul 23, 2026 at 7:03 PM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+>
+> Should attr_data_write_resident() be returning positive values on error?
+> If this is correct, and this is a matter of data corruption you can use
+> EFSCORRUPTED (EIO may also be fine if this is what NTFS uses in other
+> places).
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/r/202607231542.6ovJrInT-lkp@intel.com/
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
----
-Changes in v3:
-- Add optional property num-modes to the schema.
+Yes. attr_data_write_resident() intentionally returns the positive
+internal status code E_NTFS_NONRESIDENT when it detects that the DATA
+attribute has become non-resident. This is an ntfs3 specific
+used internally to signal the transition rather than a standard errno.
 
- .../bindings/leds/lacie,ns2-leds.yaml         | 85 +++++++++++++++++++
- .../devicetree/bindings/leds/leds-ns2.txt     | 35 --------
- 2 files changed, 85 insertions(+), 35 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-ns2.txt
+The issue is that ntfs_writepages() propagates this internal status into
+the generic writeback error handling without translating it first. The
+MM writeback code expects either 0 or a negative errno, so the positive
+value triggers the WARN_ON_ONCE(*error > 0).
 
-diff --git a/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
-new file mode 100644
-index 000000000000..2138c75c0413
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/lacie,ns2-leds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dual-GPIO LEDs found on Network Space v2 (and parents)
-+
-+maintainers:
-+  - Simon Guinot <simon.guinot@sequanux.org>
-+
-+description:
-+  The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
-+  modes are available, off, on and SATA activity blinking. The LED modes are
-+  controlled through two GPIOs (command and slow), each combination of values
-+  for the command/slow GPIOs corresponds to a LED mode.
-+
-+properties:
-+  compatible:
-+    const: lacie,ns2-leds
-+
-+additionalProperties:
-+  type: object
-+  $ref: common.yaml#
-+  unevaluatedProperties: false
-+
-+  description: Each child node represents a single LED
-+
-+  properties:
-+    cmd-gpio:
-+      maxItems: 1
-+      description: GPIO connected to the command LED output
-+
-+    slow-gpio:
-+      maxItems: 1
-+      description: GPIO connected to the slow LED output
-+
-+    num-modes:
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      description:
-+        Number of entries in modes-map.
-+
-+    modes-map:
-+      $ref: /schemas/types.yaml#/definitions/uint32-matrix
-+      description:
-+        A mapping between LED modes (off, on or SATA activity blinking) and
-+        the corresponding cmd-gpio/slow-gpio values. All the GPIO values
-+        combinations should be given in order to avoid having an unknown
-+        mode at driver probe time.
-+
-+      items:
-+        items:
-+          - description: LED mode
-+            enum: [0, 1, 2]
-+          - description: Command GPIO level
-+            enum: [0, 1]
-+          - description: Slow GPIO level
-+            enum: [0, 1]
-+
-+  required:
-+    - cmd-gpio
-+    - slow-gpio
-+    - modes-map
-+
-+required:
-+  - compatible
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/leds-ns2.h>
-+
-+    led-controller {
-+        compatible = "lacie,ns2-leds";
-+
-+        led-0 {
-+            label = "ns2:blue:sata";
-+            slow-gpio = <&gpio0 29 0>;
-+            cmd-gpio = <&gpio0 30 0>;
-+            modes-map = <NS_V2_LED_OFF  0 1
-+                         NS_V2_LED_ON   1 0
-+                         NS_V2_LED_ON   0 0
-+                         NS_V2_LED_SATA 1 1>;
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/leds/leds-ns2.txt b/Documentation/devicetree/bindings/leds/leds-ns2.txt
-deleted file mode 100644
-index 9f81258a5b6e..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-ns2.txt
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Binding for dual-GPIO LED found on Network Space v2 (and parents).
--
--Required properties:
--- compatible: "lacie,ns2-leds".
--
--Each LED is represented as a sub-node of the ns2-leds device.
--
--Required sub-node properties:
--- cmd-gpio: Command LED GPIO. See OF device-tree GPIO specification.
--- slow-gpio: Slow LED GPIO. See OF device-tree GPIO specification.
--- modes-map: A mapping between LED modes (off, on or SATA activity blinking) and
--  the corresponding cmd-gpio/slow-gpio values. All the GPIO values combinations
--  should be given in order to avoid having an unknown mode at driver probe time.
--
--Optional sub-node properties:
--- label: Name for this LED. If omitted, the label is taken from the node name.
--- linux,default-trigger: Trigger assigned to the LED.
--
--Example:
--
--#include <dt-bindings/leds/leds-ns2.h>
--
--ns2-leds {
--	compatible = "lacie,ns2-leds";
--
--	blue-sata {
--		label = "ns2:blue:sata";
--		slow-gpio = <&gpio0 29 0>;
--		cmd-gpio = <&gpio0 30 0>;
--		modes-map = <NS_V2_LED_OFF  0 1
--			     NS_V2_LED_ON   1 0
--			     NS_V2_LED_ON   0 0
--			     NS_V2_LED_SATA 1 1>;
--	};
--};
--- 
-2.55.0
+I chose -EIO because this is not filesystem metadata corruption. The
+race is between is_resident() and attr_make_nonresident(), leaving the
+filesystem in a valid state but causing an internal status code to
+escape outside ntfs3. I think EFSCORRUPTED would imply metadata
+corruption, which didnt happen here.
 
+Thanks,
+Vidhu
