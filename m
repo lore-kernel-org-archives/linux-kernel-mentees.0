@@ -1,115 +1,265 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF0734B1AD
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 08:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784966451; cv=pass; b=m5g5pvwiA/bWu76F6IA3VkmRoDjbPdYx/6XUecYgz8wnRGU1nrD8UrYF9oAoDQdXSB82zunSrxzVdk70bTYvahNx1EhTgOMGa4qdY6Se3tgvxDHaL2hAHk44gCeXr/jhavpksuP4YCz5/Y7Uz83dNRNBsSo69W5H3s2e0osLAO0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784966451; c=relaxed/simple;
-	bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t1pDhwg5aWLqBmZJkatWF+9BxLytEXIKJogUozrDx3npSlfVNY14ts5fOlyXGzo2G0K868qLYEjjbf0apah0CyHYWvsL1TnjKz/4/AzOnBgSRjIiyJ1SKZVn9lfmKL6MuEoR0LYZ6O0mpzfCRrZA6a4ckL3j0paTauqlAi78kU0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4CRQrjy; arc=pass smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAFE348C56
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 26 Jul 2026 02:44:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785033895; cv=none; b=elMGPGY6MMNiJBm1QKGr2PIHKbYO3QzKXYop+uIENu1krVn+HAaFGejZkuXBaMSAWVYmmYUWznDsr4Nzj3TwJhs58DJv7DXuKsqyNkEFfbSLHRaSCMVjTyQnykGyZdrR3oI/ArMCcecz5B3wYOjv/KNDoF5YGlPxWK/3yBKItm0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785033895; c=relaxed/simple;
+	bh=mj4QRLy6AlDjgG1gzMlOklv38cpyYdU2OC5vCFwIohc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sGQ0Zc3EWOHBRUl41KtQ0S2nd0BTQzAhDHjmtPR6hB2yhKVJeHpwJTQp7pvbQ/lm3EyQk8rK7+X0GS7TEYydTugdsF+bTZ+yyF1SUycY0fb3qc/N4ted09AZnKx/SqPwSQiUKLXHkxSyQnUOwYy2iN0MgPqLtiknQ7B1lIrmCtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LApsDQkM; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4CRQrjy"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-92e57a753f9so109189185a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 01:00:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784966449; cv=none;
-        d=google.com; s=arc-20260327;
-        b=r11hPOFvI/Tj427uROX6uriMLniGxzYL42W/SqKQ8dPlQXeynbvfsnBxO2jxH7vRSs
-         uYJbXF59S188pRG4GzyPb1Ou1Gu5rLsY4HQXS0ab3DjLycu2aKsbqHrdT9YxOQlxtjz0
-         BKjKvGuggiDJTUYakLK966QNZfaFLeb5gckHBoYdOSugQHq5XxXdCmWJusx0oCMM2bgT
-         PXCTtXc/0GDcBXDz6llCbGbnXGJ2C8sI/9zjO3+DUdKcn8U/2vJl5McB4kOZR/KwY3M7
-         2AfBTqTcUtZ2Q1x2cGz9sOASoDXrlUq59H4HgNUOqtwI7lfK5N81bO7VMEURYeDg1zWt
-         Av8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
-        fh=5QCNMB2ij1HStQn8+JpDGSbNzTXK7cxQJq5PeCu5s0I=;
-        b=Jqd6hcR51Jq2i8kDneV476JvEMWxPB5OgDyu7XHij2FQqQzFnPC08cogwByjGOau0J
-         evuFXdPf20fLtfuVu4jDO3WUv0jF3+RHCJygxY6l/On3a4ZO6+gUeyH8m1sxS1Uh2w6I
-         ND9314th6waVxdas5y/aDkB3H/Ej1r3DJ9DrfJicXLIYHK66JlMTA6sRPpDS+H3a3RZU
-         fqR196KHER1BR7W/tR6DTj8RTMiHueC/cqfcg9+eAHQtYpH83WFF/Hf3NHM5E65Qk73p
-         Qs53PXhhE8Ki+JgQ//hPIvihoHCFM7cIEKrHetzO46DgqiM76r1BDYIpth8JNKol77sD
-         IwnA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LApsDQkM"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38deea72eebso1835299a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 25 Jul 2026 19:44:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784966449; x=1785571249; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
-        b=Z4CRQrjyLKFIbhO3S5rMnTCIHPh8sYGc3RvmW2i8o3H2wBXHDPFOAOmL1fF7ld9R+t
-         oHzgqdydX4luRhbVgoOuTFJG9+i3znhIw+56ySYU5NDyTDGp38nR7vATZs2L+RTHRkT7
-         Oe5aYwrNQBTUpD1W9kUeIH2JmG/vHoDdfRj+1gxq2hqpisMtuVRq4NCM8r0TFZ7yS/a3
-         m7hDBBsgD6zwN/TakS8hvkHK5I7k+0O/5TFByMmxZYiVCL0glVM3xB3XRQ37X3h/ZP6h
-         lVcl2Q4Bm+sq50rWL30FL4WfWP+3G7svJf/qHcwNOQh6BwQa5Ba0HwLmpMJLfPGjuEgn
-         emHA==
+        d=gmail.com; s=20251104; t=1785033893; x=1785638693; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZueuOu0bsjbmfoZW5fI6EGD7PRQKcFNbXmi39LsZknI=;
+        b=LApsDQkMdyF3dXVR+CHmwPX3hS9WsN7CIjneP0H2SU5/vFY5JDCQBP10KB2vAaiOJA
+         G4z1okUZk0MjQv0I4oq99BtltgJzqcrZvI89gDzcCDEEN4tjpekwTJFbbVkkgyFYf4M6
+         Am3gM4hy/AFLsHbop7l6Sqfd2W8ByCP81DwgQREy7N2nBnysywbBxThgkhAn58dm6lkS
+         bgpvxs2xFrMgs5faJCYzP/IHmk+kmvB+vQMQ05LCZru8lj+WHkB6oX9tCWslA+B6IKe4
+         LTXkNY7FqERiIpB1fLe/3OvUjFfzXZjm0+pwW/1oxs+Dr4W6W4goi+yQxcaMDlP2v2gV
+         bIpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784966449; x=1785571249;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=13z8xjIigSLm4fcji9bQpCPHK39sYQC+iiIlSwrcSfw=;
-        b=PERaJ0r7arUbQOnl5JzFWcmxFXjGNT2wftBpIzWN0pM51i9Q3EZnnc9LqPNZBC5dA3
-         zaWs0EdLLkBmqK6UYJM7MFBcZctQL7T9d2R78UYp798x7ae2A/1ocoU96HZFtc4vOMmv
-         S9Zg9kn/6YH+sw6I3puQ/2/o7m8T7PdC11w5JTL8+wpRZyUdFTGfa124J7z2+Vn+3l4/
-         VRPx67NPWCz6yZlT4xQYYyuTHucX+FKQAKOf/6a93F5Z6n3kQxOxqG9fNJ631qjELrgJ
-         2It+oocW6akUKPLvCVPFq8C9xxi/pTucbag91+aIlC5QclB+Lr2s/FlpV0SnvZmkqpvB
-         ptow==
-X-Forwarded-Encrypted: i=1; AHgh+RoLkEFfsZxBBVAFMefnWPDjijtimf3iVcIfdB56fsS/wIGLhM2ktaT9jl11Ss/oOL5VQwYYGDZvTqpwkufl3lWIvLHALg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZIRFX1uvdi+0lNSLc9/4t3/rJmfDWeYoU2LrWmL4inwbqau+m
-	0qeuJ9MDl0UdI/+yTD4uJ9nmQTtPTPq1Huvh2oyKH/FbeuMZtVyIkA/e+bzq8RbL9KqejKUnwkw
-	W8qxnhWgtVG7XTIJZQyDoUGA9MVBgjOc=
-X-Gm-Gg: AR+sD11BVdm3Lq8cNPLo+XK1UHdLSHigx4upUMgW4zaypvqp9hHrVBvS/8G2s2v5C5n
-	TiA/WXLM4UEriBT7sIigEexO4yabDFmUA6HwIC5LELJVImk703GGTH/4CiW3Xy/UyaQjbdYNST0
-	BF9dTIpkDEq3GUreAzVNnMzIqC4gIWKRNiCJE7GpLicVnwYK0RIDEmff+2r/xCaUvSic6YgHyRW
-	lQDAQ/k7Ei0wUsn5s0dAPNlv19xRmOqDgt/Zu4Rokwo/BPLaksJbsQ8XzCOTU+MiygaPqX4phvq
-	eTTC99wtG6myVtw22Jyv5/Vtr+BPcLrLqLl103odehmymlEXnOR4AvUckSboRf8=
-X-Received: by 2002:a05:620a:2681:b0:930:dd19:11ba with SMTP id
- af79cd13be357-932df6f0f30mr100360085a.92.1784966449572; Sat, 25 Jul 2026
- 01:00:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785033893; x=1785638693;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZueuOu0bsjbmfoZW5fI6EGD7PRQKcFNbXmi39LsZknI=;
+        b=sIsQWAFf3qBR/hDzBKcJlcl/b14l11XMncB8461nNGPbYIHQdL8zZtZ1LNT6u6n5qc
+         LgTPiPMRu7P7090fzU5sEwRjXHM1aMwuV5mWfwmQBQ03eChPDhRqT6IW4HdkVbPYx7Py
+         u7MAJMpDsz+KUt8jgqvhQ1BzTzDN55Woef6BxJPmdId5qviUblrUI6fej6BCrSTHPlMf
+         3vqONL+1f+9vNWGcvMEGvp+CRQFcvRdSqYRVVivoQa08zEBuILCaNo3wH+dENx1IRvoH
+         45P4RLv7s2Rty66sKJflCWYAMUD0DQnE0B+R+5Ct9fldsesRCUvNF7BMTDlr2g0KjUN1
+         jJtA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQLVa+I/PMV2PH91u6tRusRzoYJQNHzFh74N5FuEWpXCLRxIqwHYbaK6RgUXGkWEc9+2t9Qv8ZNm8ZCG/z+qSIHvqH8w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxb80+hBHll/CwwRtWVIFIJunehG2N2LB+z9IT58ap9EerjTXIA
+	VNGSV9s5Y35MVbZZ33zcfi5qIrhcoBg7H8yiUO8AgY89q4C9IpyJxKx6
+X-Gm-Gg: AR+sD10bBt+bZQl+xggZrdSSP+bbFXCO9bdnilxi31MlJhhyAsfEO1I/RRGHJnrxqTA
+	k4i+LN8xlMreDh8+V+XGkTrDrcfNI4j0qIaPfvdHBbMr29z3KY4h6c/YeXrGlkjJ5bLEgJINttD
+	RM85ZjvJv8qxDRL9UrZyE2lTZRHRDYO9Jp6lMREzUuDFpZKZLa0arhHlakMZ1qNbHSpI01sPuEa
+	5FVun0e9V3piA0J2hd6OvMIw/seXP3x+u81/KvJaED4sJliB4nOdSd5w2o+V+Vyjso5IFND2eCd
+	REo1R9SXNXuOPHQ0IodWblHHfSieHMj/lzO1lfG8qDznkQFffXxoxCqG30HwejSXMIrBysmzxLx
+	p3/kCSlcuWCWrvzyj4HiQ+bQp3PEelDLgJ0v00H8oPGGG+hm1WQrqmOTEuPBouswhICQ7sSrO86
+	mRyHinGrbOEL7ouZu3dyePPTwAN5mxrJR+8OA7WK3zU8Y3FlTukQV3PtZv7nZdZBm4FVtuvVm/X
+	Ng=
+X-Received: by 2002:a05:6a20:914e:b0:3c0:e552:f2d with SMTP id adf61e73a8af0-3c67dac0acemr3275871637.34.1785033892904;
+        Sat, 25 Jul 2026 19:44:52 -0700 (PDT)
+Received: from debian-rockchip-rock5b-rk3588.. ([2405:9800:b670:b64b:14e4:adb4:cabd:de50])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc413766sm16313406eec.8.2026.07.25.19.44.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 19:44:52 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Frank.li@oss.nxp.com,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH v3] media: hantro: release runtime resources when device_run fails
+Date: Sun, 26 Jul 2026 02:42:43 +0000
+Message-ID: <20260726024243.730-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260724131208.2315-1-tharitt97@gmail.com>
+References: <20260724131208.2315-1-tharitt97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260724111548.2109-1-tharitt97@gmail.com> <amOO86K_3wuTd_92@lizhi-Precision-Tower-5810>
-In-Reply-To: <amOO86K_3wuTd_92@lizhi-Precision-Tower-5810>
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Date: Sat, 25 Jul 2026 15:00:37 +0700
-X-Gm-Features: AUfX_mzCV0IN9fI_10kkKdi3HsilTau4VYjXeApWLMbv2AYQ88l9nYF0tHwG8Pk
-Message-ID: <CACak8wNJsmVKm3m+JwYPSxqfa26MVFRo3jE3YrppJPi5SBBAUg@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: release runtime resources when device_run fails
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil@kernel.org>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	me@brighamcampbell.com, jkoolstra@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> Mix use runtime pm and clock is not good.
->
-> You can put clk_bulk_enable() into runtime pm resume call back
-> and clk_bulk_disable() into runtime pm suspend call back.
->
-> Frank
+device_run() acquires a runtime PM reference and enables the VPU clocks
+before invoking the codec-specific run callback.
 
-Hi Frank,
+If clk_bulk_enable() fails, the runtime PM reference is left held. If
+the codec-specific run callback fails, both the enabled clocks and the
+runtime PM reference are left held.
 
-Thanks for the suggestion. I will inspect the hantro pm_runtime call
-sites and let me implement your suggestion into v3.
+Make the clocks part of the device's runtime PM state by enabling them
+from the runtime-resume callback and disabling them from the
+runtime-suspend callback.
 
-Best,
-Tharit
+Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+Changes in v3:
+- Move clock enable and disable operations into the runtime PM
+  callbacks, as suggested by Frank Li.
+- Remove vpu from argument in hantro_job_finish() and 
+  hantro_job_finish_no_pm(). It is accessible by ctx.
+
+Changes in v2:
+- Fix the codec run failure path to disable the clocks before dropping
+  the runtime PM reference.
+- Use a local vpu variable in device_run().
+
+Tested on a ROCK 5B (RK3588) using the Hantro G1 decoder and Fluster:
+
+  H.264 (JVT-AVC_V1):          129/135, unchanged
+  MPEG-2 (MPEG2_VIDEO-MAIN):    23/43, unchanged
+  VP8 (VP8-TEST-VECTORS):       61/61, unchanged
+
+ .../media/platform/verisilicon/hantro_drv.c   | 68 +++++++++++--------
+ 1 file changed, 39 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 2e81877f640f..7978bb72569e 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -59,8 +59,7 @@ static const struct v4l2_event hantro_eos_event = {
+ 	.type = V4L2_EVENT_EOS
+ };
+ 
+-static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+-				    struct hantro_ctx *ctx,
++static void hantro_job_finish_no_pm(struct hantro_ctx *ctx,
+ 				    enum vb2_buffer_state result)
+ {
+ 	struct vb2_v4l2_buffer *src, *dst;
+@@ -86,15 +85,13 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+ 					 result);
+ }
+ 
+-static void hantro_job_finish(struct hantro_dev *vpu,
+-			      struct hantro_ctx *ctx,
++static void hantro_job_finish(struct hantro_ctx *ctx,
+ 			      enum vb2_buffer_state result)
+ {
+-	pm_runtime_put_autosuspend(vpu->dev);
+-
+-	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
++	struct hantro_dev *vpu = ctx->dev;
+ 
+-	hantro_job_finish_no_pm(vpu, ctx, result);
++	pm_runtime_put_autosuspend(vpu->dev);
++	hantro_job_finish_no_pm(ctx, result);
+ }
+ 
+ void hantro_irq_done(struct hantro_dev *vpu,
+@@ -111,7 +108,7 @@ void hantro_irq_done(struct hantro_dev *vpu,
+ 	if (cancel_delayed_work(&vpu->watchdog_work)) {
+ 		if (result == VB2_BUF_STATE_DONE && ctx->codec_ops->done)
+ 			ctx->codec_ops->done(ctx);
+-		hantro_job_finish(vpu, ctx, result);
++		hantro_job_finish(ctx, result);
+ 	}
+ }
+ 
+@@ -127,7 +124,7 @@ void hantro_watchdog(struct work_struct *work)
+ 		vpu_err("frame processing timed out!\n");
+ 		if (ctx->codec_ops->reset)
+ 			ctx->codec_ops->reset(ctx);
+-		hantro_job_finish(vpu, ctx, VB2_BUF_STATE_ERROR);
++		hantro_job_finish(ctx, VB2_BUF_STATE_ERROR);
+ 	}
+ }
+ 
+@@ -170,29 +167,24 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+ static void device_run(void *priv)
+ {
+ 	struct hantro_ctx *ctx = priv;
++	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *src, *dst;
+ 	int ret;
+ 
+ 	src = hantro_get_src_buf(ctx);
+ 	dst = hantro_get_dst_buf(ctx);
+ 
+-	ret = pm_runtime_resume_and_get(ctx->dev->dev);
+-	if (ret < 0)
+-		goto err_cancel_job;
+-
+-	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
+-	if (ret)
+-		goto err_cancel_job;
++	ret = pm_runtime_resume_and_get(vpu->dev);
++	if (ret < 0) {
++		hantro_job_finish_no_pm(ctx, VB2_BUF_STATE_ERROR);
++		return;
++	}
+ 
+ 	v4l2_m2m_buf_copy_metadata(src, dst);
+ 
+-	if (ctx->codec_ops->run(ctx))
+-		goto err_cancel_job;
+-
+-	return;
+-
+-err_cancel_job:
+-	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
++	ret = ctx->codec_ops->run(ctx);
++	if (ret)
++		hantro_job_finish(ctx, VB2_BUF_STATE_ERROR);
+ }
+ 
+ static const struct v4l2_m2m_ops vpu_m2m_ops = {
+@@ -1292,22 +1284,40 @@ static void hantro_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(vpu->dev);
+ }
+ 
+-#ifdef CONFIG_PM
+ static int hantro_runtime_resume(struct device *dev)
+ {
+ 	struct hantro_dev *vpu = dev_get_drvdata(dev);
++	int ret;
+ 
+-	if (vpu->variant->runtime_resume)
+-		return vpu->variant->runtime_resume(vpu);
++	ret = clk_bulk_enable(vpu->variant->num_clocks, vpu->clocks);
++	if (ret)
++		return ret;
++
++	if (vpu->variant->runtime_resume) {
++		ret = vpu->variant->runtime_resume(vpu);
++		if (ret)
++			goto err_disable_clocks;
++	}
+ 
+ 	return 0;
++
++err_disable_clocks:
++	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
++	return ret;
++}
++
++static int hantro_runtime_suspend(struct device *dev)
++{
++	struct hantro_dev *vpu = dev_get_drvdata(dev);
++
++	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
++	return 0;
+ }
+-#endif
+ 
+ static const struct dev_pm_ops hantro_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+ 				pm_runtime_force_resume)
+-	SET_RUNTIME_PM_OPS(NULL, hantro_runtime_resume, NULL)
++	SET_RUNTIME_PM_OPS(hantro_runtime_suspend, hantro_runtime_resume, NULL)
+ };
+ 
+ static struct platform_driver hantro_driver = {
+-- 
+2.47.3
+
