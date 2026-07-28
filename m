@@ -1,80 +1,84 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0729D46AF19
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Jul 2026 18:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4151F2571A9
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Jul 2026 20:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785264152; cv=none; b=DFO9rJdQNw1ZRxTAcUp3kBV25D8xqvS//RaSXQ2QzLYydzc6gDVdkPvlekkZ9cYcvJsCAsWdbY8B8ppxccrJhqKuGA1VPg2vakFgYIEoKbyV942L0jlAbU1KT5nZIVD9KcJ2nnRyyRH3WQLP4r59V66IU20Y2ut1X8ocJkMZ9y0=
+	t=1785271659; cv=none; b=Koe4rEr0BlF9G+LcIPOEgOok4akEUH2P8oQJpjD2YgAErRFSRexrgFLoa/iJN9fuOQexLJTgsGrG/8wcAJ36gS/TvU40OYrouitQkm+dg+FEtvD03pmTDbPGK+t80aPitMiJ4tIoQpqPNaqn0TfyFkSE5lIxZ3GcoCoI3iZnWww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785264152; c=relaxed/simple;
-	bh=rlWX8zSo109/lXQYg1Tk/kRqGUrbbsuhaVsjDuKwf4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V8QAkBmFyMqiNXHv/cvDvsZuUbTVSXON8ceKqZm0kek0LPn8kjP8NOQ3rGDoAJOP0lAYDxiMucpOTLhtHgJwSLG48LOqN2HWDrWT62Kqkv3kozjE4VDnqV9ixLcfsuHhcpnXCujgp7z9/Xp2tmKtTkp6Jf9QzvAFZiaYId9fuM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4slZJiK; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1785271659; c=relaxed/simple;
+	bh=/STkg7uoDqufNzb2rmU3N4ad0MB4TKC4hn487jY7dig=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t2VRlYrhK0pjOnW0EN26H1VVNd5u8ZM9eyEpyP27H/Pe4gRdUWl3FEG4yV/K6MfyR1LSnfVXWyis6O6G6IayXQtVsIys3U7R0jtjqDRgR/FCL93wSOiTXO7NjpHjaaB8iA1j9R9zIP+D+dz/C5Q/oG1+SN3yYZ3rQQHFvnbphBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rpIRk/K0; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4slZJiK"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38511175ad3so101524a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Jul 2026 11:42:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rpIRk/K0"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso1894885e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Jul 2026 13:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785264150; x=1785868950; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785271656; x=1785876456; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=98KjwxSHL1rPAUCBymY6MMY6MwyG7kbviDNwGZEI2xU=;
-        b=Y4slZJiKfRnwsfmj7y11hLXwtSGzJLTzpmp1OIa6nhN5goqWn6MD4RjGHrdmBhg4yq
-         HLSWHvibiFgPksKv5QzKgX5WRfGCkMe3CkZWMZnA7+yg9+pTK1dfr3tSAd1/S/RsMJdo
-         aKRqGNCrPsabJAOVtE5Mqf2Agm+fQQk+Vi+sGQrxT5r6WHtYB5Vtx2/w2quSdm011bTY
-         MVBc1xSt+YNl4aSSybpJI/P/PUniDyLNGe6vFoOlDx+D97o7J43C6rxJ2rhS3OZTshhO
-         b9NdYBfzWGT5viRyboElenkhkty/MrQ0F6UOJ6xXTYikEYRdi3aZkP599BZY2hCaYB2V
-         +KWg==
+        bh=ytQPuk/Djc/IdfIxup0S/O4J+teQ2GhQjH2sKJeJZ5c=;
+        b=rpIRk/K0D8t4FZjZCKN/eadXcHK4wGVniEgOyAjmKvl0zihjJsmgaIpvtOJS/0iurh
+         f3e44js0iPZCxZIejkDztMYG2tvQNAJz1B1PWlNaBFkW2RojBtRlk2rpdqy/od7xZuCy
+         3OnSQzyHbRR0TOZRe6GhjMkvoWA+qAHF2pmnMkUE1PtRgEQvYAhRbCBP9teC2HcSAzO8
+         MDkz9NVlTTF/FwA1GO7NKZP3kKCwgpOnEy1sQASusbOMF8HXiwzhXHvHZihRSXXOnBll
+         O7eFY13tDl4/PFKcKNgKeKx312NTMjat+ycr7j8aa8vNOrYoNXVcAV1qAKXR9mOllYlt
+         ns3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785264150; x=1785868950;
+        d=1e100.net; s=20251104; t=1785271656; x=1785876456;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=98KjwxSHL1rPAUCBymY6MMY6MwyG7kbviDNwGZEI2xU=;
-        b=XZCi4tVXw3nDMmVpe9CErCfx5fl+/hpTCRQ4bB1zrQ8ahCCjTziXF/w7LIVTF6VNUg
-         fPkfr78WHco3XZMRXMGn/IEqiQvDLJ6E3CSpxsHzz4HyEVtVaxTrQ50Nm9wZgwVRjnHr
-         hnnmvdHD/fh9Z1JroQIhSa1jVp7DJDeZbCKlyfWsW2oDj2+bv1FJX+zko0jbwwJJw7Px
-         42rUVzemimnRKTu21VteSAVKfzyNkLKjYCEUh+STlSXniBII7QragZR5/P9mQGae1txM
-         1cD4pSK5ynkUOnT2Rta+ZsTPQXIdlsx0j4VlTrjfSkUse7mXKxvoyoMfBpYz5E83MbaO
-         83rQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqEpJqtiQS0d6LDLx5xScaUhRN7vhqTers3PatvF74Ay2zoW8JrZLYP7zsctbHFPUZOktiKyhHiMldrAssBzRVnBRHhkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzlnIELK2AXsMDdqMpNYQ+kcXVl8iOgcnKfYIXmq8L0mPAs1dcb
-	OAsUVGNIWOgnF8m1ZeKwT3tw1+UPlpXan3B5ZmyHloUMyD6B4oRnfi8TkajPqqJCMr4=
-X-Gm-Gg: AR+sD13/iFUDKKqkYwuQO92X2QkkG1pFx4yPApiyh9k6EIeFHOp/9gEBKhCiiSBxfkA
-	QObNdk8qs9zKkMUnG5O38KbP4QE+Cat/EDSW5aYKXv1vLqlGPqeNdS9y0Aq0L+0F9G1qjDg39A2
-	/h2/QaozDrCzFWCPEGYqfD0k9ORPOdRS80OrZhe4TB4Zt1DRiahqN2Ll1tuXEDUiedqA7nUwE06
-	V9grKv++pDUZvJKwtwgs6lE84qFZ9R8eGYZbSgKbx8r/B9LMPbrl0OVlqIzVf4n9VZMw3wf/Ker
-	MCKtJPRaszXtCj/zX4WSPxFO9PpxjsZ674ZHosX4welcEAOyyn16jNqwblCSMVmZhlC0NTbYIBB
-	oxJgrxSFSMwbeFyzHbCTK4qZI/FbKB7qba2drLzwebEZo3g3BPWXqFmKYCE9EpwaF0j3y+fjxGN
-	UtUrS/vAZJncFAsF5+MjIsse3BeXi//w9HejfNH7g04c3q+ZHDbiGLUsRYVO/pwVtIQNr/zAPP2
-	bL4pICE3znoB9XcnA==
-X-Received: by 2002:a17:90b:55c5:b0:38e:57a3:f218 with SMTP id 98e67ed59e1d1-38f6a336613mr3943439a91.13.1785264150174;
-        Tue, 28 Jul 2026 11:42:30 -0700 (PDT)
-Received: from fedora ([202.179.95.46])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc63f3sm1013576eec.16.2026.07.28.11.42.25
+        bh=ytQPuk/Djc/IdfIxup0S/O4J+teQ2GhQjH2sKJeJZ5c=;
+        b=Ugnuc6HTh46kQaE7Xh11fudDZHC0vOE3hmNAg0k+Rwim5zcm9R8Z0PDrZkBMLVrx4r
+         UICXIYLs4N0vPewf6QBZ09dBS3rZM/PBKTTscU3deNePasLJ0WGOBDoiEuwKmsABtNXN
+         MCH3o7PRZKSNJr1dO98HHCDe37SSsOgAVNnwO3uiM3q/wrLV5H8Sydw4OFO7tIK92TPq
+         nEaqlnzmfjwN8c+RforwSvq2geSG3gpXYxIrb23kkzEjMK4gnWN6NdNysJwMoqmxpbW1
+         4CSTOX9uLgSc54XT10KMR+QMU/Xjk5qFXMJom7sZm73WCCmubbwUZZir5COUlk7McwoY
+         NpYg==
+X-Forwarded-Encrypted: i=1; AHgh+RqaQl+v995TvMCg2p5UGT5pNSdHp3k48LgbsZPiRufzkbJBtjDcUMIUabkGScf4tptl0SN6vWHS+cj8X4JBeQ6jI+zQGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwP5RJoF5mfk2NujLeDh9eqajrc4jenMbzHM+ifXRKy6VfU5hlg
+	1KKvo6wUUhjuLiDkfYXAKFcMw855NdNBaaqK8kBg1LbgdM/q1Tn4VTs=
+X-Gm-Gg: AR+sD130N9n+YRw9f2ftYPF6oKelWuZ8fYzetMsrVeDXHGLBGGpCXMudn94JLIByMMe
+	xZf4LQWJ/kAMJ591CNPuN6dc/kAajvS64PJosr8l6D6vl6Yb4Ypecwys8jaZoXYt1zlkcphZyVW
+	YLcAfux/b0+h+ys/xW77VmC4rju5oEmHn4QawWHXuvvTU94vwGedzIFeAT063DEm9fNKpjKQ5cz
+	wLtT05soGdTIHLikR+T5m9ppWJywIijvIm8sqg/m3eE38lhEMxgzib7bag/m8TR/9KvgDtWtP+P
+	0304Db+dxxPbdniZOK6lTTZ0z5FIHfFs95Q6O/eGZDy/VKCIoqZ9OfMKO0vUtkQTx08vqEPbaRE
+	jZIktphnUirzRZJIAj1XdHhQYiNYynmQ+HLqliWXVhbz+TASjLx9tfAeuStIYEXv94ZMFEWNgSz
+	7lvjiKlgHq5IRZNETpGhL9d91SEJ5v2ALbrESq+PgYnUnrM9Lzlvu6d1DfxWGGYnAgaRfR73bVS
+	52Gi8rveZuDIZGt10h9sYB4D888a2I0TxR0XfXJWa0HCDKMxOBkq2UH3eh3yaHbFOMb6iXlSK3b
+	ByJWxgC4i/BhK3jCDZUxY/dtbA==
+X-Received: by 2002:a05:600c:4fcc:b0:493:bfea:2780 with SMTP id 5b1f17b1804b1-496c643b124mr46776785e9.9.1785271656377;
+        Tue, 28 Jul 2026 13:47:36 -0700 (PDT)
+Received: from archtop.localdomain (92-242-249-25.broadband.mtnet.hr. [92.242.249.25])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fb6b27435sm1709418f8f.35.2026.07.28.13.47.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 11:42:29 -0700 (PDT)
-From: Ninad Naik <ninadnaik07@gmail.com>
-To: lee@kernel.org,
-	pavel@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	simon.guinot@sequanux.org
-Cc: linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org,
+        Tue, 28 Jul 2026 13:47:35 -0700 (PDT)
+From: Jakov Novak <jakovnovak30@gmail.com>
+To: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com,
 	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	Ninad Naik <ninadnaik07@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v4] dt-bindings: leds: lacie,ns2-leds: Convert to DT schema
-Date: Wed, 29 Jul 2026 00:09:45 +0530
-Message-ID: <20260728183945.12008-1-ninadnaik07@gmail.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"\\  Liam R . Howlett \\ " <liam@infradead.org>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jakov Novak <jakovnovak30@gmail.com>
+Subject: [PATCH v2] mm/khugepaged: replace mutex_lock/mutex_unlock usage with guard macro
+Date: Tue, 28 Jul 2026 22:46:37 +0200
+Message-ID: <20260728204636.20998-2-jakovnovak30@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -84,161 +88,80 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert lacie,ns2-leds to DT schema.
+Currently, khugepaged locks the khugepaged_mutex in two functions:
+start_stop_khugepaged and khugepaged_min_free_kbytes_update. Remove
+mutex_lock/mutex_unlock usage in these functions and replace it with the
+guard macro. This makes the code more readable (removing a goto statement)
+and makes it harder to introduce bugs in the future.
+No functional changes introduced.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+Reviewed-by: Dev Jain <dev.jain@arm.com>
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
-Changes in v4:
-- Drop incorrect Reported-by and Closes tags.
-- Add complete changelog.
+v2:
+  - Added #include <linux/cleanup.h> to the includes at the top of the file
+  - Moved err declaration to the scope where it's used in
+    start_stop_khugepaged
+  - Made default case return 0 instead of err in start_stop_khugepaged
 
-Changes in v3:
-- Add optional property num-modes to the schema.
+ mm/khugepaged.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-Changes in v2:
-- Change maintainers from the subsystem maintainers to Simon Guinot. 
-- Drop "|" from the description field and update the description. 
-- Remove patternProperties field and instead use additionalProperties.
-
- .../bindings/leds/lacie,ns2-leds.yaml         | 85 +++++++++++++++++++
- .../devicetree/bindings/leds/leds-ns2.txt     | 35 --------
- 2 files changed, 85 insertions(+), 35 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
- delete mode 100644 Documentation/devicetree/bindings/leds/leds-ns2.txt
-
-diff --git a/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
-new file mode 100644
-index 000000000000..2138c75c0413
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/lacie,ns2-leds.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/lacie,ns2-leds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dual-GPIO LEDs found on Network Space v2 (and parents)
-+
-+maintainers:
-+  - Simon Guinot <simon.guinot@sequanux.org>
-+
-+description:
-+  The Network Space v2 dual-GPIO LED is wired to a CPLD. Three different LED
-+  modes are available, off, on and SATA activity blinking. The LED modes are
-+  controlled through two GPIOs (command and slow), each combination of values
-+  for the command/slow GPIOs corresponds to a LED mode.
-+
-+properties:
-+  compatible:
-+    const: lacie,ns2-leds
-+
-+additionalProperties:
-+  type: object
-+  $ref: common.yaml#
-+  unevaluatedProperties: false
-+
-+  description: Each child node represents a single LED
-+
-+  properties:
-+    cmd-gpio:
-+      maxItems: 1
-+      description: GPIO connected to the command LED output
-+
-+    slow-gpio:
-+      maxItems: 1
-+      description: GPIO connected to the slow LED output
-+
-+    num-modes:
-+      $ref: /schemas/types.yaml#/definitions/uint32
-+      description:
-+        Number of entries in modes-map.
-+
-+    modes-map:
-+      $ref: /schemas/types.yaml#/definitions/uint32-matrix
-+      description:
-+        A mapping between LED modes (off, on or SATA activity blinking) and
-+        the corresponding cmd-gpio/slow-gpio values. All the GPIO values
-+        combinations should be given in order to avoid having an unknown
-+        mode at driver probe time.
-+
-+      items:
-+        items:
-+          - description: LED mode
-+            enum: [0, 1, 2]
-+          - description: Command GPIO level
-+            enum: [0, 1]
-+          - description: Slow GPIO level
-+            enum: [0, 1]
-+
-+  required:
-+    - cmd-gpio
-+    - slow-gpio
-+    - modes-map
-+
-+required:
-+  - compatible
-+
-+examples:
-+  - |
-+    #include <dt-bindings/leds/leds-ns2.h>
-+
-+    led-controller {
-+        compatible = "lacie,ns2-leds";
-+
-+        led-0 {
-+            label = "ns2:blue:sata";
-+            slow-gpio = <&gpio0 29 0>;
-+            cmd-gpio = <&gpio0 30 0>;
-+            modes-map = <NS_V2_LED_OFF  0 1
-+                         NS_V2_LED_ON   1 0
-+                         NS_V2_LED_ON   0 0
-+                         NS_V2_LED_SATA 1 1>;
-+        };
-+    };
-+...
-diff --git a/Documentation/devicetree/bindings/leds/leds-ns2.txt b/Documentation/devicetree/bindings/leds/leds-ns2.txt
-deleted file mode 100644
-index 9f81258a5b6e..000000000000
---- a/Documentation/devicetree/bindings/leds/leds-ns2.txt
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Binding for dual-GPIO LED found on Network Space v2 (and parents).
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 617bca76db49..7890bd3e2a9d 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -23,6 +23,7 @@
+ #include <linux/ksm.h>
+ #include <linux/pgalloc.h>
+ #include <linux/backing-dev.h>
++#include <linux/cleanup.h>
+ 
+ #include <asm/tlb.h>
+ #include "internal.h"
+@@ -3111,18 +3112,17 @@ void set_recommended_min_free_kbytes(void)
+ 
+ int start_stop_khugepaged(void)
+ {
+-	int err = 0;
 -
--Required properties:
--- compatible: "lacie,ns2-leds".
--
--Each LED is represented as a sub-node of the ns2-leds device.
--
--Required sub-node properties:
--- cmd-gpio: Command LED GPIO. See OF device-tree GPIO specification.
--- slow-gpio: Slow LED GPIO. See OF device-tree GPIO specification.
--- modes-map: A mapping between LED modes (off, on or SATA activity blinking) and
--  the corresponding cmd-gpio/slow-gpio values. All the GPIO values combinations
--  should be given in order to avoid having an unknown mode at driver probe time.
--
--Optional sub-node properties:
--- label: Name for this LED. If omitted, the label is taken from the node name.
--- linux,default-trigger: Trigger assigned to the LED.
--
--Example:
--
--#include <dt-bindings/leds/leds-ns2.h>
--
--ns2-leds {
--	compatible = "lacie,ns2-leds";
--
--	blue-sata {
--		label = "ns2:blue:sata";
--		slow-gpio = <&gpio0 29 0>;
--		cmd-gpio = <&gpio0 30 0>;
--		modes-map = <NS_V2_LED_OFF  0 1
--			     NS_V2_LED_ON   1 0
--			     NS_V2_LED_ON   0 0
--			     NS_V2_LED_SATA 1 1>;
--	};
--};
+-	mutex_lock(&khugepaged_mutex);
++	guard(mutex)(&khugepaged_mutex);
+ 	if (hugepage_enabled()) {
+ 		if (!khugepaged_thread)
+ 			khugepaged_thread = kthread_run(khugepaged, NULL,
+ 							"khugepaged");
+ 		if (IS_ERR(khugepaged_thread)) {
++			int err;
+ 			pr_err("khugepaged: kthread_run(khugepaged) failed\n");
+ 			err = PTR_ERR(khugepaged_thread);
+ 			khugepaged_thread = NULL;
+-			goto fail;
++			return err;
+ 		}
+ 
+ 		if (!list_empty(&khugepaged_scan.mm_head))
+@@ -3132,17 +3132,14 @@ int start_stop_khugepaged(void)
+ 		khugepaged_thread = NULL;
+ 	}
+ 	set_recommended_min_free_kbytes();
+-fail:
+-	mutex_unlock(&khugepaged_mutex);
+-	return err;
++	return 0;
+ }
+ 
+ void khugepaged_min_free_kbytes_update(void)
+ {
+-	mutex_lock(&khugepaged_mutex);
++	guard(mutex)(&khugepaged_mutex);
+ 	if (hugepage_enabled() && khugepaged_thread)
+ 		set_recommended_min_free_kbytes();
+-	mutex_unlock(&khugepaged_mutex);
+ }
+ 
+ bool current_is_khugepaged(void)
 -- 
 2.55.0
 
