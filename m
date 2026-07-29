@@ -1,146 +1,172 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6698F3B8135
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 29 Jul 2026 06:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C533BA24E;
+	Wed, 29 Jul 2026 07:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785305260; cv=none; b=NxiA5/KIA9Aa6U6s7ANpCeI3xUxeMssFZmnsd1ElEFKS/MjDAmbz8zir3SLKbh0O/5fDp2lC2mR+PlQvPMt/NZ1b7lUB4stjomLV+4tSPHB1eNvTmjh7e1JslzKND2SwTBUksTt1dEe6ycdmwyjaxCP1+Bh1n3ukJSwaxD/t/4w=
+	t=1785311817; cv=none; b=HeaX8+YZlP6v162d+c/Gl9edv+4B+nzQqz4l0xpVncsQZgQBXMfgYP0OAiH2R8K9xYU6/vtvHNkTuV9c6tAA+H3INsHBtC8yMWfR8vrR5sl59kDJdHaVMd2EgXh52FnVLQTfJMnSP2lEH7GF/XQYLRshCBmwf0VGWPi5izkCebo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785305260; c=relaxed/simple;
-	bh=/0LTD+YuOEMyez71enerk8KZbgf5cRv7+phqHZi7pfU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IQPjFKY1JrCX7yWexAJKCwsit+lEdt4Gr1mNec1l3i9MKq1YrPfRZKx5PhFpehzUAvz2KXdT1g85dsO71warNzKC2bF41gW9YGsuv/btMbNHE3Wx0SFBRy2xy83PzxdTVwLoE/YgH5KRE1LvHpttf7UqI5h9DOtiR7L+YNiasGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NcE2ojRO; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785311817; c=relaxed/simple;
+	bh=QkcpjbYZZaQXfoFJl5/lbeouYuQ6UukKmBbRjuIv6hk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KPLzWqa/5eVNi3v+d+lJ2Lr3Ya8OeButpBB87O0niyaJLhXC/V4P/8CHiANnayxnpT9wi1X6yXLNDWyfp77Z+IIEY31mrnyLs9StWMYyLz0DgTsSO3nvJ4jrhon6rT/xSXTERAM5qlu2xT4hYipXrC0X3DjAZMfZ7X1w1gPpDS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzsMr9YP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NcE2ojRO"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84862b0d5f8so483445b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 28 Jul 2026 23:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785305259; x=1785910059; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Au3B6tmLC3tMUt51a77RTkKN+/zhxdhlLpZElLCtiTw=;
-        b=NcE2ojRODFBflCADe26idUiev5B3fyxHmfvolRbXhbJ2uL6Cq2sV80BHnEeGdW0YL5
-         oDjlKAms7VPP5xYB1Uh/ymNUDm0zRFF8wki9VPE6pCJ70aBNgZleda50tEtns5DAzOQd
-         1zC4jDiAOs5sLBymX7uv+nRoo2CwyuqyMXE7TLfLGry9vH4xhl8QT904P1Q6pcW1dFmE
-         HhyHUcOCYaRDpHXs6ALQ28d8fsiDLQbquEAA9qeiUTlhBQq3lJtHd2g0kBj+/2eQlgWj
-         ka0KgX+4jMfHM8Jf1Y0ybhAHMxsLPfNbmiBeLabT6ExW8Elf99F8XIMH5S2htTUgymWK
-         neVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785305259; x=1785910059;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Au3B6tmLC3tMUt51a77RTkKN+/zhxdhlLpZElLCtiTw=;
-        b=eQNgLpQ6unSEfTZ4l8yQfXDQgkQnOAKHZXaLsowMQ9ubvI7g2ENDV4Hcj7fM2Plfys
-         wY6MRbZNvdH8fXnltxhn27ibLxDNgEA5+nj/lyjAFML0RlMb+sz6A+4eT47GES9auIne
-         llyl3geMuM8TvpGDdWxjFRWeEI80Z7VZWfBkFJdmjwQIAItCImywkvJEsOJKcZlf0yUg
-         71rC20dY4PQByz+Z+p7gvJ1yesss3GyeRz45jJdxwGSVS3BMETe7h1v1qFGsRrZTwC+O
-         nosatxHpA58n2WQFJGg5oqKGQHxQe0qKWqVa9kcycVu4rBUwYvNpb1gwbWQba9/VJzTH
-         LpPA==
-X-Forwarded-Encrypted: i=1; AHgh+RrU99tmh12nsG0s4/XBjT9xSodrEBy9/0LIfyZgEBsCYl8+z5F5/EhxwhpJaWcW2fbLsEuRnyyrzDA6+MnRz5hQ0v33oA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAl//VvyvsUHwyifqw/mDYrTVVaYvtVU85ZulcSVu2eAEzut/E
-	e8aSQR1ZCAESKHP3QcnTG8kEcFgPGkJ868cWztjqXTOU54UGtbY5wwYS
-X-Gm-Gg: AR+sD12oKCxgkvbp/D9rwnD3DZ27LSIe4ExSYGGdQbCX3uIDZiiHYE2SVZF8qbkth/1
-	mDj0kbB2lek1bWJQ6xTC2NnIxSi+Lkio8ewU/s+/o2vdNCnHflhBorfwlL8B5WW2emBVMae34Q4
-	89eFpmc4m6MjpGy3vdN2th2yXK9xBCD43goyuTMl3aaBYEna/Pu3+xb5PoRZnn2fTSUWeEqr333
-	jx3+CnA2BZulS5M7rqOk5F6UqAZfgPb1M4ojmfwUkzWx/GhlyX+wEGzyJeZAbOkhLJB4c7+6mGD
-	DiZ9P5bTzP6YNO/iQ/tuEhLNFiG0gvkRZU2jMPD56Ys/rYODA3RbAGxvZb/PsqGL0e+Osolfljf
-	KMV1r8T4IVgvxnddpGOwKk6rs0JlEhSxNn3JIj6zHnSgjmxYZ/bcShgEXd4VjyxKn8LdVsCxozO
-	41TsCM5mvYeEOPmrKFDL+mYAQnvz3EeG4XRlI6pk1/Gi0NVM0yEpo3YP/6kCMblHPIdnNahVg85
-	Qzq3LtEcpJcyMZ6ADWkuCPFwppdPcYd7aR/U74x6siNcsgWBqs=
-X-Received: by 2002:a05:6a00:399a:b0:848:2f74:1d5b with SMTP id d2e1a72fcca58-84e932ca215mr5555635b3a.65.1785305258751;
-        Tue, 28 Jul 2026 23:07:38 -0700 (PDT)
-Received: from debian-rockchip-rock5b-rk3588.. ([2405:9800:b670:b64b:1c6e:95da:41c0:e7b6])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84ea02f8473sm805504b3a.31.2026.07.28.23.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 23:07:38 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	Frank.li@oss.nxp.com,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH v5 2/2] media: hantro: use DEFINE_RUNTIME_DEV_PM_OPS
-Date: Wed, 29 Jul 2026 06:04:40 +0000
-Message-ID: <20260729060440.2092-3-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260729060440.2092-1-tharitt97@gmail.com>
-References: <20260729060440.2092-1-tharitt97@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzsMr9YP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157E51F000E9;
+	Wed, 29 Jul 2026 07:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785311816;
+	bh=3gBMWCYK0NhtjdWG8m3a5e395PjwoFJBRWNEidKi0zM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=LzsMr9YPpzfwRfoKTi7aoYG/YaZG6uUp2WIs0+EFHwgyofbET0ZxvnH1nudpOOv//
+	 4yEI0H22nNWddc7Hvxr/Eqh6JWAV1pwUoAkYtugpiR2fLiJ0HemSCTbbF8dSuTvyso
+	 xxX5qn7Ud1bvVsmymXigESsuPW77MFhjGOPjs3S3Br5rDYW8fd7IY+CjCZjM7QTu0T
+	 g5oJPnu2HAtgNu1mUt9GOSE6w6nlqnmhF5x+NaOPE9RctP5QVyEsHOinZYf5ByY17O
+	 fGWLni5/E7Gn2tJHDSorn520Yf2RVZitwg33+e9WWarxKekVDz3UkqOOWvhwULfRPR
+	 zD092P97B7XCA==
+Message-ID: <b78f734a-440d-4fad-bba8-df77894c5aa0@kernel.org>
+Date: Wed, 29 Jul 2026 09:56:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/khugepaged: replace mutex_lock/mutex_unlock usage
+ with guard macro
+To: Jakov Novak <jakovnovak30@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "\\ Liam R . Howlett \\" <liam@infradead.org>, Nico Pache
+ <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260728204636.20998-2-jakovnovak30@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260728204636.20998-2-jakovnovak30@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The runtime suspend and resume callbacks are currently guarded by
-CONFIG_PM. Removing the guard directly would leave the callbacks unused
-when CONFIG_PM is disabled.
+On 7/28/26 22:46, Jakov Novak wrote:
+> Currently, khugepaged locks the khugepaged_mutex in two functions:
+> start_stop_khugepaged and khugepaged_min_free_kbytes_update. Remove
+> mutex_lock/mutex_unlock usage in these functions and replace it with the
+> guard macro. This makes the code more readable (removing a goto statement)
+> and makes it harder to introduce bugs in the future.
+> No functional changes introduced.
+> 
+> Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+> Reviewed-by: Dev Jain <dev.jain@arm.com>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+> v2:
+>   - Added #include <linux/cleanup.h> to the includes at the top of the file
+>   - Moved err declaration to the scope where it's used in
+>     start_stop_khugepaged
+>   - Made default case return 0 instead of err in start_stop_khugepaged
+> 
+>  mm/khugepaged.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 617bca76db49..7890bd3e2a9d 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/ksm.h>
+>  #include <linux/pgalloc.h>
+>  #include <linux/backing-dev.h>
+> +#include <linux/cleanup.h>
+>  
+>  #include <asm/tlb.h>
+>  #include "internal.h"
+> @@ -3111,18 +3112,17 @@ void set_recommended_min_free_kbytes(void)
+>  
+>  int start_stop_khugepaged(void)
+>  {
+> -	int err = 0;
+> -
+> -	mutex_lock(&khugepaged_mutex);
+> +	guard(mutex)(&khugepaged_mutex);
+>  	if (hugepage_enabled()) {
+>  		if (!khugepaged_thread)
+>  			khugepaged_thread = kthread_run(khugepaged, NULL,
+>  							"khugepaged");
+>  		if (IS_ERR(khugepaged_thread)) {
+> +			int err;
+>  			pr_err("khugepaged: kthread_run(khugepaged) failed\n");
+>  			err = PTR_ERR(khugepaged_thread);
+>  			khugepaged_thread = NULL;
+> -			goto fail;
+> +			return err;
+>  		}
 
-Define the PM operations with DEFINE_RUNTIME_DEV_PM_OPS() and use
-pm_ptr() when assigning them to the platform driver. This keeps the PM
-callbacks available when needed while avoiding unused-function warnings
-for CONFIG_PM=n builds.
+While at it, can we just do
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
- drivers/media/platform/verisilicon/hantro_drv.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+struct task_struct *new_thread = kthread_run...
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index d6fcd4f7f9da..35302cf9f233 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -1284,7 +1284,6 @@ static void hantro_remove(struct platform_device *pdev)
- 	pm_runtime_disable(vpu->dev);
- }
- 
--#ifdef CONFIG_PM
- static int hantro_runtime_resume(struct device *dev)
- {
- 	struct hantro_dev *vpu = dev_get_drvdata(dev);
-@@ -1314,13 +1313,9 @@ static int hantro_runtime_suspend(struct device *dev)
- 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
- 	return 0;
- }
--#endif
- 
--static const struct dev_pm_ops hantro_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
--				pm_runtime_force_resume)
--	SET_RUNTIME_PM_OPS(hantro_runtime_suspend, hantro_runtime_resume, NULL)
--};
-+static DEFINE_RUNTIME_DEV_PM_OPS(hantro_pm_ops, hantro_runtime_suspend,
-+				hantro_runtime_resume, NULL);
- 
- static struct platform_driver hantro_driver = {
- 	.probe = hantro_probe,
-@@ -1328,7 +1323,7 @@ static struct platform_driver hantro_driver = {
- 	.driver = {
- 		   .name = DRIVER_NAME,
- 		   .of_match_table = of_hantro_match,
--		   .pm = &hantro_pm_ops,
-+		   .pm = pm_ptr(&hantro_pm_ops),
- 	},
- };
- module_platform_driver(hantro_driver);
+if (IS_ERR(new_thread)) {
+	pr_err("khugepaged: kthread_run(khugepaged) failed\n");
+	return PTR_ERR(new_thread);
+}
+khugepaged_thread = new_thread;
+
+?
+
+Avoid the suboptimal err variable and temporarily assigning error values to the
+global variable.
+
 -- 
-2.47.3
+Cheers,
 
+David
