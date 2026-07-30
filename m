@@ -1,83 +1,126 @@
-Received: from va-2-16.ptr.blmpb.com (va-2-16.ptr.blmpb.com [209.127.231.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D993ACA59
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 08:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D595C3546EC;
+	Thu, 30 Jul 2026 14:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785398994; cv=none; b=S7tzwkK++fh42aBuU8j7FOuCD8hitWyKH52SxI9vODm13JQuafP5Mlkg1PQmaxK5ndJlvRG5+/2UhcBtF4uBzM6QksVsEWWE9pxfO4PB6n997VSxOtyvoqbIE+0wd6D0O63sQl/QUbBDSwqUpm4dh2cdBsiVSX8FRf/GdrumznM=
+	t=1785420121; cv=none; b=rXcgnl8OCtjWT00J0Dap6mRibHaCJ5xpgTPxHIlv2LuqKwdvNDatnlboy1ws9t/23DE9aFZhN/1totG/ZYPUNaN4tjGCtqlFtFBz3VRCHmXT9Usr4m//kSiA1C0jrxtIYYjiQ3Ufg0JBYwH0DD9Xzyo3tps8iNdznM5A89nVV2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785398994; c=relaxed/simple;
-	bh=tNtlNmD8778HAJnomsTuab9VT5GlxXHI2KMVKTR71mM=;
-	h=Cc:From:Subject:Message-Id:In-Reply-To:References:Date:
-	 Content-Type:To:Mime-Version; b=G9liLdRBqOuKp7YNeGh+r2GgwVz6ERNEB7a8rAxkY3wSmXF5ExOd430gyFw/Ih3OpLBbKDO8tDvvYB3dvRxqbxsnPum66km5uvRgPBogifzf6Mcaz8sbxAb/PH33cdqHcB6g7Q/wriDy2YHwhGvdV/i9IrqsBy6ak1/hMdI9u3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=VN3nx/E1; arc=none smtp.client-ip=209.127.231.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1785420121; c=relaxed/simple;
+	bh=VfHPYc9y1WU/9awwS8q8if/0oW/rVxUUXuFg990A+gQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NbxEy/Ed1XLw6KLz430Tj008vtaJ6fPwXXFVwqF+zndBf+kXGw+sZvpniqEwLVYrupMvQ721L65ItLzBLN7X+FPgBw+J91LxOoDPcbxiZ57ckIqdq+d/McRAzt0O5ukD3T2EYiYipCFMrp7PhIdMP3X1r3vurf/GdHnSrOlrx9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hrwqsTj6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="VN3nx/E1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1785398978;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=9a9qlKheM41V9tVOAOi1sJuzaAGCmycW+IKJ5deOY98=;
- b=VN3nx/E1IDGRHkNtoXHfya9VUZn1rB8R6ppn0F73VrinOYZRy6o8rhP0Bd963pi9DFieR4
- 1Hj+4lNTNU8P233EOGS1uEduhMxHgecKKpgdUUyCW0PMpmTB7X74efqYmGI6Wg3+/2xPtX
- Qjta94Yy3AeW6uKGG9b8HBUJKXLCZInFQoaFafzW0AO8gpt5zwSHJ0PEoC6qdDYpDlKI66
- rTDOjZaLRjHvUt976Ao+MpTeJnvCLISvXXucDf+QKXbuWqW+FbUTcddxNxWVULwwWh5ts1
- im5UMq9U8NsAoU2kUp+bwBdY1Q1oLVWvclvNOSbMHENd/CFnU71NhlLJZhfTmQ==
-Cc: <yukuai3@huawei.com>, <tomasz.majchrzak@intel.com>, 
-	<linux-kernel@vger.kernel.org>, <error27@gmail.com>, 
-	<skhan@linuxfoundation.org>, <me@brighamcampbell.com>, 
-	<linux-kernel-mentees@lists.linux.dev>
-From: "yu kuai" <yukuai@fygo.io>
-Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
-Message-Id: <acacbf2b-8f1f-4568-9246-12d9d8afd0f0@fygo.io>
-X-Original-From: yu kuai <yukuai@fygo.io>
-In-Reply-To: <20260622142146.56637-1-sajal2005gupta@gmail.com>
-References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
-Reply-To: yukuai@fygo.io
-Date: Thu, 30 Jul 2026 16:09:34 +0800
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Lms-Return-Path: <lba+26a6b06c2+6e09d5+lists.linux.dev+yukuai@fygo.io>
-To: "Sajal Gupta" <sajal2005gupta@gmail.com>, <linux-raid@vger.kernel.org>, 
-	<song@kernel.org>, "yu kuai" <yukuai@fygo.io>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hrwqsTj6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6233C1F00A3A;
+	Thu, 30 Jul 2026 14:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785420119;
+	bh=aWmtaLFdmiykJamcY8i4UABM60ooHpSbHhELBVfrJio=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hrwqsTj6FxHQlXLVomxkWY2rpkcXY1CEhrOv5ZElV5+yQP3CXhoawsesrnZPO27In
+	 n6zIWfSmbxhn+UZsMzvOdP6+TUk9rP1YTcw0T+DxcpEpoPYy+vziK8OJnbRPEkW5Iq
+	 912j+xbLurg9kp7Y1S1hEyJlSBO4MHAGVsfuE9vZ3eJOmbQywvkpzhP8RZMy0bmf4Y
+	 dkAnEtpKFwEv/uVEiTFhniqte+eF+idjXQwnLrn+pa2u8oPx0zZFiHtWfkyGvoM7sF
+	 uulxi9AybWaA/U4ZPN2ZYyKftUaDH0MWRqZpzBTULJurrjMTQfUGmo6mZaIdVaLWpy
+	 Ya1AN/t09VSKg==
+Message-ID: <53afc7d5-0494-49e0-b053-5f7b55a44fed@kernel.org>
+Date: Thu, 30 Jul 2026 16:01:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Received: from [192.168.1.104] ([39.182.0.181]) by smtp.larksuite.com with ESMTPS; Thu, 30 Jul 2026 08:09:38 +0000
+Subject: Re: [PATCH v2] mm/khugepaged: replace mutex_lock/mutex_unlock usage
+ with guard macro
+To: jakov novak <jakovnovak30@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "\\ Liam R . Howlett \\" <liam@infradead.org>, Nico Pache
+ <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260728204636.20998-2-jakovnovak30@gmail.com>
+ <b78f734a-440d-4fad-bba8-df77894c5aa0@kernel.org>
+ <CAPUiDP1POYKJQ=Gfm-irzUmGaSNfZm+qO0xGP7Z=FO8a=R-6Kw@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CAPUiDP1POYKJQ=Gfm-irzUmGaSNfZm+qO0xGP7Z=FO8a=R-6Kw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-=E5=9C=A8 2026/6/22 22:06, Sajal Gupta =E5=86=99=E9=81=93:
+On 7/29/26 13:56, jakov novak wrote:
+> I guess the error checking could be moved inside the if
+> (!khugepaged_thread) block like:
+> 
+> if (!khugepaged_thread) {
+>   struct task_struct *new_thread = kthread_run...
+> 
+>   if (IS_ERR(new_thread)) {
+>     pr_err...
+>     return PTR_ERR(new_thread);
+>   }
+> 
+>   khugepaged_thread = new_thread;
+> }
+> 
+> I can send a v3 with these changes if this looks good to everybody.
+>
 
-> The loop in ppl_do_flush() continues iterating after calling
-> ppl_io_unit_finished(), touching io->pending_flushes and leading to a
-> use-after-free.
->
-> Add a break statement to stop the loop once io is freed.
->
-> Fixes: 1532d9e87e8b ("raid5-ppl: PPL support for disks with write-back ca=
-che enabled")
-> Reported-by: Dan Carpenter<error27@gmail.com>
-> Closes:https://lore.kernel.org/all/ajJF2wKYWRk4GGCK@stanley.mountain/
-> Signed-off-by: Sajal Gupta<sajal2005gupta@gmail.com>
-> ---
-> Compile tested only.
->
-> Changes in v2:
->   - drop the refcount_t conversion
->
-> v1:https://lore.kernel.org/all/20260622080656.22786-1-sajal2005gupta@gmai=
-l.com/
->
->   drivers/md/raid5-ppl.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-Applied to md-7.3
+Yes, please so so.
 
---=20
-Thanks,
-Kuai
+-- 
+Cheers,
+
+David
