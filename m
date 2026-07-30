@@ -1,82 +1,85 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECBC43F8A6
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 15:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7484C3BBFDE
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 20:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785425779; cv=none; b=JmAgcrRm0H1izi2TE5GZ9HYSKawwoMZKld9zrryp+Qg9XnYRwB7LiQGzzhz3BsKjY1J0wyti29B1Cxur/cNgHlyVRcjae97fm5+DupOhSt+pevfc9fStblrlXG2t0236mGPnNdujaqJxBkz3HavtBC2ml3syqhQLaNrnkmQpqD4=
+	t=1785444495; cv=none; b=UmNOTBdCs+3I/Am7YEDvIubcYbgjfk/EIZ2BaUXcMWuhAOm0BpFN8TbyteCt7cpqiGmoTFtQWNxlfASuAr3BKv3w/XUj22kh5oaHybZoSHD+NsOyh/R72LdPD0SwxcGRPI7Q+oaP2bnZi+ZYkm1keI36jeaYVv8/3ojDNrqFtQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785425779; c=relaxed/simple;
-	bh=prl3a0vkf/T6ZwK28gJkETuegr5G4y5J6+1qLJNyQ/o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2P6xW+HzucJa0iIrWLM4RoYYdhIhZSchIr2MctZ7MzZcFwBWq0Pl8wtEBmI1qHHmfAbq1KRX8NSAD2mUojDZSrlYU8TeSpJpSyY/kQ+/FisAMsfm7zSuFcJ7Evv7lS3tu4GA46EqmoSiEyjAa9NPOAAwvTB5H5k/LK9ii+gfTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdkZvv5g; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1785444495; c=relaxed/simple;
+	bh=SZUBalN3fJqY2DHoeYGQNW6Ni/i7A61VoThyuTT7XVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Im/giAEEejrP6+5ddCDxiPSBNFsJzBEbrDdPmfn7rISZz+k8YBxCs7R3/OVLlUUYgizwFntMuMoqk4CvbDGFYj3QdybgYdGo9DgMvj2x4b91vCFt+Nux/r8uWHPNnTlU9OoU5lCsDGgiTD7LyxuSOhb+9l9nOakY0Z8l4ItOQ14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fof/Q8hF; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdkZvv5g"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ce98cb8165so10134345ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fof/Q8hF"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so1060335e9.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 13:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785425777; x=1786030577; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785444493; x=1786049293; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eemCSxLVEosFJ70MWmOxEAPXsjZ44shUjMRdUXsw+jc=;
-        b=NdkZvv5gJN6iOgfVx/4cagvuMwKeoNATrZbs20KgKa1SAikM0Rx1JPXH5EQjHFa47/
-         vu47l1RW47GSrHe2RqMn9Z0BbjSsx6Iprop9tRosWj1tjTDNkBqvs+UpE6rFRkFPXUSE
-         tDcRgwsR2Hg7PW9dFl6yN2XgikH0bqvmsBaFKTcra1394sAMwT+8O6wRI9Ugn83XenuJ
-         FfxjKTGaBAfp+lZOScS1+UTMiqJZId7YOStz/f9hyTaECiHQ6GOKwHWijIPx7iq+aKap
-         usc5fo7rU46320mzOSNvqcBop0IwVnQlF/F7oxPoTh5yrmcSsxfjJqAgsZPcG7N/RZi8
-         7ZfQ==
+        bh=M5BxE/t23ijz33IZ7iaZiV0IxU7JLoT1VOJQBQHoWO0=;
+        b=fof/Q8hFv5C2xAKJWWFooIoh6IxGN0y8nH0hiOEBGLbMqPU8wxa4QWnjtXDrKm7h07
+         mkUC70yqwBdl7H2MjZ5663MTg9n5gZe36fi4bf96DmoR4gyGflxrw54IikMqqqTy46/h
+         PVvMENWhFnptuXfbuNlaqXgfbYqqKGutDysC7jtOJzW15lGkcPbpSd+ELgH56WqbJJNh
+         9Pqe8HOAwymO4/O5+khQzJk9kK3OhXjs34Y2w4ENeI22/J0xF//P3ik3RqEIwU2B5mD5
+         oHT5PPUccjLuQDFqqcrNTS2q7oZ2rmtpx8wg3NSoZdnEbTmnqxLFI+oX7eEqj7cyKUNS
+         pz2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785425777; x=1786030577;
+        d=1e100.net; s=20251104; t=1785444493; x=1786049293;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eemCSxLVEosFJ70MWmOxEAPXsjZ44shUjMRdUXsw+jc=;
-        b=YfCxBLyzlNyf4uhJbggMNpupDyD9NoPYWipyoIqiBzaTaHUovdzwZzBii9ymlwOzr3
-         Jz88pY+kR72jt1zq5nLBYJuYSaWMQEfPve49Mrjr0VxTFmNj2ECTk7xaJK+B25xDs2cL
-         eRbexBsDJ7Wq4je4yV8lD3LPR5akj2bKFkFTSwtofjoBLz2H83MyQWvl1PJxmTN4WXCH
-         22EyBHm/t3aSUIh+qecUtwd+O4g2t6u4MnLyHfSqx4Wb0spoXZEm9SqbYwkrNuvMVxtH
-         xMwv73fyribqOnz8fawhpQTEYEMuVSWjwJtrX5rBBnJ2c/JlCxUDHyKO7aK3NKGDVsW/
-         q/hQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrTp+TEtHwJ58jfbPpuz18mvekmC96awWKemco6I4sERomlrf3D+IrE+jGsMNX595nxOCHnRL/18U8YA2mKvqcSCx//Ow==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOPyW3erBbgQOX+U5Z+Ka2x0567HNrYLmDn3mUNomGA7a5mjfm
-	z+Jk4HADF0j3IW3BIWyzm+kS/pZGC0fV/Bf85wuIi5YyIFNWLmjols0Z
-X-Gm-Gg: AR+sD10rMoKytGOCiSdrl6bfHLbbVjGfhr2VQMd+jRu7aeZtBqloi4l8wgWh94UQ3Nj
-	htpk0rPekw73s8s2tWNrzOgwTrSsREgjJIVFGDrZjkzaWckfeMIUKodVH/wqhMuCsN8JlAPFSeT
-	rwdwAXOuX7DVb+dPft15cQyIUEpaosQxuWS7KweqYwTJpJAQ1JgPm2IjYia2I16yUz4QO8jVCCr
-	Ucza7xVmIXxAvSMsKeJrBxiBHyYN2ebim52PkkrGghmsX5feLIE7DcVAJYuvuQJWosAnla9gCze
-	Bmc85eh/Me1hZkhaXF0DgHu/bjX1gfBrex+j/TAcpEbtGRJAQcJaFSW6BQ+l+tHpcCQIxeQAd9t
-	hq5X3qdZdaqp2Bhqw0gNw7To9ijWkNwJtC4McypSyvnp1b4LkDb0gSm+ksTcmeZy3lEkm4vDRVV
-	hy0oYrA0WX2EeQmti67e2SounEWNjvwHBulR69jK5eSKDXcfZYovxTsMV664UoefHFZExXWau7l
-	t2FNpnWe/ZD/DoHCRUhK7y/5oQ/Mtnmu9Cdsj9EmiTd1A==
-X-Received: by 2002:a17:903:1104:b0:2c9:d8c5:d55d with SMTP id d9443c01a7336-2d03e9b6bd5mr5417115ad.16.1785425777367;
-        Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
-Received: from debian-rockchip-rock5b-rk3588.. ([184.22.25.116])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a46969sm28820085ad.25.2026.07.30.08.36.12
+        bh=M5BxE/t23ijz33IZ7iaZiV0IxU7JLoT1VOJQBQHoWO0=;
+        b=sVMJzOZttujCRMmd/jZZLcLXEqiOjHGDXvepny/m/UdpuGLC4g6+0H/oGebxwJiQv/
+         GXLi3k5umrmNzHTLu6zAZakwZyqFsrMciiMN7YcV6N1OwJW/aclm7RuqqBl2vukk2afK
+         nqxAbaotlUXixmvjFUqs441vuugSycxxrDdAkMiUYMxWX9DMwbj9qgtIpl2B2HKl6h3b
+         pLa3HsyBob/7brG1jrfFbNRtpIqbO9IZu7WB01b6R0pkD99+56HlXcSFiTTvIRjs7eA8
+         r3Svwo0DeyOp6OUhhuVKh07NDw6rOwdScfgXLCL+4dVzghH4oMeabYyfI8ok/8NnmRKW
+         za/g==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9JpJx79kcc/PS5pnuyruQRJRD3JbEfX9RDUy9rimAy+1NB2F2xLqOA+NN56VDzv4FbxebIqoZP2cZDQLpSYXeC/Rj/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJcIqUWqEfLWlm2fjPWNAP5kxsLz59cwQ95DesQAqhOCTD5kB1
+	Uwpc5+esQ0AejMwPOWaS9Lyx/vRrU2SlSCChI2mhUJSVo9Ld7oIEAaI=
+X-Gm-Gg: AR+sD12D4HZDYksMbkJ1eT2rkbhOzu0uUR64wcmnUwqNsqgccKjcf6UxRlQPedTMfNI
+	eMJxoBmMNUn7X+VLeO3fz0+vV4F4SLrQAuHGiSgtGzxE2ct9SUOvyJFUmkofQV4FxsojYuR1gxR
+	8O4Gd7lTcIGSu58VZFIrNOLRw2JUTJAv1juo6OFmTQNKstoXSG+7be+wschjQGg/dqS9n0cpZJi
+	EqlFoXXYQD6ZnXLPt3sXLjndKue7A7DKROQuCyhAGSMMKUUc7UloNwHwFfc+wtTltEB5edGvReE
+	iIHVbxNRdBjV8D5sb9199Tu3g1mOX+klMuOoYCvyaFfhW8sol5BJy0EVJ0GY/EwsP7nyzyNbBsz
+	puIflaPm3pIaydQYS+78TYtQsY1A0v53x7WUVKSwwsR3kyHkGAvDIAQdru72FJ1Do+CabanOU36
+	CuFGxqe/f6h6hKawnV+xO+YlntiDY3SNz7MtNFqYJMPSEo7Y+mAqJiYrZf0n/XmZmyV2Gqyp2GD
+	4+yWiL/PQ7IJRYl8tLrkn6Nc8i9IwIe8DUd7eV0CRCyjLMwmkhZbizvaJ5LJSAeX8WvA6QlqkBr
+	PXI0hcgDa02P2EE=
+X-Received: by 2002:a05:600c:19cc:b0:495:4e1d:82df with SMTP id 5b1f17b1804b1-49800e93cbfmr57370965e9.10.1785444492686;
+        Thu, 30 Jul 2026 13:48:12 -0700 (PDT)
+Received: from archtop.localdomain (92-242-248-69.broadband.mtnet.hr. [92.242.248.69])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-498010aaceasm85398185e9.12.2026.07.30.13.48.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+        Thu, 30 Jul 2026 13:48:12 -0700 (PDT)
+From: Jakov Novak <jakovnovak30@gmail.com>
+To: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH] media: rkvdec: fix v4l2-compliance failure
-Date: Thu, 30 Jul 2026 15:36:03 +0000
-Message-ID: <20260730153603.5721-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"\\  Liam R . Howlett \\ " <liam@infradead.org>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jakov Novak <jakovnovak30@gmail.com>
+Subject: [PATCH v3] mm/khugepaged: replace mutex_lock/mutex_unlock usage with guard macro
+Date: Thu, 30 Jul 2026 22:47:24 +0200
+Message-ID: <20260730204724.16912-1-jakovnovak30@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,59 +88,95 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rkvdec fails v4l2-compliance in two tests related to
-V4L2_CID_STATELESS_HEVC_SPS. The Control ioctls test reads the control
-with GET_EXT_CTRLS and writes the same value back; TRY_EXT_CTRLS then
-returns -EINVAL because the VDPU38x rkvdec_hevc_validate_sps() rejects
-sps->chroma_format_idc == 0, which is the value returned when the
-control has no default.
+Currently, khugepaged locks the khugepaged_mutex in two functions:
+start_stop_khugepaged and khugepaged_min_free_kbytes_update. Remove
+mutex_lock/mutex_unlock usage in these functions and replace it with the
+guard macro. This makes the code more readable (removing a goto statement)
+and makes it harder to introduce bugs in the future.
+No functional changes introduced.
 
-    v4l2-compliance 1.33.0-5491, 64 bits, 64-bit time_t
-    v4l2-compliance SHA: b32589c51481 2026-07-16 08:51:38
-    Control ioctls:
-        fail: v4l2-test-controls.cpp(942):
-	try_ext_ctrls returned an error (22)
-      test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
-    Buffer ioctls:
-        fail: v4l2-test-buffers.cpp(3102): node->streamon(q.g_type())
-        fail: v4l2-test-buffers.cpp(3157): testBlockingDQBuf(node, m2m_q)
-      test blocking wait: FAIL
-
-Provide a control default via p_def with chroma_format_idc = 1 (4:2:0),
-which is the only value the VDPU38x SPS validation accepts.
-This fixes both the Control ioctls and the Buffer ioctls failures.
-
-Tested on Radxa Rock 5B (RK3588).
-
-Fixes: c9a59dc2acc7 ("media: rkvdec: Add HEVC support for the VDPU381 variant")
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+Reviewed-by: Dev Jain <dev.jain@arm.com>
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 ---
- drivers/media/platform/rockchip/rkvdec/rkvdec.c | 5 +++++
- 1 file changed, 5 insertions(+)
+v2:
+  - Added #include <linux/cleanup.h> to the includes at the top of the file
+  - Moved err declaration to the scope where it's used in
+    start_stop_khugepaged
+  - Made default case return 0 instead of err in start_stop_khugepaged
+v3:
+  - Moved new thread creation logic inside if (!khugepaged_thread) block
+    in start_stop_khugepaged
+  - Removed suboptimal err variable
 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index 1d1e9bfef8e9..37603f049788 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -236,6 +236,10 @@ static const struct rkvdec_ctrls rkvdec_hevc_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
- };
+ mm/khugepaged.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
+
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 617bca76db49..97f61a050f7c 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -23,6 +23,7 @@
+ #include <linux/ksm.h>
+ #include <linux/pgalloc.h>
+ #include <linux/backing-dev.h>
++#include <linux/cleanup.h>
  
-+static struct v4l2_ctrl_hevc_sps vdpu38x_hevc_sps_default = {
-+	.chroma_format_idc = 1,
-+};
+ #include <asm/tlb.h>
+ #include "internal.h"
+@@ -3111,18 +3112,19 @@ void set_recommended_min_free_kbytes(void)
+ 
+ int start_stop_khugepaged(void)
+ {
+-	int err = 0;
+-
+-	mutex_lock(&khugepaged_mutex);
++	guard(mutex)(&khugepaged_mutex);
+ 	if (hugepage_enabled()) {
+-		if (!khugepaged_thread)
+-			khugepaged_thread = kthread_run(khugepaged, NULL,
+-							"khugepaged");
+-		if (IS_ERR(khugepaged_thread)) {
+-			pr_err("khugepaged: kthread_run(khugepaged) failed\n");
+-			err = PTR_ERR(khugepaged_thread);
+-			khugepaged_thread = NULL;
+-			goto fail;
++		if (!khugepaged_thread) {
++			struct task_struct *new_thread = kthread_run(khugepaged,
++								     NULL,
++								     "khugepaged");
 +
- static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
-@@ -243,6 +247,7 @@ static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_STATELESS_HEVC_SPS,
- 		.cfg.ops = &rkvdec_ctrl_ops,
-+		.cfg.p_def.p_hevc_sps = &vdpu38x_hevc_sps_default,
- 	},
- 	{
- 		.cfg.id = V4L2_CID_STATELESS_HEVC_PPS,
++			if (IS_ERR(new_thread)) {
++				pr_err("khugepaged: kthread_run(khugepaged) failed\n");
++				return PTR_ERR(new_thread);
++			}
++
++			khugepaged_thread = new_thread;
+ 		}
+ 
+ 		if (!list_empty(&khugepaged_scan.mm_head))
+@@ -3132,17 +3134,14 @@ int start_stop_khugepaged(void)
+ 		khugepaged_thread = NULL;
+ 	}
+ 	set_recommended_min_free_kbytes();
+-fail:
+-	mutex_unlock(&khugepaged_mutex);
+-	return err;
++	return 0;
+ }
+ 
+ void khugepaged_min_free_kbytes_update(void)
+ {
+-	mutex_lock(&khugepaged_mutex);
++	guard(mutex)(&khugepaged_mutex);
+ 	if (hugepage_enabled() && khugepaged_thread)
+ 		set_recommended_min_free_kbytes();
+-	mutex_unlock(&khugepaged_mutex);
+ }
+ 
+ bool current_is_khugepaged(void)
 -- 
-2.47.3
+2.55.0
 
