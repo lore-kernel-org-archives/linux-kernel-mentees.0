@@ -1,148 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-16.ptr.blmpb.com (va-2-16.ptr.blmpb.com [209.127.231.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1E23D9DA8;
-	Wed, 29 Jul 2026 20:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D993ACA59
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 08:09:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785357830; cv=none; b=W1/AsPmTfUAxjpWcZFhi4S4nkfpUZ/WVC3yQ7g4fD4WaokfwHBndNPsRtWPdtw9jKSUkJ8S+ID4utBk7h3J338j6Kv1TC6K5emL6CTOs+VQKD9J1u6v6C0fU9gxdMxZ/nJ2Q2W2/A7T/tCwxgWKNJp8GN94c30ILlL059XSXw/8=
+	t=1785398994; cv=none; b=S7tzwkK++fh42aBuU8j7FOuCD8hitWyKH52SxI9vODm13JQuafP5Mlkg1PQmaxK5ndJlvRG5+/2UhcBtF4uBzM6QksVsEWWE9pxfO4PB6n997VSxOtyvoqbIE+0wd6D0O63sQl/QUbBDSwqUpm4dh2cdBsiVSX8FRf/GdrumznM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785357830; c=relaxed/simple;
-	bh=MtdTNUvUGP6jEAXw3FQhLk5OsyAt9kSKLUL86iTob2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kCm/9BRFzsAOLFXJRtL8cSXE9QXDPG/6i5yrUcTKpQYQuxvuamLpPpCKDu/KnFv+y3AAuZZYhqeSdbSfJSXdxlkm2GEcO1N0q2jYU43I27MaYuFJptkdwWy7RWV/XIdB42dnFRlHSmP9ZR5yuw02A/ND0eydDsJXr7kGTxZw2LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsiMsRz2; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785398994; c=relaxed/simple;
+	bh=tNtlNmD8778HAJnomsTuab9VT5GlxXHI2KMVKTR71mM=;
+	h=Cc:From:Subject:Message-Id:In-Reply-To:References:Date:
+	 Content-Type:To:Mime-Version; b=G9liLdRBqOuKp7YNeGh+r2GgwVz6ERNEB7a8rAxkY3wSmXF5ExOd430gyFw/Ih3OpLBbKDO8tDvvYB3dvRxqbxsnPum66km5uvRgPBogifzf6Mcaz8sbxAb/PH33cdqHcB6g7Q/wriDy2YHwhGvdV/i9IrqsBy6ak1/hMdI9u3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=VN3nx/E1; arc=none smtp.client-ip=209.127.231.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsiMsRz2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785357827; x=1816893827;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MtdTNUvUGP6jEAXw3FQhLk5OsyAt9kSKLUL86iTob2s=;
-  b=QsiMsRz22IcTCpBbUb4GNokX8xbyFt1XQcrWxwWrZy+HgO6ThEloyEm9
-   aBReKGZnBEsmTJ8sfMCdsO6i/VjUqJTprNtKoFiEVIYCIch/2LMZ+3zcq
-   jETnfx8jk2y6PRE+v7HJSENXU8FDt8p2W0hSkSxjfjyG3ZykpVVJ2mtZt
-   YqRTIQAE8bnccBAQTjZBoCKPZmbE/t8ftgqgrAZEAlb8D5CXHd6qA55oZ
-   fjkBcKbv2Bm2UnyZQtyNLHrnYPH6MwvTeMBKe9DzI4zIj5OyPa+aOZgON
-   WnVWqITGpX9yk43WaK/AUesnYE2U3RMkOrJmHRpRMS5kYC+cKmhTo9cAR
-   Q==;
-X-CSE-ConnectionGUID: m8II77UpQCGDICpDsIx0ew==
-X-CSE-MsgGUID: 9jp1y1SVR122dhEmQeQCZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="111519444"
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="111519444"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 13:43:46 -0700
-X-CSE-ConnectionGUID: Lv45qJ3lT+2g35cyGMmxkg==
-X-CSE-MsgGUID: vwwEWHH0R/C/A5upvcA0Mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="262062897"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Jul 2026 13:43:43 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpB7o-00000000ffq-1Kdb;
-	Wed, 29 Jul 2026 20:43:36 +0000
-Date: Thu, 30 Jul 2026 04:37:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tharit Tangkijwanichakul <tharitt97@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	me@brighamcampbell.com, jkoolstra@xs4all.nl, Frank.li@oss.nxp.com,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: Re: [PATCH v3] media: hantro: release runtime resources when
- device_run fails
-Message-ID: <202607300319.RuKrwvI7-lkp@intel.com>
-References: <20260726024243.730-1-tharitt97@gmail.com>
+	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="VN3nx/E1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1785398978;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=9a9qlKheM41V9tVOAOi1sJuzaAGCmycW+IKJ5deOY98=;
+ b=VN3nx/E1IDGRHkNtoXHfya9VUZn1rB8R6ppn0F73VrinOYZRy6o8rhP0Bd963pi9DFieR4
+ 1Hj+4lNTNU8P233EOGS1uEduhMxHgecKKpgdUUyCW0PMpmTB7X74efqYmGI6Wg3+/2xPtX
+ Qjta94Yy3AeW6uKGG9b8HBUJKXLCZInFQoaFafzW0AO8gpt5zwSHJ0PEoC6qdDYpDlKI66
+ rTDOjZaLRjHvUt976Ao+MpTeJnvCLISvXXucDf+QKXbuWqW+FbUTcddxNxWVULwwWh5ts1
+ im5UMq9U8NsAoU2kUp+bwBdY1Q1oLVWvclvNOSbMHENd/CFnU71NhlLJZhfTmQ==
+Cc: <yukuai3@huawei.com>, <tomasz.majchrzak@intel.com>, 
+	<linux-kernel@vger.kernel.org>, <error27@gmail.com>, 
+	<skhan@linuxfoundation.org>, <me@brighamcampbell.com>, 
+	<linux-kernel-mentees@lists.linux.dev>
+From: "yu kuai" <yukuai@fygo.io>
+Subject: Re: [PATCH v2] md/raid5-ppl: fix use-after-free in ppl_do_flush()
+Message-Id: <acacbf2b-8f1f-4568-9246-12d9d8afd0f0@fygo.io>
+X-Original-From: yu kuai <yukuai@fygo.io>
+In-Reply-To: <20260622142146.56637-1-sajal2005gupta@gmail.com>
+References: <20260622142146.56637-1-sajal2005gupta@gmail.com>
+Reply-To: yukuai@fygo.io
+Date: Thu, 30 Jul 2026 16:09:34 +0800
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Lms-Return-Path: <lba+26a6b06c2+6e09d5+lists.linux.dev+yukuai@fygo.io>
+To: "Sajal Gupta" <sajal2005gupta@gmail.com>, <linux-raid@vger.kernel.org>, 
+	<song@kernel.org>, "yu kuai" <yukuai@fygo.io>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260726024243.730-1-tharitt97@gmail.com>
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Received: from [192.168.1.104] ([39.182.0.181]) by smtp.larksuite.com with ESMTPS; Thu, 30 Jul 2026 08:09:38 +0000
 
-Hi Tharit,
+=E5=9C=A8 2026/6/22 22:06, Sajal Gupta =E5=86=99=E9=81=93:
 
-kernel test robot noticed the following build warnings:
+> The loop in ppl_do_flush() continues iterating after calling
+> ppl_io_unit_finished(), touching io->pending_flushes and leading to a
+> use-after-free.
+>
+> Add a break statement to stop the loop once io is freed.
+>
+> Fixes: 1532d9e87e8b ("raid5-ppl: PPL support for disks with write-back ca=
+che enabled")
+> Reported-by: Dan Carpenter<error27@gmail.com>
+> Closes:https://lore.kernel.org/all/ajJF2wKYWRk4GGCK@stanley.mountain/
+> Signed-off-by: Sajal Gupta<sajal2005gupta@gmail.com>
+> ---
+> Compile tested only.
+>
+> Changes in v2:
+>   - drop the refcount_t conversion
+>
+> v1:https://lore.kernel.org/all/20260622080656.22786-1-sajal2005gupta@gmai=
+l.com/
+>
+>   drivers/md/raid5-ppl.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+Applied to md-7.3
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on pza/reset/next v7.2-rc5 next-20260729]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tharit-Tangkijwanichakul/media-hantro-release-runtime-resources-when-device_run-fails/20260726-104549
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260726024243.730-1-tharitt97%40gmail.com
-patch subject: [PATCH v3] media: hantro: release runtime resources when device_run fails
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260730/202607300319.RuKrwvI7-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260730/202607300319.RuKrwvI7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607300319.RuKrwvI7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/verisilicon/hantro_drv.c:1309:12: warning: 'hantro_runtime_suspend' defined but not used [-Wunused-function]
-    1309 | static int hantro_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/verisilicon/hantro_drv.c:1287:12: warning: 'hantro_runtime_resume' defined but not used [-Wunused-function]
-    1287 | static int hantro_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/hantro_runtime_suspend +1309 drivers/media/platform/verisilicon/hantro_drv.c
-
-  1286	
-> 1287	static int hantro_runtime_resume(struct device *dev)
-  1288	{
-  1289		struct hantro_dev *vpu = dev_get_drvdata(dev);
-  1290		int ret;
-  1291	
-  1292		ret = clk_bulk_enable(vpu->variant->num_clocks, vpu->clocks);
-  1293		if (ret)
-  1294			return ret;
-  1295	
-  1296		if (vpu->variant->runtime_resume) {
-  1297			ret = vpu->variant->runtime_resume(vpu);
-  1298			if (ret)
-  1299				goto err_disable_clocks;
-  1300		}
-  1301	
-  1302		return 0;
-  1303	
-  1304	err_disable_clocks:
-  1305		clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-  1306		return ret;
-  1307	}
-  1308	
-> 1309	static int hantro_runtime_suspend(struct device *dev)
-  1310	{
-  1311		struct hantro_dev *vpu = dev_get_drvdata(dev);
-  1312	
-  1313		clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-  1314		return 0;
-  1315	}
-  1316	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+Kuai
