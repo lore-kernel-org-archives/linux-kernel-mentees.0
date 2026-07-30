@@ -1,126 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D595C3546EC;
-	Thu, 30 Jul 2026 14:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECBC43F8A6
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 15:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785420121; cv=none; b=rXcgnl8OCtjWT00J0Dap6mRibHaCJ5xpgTPxHIlv2LuqKwdvNDatnlboy1ws9t/23DE9aFZhN/1totG/ZYPUNaN4tjGCtqlFtFBz3VRCHmXT9Usr4m//kSiA1C0jrxtIYYjiQ3Ufg0JBYwH0DD9Xzyo3tps8iNdznM5A89nVV2Y=
+	t=1785425779; cv=none; b=JmAgcrRm0H1izi2TE5GZ9HYSKawwoMZKld9zrryp+Qg9XnYRwB7LiQGzzhz3BsKjY1J0wyti29B1Cxur/cNgHlyVRcjae97fm5+DupOhSt+pevfc9fStblrlXG2t0236mGPnNdujaqJxBkz3HavtBC2ml3syqhQLaNrnkmQpqD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785420121; c=relaxed/simple;
-	bh=VfHPYc9y1WU/9awwS8q8if/0oW/rVxUUXuFg990A+gQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NbxEy/Ed1XLw6KLz430Tj008vtaJ6fPwXXFVwqF+zndBf+kXGw+sZvpniqEwLVYrupMvQ721L65ItLzBLN7X+FPgBw+J91LxOoDPcbxiZ57ckIqdq+d/McRAzt0O5ukD3T2EYiYipCFMrp7PhIdMP3X1r3vurf/GdHnSrOlrx9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hrwqsTj6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785425779; c=relaxed/simple;
+	bh=prl3a0vkf/T6ZwK28gJkETuegr5G4y5J6+1qLJNyQ/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2P6xW+HzucJa0iIrWLM4RoYYdhIhZSchIr2MctZ7MzZcFwBWq0Pl8wtEBmI1qHHmfAbq1KRX8NSAD2mUojDZSrlYU8TeSpJpSyY/kQ+/FisAMsfm7zSuFcJ7Evv7lS3tu4GA46EqmoSiEyjAa9NPOAAwvTB5H5k/LK9ii+gfTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NdkZvv5g; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hrwqsTj6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6233C1F00A3A;
-	Thu, 30 Jul 2026 14:01:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785420119;
-	bh=aWmtaLFdmiykJamcY8i4UABM60ooHpSbHhELBVfrJio=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hrwqsTj6FxHQlXLVomxkWY2rpkcXY1CEhrOv5ZElV5+yQP3CXhoawsesrnZPO27In
-	 n6zIWfSmbxhn+UZsMzvOdP6+TUk9rP1YTcw0T+DxcpEpoPYy+vziK8OJnbRPEkW5Iq
-	 912j+xbLurg9kp7Y1S1hEyJlSBO4MHAGVsfuE9vZ3eJOmbQywvkpzhP8RZMy0bmf4Y
-	 dkAnEtpKFwEv/uVEiTFhniqte+eF+idjXQwnLrn+pa2u8oPx0zZFiHtWfkyGvoM7sF
-	 uulxi9AybWaA/U4ZPN2ZYyKftUaDH0MWRqZpzBTULJurrjMTQfUGmo6mZaIdVaLWpy
-	 Ya1AN/t09VSKg==
-Message-ID: <53afc7d5-0494-49e0-b053-5f7b55a44fed@kernel.org>
-Date: Thu, 30 Jul 2026 16:01:52 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NdkZvv5g"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ce98cb8165so10134345ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785425777; x=1786030577; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eemCSxLVEosFJ70MWmOxEAPXsjZ44shUjMRdUXsw+jc=;
+        b=NdkZvv5gJN6iOgfVx/4cagvuMwKeoNATrZbs20KgKa1SAikM0Rx1JPXH5EQjHFa47/
+         vu47l1RW47GSrHe2RqMn9Z0BbjSsx6Iprop9tRosWj1tjTDNkBqvs+UpE6rFRkFPXUSE
+         tDcRgwsR2Hg7PW9dFl6yN2XgikH0bqvmsBaFKTcra1394sAMwT+8O6wRI9Ugn83XenuJ
+         FfxjKTGaBAfp+lZOScS1+UTMiqJZId7YOStz/f9hyTaECiHQ6GOKwHWijIPx7iq+aKap
+         usc5fo7rU46320mzOSNvqcBop0IwVnQlF/F7oxPoTh5yrmcSsxfjJqAgsZPcG7N/RZi8
+         7ZfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785425777; x=1786030577;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eemCSxLVEosFJ70MWmOxEAPXsjZ44shUjMRdUXsw+jc=;
+        b=YfCxBLyzlNyf4uhJbggMNpupDyD9NoPYWipyoIqiBzaTaHUovdzwZzBii9ymlwOzr3
+         Jz88pY+kR72jt1zq5nLBYJuYSaWMQEfPve49Mrjr0VxTFmNj2ECTk7xaJK+B25xDs2cL
+         eRbexBsDJ7Wq4je4yV8lD3LPR5akj2bKFkFTSwtofjoBLz2H83MyQWvl1PJxmTN4WXCH
+         22EyBHm/t3aSUIh+qecUtwd+O4g2t6u4MnLyHfSqx4Wb0spoXZEm9SqbYwkrNuvMVxtH
+         xMwv73fyribqOnz8fawhpQTEYEMuVSWjwJtrX5rBBnJ2c/JlCxUDHyKO7aK3NKGDVsW/
+         q/hQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrTp+TEtHwJ58jfbPpuz18mvekmC96awWKemco6I4sERomlrf3D+IrE+jGsMNX595nxOCHnRL/18U8YA2mKvqcSCx//Ow==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOPyW3erBbgQOX+U5Z+Ka2x0567HNrYLmDn3mUNomGA7a5mjfm
+	z+Jk4HADF0j3IW3BIWyzm+kS/pZGC0fV/Bf85wuIi5YyIFNWLmjols0Z
+X-Gm-Gg: AR+sD10rMoKytGOCiSdrl6bfHLbbVjGfhr2VQMd+jRu7aeZtBqloi4l8wgWh94UQ3Nj
+	htpk0rPekw73s8s2tWNrzOgwTrSsREgjJIVFGDrZjkzaWckfeMIUKodVH/wqhMuCsN8JlAPFSeT
+	rwdwAXOuX7DVb+dPft15cQyIUEpaosQxuWS7KweqYwTJpJAQ1JgPm2IjYia2I16yUz4QO8jVCCr
+	Ucza7xVmIXxAvSMsKeJrBxiBHyYN2ebim52PkkrGghmsX5feLIE7DcVAJYuvuQJWosAnla9gCze
+	Bmc85eh/Me1hZkhaXF0DgHu/bjX1gfBrex+j/TAcpEbtGRJAQcJaFSW6BQ+l+tHpcCQIxeQAd9t
+	hq5X3qdZdaqp2Bhqw0gNw7To9ijWkNwJtC4McypSyvnp1b4LkDb0gSm+ksTcmeZy3lEkm4vDRVV
+	hy0oYrA0WX2EeQmti67e2SounEWNjvwHBulR69jK5eSKDXcfZYovxTsMV664UoefHFZExXWau7l
+	t2FNpnWe/ZD/DoHCRUhK7y/5oQ/Mtnmu9Cdsj9EmiTd1A==
+X-Received: by 2002:a17:903:1104:b0:2c9:d8c5:d55d with SMTP id d9443c01a7336-2d03e9b6bd5mr5417115ad.16.1785425777367;
+        Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
+Received: from debian-rockchip-rock5b-rk3588.. ([184.22.25.116])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022a46969sm28820085ad.25.2026.07.30.08.36.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 08:36:17 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH] media: rkvdec: fix v4l2-compliance failure
+Date: Thu, 30 Jul 2026 15:36:03 +0000
+Message-ID: <20260730153603.5721-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/khugepaged: replace mutex_lock/mutex_unlock usage
- with guard macro
-To: jakov novak <jakovnovak30@gmail.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- "\\ Liam R . Howlett \\" <liam@infradead.org>, Nico Pache
- <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260728204636.20998-2-jakovnovak30@gmail.com>
- <b78f734a-440d-4fad-bba8-df77894c5aa0@kernel.org>
- <CAPUiDP1POYKJQ=Gfm-irzUmGaSNfZm+qO0xGP7Z=FO8a=R-6Kw@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAPUiDP1POYKJQ=Gfm-irzUmGaSNfZm+qO0xGP7Z=FO8a=R-6Kw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/29/26 13:56, jakov novak wrote:
-> I guess the error checking could be moved inside the if
-> (!khugepaged_thread) block like:
-> 
-> if (!khugepaged_thread) {
->   struct task_struct *new_thread = kthread_run...
-> 
->   if (IS_ERR(new_thread)) {
->     pr_err...
->     return PTR_ERR(new_thread);
->   }
-> 
->   khugepaged_thread = new_thread;
-> }
-> 
-> I can send a v3 with these changes if this looks good to everybody.
->
+rkvdec fails v4l2-compliance in two tests related to
+V4L2_CID_STATELESS_HEVC_SPS. The Control ioctls test reads the control
+with GET_EXT_CTRLS and writes the same value back; TRY_EXT_CTRLS then
+returns -EINVAL because the VDPU38x rkvdec_hevc_validate_sps() rejects
+sps->chroma_format_idc == 0, which is the value returned when the
+control has no default.
 
-Yes, please so so.
+    v4l2-compliance 1.33.0-5491, 64 bits, 64-bit time_t
+    v4l2-compliance SHA: b32589c51481 2026-07-16 08:51:38
+    Control ioctls:
+        fail: v4l2-test-controls.cpp(942):
+	try_ext_ctrls returned an error (22)
+      test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+    Buffer ioctls:
+        fail: v4l2-test-buffers.cpp(3102): node->streamon(q.g_type())
+        fail: v4l2-test-buffers.cpp(3157): testBlockingDQBuf(node, m2m_q)
+      test blocking wait: FAIL
 
+Provide a control default via p_def with chroma_format_idc = 1 (4:2:0),
+which is the only value the VDPU38x SPS validation accepts.
+This fixes both the Control ioctls and the Buffer ioctls failures.
+
+Tested on Radxa Rock 5B (RK3588).
+
+Fixes: c9a59dc2acc7 ("media: rkvdec: Add HEVC support for the VDPU381 variant")
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index 1d1e9bfef8e9..37603f049788 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -236,6 +236,10 @@ static const struct rkvdec_ctrls rkvdec_hevc_ctrls = {
+ 	.num_ctrls = ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
+ };
+ 
++static struct v4l2_ctrl_hevc_sps vdpu38x_hevc_sps_default = {
++	.chroma_format_idc = 1,
++};
++
+ static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
+ 	{
+ 		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+@@ -243,6 +247,7 @@ static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
+ 	{
+ 		.cfg.id = V4L2_CID_STATELESS_HEVC_SPS,
+ 		.cfg.ops = &rkvdec_ctrl_ops,
++		.cfg.p_def.p_hevc_sps = &vdpu38x_hevc_sps_default,
+ 	},
+ 	{
+ 		.cfg.id = V4L2_CID_STATELESS_HEVC_PPS,
 -- 
-Cheers,
+2.47.3
 
-David
