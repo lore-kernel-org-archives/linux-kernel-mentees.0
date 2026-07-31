@@ -1,40 +1,33 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64081322A1C
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jul 2026 06:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633123A9D9B;
+	Fri, 31 Jul 2026 09:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785480377; cv=none; b=SfSsYO74VGHn+6MV7AK3YQJbYOAsP/4qAZ4+M9hHAP0juCjuFd4ybPDf11jxDk+/85ozKXnOnAbMQzYJaKGa5PLezhF5zGfNMLnwrVuhDEQOjgNFMcEwDLQbWk3h3rznttxH4JRZX9Ytv2wlB4W8o31pC1FjR+xm2iFrGDsblW0=
+	t=1785489647; cv=none; b=OY1UdFCW4YgGodOw5d/9atA1oqJn7tykY9v4qcA1EkZ8BaP33EMhsLCecTAdcMHD+32H54rmn7uwR088eZ/h9qSQLZpnQ1ISUhf3KhZ7tmTXdEgjqbJw21KMkdbQTqP6TxlTMoFWKCpGWPaivtmZBzeYyYMlYSxVPa5tFTNoh8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785480377; c=relaxed/simple;
-	bh=StIZJIbCN3BjQV928jVwwr0NSUHcioSofG/UnfbYjyo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=dRF1TUVu+d2i7v9l2Z9VO1adD+he1mFTWKjdD/iUarTTyeyNAIxpf1e61DnlTefpUAcPAyMu2a1nq33ls9X1H2lHL0cyoas/kl1LkFLq0yBjDt0W4FPJWbmYbFFqds3tCmJQCaBsyL6S5tEeDvDsC4K9bv/ROGGfmAwp1276ht0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=YHb12XZc; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1785489647; c=relaxed/simple;
+	bh=QHLB/63ucYPMm2CxAS+3SlqDaqZqbXdduUpmMh77lNM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kc3Q0aX2PttS7hdY+9KJcjIqH1AdfsOOWEMlqGLJV3IGyzLpOdNAPPRbz8MV92pPSZdicR1YX4Jxak4WByrYyBbrZsmYL/+N4Qc116IQ/IR10v+TBK2kWon0/cajJSTiFludr7CzpDdT3NYIe5mSs+ufqYn9IQO/NUOilAX1vR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8sP/PXi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="YHb12XZc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1785480356; x=1786085156; i=markus.elfring@web.de;
-	bh=ish1qHmO0vGYACH5MACVgDsbjBINzL58r8cMVT1xgZw=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=YHb12XZc515VzxKwSQAcIDFGICY+Kyh8uyvTix2ijuIOKSdkyoLgHQ/DbLF7pw9f
-	 gaWElPCSDBsc5XnmEUXgrr4zGUsBXDfB4v/ZEUwF0i3Qg6fg5p+mVvmqTihXNe/EA
-	 AyfrUzCUpp0QpAkObX1TyJyhri7h4+DnZBsOTlkTtP+u2lQFLl4n+wEKEctqveO6n
-	 qr8UGyyCio7+2qw7Hg8U4nypPKao/SaKaSb03f3sgrGiqrKVVgmk92R0ul26xtWxK
-	 SRvHf5uux/Cw41PrGRwwUL4tUPFZKe0RUC4aTic6bK6MtzLH+RGy34sdgBGZmx02L
-	 hUwniI1m+MALVGrP1Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N0Zs0-1xAflg3IF2-00vy1V; Fri, 31
- Jul 2026 08:45:56 +0200
-Message-ID: <b237c962-36f4-46e6-99ba-64e81abce0ba@web.de>
-Date: Fri, 31 Jul 2026 08:45:54 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8sP/PXi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A321F000E9;
+	Fri, 31 Jul 2026 09:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785489645;
+	bh=AUZ9SN0N2C05U6WQonOb03P00ptR6/rTlFGHNCrawFE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=k8sP/PXiGrwySS5F70zb2FFJVkowjAapZVdfJ+XsvgQNrWwmuI01dxYN0SZXI1Xpj
+	 zCverqWB4eJuQ4aYeK71fSB2klB6AWfHyfnFxchDDaLsMhmxFPfkllKd+vVTsi653E
+	 bA7DMvP+eDZ3wEJLTcMhROHrQlZHRr5k4bLwai3gd7csJjxitduzAla4h1GXpQ6uK3
+	 Q8UW5M5xqsNdeI3OjJlOTxDEcn0s0MPfGcJtLrz2GjToi5UVr917wMWE7bFamNckoO
+	 z1KlVAOpm16qWyuzNFWgs/x2SNEbAxbcbxJmVRZkrsCKmdFAth3yz2zW6LTeoIPs36
+	 jkTcAqesRId9g==
+Message-ID: <fa82bba2-8a34-44b6-a3af-a942d8ec2b45@kernel.org>
+Date: Fri, 31 Jul 2026 11:20:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -42,165 +35,135 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: =?UTF-8?B?w5NzY2FyIE1lZ8OtYSBMw7NwZXo=?= <megia.oscar@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>
-Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20260727114155.69204-1-megia.oscar@gmail.com>
-Subject: Re: [PATCH v3] Memory leak error in qxl unbind
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260727114155.69204-1-megia.oscar@gmail.com>
+Subject: Re: [PATCH v3] mm/khugepaged: replace mutex_lock/mutex_unlock usage
+ with guard macro
+To: Jakov Novak <jakovnovak30@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "\\ Liam R . Howlett \\" <liam@infradead.org>, Nico Pache
+ <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260730204724.16912-1-jakovnovak30@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260730204724.16912-1-jakovnovak30@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/7C2dL6eWaw+qUOWvXcc9U32C1FLepm5JUAGHg/RAYdvRJcuaMB
- m41VjpuE5I9JoxL63/qJiEu9oKhkPB8kJU2rQvOYYFoOXUdoYMGOeoGIJAavgJed6v98vvC
- O8mF66ePwkOpAXD9zKgbDSdzyAMVvVKhHI9ieYoXhsmZqFrq99JYCt2YSr48UFEVji4gHtX
- 27fXyVGZQRcAadmERcx2w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Y7HzQDd8qPc=;p4CZ1g67pBLh4ABORtR3R2Atxqp
- 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
+Content-Transfer-Encoding: 7bit
 
-=E2=80=A6
-> Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
->refcount + debugfs.
-=E2=80=A6
-> Fix: err_shrinker: label that finalizes + destroys all 64 pool types
-> before returning.
->=20
-> You must apply the patch from the link "[PATCH v3] drm/qxl: fix
-> use-after-free in qxl_irq_handler on PCI" before testing.
-> If you don't apply this patch, you will get a UAF error when running
-> the script above.
->=20
-> Fix: "Unchecked list_lru_init() return value in ttm_pool_type_init()
-> causes a deterministic NULL pointer dereference in the newly added
-> error path."
-> Now check list_lru_init return value in ttm_pool_type_take, check if
-> pt->pages.node is NULL in ttm_pool_type_fini and ttm_pool_type_init
-> return value in ttm_pool_mgr_init.
->=20
-> Solved new issues:
-> - [High] The patch introduces a use-after-free race condition between `t=
-tm_pool_type_fini()` and the active memory shrinker `ttm_pool_shrink()` by=
- calling `list_lru_destroy()` prematurely.
-
-How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
-=E2=80=9CCc=E2=80=9D) accordingly?
-
-See also:
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?h=3Dv7.2-rc5#n145
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/stable-kernel-rules.rst?h=3Dv7.2-rc5#n34
-
-
-> Solved pre-existing issues:
-> - [High] `ttm_pool_type_init()` ignores the return value of `list_lru_in=
-it()`, leading to a NULL pointer dereference if allocation fails.
-> - [High] `ttm_pool_shrink()` assumes `shrinker_list` is never empty, cau=
-sing memory corruption and crashes during module unload if triggered.
-
-Would another change description variant become better?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv7.2-rc5#n81
-
-
-=E2=80=A6
-> Signed-off-by: =C3=93scar Meg=C3=ADa L=C3=B3pez <megia.oscar@gmail.com>
+On 7/30/26 22:47, Jakov Novak wrote:
+> Currently, khugepaged locks the khugepaged_mutex in two functions:
+> start_stop_khugepaged and khugepaged_min_free_kbytes_update. Remove
+> mutex_lock/mutex_unlock usage in these functions and replace it with the
+> guard macro. This makes the code more readable (removing a goto statement)
+> and makes it harder to introduce bugs in the future.
+> No functional changes introduced.
+> 
+> Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+> Reviewed-by: Dev Jain <dev.jain@arm.com>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
 > ---
->  drivers/gpu/drm/drm_gem.c        |  1 +
-=E2=80=A6
+> v2:
+>   - Added #include <linux/cleanup.h> to the includes at the top of the file
+>   - Moved err declaration to the scope where it's used in
+>     start_stop_khugepaged
+>   - Made default case return 0 instead of err in start_stop_khugepaged
+> v3:
+>   - Moved new thread creation logic inside if (!khugepaged_thread) block
+>     in start_stop_khugepaged
+>   - Removed suboptimal err variable
+> 
+>  mm/khugepaged.c | 31 +++++++++++++++----------------
+>  1 file changed, 15 insertions(+), 16 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 617bca76db49..97f61a050f7c 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/ksm.h>
+>  #include <linux/pgalloc.h>
+>  #include <linux/backing-dev.h>
+> +#include <linux/cleanup.h>
+>  
+>  #include <asm/tlb.h>
+>  #include "internal.h"
+> @@ -3111,18 +3112,19 @@ void set_recommended_min_free_kbytes(void)
+>  
+>  int start_stop_khugepaged(void)
+>  {
+> -	int err = 0;
+> -
+> -	mutex_lock(&khugepaged_mutex);
+> +	guard(mutex)(&khugepaged_mutex);
+>  	if (hugepage_enabled()) {
+> -		if (!khugepaged_thread)
+> -			khugepaged_thread = kthread_run(khugepaged, NULL,
+> -							"khugepaged");
+> -		if (IS_ERR(khugepaged_thread)) {
+> -			pr_err("khugepaged: kthread_run(khugepaged) failed\n");
+> -			err = PTR_ERR(khugepaged_thread);
+> -			khugepaged_thread = NULL;
+> -			goto fail;
+> +		if (!khugepaged_thread) {
+> +			struct task_struct *new_thread = kthread_run(khugepaged,
+> +								     NULL,
+> +								     "khugepaged");
 
-Some contributors would appreciate patch version descriptions.
-https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
-viously+submitted+patch%22
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv7.2-rc5#n310
 
-Regards,
-Markus
+Nit: we can exceed 80c to increase readability.
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+-- 
+Cheers,
+
+David
