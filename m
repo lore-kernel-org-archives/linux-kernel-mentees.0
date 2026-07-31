@@ -1,112 +1,160 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8434645104C
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jul 2026 18:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC2E43D4EC
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jul 2026 18:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785523095; cv=none; b=rj7FaptmbpGIeb1wMJWdeZchKk210uQuz0EPu4A+hzDJVz6whFMlieCzZb1F5UUPqDhGEc0Zhy/+on7wR9BWlVR5xtKPSXW28HceoFpaVkfFAbKf2/f2QRx4vVXE16qk1rJ5y8vORT6GEen56dIR65Xt+PiVIgls5yb8jRZ/tI8=
+	t=1785523295; cv=none; b=H4AmcWQG1t8WtFWHs5kL8ll3qCMZ2GU2iM7N8StSS/S5+dijxG3mJa5vivLo0rXlFnNUZZPwkBck0fHA/g/cbEQlt5QaUEmGUnGk0DAqklEzD3uFvxymhTtAaAjU6GbysotVPJhSmTJFThCfI2Wx3WL4EmuuioE66uNcwzeF5ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785523095; c=relaxed/simple;
-	bh=0qmNpaBaB2RvZIzoN2H2Ll7z3IaWWdWskW1cUsIq6nY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=dyFyYZx5hOhBuz05sLN1SxdR6u6iN1rcgNZeveSqUk6QavF1Yk5+9RjB0Mffoi7TkAKbsXbofo0qLchtdCl1G2ja0DjLjqJ5A5JKyBqekPchs4AnZiFDqFyMm8T38E6PDP5g7g02QJec4ojmaAZE/YTnTu6JU5awGqkp7pRq/oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5jeHgDk; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1785523295; c=relaxed/simple;
+	bh=7LNFTMs6nkB60Ajw7pQWpTWA3laGLhCMvmJrV0QSrCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u55nzDThJ4ZNRZz3wGmtZIfe0mDktu4moKokQ3Y8gaK+Lu68rOmKOGhjlwykTsNM1TCNdCG9/Y/4nIeKxbWNgzyN9u0ZdMaufGxAkt3dELtHEQsJntQRLZxHmeUi8JI58GVmETPGOQCdNVbq2rrUuzgW3exHM9cMR8X3TQJwhcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=abP+JzOp; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5jeHgDk"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6a051904222so2048076a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jul 2026 11:38:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="abP+JzOp"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-908239232adso7147356d6.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 31 Jul 2026 11:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785523092; x=1786127892; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Cuo1/buJDSgVaRnV7IziqM+qa03lBm77pdDeWz/JLcA=;
-        b=G5jeHgDkGT5VLG2Kpqs3Pk/0NX+fvQElMjs3bs4Kg8g/ayVke9+qpwLfzOMZuGOgu+
-         EMaQ9vWUqKH8zqpE8praUDmprVOox82uZpHIvqt+zGdxUpJFm31IY1axCT98Qs9FOAna
-         LWKWVW307eBDJeVU7BJt8ZocTHKnU9jTR7E882jorveQsyKvYVgD9KX3Qn6VbcY2tQnf
-         SrSwRlwQohaGL6JNGLdSIxt0ggFRcyVbGw5ojcQSimDZ7zh4MMvxEODsRR6JoBtUVZ+U
-         +xn00sxcxAOaImILBjZhWtvaX7MlbNeSNzL3oo/li704++RRolB0YZCQ0GaKtejvG0Li
-         vtrw==
+        d=gmail.com; s=20251104; t=1785523292; x=1786128092; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CTMjmGFusOMu1vcQVsEPcYR4aahhp3Y9Dwu7CieMQ38=;
+        b=abP+JzOpvL4PDCKs1rebbr6r2YRREUpxaosK6swpZDdH6um8pHQrbVfNmfZ+eJeraE
+         DzSzmI7fW+j24PSdL+T1qPdG77BmTy372xCursFae/zPnrW5XaSH0deyusCOL5lBKZSs
+         IENRtZRGnqY1Li2sobermi84OYsEeUf5da+VtzYJeezUTExlfw/Mgq71gQDgNdia7Nv/
+         vk6bKaGwI+ebCbgtevRwVZn+zbnvtPXJbSJ3pFLo3e223yj9zPaKH0e58oy6XTV8lbp2
+         5QKtxibjyRYhcGf/muWulROEisSB3+KpSciUehBjmaafLP1fvKkV+V1F9wlptnU2EDjS
+         ZkwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785523092; x=1786127892;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Cuo1/buJDSgVaRnV7IziqM+qa03lBm77pdDeWz/JLcA=;
-        b=R6inEB4a3HJ+UEDGtNCdLTkI7SztvvG9wDWUyF/iM0uosfkwEgwuCbGfAHLVeYKgPf
-         IFaKWyd8ruVLEw3P2uSvU9Vra+SjiAxaLX11KLMolplzAhlJyAYZRjq+EvFpQD+mqVWV
-         VYmIoGlQEJU0FvfCzS1MPHAWifBuwHUNkhJKAd6eyReKi3kozAebLlVm5qtkUAb1LEla
-         FeoeYuvIu8YQsnIZn1vSSL41EQk5R0OjpvVN7eYRjBLZZy1v0QEQwZihTSf/DJg6x0Ww
-         Ux0bjUgBevAQ7YkOoZ+bHqUGM8KcQ6OQs6hbHnTHy1afuH51V8XsgBVY2DjUC05GLuuV
-         HMSA==
-X-Forwarded-Encrypted: i=1; AHgh+RpqxzVT+KiOdKshzKl4VUiji2g4Bvyvd6DkfHNWRph1bmQkOeXxCIvBA2GGnLRItzOiVhfW38O2Xc5tPCLWl7IMfQfxVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDHPDznGvnejSXpFT+1Son3IIvCozDNlfTfbSmPq9L9bSHOHKM
-	a7Cz0PlbvYBrXGSAuljXZeu1moaAcjlOuWjV3WzYVNBzJO85wn80nTFEzepjBHw=
-X-Gm-Gg: AR+sD13pNcXwiRNHy4ik3jMeLQ2bIF5qOTGo9uW2LSs4Bwfp+z/C4Xvoud6qW95zsSd
-	66LmGlrUWmwziUcxp2Ps5kPfV2lOZXlTpEbc4EoWItzaHKK4I6vEuQnnqELiWwYxiIOLp/nLqb0
-	Ao50TuofP3DXe6cqIPAWQkbnoRJ35CfaIh1K4kMtwfU0MQa+f8MBSNqz+4dHmN5z8Cqoi0o2NZu
-	OKchkfooicCvifQtHY1NBBh2oH9VWVHasFjArDtWkvsL5F/Xb5tNylzrmbcSu1GY9J9880tTw4I
-	rr5ljy4ss4buP5dx5Petuak7VnNKkgxYcSkfktI47i27lS1/lDA7NsebWbvwqv/MdSTihMzRDyK
-	E+zuRPdZAWMn/jvS1g15mw59jL4+yciivaK/8fqMT5SypKa93ICLjkfzfzvxTn9WQRrIE9yCyBm
-	UehTBMRCdjLHKIYeszKsJPKp0qVDErXMiljRH7YpcFbp1S7/4QyYqnv5Ad+mF1Em4qdCd1KgiUL
-	TVXUD5974cgty5JWsNG9cXyYAm9uuSfZHVa19sfZetSk9MAQGcCgpdeQbmBukcC1L4WbtrtlglX
-	qO47dn5mIcmR5A==
-X-Received: by 2002:a05:6402:1cc4:b0:698:821d:aa37 with SMTP id 4fb4d7f45d1cf-6a0a7cd4980mr372451a12.24.1785523091596;
-        Fri, 31 Jul 2026 11:38:11 -0700 (PDT)
-Received: from ehlo.thunderbird.net (92-242-248-21.broadband.mtnet.hr. [92.242.248.21])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a09c655626sm3205982a12.22.2026.07.31.11.38.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jul 2026 11:38:10 -0700 (PDT)
-Date: Fri, 31 Jul 2026 20:38:08 +0200
-From: Jakov Novak <jakovnovak30@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Pedro Falcato <pfalcato@suse.de>
-CC: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "\\  Liam R . Howlett \\ " <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Shuah Khan <skhan@linuxfoundation.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3=5D_mm/khugepaged=3A_replace_mute?=
- =?US-ASCII?Q?x=5Flock/mutex=5Funlock_usage_with_guard_macro?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260731112541.6098017d442451a8b54345ec@linux-foundation.org>
-References: <20260730204724.16912-1-jakovnovak30@gmail.com> <amx5XdMQ7S_krjNA@pedro-suse> <20260731112541.6098017d442451a8b54345ec@linux-foundation.org>
-Message-ID: <716E3F29-C75D-4373-A8CE-C2AB2DD7FFEB@gmail.com>
+        d=1e100.net; s=20251104; t=1785523292; x=1786128092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CTMjmGFusOMu1vcQVsEPcYR4aahhp3Y9Dwu7CieMQ38=;
+        b=JH5oJOy1WzfxCTdpi5tSv1ZkhrXWBP4ecS/pR1B9OxqWJIzm31cpqNGQvX88AfZVNu
+         vIv8Tq2sxu16DbHuBd+GYsi30nHaOCWJ32jhorZwoEwU9W29ekdLWgjArxmqfhoTm62A
+         jmsorjuLpkZQVYuVJjT7IR2XrlHg+W6dvzPKSp9E2C+kCdP5cuf1IB6W+z8oem3pfZzo
+         +J1vg/doZVxJfrYZWolOsZ6zWJIHgPUFbnEofif1LkVpbD9xn9fGs4WcWx/ZpW+ozwqR
+         c9hm7/faCmcQY9G0Oyg9lJEZmSgxbpJZX9SEIDOG/HCnCBNxtjC+BCI5HP0cE5ljNxHt
+         b6kw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7E6Web7IDMFViqNdEh7r/gkMIA8R3eR5YAn/ERgssa0QQGcvhGWzG3Caw1hKb080qlAqhtER21zCkqxvKuPfOgUmzVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYzza9m+Hrd8E+uhnAn6yuSJjVhtCcrxqPfigpKf67NFDUUfnA
+	+fU4bhcYzDb0PO94sb8/2/0rVV1zgZbqZWnOkaS1diSX7IdA2ir/CJ8e
+X-Gm-Gg: AR+sD11ToLEUOnoE4O+A1uZ3hzhQPw7fHBheV53mHZW12c0YpynFWZ9bl+uX7LsbSGn
+	4XAnBn7lYcxYZIxfSCRcrgVbAC8xaJ4qs1Jvemg/1xZ5F4GlrOxYMiGELjabzNny7y/wgzovweT
+	Q5vko0FJ+QB7Ij+UpeHT91QohRF+1MdRTuXSEG1hjdq0Zi3jaFONDYiSolVG3S9rWw3GDieJrzV
+	wel4zgNqwzogIC7mTMQT2nXRGK6uqHJCLW659foObuWZi/QFZthsKYwMZm2STIxVAXxTxbL7XKZ
+	eEbDQhHDgixBwFfY2v/7LnjTaUHiBm9OLxAkgtiLG7BF6u/aCZLasrX2UO5ILfbwlqY1CE2teVC
+	yp1LosOxCS3IwSb7lVCWCeHLrjnPJhJQdJAgxiSKkrqr6CgmCGtI9X2zbM7P7D6TI8PKq54mnv3
+	xsIfiZBlxmZv1oeZiisVriNuz5ZucaF0BdBd5+47YvduaSxd5P6d8WXthcjTC2UpUtUbs=
+X-Received: by 2002:a05:6214:590d:b0:8e9:cd74:87bb with SMTP id 6a1803df08f44-908431e1f25mr60578946d6.18.1785523292065;
+        Fri, 31 Jul 2026 11:41:32 -0700 (PDT)
+Received: from localhost ([2600:4808:5693:8201:bb19:d9f0:6e53:91ed])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908436071b7sm16241546d6.48.2026.07.31.11.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2026 11:41:31 -0700 (PDT)
+From: Marco Chen <marcochen.dev@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	pmeerw@pmeerw.net,
+	matt@ranostay.sg,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v1] iio: health: max30102: fix NULL dereference in interrupt handler
+Date: Fri, 31 Jul 2026 14:41:23 -0400
+Message-ID: <20260731184124.112124-1-marcochen.dev@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
+The interrupt is requested in max30102_probe() and stays enabled
+for the lifetime of the device, but indio_dev->active_scan_mask is only
+valid while a buffer is enabled. When an interrupt arrives while no
+buffer is enabled, the handler dereferences the NULL active_scan_mask:
 
+  Unable to handle kernel NULL pointer dereference at virtual address 
+0000000000000000
+  pc : __bitmap_weight+0x64/0x98
+  lr : max30102_interrupt_handler+0x48/0x160 [max30102]
+  Call trace:
+   __bitmap_weight+0x64/0x98 (P)
+   max30102_interrupt_handler+0x48/0x160 [max30102]
+   irq_thread_fn+0x28/0xa8
+   irq_thread+0x184/0x30c
+   kthread+0x118/0x124
+   ret_from_fork+0x10/0x20
 
+Return early when no buffer is enabled. The interrupt status register is
+read before returning, since reading it deasserts the chip's active-low
+interrupt pin. Otherwise the pin would stay asserted and no further
+edges would be delivered.
 
->> > Reviewed-by: Andrew Morton <akpm@linux-foundation=2Eorg>
->>=20
->> Hmm, did Andrew actually give this R-b tag out? I can't find it on-list=
-=2E=20
->
->I don't think so=2E  Hallucination ;)
->
->I do sometimes sneak in an offlist R-b when I'm looking at things but
->I'm pretty inconsistent and lazy about it=2E
+Fixes: 90579b69e94b ("iio: health: max30102: Add MAX30105 support")
+Signed-off-by: Marco Chen <marcochen.dev@gmail.com>
+---
+I ran into this while interfacing with the MAX30102 over I2C on a
+Raspberry Pi 4 running the IIO subsystem tree testing branch and
+learning the IIO sysfs interface for the first time. When physically
+rearranging INT pin wiring with no buffer enabled, the kernel oopsed.
+This happened because max30102_interrupt_handler() attempted to
+dereference active_scan_mask, which is NULL because no buffer is
+enabled. With this patch, the same situation no longer oopses
+and the buffered capture was tested to work normally afterward.
 
-I saw the tag on the mm-new git [1] and I wasn't completely sure if it sho=
-uld be included in the next patch=2E Sorry about that=2E
+Some things I am unsure about though:
+- Is IRQ_HANDLED or IRQ_NONE preferred here? I chose IRQ_HANDLED 
+  because of the status register read to deassert the INT pin, but 
+  I am not 100% confident on this choice.
+- Should the regmap_read() return value be checked? I did not add a 
+  check because I do not see a useful recovery path from this I2C failure, 
+  but I can add a check in a v2 if it is better.
+Thank you.
 
-As a general rule, offlist tags should never be copied?
+drivers/iio/health/max30102.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-[1] https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/akpm/25-new=2Egit/=
-tree/patches/mm-khugepaged-replace-mutex_lock-mutex_unlock-usage-with-guard=
--macro=2Epatch
+diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
+index c37316c86f14..c30b029ba8aa 100644
+--- a/drivers/iio/health/max30102.c
++++ b/drivers/iio/health/max30102.c
+@@ -290,10 +290,23 @@ static irqreturn_t max30102_interrupt_handler(int irq, void *private)
+ {
+ 	struct iio_dev *indio_dev = private;
+ 	struct max30102_data *data = iio_priv(indio_dev);
+-	unsigned int measurements = bitmap_weight(indio_dev->active_scan_mask,
+-						  iio_get_masklength(indio_dev));
++	unsigned int measurements, val;
+ 	int ret, cnt = 0;
+ 
++	if (!indio_dev->active_scan_mask) {
++		/*
++		 * No buffer is enabled so there is nothing to read. Read the
++		 * status register anyway to deassert the max30102's interrupt
++		 * pin; otherwise it would stay asserted and further edges
++		 * would not be delivered.
++		 */
++		regmap_read(data->regmap, MAX30102_REG_INT_STATUS, &val);
++		return IRQ_HANDLED;
++	}
++
++	measurements = bitmap_weight(indio_dev->active_scan_mask,
++				     iio_get_masklength(indio_dev));
++
+ 	mutex_lock(&data->lock);
+ 
+ 	while (cnt || (cnt = max30102_fifo_count(data)) > 0) {
+-- 
+2.55.0
+
