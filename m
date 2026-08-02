@@ -1,77 +1,75 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555783AFCE4
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  2 Aug 2026 12:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45590369D59
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  2 Aug 2026 12:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785674111; cv=none; b=LQsNqpir8+DE0rlJbghekTPbwrRggRh+fZoAfjqILHtDLMGPMqItw2YBAKhjxLq65vANs5gFjIeVReaZYGYUbmn3NG1sj85zlSEHx/fLFp+VN6Imk6MwquW1P4OlV6gHKokCRw/uREgsIVqczJ3U4dXazxOGGkDDwrl87NszBjE=
+	t=1785674320; cv=none; b=t3fVAJk0KZtKn9NsxU/csTBxxQuM9Sg4LwzT9aJOQLnEPPEQbJqLCJ9n78dy8uDJ/tsyZS3W3z1pgXvd3TighRHu1QqpNnWPcNrOjKMLFQrrEXQYaxx00TShFTA7xpxpYwH+xTMzwYTSzStvp2d5nNzUc6XbQSyjHuHpqkCtInU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785674111; c=relaxed/simple;
-	bh=mTSWQMdtUPJ8quoBNc3vQhj+rEBKzchn63KyQA+oHsg=;
+	s=arc-20240116; t=1785674320; c=relaxed/simple;
+	bh=FUud0qIrxq+PQmP+DKOJ9cRWUJkFwQBvJb/k9126FCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tn7LE/PrzaUSrrfbCHErttMjAWgRpjViWGfxCcgGQXFE7q6RvZauDlgbdpBfVC4+jRXW3xssYjYlg0qZkXNL1bhx3ZFJ2m30DBpWRXT9T/l5K1rQNAHxWRRjHvKtaJoIcnpEGngqjkOn6GkckGPMBi4jh+0z/bkWnJ6/EWUiTXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=DdByxYbU; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=QWPi431/E8pcju/CqNXhW2BnH4P2IYT0WYpPRyo7bv3T3wdraZof3Ai2kF4kjoElLdFQxVp8AofNzi+WSU/h6/snvake6/aogSsNKmrr/fuOT3DNtPSLxK4+enlojxNd+VPklY3hokG5+UUQH3AKs1ZubtdcXFRi/IDDwO94t2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=jCblM2FC; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="DdByxYbU"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47fd4ee0b01so1431384f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 02 Aug 2026 05:35:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="jCblM2FC"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47fdb6f7d72so334594f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 02 Aug 2026 05:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1785674102; x=1786278902; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1785674317; x=1786279117; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+iJPyyVAhWuwgDbr/jcy9trWNUYfGjBz+o8zO7olgWo=;
-        b=DdByxYbUG55UTmVcih0stYdUKcgHv4G73RGL9PQEOUTuEFMD8TEKnHXb05SkPQepSG
-         6dURvw8rbO1XYSYTi4/JRv4SxUrLk4J3g7X+QxLmS7FiQAPHtalJk1CU+Gm8F7GqT0TX
-         1x3rpp8HqhFz8ul2it9yZvsIpg6qaeqOYE7AJPY2E5TjmUh1nFdHGSW590+oDYrKZzJa
-         Y54/41zP3lYio8aiK+bT6WISn4ZJfJpEzh2jild3BqRnNs+myCKsC0QhTueOcAhV91bQ
-         OIah73h2zu5EiAZOU74cs72XmZ4C7fbh3uPeAr1omQrA4zgzd2+rWQYY631L9NpGDP4r
-         ibNQ==
+        bh=FUud0qIrxq+PQmP+DKOJ9cRWUJkFwQBvJb/k9126FCI=;
+        b=jCblM2FCuSVHwJjqqCz4ndiRpXP6MIkABZAIhmYs6okebRGM5MLmriIHG2cemhqwSz
+         RcVz60r19QgWmv3kxqSBRPJu4UDZB44uxW5PTNvU1Wnjfeb4KiX1A6I/XYvg8ojPl0bx
+         gVDY77tVX+7M3biKb2+C4bZEmzusHaQhSMfhebV9SUkZh0zuB32iscCB9RpIZ70Mb1CO
+         h3ODO0GnGEfzJtIp4yMOF/GRPydHxsmc5fPBS4QnPMZZXihWzKb8bNYBmWOJXcYD5cDz
+         nXmU5krfCXM3y/+RfWv+LLIUlaUenJlKBO0V4/lVqlgiODb7TCfW/wEmJsJRRvYI/Q72
+         mWgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785674102; x=1786278902;
+        d=1e100.net; s=20251104; t=1785674317; x=1786279117;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+iJPyyVAhWuwgDbr/jcy9trWNUYfGjBz+o8zO7olgWo=;
-        b=etd1SPTr+9E8pKF+vzEhNGia0xGJTpVn3U2/FMxfTUlRlsQeyB4IxQ+JBH/YLA+FN9
-         Ye4Ta5HIm6/lUNv/rA7+uU0oHgJMHOoAgfdrBvGM2/yU2RGl6OpBEa3K0UOKcaF7LxCD
-         hnyOr9VHQGaLOTrmc8V73kXDIACrmYGBjPJd2BFhZ2Km/J/LvVxVYqSw2VUW1Td8H9I9
-         Ya0CRoj4lh/1IxxnRTtchkwuk52uaX9rF7gkQDOhZwd5CH+zJmtg+wpnLQG/MywHL7Lg
-         P6jEj19YVJSDlPq5V/1VbY1DGjWkV+VVTfzpqmwGDUqv58FHnMg1SlueNx24XxtoyZsG
-         e6Vg==
-X-Forwarded-Encrypted: i=1; AHgh+Rop2NDn6E+jMMvmVDvT+LCSDNjB24TCN+WxOxWyskH6yIaxecpZl8WvT6mjH7rWSxj9CF9OqLtwdble5c968Wr5t9I7iQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+LvZTJickl3VddL3llt2Allt7UwB4OanMhHnN1MqekYZEzoAu
-	4zUVUoGCno1EumMlmGzsZFlCXynsDrrOn3ttq0CeBdsdifWwExpKH+GVIsYRBDHtCU8=
-X-Gm-Gg: AR+sD12et0q5AEli8ub5Ki/OGVIcdSCOMysrF6FVMuOLXCBFJNMZS3q+rE5khnMxG3Q
-	idXIlg2XpepIEq/RJXwdMt8VlTQokF3t2Leuvi06tjeJz4B9L73heHjFva7nDrd83KDZkXpxkK9
-	hNkP0S76GuH58ErjNjvo8a9XVRP9H39FhufgB1y/iApX02Ad0dCoFnUILkLCXPdG9JRdt8sFR79
-	AT7ICfE8JzgFDZHfic/4dNyPctVcr5lRqrwsthklk97DTvSCzi31uJa47FEUZ2TsJLZ7ExNMVt+
-	QrsnGmzwB6TS51wqtggiSI/vhUreGYJslc4x5QuVyDkjHa+cFw23Grl3JAA/2bsRiP1q9WNA7JY
-	tEMb4LA1TBUoCpVB0JZqKVb5NK/2XqxRsN1q0VGPAFyWgAflqemmCOjUDH6zkZwCn131B+XWu8T
-	wRlZn0wC8J1CHxjMQd3I6Y09ADwAYNemGIRCycMMOwQfhoWLyuXF79jOw5E2OMoxTmfnayxYF74
-	CmH
-X-Received: by 2002:a5d:584a:0:b0:47f:9256:52c2 with SMTP id ffacd0b85a97d-47fd72fa2dcmr16555477f8f.30.1785674101692;
-        Sun, 02 Aug 2026 05:35:01 -0700 (PDT)
+        bh=FUud0qIrxq+PQmP+DKOJ9cRWUJkFwQBvJb/k9126FCI=;
+        b=CTzRIOXkBNiloetyglf8kztaq9GV/ZvpkEYmtMBHTm7yNG6mb3tqGriSfMBPIPWKDm
+         QHX4mahWF57S7glmymRLtu8arn+NXIrpZ552C+dsO1lxGt/lH7wQsFi86XLgGiAKYdsg
+         qVXSz30LHz9Ci/0cLRdukvQOA5m94aGOO5JTD/wCNU2WWTXReD/V1W4P35ODsdJyZ7mg
+         +FSsm0+c8S0sRTQFaEJKiEIhrx3rRi3NqHUhBXMEt8hkU1gkOev18xtjkFu+0NEkLPOv
+         iVlClmk1lNlBTltq+t1cH3442rflSI3U8xq+5IPx1Tx4Q2JdDdYlKd6JCtJRzDPaVD1z
+         xi7w==
+X-Forwarded-Encrypted: i=1; AHgh+RpHhZ1+fXPb+8dkO8EDcaD2YO659SWZBcv4lD4IkCkbBAzc1IWwQMJsdVkoefERtteiDPwiWqL2HOVB1JY1W6vewJ0aCQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzmg9xOvb8rkbco8dbAEhozHc7CxNYZzaxFrcfar3zUcSNwHQF1
+	sCAJ/6UZgYW6f1yn//gI30MASHPxeC8iHgr/BjPSvpP6EOi39JVR4Q7gHVcY2wt0Nwo=
+X-Gm-Gg: AR+sD11HteEWjMuvsNHZoySoEdwbsZFowbO97K+Z2kqUta9TQ6QA69uLJAx+zdHyxob
+	KWNmHJjLn0EbkWCfDGqMHcfnw5JAiXycrXrUJC0peoBT0/3XwLrzyKWjVHwMM5azSb1vR+Vzl6s
+	J5sKEMmQcwujCKW5qnPtp5COwtsE1+qLMw/INFZub+ymc8Ok3d52sLCy8qhVSchTvmJ7/aPe2Dt
+	rbEcp5iMVZ8Yu6TMduMBloxBOKLQd9S/3YWfFnO5T39d4Y6VQvu7NBt6ActbAwBjE0mILC2gHLs
+	ps9ppjG8jjXEqx+4JWdDlyCi2zevAyAjLp2n0BMUe5WyNgDV4t5QvIdl7g22n2UhSQXbtRC4F9O
+	pjjPuT8JZaTTwnThN7Q4sMOZIoeVQ3UTBMVq5/kHnAXYzhw9Sz9yjMPCN4u9iyixWZLMvRn6x4a
+	fsEE2FH5kJ+7emtLHhU5plzZcLdNVYGUCvgSBpw1GKABW54xorGBfMGBWcnrcvod7w2A==
+X-Received: by 2002:a05:6000:41c5:b0:47f:6f9e:1e82 with SMTP id ffacd0b85a97d-47fd72bbc06mr17510605f8f.9.1785674317371;
+        Sun, 02 Aug 2026 05:38:37 -0700 (PDT)
 Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47fd458ab61sm23825757f8f.25.2026.08.02.05.35.00
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47fd45a0d7csm20932880f8f.35.2026.08.02.05.38.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 05:35:00 -0700 (PDT)
-Date: Sun, 2 Aug 2026 14:34:59 +0200
+        Sun, 02 Aug 2026 05:38:35 -0700 (PDT)
+Date: Sun, 2 Aug 2026 14:38:35 +0200
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: joshua.crofts1@gmail.com, jic23@kernel.org, dlechner@baylibre.com, 
-	nuno.sa@analog.com, andy@kernel.org, email@sirat.me, bhelgaas@google.com, 
-	mazziesaccount@gmail.com, krzysztof.kozlowski@oss.qualcomm.com, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] iio: chemical: sgp30: fix checkpatch warn to prefer
- __packed
-Message-ID: <am84xDCfJC7c-21r@monoceros>
-References: <20260723235542.152a6a25@systembl0wer>
- <20260802025134.25319-1-adinata.softwareengineer@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, dakr@kernel.org, bhelgaas@google.com, mazziesaccount@gmail.com, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] iio: humidity: htu21: Fix SYMBOLIC_PERMS chekcpatch
+ warning
+Message-ID: <am86LUUeP7FYpQTC@monoceros>
+References: <20260802012329.9877-1-adinata.softwareengineer@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,80 +77,38 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iuutzrwryo4oodb7"
+	protocol="application/pgp-signature"; boundary="l65pe66ab5ly532k"
 Content-Disposition: inline
-In-Reply-To: <20260802025134.25319-1-adinata.softwareengineer@gmail.com>
+In-Reply-To: <20260802012329.9877-1-adinata.softwareengineer@gmail.com>
 
 
---iuutzrwryo4oodb7
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--l65pe66ab5ly532k
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] iio: chemical: sgp30: fix checkpatch warn to prefer
- __packed
+Subject: Re: [PATCH] iio: humidity: htu21: Fix SYMBOLIC_PERMS chekcpatch
+ warning
 MIME-Version: 1.0
 
 Hello,
 
-Just a few nitpicks. These might not justify a v3, as Jonathan sometimes
-fixes up such thing while applying.
-
-On Sun, Aug 02, 2026 at 10:51:31AM +0800, Adi Nata wrote:
-> Change instance of __attribute__((__packed__)) to __packed per checkpatch=
-=2Epl warning
->=20
-> Reported by checkpatch:
-> FILE: drivers/iio/chemical/sgp30.c
-> WARNING: Prefer __packed over __attribute__((__packed__))
-> +} __attribute__((__packed__));
->=20
-> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
->=20
-> Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
-
-No empty lines in the S-o-B block, and please put your S-o-b last.
-
-> v2:
-> - Rename commit title and message
-
-the v2 changelog belongs after the tripple dash.
-
->=20
-> ---
->  drivers/iio/chemical/sgp30.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/iio/chemical/sgp30.c b/drivers/iio/chemical/sgp30.c
-> index f10bbebc29e4..c33592a1e0c9 100644
-> --- a/drivers/iio/chemical/sgp30.c
-> +++ b/drivers/iio/chemical/sgp30.c
-> @@ -82,7 +82,7 @@ struct sgp_version {
->  struct sgp_crc_word {
->  	__be16 value;
->  	u8 crc8;
-> -} __attribute__((__packed__));
-> +} __packed;
-
-Otherwise looks fine.
-
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+$Subject ~= s/chekc/check/
 
 Best regards
 Uwe
 
---iuutzrwryo4oodb7
+--l65pe66ab5ly532k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpvOXAACgkQj4D7WH0S
-/k5YpwgAl/E+S+82lzHQ1buNKpj92C7t4FN2ORPHv2CUxBCnjgUiDAg7aQWJEBEm
-HHxz/flAmenUrr+lV7PLfgcLp+6Z6E84YMM2CsQzOHFsztq5hUmcbY7tCqODVFtL
-27rWHNjLNtCYepmQG2Z977p9wDKdqOGiBrwft7jytd/f0qXlRhyy7SGiQWabB7zL
-4eI7o4FsBxQYdeBSwI7vIsh6LOtprlKBT6oFPlJ/7okrfju2XZqCbU2GDSaqAAj5
-gQjbpUUIDqmeumS0IbZrAMfw93Xyrtfe7kwLrD7Aqif69GTKdrCw1bg+smmp+YQy
-NkMBPH7XI//6HPe8KOZxxyiznuImlA==
-=cjtv
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpvOkgACgkQj4D7WH0S
+/k7Nggf/f2iAO0YAqCaePzleJcYfHLcZ/pnmQl8QJ50jszqhMA3KeV7PESWbfUzw
+TDpx2x+JLkfK6EGtb2wbMT9PFcQwMGgI1A00w5Vmpl9RpT6k4stJQHx45Sjzh+iy
+svZjzBVIfMcTO3zwd8Gx9mBCQP/NCpgd9PRFr6GJ2SQFXP/EIsJ7vizhgabz8NQA
+V0UIjgac0UKr4eO+xn0OEJLDIgdhdjF/I1D2kIsVCa47uTnA3AvPT4AhZ4ZJN1TP
+3iv/9AWHluthE6ifBGzUYcRN7s1XZ1GSq8mmVHBgcqoYIRq5RTI2n0N8ceAiOUh9
+A3t+hvdPhKdg37gTn2TTVWAIMioiDw==
+=Vnaz
 -----END PGP SIGNATURE-----
 
---iuutzrwryo4oodb7--
+--l65pe66ab5ly532k--
