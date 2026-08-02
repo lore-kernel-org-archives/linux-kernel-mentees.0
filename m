@@ -1,42 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C5E3B71C6;
-	Sun,  2 Aug 2026 17:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B0D2FD1AA;
+	Sun,  2 Aug 2026 17:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785690899; cv=none; b=If0AGt8aDgxu1pFSySfasq9eRR8fW5JRCA9yxu9cxPTVZKeOmoNTZCKiEZT7d3mS/YxYMfH4fAGIZe9pVGA3KZ3gEAKEngD8kjcAfYRTGr9iLPtVGKPTODN7pHSa9O+iMGdopZNUN9aQrNk/MhsDYMJimZ3GYOphUyPMtTsz1+I=
+	t=1785692491; cv=none; b=nq1ggMFqdL6aWbvT1QsQfhf/88kGvDNj8zEbeu6EHeNWnDu8IENTRXsOPz8ak7E+b+B7sXPOngc5vonDzUSLFw5Jmo+MyVpH70I8rxU5BgK+C1aev08jGvCzhN5DD9XGydVuZDEXhtsnGz58Ny6JAyEay54XzbJnki5XT39OH0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785690899; c=relaxed/simple;
-	bh=bJQPRPnBwrNvzbWdDn8UdEdCIN4B45DhUiezXv0/AJg=;
+	s=arc-20240116; t=1785692491; c=relaxed/simple;
+	bh=5RhO7fUTrEZJSfFlaOj44UmPUJzdtfLPZdLFbvvKAjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cDPpTYrxHk5IUW7YIcojkKNEP9OVv9GdXVwvSYu5ZCXhQyd7DYJUbi6gBjAJqX4x1KXwV1axGfBwqoLSTUotz0ZevzwDKFLJ/R8PgIB9o7ZWHZ9svgSD89la8IAQH+0ydL7EoPcEPXIJbHiISU1JxFPVLblQi8XU6BlEGwEkaVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jWrVek5C; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=XgEjYVrEKL1s+dLPCdHuQrKu7kmFA4wjW+9lQbbfSkE52gWZzi1lbJ7nMXrTV9XfYnXGMyx0LZ76dNcLNUw8kuVCCODEOr4tTsuc3RimyjxG9YjgvID1rAJlEfIfz7cbpInOaXKupXlPY0yN6IFnA4PHiQHYSSlkxQRrbR6Yi0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZknBiis+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jWrVek5C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D881F1F000E9;
-	Sun,  2 Aug 2026 17:14:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZknBiis+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233781F000E9;
+	Sun,  2 Aug 2026 17:41:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785690898;
-	bh=+mWb9cxgHPz89lNbjczirAai50Pbwj8bl52HCnd6Rkc=;
+	s=k20260515; t=1785692489;
+	bh=hZ5tSTSVoAp7eTECma3oVw1RATF48bqHwGIbQY6nUBc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=jWrVek5CNAmiu/Ep0+4YSGNPFfclgUaR+gEFLo4HXhr7TuldekpJ2QKIFh8BdR3YF
-	 bT4TZqVyDJzl70epD6+EeDK+WO2rH/ivMNjZz9z/SLWszgd20NVRxYYnsnmrYNrRH2
-	 7Um2OwtYGqgTacLw+XoT4Cxyi8KgjICsJUyr5hNwQAP+B2m0ymrT8IX7QaTO7c1w7e
-	 s4qJUe5nYb5WMwmxiJoGSiVYC41i3TvgEdy0KzpCzf5BXdw3XUcXqT+PXne5zPIppL
-	 gJPkxLJDRGpzxGi+0GdyD4unFMz5gaxkIqlcTrcdveo0Zb3knyxzxLiFfnJIXDHA8w
-	 dOAXumtRHyKLQ==
-Date: Sun, 2 Aug 2026 18:14:49 +0100
+	b=ZknBiis+N3vfcU7uVAn2fIUtGuJfUGlGCfPLTNl1ep7Ql/ySMVQuSAYm/j8OkPWh0
+	 i+OROZfAHbAifIYyPmTnxxRTw1mhf1QwI4MRhTuWh/BNxKM8Ub8sVpAFyIOzer8/Xy
+	 DvmwocBAS37n1EX2U3WWfmfTOiFslClEWwMPVbsqav77fp0YseNzu3IAvIURt5W+b3
+	 ZUP+16Cl2u1B62/PeEjs1b39S0HejDhqxcmP/mKm36rPm3TYiFo7dArzUpaZo28E+t
+	 f+Bxv92WaPWkZuhF7OekWEs18K55n31zfA7djNB23hFwWVRcuMEhDY8WoiqzRLGghl
+	 1sPf0kr6XA6bw==
+Date: Sun, 2 Aug 2026 18:41:26 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] iio: humidity: hts221: Fix checkpatch symbolic perms
- warning
-Message-ID: <20260802181449.12b7e117@jic23-huawei>
-In-Reply-To: <20260802014945.17221-1-adinata.softwareengineer@gmail.com>
-References: <20260802014945.17221-1-adinata.softwareengineer@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marco Chen <marcochen.dev@gmail.com>, nuno.sa@analog.com,
+ andy@kernel.org, pmeerw@pmeerw.net, matt@ranostay.sg,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v1] iio: health: max30102: fix NULL dereference in
+ interrupt handler
+Message-ID: <20260802184126.04738251@jic23-huawei>
+In-Reply-To: <89176b25-bcf6-4d44-94b3-7a29abec7b10@baylibre.com>
+References: <20260731184124.112124-1-marcochen.dev@gmail.com>
+	<aca9bdb5-f068-491f-a651-d24a80a2786e@baylibre.com>
+	<20260802031035.6eb2be14@jic23-huawei>
+	<89176b25-bcf6-4d44-94b3-7a29abec7b10@baylibre.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -47,55 +51,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun,  2 Aug 2026 09:49:45 +0800
-Adi Nata <adinata.softwareengineer@gmail.com> wrote:
+On Sun, 2 Aug 2026 10:21:41 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-> Checkpatch warning:
+> On 8/1/26 9:10 PM, Jonathan Cameron wrote:
+> > On Sat, 1 Aug 2026 10:18:42 -0500
+> > David Lechner <dlechner@baylibre.com> wrote:
+> >   
+> >> On 7/31/26 1:41 PM, Marco Chen wrote:  
+> >>> The interrupt is requested in max30102_probe() and stays enabled    
+> >>
+> >> I've always wondered why most IIO drivers seem to do this. It seems to
+> >> me that requesting the irq with IRQF_NO_AUTOEN and only enabling it
+> >> when everything is set up for reading data would avoid spurious interrupts
+> >> like this.  
+> > 
+> > It teaches discipline.  More serious from what I recall the no autoen thing
+> > used to be done via a racey bit of trying to turn it off as fast as you can.
+> > 
+> > Most of the time we should be able to write drivers that don't need to
+> > use that flag and don't touch enable_irq() at all.
+> > 
+> > Obviously that's not always true.
+> >   
 > 
-> WARNING:SYMBOLIC_PERMS: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-> +static IIO_DEVICE_ATTR(in_humidity_oversampling_ratio_available, S_IRUGO,
+> Hmm... so I should go back and change [1] since it isn't strictly
+> required there?
 > 
-> WARNING:SYMBOLIC_PERMS: Symbolic permissions 'S_IRUGO' are not preferred. Consider using octal permissions '0444'.
-> +static IIO_DEVICE_ATTR(in_temp_oversampling_ratio_available, S_IRUGO,
+> [1]: https://lore.kernel.org/linux-iio/20260731-iio-adc-ti-ads112c14-continuous-mode-v2-1-eb13da38e8fc@baylibre.com/
 > 
-> Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
+> 
 
-Hi Adi,
+Ah. I was assuming that was spurious irq territory or a device
+where we couldn't disable it device end.
 
-Rather than doing this minor change please take on making these
-report via the read_avail() callback.
+I remember a discussion a long time back with the irq maintainers
+(probably tglx) about the fact that they really advise drivers not
+to turn interrupts on or off because it can be a very expensive
+operation on some systems and such control belongs at the device
+end when possible. What a host does with a disabled irq is just
+too variable. The only guarantee is it won't immediately report it.
 
-This is a reasonably old driver, so some of that infrastructure may
-not have existed back then.  Moving to the callback makes the
-available info accessible to in kernel consumers and ensures correct
-formatting etc.
+Maybe that has changed over time - I have no idea!
 
-To make that sort of change you'll need to work out how to test it.
-Probably just commenting out accesses to the device and reading only
-the files you are affecting will be enough here.
+Anyhow, yes - I would drop that enable / disable dance if it
+was about spurious prevention.  If we want to prevent spurious then
+better thing to do is to check the software interrupt status register.
+Looks like for that part there is a drdy status bit.   Bit annoying that you'd
+have to drop to a thread to read it but we probably should do that
+before the complete.  Maybe we could speculatively complete and
+check it in the main thread.  
 
-Thanks,
+I note you do use that for polling.  I'd treat the irq as a way
+to ensure you only need to read it once rather than not read it at all.
 
 Jonathan
-
-> ---
->  drivers/iio/humidity/hts221_core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/humidity/hts221_core.c b/drivers/iio/humidity/hts221_core.c
-> index bfeb0a60d3af..bad98da100bd 100644
-> --- a/drivers/iio/humidity/hts221_core.c
-> +++ b/drivers/iio/humidity/hts221_core.c
-> @@ -521,9 +521,9 @@ static int hts221_validate_trigger(struct iio_dev *iio_dev,
->  	return hw->trig == trig ? 0 : -EINVAL;
->  }
->  
-> -static IIO_DEVICE_ATTR(in_humidity_oversampling_ratio_available, S_IRUGO,
-> +static IIO_DEVICE_ATTR(in_humidity_oversampling_ratio_available, 0444,
->  		       hts221_sysfs_rh_oversampling_avail, NULL, 0);
-> -static IIO_DEVICE_ATTR(in_temp_oversampling_ratio_available, S_IRUGO,
-> +static IIO_DEVICE_ATTR(in_temp_oversampling_ratio_available, 0444,
->  		       hts221_sysfs_temp_oversampling_avail, NULL, 0);
->  static IIO_DEV_ATTR_SAMP_FREQ_AVAIL(hts221_sysfs_sampling_freq);
->  
-
