@@ -1,107 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E44346E7A
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  6 Aug 2026 21:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052052; cv=none; b=o+kBFGTOpW5Wut/ue0k8DRYYhiLwju1D8fhyCwQ/TkuzvYmbVHy771BS0cmk3yPFwKot8KclPzgIHItUAtCYAZfMng0GrxRcLWtHlr0LdHEgZFGnWzR8Ssmdd8YSgfTOF6tiZ0vzcI8QqYXvTGM+EKT3wT/Wbu6cqstygZOyYic=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052052; c=relaxed/simple;
-	bh=odfYAIGK6SJNSRv9LzQomDhybvJv2MdeBybaCNeMxeg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8anf6SUw/zIxNeqiEoxxCZi1yKLVLIy8aw1HZPuNlKgl5CebW7oNH0mCb4EHNrbPwbkB62Xf0GBFJnTy36rFoIckiloFkf5sYlVJ3kIwAgRDF3Kzmctl706nM0/OHs5SMmRktgja6GAg3R+VgTklTWsmdFMx7KyQKmfbRsHoiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROGqqrY5; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D049422E2E
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  6 Aug 2026 21:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786052603; cv=pass; b=ia+o+qvHAjCV+uyxQa43J6KjYDdSqpZUN94VFQmla/R4Eu/7XaWlR5hfYcB2TC/uXQGxeueNsJQ/4Iic9affKu9O7YcGR61t0b8qBywkUghTi5MaezpgM8zb/KjBfgU9wnixIscM4d/Yts/v6DdKoS6cy8ZKLJhmhT37U9Pit10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786052603; c=relaxed/simple;
+	bh=B4RhCkP9S/2UPiy2bHOf4EZfWfEQo8ptwLer6SDVHUo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cMxFrlsofbxfrlzijyhtSLve9PUPY7OM5TVxJoC37PGL14+bWIz6ijPnjvy54melpI3PV74U5hb/knf3VA6n1V8LCcNBRNinnHd60Cf+ScK/Z3l2UF9Om3mi75oTCJ6qheFLnr12MeivgBuVzqftN/ZRN3cgcHGkT9yLl33WhY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KQH74ZFG; arc=pass smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROGqqrY5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786052049; x=1817588049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=odfYAIGK6SJNSRv9LzQomDhybvJv2MdeBybaCNeMxeg=;
-  b=ROGqqrY5ikCfeQJlzZHunybP7gtWsjVKu0ld0gIbW/vPO02Bus9Ndd7V
-   WB05NBACi+QdZLHvdUe3eQ2wXyTBE2WS/McV2qPXdqgEwyeTJeE2rVAqL
-   uoFPLaN/iaohJi8yeNP9SaMwmWTtW2MmuMQWx3hPFlD3CMnexWvPyNRNa
-   XKQnI1b9w+gNtsO/TFJl+RoWoOPPh0Z265j8bseDq6lutcux6LDg6o3OO
-   VgvKi512Q33yudBRWQjQnjtZYXyLSmmL7AnhuknIjRUl9eVwuXW5NrCdM
-   /W4R3D+o6CIEDpKw5qoRPb8PGTsJs0JGnZK794uvu3w3X/9nlaA/qLFci
-   g==;
-X-CSE-ConnectionGUID: P6V+AzaHQxCxxBPVAeun1Q==
-X-CSE-MsgGUID: pcfBEusuTQeKXYjcO8jX3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86599066"
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="86599066"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 14:34:08 -0700
-X-CSE-ConnectionGUID: gJZ8FVh0R9ufio5NI6hn/g==
-X-CSE-MsgGUID: kVeTbTz4Ruu4cXuRo80zgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="257914277"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 14:34:05 -0700
-Date: Fri, 7 Aug 2026 00:34:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: =?iso-8859-1?Q?Nicol=E1s?= Antinori <nico.antinori.7@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] iio: humidity: am2315: add am2320 to i2c_device_id table
-Message-ID: <anT9y_izVXiwPKrS@ashevche-desk.local>
-References: <20260805183733.1000550-1-nico.antinori.7@gmail.com>
- <anRXbXxTLUfUgEPd@nsa>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KQH74ZFG"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-4566a5bc186so1120542fac.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 06 Aug 2026 14:43:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786052601; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jPsa0nLhPk0T7nEkErg1n879vZmEbXZk7pQ/aCYoL+sw4oncp2ldeL0nbWOPaO/Ehm
+         hy2LS1q0XezUdtAxjejFHVjqA8cwnKpA8aS1sDZrtOEkPiN+hQwQEKWBMjiqzgO7VRlw
+         v3XMMC9WXG9TZTEC8ctuUSFGtPSBWCWjkz+MEJd0ch4rC89nDhAdY6XaQgeB83D4IcAY
+         J+qQoDxxdbrBuZTwxyR+4fZDto1bPRkhzzqudbRBW+1SmT4XTyMI3qI91+1mlCTVkWf+
+         PMEqUr3SLWqHJNnxLtxUItafMkNtWkqAHIQ3rQ42H+BOwemvBLwxnIEiB0Kt5gBnhjqL
+         q5Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=teq5dtPqyWSwQIzSbfOi9mILXkjf6R2fNiUCCXuIGlw=;
+        fh=XftiYnXqbmppbeJShHRI8ls5sWwf8j+My6LhDQqRBLg=;
+        b=sb5iGD2jEcMDs+3cXWrTaQ7IGWB7uDspHf/tU3Kc/yEdHnoSV4W7l/Ft9tH1JgkNel
+         Nx5hpaUGob3E7Ns9o55A2EDAFAc1/1gLZ/GJF+/NaIOgeaFw9WvRGh/b3+wBXdfoCD4c
+         6U6x+mvYwuKWn5cNerG2gQcfLkTCUtR0gETLkwMmEnDIxZ8ckzfaSVQ2Sp0WGQfk1mwd
+         dAcvOZ3EYosXncapb3ZrRHzA+pgWdDNbRYGeb/lDA1RWELPHI/C0QbpHuDV2grPkSn2D
+         0MyTiaMnYHUwhL6VMHQ7z5bX1Ux54RgyNdkIpA4On83pyG30k1fZ8TwvqNhVxX652ilN
+         fHvw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786052601; x=1786657401; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=teq5dtPqyWSwQIzSbfOi9mILXkjf6R2fNiUCCXuIGlw=;
+        b=KQH74ZFGOVUnaeH9PDmXTR3e74q6SHONhuDiXm1wxtkS4wrddllg48rcqKzcqWQTuU
+         JP/U/q1Z3b7Aw27Qz3RA1JSOFQVgEJcdKK4o7lWug2RcjSnOkKvpA3ptMS22f5moUrbu
+         x/i/n0b+GsnHzj7QHUZg0+f61jJ1lu0xKHNNkspVNI9pXV4sZlFvVWh2vfuBmO8rUzoi
+         aTbCUKRUsYUoDlsHeoHLq9qeioVTkIKGBmEeZSPLFcgUX+fxVnuqzn6dKqAapSg5cV5b
+         VXE2Z2S7iHI7A89WljojhxEwIZrpv10v4zKtrUVJFbsUOLccViaMwzmq2Up3AGAOTpx2
+         BhzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786052601; x=1786657401;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=teq5dtPqyWSwQIzSbfOi9mILXkjf6R2fNiUCCXuIGlw=;
+        b=mP6ecI46yOAkCPNMEkoiJXeSj4F2w+HJo83xcPXWy4bla9p1j9shExTXah9KKm+f0T
+         ogZXXZQuvYI6JMmHY9ELKvfDWkxt03ucQ01PFNs8T8NWebPU4dtuVFcQhG9PF4AKT8TM
+         4s98BqRS/yGAzwfuJ4D4yCSZV98LK5PCwBVGXC5EVsAp1zRi5U0ABawAw5m6YQcJn1Lc
+         VBi4l0sJBP4dILc6IdcBrjjYAPHd0yRtx93UOq2LG7j8d3lkITyQ8Rxfk4Y4IomK3rAe
+         TVazRWEm104QB8jgW4RH7XEzpXeVoBXGXB3O1D+K3U+hQVf6O73O/KZk/bXK0yVlDx9i
+         2KtA==
+X-Forwarded-Encrypted: i=1; AHgh+RoA61peUqKPToGBfZTtXaAv0VnopqD2fFuF9fwBs3dtdqBDV6kVFKdw+aiRLB67nnw4BxMHMw2gXWayUL4NGjWENlM+5A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5k2gPUQxmW9C2vKTyjUyM+xhaiIuBkMVQRSeKqM750j3EY+LY
+	5fVRhmg2AJ1IYqq9Bj3tnqlowL7OpzSuIB2WEYQvfuwYxAahEjqLks2SqQGYl4VLHyPfKp5UYxf
+	FDA3WgKu9xoraqnVoLizHd7o5lbrXtpU=
+X-Gm-Gg: AR+sD10m8rWGlZ03ylVqnyJ+V+ml8vD1zUOYGhftNZ/R8Iwt88FzZVNTrQpTJMcQwBl
+	mweEU/vc+ybjEbeqNmiAbvA9GKZsn0U+cPXToamxWlktr5mcwK1OeIEXLnR/0B7pteKJwQcCWwn
+	CLbdgTA36GzPKLOyDJNyDZjq8I77NUb1f4V9Y1NsH1FkT9hScO/qgPVz9lH5nlRdD3rnHOMZ7f1
+	AJaW3N/GTAgphVUinFxZcpTxbkJHf1IycfzQTqtwINH/ZdXXTiet9TVaxpUilsypc0ZIwGpz7d4
+	dEJfE7HTIyT66KcejuJItn1hBOsaIKqtiPHjg3kadxHo6St5vlTT/8s=
+X-Received: by 2002:a05:6871:10a:b0:44a:e7ac:b14 with SMTP id
+ 586e51a60fabf-459e2f73b52mr2523280fac.11.1786052601015; Thu, 06 Aug 2026
+ 14:43:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <anRXbXxTLUfUgEPd@nsa>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260802014945.17221-1-adinata.softwareengineer@gmail.com> <20260802181449.12b7e117@jic23-huawei>
+In-Reply-To: <20260802181449.12b7e117@jic23-huawei>
+From: Adi <adinata.softwareengineer@gmail.com>
+Date: Fri, 7 Aug 2026 05:43:07 +0800
+X-Gm-Features: AUfX_mxkCFVARBKks4zpYdZV7Yd4C2QJHclf4P5bGdi5j-O4q42jHt_KobUlmNU
+Message-ID: <CABZ6vuAL=FMMQp5UTJQJMJi+7nnF+OOYtdRYbbZWveSjninsrg@mail.gmail.com>
+Subject: Re: [PATCH] iio: humidity: hts221: Fix checkpatch symbolic perms warning
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 06, 2026 at 10:46:13AM +0100, Nuno Sá wrote:
-> On Wed, Aug 05, 2026 at 03:37:26PM -0300, Nicolás Antinori wrote:
+On Mon, Aug 3, 2026 at 1:14=E2=80=AFAM Jonathan Cameron <jic23@kernel.org> =
+wrote:
+> Hi Adi,
+>
+> Rather than doing this minor change please take on making these
+> report via the read_avail() callback.
+>
+> This is a reasonably old driver, so some of that infrastructure may
+> not have existed back then.  Moving to the callback makes the
+> available info accessible to in kernel consumers and ensures correct
+> formatting etc.
+>
+> To make that sort of change you'll need to work out how to test it.
+> Probably just commenting out accesses to the device and reading only
+> the files you are affecting will be enough here.
+>
+> Thanks,
+>
+> Jonathan
 
-...
+Hi Jonathan,
 
-> >  config AM2315
-> > -	tristate "Aosong AM2315 relative humidity and temperature sensor"
-> > +	tristate "Aosong AM2315/AM2320 relative humidity and temperature sensor"
-> >  	depends on I2C
-> >  	select IIO_BUFFER
-> >  	select IIO_TRIGGERED_BUFFER
-> >  	help
-> >  	  If you say yes here you get support for the Aosong AM2315
-> > -	  relative humidity and ambient temperature sensor.
-> > +	  and AM2320 relative humidity and ambient temperature sensors.
-> 
-> The above (same on the tristate title) does not really scale nicely and
-> we've seen too often already. So I use something like "... and similar
-> devices"
+Thank you for the suggestion and feedback. I will create a new patch series
+with a cover letter for this hts221 driver.
 
-Right, and here something to be a list of the supported devices (in case more
-will come):
-
-	  If you say yes here you get support for the Aosong
-	  relative humidity and ambient temperature sensors:
-	  - AM2315
-	  - AM2320
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Adi Nata
