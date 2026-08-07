@@ -1,143 +1,123 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC422F8E87
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  6 Aug 2026 21:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052781; cv=pass; b=eswwB4BIRiiKCHlDEacIEWWE1nKoBFZxq8PYj2j0p1yGPVDUjN6meTX7nkRnBKaM6TwS5z7uc+JMhQHZiuUqXzs7ZmTjwRHMEgRZXAqhcS/DIXA3dY7ADpoPe/plALWdtjExd6hoTkOSLvwzt1kqo3UNmH5mgF0Cnd3fYMSVmFw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052781; c=relaxed/simple;
-	bh=Wfr8L3wblvcW0Bq2ZrAPzo+EmjIsw9i/NV/YDRHbPvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bu/IbL9FPgW7BBeCINeN5yTJiFBPcglAidzcktW87+vn+SboMbseL0jn8Gn2W7U3RErJPYMSo3pTMs2i+ktqL/HCplz0x7+ZYjppnKcbyUJb3JlmVxqkF+WhbwZXbEG6JABYJBQqXTGVmWVdAgZe/A2ZQEwvxDtAH78rby7J+nQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rtSRqxpK; arc=pass smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EF046EC81
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  7 Aug 2026 12:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786106388; cv=none; b=fA7dSuESnBoDXZvezxpybx/4rsRCyi4YJhdfpkD6r2kaRpJNiTZ2z/xeE98q7PwaYzejSqZ13PY3EcRthxXI6wlGJPOGAqsacCFI+FJvfAtjcJ5rE2KUCK49MYj1Pkghi6Edo++Edjgf2Xy+Cv9Zn9kTyLrIrLilWMxUT/vgZC0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786106388; c=relaxed/simple;
+	bh=BnR/V70D1klGicVGiC0AYnn1EcOqw+kFeyar+iKh14Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=f43jx7SwuFnDMH2qaBt1PUuq/WAXEMKXzPjGlzIMY7ZPKxlvVl4XyjwR8IjId6E7AqoKiD9NBaE4NvhE0iso5r0SntxWgkxFQrcbdv36ZHPCSLhZsJ1XCNgSyHEKJ2H7SHDsHyFBlvA1dWxA1vF4p7FmpHKyAjoDr88f9R6Dgkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WobWZXA/; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rtSRqxpK"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-451d8064238so1718251fac.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 06 Aug 2026 14:46:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786052778; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jXfTbIB2l44WLE/upxNVPZaJNHE9w+CetZiUMCpSWXlF7QZ7zXNM0BaMjfIX+yotle
-         1BcDXuUs380CytPMmLx/JPDq+6nwu+KYsaNUXZZckH1Ju7DyomMjtqr5tB3q5T1FXNsX
-         WUov1YqSupg6caCPAu7SO6ciUlcVo1kGs+O35TecohZcw1x0lphxcWAV0akA0CvwiXzv
-         w7xIHTXwspu69daD9giE9W7yp+BO2lutwFFdx5LBkUelPGwbi96HmYFmmF9BEIPWkTd4
-         jRdQg71eYPPwUUDnmPUhaFQoaYGNZuIAxnuDOsngIywITgLjtOytoAsyi0b0WQRWP36M
-         Oyeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/LqB88POXPCUrm0OGXikTnU+sodKuQSJ3LtNfIU66ao=;
-        fh=k0NYIw+q/LSoCsQL+qAwiel5lVcmnIMJ/I9YeAmp5Us=;
-        b=d+2ALiwuRfQ57fDV9T2e3KNFcKTK4S1jX9XfsBlkVigT5t51cZ8Q9ThEbHj+KTXe06
-         dBbkQkDGnvGSSnDEBV6ptVi0hg9hVcYRLjTxC3ilKbf5fle0ZuR5owd4wc5/4+/Roeko
-         S6iEf23SAZUdykDIGBQDFYfvofzjfEp3dFaRHAw59Qj+NgGYux2NI/lrKoOsvpN6rDBe
-         JtHTDCYTfqdhBbrcyjKFI3Z8/0rVSamKOghW7aESisJ1rWuRrXLFevrHeSQLZNhA2sQt
-         HMl2Oet3xyrwA7uEoGwaMO+M9GdeAMUKRf458j/BaaeF5YFI+D5cJwVISqX0dRDDNP3U
-         45Qw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WobWZXA/"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8487b7b3fc8so3934673b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Aug 2026 05:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786052778; x=1786657578; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/LqB88POXPCUrm0OGXikTnU+sodKuQSJ3LtNfIU66ao=;
-        b=rtSRqxpKXmSU2vczKfoj1s1UUm053H25jOcUfPLsxY0R3NqL6VUPTnoivAIRQ3D/t6
-         h1Uxf/NRmtmBH1SzEjQaJzcZ49c6BxsCkOtiJdKIKJETH3dl50Jin3tjCUAbmjVRvPt+
-         nWAtIddR/HfpgyPjWQF/6VBWMBBPE+UvlKSwBnnlKLwp9eQ/wNDbI9OSin6JaCmYSAnz
-         eWnh9RRO2UuR6Y+WK8JEI0HvxJemrNgcwpzAS8oILF96O5jmRZOCgllqM5ly6SFEpnFB
-         WQ6Vy85NDuM0xIBWFyn9WVc3g7U59wwGfe5/4Vw3Qhch2QapEIDw6NtqS+w5h95mC5bT
-         Y9dQ==
+        d=gmail.com; s=20251104; t=1786106380; x=1786711180; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=V/QKpsFF+J0UfrrRtGkrOmdWFW2gWZ8ToHnQMm/dBIQ=;
+        b=WobWZXA/SxTfjMfW34lG7VvWXVNMAPi2bC0T3DB67K7BNSaD1ejvzOYVO+ADmRYj6v
+         jDq91KgLyulUCwlObdjjnZl3hGdkDJGfgGMVB6sLR3H0+o21QuQQ5pf+MWyAbEJJHYMf
+         ZgECdPKMmTwsN6BeIarkGKmZG33Fmf1HRDK7VdV7Ev10q43OEvjs3t3vqMmdjQrDuVNM
+         N0sZAE0y8lQ9F/LJKG3v+JrfxHGaMP2gGWOeXUKpPWpRVbpgtVf0zKSWYiOSFV+DD+22
+         7sIOdK7PrZ/GBmLLYxzXvptfiKSgY886xawsloHrzIA0c+9yb+rSCAiwQ0bjgPtAK5jH
+         xgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786052778; x=1786657578;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1786106380; x=1786711180;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/LqB88POXPCUrm0OGXikTnU+sodKuQSJ3LtNfIU66ao=;
-        b=TLPuwecz6Mdxh9XiL6J8dMMn94R6ObFMPIxMWmXi0NJ6bI5kDyyUVU0vXO3Le5uRZe
-         c5JVoXnTJUoYLPnpCYLh+Ufs500IftHuKXo8iGeA7qnhcQOOy+rr1bW+JGBcBLT34a2D
-         889KO+mVRHcipTQT5gjwVLRHFKQehj18DgeEPdw91eiKfh3Dm1n2p0cVzsI3xrQcWZwI
-         7AI/aLWtj7Wqf0rbSbKC4BY8F66l1lq+DdjnUwCZK0xl91WEBVoe33I9fB6gOEqmj/9/
-         3Sm03tFPVUJiYe0NHD6bl6VbkAmin9zxf7Am6FdW62dV6oRoOO6kNq9X4Su9GpEomnL9
-         KCRg==
-X-Forwarded-Encrypted: i=1; AHgh+RoUmBkCLJ/blXZ3z9x33KwOivGCtpT1UsjxatHEtW97NbwI9iyehFtplfU+y9eCs2FshgkKPcJM0TmSYIwf9GARP0XZlA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHmcv4asFEVYb9brHewaYmjbtkextr4KOhpFk/CExB0Uvcjbu+
-	Ow8UV5/LXEgJ0pgqIxWaPZ3zEOlicc9t1GehzSpqRNzQhcfeV5yFyG/vYtnDKNsJOWIb+4ZhrQc
-	J5vXeJLyRpC/d8xk+Aenm7LYTIYi3qKE=
-X-Gm-Gg: AR+sD12OpxT3tOrNKwtAFGJrbymqRQddizShTOWQOqa6mX7lZgEBPeq/SMAzakrtVhA
-	p4PsYAfCjqhOKt3IbBA6z9/jvyJAlIiAwqSk+8fXnZYXS6Yu1DtfTCL91gFORGT6NyLCc17BW58
-	rusUhmYvOGInGAZHmeaPpNdqRIcVhrbBAT1GdBfk/5JjsBQbzpJOEXCPNXcb4JOnXtwMei0TmCt
-	NLl2w5ETshUovJ2vaCzxZS9xsTqK/8yc9MBwXPEa/3bsJ9vIRh18WkyrCAQZDo3dADjnePwXsLq
-	9WeOGXuvsLo97uJb53X8AtGn/t67NdgCB7H+2MfsM4g=
-X-Received: by 2002:a05:6870:e136:b0:451:ffac:5643 with SMTP id
- 586e51a60fabf-4599eda4d93mr9510272fac.10.1786052778574; Thu, 06 Aug 2026
- 14:46:18 -0700 (PDT)
+        bh=V/QKpsFF+J0UfrrRtGkrOmdWFW2gWZ8ToHnQMm/dBIQ=;
+        b=agUGTCunpl7JOQ/RreVvCsSdGOH8zyCpIIjsAj9GLj0k6iMFOonkxgyIaVcY852s44
+         M7Tlt3BWTTq5xshEMNmiGc58GflbZqA8okV7wJ32vf9aZnP5Sh9/YuAjhQ+Z5xHSTCqZ
+         O0mDfvSPreulPA6qSAQSpk9nzAATTyufsLVsdnSU2MLHoqYAqQqXTz8NGGn9ZsJwK8Fk
+         5akbnOpSWBtvWfFv2lYDygTFlPJHuSugyTFlgowVpXosNvWIZqfgA7Yg929dBS1TLoDd
+         ei+SZ5HgcnaBOh1wNrQLpZJqTaufpwoijFPZEL/BGiCiYyum8+qfE08EHI+LDO/5LZ5G
+         jYdw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro52JJRaIToEnOVtjajI553+bRrIzS1BLUuxLPrsr4y4d8SobUcc3PljzyhsNTnf78sAGRnN2XclFVtLWLKucbwbTtU2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzL8wmpIcyJGm0Fx7xOhDMJG2ZPuTzmVmpYSKVYGHkKpIG0yjee
+	04a0ZYvdRiwV7mbr4faT8YwoeIjNPRhU2Q6YNuv984h4WBh4ACwwk3I=
+X-Gm-Gg: AR+sD12/qnQ1gkezfSuifhoESFD8ct+KelQ4kQLLSOtgFX+woYyeSXtPFIm3hCYczh6
+	6cibGt17kv48kBvzFh/WxaaRqj05vtuKYY+kRs4Ya9aUrPJkdIK3SdSX7B0HTLpXtUhjKz5yi60
+	rYDUBhDq4qn7Jzh2cs5/awhCaiLHNQVZSjb/SIJyDIo0pqZdkpsuymj81yWwX3xSs2Uwa5hmxGu
+	fHNV0Xo5RLdZ19aqsY9tIHkZY9kZu1jjCJ3EVGm2XQGZaJtR708jvbzeCCgiQc2ZRt8NT5e4trF
+	JvpWNhlX+mxdVGQilJMgNnsXB12u2j74jdPU0f/KFBYU/pcry+nRvYsTnVZV/v1fqTBCbMEvoaf
+	GPtkWXHZew4BtxH4t/WorhEmcq/5lyMOl73nMJZXjjPUuO54tUfFhNjo7Qd+P1JhRMy5RfHc8js
+	bEI7p0VkTn/pOYzV+SxPkGalkOIhMYJr2Ib8Mk3FlDh8cfVliGzxQK7HDk5gxLIBcG9POBg5Tv9
+	Fsu1K9qc6KfL+ylQ3DuEI+U
+X-Received: by 2002:a05:6a00:230a:b0:848:2e7e:353a with SMTP id d2e1a72fcca58-84f2dea7014mr24055825b3a.0.1786106380246;
+        Fri, 07 Aug 2026 05:39:40 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe8f38c703sm674579a12.30.2026.08.07.05.39.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Aug 2026 05:39:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260802020614.19732-1-adinata.softwareengineer@gmail.com>
- <20260802173852.32b4bc52@systembl0wer> <20260802181233.535eeb12@jic23-huawei>
-In-Reply-To: <20260802181233.535eeb12@jic23-huawei>
-From: Adi <adinata.softwareengineer@gmail.com>
-Date: Fri, 7 Aug 2026 05:46:06 +0800
-X-Gm-Features: AUfX_mxV5h_WhCX6rdYpCZC3Qyu8dhQpGeTB5wv3UFz4WE0D31WUAnv1Muga6Ow
-Message-ID: <CABZ6vuBOECSgu=OpnKmk6jsrE-xQd9-nZO_VUftve73AtOEJtA@mail.gmail.com>
-Subject: Re: [PATCH] iio: humidity: hts221: Fix checkpatch blank line warning
-To: Jonathan Cameron <jic23@kernel.org>, Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 07 Aug 2026 09:39:34 -0300
+Message-Id: <DKIPV92KXQQ4.3RDOLTYMBQ1SR@gmail.com>
+Cc: "Jonathan Cameron" <jic23@kernel.org>, "Andy Shevchenko"
+ <andy@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "David
+ Lechner" <dlechner@baylibre.com>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH] iio: humidity: am2315: add am2320 to i2c_device_id
+ table
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Andy Shevchenko" <andriy.shevchenko@intel.com>,
+ =?utf-8?q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+X-Mailer: aerc 0.20.0
+References: <20260805183733.1000550-1-nico.antinori.7@gmail.com>
+ <anRXbXxTLUfUgEPd@nsa> <anT9y_izVXiwPKrS@ashevche-desk.local>
+In-Reply-To: <anT9y_izVXiwPKrS@ashevche-desk.local>
 
-On Mon, Aug 3, 2026 at 1:12=E2=80=AFAM Jonathan Cameron <jic23@kernel.org> =
-wrote:
+On Thu Aug 6, 2026 at 6:34 PM -03, Andy Shevchenko wrote:
+> On Thu, Aug 06, 2026 at 10:46:13AM +0100, Nuno S=C3=A1 wrote:
+>> On Wed, Aug 05, 2026 at 03:37:26PM -0300, Nicol=C3=A1s Antinori wrote:
 >
-> On Sun, 2 Aug 2026 17:38:52 +0200
-> Joshua Crofts <joshua.crofts1@gmail.com> wrote:
+> ...
 >
+>> >  config AM2315
+>> > -	tristate "Aosong AM2315 relative humidity and temperature sensor"
+>> > +	tristate "Aosong AM2315/AM2320 relative humidity and temperature sen=
+sor"
+>> >  	depends on I2C
+>> >  	select IIO_BUFFER
+>> >  	select IIO_TRIGGERED_BUFFER
+>> >  	help
+>> >  	  If you say yes here you get support for the Aosong AM2315
+>> > -	  relative humidity and ambient temperature sensor.
+>> > +	  and AM2320 relative humidity and ambient temperature sensors.
+>>=20
+>> The above (same on the tristate title) does not really scale nicely and
+>> we've seen too often already. So I use something like "... and similar
+>> devices"
 >
-> True.  This highlights a broader point.  When making
-> a number of cleanups to a driver (and I am generally more willing
-> to take those than many maintainers) please group them into
-> a little patch series with a cover letter.
+> Right, and here something to be a list of the supported devices (in case =
+more
+> will come):
 >
-> If this is one of a set and overall the seem worthwhile I might
-> pick them up.  Plus this driver is pretty aged so there are other
-> quality of code / modernization things that will make much more
-> of an impact than just this blank line.  Take a look at some
-> of the other similar cleanup series on the IIO list and see what
-> makes sense here. To give you a starter, dev_err_probe() and
-> checking which prints are actually useful + stopping the driver
-> rejecting Device tree falllback compatibles because of the hard
-> fail on a device ID mismatch.
->
-> >
-> > Also, I feel like just putting checkpatch warnings directly into the
-> > commit message is bad practice. Much better if it were "Add a blank lin=
-e
-> > after variable declarations per checkpatch warning."
->
-> Fully agree with this.  We really don't care what the print is, just
-> what is being improved and why.
->
-> Thanks
->
-> Jonathan
->
+> 	  If you say yes here you get support for the Aosong
+> 	  relative humidity and ambient temperature sensors:
+> 	  - AM2315
+> 	  - AM2320
 
-Hi Jonathan and Joshua,
+Excellent! Will send a v2 with these two suggestion combined.
 
-Thank you for the advice. I will create a new patch series with a cover let=
-ter
-for this hts221 driver accordingly based on your feedback.
+Thank you
 
-Regards,
-Adi Nata
