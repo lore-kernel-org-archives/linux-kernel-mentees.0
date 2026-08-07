@@ -1,63 +1,65 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B35337649D
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  7 Aug 2026 14:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FB8381B05
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  7 Aug 2026 14:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786112546; cv=none; b=VV5eIcI6N6zgpuu1DRkglSCcvHTjydwVccmcBkKSOgKEmW+fOt+gJ9Ppk8Sk3NxQtJLf9AZzU56zxBr8I31JRezXJqWEZjaFYmGJOoVP1H6ssB3Y+Wt29vDhnay/tX0GPV9RE1MJqbTz9lunDHRbjLAOo2FvPqOMaq8ayqvyyiM=
+	t=1786112553; cv=none; b=fO7mTSGZvaoiQRhzxX4j/1NKVQuyhJLnOES77+A1goU3w9SUpRsuwSsx1UyGi6rj5g9k1lmnI3bsIn9M53fn9BzJES/DoHRRNUwJ1yUT+sqmJy+47fKWmJmDHx1gDcBKYFdhuBCi9FBbn4rsLxZWCGr1apK2VFQhGuLj5zpdln4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786112546; c=relaxed/simple;
-	bh=eVGpKe+EcdJ7XUC4Ncud5DVc1/hqhzgbLaaXCx88ABQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=plAPKFqwiYWGe68TaxkI5uQz04kA9EyX8v5Sf7G+KV4284CQoyFn8M3ey41Z+qXF2tYi70+t5V/lrDo1d4Wy7zInxhzQJhHsImL+AMgPLoIpVdZEZli2nNkOOBqg7TBlqgvVDzWZdeMLIvMdAwCsRcYWL2r7P7vwvsezGp5Bcig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkB9z+0l; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1786112553; c=relaxed/simple;
+	bh=J28xWWhBWqCfIpHOKlpEQuPok325qQi5nVSHUlh1SK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pehDcYvTxOkGRwXsbogI6+hEaHF9jPHA7IiGqXxH6UvZUH17QxPYH4ZoWTR+v/F4p2CPNb7fKpmOk2euDX+F6VWYMshktISRdUuhCHEjIy7wyFZAwczadEvLMQfCBXQTZh5Hkcl5MKu6xqtcE6AuUr4IxPgBdoDj1zu+X4KGRwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qL8tfyb6; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkB9z+0l"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc97653887so40311925ad.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Aug 2026 07:22:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qL8tfyb6"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9e30214d8fso2979573a12.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 07 Aug 2026 07:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786112544; x=1786717344; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y4jrqSj3opeMMbFpu/4FeQ4O+rDHnQsZg3TOVpbai7E=;
-        b=DkB9z+0lBtug7Gea3gDhedY45xbo0wbb24LRr1VHggqMLlzgrkr6lTIauID8mNUdIb
-         wakrxfdrmu5aZkoZfgilQNKfwWWtkKuSM8FlDdXDkzfAaVIgToBJtkdbRUpbQixQyTEm
-         OvIplQIFMvG6QioTl6MQVi1Sammt9yNmlE4H5x87pGUNUp3kvi+nPJIWAy3BhLegrg7n
-         kY7wLG2IGJbAFqmEjID2ggq2Ha5ao6VdBDOK/6QRsNW43rXSlcTU9bti27sBRmP3iqym
-         Ukv0SVs2uJNAR+Ho0dPeMKA8RDDd15mO/0aczUydAAReGbwdMqEyfz2III4AXGjEENPh
-         BN7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786112544; x=1786717344;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1786112552; x=1786717352; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Y4jrqSj3opeMMbFpu/4FeQ4O+rDHnQsZg3TOVpbai7E=;
-        b=Zei/0j2neupi45j/Dlx527w0xjubpORzyN5L0n3ZPwZVf6zT7YFYAwv2PicyWQjce7
-         NyYE8dK0BvF5qLbSwZNkbmNXaYepB6f7lDPDaTKOhtJjCaCpFGTK0EatXGLGARjlA8Hg
-         MKaDOvHxCsAKrAd9RhJXpW2fh+V3L8CEn/+iDgsOs3efHMzu7BE0gDEJxr3nloDWETvi
-         5QXLx/OsareaeNlZX++GBIJvDhvPEUP3o8ZbPObL2etyFjgT4zOcGjj5o6i1iXDJsCr4
-         0TiQ/0ehPhWie5YX5DGtcTyVtOmLolnGH6edVglpFzllXntD4hlr6OGMsNkntRsjVi7e
-         QEXA==
-X-Forwarded-Encrypted: i=1; AHgh+RruRrpX8R6R3gDNzuaIQ21YuEQsmqZtGi0D9/sdfY3c3z6ud8c7Pd8mz1yDYRs5U8GOBhn8ZMWNk1bhN3JRvhvB5FPkKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy13lcJD3gJDdWQOkfK8WvbrJ8eLlUqqaBwefWFM8EvZY3eiqhq
-	aWUKHDOQnsfPqhwNV0X+J8xpw/WNdzm7TSdkUKxxFfYQGJiiwj33Ydc=
-X-Gm-Gg: AR+sD10wI6uUzkUVDLyENxh0rSksIn1gdtuWA/+0O7uZiGA+NPufdURcMhS+10nPU9v
-	X8G03LNjcF1E5lw+fXoluV+NB2DwsYtkrBu6iVlKYxBYslTCsbgc9eNeAOwL5PoTri2oak/eRaP
-	4fxVxIs2tHckGslFqN5FMg/vl/aX4dbi+SisqTuC0bic+vFuOx2Mflvk0dO0QEzRi/L1iFcUH7r
-	bIRnqXP7R5+O0/eAmmRcAcfiZZi1YGrXDmEG/IMbHCmOvgYiiu0UvFhXzYRvuJSFYfKrHfKNdkP
-	ROaduKH5Ipo6zHMTTxMlc/kd2it3dI0joO7fcT5sYbNSK0R07EXIDLZao8cfi49IdEVYd7INs4i
-	mm9t2f+ZUG6Z6aoAH7HKisBWxYeZn+sfB3kY9LYUFR8v0e5ibB46nvBC+tBQM+ZPLGfNGanmqdC
-	9cbWadXHdpuKhKawvczZ2PpbEV9mx8ss7VRF6qSlpTmEqG2apUggym2XF2YpPwCk3V7I2mfsJtH
-	iyyW/vLA1ZqbkBs/9KuiIZHKm92SXPmXcPUTZNmQw==
-X-Received: by 2002:a17:902:da82:b0:2cf:7bfe:6043 with SMTP id d9443c01a7336-2d0ca949b71mr207130955ad.19.1786112543799;
-        Fri, 07 Aug 2026 07:22:23 -0700 (PDT)
+        bh=FXqORpQuFukFf4CtgnQuCcVwYnWDFuCVbv8LufyxBXY=;
+        b=qL8tfyb6vcIYPjPm2tgV64RjJlxeLahwt3eOnMPp6JT6Hpzz4lCX4LkaqdniBiFs58
+         92sA6hXuiZXFvza8rEmAz2yUq3svC5fS5xfV3XO0FwOzXVln0Fjz6OG/XiRtY/5AX+nI
+         SXETMa/7ppkV5ZvpSwp8vJq4hN2d8zWH8meFBxuERLpECDYFBhoorRLMeXa8Ua9CjqiU
+         6rF34LocuRXrtq1swCA8jmRkgn+hQCS1Swfd+o/Q9sgY6Jfk6/A5l+urQLuIpyUUAM/2
+         zWNQSjwBr53ToVaGoG0ZIRPMmXAvmu7wiCjqsLj6zqd7M2HGe/bG8nc5tFE8HrltK4g2
+         goGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786112552; x=1786717352;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FXqORpQuFukFf4CtgnQuCcVwYnWDFuCVbv8LufyxBXY=;
+        b=lwD1DqD9P3b+f2c14W2Xm9qtqngCS1FKru9gIBolWbG/NPNO9DLiqcShwSKzXkVMJz
+         QVCj/nsqqtHsK2ov3b+qE+IORLqXyZG7a6z1kmCQPhABGfu1jF0al942jVkoXwWRw5u3
+         x1e4ZOAFsiLelDN2dJLcrEATsNJLORMxMgcP1fSa6W0egRuJl4YgdQs30A+Ajwb7ckXz
+         2HiesKOqZaz8G2uwj/doIOYN10LVz0+CJYKrf/D4goNwJkXSPx6CY9nKr3efqhKX6z9q
+         j9TYzG8NkWruuO/mtC6uRLKWlYdwX5BM/4LhaBK3bCs7oVXKsaf35qg7m8c6Bq7Q4RR3
+         ydFw==
+X-Forwarded-Encrypted: i=1; AHgh+RqGzL8YIzmFIxyGRQGGZoSGt/PTQCeHS4eSGNjzH1adFw5vLpEp8Wq3pgffmFqV29urqGMg5qw0RJpzObn3PZIMoVJo0g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKu7aCsLpWPXRdeUwlHTWHC9Rt7mwL807ISy2mppCFtKJHucKI
+	ZyS0NchjCTbX/Y1QTiJisdYseuXx6w/S33fKpynAG6wTPX0wrSsrj0KLZa5BTTA=
+X-Gm-Gg: AR+sD11wDMqMwkMBRMgKBOAAdb6+quEyUDVtuUwldlLrwf3/5QVOxOg1G77fUL6t0n2
+	HNoM/2CqEXu7L2ccFOItw0nnMVO1I731httuEH4yZ857aY/FBx7ulBN0yF8TUQshmRio0Yq4DmF
+	5Gpo2dw9qOELd30HPEQk9AIp3T0dsuHepUkIqP1q+pxSaRG+5jQoB3FItWJ0zQRvhfgndYK5URB
+	lJrM2kH2rcuq+DLjWUZy7435Awno3l2/q2D3o8XING8pU0MiYjVe3sGYKwluHKxfhWS4ld+dWcA
+	/DIvg1Luhe1B3ZcakyB59yHk+aB+cAZYd/oYmj6gNxyapDTQtuZ6bVKJYMZt3UDBmd4nN9yo6bu
+	4OJSnXZpqzmO18tv7ovdfUCJtlS+nyB808Iza8DxOmOUT74aAd0FmLNZo21k0ppBEG8neFMONFX
+	1Xy5fzpMPaSL0M5jvy0tV3Qu3rnPmFM2HposycTh5EuGNfAOD8slY3qbXJTYv0RNqZlwoxy0uWq
+	hzyhem0Jfy42l4aw3SYGukmpgva6vWAVTiHCzE4
+X-Received: by 2002:a05:6a20:1602:b0:3b1:cce5:9140 with SMTP id adf61e73a8af0-3cbce98a610mr966402637.33.1786112551619;
+        Fri, 07 Aug 2026 07:22:31 -0700 (PDT)
 Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be8a7395sm8521868eec.9.2026.08.07.07.22.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be8a7395sm8521868eec.9.2026.08.07.07.22.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 07:22:23 -0700 (PDT)
+        Fri, 07 Aug 2026 07:22:31 -0700 (PDT)
 From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -75,10 +77,12 @@ Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH 0/3] Add support for CH1115 Controller
-Date: Fri,  7 Aug 2026 11:19:49 -0300
-Message-ID: <cover.1786110720.git.nico.antinori.7@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: display: add Chipwealth CH1115 OLED controller
+Date: Fri,  7 Aug 2026 11:19:50 -0300
+Message-ID: <cf9b02d618db4eca88e2d32b4bf779011fcd550d.1786110720.git.nico.antinori.7@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1786110720.git.nico.antinori.7@gmail.com>
+References: <cover.1786110720.git.nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -88,45 +92,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series add support for the CH1115 Controller [1].
-It is a monochrome dot matrix OLED controller that supports several
-interfaces such as SPI and I2C.
+Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
 
-This driver only supports the I2C interface, but all common parts could
-easily be put into a common file to be used with other interfaces.
-I only have I2C to test with.
-
-This is the first driver I write. The work is based on the driver
-located at:
-- drivers/gpu/drm/sitronix/st7571-i2c.c
-- drivers/gpu/drm/sitronix/st7571.c
-
-Tested with Raspberry Pi 3b+.
-
-Thanks,
-Nicolás
-
-[1] https://datasheet4u.com/download/1576606/CH1115.html
-
-Nicolás Antinori (3):
-  dt-bindings: display: add Chipwealth CH1115 OLED Controller
-  drm/ch1115: add support for Chipwealth CH1115 OLED controller
-  MAINTAINERS: add entry for Chipwealth CH1115 OLED Controller
-
- .../bindings/display/chipwealth,ch1115.yaml   |  73 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/Kconfig                       |   1 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/chipwealth/Kconfig            |  16 +
- drivers/gpu/drm/chipwealth/Makefile           |   3 +
- drivers/gpu/drm/chipwealth/ch1115.c           | 828 ++++++++++++++++++
- 8 files changed, 930 insertions(+)
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+ .../bindings/display/chipwealth,ch1115.yaml   | 73 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 75 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
- create mode 100644 drivers/gpu/drm/chipwealth/Kconfig
- create mode 100644 drivers/gpu/drm/chipwealth/Makefile
- create mode 100644 drivers/gpu/drm/chipwealth/ch1115.c
 
+diff --git a/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml b/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
+new file mode 100644
+index 000000000000..29d55da85d21
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/chipwealth,ch1115.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Chipwealth CH1115 Display Controller
++
++maintainers:
++  - Nicolás Antinori <nico.antinori.7@gmail.com>
++
++description:
++  Chipwealth CH1115 is a controller for monochrome dot matrix OLED
++  panels.
++
++  https://datasheet4u.com/download/1576606/CH1115.html
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++
++properties:
++  compatible:
++    const: chipwealth,ch1115
++
++  reg:
++    maxItems: 1
++
++  invert:
++    type: boolean
++    description:
++      Display pixels are inverted, i.e. 0 is white and 1 is black.
++
++  width-mm: true
++  height-mm: true
++  panel-timing: true
++
++required:
++  - compatible
++  - reg
++  - width-mm
++  - height-mm
++  - panel-timing
++  - first-page
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      status = "okay";
++
++      display@3c {
++        compatible = "chipwealth,ch1115";
++        reg = <0x3c>;
++        width-mm = <12>;
++        height-mm = <8>;
++        contrast = <127>;
++        first-page = <1>;
++        panel-timing {
++          clock-frequency = <0>;
++          hactive = <88>;
++          vactive = <48>;
++          hfront-porch = <0>;
++          hback-porch = <0>;
++          hsync-len = <0>;
++          vsync-len = <0>;
++          vfront-porch = <0>;
++          vback-porch = <0>;
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index d2ba67c4c8e0..1d158ac83ce9 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -325,6 +325,8 @@ patternProperties:
+     description: ChipOne
+   "^chipspark,.*":
+     description: ChipSPARK
++  "^chipwealth,.*":
++    description: Chip Wealth Technology, Ltd.
+   "^chongzhou,.*":
+     description: Shenzhen Chongzhou Electronic Technology Co., Ltd
+   "^chrontel,.*":
 --
 2.47.3
 
