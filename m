@@ -1,105 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AD0370AF3;
-	Sun,  9 Aug 2026 18:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AE125A321;
+	Sun,  9 Aug 2026 23:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786299655; cv=none; b=PDVH5qao8kdMS8mW1XED4ZaFGR1DmEV4UUu1fvYkzqtj3rv0cuKe6xu6Dbvx9VpnH12YmhFhaoPu5tQxxc5YqU4o9kBz2fyEL7tghvjv/mpBOLxw3JT2eEa+Pdb8NCZ8qziFNGWb3MMs2g0ZD+zHi46OcmTYAZOdgOC8KJq6NwI=
+	t=1786319628; cv=none; b=S7UF4dbglIbcYZOxLEWgnlTdyRqY+ma+ISiwXYZVTm5BYebIBulK12ryxXt+cbkw1eLufUTrQaHdmYlNoYzTv011qAvTELslUGjsd18l5B+rK+Aps1UDuMNoBWm4N9tveOpwIs6VYk17eAJFSnhh+urgtHPr0tbt86vaW4PKvXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786299655; c=relaxed/simple;
-	bh=uVDRWvB0hecQ54QUK+46kx6joRcXYUSo6QriuvTZ8Z8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KuiQc/fmFYACMWB/OFfMjJCCyeuum1kgT2N6Y2fHswryRdoDqfHFxRCKqR25eRkBDMRuKo7VmfJ2mr2fod9wyb04mxOG0uorGp+p2yZus5pye090GR4yd8F1jMdOLzGGOH26gjAKS5kVOXpqBJ1OsVs8bxFYI7gb+nOofGRiTXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=svWBbLj9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786319628; c=relaxed/simple;
+	bh=XJnXglM9VAov07Q1LKJ/Dm0Qo5/2/vHqNqz+iQ5YEWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ku2Y0j262Cv3V5Hv7lzR+bbuwkvJQzJ2geE7ExPnViqvysTXioQmLvEug+0SBCCBpWay9I2ckHjWp1yQdg8V690TtyjPP2opWiGWFoHmCYt7Thk9mrDPGHGGGWT5gKgyCvRAdT5RMN5q3y6GQ3it7YUIh26m4MMjpogBnUr6wrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIrzE05B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="svWBbLj9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504351F000E9;
-	Sun,  9 Aug 2026 18:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1786299653;
-	bh=mb9QDC1iQYi8pCNJ4G320686nkqpM1gwPXkt8iVgfOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=svWBbLj9LgUQ6eYjQAVWVPSZJzQwjcxZeJhN9tA478vWx+FfqqxH68PSUumwQnSnh
-	 94l1VieS/lE4E8lUU8U/+G89u/dV5fCq8Ky3+jnJHu7J4fqxgG3voG7O9y1CiNFIdN
-	 DJcc1yOWnjVAGMx+tiWU1iJInJzFhQ+ka3paCteM=
-Date: Sun, 9 Aug 2026 20:19:21 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?=D3scar_Meg=EDa_L=F3pez?= <megia.oscar@gmail.com>
-Cc: Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v4] Memory leak error in qxl unbind
-Message-ID: <2026080941-edge-lurk-2146@gregkh>
-References: <20260809165326.164763-1-megia.oscar@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIrzE05B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118D21F000E9;
+	Sun,  9 Aug 2026 23:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786319626;
+	bh=LyKqWc3Je9E24a7EMPHeRWMh9LhZWQy9z7WQ8ohgBP8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=OIrzE05BEt3Ct9Rg5a5BkKnq7SBevJ+PKyI+V4Hz3mG53qJsTxJKFL9mQhRi+pAEF
+	 Uotza/p3Ub49/Nfb0qSs4LOsnSh5MR/vrWiL/i1FuDLFYJ0QXBH9TmLm9o58jx9zQC
+	 9jXI0D1Zb7vmAOkZecCCCzaRVJqN7HrIxnZgZWqdfKstWNwsZGVXdiMbIkYb22wbSp
+	 ejhynlLPbjHdAnLJBeCldJNuIrXahLmvNBn5HyNGVzmEGGiPQVlP3QAHKbZ0iIbfiF
+	 KOPgaBo9tN0Tjb1/myNpzljuEnZArgZTHEZdTIih7D+ird9SOHuOGkO8pc8PeaW1Eb
+	 GnXxyGnRJjrqQ==
+Date: Mon, 10 Aug 2026 00:53:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marco Chen <marcochen.dev@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ pmeerw@pmeerw.net, matt@ranostay.sg, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v4] iio: health: max30102: fix NULL dereference in
+ interrupt handler
+Message-ID: <20260810005340.638d6b1b@jic23-huawei>
+In-Reply-To: <20260808195450.25420-1-marcochen.dev@gmail.com>
+References: <20260808195450.25420-1-marcochen.dev@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260809165326.164763-1-megia.oscar@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 09, 2026 at 06:53:14PM +0200, Óscar Megía López wrote:
-> I discovered an OOM after run the script below
-> (I updated it and added a sleep to allow enough time for the cache to
-> recover):
-> 
-> while [ 1 -eq 1 ]; do\
->   i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
->   if (($i%1000==0)); then\
->     echo i=$i; free;\
->     grep nr_free_pages /proc/vmstat;\
->     grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
->     sync; echo 3 > /proc/sys/vm/drop_caches;\
->     echo 1 > /proc/sys/vm/compact_memory;\
->     sleep 10s;\
->     free;\
->     grep nr_free_pages /proc/vmstat;\
->     grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
->     uptime;\
->   fi;\
->   echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
->  done
-> 
-> The OOM isn't just a simple leak; it's a refcount corruption which renders
-> the list_lru fix dead code after the first mid-init failure.
-> 
-> Here's the chain:
-> 
-> Bug 1: ttm_pool_type_init() does not check return from list_lru_init().
-> 
-> Fix: Check the return value from list_lru_init() and propagate the error.
-> 
-> Bug 2: ttm_pool_fini() does not destroy list lru with list_lru_destroy().
-> 
-> Fix: Add list_lru_destroy() after ttm_pool_type_fini().
-> 
-> Bug 3: ttm_pool_mgr_init() does not check ttm_pool_type_init() return
-> and does not free pool if returns error.
-> 
-> Fix: Move up shrinker_alloc(), check ttm_pool_type_init() return and free
-> pool types and shrinker if non-zero and return error.
-> 
-> Bug 4: ttm_pool_mgr_fini() does not destroy the list_lru.
-> 
-> Fix: Add list_lru_destroy() after ttm_pool_type_fini().
-> 
-> Fixed check for an empty shrinker_list.
+On Sat,  8 Aug 2026 15:54:50 -0400
+Marco Chen <marcochen.dev@gmail.com> wrote:
 
-Why is this not 4 different patches as part of a series?
+> The interrupt is requested in max30102_probe() and stays enabled
+> for the lifetime of the device, but indio_dev->active_scan_mask is only
+> valid while a buffer is enabled. When an interrupt arrives while no
+> buffer is enabled, the handler dereferences the NULL active_scan_mask:
+> 
+>   Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+>   Call trace:
+>    __bitmap_weight+0x64/0x98 (P)
+>    max30102_interrupt_handler+0x48/0x160 [max30102]
+> 
+> Call max30102_fifo_count() at the top of the handler and return early
+> unless it reports a FIFO sample is ready. Because FIFO_RDY is the only
+> interrupt source enabled in max30102_chip_init(), an invocation of
+> max30102_interrupt_handler() without the FIFO_RDY interrupt status bit
+> set carries no data to read and can return before touching
+> active_scan_mask. A negative return from max30102_fifo_count()
+> indicates a failed interrupt status read and is treated the same way.
+> 
+> Fixes: 90579b69e94b ("iio: health: max30102: Add MAX30105 support")
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Marco Chen <marcochen.dev@gmail.com>
+Applied to the fixes-togreg branch of iio.git.
 
-> This patch depends on patch ("[PATCH v3] drm/qxl: fix use-after-free in
-> qxl_irq_handler on PCI"), link [1] below.
-
-That's not going to age well in a changelog text :(
+Note however that this has missed my last pull request for this cycle
+so won't go anywhere until after rc1 which is in about 3 weeks time.
 
 thanks,
 
-greg k-h
+Jonathan
+
+> ---
+> Changes in v4:
+> - Trim the backtrace to only relevant frames and unwrap the first line
+>   as suggested by Andy.
+> 
+> max30102_fifo_count() still has the odd name and int return you mentioned
+> in v2, so I will send a follow-up patch once this lands.
+> 
+> Tested on a MAX30102 on Raspberry Pi 4 over I2C.
+> 
+> v1: https://lore.kernel.org/linux-iio/20260731184124.112124-1-marcochen.dev@gmail.com/
+> v2: https://lore.kernel.org/linux-iio/20260804234355.65319-1-marcochen.dev@gmail.com/
+> v3: https://lore.kernel.org/linux-iio/20260805040621.84843-1-marcochen.dev@gmail.com/
+> 
+>  drivers/iio/health/max30102.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
+> index c37316c86f14..aee96167f01e 100644
+> --- a/drivers/iio/health/max30102.c
+> +++ b/drivers/iio/health/max30102.c
+> @@ -290,9 +290,15 @@ static irqreturn_t max30102_interrupt_handler(int irq, void *private)
+>  {
+>  	struct iio_dev *indio_dev = private;
+>  	struct max30102_data *data = iio_priv(indio_dev);
+> -	unsigned int measurements = bitmap_weight(indio_dev->active_scan_mask,
+> -						  iio_get_masklength(indio_dev));
+> -	int ret, cnt = 0;
+> +	unsigned int measurements;
+> +	int ret, cnt;
+> +
+> +	cnt = max30102_fifo_count(data);
+> +	if (cnt <= 0)
+> +		return IRQ_HANDLED;
+> +
+> +	measurements = bitmap_weight(indio_dev->active_scan_mask,
+> +				     iio_get_masklength(indio_dev));
+>  
+>  	mutex_lock(&data->lock);
+>  
+
