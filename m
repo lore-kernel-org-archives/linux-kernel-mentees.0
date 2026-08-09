@@ -1,411 +1,105 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CA735C19B
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  9 Aug 2026 16:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AD0370AF3;
+	Sun,  9 Aug 2026 18:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786294433; cv=none; b=eIfC6S8l545GiogEh1C6/tuSUCEL93ow9t9emf5Ej/vZQVg6wuYrMFsn3X+K2NDVSKZSzaLrlvKHgnYRxV3KH8P32j5krDRyiKRuHta+8sGM1nbo0WsOLmUQwuDUIdd4+gqBTnIV7Vv+WJmVtnOfAsL38D7F4vLyufb6da0+xWc=
+	t=1786299655; cv=none; b=PDVH5qao8kdMS8mW1XED4ZaFGR1DmEV4UUu1fvYkzqtj3rv0cuKe6xu6Dbvx9VpnH12YmhFhaoPu5tQxxc5YqU4o9kBz2fyEL7tghvjv/mpBOLxw3JT2eEa+Pdb8NCZ8qziFNGWb3MMs2g0ZD+zHi46OcmTYAZOdgOC8KJq6NwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786294433; c=relaxed/simple;
-	bh=oVAfk0wAOZd9sn7UJJsCvJ6nCTuPo03/JIINR55Ic38=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=difEwM5D+m+mLZX3Tyihy+ZkK9rnIk8dIK5gvp9c9f2SUSzJnYw2ixeIAcM/Q2WCeiaY6PY7JGSQHqHIBhJfJ/c8NaFA9W4cgiI4CVAyprXXPSWHQgRNttti1VxCg9OMxvnVBGrC5oYGImSt6ZJWW/yy/DfR0Z+CuTLm9fcVC1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tBg+v1kO; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786299655; c=relaxed/simple;
+	bh=uVDRWvB0hecQ54QUK+46kx6joRcXYUSo6QriuvTZ8Z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KuiQc/fmFYACMWB/OFfMjJCCyeuum1kgT2N6Y2fHswryRdoDqfHFxRCKqR25eRkBDMRuKo7VmfJ2mr2fod9wyb04mxOG0uorGp+p2yZus5pye090GR4yd8F1jMdOLzGGOH26gjAKS5kVOXpqBJ1OsVs8bxFYI7gb+nOofGRiTXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=svWBbLj9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tBg+v1kO"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4994c49f588so10238545e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 09 Aug 2026 09:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786294430; x=1786899230; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5/XLgqYK873A1GIVt6yKDgXm2bgfPi9SEqbj4J+hicw=;
-        b=tBg+v1kOUAMZ17DDy2aryKK/MlFUuGIoewjhd4Bv5/M5vff8zFZ2SpHWf2WkdZMGZh
-         OgFzYtiwKZCOqYvuqo5RF6iJsmnk9YmNxRE0KuaQWT68iCBROirjJVisHSP0+jqE3VW8
-         MpwawK0bbl1Digz2Y02StwcCbUU8hCWokcsZMguLT30T7nCQRLs8ULpXIpu3di42Aobf
-         AbORb/sb/y2nHWi95vW+eoieapQr2fGpKmVgNKAZuzW9o3BuC8dkeHJhozVm9AQ9EHsx
-         etrD7zpHfCcvGD1m5u7S+LXSLd1UaJ4Y/xZegbr0REgbTG1cTUa468UE78n95nAHwHM6
-         pULA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786294430; x=1786899230;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5/XLgqYK873A1GIVt6yKDgXm2bgfPi9SEqbj4J+hicw=;
-        b=k9UuFQ6J2fV/n92BkrAzBZJX3Uhi649rys8E9EPi/hWHFbX7aQBbc0ZdTmov7rJCRr
-         a7wvTFRfKu36a2lZAgnTzxfYl92zdmbTp4/V8IUaAA+JT+RbIZr0whJ8CQZGOCABsiPe
-         hPQ4+no0mvznkU816LA7o/cWdZf45hTghQFqcGxqiESc+AcEBN1KfWKhic5+o5V+2Yh+
-         hhv/Hm9C7EI/nNuZDE+LUyRISdF5tsGRIzEDHjyfXWpZVecpR1/Hdf4b20KF2xmNj6VJ
-         A+6xY0A8fnHS2TiakB78+pfFKaYdNb/c3PHR4K9myArmy02GgwANybFVWW7xJnImuQJq
-         kaTA==
-X-Forwarded-Encrypted: i=1; AHgh+RoOQ9lG/JdoP0UK9nlzSIW7desXBYEG74tHZJ6+rhnj4Ut5wgm202WwtqHsjfGtc60P+Yy4feXIAhMziqTJ1GnUIjhN3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRm6fV4l/5EdBhVvmBRHFZtsGrKC9EtZ5uhz6ipN1RqbbLNV8W
-	fFUK8jTuVZFEvSb4AaFQMlafJVHS/tPB0j3bMjgiYw+ncI7b6HCwAuqX
-X-Gm-Gg: AR+sD122X71rQ594e0XE7CjJOYcgENUWNyZqhAqx6VUYVlxfuRfa5eKb0WRP8UwSGOG
-	LWV4PCB6le4In56szARGNidj4DYnMKNly0NiR/lGxOZqCHoF7+Qhbq0Ca0fhCQI4v9FJ7FNpsNz
-	YKVGZFII3uXb0STigvo2HaCh+0ayBP+U9uY3JRKY/K8UqwUukARBj7G4hQYHgpKQzNmCuc2fMGE
-	CrZ6cpNBiRX+Y9k+EJU7MW4UhevIt02mf9aWZYws2YUHqZk018ByiBOjc7WCYpq/CjlTRZwzJNY
-	UpjPw2BX83scQHL2y8VPihZVeqQpZMax4pUEZtLhTAE5lQRuNYWRmcDNZ+sCUorbrJZro5bg/7A
-	Ct3pWzhtesmGQsm0aAd4aP3qgf5K80eipwq1F7ySgheE+WRMI6qvuabsYVaNrA0VGV1qhv/7ckn
-	hino+DrFZ0tlZWA55kOg7d4Vm60fuYWneYC+tlEjAN+neqsgDjjDLeIbCq7OGfsipi8sRhNzANW
-	UNMCZQR8iWuVjtJE56lHJVia7gmeqlUhD/SoslNMtuEscbwQozYXQ==
-X-Received: by 2002:a05:600c:45d5:b0:495:69eb:27d3 with SMTP id 5b1f17b1804b1-4996247a562mr148297525e9.8.1786294429885;
-        Sun, 09 Aug 2026 09:53:49 -0700 (PDT)
-Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480020be8f3sm23599092f8f.0.2026.08.09.09.53.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 09:53:49 -0700 (PDT)
-From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
-To: Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>
-Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="svWBbLj9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504351F000E9;
+	Sun,  9 Aug 2026 18:20:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1786299653;
+	bh=mb9QDC1iQYi8pCNJ4G320686nkqpM1gwPXkt8iVgfOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=svWBbLj9LgUQ6eYjQAVWVPSZJzQwjcxZeJhN9tA478vWx+FfqqxH68PSUumwQnSnh
+	 94l1VieS/lE4E8lUU8U/+G89u/dV5fCq8Ky3+jnJHu7J4fqxgG3voG7O9y1CiNFIdN
+	 DJcc1yOWnjVAGMx+tiWU1iJInJzFhQ+ka3paCteM=
+Date: Sun, 9 Aug 2026 20:19:21 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?Q?=D3scar_Meg=EDa_L=F3pez?= <megia.oscar@gmail.com>
+Cc: Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
 	Matthew Auld <matthew.auld@intel.com>,
 	Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v4] Memory leak error in qxl unbind
-Date: Sun,  9 Aug 2026 18:53:14 +0200
-Message-ID: <20260809165326.164763-1-megia.oscar@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v4] Memory leak error in qxl unbind
+Message-ID: <2026080941-edge-lurk-2146@gregkh>
+References: <20260809165326.164763-1-megia.oscar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260809165326.164763-1-megia.oscar@gmail.com>
 
-I discovered an OOM after run the script below
-(I updated it and added a sleep to allow enough time for the cache to
-recover):
+On Sun, Aug 09, 2026 at 06:53:14PM +0200, ”scar MegÌa LÛpez wrote:
+> I discovered an OOM after run the script below
+> (I updated it and added a sleep to allow enough time for the cache to
+> recover):
+> 
+> while [ 1 -eq 1 ]; do\
+>   i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
+>   if (($i%1000==0)); then\
+>     echo i=$i; free;\
+>     grep nr_free_pages /proc/vmstat;\
+>     grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
+>     sync; echo 3 > /proc/sys/vm/drop_caches;\
+>     echo 1 > /proc/sys/vm/compact_memory;\
+>     sleep 10s;\
+>     free;\
+>     grep nr_free_pages /proc/vmstat;\
+>     grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
+>     uptime;\
+>   fi;\
+>   echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
+>  done
+> 
+> The OOM isn't just a simple leak; it's a refcount corruption which renders
+> the list_lru fix dead code after the first mid-init failure.
+> 
+> Here's the chain:
+> 
+> Bug 1: ttm_pool_type_init() does not check return from list_lru_init().
+> 
+> Fix: Check the return value from list_lru_init() and propagate the error.
+> 
+> Bug 2: ttm_pool_fini() does not destroy list lru with list_lru_destroy().
+> 
+> Fix: Add list_lru_destroy() after ttm_pool_type_fini().
+> 
+> Bug 3: ttm_pool_mgr_init() does not check ttm_pool_type_init() return
+> and does not free pool if returns error.
+> 
+> Fix: Move up shrinker_alloc(), check ttm_pool_type_init() return and free
+> pool types and shrinker if non-zero and return error.
+> 
+> Bug 4: ttm_pool_mgr_fini() does not destroy the list_lru.
+> 
+> Fix: Add list_lru_destroy() after ttm_pool_type_fini().
+> 
+> Fixed check for an empty shrinker_list.
 
-while [ 1 -eq 1 ]; do\
-  i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
-  if (($i%1000==0)); then\
-    echo i=$i; free;\
-    grep nr_free_pages /proc/vmstat;\
-    grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
-    sync; echo 3 > /proc/sys/vm/drop_caches;\
-    echo 1 > /proc/sys/vm/compact_memory;\
-    sleep 10s;\
-    free;\
-    grep nr_free_pages /proc/vmstat;\
-    grep -E "PageTables|VmallocUsed|Slab|Reclaimable" /proc/meminfo;\
-    uptime;\
-  fi;\
-  echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
- done
+Why is this not 4 different patches as part of a series?
 
-The OOM isn't just a simple leak; it's a refcount corruption which renders
-the list_lru fix dead code after the first mid-init failure.
+> This patch depends on patch ("[PATCH v3] drm/qxl: fix use-after-free in
+> qxl_irq_handler on PCI"), link [1] below.
 
-Here's the chain:
+That's not going to age well in a changelog text :(
 
-Bug 1: ttm_pool_type_init() does not check return from list_lru_init().
+thanks,
 
-Fix: Check the return value from list_lru_init() and propagate the error.
-
-Bug 2: ttm_pool_fini() does not destroy list lru with list_lru_destroy().
-
-Fix: Add list_lru_destroy() after ttm_pool_type_fini().
-
-Bug 3: ttm_pool_mgr_init() does not check ttm_pool_type_init() return
-and does not free pool if returns error.
-
-Fix: Move up shrinker_alloc(), check ttm_pool_type_init() return and free
-pool types and shrinker if non-zero and return error.
-
-Bug 4: ttm_pool_mgr_fini() does not destroy the list_lru.
-
-Fix: Add list_lru_destroy() after ttm_pool_type_fini().
-
-Fixed check for an empty shrinker_list.
-
-This patch depends on patch ("[PATCH v3] drm/qxl: fix use-after-free in
-qxl_irq_handler on PCI"), link [1] below.
-
-Assisted-by: OpenCode:1.17.18-Big Pickle/DeepSeek V4 Flash
-Assisted-by: claude.ai:Sonnet 5
-Link: https://lore.kernel.org/lkml/
-20260727110212.64913-1-megia.oscar@gmail.com/ [1]
-Link: https://lore.kernel.org/dri-devel/
-20260731053047.24503-1-megia.oscar@gmail.com/ [2]
-Cc: <stable@vger.kernel.org> # 7.1.0
-Fixes: 444e2a19d7fd ("ttm/pool: port to list_lru. (v2)")
-Signed-off-by: √ìscar Meg√≠a L√≥pez <megia.oscar@gmail.com>
----
-Changes in v2:
- - Bug 1: ttm_global_init ignores ttm_pool_mgr_init() return.
-   If shrinker_alloc() fails under memory pressure, ttm_pool_mgr_init
-   returns -ENOMEM with pool types already initialized (64 list_lru_init
-   calls done). ttm_global_init ignored this and returned 0, leaving orphaned
-   pool types with a NULL mm_shrinker.
-
-   Fix: Check ret from ttm_pool_mgr_init; if non-zero, goto out cleans up
-   refcount + debugfs.
-
- - Bug 2: ttm_pool_mgr_init leaks pool types on shrinker_alloc failure
-   If shrinker_alloc fails after all 64 pool types were list_lru_init'd,
-   the function returned -ENOMEM without undoing them. With Bug 1 now
-   triggering proper error handling, this undo is necessary.
-
-   Fix: err_shrinker: label that finalizes + destroys all 64 pool types
-   before returning.
-
-Changes in v3:
- - Fix: "Unchecked list_lru_init() return value in ttm_pool_type_init()
-   causes a deterministic NULL pointer dereference in the newly added
-   error path."
-   Now check list_lru_init return value in ttm_pool_type_init() and
-   returns error if any.
-
- - Solved pre-existing issues reported by kernel test robot:
-   - [High] `ttm_pool_type_init()` ignores the return value of
-     `list_lru_init()`, leading to a NULL pointer dereference
-     if allocation fails.
-
-     Fix: get return value from list_lru_init and return error if any.
-
-   - [High] `ttm_pool_shrink()` assumes `shrinker_list` is never empty,
-     causing memory corruption and crashes during module unload
-     if triggered.
-
-     Fix: Check if shrinker_list is empty and return 0 if it is empty.
-
-Changes in v4:
- - removed check return value in ttm_pool_mgr_init, now in new patch
- ("[PATCH] ttm: Add error handling for ttm_pool_mgr_init()")
- link [2] above.
- - Fixed check empty shrinker_list.
- - Check return value from ttm_pool_type_init.
- - Move up shrinker_alloc.
- - Deleted dput(backup_fault_inject.dname);
- - Fixed issue [High] The patch introduces a use-after-free race condition
-   between `ttm_pool_type_fini()` and the active memory shrinker
-   `ttm_pool_shrink()` by calling `list_lru_destroy()` prematurely as
-   reported by kernel test robot.
-
-   Fix: separate ttm_pool_type_fini and list_lru_destroy. Then, add
-   ttm_pool_synchronize_shrinkers between them.
----
- drivers/gpu/drm/ttm/ttm_pool.c | 135 ++++++++++++++++++++++++++++-----
- 1 file changed, 115 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 278bbe7a11ad..183836f2df34 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -354,17 +354,23 @@ static struct page *ttm_pool_type_take(struct ttm_pool_type *pt, int nid)
- }
- 
- /* Initialize and add a pool type to the global shrinker list */
--static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
-+static int ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
- 			       enum ttm_caching caching, unsigned int order)
- {
-+	int ret = 0;
-+
- 	pt->pool = pool;
- 	pt->caching = caching;
- 	pt->order = order;
--	list_lru_init(&pt->pages);
-+	ret = list_lru_init(&pt->pages);
-+	if (ret)
-+		return ret;
- 
- 	spin_lock(&shrinker_lock);
- 	list_add_tail(&pt->shrinker_list, &shrinker_list);
- 	spin_unlock(&shrinker_lock);
-+
-+	return 0;
- }
- 
- static enum lru_status pool_move_to_dispose_list(struct list_head *item,
-@@ -438,6 +444,9 @@ static unsigned int ttm_pool_shrink(int nid, unsigned long num_to_free)
- 	struct ttm_pool_type *pt;
- 	unsigned int num_pages;
- 
-+	if ((shrinker_list.prev == &shrinker_list) && (shrinker_list.next == &shrinker_list))
-+		return 0;
-+
- 	down_read(&pool_shrink_rwsem);
- 	spin_lock(&shrinker_lock);
- 	pt = list_first_entry(&shrinker_list, typeof(*pt), shrinker_list);
-@@ -1198,6 +1207,17 @@ void ttm_pool_fini(struct ttm_pool *pool)
- 	 * that no shrinker is concurrently freeing pages from the pool.
- 	 */
- 	ttm_pool_synchronize_shrinkers();
-+
-+	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-+		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
-+			struct ttm_pool_type *pt;
-+
-+			pt = ttm_pool_select_type(pool, i, j);
-+			if (pt != &pool->caching[i].orders[j])
-+				continue;
-+			list_lru_destroy(&pt->pages);
-+		}
-+	}
- }
- EXPORT_SYMBOL(ttm_pool_fini);
- 
-@@ -1376,6 +1396,54 @@ static inline u64 ttm_get_node_memory_size(int nid)
- 	return managed_pages * PAGE_SIZE;
- }
- 
-+static void ttm_pool_type_fini_and_list_lru_destroy(unsigned int nr)
-+{
-+	unsigned int i;
-+
-+	if (nr == 0)
-+		return;
-+
-+	for (i = 0; i < nr; ++i) {
-+		ttm_pool_type_fini(&global_write_combined[i]);
-+		ttm_pool_type_fini(&global_uncached[i]);
-+		ttm_pool_type_fini(&global_dma32_write_combined[i]);
-+		ttm_pool_type_fini(&global_dma32_uncached[i]);
-+	}
-+
-+	/* We removed the pool types from the LRU, but we need to also make sure
-+	 * that no shrinker is concurrently freeing pages from the pool.
-+	 */
-+	ttm_pool_synchronize_shrinkers();
-+
-+	for (i = 0; i < nr; ++i) {
-+		list_lru_destroy(&global_write_combined[i].pages);
-+		list_lru_destroy(&global_uncached[i].pages);
-+		list_lru_destroy(&global_dma32_write_combined[i].pages);
-+		list_lru_destroy(&global_dma32_uncached[i].pages);
-+	}
-+
-+}
-+
-+static void ttm_pool_type_fini_and_list_lru_destroy_partial(
-+				struct ttm_pool_type *types[], unsigned int n)
-+{
-+	unsigned int k;
-+
-+	if (n == 0)
-+		return;
-+
-+	for (k = 0; k < n; ++k)
-+		ttm_pool_type_fini(types[k]);
-+
-+	/* We removed the pool types from the LRU, but we need to also make sure
-+	 * that no shrinker is concurrently freeing pages from the pool.
-+	 */
-+	ttm_pool_synchronize_shrinkers();
-+
-+	for (k = 0; k < n; ++k)
-+		list_lru_destroy(&types[k]->pages);
-+}
-+
- /**
-  * ttm_pool_mgr_init - Initialize globals
-  *
-@@ -1386,6 +1454,8 @@ static inline u64 ttm_get_node_memory_size(int nid)
- int ttm_pool_mgr_init(unsigned long num_pages)
- {
- 	unsigned int i;
-+	int ret = 0;
-+	struct ttm_pool_type *types_free[3];
- 
- 	int nid;
- 	for_each_node(nid) {
-@@ -1400,15 +1470,53 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 	spin_lock_init(&shrinker_lock);
- 	INIT_LIST_HEAD(&shrinker_list);
- 
-+	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
-+	if (!mm_shrinker)
-+		return -ENOMEM;
-+
- 	for (i = 0; i < NR_PAGE_ORDERS; ++i) {
--		ttm_pool_type_init(&global_write_combined[i], NULL,
-+		ret = ttm_pool_type_init(&global_write_combined[i], NULL,
- 				   ttm_write_combined, i);
--		ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
-+		if (ret) {
-+			ttm_pool_type_fini_and_list_lru_destroy(i);
-+			shrinker_free(mm_shrinker);
-+			return ret;
-+		}
-+
-+		ret = ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
-+		if (ret) {
-+			types_free[0] = &global_write_combined[i];
-+			ttm_pool_type_fini_and_list_lru_destroy_partial(types_free, 1);
- 
--		ttm_pool_type_init(&global_dma32_write_combined[i], NULL,
-+			ttm_pool_type_fini_and_list_lru_destroy(i);
-+			shrinker_free(mm_shrinker);
-+			return ret;
-+		}
-+
-+		ret = ttm_pool_type_init(&global_dma32_write_combined[i], NULL,
- 				   ttm_write_combined, i);
--		ttm_pool_type_init(&global_dma32_uncached[i], NULL,
-+		if (ret) {
-+			types_free[0] = &global_write_combined[i];
-+			types_free[1] = &global_uncached[i];
-+			ttm_pool_type_fini_and_list_lru_destroy_partial(types_free, 2);
-+
-+			ttm_pool_type_fini_and_list_lru_destroy(i);
-+			shrinker_free(mm_shrinker);
-+			return ret;
-+		}
-+
-+		ret = ttm_pool_type_init(&global_dma32_uncached[i], NULL,
- 				   ttm_uncached, i);
-+		if (ret) {
-+			types_free[0] = &global_write_combined[i];
-+			types_free[1] = &global_uncached[i];
-+			types_free[2] = &global_dma32_write_combined[i];
-+			ttm_pool_type_fini_and_list_lru_destroy_partial(types_free, 3);
-+
-+			ttm_pool_type_fini_and_list_lru_destroy(i);
-+			shrinker_free(mm_shrinker);
-+			return ret;
-+		}
- 	}
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -1422,10 +1530,6 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- #endif
- #endif
- 
--	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
--	if (!mm_shrinker)
--		return -ENOMEM;
--
- 	mm_shrinker->count_objects = ttm_pool_shrinker_count;
- 	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
- 	mm_shrinker->batch = TTM_SHRINKER_BATCH;
-@@ -1443,16 +1547,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
-  */
- void ttm_pool_mgr_fini(void)
- {
--	unsigned int i;
--
--	for (i = 0; i < NR_PAGE_ORDERS; ++i) {
--		ttm_pool_type_fini(&global_write_combined[i]);
--		ttm_pool_type_fini(&global_uncached[i]);
--
--		ttm_pool_type_fini(&global_dma32_write_combined[i]);
--		ttm_pool_type_fini(&global_dma32_uncached[i]);
--	}
--
- 	shrinker_free(mm_shrinker);
-+	ttm_pool_type_fini_and_list_lru_destroy(NR_PAGE_ORDERS);
- 	WARN_ON(!list_empty(&shrinker_list));
- }
--- 
-2.55.0
-
+greg k-h
