@@ -1,148 +1,149 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D0E3EC82E
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Aug 2026 14:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF6437447
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Aug 2026 18:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786370995; cv=none; b=JFNUbBthFUtLOmstQ3lkHfts79JKm5lFfYi/MwoQ5d8/jwIsv1vUDfD8YQzw8Fa6scMcxBUXfEPgst2uSnZQE8hJ/o96tGcfJAP/VsTQYxp0Y6Y0BHtapET6Xr0kcRXWwFrm9ZFmYLEquOsSWmVDbpWCZ0B7+MnZdB9Vwhw5p7w=
+	t=1786386841; cv=none; b=bWD9MqC+ivvfxxQCjh7jlmJ8boMWRRGsbtCGVNnY4RFyAW9uZcVOEYvM7YJ6qq3Vv0C/BgumYxcC1zzGwG7fwGKjS6MRqN+xOYQDiwV7jRw+KXRrlk2vfh6sl2iKfR6k1BB9DBFBcblaVzbSc5mS+lKmN4i5ugU0b9/gWrKFDO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786370995; c=relaxed/simple;
-	bh=q9XZ9PFaOttrJScNyLsrJJf0rfpu9aYHOmG8UewkSsY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MjwCK5GiuLOoccHEO72W/s9wzWRbfZkc8nyCXGFAiOb1wHvgLrKxGmkIvvoRjBERkVEX0/faegWI1s556zltpeTVjmUDYx4Xzi3fCXSDVRpKJsQEwrbRYMX4aCBfKFKcZbsUh2veC+QhCr9A8k5DjJ1+kj1eOtakT6uH+jSbgrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WVUqf6kd; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1786386841; c=relaxed/simple;
+	bh=SqcgA4LJuoWFHZgSuIGEdqOlMctmYEWvqDTQVUq2iwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gtPBNk2rG3yGtbnxCPjJyUYS1QgHlGnolY1wklhRNHYGFzZUtvSSJh4QjjTs8gp57AuMSLoyY+g6xc2UHtqa7pDu62RWuC2k82QtnE6YoXXuFZFmVPQkS5Kr7ow4kMo+nuh/Xy4v99t1Y1hKTht8xEV3UIWuHj0RZBHa0UktgsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2N04jdX; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WVUqf6kd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1786370987;
-	bh=q9XZ9PFaOttrJScNyLsrJJf0rfpu9aYHOmG8UewkSsY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=WVUqf6kdmhif9DQCIU3WmUyS9amW1W3+89dBAQ4c4TpXeOM93wAwIRg9ldbukcGCd
-	 FkvKkZaDBYXJdQyWH2OO/5rMSjn8H1WLRBoJ69zxAXuZS53cUti7M0pfZ88yde7KfP
-	 L+NPf9SBo6N2AG44qWzVDMhDdJ6LvnX1CtvNJMpNMN/W9W5vLZULfeomUAaVfB4Sz9
-	 vgC/G75pQnH4f8wjOOaghgJPWVvykDkruRUaxe1JwxkwLskpXG1muD015U71AcuTlA
-	 mjJTYLNVR7c/j3nfF69QD0wYHXA23pZELAldzjSyAZ6+Q4Q+OtjlJOTsYHP18dTzD5
-	 uru3kEg16fptA==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9709617E077F;
-	Mon, 10 Aug 2026 16:09:45 +0200 (CEST)
-Message-ID: <2a5abb0004aa453c2f985aff41c72d4952006fc9.camel@collabora.com>
-Subject: Re: [PATCH] media: hantro: Harden MPEG-2 control access against NULL
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Tharit Tangkijwanichakul <tharitt97@gmail.com>, Benjamin Gaignard	
- <benjamin.gaignard@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil	
- <hverkuil@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	me@brighamcampbell.com, jkoolstra@xs4all.nl
-Date: Mon, 10 Aug 2026 10:09:44 -0400
-In-Reply-To: <20260731140751.1183-1-tharitt97@gmail.com>
-References: <20260731140751.1183-1-tharitt97@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-zKDJou/lVj/KGzVMp1c8"
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2N04jdX"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-caf45fc5202so1853978a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 10 Aug 2026 11:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786386839; x=1786991639; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MKUjBVCjl00/cCCAjLM5qqAoQDkenE2Pgtyp/CT8tOo=;
+        b=F2N04jdXGydXBZo5RzJuxdQxMuZISjVXvZUKiAYDYyhgUkH3J9oUNrc6krcdNepnuj
+         /Xr4u+AhxF1tYVl+6qwl5iLV6NP1VgGMWTo3xpO+WxaC+3Tu7SzoUd/J9vq2sBCGLMZ7
+         MPPkE5fs7PPO+lbH3gFaOvQsqsZuIb01oayIx7UYH3a6oWXxaO6NT4OCEACCGqq5xRjS
+         0D9SmERpUT4HjhlSA15lzDoHhSuvIx6Z6R3m8pBj9LxmVRMO5jlmzctbWHMVPGNdzcKl
+         bLRQIZZbsQW4HUdHyQdoISjkvJcxVJhmfQOD1fpBFYy9PSXqGRPy4spviMlkbvXq8IiX
+         4/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786386839; x=1786991639;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MKUjBVCjl00/cCCAjLM5qqAoQDkenE2Pgtyp/CT8tOo=;
+        b=gHEcFuAgxVtFrC9zDQvw8icJUNa0a78fguKYD5Mrn/nTgdOzVu/VNxF3MDnCc3Qb5T
+         K2T7TLLREEV5rLVzPayLOn0WxdeZnN2RxOGivpriJg8hCCzaXx1QrD9QRYn4EPi8uB9z
+         hENqKbV8MV+C2uM77Az0+kEabGHfXt2YSsZEWqhKq0pvM5xc7q6tAwtEC5TtbpRFPu2h
+         PFopOJVfm32WLdPHsqMDLVbpIvtGXB8VOCoNzUeLz7+X/oCTdrxe9XhgnlVNg3h3bGjv
+         O8y6D0eHkx4GdTAidKfdIix+EkD2tFXUlaBoenKPXT6mIZ+Gg98AWRNY4Okj00R3u8cQ
+         6E1w==
+X-Forwarded-Encrypted: i=1; AHgh+RrcktTocEQe5/AhKJphkjC6gzcvRokfaeKj7EjU6EqI4F0GO9SE1hJePn8eykMOoHYzBoElhuiIB6xF//dhoP0Ck+Kfhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzj5ndzy8wBoutB3zbRM9mdSGKtCt2CoyY4PCPBletwbex0i3IH
+	WLxHtcoJvNnL7PLFxj8xRpkoMF8vv1UDbgGXdgk70okxJsKm1Fa9k2A=
+X-Gm-Gg: AR+sD13Y3ACvB/sdaOGVd9PXcoEVYuYvvY+F4Lw/RqIluM13Vgrap03pij64vFf/ExM
+	5R6lr5fgcudfUjCsUJ+Z5bOUHVleL0TZx9pkKVGKa+29354O7UXArsaCByFYoa2HbYG0Kg9gt17
+	lPlCzAkGENI3YxIJbXiGjMPWJuaYTdlq9v2zU043UUNXpWkldjcttYN+3bT+HPKAZLRJ5kSNYV9
+	vAuYEjvsBBjVK5ovGLGMwZOQZyuq5SH/Dm7rlGh8BOo27bPa1rG28DaZt3olScUYuqKHm9LvjA9
+	BUQQFBjsWLnvnBm5oPyDVsEEuB4Cf7FJLt2EQFpm8wRwg8d+zw1yiTGhDnDXh6mfn2SC4ScWrnD
+	Ir6kCzVshf1wk5HP7LIdpwSCc0jUUOQ1o463znD7EvH1Dr6NTNGRXWTENXUJday9MnQtY/Vw9rg
+	fm+kayJHShJmsz2l6tqEsOfDYf8eXntfsT3FuhfB9trOPc+/9u2ww7IDxt8jkBVRLjCEqXxx1I+
+	aRz4eoz0/WPFjwALtiDjbarRKHz6dnkH1icyEk/
+X-Received: by 2002:a05:6a21:3392:b0:3c3:9595:57ef with SMTP id adf61e73a8af0-3cb85ffd1cemr50581343637.31.1786386839340;
+        Mon, 10 Aug 2026 11:33:59 -0700 (PDT)
+Received: from localhost.localdomain ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be8a9220sm48209020eec.7.2026.08.10.11.33.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Aug 2026 11:33:58 -0700 (PDT)
+From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v2] iio: humidity: am2315: add am2320 to i2c_device_id table
+Date: Mon, 10 Aug 2026 15:32:31 -0300
+Message-ID: <20260810183337.451812-1-nico.antinori.7@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The AM2320 is fully compatible with the AM2315 sensor in terms of I2C
+communication protocol and measurement conversions.
 
---=-zKDJou/lVj/KGzVMp1c8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add the "am2320" entry to the i2c_device_id table.
 
-Le vendredi 31 juillet 2026 =C3=A0 14:07 +0000, Tharit Tangkijwanichakul a =
-=C3=A9crit=C2=A0:
-> The MPEG-2 sequence and picture controls are validated
-> before a job is queued, so hantro_get_ctrl() is not expected to return
-> NULL in hantro_g1_mpeg2_dec_run(). The controls are nonetheless
-> dereferenced unconditionally.
->=20
-> Harden the invariant by checking the sequence and picture controls with
-> WARN_ON().
->=20
-> Found by code inspection.
->=20
-> Fixes: f329e21e9dad ("media: uapi: mpeg2: Split sequence and picture para=
-meters")
-> Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+v2:
+- Adapted KConfig text using the suggestions from v1 by Nuno Sá and Andy
+  Shevchenko
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+v1: https://lore.kernel.org/all/20260805183733.1000550-1-nico.antinori.7@gmail.com/T/#u
 
-p.s. this is a bit cosmetic, since only a programming error could lead to t=
-hat,
-once a control is registered, it has a value. But that makes it consistent =
-with
-all other use of hantro_get_ctrl() in this driver, which I like.
+ drivers/iio/humidity/Kconfig  | 8 +++++---
+ drivers/iio/humidity/am2315.c | 3 ++-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-Nicolas
+diff --git a/drivers/iio/humidity/Kconfig b/drivers/iio/humidity/Kconfig
+index 54f11f000b6f..10598a0b15bc 100644
+--- a/drivers/iio/humidity/Kconfig
++++ b/drivers/iio/humidity/Kconfig
+@@ -5,13 +5,15 @@
+ menu "Humidity sensors"
 
-> ---
-> Tested on a Rockchip RK3588 (Rock 5B) board with Fluster:
-> =C2=A0 MPEG-2 (MPEG2_VIDEO-MAIN): 23/43, unchanged
->=20
-> =C2=A0drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c b/d=
-rivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
-> index e0d6bd0a6e44..6a942f4b8a2d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g1_mpeg2_dec.c
-> @@ -161,8 +161,13 @@ int hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
-> =C2=A0
-> =C2=A0	seq =3D hantro_get_ctrl(ctx,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_STATELESS_MPEG2_SEQUENCE=
-);
-> +	if (WARN_ON(!seq))
-> +		return -EINVAL;
-> +
-> =C2=A0	pic =3D hantro_get_ctrl(ctx,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_STATELESS_MPEG2_PICTURE)=
-;
-> +	if (WARN_ON(!pic))
-> +		return -EINVAL;
-> =C2=A0
-> =C2=A0	reg =3D G1_REG_DEC_AXI_RD_ID(0) |
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_DEC_TIMEOUT_E(1) |
+ config AM2315
+-	tristate "Aosong AM2315 relative humidity and temperature sensor"
++	tristate "Aosong AM2315 and similar relative humidity and temperature sensor"
+ 	depends on I2C
+ 	select IIO_BUFFER
+ 	select IIO_TRIGGERED_BUFFER
+ 	help
+-	  If you say yes here you get support for the Aosong AM2315
+-	  relative humidity and ambient temperature sensor.
++	  If you say yes here you get support for the Aosong relative
++	  humidity and ambient temperature sensors:
++	  - AM2315
++	  - AM2320
 
---=-zKDJou/lVj/KGzVMp1c8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called am2315.
+diff --git a/drivers/iio/humidity/am2315.c b/drivers/iio/humidity/am2315.c
+index f29baa251f9f..5bce5eec45cc 100644
+--- a/drivers/iio/humidity/am2315.c
++++ b/drivers/iio/humidity/am2315.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Aosong AM2315 relative humidity and temperature
++ * Aosong AM2315 and similar relative humidity and temperature
+  *
+  * Copyright (c) 2016, Intel Corporation.
+  *
+@@ -251,6 +251,7 @@ static int am2315_probe(struct i2c_client *client)
 
------BEGIN PGP SIGNATURE-----
+ static const struct i2c_device_id am2315_i2c_id[] = {
+ 	{ .name = "am2315" },
++	{ .name = "am2320" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, am2315_i2c_id);
+--
+2.47.3
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCannbqAAKCRDZQZRRKWBy
-9PC2AQDVAd/UdtrSKkwnBgNQg0ktJGp/cu6WEQ6j3In+PD+JiAEA0ZU60FJ2OJJD
-VeT5C82uLSGrdUmNhdpqYU1ti06g2w8=
-=2WtK
------END PGP SIGNATURE-----
-
---=-zKDJou/lVj/KGzVMp1c8--
