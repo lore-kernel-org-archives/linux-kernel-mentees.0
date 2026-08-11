@@ -1,115 +1,190 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D2639AD3B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 15:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786463395; cv=none; b=UwwVEfslebN1eyoqtqpAJwt7XnYefdo5BelXIYt2H/2YoowMCW+nA69hIhufASMW+u2rjbfgC38ptJXGoaVFn3kMX4+Vcmg83hInVV83TRc+OuvgOFe7dvjtAJXyTjGovtxrZvn5iJfuq/QWfIpdOV0rkcibtaCEj154npqNb2Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786463395; c=relaxed/simple;
-	bh=xLcu+naJATLSrp6oD632lLb1BBJ8uP4Nn1rRK3v6cUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QX7tgoT6CwxjlZi0qqFbdt+6dTpmuPlFz9cZ5JIYe+zgBODw5fW8Xdp0LOa20H6W+0a4zRqfLEyA2jc4FsS+mnd8HdToCnS2WNJc2KbGCzyiFov0dFMBnJUa5nXAPALgqya2s44gKvakCZOu5ZiL0gSn06Y9VcnVuMmVyRhYwVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=FuyVIQ5i; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A639C39659A
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 16:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786466351; cv=pass; b=YPTV2sfH69MthKQK/IQ4NvgtlY10KfgRk2xreYqA2R+F7fFc+7widVjfWvL3aACi94XH9+1XXQvgy5N9ifylebxbs/irSoNyzumDWISSCIVCzJsnCtrEzSU4LTv5wOvU57nnw+Oe10CmjrXeYDDHgoTBBkmAifys35dip9Rx++Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786466351; c=relaxed/simple;
+	bh=hvftE3gW+EeAfsf3Zx0Bp0RTxgvmF7fWDRfmyNP2yNs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XQ2ZAyID0vPx+D7Yvwv6O33rBmPid+/49lkH2+prTB45QJtbo9cuYxX0N5qmeKBeAV85SkCsKjbemTr+tsvrRYmrzvN2pA/kbhTY83+tsIe9WnzSGF7RY0O05INyx+tAd/MlIgwtNk7pKYO8p7JG5kYkoQIk5Ytea+EzddDtTtM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZzxeFiQD; arc=pass smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="FuyVIQ5i"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7ee50eb2db4so35911a34.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 08:49:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZzxeFiQD"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92ed19f4d60so6236185a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 09:39:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786466348; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LGmIMPv301Kg0nbfJVbdSWfZqFyVcXIsuoAHyK5oPDIRHI8RcLjAvW9kw63JVb045/
+         8BZeOB6ZrXc/ug3cX0q49PM0wAKTWg9zRFnogozTx1GbnhvKslsYkbcaA0gpI6chBSF6
+         mTYqj+zy9Wabu7lMzQhXjrJqb4+0+eoGcaeK+XG5JHk6rXr2UTCRPHDiL1ldOAouR39K
+         uePs5dJPX7TBIOu1WYjzfnBpoFoXWRUczL7grIDFpfZd3uxHVeLUjgSk4fYUgBKaIPeA
+         ZyziEKdd83T90qTK/zd7YgXepMv/pmTWNovw/x3Q8sPeucKyz1J094CWk99NVIIL46to
+         ssQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4bcFHmkU9nSJ0MDbVyrPBqiYyAs1hPGT8G7FVHkOHZ4=;
+        fh=6T0/MOZpoz7Rqavu+qeexFYqUpFRMsHyvdRkAakjB+k=;
+        b=l6b0AupP7OaCbOhxG0Vz/M6D6vgReFT2ZePFG1+koSGmkhdX9oPIjJA6SQuYNB+r1S
+         +T8KNJwQDxC2fbfpfwz7MFfJ6XydoUGw3Gs3IEulxb3hpG+qiXly/4mHxC7qWUjkI2hG
+         EmF3jLjjdMsv4jPIp3Z+Zd1/3m7948obQQg+Jo8QVxwKKxEmZ/yqC/HYAkfLyFRgXF2U
+         ssM1jIfGj80LuYVF6C/Cu35FZb5mpCwe5V4qCR6cBKDyCwWExxi163rF4/xlUsP1Wzcq
+         vsTRXcuM6GS72iATB/+tN+sQZ7kVEUVG6jnmTKM4qv+3uUXYParSgidgOkPPhdqeamre
+         rvtw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1786463392; x=1787068192; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tHd7fMf6OyG9czVkocgnx+h3OKQk2OgvfP9nJAII4k0=;
-        b=FuyVIQ5iJTVWx4ZBbOf+C40py9dJJ7jh2k0V/Nlx0sqQG0oUkkFMzwBnzFkA6mUTt7
-         cGyKgiLX6O+qfv4BnUH52vDff5mn4NFLqkN+x4RQp6mx6O1uFfNkYTJG0liA5eTWYf4b
-         CEBA9Mx0woR6gv9MsEXJkucnXUNs1ddKMoDFNgE1e6ETqyP5fSuOJrYmhag3BKDiqvaS
-         29sKh5cOPphQGeJh1U6Sshr/6cfbdbmFUaYKtx57GyAqIhKwcAVblr2ByWj4YN0Qe9rZ
-         4Obu+y4haqrfTdz9InlbuhTV40CVEdB5NQNRe1D4sLfnZ6EvHUCVC+LMovjhPrhZixdb
-         JBfg==
+        d=gmail.com; s=20251104; t=1786466348; x=1787071148; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4bcFHmkU9nSJ0MDbVyrPBqiYyAs1hPGT8G7FVHkOHZ4=;
+        b=ZzxeFiQD6MJPYBx9QMXsJmdXQQKZKS7q/DJ8XKdQUcXsZsjUyFYLtIELiw+r3j2kxL
+         kE0y18zhhHlAhOFYCoMeh4/QbNZT87Fe8SU1VRPeQFXgN83pbNZN4mJw73/PR6ADgUL5
+         pE+6377Oc8fr+ZlX/ONfBxsURDWgdIgAvRckgvkekIXsS9J707AwuoZXAWbEW9MJlXFC
+         csWTcbYQjE7BUpvkkgXIMtg75vDp2HfOrWrUClIDzdY0XEMaFMn4rF+h/Ugx9mQttaQX
+         OTZnJ3TyQJ9yJxLdX+016DevfBc/EC/fCxLa0cM1Z9nUJVaDzMclUz9ws27IBHZxaEbR
+         fp5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786463392; x=1787068192;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tHd7fMf6OyG9czVkocgnx+h3OKQk2OgvfP9nJAII4k0=;
-        b=LKr6RbGBVnrz6px2EGDztU3Wd0yygrbQlo+a7Ef+z7SDulUksvQMdcEZ8XxTuGQsDi
-         SGaF3pS8Ne6a8a5z17uaESpafwFZjOIggMq6x0VcS6UBjueOYgvT12KqtUd/NVHVfGgA
-         6QCyBdIKa+atMO02ikN8SzfCbHeWtzfNd/pS5w+P7y45IsZReq8LuRmTiEcO1Io4mo2z
-         7tkHI5d2D0Z8a8S6nevi0BsHBl/umvQlgRx1/MJfjHR5HS7r24pr2XHBKWPooaNIghbX
-         /aCQTUy/cvW4I5Dv7amQdqOwEv+mc9c+axGcpqm/HfjLTGCPF0RbupiW9BGxaEWZEQhG
-         6dNA==
-X-Forwarded-Encrypted: i=1; AHgh+RpvspmSBt5BDkJkJahU1RID2jE0Rf/cZFzQqMZYqpiqJlojkGu4y+LKd9/1Ae8o8XaJ7AhEg1tCIKE01JcElVC0H/HoIg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYjsBJiiyfyeS6zb56Qg5qTUAXh1yt1s3Xi6jEep6gHVTRpa8S
-	t6tdJNf8+sYUgZiLOP+qkbVY8Qrp74COZTg9f1hfeX62pz0r51XAl4RxJp8EDdJ3abTmav6hlMA
-	dcfVqgd8=
-X-Gm-Gg: AR+sD13l1m6XvUsS1mnhuCQn9Y6AnS5w3MZKynLwF9a9EqZ1GTpTO1KTBv1vuHpoXj2
-	utpYuPCB2FZIt5gzSEm0h5W/t5Y2z0nvGN99kiVT7D4e2oeIihjrKdU5FI55FJ4qTsV+8MD38e4
-	+wPZpFbWw4JOYw9vG/fWdEigs6ew0D21M+MnVO0mzRxFrQEimJYR8qPnWTPJHeYMwfEyX82Jkps
-	YUosivU7vI0WcfThqtvQlsimsC2GLgQ2MtAn4cHkQBEvu5QaNE/lpzG9uCu7v331sUd7x5lScio
-	Kt/GumuPaOLEPKIfNAaFGJ2IP+5jSFqkkJdWYkKOgdL4rk6JLo0Z4NtsFNckIi4GJkdxex5LAOj
-	aY1ZnMK+IshCOrWfZiojhKtwuqAirf3k4LpKqXYZZHNcZBvoneakOFFlnv3HQpMvphWGIZ30e5g
-	MfwWzo9W3kSNsmUTl3gB+jSF+cBZnRrceoXokvSXrcEAY4a99l3dqFuOdd4q/QP/88d32vk+OvX
-	cy839+uWt8NM1Qg5o0+J2v3gK3M0olXN4hS
-X-Received: by 2002:a05:6830:621c:b0:7dc:db3c:1d82 with SMTP id 46e09a7af769-7f3a829eb35mr2930682a34.10.1786463391711;
-        Tue, 11 Aug 2026 08:49:51 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:7060:91df:60e9:76b? ([2600:8803:e7e4:500:7060:91df:60e9:76b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f3b3209115sm147808a34.8.2026.08.11.08.49.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Aug 2026 08:49:51 -0700 (PDT)
-Message-ID: <2d7dcced-47f9-4fcf-9668-30acb9e8c9b1@baylibre.com>
-Date: Tue, 11 Aug 2026 10:49:49 -0500
+        d=1e100.net; s=20251104; t=1786466348; x=1787071148;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4bcFHmkU9nSJ0MDbVyrPBqiYyAs1hPGT8G7FVHkOHZ4=;
+        b=KOtKbbpYi+2F+IUfhCic7DbZCWNSQwdXYh5Yqod1QnadBDm1t+ZMtXSyq0hk4364T2
+         bKwSEZVzszfpj59j2bmNGhHuPnzMBlWzPIXx2SNhXpgDnrWx3HfgiXeTOCSm8SrGPP0d
+         eLvsQHAm5Qtf9CRL416chm00YOFjIXGQfbUGuquKURxxoQXTJWAKmtSe/OdDgInzk+/X
+         ju8g9qctE6CUz7xY5h0FveVtTUCLrxyHJHq5+vaCNdIDGRnAo1NIT4Vz+Ewe5fEut5LP
+         RLMYoj118DmmPMY+gvt8vqWFrqsJss9LMF3HZP+l24pIW//7RrweyPgoLqlC31fRetnL
+         Lh2g==
+X-Forwarded-Encrypted: i=1; AHgh+RpFxJHO4K+p8ImTkpA+wQPyZpOkYVJJKwkq0c2B74vTBJmBk14pFAd3Z5UGIzB4vkgGC3ZhMvWpKwtACUTXzXYiMHgfcQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyS80scZe3vtcdi5Tv3DoVVCmz5Wy9o9eALartWmd4yLk3keUxe
+	1Kv8f764KckNPfonnWK6/xyXTtXOH/84OAykc7kTRtk1wE3FqNlcEjNMbjB72jKHNEtLmTRs6cj
+	EBQcIwxXiF/eD+28Y0Zh0ioDpbpRpSc4=
+X-Gm-Gg: AR+sD12qCbpX0nmUPHwqb49SyTIrBETkowIRBrOO5/lssqwNW4gcvNXyqqrWVimXJaV
+	J16OmGhK8jPCNDtsTC5xkPFVJAYqZcGhqPB2iGp/Yf6CzJiqc29sqBOab1SuGxmfLtecAxgxVEW
+	EtiPh3UiulJNK+quK/kMwyG41oHg1YZJTjz1gjMXREXSm1PNfZiDjDOvjAMdbl9gybrTNwRlCR3
+	7ThP3ylgCLnMxZQWcWwK68ocBhDzJ2K5SIz4RX7olj0xrdJIocfW63QaY0wR3xisDiB3vGnJcNo
+	AC0+6x4U4TEpW++KMRnW8a5zAoDBAz9f7OsBf+nUO07phb9/EqIjsxp0xtfAKweYeETftNGSAem
+	mIC6HiY4QTvsigOKBJBFuAuS//XDKhIF+/Fg=
+X-Received: by 2002:a05:620a:6018:b0:936:9f49:69ca with SMTP id
+ af79cd13be357-936ae1b6195mr122622585a.21.1786466348494; Tue, 11 Aug 2026
+ 09:39:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] iio: humidity: am2315: add am2320 to i2c_device_id
- table
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@intel.com>,
- Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Brigham Campbell <me@brighamcampbell.com>,
- Jori Koolstra <jkoolstra@xs4all.nl>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20260810183337.451812-1-nico.antinori.7@gmail.com>
- <anqKwJOkl_cxzCT6@debian-BULLSEYE-live-builder-AMD64>
- <anrRkty6ugdJUGmE@ashevche-desk.local> <DKM7MV8J10HS.2OIM1TDHB9VHQ@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <DKM7MV8J10HS.2OIM1TDHB9VHQ@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260730153603.5721-1-tharitt97@gmail.com> <3cfca6fd11f39c6ce161d5a2e7fb650b2e9289ec.camel@collabora.com>
+In-Reply-To: <3cfca6fd11f39c6ce161d5a2e7fb650b2e9289ec.camel@collabora.com>
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Date: Tue, 11 Aug 2026 23:38:56 +0700
+X-Gm-Features: AUfX_mxbavY404ZnMz9OyorTzYiN16EACxukLGAUaARpCgqkofGP15kHe_8MlHk
+Message-ID: <CACak8wPrEJ6hj2hL=5yQVY1oUPcJV0GwZChbVGT+n0C924jR6g@mail.gmail.com>
+Subject: Re: [PATCH] media: rkvdec: fix v4l2-compliance failure
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Detlev Casanova <detlev.casanova@collabora.com>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/11/26 10:12 AM, Nicolás Antinori wrote:
-> On Mon Aug 10, 2026 at 4:28 PM -03, David Lechner wrote:
->> On 8/10/26 1:32 PM, Nicolás Antinori wrote:
->>> The AM2320 is fully compatible with the AM2315 sensor in terms of I2C
->>> communication protocol and measurement conversions.
->>>
->>> Add the "am2320" entry to the i2c_device_id table.
->>
->> Interesting. No devicetree bindings for this one? What kind of
->> system is it on?
->>
-> 
-> I am testing this on a Raspberry Pi 3b mounted on a protoboard.
+Hi Nicolas,
 
-How do you tell the RPi to bind the driver?
+Thanks for the suggestion.
 
-Since Raspberry Pi is ARM-based, usually we would use devicetree
-overlay to do this, which would mean that we should write a
-dt-bindings .yaml file for these chips.
+I moved the default out of rkvdec and into the common V4L2 compound
+control initialization, making V4L2_CTRL_TYPE_HEVC_SPS default
+chroma_format_idc to 1 (4:2:0).
 
+I'll send this as v2.
 
+Thanks,
+Tharit
 
+On Mon, Aug 10, 2026 at 9:05=E2=80=AFPM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> Hi,
+>
+> Le jeudi 30 juillet 2026 =C3=A0 15:36 +0000, Tharit Tangkijwanichakul a =
+=C3=A9crit :
+> > rkvdec fails v4l2-compliance in two tests related to
+> > V4L2_CID_STATELESS_HEVC_SPS. The Control ioctls test reads the control
+> > with GET_EXT_CTRLS and writes the same value back; TRY_EXT_CTRLS then
+> > returns -EINVAL because the VDPU38x rkvdec_hevc_validate_sps() rejects
+> > sps->chroma_format_idc =3D=3D 0, which is the value returned when the
+> > control has no default.
+> >
+> >     v4l2-compliance 1.33.0-5491, 64 bits, 64-bit time_t
+> >     v4l2-compliance SHA: b32589c51481 2026-07-16 08:51:38
+> >     Control ioctls:
+> >         fail: v4l2-test-controls.cpp(942):
+> >       try_ext_ctrls returned an error (22)
+> >       test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> >     Buffer ioctls:
+> >         fail: v4l2-test-buffers.cpp(3102): node->streamon(q.g_type())
+> >         fail: v4l2-test-buffers.cpp(3157): testBlockingDQBuf(node, m2m_=
+q)
+> >       test blocking wait: FAIL
+> >
+> > Provide a control default via p_def with chroma_format_idc =3D 1 (4:2:0=
+),
+> > which is the only value the VDPU38x SPS validation accepts.
+> > This fixes both the Control ioctls and the Buffer ioctls failures.
+> >
+> > Tested on Radxa Rock 5B (RK3588).
+> >
+> > Fixes: c9a59dc2acc7 ("media: rkvdec: Add HEVC support for the VDPU381 v=
+ariant")
+> > Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+> > ---
+> >  drivers/media/platform/rockchip/rkvdec/rkvdec.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/=
+media/platform/rockchip/rkvdec/rkvdec.c
+> > index 1d1e9bfef8e9..37603f049788 100644
+> > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> > @@ -236,6 +236,10 @@ static const struct rkvdec_ctrls rkvdec_hevc_ctrls=
+ =3D {
+> >       .num_ctrls =3D ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
+> >  };
+> >
+> > +static struct v4l2_ctrl_hevc_sps vdpu38x_hevc_sps_default =3D {
+> > +     .chroma_format_idc =3D 1,
+> > +};
+> > +
+> >  static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] =3D {
+> >       {
+> >               .cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+> > @@ -243,6 +247,7 @@ static const struct rkvdec_ctrl_desc vdpu38x_hevc_c=
+trl_descs[] =3D {
+> >       {
+> >               .cfg.id =3D V4L2_CID_STATELESS_HEVC_SPS,
+> >               .cfg.ops =3D &rkvdec_ctrl_ops,
+> > +             .cfg.p_def.p_hevc_sps =3D &vdpu38x_hevc_sps_default,
+>
+> Thanks for your patch. Have you considered setting this default in v4l2-c=
+ommon
+> instead ? Monochrome is rarely supported of implemented in codecs, so set=
+ting
+> the global default to 4:2:0 seems like it would be valid for all drivers.
+>
+> Nicolas
+>
+> >       },
+> >       {
+> >               .cfg.id =3D V4L2_CID_STATELESS_HEVC_PPS,
