@@ -1,106 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D0540A936
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 07:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801334499A1
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 14:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786433947; cv=none; b=R3f0nGYSch23qcwDSCsw9W30TuTRcZXnOwwOzUdTDh27A9B1syw9lPhEg2By35svTLLoc8Uo/F8urxDduFbn9808hm7cR+d98vE00QMOFiNEk1D6wMEQbawuvFZkSAnFtASA132CuWo9SciP9Rw0GcryUJ3Y9OoRUDXk6KELR8w=
+	t=1786459419; cv=none; b=iOajdU9Pz/8pRhf71RLw+4cZz3zM+1QaqXohMMJdcdIoeaqRtUhQkfX/yLkk0wUiuaL2WdhJ5Aa5sQXVp3atNdRjn+rMrJlddbKxd84yaf8oZ58HJGrQiIWjB7uqEdMDESKj5r3mAYfMBOVTVgEg9/hoUge78MvYs9mnuB8DYxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786433947; c=relaxed/simple;
-	bh=dPsnrMcc1aAfVcX7pPCkaHuQc/FAoCMVVi/8857l/AI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cIt+DNIfYA96DKEyadHmNjQeTPHzXRWv2LU0BVexhwgdhiWOYEk9dzhrYloPztiI2AKoF612keBIJlXfY+x7NScKt2gdyULIQZXDFhOPG3yPjAO1z+PE3Uxn79TayvGo133i9ZxazEg0XTQtHnjb2TqJkXmsRlwI++cai808gw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUTbjCWB; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786459419; c=relaxed/simple;
+	bh=1P9l62yx7Nzv3bIICI1uduDZAxBz+2R2qseDQnTY1Dc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=IQu6XKW3df9g/7pzYO9TTZaIuriRhbV0E3DOniCl5O4e1Kb0MM+xXRwFT45xGj4lttSu/e1be2xEqf62Cfpy7OzpWJX4jGOdxnA594pVweshxZj3T9obzpm+rGZdNMptcI9xorxtiA0dLG3+D1uDFBtWJuTJZ9DNecPzCsvImT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m529zdLb; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUTbjCWB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786433945; x=1817969945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=dPsnrMcc1aAfVcX7pPCkaHuQc/FAoCMVVi/8857l/AI=;
-  b=IUTbjCWBgrGF9YNNgakACR8l43o32iR2+rxuPhJyr+Ut/TOWjGUnZXqL
-   Qw+yIZ5Hau81nrKcezMB7mX+d8DhHkBYOPkmqS4FLTXNTXjQpit3+2rjH
-   3X1Oy1zXCtW1zk0vLLDMajMQHBzGLADbAepe1FZBLnFtHFNbaJchVus3I
-   RXiP6Y1lR3CK18zveVZQRkcdsl9bx9IukyTk4uESyctS6erTTawaITfNt
-   FyuQaH3DP7s4hMmntJffg5VyKfRnCvuSF/8KEYjrzbg9xcIHkm6RNEIe9
-   9k5RFfry/zzVduL9dwD2/iQzR/NI5Ro7ZomiVLkM3u37XMnXlZVDQd/92
-   Q==;
-X-CSE-ConnectionGUID: cIBKi2g5Qk6mGcklawfQbw==
-X-CSE-MsgGUID: WBJEjRsKRM20AZtaPFqTiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="98317312"
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="98317312"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 00:39:04 -0700
-X-CSE-ConnectionGUID: 5UnREwKTQAiH0/cjUW7SVg==
-X-CSE-MsgGUID: 6SYDTbm9TqSMr3KwMhqP1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="286679318"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 00:39:00 -0700
-Date: Tue, 11 Aug 2026 10:38:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: =?iso-8859-1?Q?Nicol=E1s?= Antinori <nico.antinori.7@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2] iio: humidity: am2315: add am2320 to i2c_device_id
- table
-Message-ID: <anrRkty6ugdJUGmE@ashevche-desk.local>
-References: <20260810183337.451812-1-nico.antinori.7@gmail.com>
- <anqKwJOkl_cxzCT6@debian-BULLSEYE-live-builder-AMD64>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m529zdLb"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81eaf3709b4so41954857b3.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 07:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786459416; x=1787064216; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lhr48ORyh4YoiC1XBSoZDdeizVPdbIlhjfg7vaMIrKA=;
+        b=m529zdLbss2do9WHgYVKmRx37nSxM8SC9SVrk1A3E4f46jesZcEIIgnp/bRGMQ1nAq
+         xoVTzg9TMG3Skn40XaqX425SD/lO40iCQhlhCnNv84A1E3VLk4Q2YiVOgqksLNDqsjR/
+         ofyeXKrzJhRn4WgPEKlLEDJgyS0pL1XK7jgs/+4uuRcc0rq53DGeIn7e/N3OvwZ0wYe8
+         DlBEl7/35YxJ0tsTeYCarquOQKaEOQkSfUMLpvFURSPCd+o4fsHSRgWVl/U1rN1IY1KV
+         GnKPC3aV7wqPIb6bzu+oypJbr9AIjv0AjNWDx3fPBbn4G7KYMkcvbj3L9eDxIyW815w4
+         KYew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786459416; x=1787064216;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lhr48ORyh4YoiC1XBSoZDdeizVPdbIlhjfg7vaMIrKA=;
+        b=p2FGGGVF5NkJGMWhOFBgB+Vqs38yifIhev7i2sA9+8mPtx6Ch0dhCSMoHakjwYg/+k
+         /SwXUahQ/zTSJf9H12S7Wcc0Q/UrQLBPqQv0TFlbvwxI9vt6v7C/vIvCYrh17elfd6ya
+         Noudo5z7UXdAPiVWzXJDiWzN81cgx9+RSq1d+PagbUZ1lPXwVz6NOXgFEQZHplhgFBtu
+         /2Hxf+az5u4nJ8tdRq6+6NDwgvYeumXEX2DjjB2KBKk+Y8m0Me0WYffBNgAWAAVwKvcG
+         vef7UUaCZKojnEnKprDG+VNO0OySmQKO1Ew67b8fy6SbvySOAL0bTZjI/EyvJ1zBcE/A
+         lXRQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6W0zEmfoYHOFeUdLC5KX3cni3MPnZjEbFert5w57MgYh+JeFHA0b6XSDXvb9QPViGO5arCdSVFMNfJ21DjfHeXC9X+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZiv73i+qnd5O/phb4GyNcFn7eUe9uXV2Eeg+4xmSrbQWxzKvE
+	+Ul2bYDNVRkr6AYcT2oH6TwzjxCDiIbUHlVI157PLiC2h2HgFSzIAto=
+X-Gm-Gg: AR+sD10cWfhKUK5s917vEjBDVVwh9GQhxtyCUdBh/+e+3tKpvHhRQbs+RjnGlNIkWS9
+	dg89lkEtGvKU5k1C8rLICHdh+y/op74OLSY9LHRbmSxRnu07vC2L7+kEXh8SAXzglMCz+mIcJAA
+	/yjvFKNbp0VuHpqB+aXLrwVJaDiHXfZjZuYwnN9zkj5SjVfjhPe8zCKlOGpzD+MIDvbTyxaCVYU
+	qelUAHgLR8AAZ2hrTC8REmLJvKXOdRCaWVQGlBtCiq14p4WK59QD2LpMsvtMmY1CxgjrEd196IG
+	xQ6rRJk7++PKct5oSc3JFt9gDRr0e+jw1IpJPEX7msI/5Kn6u9OfhIsD7NyumQJwMv3F1+Og2AV
+	PAknS0upt0Tt8gSG66BEZ/hnagSrgqlewdO+v6KYKtlvFLJgdor/zsOIYwdZkLykM/L+WpqqgkC
+	K3/CnUqFZjvYftiCFLMQskROpkPK6Gd+nAkIFsUCEWuIgaaJyvDzcibOnaF7GVqYPGl69jUHqQp
+	a8NFctki0nooV/nruE4Y4Ne
+X-Received: by 2002:a05:690c:9e:b0:7bd:cf35:e33b with SMTP id 00721157ae682-82f2cd0550cmr25224097b3.17.1786459416049;
+        Tue, 11 Aug 2026 07:43:36 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-82eb5fb7a22sm11871067b3.0.2026.08.11.07.43.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Aug 2026 07:43:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <anqKwJOkl_cxzCT6@debian-BULLSEYE-live-builder-AMD64>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 11 Aug 2026 11:43:29 -0300
+Message-Id: <DKM70AZE2094.3397PWQQ3TC3@gmail.com>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
+ Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Trevor Gross" <tmgross@umich.edu>, <linux-kernel-mentees@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Sashiko"
+ <sashiko-bot@kernel.org>
+Subject: Re: [PATCH] rust: i2c: avoid locking when calling
+ I2cAdapter::inc_ref
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Igor Korotin" <igor.korotin@linux.dev>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.20.0
+References: <20260615201141.8920-1-nico.antinori.7@gmail.com>
+ <DJBDWVUWH3OT.1GDEIJT0R4UTK@garyguo.net>
+ <DJCA8F2F93US.1KMA54SKQ364K@gmail.com>
+ <DJRJCCGCXYOL.2O4HP9N37SPAK@gmail.com>
+ <178628144572.5226.7072490581990266256@linux.dev>
+In-Reply-To: <178628144572.5226.7072490581990266256@linux.dev>
 
-On Mon, Aug 10, 2026 at 11:36:48PM -0300, Marcelo Schmitt wrote:
-> On 08/10, Nicolás Antinori wrote:
+On Sun Aug 9, 2026 at 10:17 AM -03, Igor Korotin wrote:
+> Hello Nicol=C3=A1s
+>
+> Sorry for the delay.
+>
+> Yes, worth fixing regardless of real users -- inc_ref taking a lock it
+> doesn't need is a real bug, not speculative work.
+>
+> Instead of adding a separate Rust-only wrapper, please consider splitting
+> i2c_get_adapter itself: pull the increment into a helper, export it, and
+> call it directly from inc_ref -- no lock, no lookup:
+>
+> +bool __i2c_adapter_get(struct i2c_adapter *adapter)
+> +{
+> +	if (try_module_get(adapter->owner)) {
+> +		get_device(&adapter->dev);
+> +		return true;
+> +	}
+> +	return false;
+> +}
+> +EXPORT_SYMBOL(__i2c_adapter_get);
+> +
+>  struct i2c_adapter *i2c_get_adapter(int nr)
+>  {
+>  	struct i2c_adapter *adapter;
+>
+>  	mutex_lock(&core_lock);
+>  	adapter =3D idr_find(&i2c_adapter_idr, nr);
+> -	if (!adapter)
+> -		goto exit;
+> -
+> -	if (try_module_get(adapter->owner))
+> -		get_device(&adapter->dev);
+> -	else
+> +	if (adapter && !__i2c_adapter_get(adapter))
+>  		adapter =3D NULL;
+> -
+> - exit:
+>  	mutex_unlock(&core_lock);
+>  	return adapter;
+>  }
+>  EXPORT_SYMBOL(i2c_get_adapter);
 
-...
+Excellent! Thank you for this suggestion and the explanation!
 
-> David's comment about the IIO device name sounds appropriate.
-> The am2315 driver might use a chip_info struct to hold the name of each specific design.
-> There are many drivers in IIO that already have such things.
-> drivers/iio/accel/adxl372_i2c.c is one example.
-> 
-> An alternative might be to use the device id.
-> 
-> 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-> 	...
-> 
-> 	indio_dev->name = id->name;
-> 
-> Not sure if the second option works well for both i2c and dt (probably not), so
-> I'd suggest the chip_info approach if you intend to add a device tree id table.
+>
+> Heads up for v2: Trevor Chan has a patch changing AlwaysRefCounted::inc_r=
+ef
+> to an associated function (fn inc_ref(obj: &Self)). Not merged yet --
+> rebase onto it if it lands first.
 
-Indeed, we suggest chip_info for the more robust approach when name is provided
-via string literals independently on the ID tables (as there maybe same ID in
-the tables for the slightly different devices that may be autodetected runtime,
-or different IDs for the same or fully compatible component; the chip_info works
-for the latter case).
+I think it is better to wait until Trevor Chan's patch gets merged since
+it is in v7 [1] and already has been reviewed by some mantainers. If I send=
+=20
+this fix and gets merged first he will probably have conflicts and have
+to send a v8.
 
--- 
-With Best Regards,
-Andy Shevchenko
+I'll keep an eye on the progress of that patch and once it is merged I
+am going to send this fix.
 
+Thank you,
+Nicol=C3=A1s
 
+[1] https://lore.kernel.org/rust-for-linux/20260628100731.64885-1-trev@trev=
+rosa.dev/T/#u
