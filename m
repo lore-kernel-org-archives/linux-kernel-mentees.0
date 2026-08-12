@@ -1,120 +1,122 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCA847F766
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 19:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786477368; cv=none; b=hH1HRVIDlMJlBX4GXjAu7QUgwJFQR/8WXwA9h55KkIo1f8RWtTwVNBwFcH9FBWqPqsJ4jRjYkN+XL605DoHuRKg//N98oRgzaEmcf/0vOTWQQpc2k3yiSO+Q2cendpbRbyB2Nq59tzJuVwnypliIN8szYIJZrtXfBVY5TRiw/vg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786477368; c=relaxed/simple;
-	bh=ddu9DCVg5CNBBxYAZ7C2IjQ6tIBqi+R18l9PMT0/plU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B+pd2icUDTpKMhi2+JLdt5nP77F5oTVOAXbq1W07/jLJvAd5xVZvGvbz2HnxjrtjHj8FpoAft0C2u38+D+dI0mGl88aSqK1UBhGT1MgRT6lDkvik9Iy9MTE51yLTIQfyk+UkMSPX8JL5LlBS1Utvx3xKEhyu9aP2jXymP828lkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HecMFGLb; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D173101BF
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 00:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786494189; cv=pass; b=hrWKc9qDGAmBQ9VgZ5EdVcuWDANV5jNQqWsOK/p3bJh2qxxSUTKm2G8/2YqPHyx+9ogdTR4qrK/w+PVoQMzYhhZTjZxhSttxiT3ENAW5lWN8d4Qh7noe/9/thODw0hST/7cWg0do5VH81lsGHTvwfYY4ZWwOrCHFFC1r7KXG48s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786494189; c=relaxed/simple;
+	bh=Kx0mEm5X0QVHJI5AbZIOT9Q+Dib7c7rN++VnaJlyeIA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LpD1a41oCrSai4KGHImfUG7HouGzTwBoSTksQNSLYT6nC9adjxEX0J46snWx5Fk5f9c2ZTblrGP1v3V3ILB0MkjSfkXN+wpGmgfsw7v7Tm333jYrvfNDF/1Y4k8RE0aVlRc3+xQsItoOAJ919w6tP5A7C6yyIW2wMRuek1ZfEvg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqUWjnDO; arc=pass smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HecMFGLb"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4980dc26022so1742815e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 12:42:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqUWjnDO"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d01548ac96so935115ad.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 11 Aug 2026 17:23:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786494181; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BgF4bYZ7b32O+h9O5a0nLGFyu4Qa1ITTZH060nMwvuc1m/fIYYPFFlkCiiQbuNmaPm
+         c7GCy9chaawtjemTM8n//1QlSwO42pfEypOGp9MBJM5j/0OHNPxbmf0Dg6buUV4kZIs6
+         Vpsq4VufBgsixusL8TPbyhjuVOqoDdTIVhyljnm7ieRN/8yZcTsXn4I6vOujBCnn1aUf
+         RrSX3Y3uNDft68lrwjh0SjhoFCNc/go/bJGqcTzf7azOtr/RCgCbuT3pRVc1kGmHcgpx
+         GfxiMJxWDCve7WTlyMM8sB2ZTHW+W/jBuxz2MRqYnYQ5sEw3g/HQu2EJ7CXuUMfdm/cC
+         /Flw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/HRvFMhuOk+3VI08vIpvJQGbNRD3IvCKhZ5TbbOGdyM=;
+        fh=UPBNJMT5wkX4LXv4gHx3WpRmIAZ/QbYP9qpK1hmmkEQ=;
+        b=YXmHK1KJBIVjLh58xwTbEQ0c0aIYDjPgSUylI1RqGeVqjWjYj7zdn1y4y/DZF+P9uQ
+         f1Mb4V6awy9waQ82QmP8WWTnCMgmcdd8CScPc9tuOY2UmSZroO3lXGCTHDrIDPvGUqBx
+         ys2Kt/igHjRNLZm+Uj5NKhMsa+3K1td7QbG4ZXxrQ8JVUGZB99oVN+Tn31Oktvh7MQ9f
+         XqUAxO1IuN5K+z7tWUMKPeHvtP8aw5XXVXas9OJbaquNFtPYPSfFnhFOjCFtucS0ZP7g
+         rOoHqO8Cw+AgU3G5haHr+UEj5XmT/JkPvCPtzBxaW+z4rvAwJgyDhjJTyCa2ZFqbVKan
+         KOwg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786477365; x=1787082165; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BuMfkemM9Oz2WhvZaC2ZnN/4G8tTmAb8WWo8t6gaQkk=;
-        b=HecMFGLbSY0pfrbMAh88ZSMxnKxD0v9SGB05UiATYeBjNZEW0SHFXYDjP6/k0gPvUq
-         0GYgA7SFRlTgaOVtuf6w6X3XKLqWw60Q5vySjJkRfm5NWdzPqUo2OyW5ZAkBO2vEd8Fa
-         7dGY6c2v8nqAio+yyBFAffo24dnyMriVi5UXmZtVVBf42Vyto7P9efrEnsfD6emETPz9
-         m8FYjM9s2WBz96DulAA84/Mj+bh3Hpiqw1iYJ1C23gEnRViyq2BYZyOsKA5DBqtJCk8j
-         zMPoFmWJRj3AG9gXXeOPM5mUiq2jFp1QAyx/eDGabVXB0oEALYQDUSMxrDWSOB0tn3X7
-         OPjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786477365; x=1787082165;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786494181; x=1787098981; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BuMfkemM9Oz2WhvZaC2ZnN/4G8tTmAb8WWo8t6gaQkk=;
-        b=araqD++zF+jpvcEeGcaaq0QXneTqB6GitB9ESBeQhF9Qh5j2vfoGjeWBBCh3W9YltN
-         DbEKObo+FyvX4y4NbdwBORGXyZy9Z8gsVJNoJWJ+h49xj9PQzpjcazpTwv7hj7roA0kK
-         m9g0oMciATKw+hQOiew3NKuk9pdgAeRXXnGjfdzeyKmWqgFuReTWgFeK0LuWsUpYBpAi
-         DaHGOw46+APmOTNbCc1+G+CH+38fSmM5qtwAQHdc9ylFoKTvj+f+nc6HXegMJGFmd0Au
-         UWMzhgOVhJD+xAvjYeLMJbkyM/SzuUF34HvcEVSuDXDuEmQo079LgkKBKnfl2lScPs+v
-         MUYg==
-X-Forwarded-Encrypted: i=1; AHgh+RpiPsnv5KvGzlX2nFmP662crBP2htIqwgbGfe+gNtzadUDvznyHaNFWoaWyZsZt8N9KYBDEN2edYybTLP12MFTU6TtcNA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4aJtSXj3YLGZqZcImq1/YKWWg5k34uj/eXdeKEmvSCEKK72P4
-	pSIBZNMzJt/U6S7VmEiLq7q/BIqiAXfFMTyCZGxcmW7lTGojcy+T69BR
-X-Gm-Gg: AR+sD11NiycmA0i18mN+/ufWMzq3wL23IvlDLP5pJRthIivFuI3JbgDJeCzRdQcyfZU
-	tXQJnj0sKvxzfP3XHrTwUxQ4/FTYMMbVBN4cECt/w+2L9+SJBO0iw12iq1Y5mQ7QJTiqz+2gPlC
-	2l2BXt4IRfblZpxxb/Nw4Yb/Pb5ubWqNMf8CiBh8EQmzdxoZVIQtGr0qZcpPEzqqidAt9OuH6im
-	d9JSn4lsvExbhzxXFqcz0GJr2E79v1gt3+gqC4vbBfcPymAtFzfdH1LID2y1UD9FbO/Dmdzg11Q
-	EjV6jBIxkhlDsbm8BUOkd6bs7B9uSIwmV/TWJ75QqJyk9Bv3FxISIb8TLm4/edYMba6tiEPyxxJ
-	ARYuTnILPGVOz3Wbs5KJWDyg7nU8X3A2yUlAljPhC2jguC9V/Okx3UlGCikzL3Xp+DxCBL/59PI
-	r7Tx+jwc3VJXLk6FMuLrvtX0Iu2jDdlzG3AidhPSkW3DNe8i3keDzA44ykefhQaIJZm6qJBaHAa
-	+g25+fCDxzPF40cBcTMJuS4U51ICF68QlDS2IZBxaEufohg70R/
-X-Received: by 2002:a05:600c:c4ab:b0:493:aa0a:45ad with SMTP id 5b1f17b1804b1-4997842c213mr78119195e9.2.1786477364935;
-        Tue, 11 Aug 2026 12:42:44 -0700 (PDT)
-Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4997adad05esm3986195e9.3.2026.08.11.12.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 12:42:44 -0700 (PDT)
-From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
-To: Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>
-Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v5 6/6] ttm_pool_mgr_init() does not check return value
-Date: Tue, 11 Aug 2026 21:42:21 +0200
-Message-ID: <20260811194224.121597-7-megia.oscar@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260811194224.121597-1-megia.oscar@gmail.com>
-References: <20260811194224.121597-1-megia.oscar@gmail.com>
+        bh=/HRvFMhuOk+3VI08vIpvJQGbNRD3IvCKhZ5TbbOGdyM=;
+        b=jqUWjnDOHe3uUph+aMyltH2A/h/HkFaSz8BBbEzt4gtrjIqiYxTv+31FerMsdrNB3U
+         jexBPijXV0LKq0FFJXtsH+4omdqPU5eiNZTC0SNBieMmjRPz9FzbGtxHh0KfHUuQuuDo
+         Ktv+gf1tHeThy1G69/4QWmtaqFN1fVTxeVvTaTWdqnPpGXVd7xDNOpA4mlsikiXj0qYM
+         Grg4bNZNsmiDATCCsFA012oHeWxGl0tD9qIwM02mAa3ETQz+Oz8u8wo47anS5GYo7xi1
+         nmfacrQVObyVaujf0lEWRecbffc6E5gKaygxOYMKqBVd7uB+CHuW1Z/MCOHp4Wji8rjw
+         O2mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786494181; x=1787098981;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/HRvFMhuOk+3VI08vIpvJQGbNRD3IvCKhZ5TbbOGdyM=;
+        b=lIyyLIysvO3w2OPrEV0G7lF91gsHRmL8UI8KdNDlFUuYYQb33C+DQchP9roUCUN0Ls
+         IIKLnzgJw44kc49it+TAqV98vZaI2As+ruIEjcHYYusA3uBBjLj064hR+HcJcyOI7ssz
+         WHwRHMNfw9cgkyFHV8anp4Pk7JcmGp2Ik9Evz4GqSIzgO/Vahdraz1sQGcZdpUptteYv
+         7O+VbKIwOFCcYCqJVE7gDWijknn2ordbkAX6aXFpw93J4L8zrFLvrHpP7AiFb7fwCWn7
+         ZJv1mlubz6Ma+urXDVTyw4RLjN8qzxu5EUcC/RECHuZgR/VlGH20XwlhfEOV8oOeOgKm
+         8f6A==
+X-Forwarded-Encrypted: i=1; AHgh+Rpf5cNlSL625mQM1kqY/5eFISfjRRxdGWjZh51ur+QRRG7VZBG710cje9EnzS5ZdCWd/UVCQoS4xXNAIvs0cuEnVq8PWw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YykK0rLmODOTlkk+JyE7Z/y1NOEXI1sZE7B6Od15/TuTf01qiMu
+	hFPugheF8uyP5TWVQvoTt0D6AqftmSph7z0m91eaRO/UCazqp6n+JKvoE1m58xcvcMl9jKj4Ycg
+	Esk5T3JUBJdiJXdEr71iLoRfUmtFVrdY=
+X-Gm-Gg: AR+sD11roW4jzfCiC+SRL69pmAlUASVnjjAsXa6Iiv69XyBmvGjOy4f28d4RlnxFMnS
+	KQCwp/JgjwxNFNgK1Gk2jCfiuo4TdveENYMIKjxfoBNvpwyc04r7MHfd0OlBh9hAhztQsAuEeM1
+	tyDsU7jjSkPIZ0GRJvOsByFqCKlkbhVwxB5Rdg88CN6m7K/c64vpsluWq4M9B6qv0Bc6kykjssg
+	MOzzTK6RL+9YYGz6OJZkFYA10F/wGAkJHiRqS0uJNB5RoZC9Doy5cTe8rMEGvSvdopEv65ZxthN
+	Nf4GQ82CLWLl7sX3V14r64WSBFWhATjriU/Q4FoAoeI=
+X-Received: by 2002:a05:6a00:929a:b0:84e:d541:6402 with SMTP id
+ d2e1a72fcca58-84fb549e66fmr759614b3a.2.1786494180585; Tue, 11 Aug 2026
+ 17:23:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260808090026.34187-1-adinata.softwareengineer@gmail.com>
+ <20260808090026.34187-2-adinata.softwareengineer@gmail.com> <20260810010943.014d8db1@jic23-huawei>
+In-Reply-To: <20260810010943.014d8db1@jic23-huawei>
+From: Adinata Tan <adinatatan99@gmail.com>
+Date: Wed, 12 Aug 2026 08:22:48 +0800
+X-Gm-Features: AUfX_mwrrryz6I5WKRMN5uOXhp8xlN4BudeZxWVyCRL38f_V_T8YeYoNNAN7wn8
+Message-ID: <CAG442=sRDMfdVZB5GY+f6Wud7Vx8xR3ORN0GWVRVV8NKLVX29Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] iio: humidity: hts221: report available values via read_avail()
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Bug: ttm_pool_mgr_init() does not check return value in
-ttm_global_init().
+Hi Jonathan,
 
-Fix: Check the return value from ttm_pool_mgr_init() and propagate
-the error.
+Thanks for the feedback. I have checked with what Sachiko is saying is correct.
+The custom attribute was in_humidity_oversampling_ratio_available while
+the current on is in_humidityrelative_oversampling_ratio_available because in
+industrial_core.c only has [IIO_HUMIDITYRELATIVE] = "humidityrelative".
 
-Assisted-by: OpenCode:1.17.18-Big Pickle/DeepSeek V4 Flash
-Assisted-by: claude.ai:Sonnet 5
-Cc: <stable@vger.kernel.org> # 7.1.0
-Fixes: 444e2a19d7fd ("ttm/pool: port to list_lru. (v2)")
-Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
----
- drivers/gpu/drm/ttm/ttm_device.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+For this humidity case in particular, would it be better to keep the legacy
+implementation while adding the new read_avail()?
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index d3bfb9a696a7..896b766712d0 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -96,7 +96,9 @@ static int ttm_global_init(void)
- 		>> PAGE_SHIFT;
- 	num_dma32 = min(num_dma32, 2UL << (30 - PAGE_SHIFT));
- 
--	ttm_pool_mgr_init(num_pages);
-+	ret = ttm_pool_mgr_init(num_pages);
-+	if (ret)
-+		goto out;
- 	ttm_tt_mgr_init(num_pages, num_dma32);
- 
- 	glob->dummy_read_page = alloc_page(__GFP_ZERO | GFP_DMA32 |
--- 
-2.55.0
+The other case declaration will remain changed.
 
+> > Replace the custom oversampling_ratio_available sysfs attributes with
+> > the standard IIO read_avail() callback. This lets the IIO core create
+> > and format *_available attributes and exposes the lists to
+> > in-kernel consumers.
+>
+> Sashiko points out that there is an ABI change in here as oddly
+> the driver uses
+> in_humidity_oversampling_ratio_available rather than
+> in_humidityrelative_oversampling_ratio_available
+>
+> Which makes this an ABI fix.  Therefore this should have a fixes
+> tag and be moved to the start of the set.  Please check that logic
+> though as maybe I'm missing something.
