@@ -1,114 +1,167 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0893E5585
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 11:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786534821; cv=pass; b=HzCLfMc47MkLaQMvLM5ioQKLC7whd3DaP8EyPLJTWd5IvlDynTYOfhatZ9dbL/G+9BILlAi3pdHXUbtUdsc4h0IZTZzsv95WvZxuec5g5FmldHncVxIe0MSGnilEeuS+n+R0CuFMe5mcyL5n7t/Arv4uOOU/JL2SENwRBKTk1QA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786534821; c=relaxed/simple;
-	bh=ftXlbDu309QmVeN7pDAevs+3sNd39BPkjEn8GSmSF/8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aBZ/GTqAMyahoTTQI3dqHyuinjC34knrcS1m+RiP37Fz9gXV6MG5C36TZZRRhgi9umGnbFEpUjDtxRHiYkpbwn5LYlSFdpwyLstn4RqcuI5CFxClMcwn5z763KAqAoT16/fTlavdCgA0+KE8MDnlJ9X4z4MGEKULntJvAA5pvzA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mkpyymfd; arc=pass smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CD237207D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 15:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786550181; cv=none; b=jye5is/fpgZDcX+vRsuxpgwhwrxtwSEgIFyJY9uvMxoYGSFgIj9l58dM43diWQKl13x/KGMmtu+POzcs2hKx9da4v1a75uFaf/gJ8tWfLMSz8iZpSD+ft+XvNQdgvHqDyk9SeF9DNP2h32+aQ6SUnah9FqZEnlOdcXuiUDuPk08=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786550181; c=relaxed/simple;
+	bh=0AaMJ2ZuNPDpNygnkdWg2dPvVXYhqFjRU2NBOmUvi78=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=bgyVuFt0DAUfjKXs4oxTfWP1eVS3DyuPcuP0op4zWmcAAMufey6iNr8C0FT8Ima1qi70CtOGOV+rijPp13VEE10zQtde7C5FHVU6eDjs2aAJuWcJZNnwYYTh9Yrere8Mjvf7XHQnGe81RjV1DDKQw8O5S6zK+uxNIa6GoIoreaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tAzo3vBR; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mkpyymfd"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cf49dc28ccso1668765ad.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 04:40:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786534819; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pfGzfk1gAZaqsD8VD44FZUGRr8a4fRihjeOEV8UEUEvWnak3cXdEU996KAvLpi9a+N
-         gWBkR+ut3vLR76876exfZT/r+sMBShkwCv9vAor5AvVbMw0Otab7XBPgm4jBuyKPaHv1
-         725Z3rNR4s4forvRzL5FxBE+r9jK0hG02ECjOlBefnMUx/oVXZpfGQBuC1DYUH/9rWxi
-         OdpOwIXLB2NEXGhg6BM2UUuiik7ZDQOa89XGi/h98tiz8LD3Ysy5+WLhb3HObzuM/rSy
-         ZBdG5gwWC835j8jIJ0cKKhagjmKdUKaU7SHwbjnOYeiXN70orzEVOkP+p+bzNi1ZeLpm
-         nhRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=CcrVHQ+LHnpe+MEDWyjgCumfCG5lBDkuaO8drxyGg+c=;
-        fh=1vrcXWGvtJRma0vubQ6ko3axUCmFMuxuj+aOKa4PLz4=;
-        b=Wks6HwfG5dhqACeSUlubGsV03tO+VciPV2hONHe0+Dc69UDWwhffoIYnd/XNltDz8X
-         8YaaCZeJNM8VTtNcIoVCm6dX1H1mvmBjts6WNiAMkgGsua38LuvjLe/7mGusDyMFzLRP
-         k/LR9wkd8N+X1c4rPdB6I9j6zqCWUC4GZNSrypBS6UH++OvSjGxD9ByBD5iOZ3HoAvFx
-         XUldo2/IvFwKVTeyWM3R+sVH1Fy8MBmrCrNz2d4AV9CAxA5x2nO4aNISdd/QsO8Xg2+r
-         BNs1d1hp+fZqDmEsltkcomPBYKmTtVH7sMDxqOKHgM1YkCg/wg++efLjF2e7isq5RQbl
-         cSjg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tAzo3vBR"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84faf0fa17eso1340767b3a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 08:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786534819; x=1787139619; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CcrVHQ+LHnpe+MEDWyjgCumfCG5lBDkuaO8drxyGg+c=;
-        b=MkpyymfdCGFS5SiRgyEo4a/C2XayXQJDfaJNIEKx15IqIZ6H7/CW5Qr6PBnSftae8H
-         Ff2CetCOpijekQowti6FZVwisfVaxvtosbnDeUEjQrlBu9nahLNwbkabcw8fQ7ydQ4/T
-         KsoQS90RYYnN7nuPMDR5vkfW8xqUfiUhBzh9jXMdHNkiZSaA6TDtiFxPJoYJmZrU03gj
-         NQB/kwT8r9Locq2iHIk0AakOOSgzyS2AF8AczDBHjZmorSkzNz8uGZ94/HdtFXrUScJB
-         QCMz7rqoB01RNTGdn+a6RXq9Ond8LgPB7B+qbIoj1lCePj+nlJstFZFEfNnQK75zNH0b
-         6nRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786534819; x=1787139619;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20251104; t=1786550180; x=1787154980; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=CcrVHQ+LHnpe+MEDWyjgCumfCG5lBDkuaO8drxyGg+c=;
-        b=ZWarZNBvIlIlbHDIPONu0T5cC1QuzaoNWmKF1Bnd0/nVACUcY/fASY6UP1S3viqw9H
-         aODNc38++O/uH/nDOJiqHuMywm7wQpuFLnJS4k7aCROTVVvZaL8+y4Pixo3JUEzPbMCX
-         DR3570V8tUUe2xj9OIUtbsyEn29NUhvyqm/9qD8l7+0lG8r2X8l7ifzjKOtlHfkKbvu3
-         CI36wr0TAIP3+MPqTbcH65PABMpHi8lhuostB65QoI985flO+hgjZwJvRH1PAWo20OaP
-         GYkB/2pLBZorALj2p48XwirHEZSuWxV8kM3PlW8G9L/Undg9zQr40FZGAifLUys3eoQ9
-         t1Sw==
-X-Forwarded-Encrypted: i=1; AHgh+RqMO6obAlJbZKeIPCeYqvTmt5uEhoTdGvsbng7FJ5WlaEmn39a0F+jLPowJQiqVqtxhMzysDLB6nInSohD44P3arVRkfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGRJNqTyas+ErhRDGpg/gGvxrr09w/EQuQRmt4Q4xTFROECD0c
-	/hdOkvdCJ7vofMwDfvqCzEoKtc2/39WqpTjoNiyz3i7rarMpBHP4X9/rA6wqRK8YjAOrefvu8B5
-	HCFe75EolXoMgZQOxT0ILX8hfDcQ7mog=
-X-Gm-Gg: AR+sD13/uiQWIBqjMGffmpU3n7y+tc5IVn437CF+5utFmD/bWyiXaACGjnsiT3wnTm3
-	v9B1rA/KzHuSwID3XJhdxXQUe3FvXtjGRWixrz4+1ynEt130O3rVGy9V5qEBhbzb/mdNGRtLhqn
-	1r+Gt4wMGx8njWl6uYT8IySLsXF3c0ogDJVDEPDJ77Jk76csI604HzWUboeg9LUvxUVtmEEToYY
-	uaaHyOyIxJ7OIGTe1VQ/Ax4xu3WD/mCe5kalBgrZgW56f73n13fHNjqbSEiOGqqbnMvPUjPXAGe
-	qWauR+ok+aKeEfZL51itZwo9h2Xu2qIX83DKZqqSB2I=
-X-Received: by 2002:a17:903:144f:b0:2ca:de3:15eb with SMTP id
- d9443c01a7336-2d3450cc3dfmr41499755ad.0.1786534819286; Wed, 12 Aug 2026
- 04:40:19 -0700 (PDT)
+        bh=eNFhq05aNqziwdNErnHS5ilsR28OC8bIWpEV7AXBxgQ=;
+        b=tAzo3vBRIVJLyfAwi7C9JkO3tdNE5AvwBhwHS9Kr1PauNvt1Y/jGC76lQKS3szjiel
+         49uY1slMG/sqGeIbsc83BhGJ+d3f+bH/pa60dPwGvMqnUiQ2DwppucnHZXWD3JIQ1/S2
+         NlvBliecy7s9+GgUbrQQjPuzXB3XsEQ+SsxiOZ1epuQIhJR265mKgf4UJGPt33OgDsEO
+         ce+UZAnjrnkDw3ZGxNEyhj5h2zwUNudFbHpfPkuWsXGXQvkB32ShnrjukgDMOqnIoWeP
+         bJoLkKImPSACkTGaDqrovXL0LB5g+mFZDy96r8MHVkft3PJME/xje5LlUK1Jlt+0usaC
+         Q3HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786550180; x=1787154980;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eNFhq05aNqziwdNErnHS5ilsR28OC8bIWpEV7AXBxgQ=;
+        b=KexMikOaRn3p8VcDhtluWv1Y9IMAfL0SlaepXecAmb2mFzFmGxNbmp1eDK10/gH5Zf
+         Ey6H3pqngsZA18Y3MwHgbppYuiAJ2L9lAI0/sKMnMnaxZBSujGT74aqNDRgMJ0MNMjff
+         1pljrvWT9E+DJv3tWG0J7vvC7dRIdGsDal/gs3A0NYiSfQkZdGrpdsZGqNRKUQKn8L+r
+         YiWAYpYAmjZrhyznxFIzCFTryr04Fvg8CSM54OOdKOZkw3MPHBI6ukyeCM1VIvrsMnEy
+         1dWKmjTiySUBHX/ylXx2vYmnmfkfgxUHFwAnhdnV+pSM2U7I8MkVVUFazngA5C2i0WSJ
+         clLA==
+X-Forwarded-Encrypted: i=1; AHgh+RpiMOjr9ReNtY+GFxa9CIZpiuvjdhTzhTkGUv/uO5UbFP291vE80QIVRAPcUi1aFSfoNkThha8rzQyi2TqSFceddMh7pA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvCTIl1gYQDF7P2MJBx3beVlrEXj91aHmdxDtRPg4mO1RONda2
+	PDaDfBDiA+g6AtbUHaQObfUx5QMRacbVKDxRv+a5Zn8WJ9fo+YjaGJU=
+X-Gm-Gg: AR+sD12kJmg7BmEW4bFEakrmGhQfSDCo2BoecekrfPmdgFVih4R40KRPXsl5CFwW38E
+	UO0vCYK7HzvcogUPkvQvvF+SHVv9FhXmgI2Ao7BXxeLugyR3AH9MLLd5CCvWFdF/39y6vYRqBFg
+	G2XKENU9iLDF7oPqMcx6viDjCez2WXKPca0WMF3fPAxKcOUKb3usRs2zJuh+RSDeJglk6w6uXun
+	rMRGC13UgI/m+Y77s/9C4zx+LsXXmi4T+Ab/GS3BeQl1Im5MOGc2jjZD9xLXBA+XCLy+bM3hpmG
+	Pt07GSge+50JFZk6PO25otCCtI2otUdOAC11KrZnDfu6xOpfI6i+4rgWWVP/MywovDc15R30Jv1
+	Z+Ev9Wt6gfRpzuD/GBhV+nVM2Np4GLVU6fmFBRAcGsXPRbVZsczVC7yd3N4P1FKpoWsGb6CaO2q
+	nJnkGOX+JRGtlFKE/lTqFi+Zh79GMnFEqUGv9JnGaEKw9vu/iqP+DksOpgxMoT2shJKbcXgPzzW
+	2ldBHji4G59YeC8hCEegVLx
+X-Received: by 2002:a05:6a00:8084:b0:84e:244a:98e8 with SMTP id d2e1a72fcca58-84fb55490b2mr6851084b3a.30.1786550179686;
+        Wed, 12 Aug 2026 08:56:19 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fb1f73159sm1220212b3a.56.2026.08.12.08.56.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Aug 2026 08:56:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260808090026.34187-1-adinata.softwareengineer@gmail.com>
- <20260808090026.34187-2-adinata.softwareengineer@gmail.com>
- <20260810010943.014d8db1@jic23-huawei> <CAG442=sRDMfdVZB5GY+f6Wud7Vx8xR3ORN0GWVRVV8NKLVX29Q@mail.gmail.com>
- <20260812060414.427f7616@jic23-huawei>
-In-Reply-To: <20260812060414.427f7616@jic23-huawei>
-From: Adinata Tan <adinatatan99@gmail.com>
-Date: Wed, 12 Aug 2026 19:40:05 +0800
-X-Gm-Features: AUfX_mwG3enKJGDzl_Xy8u7pCaWHXuNDuSePxAeXbnQrdn91TqUXsI2XjDgFjtA
-Message-ID: <CAG442=sn1YnDGdVvfnj6ZaeLknN46EqhAdkYBBp-6AnrrnDGCg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] iio: humidity: hts221: report available values via read_avail()
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, adinata.softwareengineer@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 12 Aug 2026 12:56:15 -0300
+Message-Id: <DKN36K6SLY15.2Z5PITE3CE9CN@gmail.com>
+Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Marcelo Schmitt"
+ <marcelo.schmitt1@gmail.com>, "Andy Shevchenko" <andy@kernel.org>, "Brigham
+ Campbell" <me@brighamcampbell.com>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH v2] iio: humidity: am2315: add am2320 to i2c_device_id
+ table
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Jonathan Cameron" <jic23@kernel.org>, "David Lechner"
+ <dlechner@baylibre.com>
+X-Mailer: aerc 0.20.0
+References: <20260810183337.451812-1-nico.antinori.7@gmail.com>
+ <anqKwJOkl_cxzCT6@debian-BULLSEYE-live-builder-AMD64>
+ <anrRkty6ugdJUGmE@ashevche-desk.local>
+ <DKM7MV8J10HS.2OIM1TDHB9VHQ@gmail.com>
+ <2d7dcced-47f9-4fcf-9668-30acb9e8c9b1@baylibre.com>
+ <DKMB5HGIEQCW.3EKGVS7GLRBOF@gmail.com>
+ <125ac6a1-a089-4ce8-9b20-c3448b6b5208@baylibre.com>
+ <20260812054339.6f58b5fd@jic23-huawei>
+In-Reply-To: <20260812054339.6f58b5fd@jic23-huawei>
 
-Hi Jonathan,
-Thanks for the input. In this case, we can proceed with the current
-implementation?
+On Wed Aug 12, 2026 at 1:43 AM -03, Jonathan Cameron wrote:
+> On Tue, 11 Aug 2026 13:06:50 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
+>
+>> On 8/11/26 12:58 PM, Nicol=C3=A1s Antinori wrote:
+>> > On Tue Aug 11, 2026 at 12:49 PM -03, David Lechner wrote: =20
+>> >> On 8/11/26 10:12 AM, Nicol=C3=A1s Antinori wrote: =20
+>> >>> On Mon Aug 10, 2026 at 4:28 PM -03, David Lechner wrote: =20
+>> >>>> On 8/10/26 1:32 PM, Nicol=C3=A1s Antinori wrote: =20
+>> >>>>> The AM2320 is fully compatible with the AM2315 sensor in terms of =
+I2C
+>> >>>>> communication protocol and measurement conversions.
+>> >>>>>
+>> >>>>> Add the "am2320" entry to the i2c_device_id table. =20
+>> >>>>
+>> >>>> Interesting. No devicetree bindings for this one? What kind of
+>> >>>> system is it on?
+>> >>>> =20
+>> >>>
+>> >>> I am testing this on a Raspberry Pi 3b mounted on a protoboard. =20
+>> >>
+>> >> How do you tell the RPi to bind the driver?
+>> >>
+>> >> Since Raspberry Pi is ARM-based, usually we would use devicetree
+>> >> overlay to do this, which would mean that we should write a
+>> >> dt-bindings .yaml file for these chips. =20
+>> >=20
+>> > I do it manually.
+>> >=20
+>> > I use that RPi for development, at the moment the kernel I am using is=
+=20
+>> > 7.2.0-rc6-v8+ with CONFIG_AM2315=3Dm. When I need to use the AM2320 I
+>> > modprobe it with:
+>> >=20
+>> > $ sudo modprobe am2315
+>> >=20
+>> > And then=20
+>> >=20
+>> > $ sudo bash -c "echo am2315 0x5c > /sys/bus/i2c/devices/i2c-1/new_devi=
+ce"
+>> >=20
+>> > (With the modifications I made ... echo am2320 ... works as well)
+>> > The pins for i2c I am using are GPIO 2 (SDA) and GPIO 3 (SCL).
+>> >=20
+>> > If a dt-binding yaml is needed I can send another patch with it!
+>> >=20
+>> >  =20
+>>=20
+>> Yes please. It will make it easier for others to use as well.
+>
+> I think (from a quick bit of googling) that these two parts are
+> at least 'kind of' the same thing with different packaging.
+> The name is a nice to have and given the packaging may I guess
+> affect the signal and how it is used it probably makes sense
+> to add it.
+>
+> They only have 4 pins. Power, ground, SCL and SDA.  So it
+> is a rare device simple enough that I think an entry in trivial-devices.y=
+aml
+> is probably sufficient.
+>
+> Ideally add an of_device_id table, even though this will work fine
+> by the fallback path that uses the i2c_device_id table
+>
+> Jonathan
+>
+>>=20
 
-> > For this humidity case in particular, would it be better to keep the legacy
-> > implementation while adding the new read_avail()?
->
-> To me it seems vanishingly unlikely there is any code out there jumping
-> through the hoops to read the wrong ABI element to figure out a possible
-> value to write to in_humidityrelative_oversampling_ratio
->
-> So I think this is in the category of ABI that we can change as long
-> as no one notices.  For IIO I will also generally take ABI fixes on
-> basis we actually want to know if anyone is using the broken ABI
-> (and they very rarely are!)
+Thank you all for the feedback. I've added of_device_id table, chip_data
+struct (and assign the name from there), and added "aosong,am2315" and
+"aosong,am2320" to trivial-devices.yml.
+
+I'll wait a few days to send v3 in case something else comes up.
