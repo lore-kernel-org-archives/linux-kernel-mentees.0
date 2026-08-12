@@ -1,167 +1,123 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CD237207D
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 15:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E46F473C8C
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 18:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786550181; cv=none; b=jye5is/fpgZDcX+vRsuxpgwhwrxtwSEgIFyJY9uvMxoYGSFgIj9l58dM43diWQKl13x/KGMmtu+POzcs2hKx9da4v1a75uFaf/gJ8tWfLMSz8iZpSD+ft+XvNQdgvHqDyk9SeF9DNP2h32+aQ6SUnah9FqZEnlOdcXuiUDuPk08=
+	t=1786559237; cv=none; b=VQNeefkvOb96xgNRzqDDkvzrPprrCAayms8Q+5vpGjr6QUga4QzKhvfcb4KXcB59oXI/nIp45TBtNyWjXFauD0/UjsG2HkJHil3kgO9qkFzdmLlvuONZF1651z06ING7SuZSmQ3RqOLJTIGiX81RsZJpkti7zoPzFJ/jA8vpOeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786550181; c=relaxed/simple;
-	bh=0AaMJ2ZuNPDpNygnkdWg2dPvVXYhqFjRU2NBOmUvi78=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=bgyVuFt0DAUfjKXs4oxTfWP1eVS3DyuPcuP0op4zWmcAAMufey6iNr8C0FT8Ima1qi70CtOGOV+rijPp13VEE10zQtde7C5FHVU6eDjs2aAJuWcJZNnwYYTh9Yrere8Mjvf7XHQnGe81RjV1DDKQw8O5S6zK+uxNIa6GoIoreaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tAzo3vBR; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1786559237; c=relaxed/simple;
+	bh=Nu8Ru3iuSZZX9SpYcbORNiVzGWTxhVBNzQvuJQZ4cFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X3On1y/mdOVUY3Pr5AWNaMgHYq4K1VrgT2i5lInqRcjEIRRCo4rn6eJlErv9R6Ii3BxRdHiKxyGrxYrf5JjlMgbm/2UnAlx6S4BMdcnabaHZJiuI/k9PSzg4bdeeP3gySb2m99H/tjtzGp3fcWYHAXNcNCcVuwahx2xowsqpie8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAh4keEu; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tAzo3vBR"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84faf0fa17eso1340767b3a.2
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 08:56:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAh4keEu"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-52d590ce5cdso9427941cf.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 12 Aug 2026 11:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786550180; x=1787154980; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=eNFhq05aNqziwdNErnHS5ilsR28OC8bIWpEV7AXBxgQ=;
-        b=tAzo3vBRIVJLyfAwi7C9JkO3tdNE5AvwBhwHS9Kr1PauNvt1Y/jGC76lQKS3szjiel
-         49uY1slMG/sqGeIbsc83BhGJ+d3f+bH/pa60dPwGvMqnUiQ2DwppucnHZXWD3JIQ1/S2
-         NlvBliecy7s9+GgUbrQQjPuzXB3XsEQ+SsxiOZ1epuQIhJR265mKgf4UJGPt33OgDsEO
-         ce+UZAnjrnkDw3ZGxNEyhj5h2zwUNudFbHpfPkuWsXGXQvkB32ShnrjukgDMOqnIoWeP
-         bJoLkKImPSACkTGaDqrovXL0LB5g+mFZDy96r8MHVkft3PJME/xje5LlUK1Jlt+0usaC
-         Q3HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786550180; x=1787154980;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786559235; x=1787164035; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eNFhq05aNqziwdNErnHS5ilsR28OC8bIWpEV7AXBxgQ=;
-        b=KexMikOaRn3p8VcDhtluWv1Y9IMAfL0SlaepXecAmb2mFzFmGxNbmp1eDK10/gH5Zf
-         Ey6H3pqngsZA18Y3MwHgbppYuiAJ2L9lAI0/sKMnMnaxZBSujGT74aqNDRgMJ0MNMjff
-         1pljrvWT9E+DJv3tWG0J7vvC7dRIdGsDal/gs3A0NYiSfQkZdGrpdsZGqNRKUQKn8L+r
-         YiWAYpYAmjZrhyznxFIzCFTryr04Fvg8CSM54OOdKOZkw3MPHBI6ukyeCM1VIvrsMnEy
-         1dWKmjTiySUBHX/ylXx2vYmnmfkfgxUHFwAnhdnV+pSM2U7I8MkVVUFazngA5C2i0WSJ
-         clLA==
-X-Forwarded-Encrypted: i=1; AHgh+RpiMOjr9ReNtY+GFxa9CIZpiuvjdhTzhTkGUv/uO5UbFP291vE80QIVRAPcUi1aFSfoNkThha8rzQyi2TqSFceddMh7pA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvCTIl1gYQDF7P2MJBx3beVlrEXj91aHmdxDtRPg4mO1RONda2
-	PDaDfBDiA+g6AtbUHaQObfUx5QMRacbVKDxRv+a5Zn8WJ9fo+YjaGJU=
-X-Gm-Gg: AR+sD12kJmg7BmEW4bFEakrmGhQfSDCo2BoecekrfPmdgFVih4R40KRPXsl5CFwW38E
-	UO0vCYK7HzvcogUPkvQvvF+SHVv9FhXmgI2Ao7BXxeLugyR3AH9MLLd5CCvWFdF/39y6vYRqBFg
-	G2XKENU9iLDF7oPqMcx6viDjCez2WXKPca0WMF3fPAxKcOUKb3usRs2zJuh+RSDeJglk6w6uXun
-	rMRGC13UgI/m+Y77s/9C4zx+LsXXmi4T+Ab/GS3BeQl1Im5MOGc2jjZD9xLXBA+XCLy+bM3hpmG
-	Pt07GSge+50JFZk6PO25otCCtI2otUdOAC11KrZnDfu6xOpfI6i+4rgWWVP/MywovDc15R30Jv1
-	Z+Ev9Wt6gfRpzuD/GBhV+nVM2Np4GLVU6fmFBRAcGsXPRbVZsczVC7yd3N4P1FKpoWsGb6CaO2q
-	nJnkGOX+JRGtlFKE/lTqFi+Zh79GMnFEqUGv9JnGaEKw9vu/iqP+DksOpgxMoT2shJKbcXgPzzW
-	2ldBHji4G59YeC8hCEegVLx
-X-Received: by 2002:a05:6a00:8084:b0:84e:244a:98e8 with SMTP id d2e1a72fcca58-84fb55490b2mr6851084b3a.30.1786550179686;
-        Wed, 12 Aug 2026 08:56:19 -0700 (PDT)
-Received: from localhost ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fb1f73159sm1220212b3a.56.2026.08.12.08.56.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2026 08:56:19 -0700 (PDT)
+        bh=7j7z3tqC+AIDzOQzM95h2HCshoUvxiPDxpv6LnHwMNs=;
+        b=JAh4keEu9fsntbepnNlZvfvuC+6iEAQiHlOgvRfUCf08hk6IJBYHCu4AmfVsMPb6bT
+         2ZrcEZ9rFF00Z1tZQmaKg5tlD6Gv2Mx13foPQUFqShcg7QXkE0X8NhHx34x73Nn6pS2f
+         4WNr5Dzdccc7pFYJ+gxoorv2GerH5oOutAZlBeNsgmRslDWC1KTrYNAyQS30mB7s3UFh
+         WJe3DUKrZHbM8ENlXkNr4ryNA7KqAVL9Ig5p5DRXFpZhO4qRRgr1QKrE9/0PxBxDw3Tv
+         hRM4aptOCjIjeiEQ6Yf32UIbi/h0RSxEvefhDPe0MF/+GkdqkrmpiEE2cM14GcRJ0a5y
+         D8UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786559235; x=1787164035;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7j7z3tqC+AIDzOQzM95h2HCshoUvxiPDxpv6LnHwMNs=;
+        b=m14uBi9+6Wpaelv6pvHxomSDTF8G/XqgOoiuzygBCr0Mmz4Y5Y0pqwHluwjJ3pqSDS
+         Io4xDcsEsIrqWQ891FYIrcIMYda4HU6qZqPfDOi59s1upMKk/MbpyBeanhZ+QVrnXSeL
+         8JvXQ0Ij0yirVGFyy52dDDfxyhoWQIbtdVrr5UWVmIAK5zq2vHb3C/Jj7mP2Men0mLeP
+         Wv9GtzacPrGj+eHNZ5mrYo3lx82LYJUAmcfQKp0BdKHamcDGqPyOj1jw+RzZdaT9AXPY
+         uhkXKMhjzstDEZX3ZECMsDJlhYcIw6cRuvgZqAuVeEOprDozcjnfrxF83O+ox503i4J5
+         eB9w==
+X-Forwarded-Encrypted: i=1; AHgh+RqxdhOPZ69TnTD8z0BOvi/yNpvl4bn88sWeP/Q1cWqDxI9sbdW00wYzSXobTNKEdUf66H2qqcSRG2zOBsOCIw4zCRQArw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzi/j8E/HLm8vtangwKFjJSH2RYl1JCiELhOfvRTDgcnLK5PilI
+	vRhmGCrqomuW4meLgBZB4wMMYNeGpyJLo6iA/oOBA44kDfRBtVYBoIzj
+X-Gm-Gg: AR+sD10TcdJfB5et77XayLnxY0GRYtj1R/sI+zWJfXGCrD3vfsGzR/PYajt1t/OpQNW
+	mBTZtW/rzM2DBMV3L2mIcPqviFJEaJ/7pJX2SsL1doCzxKLj6+IeCSDKkOt1pydD02xv84mSw9O
+	5Sm1RWs3lNnvDe97C6cWYr0OfVjKdzkUkUCo9EoAE9WSV7R+ZLyWuEQQhWWA3MlJNAlDxJ22Ezl
+	sG43Ano9Gbzm+CBDvF/dXRmrPgc3nuONa3ynRXSpKRcZNEA8HxzYH7mUqLC6XmyujQY6sF0nqQ4
+	LYvdLedYPoaDT6WvKhbUoGOTEkfB7AsH/1gF28R1AWBhx4+EbUL9+2j/Ubr6d2irUYNaJ5DjbCj
+	TYjec1UdjWJEuPh04THQmYhcWiKQjckPdyB4r22MnZnjRkTgwbv6LayQgzbKOmwIYQdzgMq39ol
+	jdzs1QT41K4oMP8qWUD1cw5y1F5Ey7SEwLX15KtXOdxakC/QzOpNTy+AGEOD4TS3Jhx+s=
+X-Received: by 2002:a05:622a:1106:b0:528:15e:d1d4 with SMTP id d75a77b69052e-52d73be0ed5mr2122511cf.4.1786559235087;
+        Wed, 12 Aug 2026 11:27:15 -0700 (PDT)
+Received: from localhost ([2600:4808:5693:8201:bb19:d9f0:6e53:91ed])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d73fde61csm74641cf.21.2026.08.12.11.27.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 11:27:14 -0700 (PDT)
+Date: Wed, 12 Aug 2026 14:27:02 -0400
+From: Marco Chen <marcochen.dev@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, 
+	matt@ranostay.sg, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, pmeerw@pmeerw.net
+Subject: [RFC] iio: health: max30102: proximity power saving TODO and
+ datasheet history
+Message-ID: <any69uXah07eA8lR@xiaolong>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 12 Aug 2026 12:56:15 -0300
-Message-Id: <DKN36K6SLY15.2Z5PITE3CE9CN@gmail.com>
-Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, "Marcelo Schmitt"
- <marcelo.schmitt1@gmail.com>, "Andy Shevchenko" <andy@kernel.org>, "Brigham
- Campbell" <me@brighamcampbell.com>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Shuah Khan"
- <skhan@linuxfoundation.org>, <linux-iio@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH v2] iio: humidity: am2315: add am2320 to i2c_device_id
- table
-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-To: "Jonathan Cameron" <jic23@kernel.org>, "David Lechner"
- <dlechner@baylibre.com>
-X-Mailer: aerc 0.20.0
-References: <20260810183337.451812-1-nico.antinori.7@gmail.com>
- <anqKwJOkl_cxzCT6@debian-BULLSEYE-live-builder-AMD64>
- <anrRkty6ugdJUGmE@ashevche-desk.local>
- <DKM7MV8J10HS.2OIM1TDHB9VHQ@gmail.com>
- <2d7dcced-47f9-4fcf-9668-30acb9e8c9b1@baylibre.com>
- <DKMB5HGIEQCW.3EKGVS7GLRBOF@gmail.com>
- <125ac6a1-a089-4ce8-9b20-c3448b6b5208@baylibre.com>
- <20260812054339.6f58b5fd@jic23-huawei>
-In-Reply-To: <20260812054339.6f58b5fd@jic23-huawei>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed Aug 12, 2026 at 1:43 AM -03, Jonathan Cameron wrote:
-> On Tue, 11 Aug 2026 13:06:50 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
->
->> On 8/11/26 12:58 PM, Nicol=C3=A1s Antinori wrote:
->> > On Tue Aug 11, 2026 at 12:49 PM -03, David Lechner wrote: =20
->> >> On 8/11/26 10:12 AM, Nicol=C3=A1s Antinori wrote: =20
->> >>> On Mon Aug 10, 2026 at 4:28 PM -03, David Lechner wrote: =20
->> >>>> On 8/10/26 1:32 PM, Nicol=C3=A1s Antinori wrote: =20
->> >>>>> The AM2320 is fully compatible with the AM2315 sensor in terms of =
-I2C
->> >>>>> communication protocol and measurement conversions.
->> >>>>>
->> >>>>> Add the "am2320" entry to the i2c_device_id table. =20
->> >>>>
->> >>>> Interesting. No devicetree bindings for this one? What kind of
->> >>>> system is it on?
->> >>>> =20
->> >>>
->> >>> I am testing this on a Raspberry Pi 3b mounted on a protoboard. =20
->> >>
->> >> How do you tell the RPi to bind the driver?
->> >>
->> >> Since Raspberry Pi is ARM-based, usually we would use devicetree
->> >> overlay to do this, which would mean that we should write a
->> >> dt-bindings .yaml file for these chips. =20
->> >=20
->> > I do it manually.
->> >=20
->> > I use that RPi for development, at the moment the kernel I am using is=
-=20
->> > 7.2.0-rc6-v8+ with CONFIG_AM2315=3Dm. When I need to use the AM2320 I
->> > modprobe it with:
->> >=20
->> > $ sudo modprobe am2315
->> >=20
->> > And then=20
->> >=20
->> > $ sudo bash -c "echo am2315 0x5c > /sys/bus/i2c/devices/i2c-1/new_devi=
-ce"
->> >=20
->> > (With the modifications I made ... echo am2320 ... works as well)
->> > The pins for i2c I am using are GPIO 2 (SDA) and GPIO 3 (SCL).
->> >=20
->> > If a dt-binding yaml is needed I can send another patch with it!
->> >=20
->> >  =20
->>=20
->> Yes please. It will make it easier for others to use as well.
->
-> I think (from a quick bit of googling) that these two parts are
-> at least 'kind of' the same thing with different packaging.
-> The name is a nice to have and given the packaging may I guess
-> affect the signal and how it is used it probably makes sense
-> to add it.
->
-> They only have 4 pins. Power, ground, SCL and SDA.  So it
-> is a rare device simple enough that I think an entry in trivial-devices.y=
-aml
-> is probably sufficient.
->
-> Ideally add an of_device_id table, even though this will work fine
-> by the fallback path that uses the i2c_device_id table
->
-> Jonathan
->
->>=20
+The proximity power saving TODO in max30102.c was added in the original
+driver commit b3c590ce14b1 ("iio: health: add MAX30102 oximeter driver
+support") in Feb 2017. At that time, the MAX30102 datasheet documented a
+Proximity Function and Proximity Mode Interrupt Threshold register. Both
+were removed in revision 1 of that datasheet on October 2018. The MAX30101
+datasheet did the same in its revision 1 on June 2018.
 
-Thank you all for the feedback. I've added of_device_id table, chip_data
-struct (and assign the name from there), and added "aosong,am2315" and
-"aosong,am2320" to trivial-devices.yml.
+That also explains the PROX_INT defines in max30102.c, as they were
+correct in revision 0 of the datasheet when the commit was made.
 
-I'll wait a few days to send v3 in case something else comes up.
+Since there is no current documentation for the proximity function on
+the MAX30102 or MAX30101, I don't think this TODO should be implemented
+for those parts. Does this seem like the right decision?
+
+However, the feature is still well-documented on the MAX30105. Is
+proximity power saving worth implementing there? I don't have a MAX30105
+but I am more than willing to purchase one and develop and test on it,
+and I have access to a logic analyzer to verify the I2C transactions.
+
+For the implementation, I would add MAX30105-gated defines for the
+PILOT_PA (0x10) and PROX_INT_THRESH (0x30) registers and handle PROX_INT 
+in the interrupt handler. The MAX30105 transitions out of proximity mode 
+automatically once the ADC count exceeds the threshold, so PROX_INT is a 
+notification to start getting data, rather than a mode switch.
+
+For the ABI, I was thinking of using an IIO_PROXIMITY channel with an
+iio_event_spec for the threshold and enable, similar to what was done in
+cm36651.c. Is this the right approach?
+
+This feature would then be enabled through the event enable, so with the
+event disabled, the driver would behave the same as it does today. This
+is important because with proximity active, enabling the buffer would
+not produce data until an object is detected.
+
+One interaction with a patch that was applied recently [1]: enabling 
+PROX_INT falsifies the assumption that FIFO_RDY is the only enabled 
+interrupt source. So the handler would need to distinguish between 
+causes, likely meaning that max30102_fifo_count() will need to be 
+refactored a little. 
+
+Thank you.
+
+[1] https://lore.kernel.org/linux-iio/20260808195450.25420-1-marcochen.dev@gmail.com/
+
+
