@@ -1,162 +1,140 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0667648A2C5
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 15:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE3A471CF8
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 17:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786635131; cv=none; b=GB+J1pJkESdQxkhhq8QRjWEOR843qBhsnkxl7RiEbhfhRh/SAhznL5ClppnAa8KmU00ybGBv+1poNwSopbRCzWXflQI2YAM+FQZ0VlChujiQ948L8bEiLerEYuxC5O+hXadujzje6c7g0c7GeyTAmNvuqRxeen5tQIml/S6LmFA=
+	t=1786642137; cv=none; b=FdSfIx257eySfn+PqfjrX2eW6BcBYcnG73PPMibZh60Vhlpy2rm9L3vLA6Y2ycwtxHqMnNxMIglkES34o+osIny9wiwZbeGYHd9fIyLA8WavdsB+Naag1Hvra1h2kEMAK3Ogw38dwe1MmVONbG0YA9gOhIPzEE5iPlS0G0yo2z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786635131; c=relaxed/simple;
-	bh=sfBAezaRbgRTasTkRdf7Yl4IPx6PAR6DvqI2G38FvDA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cIWVuDyUl4wq21MXnV0QJ7T8A/3hXLmc+9sLatZsFC0ffL2dfRTkRzcN7Mk0iwQbgF9g1aUQKC7STCG3E0BMo+0i3xsUIfsgS6YBmq1/I4fF/H0cnzTVzXw2RMD2p+SNmWPkPAbKisGIyLtFiaUySULVHIgCqJRjaOijAAHRf/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTkT6yFe; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1786642137; c=relaxed/simple;
+	bh=TMSjSdPy1mFMoDQ0bB+ffUgJOOHQfmPq1+pZYXoAxm8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=VrH9H/bD9xShvaq3jJKojc8dQoRVK0X2rgf6D9uoSEjhmsK1MuQixCMWRB0EvBLrwyp+utPacF59P3UH2sjOrT6+/Pz66DvYL2R/BS52BiK1AlhAN3+gZjOBfUCiyy0NT46Pre8USyBGjJjq1anea47h1cRrDKaVVfZRYekrpUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H9BPs2Ej; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTkT6yFe"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dd55ad76cso1251075a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 08:32:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9BPs2Ej"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso1161566b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 10:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786635129; x=1787239929; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Q2qdJ72LpMBcvPrJb15/0HrRL2gmcJhiINfNwI4WIvY=;
-        b=NTkT6yFekf6o8UTnA6DR6gvceAVNcf0Ow2xOh2X6kNenRftB6CDpeTvJxB9KEdvPaE
-         4YJR5cAi8rrbv5k7SqWmmZw784jXxil5mxit5BrT/OpTTfxtpKr8oU4cYeWwMTAL7Mow
-         HKdJgqZEC5LiSn6KbcxjP1zzCG9Aqv2nU4J7CioZi38CzoiVlT+Xdm6pPwNrUCQsRBD/
-         Riuclr0KH9qyZCWkecG+a159+bN9XnB7vdeq1bw28tXUwKrJNLTEtNkzslIIvjkGPxq1
-         ki9C52hKLO1Bk5063oG+HiR6tw43tWjcHz7EamnOhbxltd34V9BBhMaVZUlKBHK5I7F5
-         W34A==
+        d=gmail.com; s=20251104; t=1786642135; x=1787246935; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3QAmNckJusENFi3b8PAoUfCMcO2O6+LVywV/5dZdBLk=;
+        b=H9BPs2EjZ5M4UCdl9eP/wY/6w0N+9IEthpbhXkQLo/SCQYmrLDSq7f298l1Esqkd9L
+         eSuc+IU7Z9qCkxrRKNMBQM98NSlZ36YPrRUtNNC/w3GQt1CtXTSQ747CTkvz7kNyCp4t
+         1ETn/V6NHS4gXYea/j7JFciOdIpu9AYFBtgVcCWIxKvrQKnR0bs3kbTpJ/DRpUWWYpGR
+         lKC+ABeKUiPb2ieIECYkLDj3AA1uQr9pa9KHZsvJL2etVaHbK20ipp49ApTqXiqG6ER1
+         unGh5RtRrrBwuu/DpLNniQq7Zsj2z8gNQ+IR5/8CwBzeR7lwi3ykB3B1BZvZzpX7KuIB
+         YMJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786635129; x=1787239929;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Q2qdJ72LpMBcvPrJb15/0HrRL2gmcJhiINfNwI4WIvY=;
-        b=VT3J+8JpdwzTPOWDLXtwuVxdOSFliMawci+MjUo4a25U0S6fj1BpIUA37oshxB0Vuo
-         qfXMQzikpebJpEJVKi6doM4CLk+0vkGtpeNQq+IdedTXGpTfOOiVU1l5zHbau7bF4cDg
-         oTotr1W05MHXbVltEi2cmUotE8gjzZHn6Alkj8nK2G2z+cd7rVIySLRXTD3B1/99G2eU
-         /24fzzcaudiKBHdGFcwlrVpPedceZ/Nuz6bKJ/UgW/TuC1w2Brfez6CBws3QQLYkU9Bc
-         EBW7jzvDAhODjD0q1q6I5kVewRM6EJ7MSs9TzGaQbWd4rUWmzJNWU5EbaFBamF2rn+f5
-         Km3Q==
-X-Gm-Message-State: AOJu0YwJKPj19oyVK0YlPcdIuMDHv0s0lS73D7d/xdKKn6YNow3afXte
-	j0es7AP/2CWnDjw2bQdaz/79OpXKaKjv/ub3AgML5ol0EFwXJAtDNmHe
-X-Gm-Gg: AR+sD104pSv30XeN8ZpOco/2lFsgtyOuH2AqgaNsQxyVbWEm0WUdm+Aqoi5G0aZMWMj
-	aZzXmK7zSfAhNphQSA7Vgdty1w/b62kjDLxHMQPqs7IGrGel/nD6TunIDQfQ3/GSXRjMV5xssg0
-	1pyz6TyFE8MTFDUaLiP/Xhq16p08V85Erxch+8U6+e3rEvmPqEP71Lxc/1LOiDPBhVqskouTIld
-	RF7kZazi2MMTozvdEQNa5J3J591MrCP8RQFvohJ/tf/dKaknE+wPkbg4sfvFj2GFmaM+XlNDBQH
-	aoLRtb5uuCG8JAu4UjQ18iRZedkvSBQd5huSlPQgGkDgrmvF2AiDuOE8pTJ+PTRe4bXq6RoFD0f
-	MVmgEHaWbqZMd/GHfVzl5Xm5X0SG67WN1dloS3ODX5mQKUX+IOLP6+xCN9d06saQV+qpuky3um+
-	I8mlGrCvIH2sNjYrGIKoIybDWQZhN+DVaPRW4VWlOKImx0KEZK3N6oBB3vanGJxo3AMgsUv8kxQ
-	bAsd1y92wXsKy+Uz9nOYo35exb7d/raCvlyOVnJNjlnzaswoDog3svGNDuJpg==
-X-Received: by 2002:a17:90b:50:b0:38e:7f22:f674 with SMTP id 98e67ed59e1d1-3931f9069femr2991671a91.11.1786635129125;
-        Thu, 13 Aug 2026 08:32:09 -0700 (PDT)
-Received: from debian13.localdomain (bb219-75-96-14.singnet.com.sg. [219.75.96.14])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ec082943fsm7960604eec.29.2026.08.13.08.32.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:32:08 -0700 (PDT)
-From: Adi Nata <adinata.softwareengineer@gmail.com>
-To: lorenzo@kernel.org,
-	jic23@kernel.org,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	Adi Nata <adinata.softwareengineer@gmail.com>
-Subject: [PATCH v2 5/5] iio: humidity: hts221: fix division by zero in calibration parsing
-Date: Thu, 13 Aug 2026 23:31:29 +0800
-Message-ID: <20260813153129.12423-6-adinata.softwareengineer@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
-References: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
+        d=1e100.net; s=20251104; t=1786642135; x=1787246935;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3QAmNckJusENFi3b8PAoUfCMcO2O6+LVywV/5dZdBLk=;
+        b=TI6qR+AY/r3rxnNlrnQceCwJrsSSmFLuk1jUt4oS7bziNztauHdYbDcb5upqpsmya/
+         ElLkvsB9UmUtGQNIdRoue8dpWbCQIVsL9Tfna3kB7SCN2ce/XClF1mM5X7IKWFiNuN9f
+         h1xXTDeBNWFReNOq/X9xQ4T4DrPXI4m+OTw8qcNMasawy4Mtq6QJC39VgJaRXgbMCI9M
+         xD3WlhBDWOHlDvdfasddDE2ek6cggcuuXKWHeJpwj5jK7+799HNvIdzyxaA85ctBGi+G
+         5V8EH1oQ7v2Fu+Fkw7rIEKGIljlDIA5llxSM9Io5flOe2lMJOZxOe/6GV4/MJe09dHVs
+         8KiA==
+X-Forwarded-Encrypted: i=1; AHgh+RpYVuC5n+hrkr/0dUAEY5vc7JOsLxUDVYD48LXyQ5EUrNOsNujMfWLI4mfmXTC5HNMKriEhEX3IbK55klcpuWQan1eXDw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2w0KqgN9HLvSrexoLcjbkHykAPShJBliqjn3DayYWT/ftrcot
+	PPAIxE6hnf0CEk21kCTJubNdlN0ZUg0VOHWqr3pnklJ+vYKWRn1EjH4=
+X-Gm-Gg: AR+sD12eXdyC3Y2IlMcCnceJHa0pmGeIk4vpguprcqu3Rbw/s1mFlu6DOZ3oxGvirRx
+	a056zh3CPXHCTkk+qmaBF22pJ6Cyvbv8dYJZS5llKbJqg3S55pniy2dFFGEUcTXZ4AB7cvCCM+Y
+	oXRvFjFJ58Rl4zdZavbq8k+AbttdgF8/OBxCQSjkImj+0Bg+Epnb/s58cp0k0CbcLXyif0m2lKB
+	z1m85SQVmA2ZlyNw0do6EnnTx7KcC2QKkKdem/o96kSwzPi1wHd6kUBx2DRJ0qWAsrf2fkvj4s8
+	x0rZmRdSeu7XnpUdyokunkqBTKGfG3uTzW2ey/nQO0rUmCQBQlKNmJf475kTRLN0WR90RBZjaw3
+	lzYF1Kcq2tJWbLPa+c4WwQmnmLotyGVQAbM34J3nrGu+i7L/M1P552vMb0wicHfsMaDpLf/VbJ1
+	aJ0sfFctvA/44I/1QsIjUSCXsQVt98HuRhieAoVHDnKXxi8p5ABxxT+8km9mUc3G1WDb/mIlCly
+	wqf+r6l4eyJyfxfvaC4Eabt
+X-Received: by 2002:a05:6a00:44ce:b0:848:6b43:35dc with SMTP id d2e1a72fcca58-84fc767caa3mr8813674b3a.35.1786642134845;
+        Thu, 13 Aug 2026 10:28:54 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84fc5a1bcaasm1251435b3a.29.2026.08.13.10.28.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Aug 2026 10:28:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 13 Aug 2026 14:28:48 -0300
+Message-Id: <DKNZRYZZVSEA.I0LC7DRPXFK9@gmail.com>
+Cc: "David Airlie" <airlied@gmail.com>, "Jori Koolstra"
+ <jkoolstra@xs4all.nl>, "Conor Dooley" <conor+dt@kernel.org>, "Brigham
+ Campbell" <me@brighamcampbell.com>, <linux-kernel-mentees@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Maxime Ripard" <mripard@kernel.org>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: display: add Chipwealth CH1115 OLED
+ controller
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <cover.1786110720.git.nico.antinori.7@gmail.com>
+ <cf9b02d618db4eca88e2d32b4bf779011fcd550d.1786110720.git.nico.antinori.7@gmail.com> <178611771198.882916.15330377894023589629.robh@kernel.org>
+In-Reply-To: <178611771198.882916.15330377894023589629.robh@kernel.org>
 
-hts221_parse_rh_caldata() and hts221_parse_temp_caldata() divide by
-(cal_x1 - cal_x0) without checking that the two calibration points
-differ can cause division by zero.
+Hello Rob,
 
-Reject zero divisor with -EINVAL, logging the offending calibration
-values. A device with such calibration data cannot produce meaningful
-scale or offset values anyway.
+On Fri Aug 7, 2026 at 12:48 PM -03, Rob Herring (Arm) wrote:
+>
+> On Fri, 07 Aug 2026 11:19:50 -0300, Nicol=C3=A1s Antinori wrote:
+>> Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
+>>=20
+>> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+>> ---
+>>  .../bindings/display/chipwealth,ch1115.yaml   | 73 +++++++++++++++++++
+>>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>>  2 files changed, 75 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/display/chipwealth=
+,ch1115.yaml
+>>=20
+>
+> My bot found errors running 'make dt_binding_check' on your patch:
+>
+> yamllint warnings/errors:
+>
+> dtschema/dtc warnings/errors:
+> Documentation/devicetree/bindings/display/chipwealth,ch1115.example.dtb: =
+display@3c (chipwealth,ch1115): 'contrast', 'first-page' do not match any o=
+f the regexes: '^pinctrl-[0-9]+$'
+> 	from schema $id: http://devicetree.org/schemas/display/chipwealth,ch1115=
+.yaml
+> Documentation/devicetree/bindings/display/chipwealth,ch1115.example.dtb: =
+display@3c (chipwealth,ch1115): contrast: b'\x00\x00\x00\x7f' is not of typ=
+e 'object', 'integer', 'array', 'boolean', 'null'
+> 	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+> Documentation/devicetree/bindings/display/chipwealth,ch1115.example.dtb: =
+display@3c (chipwealth,ch1115): first-page: b'\x00\x00\x00\x01' is not of t=
+ype 'object', 'integer', 'array', 'boolean', 'null'
+> 	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+>
+> doc reference errors (make refcheckdocs):
+>
+> See https://patchwork.kernel.org/project/devicetree/patch/cf9b02d618db4ec=
+a88e2d32b4bf779011fcd550d.1786110720.git.nico.antinori.7@gmail.com
+>
+> The base for the series is generally the latest rc1. A different dependen=
+cy
+> should be noted in *this* patch.
 
-Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
----
- drivers/iio/humidity/hts221_core.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+The patch is based in 7.2-rc6, I am going to rebase it to rc1 in v2
+(or wait until rc1 of 7.3, depending on how much it takes me to solve=20
+some observations found by sashiko).
 
-diff --git a/drivers/iio/humidity/hts221_core.c b/drivers/iio/humidity/hts221_core.c
-index fda38dfc6742..47a10884d812 100644
---- a/drivers/iio/humidity/hts221_core.c
-+++ b/drivers/iio/humidity/hts221_core.c
-@@ -245,6 +245,7 @@ int hts221_set_enable(struct hts221_hw *hw, bool enable)
- 
- static int hts221_parse_temp_caldata(struct hts221_hw *hw)
- {
-+	struct device *dev = hw->dev;
- 	int err, *slope, *b_gen, cal0, cal1;
- 	s16 cal_x0, cal_x1, cal_y0, cal_y1;
- 	__le16 val;
-@@ -275,10 +276,20 @@ static int hts221_parse_temp_caldata(struct hts221_hw *hw)
- 		return err;
- 	cal_x1 = le16_to_cpu(val);
- 
-+	if (cal_x1 == cal_x0)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "invalid temperature calibration points (x0 %d, x1 %d)\n",
-+				     cal_x0, cal_x1);
-+
- 	slope = &hw->sensors[HTS221_SENSOR_T].slope;
- 	b_gen = &hw->sensors[HTS221_SENSOR_T].b_gen;
- 
- 	*slope = ((cal_y1 - cal_y0) * 8000) / (cal_x1 - cal_x0);
-+	if (!*slope)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "invalid temperature calibration slope (y0 %d, y1 %d)\n",
-+				     cal_y0, cal_y1);
-+
- 	*b_gen = (((s32)cal_x1 * cal_y0 - (s32)cal_x0 * cal_y1) * 1000) /
- 		 (cal_x1 - cal_x0);
- 	*b_gen *= 8;
-@@ -288,6 +299,7 @@ static int hts221_parse_temp_caldata(struct hts221_hw *hw)
- 
- static int hts221_parse_rh_caldata(struct hts221_hw *hw)
- {
-+	struct device *dev = hw->dev;
- 	int err, *slope, *b_gen, data;
- 	s16 cal_x0, cal_x1, cal_y0, cal_y1;
- 	__le16 val;
-@@ -314,10 +326,20 @@ static int hts221_parse_rh_caldata(struct hts221_hw *hw)
- 		return err;
- 	cal_x1 = le16_to_cpu(val);
- 
-+	if (cal_x1 == cal_x0)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "invalid rh calibration points (x0 %d, x1 %d)\n",
-+				     cal_x0, cal_x1);
-+
- 	slope = &hw->sensors[HTS221_SENSOR_H].slope;
- 	b_gen = &hw->sensors[HTS221_SENSOR_H].b_gen;
- 
- 	*slope = ((cal_y1 - cal_y0) * 8000) / (cal_x1 - cal_x0);
-+	if (!*slope)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "invalid rh calibration slope (y0 %d, y1 %d)\n",
-+				     cal_y0, cal_y1);
-+
- 	*b_gen = (((s32)cal_x1 * cal_y0 - (s32)cal_x0 * cal_y1) * 1000) /
- 		 (cal_x1 - cal_x0);
- 	*b_gen *= 8;
--- 
-2.47.3
+Thank you for the clarifications!
 
