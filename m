@@ -1,63 +1,63 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 630B048CD67
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 15:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D761248F83B
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 15:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786635118; cv=none; b=JWltLYYJHWsZt5tmJUfRHLKNcZAOp1wFhPwNInqXEKc4DWI3t7x9mve8AC1Quij+0yYPuwROdr1foB5/bnAx0vgUSDi1JJ6dxppdHDCuBroXUf7jwgxODD4HzD3gkqMAJP6WLowa2exGrGbhXF1uOr//wvn3Mvyj0uhEy0vFi9s=
+	t=1786635125; cv=none; b=XGJjNlP6Nhf1jU+soYIlV5CRunFjMcPFlyi4ecRrlnbtpS9e4KIyBzElgJzQMAQMsRcHA77DwczSeAyNTnkjgX0NiKYLovOIkG6khuEMC/axeLXyeqWnzgDh86ObCuZZQ2A7n/kAEEnND3NTDROzF4CEJmTPJ6mqI+aEfRXMpsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786635118; c=relaxed/simple;
-	bh=6/z9IRV5ZQn/Frw7BWoJwC2CimqWWJl4hMDciS+A1D0=;
+	s=arc-20240116; t=1786635125; c=relaxed/simple;
+	bh=0weGnRdWwgswxJ4W5rEhhfCRwov11YGiMGfnVZ1X3gA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gjCM5CEcm4nCmR2ZvD/MTZZNxLQ5LqSjZQj4qQLYxSryjECsIDH7z2n2hwACmphDfV2oaMwRGjG5yTw972g9X4F/ZGjclhJS/1/kE0cTKDD3D0m7KVlYXiuwqcZXg6yYsj+PIi+VFRqc8RxTvgPiiCaQKYG0wwkJ2udABEsc9DI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lPat0F2V; arc=none smtp.client-ip=209.85.215.175
+	 MIME-Version; b=qgDCjSMRxOwh8PDp92a11VpHPBZw913TrN1p7cV4OCJBZ19COY0z3wc723zlm7lHZkZ+GqfDrkXDhgmGgZuJLK8RXjuO0JInZ2+/l1IyLhESBPl4vGLq56sVKXFXxiEgMuWidgMVME9tYznlxaqwT+cI90NiJdACwx0UozK7j/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2wQxgOY; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPat0F2V"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cbee3777e1cso1542719a12.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 08:31:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2wQxgOY"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ca80d708489so788852a12.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 13 Aug 2026 08:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786635116; x=1787239916; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786635122; x=1787239922; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lRy+t8tNDkimDr+BoBwwY6yvO7nk9mVt02bQsB0YYA8=;
-        b=lPat0F2V562XqUb22IS8xIJ00Q60S0Gjv9omeXho96bhBAvWx990a4yVmss0xaOc1/
-         KzhkH2DAYVqGp9GsZZCCmaqqWIZI3VEf0ikh4gzCTmmxO/BYZLOP4YkBMKDpHFC33n4g
-         IAxd6PwlPZXmpWnxcUbGrRjAs69cLeTx0LBoJghs38E7t4V3xr8jU7IxMO4smq//9oIV
-         OF/DUMk4zR6BQz+N7Zq2fA+Wwdi94T0bvlRUDSrHIn3qNTHJEE+wRD2FUARnGpFerb2r
-         mHMVopHMDOYIYpu9ik3wTb2gWP3oP44Il6Uo00YPUFEb5wcCRM8G85Ormi2YauJB3f5D
-         cHdQ==
+        bh=jRBl9QkRiwpLHI9/rNlYzWl0ldnHScwdP87IIdtHCSI=;
+        b=S2wQxgOYEUUQfdFeC78flQJHipX94FN0bDg6UVhoGKZJQWxNb4srv9RI5offXEM89h
+         QIJ+3485OtdjPwt0KOP/oKJ3h3A/Ma0B0SHyOR/y97JJCAggmKgEyDTPra5U0pi6D6CA
+         0I92+2YgpsrAEfEJ/jU6L1azK/IxUY3KYi3JlSM+Ee2GKgTvXWkZajx4XWg3OMLp32cB
+         n3g4SerVOR8Mcw14R/8XDYzvXYaqW7ijmBHqPWs6WF2AJco/5CEzN2vxsZ3poe94E/og
+         PSqOzm8Hz3R2s7IdbwQSTZvdyxosVad3atrvDJToXzsxXl0tp1EjhIz3Ek1fEW3Ji5Kr
+         BiHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786635116; x=1787239916;
+        d=1e100.net; s=20251104; t=1786635122; x=1787239922;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lRy+t8tNDkimDr+BoBwwY6yvO7nk9mVt02bQsB0YYA8=;
-        b=DdMbFLdaDoPiFOkKKkjve0SSUUOJzDmz6Kyj2TknjvbvNXw7Mvw3XHJ9H/3D69cfcJ
-         FuILOBVP30WEW73RWajOre188M79Q+5EILbC86ECfk/RgBA7KBofK2wTwEPJJEV5TpPo
-         jgpFeNuJKzDAQyOJxFLKTfgejCcl+pIuv3FHXf8QyWREacFfa6uTbOVeGtwNS63fTVxp
-         CT7cAinU51kps7fxiBQKa+6NOm/q/wBeszxxTHvdw02yhOyfALNWpdrpXuEYUsGeLzcW
-         QEGNK5XLSZ77Yt2Ius6OkC0SigazeZqUFYpvy8fVdvCS701mVH65zZRI+RNcId2QJeZf
-         EKBQ==
-X-Gm-Message-State: AOJu0YxsznLUCjzU9YydAStIqkezKzUM/JNE/7Z1N3pyYfvcfCyUl41T
-	jFb7RmTFLCKC6vaybF7WK8CfDKLxUNBlRg/EIPDQFLRwPSEY/gjLBwXl
-X-Gm-Gg: AR+sD13rFPpn3ZeHpKJU52And9ubCmRXA+xYqr+pnM9HZGSI6il7N549V0BIgeEco9a
-	oB+Jz7vGRapGPqciIe9VJOxk7vxI5z3pA6+J6aRI4JaxnYF9p0KetRiBpk/VXRMhckC7hI8OfVI
-	j1cCjOwhucPFR+hQE8q7qwfaBFoM+7Bt0og52bb15VyGb51JiyCPexXBIZZkESTGSC9q0QlqXIY
-	a/37RYG1cbZ3f+jVt5JesGs9sRwiNdX3u75TrKvCUaobdO6H5o9ZBJlKPYPjn+ULUI0T92ts5/F
-	x5Eqnne7NiCSOPyzYR+7icnToZWF7DSKt7kT6Tda3tPhGB6QqMfZKUEFoPBNqE2ngKCh/NRm4MS
-	6glzHUPL5F1SuHjApE1UQULvYXd9cNcMHk0tCREel+IQmDfmOrQvbstD7QVYEntpOg8zicNuqrT
-	NIImkCy/68z5lUsIUQX1RfvPfPccl12hx5Pf1MyP0XZdFlyhUKxXNSsqC5VtzeURiVDmXS+GyOI
-	4QAQ7T5Bqzwak4EiulpDW6hQBBTyQKEtyJNwGNj+2OFdzIrBSl8g+0UWQRDtA==
-X-Received: by 2002:a05:6a20:2589:b0:3bf:7bf7:7913 with SMTP id adf61e73a8af0-3cc5503a34bmr8643790637.14.1786635115961;
-        Thu, 13 Aug 2026 08:31:55 -0700 (PDT)
+        bh=jRBl9QkRiwpLHI9/rNlYzWl0ldnHScwdP87IIdtHCSI=;
+        b=nkY5hD4iTphAG4nT0x9YxerfVX8LUpWj6OPbWzvF65IbtnePL4BqsF8Z4JDH8PswzV
+         mv4l6pBxnFwhqQODa/RE02aPGOxJ2LsgSDrmiP61CCGSDG4D3i93ZhpG31mQBkH2F9pj
+         Ta4CurUXKLzJn28p+a/WFYa4SCAL8TYX8WnN1hKCeLM2XahSbcePW0eqDy8HAJ3YZIbd
+         9mZJD5qhYrToBf6Ks7z631Ik43+vh75Dz/YX24wbl4kYfwQv2CJL/LhtXTsiNALMvAyg
+         ZtmFQHnQ1hL2mPXuVyNV6M8afECW/BECRnjNYg21ZYqcvR9ILlyHq3Hj2KXnhZg9fqt2
+         +Q1A==
+X-Gm-Message-State: AOJu0Yx1EdYUB9dtr6KzVI8ZA2vZZ6NJpTUOjpvQe7bpnqsSyVgI4f1w
+	w0kB07Q3XRr1aRNaebu5X7shGauMF5dRdTKSzlGb+1l/sjo0vhcUDxYj
+X-Gm-Gg: AR+sD115SnOIE7JlVbLroUGeRXMquqY0PX81QuKE9foNLcYDcfMgOjzQtA1lZSIL5wO
+	DgvGiz0bijOm6ly54cMdcyImzZgF7yEr8frZNAAgEHG1UU2nxr2lOj6hiwrYJfyt4Q4Jsxjhg8z
+	wuxlJ8baxZEjI9sLa8W5Bd4RpreW65G6VCDBbmcO7s0zzlWkxBu+2I7U3wda12FCtX9zygwM16+
+	4gYtnMeqKEpuBAGNBs57mpBqC8lN6LmpyUfCUho6Hiv03+RCIusVrAsA3b1tsRLyv1+thoG5TrK
+	OR3nxiiYP4lb7/HGEcjfhmM7cGS7Ex968Zih7+67Eqy0Fuw3kO1vu+dfBRPzMeDpqO/GYIWJbWa
+	sUkIy1aSWsBuk4U0xGd0+0pdrJh3WZos4QEbBVZVILDmqNB+z28VdIBK3Sr/x/CoA4x0kkd1xDA
+	z4TZPsXc5fxx+0ZSELLYHP7z1YXTarVPKjvYMW9kchuVl4PtnAJSaNWvzNlh1EtRjO4T8/DP4kn
+	PQOlu2pKN/xTy1SK2N6OqnEqXEgqHHt7nfl5LVe7rp5JiXMxXL+QDXEEUWeqQ==
+X-Received: by 2002:a05:6a20:3c8f:b0:3b4:6af4:bdd5 with SMTP id adf61e73a8af0-3cc5769db39mr7615107637.15.1786635122196;
+        Thu, 13 Aug 2026 08:32:02 -0700 (PDT)
 Received: from debian13.localdomain (bb219-75-96-14.singnet.com.sg. [219.75.96.14])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ec082943fsm7960604eec.29.2026.08.13.08.31.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ec082943fsm7960604eec.29.2026.08.13.08.31.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 08:31:55 -0700 (PDT)
+        Thu, 13 Aug 2026 08:32:01 -0700 (PDT)
 From: Adi Nata <adinata.softwareengineer@gmail.com>
 To: lorenzo@kernel.org,
 	jic23@kernel.org,
@@ -68,9 +68,9 @@ To: lorenzo@kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: linux-kernel-mentees@lists.linux.dev,
 	Adi Nata <adinata.softwareengineer@gmail.com>
-Subject: [PATCH v2 3/5] iio: humidity: hts221: Allow unknown whoami for DT fallback
-Date: Thu, 13 Aug 2026 23:31:27 +0800
-Message-ID: <20260813153129.12423-4-adinata.softwareengineer@gmail.com>
+Subject: [PATCH v2 4/5] iio: humidity: hts221: use dev_err_probe() in probe paths
+Date: Thu, 13 Aug 2026 23:31:28 +0800
+Message-ID: <20260813153129.12423-5-adinata.softwareengineer@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
 References: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
@@ -82,48 +82,114 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The WHOAMI check currently returns -ENODEV when the chip ID is not
-0xbc. That rejects Device Tree fallback compatibles.
-
-Keep failing if the WHOAMI register cannot be read. On an unexpected
-ID, log it and continue so OF fallback matching can work.
-
-Use dev_err_probe() for the read-failure path.
+Convert remaining probe-time error logs to dev_err_probe() so the
+errno is included and deferred probe failures stay quiet.
 
 Signed-off-by: Adi Nata <adinata.softwareengineer@gmail.com>
 ---
- drivers/iio/humidity/hts221_core.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/iio/humidity/hts221_core.c | 26 ++++++++------------------
+ drivers/iio/humidity/hts221_i2c.c  | 11 ++++-------
+ drivers/iio/humidity/hts221_spi.c  | 11 ++++-------
+ 3 files changed, 16 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/iio/humidity/hts221_core.c b/drivers/iio/humidity/hts221_core.c
-index 76a391f421f5..b73c26aae9ec 100644
+index b73c26aae9ec..fda38dfc6742 100644
 --- a/drivers/iio/humidity/hts221_core.c
 +++ b/drivers/iio/humidity/hts221_core.c
-@@ -136,19 +136,15 @@ static const struct iio_chan_spec hts221_channels[] = {
+@@ -578,33 +578,23 @@ int hts221_probe(struct device *dev, int irq, const char *name,
  
- static int hts221_check_whoami(struct hts221_hw *hw)
- {
-+	struct device *dev = hw->dev;
- 	int err, data;
- 
- 	err = regmap_read(hw->regmap, HTS221_REG_WHOAMI_ADDR, &data);
+ 	/* configure humidity sensor */
+ 	err = hts221_parse_rh_caldata(hw);
 -	if (err < 0) {
--		dev_err(hw->dev, "failed to read whoami register\n");
+-		dev_err(hw->dev, "failed to get rh calibration data\n");
 -		return err;
 -	}
 +	if (err < 0)
-+		return dev_err_probe(dev, err, "failed to read whoami register\n");
++		return dev_err_probe(dev, err, "failed to get rh calibration data\n");
  
--	if (data != HTS221_REG_WHOAMI_VAL) {
--		dev_err(hw->dev, "wrong whoami {%02x vs %02x}\n",
--			data, HTS221_REG_WHOAMI_VAL);
--		return -ENODEV;
+ 	data = hts221_avg_list[HTS221_SENSOR_H].avg_avl[3];
+ 	err = hts221_update_avg(hw, HTS221_SENSOR_H, data);
+-	if (err < 0) {
+-		dev_err(hw->dev, "failed to set rh oversampling ratio\n");
+-		return err;
 -	}
-+	if (data != HTS221_REG_WHOAMI_VAL)
-+		dev_info(dev, "unexpected whoami 0x%02x, continuing\n", data);
++	if (err < 0)
++		return dev_err_probe(dev, err, "failed to set rh oversampling ratio\n");
  
- 	return 0;
+ 	/* configure temperature sensor */
+ 	err = hts221_parse_temp_caldata(hw);
+-	if (err < 0) {
+-		dev_err(hw->dev,
+-			"failed to get temperature calibration data\n");
+-		return err;
+-	}
++	if (err < 0)
++		return dev_err_probe(dev, err, "failed to get temperature calibration data\n");
+ 
+ 	data = hts221_avg_list[HTS221_SENSOR_T].avg_avl[3];
+ 	err = hts221_update_avg(hw, HTS221_SENSOR_T, data);
+-	if (err < 0) {
+-		dev_err(hw->dev,
+-			"failed to set temperature oversampling ratio\n");
+-		return err;
+-	}
++	if (err < 0)
++		return dev_err_probe(dev, err, "failed to set temperature oversampling ratio\n");
+ 
+ 	if (hw->irq > 0) {
+ 		err = hts221_allocate_buffers(iio_dev);
+diff --git a/drivers/iio/humidity/hts221_i2c.c b/drivers/iio/humidity/hts221_i2c.c
+index 40276abc5d2e..e6dc9532cfbd 100644
+--- a/drivers/iio/humidity/hts221_i2c.c
++++ b/drivers/iio/humidity/hts221_i2c.c
+@@ -26,17 +26,14 @@ static const struct regmap_config hts221_i2c_regmap_config = {
+ 
+ static int hts221_i2c_probe(struct i2c_client *client)
+ {
++	struct device *dev = &client->dev;
+ 	struct regmap *regmap;
+ 
+ 	regmap = devm_regmap_init_i2c(client, &hts221_i2c_regmap_config);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&client->dev, "Failed to register i2c regmap %ld\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
+-	}
++	if (IS_ERR(regmap))
++		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to register i2c regmap\n");
+ 
+-	return hts221_probe(&client->dev, client->irq,
+-			    client->name, regmap);
++	return hts221_probe(dev, client->irq, client->name, regmap);
  }
+ 
+ static const struct acpi_device_id hts221_acpi_match[] = {
+diff --git a/drivers/iio/humidity/hts221_spi.c b/drivers/iio/humidity/hts221_spi.c
+index e6fef2acd523..8bcc1b5d150e 100644
+--- a/drivers/iio/humidity/hts221_spi.c
++++ b/drivers/iio/humidity/hts221_spi.c
+@@ -27,17 +27,14 @@ static const struct regmap_config hts221_spi_regmap_config = {
+ 
+ static int hts221_spi_probe(struct spi_device *spi)
+ {
++	struct device *dev = &spi->dev;
+ 	struct regmap *regmap;
+ 
+ 	regmap = devm_regmap_init_spi(spi, &hts221_spi_regmap_config);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&spi->dev, "Failed to register spi regmap %ld\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
+-	}
++	if (IS_ERR(regmap))
++		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to register spi regmap\n");
+ 
+-	return hts221_probe(&spi->dev, spi->irq,
+-			    spi->modalias, regmap);
++	return hts221_probe(dev, spi->irq, spi->modalias, regmap);
+ }
+ 
+ static const struct of_device_id hts221_spi_of_match[] = {
 -- 
 2.47.3
 
