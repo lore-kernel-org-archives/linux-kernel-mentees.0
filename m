@@ -1,79 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254D5125AA;
-	Sun, 16 Aug 2026 21:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660CB3BE646;
+	Sun, 16 Aug 2026 22:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786917487; cv=none; b=M5cRZdSu9mcCpIegUv+EoYIx+txpIxrAHdur2G3bjE0+KdwB/thRQIvHH25YTVHQFkhCoMus9GQp4w6XW1L3wt2nnhbq+/CbzoF/mb3K6ie3v/rJ5vNic/M1bH1KeIbSv2qU9a9aPlrloeK0/RvLsT7qbElCMe9ZJyTfFVECGMk=
+	t=1786918296; cv=none; b=vCOpq6/gD5JwsXDotzRdPNVXw7eDBRbee3e2FsdNQfiWR/ew7LljFq/Biwpw6orC5U9pgUw8o4xPUNECXNRTP4MEOTshNF3YEb0i2UE/+l1v5LwlrbUZUfA+L7C+Ynyy8gKq425BH7nDV/znLimRzV2kDlPna1bM5//sV99y8kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786917487; c=relaxed/simple;
-	bh=ycMVVx3V1yIYBJegnhOkCo5q7XUVQfXu3CRWOtMsVR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=roWWshrhMtA7vPClFRcPMZ+45JpMfzE3+cTsQcAL1nKvV7rTrS0bw1S4r7Os6Jw8t6HiX4iyOv6C2OqlZA2F9q25bS7ocugy41NJ3MpCiuUaJn9pkqQtJ8yNgIZGF5oxWSKWN2Y++Zn3ycUmE1N59nPH81d/R/gtNbmQaMBu/AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcjNmXBx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786918296; c=relaxed/simple;
+	bh=BetprM0RdBz9U2XhwsqIZQvo/uqW/2vTiRA6sJXlsic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KhQ8tyXMxrg2gGkWk/KmYl16HrGIoRqQL9ygoepSdab8dQMPidnxHYzeTCazxSAUj5zcC6Td8EpEbg0L/00MxVIsORyMt0MVqi7adkAFrTzxdeYwi+vxo87nR/mg3wtQgq7TyoKMgVeD5CIzUrF12XesKV2UR+rQvXKTLQyuanU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Emtxjdo9; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcjNmXBx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791AA1F000E9;
-	Sun, 16 Aug 2026 21:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786917485;
-	bh=c/gwN0oSHxpfoYlo/fFExAijvYZD5w9gXaTT7h5N7tM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=WcjNmXBxma8RN9P9LvqoBANfYBysvanClLNULs5APikVSa5vSTGh5mNLJn2LV95Lp
-	 PK/+M2IqhywfBMA+38ljgds762pH5bq9Gr/UTrCwwia7PbHF5Bo12BCgdkFjP5ZKki
-	 t1juOQhrMrl7ZlwzCKK0Eme+mwlh9DZlThKgNKbikWhejVYr44svDIxZJWBif4RNvu
-	 zzFZ344nq3eyxjfyI1aezUKj0763lN4dNgrNZ563QTREIpfV5YYXgXqOkim2IgzQBf
-	 1dud3XbNqDIdqGSk80vgySoa6cabkMNvpBrJUZIgTMe7zPd8Q/tSeAw12aNVpyQYhE
-	 ljK5kj4ixb19A==
-Date: Sun, 16 Aug 2026 22:58:01 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Adinata Tan <adinatatan99@gmail.com>
-Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, adinata.softwareengineer@gmail.com
-Subject: Re: [PATCH 1/5] iio: humidity: hts221: report available values via
- read_avail()
-Message-ID: <20260816225801.3fc685be@jic23-huawei>
-In-Reply-To: <CAG442=sn1YnDGdVvfnj6ZaeLknN46EqhAdkYBBp-6AnrrnDGCg@mail.gmail.com>
-References: <20260808090026.34187-1-adinata.softwareengineer@gmail.com>
-	<20260808090026.34187-2-adinata.softwareengineer@gmail.com>
-	<20260810010943.014d8db1@jic23-huawei>
-	<CAG442=sRDMfdVZB5GY+f6Wud7Vx8xR3ORN0GWVRVV8NKLVX29Q@mail.gmail.com>
-	<20260812060414.427f7616@jic23-huawei>
-	<CAG442=sn1YnDGdVvfnj6ZaeLknN46EqhAdkYBBp-6AnrrnDGCg@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Emtxjdo9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786918293; x=1818454293;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BetprM0RdBz9U2XhwsqIZQvo/uqW/2vTiRA6sJXlsic=;
+  b=Emtxjdo911R/uAg1fHyTXxL1H6OIFPl6n9BNzKq4nKMVgI4DGNbqtFSC
+   WDlve9FP7I1DkhLXaOPqIi0Pbjs+K03iM1LD5eHxUQMB24MksavLQXZSd
+   z+nhxALPreSFpH+lNZ4s9C20GZE/6Qgr+bG/1A7AdnYv3uxOWCU5HnNLn
+   WnlEt5RZMSi4fJJMtVnP6T3wGZBhqOL1GqDlmma96gQGuYxVkUAH1oL3x
+   r6uzSpl+KNnUgYF0FUuR3ssRnkHznazBECyBDERhzlRcZfZBJVRnRi/Rq
+   +W7rCd1Y+BpVRqjFvlTZiBCv/G/UCAafGK4JTUZFFUqb4j4lQuKUjxH7k
+   A==;
+X-CSE-ConnectionGUID: IyrLZc82RgO6lpwvBwcVjQ==
+X-CSE-MsgGUID: aD9dNEfASfKPJ7uxVpxHeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="89915458"
+X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
+   d="scan'208";a="89915458"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2026 15:11:33 -0700
+X-CSE-ConnectionGUID: bY3ozt2VS+uJOiiRoOwL0Q==
+X-CSE-MsgGUID: 9R/KWFVPQSK71mWWEsbOZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,227,1779174000"; 
+   d="scan'208";a="263415551"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 16 Aug 2026 15:11:30 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wvj4g-00000000d7m-3x14;
+	Sun, 16 Aug 2026 22:11:26 +0000
+Date: Mon, 17 Aug 2026 06:10:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>, rostedt@goodmis.org
+Cc: oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com,
+	jkoolstra@xs4all.nl, woradorn.laon@gmail.com
+Subject: Re: [PATCH v2] tracing: Use seq_buf for string concatenation
+Message-ID: <202608170556.RyB6XrT0-lkp@intel.com>
+References: <20260622094623.18469-1-woradorn.laon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622094623.18469-1-woradorn.laon@gmail.com>
 
-On Wed, 12 Aug 2026 19:40:05 +0800
-Adinata Tan <adinatatan99@gmail.com> wrote:
+Hi Woradorn,
 
-> Hi Jonathan,
-> Thanks for the input. In this case, we can proceed with the current
-> implementation?
-Busy week so sorry for slow reply.
+kernel test robot noticed the following build warnings:
 
-Yes, that's fine and what I assume you did for v2!
+[auto build test WARNING on v7.2-rc7]
+[also build test WARNING on linus/master]
+[cannot apply to linux-review/Woradorn-Laodhanadhaworn/tracing-Use-seq_buf-for-string-concatenation/20260813-224524 trace/for-next next-20260814]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Jonathan
+url:    https://github.com/intel-lab-lkp/linux/commits/Woradorn-Laodhanadhaworn/tracing-Use-seq_buf-for-string-concatenation/20260815-195403
+base:   v7.2-rc7
+patch link:    https://lore.kernel.org/r/20260622094623.18469-1-woradorn.laon%40gmail.com
+patch subject: [PATCH v2] tracing: Use seq_buf for string concatenation
+config: hexagon-randconfig-r123-20260816 (https://download.01.org/0day-ci/archive/20260817/202608170556.RyB6XrT0-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260817/202608170556.RyB6XrT0-lkp@intel.com/reproduce)
 
-> 
-> > > For this humidity case in particular, would it be better to keep the legacy
-> > > implementation while adding the new read_avail()?  
-> >
-> > To me it seems vanishingly unlikely there is any code out there jumping
-> > through the hoops to read the wrong ABI element to figure out a possible
-> > value to write to in_humidityrelative_oversampling_ratio
-> >
-> > So I think this is in the category of ABI that we can change as long
-> > as no one notices.  For IIO I will also generally take ABI fixes on
-> > basis we actually want to know if anyone is using the broken ABI
-> > (and they very rarely are!)  
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608170556.RyB6XrT0-lkp@intel.com/
 
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x4 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x8 (section: .text) -> bootup_event_buf (section: .init.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0xe0 (section: .text) -> __TRACE_SYSTEM_ERROR_DETECTOR_KFENCE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0xe4 (section: .text) -> __TRACE_SYSTEM_ERROR_DETECTOR_KFENCE (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0xfc (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x100 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x1cc (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x1d0 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x1f4 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x1f8 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x228 (section: .text) -> bootup_event_buf (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: seq_buf_str+0x22c (section: .text) -> bootup_event_buf (section: .init.data)
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
