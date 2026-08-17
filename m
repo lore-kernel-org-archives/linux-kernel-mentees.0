@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4961D435F;
-	Mon, 17 Aug 2026 00:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0741E2C326D;
+	Mon, 17 Aug 2026 02:26:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786927805; cv=none; b=pj3SFNQmWfpY2XPD0+pyP4AFNMgVPbU2xUrXMzm9wzyr1K+qBmVZlfcZ5uWuaFOoB+MDHjxRiTLuSGbi0PlLiyMf72Fmov1cTIiC2xc9yC7k2nHQKf7aty+Xxa9FilJ3PaugriFzST7vdHHsDD9zN6T2AVm46uzgLlevYPHXXw8=
+	t=1786933562; cv=none; b=J/LPSYVX+0HxAK7A8YHLqi4d6fi6TagLvxrNOOPX+UgK87YSLfxG7mmFdEeaL2qWyNL67GF3J65INk+kZwgFksLuFMNLkGyH9fmoGPkK8NDqoXa8dZpOabXu/9qSXuLOKtddzlTYYBNs4kY96p8ukpdpvfZN4Dr/bs1OdmgoVKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786927805; c=relaxed/simple;
-	bh=1RJ7RMBfMk0EPSNPY7YzW8uYR7CAiwnvJ48sK2CN3ys=;
+	s=arc-20240116; t=1786933562; c=relaxed/simple;
+	bh=vpWvs3/KWV0E7QsvjE/aQojofGn0pvJkVr0xAwTFppA=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LO4lds4QbjcSfGQBTyukkleqgKKwv1TQUPQWWkD9Yv1wn+6Qmw7LzRy4Dq7LmRe6WBr/bMN3ZWGA0W5jHEr4nT/IUbTfcdUQ8SPsHi+yIsUFF72X/yHw1emAnHZguA3obND1UmidWLsGG2Fus0ezli/h9Chsj5VToLA582l6ebQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gONuobsw; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=X+d5jI1blVNdznBBudniQ+eSLLAsjGtgpyhiuha6J2HlQB9Yjy5efQYqfjL3ZEnpDThRpwPI0BBlMau9EwWWNHGAgOsPB5ZxEEcojPwKXx5dcILBIP4zGt2iUQx2Q2VBV23sFVjy5fFNBO9VUzUL/4EucMqxPlEy/KoGEF+6YRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5xzTENA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gONuobsw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 763561F000E9;
-	Mon, 17 Aug 2026 00:50:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5xzTENA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EB51F000E9;
+	Mon, 17 Aug 2026 02:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786927803;
-	bh=AfddIIxlGuNXYYdaMI8fpWMrK+XO/flVXkFaRFcQVqU=;
+	s=k20260515; t=1786933560;
+	bh=WgqUVZHhHkr7Mok5OB8xen4dfW9N5ijCeONfcS2eng8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gONuobswneh/Ik8e9aO0KipckYd+c9a4yJCyScgcHTGJTKvcwvjPtXyxFqLUuejB2
-	 C8gsbYZwOMiy0DRFqPpynvRqqknEyj1o76O749V/mxV9fDtO+5MdpazhD4AsaiNwAK
-	 p0/aXWM/kVScc9JBEseXB29++joMHDNE/6XnMaPynkGQq/rZlqFzHYhCVDW3Qj547q
-	 mfdGHpqE1CB3TG5fSsUT7aD/fr2lHwW6yuFC+1VH9735DrlFnusSsC/c27OWs9aumm
-	 SlF87EZXBAmIoTLwma3zbk3P6Aej2Zdy/FFZ9Jiito59Q04TyoSsm/gWfLr5H/TZ8T
-	 3Ypzf63J2weXg==
-Date: Mon, 17 Aug 2026 01:49:58 +0100
+	b=M5xzTENAtQDahv++npkCXetOWV0GmXby03pViQh0jtGut8wjM4pUhKwiIbdr7+Gtq
+	 jWGdKqG8+d5aIPgS9Wd5DTNmRgerZhpEIelsN37Aj6OICbyvxWSkQOURb4wNra4ZNY
+	 01tdYQl2CR4/bzjJ6E5IJxcMBueNRa71feYU0h50uYJj6xJK9+IRTVyb8ITakPTaNH
+	 Ezf+l8k/DEvIL8JEwHvz7XQyZTmlxEGlfbP3t3DqaxJtLjCnXAqezsOYnrDZ9Cee8O
+	 Q6+mZScDEbv0TqyDBz2nl6a6u0lynYKP+5Z7wQuUREUui3s5X0LWwfPCD8Wn8z7CUs
+	 JxBvBzftbfStQ==
+Date: Mon, 17 Aug 2026 03:25:52 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Adi Nata <adinata.softwareengineer@gmail.com>
-Cc: lorenzo@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andy@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v2 0/5] iio: humidity: hts221: update probe and logging
- implementations
-Message-ID: <20260817014958.4ac98155@jic23-huawei>
-In-Reply-To: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
-References: <20260813153129.12423-1-adinata.softwareengineer@gmail.com>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mranostay@gmail.com, ~lkcamp/patches@lists.sr.ht,
+ linux-kernel-mentees@lists.linux.dev, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] iio: proximity: move LIDAR-Lite out of
+ trivial-devices and add Garmin fallback
+Message-ID: <20260817032552.63c04216@jic23-huawei>
+In-Reply-To: <20260810192131.153495-1-rodrigo.gobbi.7@gmail.com>
+References: <20260810192131.153495-1-rodrigo.gobbi.7@gmail.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -47,56 +49,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 13 Aug 2026 23:31:24 +0800
-Adi Nata <adinata.softwareengineer@gmail.com> wrote:
+On Mon, 10 Aug 2026 16:18:39 -0300
+Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com> wrote:
 
-> HTS221 is an older driver. This series groups a few small modernizations
-> based on current development practices.
+> This series moves the LIDAR-Lite v2 binding out of trivial-devices
+> into a dedicated schema, documenting the power-enable, power-supply
+> and status-output interrupt properties that trivial-devices.yaml has
+> no way to express.
 > 
-> - Report available values via read_avail()
-> - Add a blank line after variable declarations (style)
-> - Allow unknown whoami for DT fallback instead of erroring out
-> - Use dev_err_probe() in probe paths
-> - Reject calibration data that would cause division by zero
-> 
-> No HTS221 hardware was available. Verified with checkpatch --strict and
-> builds of hts221, hts221_i2c and hts221_spi. Probe and calibration
-> error paths were exercised against i2c-stub with register contents
-> pre-loaded via i2cset.
-> 
+> It then adds the Garmin LIDAR-Lite v3 as a fallback compatible in a
+> separate patch, since it is pin-compatible with the v2 and already
+> matched by the driver, so no driver changes are needed.
 > ---
-> Changes in v2:
-> - Use a local 'dev' pointer instead of hw->dev in error logging helpers
-> - Fix punctuation in the commit message of patch 2/5
-> - Adjust commit message for patch 1/5 to include fixes due to ABI change 
-> of in_humidityrelative_oversampling_ratio_available
-> 
-Looks like you've fixed up the stuff Andy pointed out in v1 and all looked
-reasonable to me, so applied to the testing branch of iio.git.
+Just enough stuff in here that I think a v6 tidying up (and hopefully
+getting a tag from Matt) would be better than me trying to do
+it as part of applying.
 
-Note that branch will be rebased on 7.3-rc1 once available and only
-then pushed out for linux-next to pick up.
-
-Thanks,
+As such I've marked it changes requested in patchwork.
 
 Jonathan
 
-> v1: https://lore.kernel.org/all/20260808090026.34187-1-adinata.softwareengineer@gmail.com/
+> Changelog:
+> v5:
+>   - split into two commits, one for moving lidar out of trivial and
+>   one for adding a fallback compatible for LIDAR-Lite v3;
+>   - minor changes at yaml like: title, description, adding irq prop;
+>   - improve commit msgs for covering the vendor acquisition and PWM mode;
+> v4: https://lore.kernel.org/all/20260714215433.41259-1-rodrigo.gobbi.7@gmail.com/
+> v3: https://lore.kernel.org/all/20251102221643.9966-1-rodrigo.gobbi.7@gmail.com/
+> v2: https://lore.kernel.org/all/20250801224112.135918-1-rodrigo.gobbi.7@gmail.com/
+> v1: https://lore.kernel.org/all/20250701223341.36835-1-rodrigo.gobbi.7@gmail.com/
+> ---
+> Rodrigo Gobbi (2):
+>   dt-bindings: iio: proximity: move LIDAR-Lite v2 out of trivial-devices
+>   dt-bindings: iio: proximity: document LIDAR-Lite v3 fallback
+>     compatible
 > 
-> Thanks to the reviewers for all the time you spent going through the
-> code and the comments.
-> 
-> Adi Nata (5):
->   iio: humidity: hts221: report available values via read_avail()
->   iio: humidity: hts221: Add a blank line after variable declarations
->   iio: humidity: hts221: Allow unknown whoami for DT fallback
->   iio: humidity: hts221: use dev_err_probe() in probe paths
->   iio: humidity: hts221: fix division by zero in calibration parsing
-> 
->  drivers/iio/humidity/hts221_buffer.c |   1 +
->  drivers/iio/humidity/hts221_core.c   | 168 ++++++++++++---------------
->  drivers/iio/humidity/hts221_i2c.c    |  11 +-
->  drivers/iio/humidity/hts221_spi.c    |  11 +-
->  4 files changed, 84 insertions(+), 107 deletions(-)
+>  .../proximity/pulsedlight,lidar-lite-v2.yaml  | 70 +++++++++++++++++++
+>  .../devicetree/bindings/trivial-devices.yaml  |  2 -
+>  2 files changed, 70 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/iio/proximity/pulsedlight,lidar-lite-v2.yaml
 > 
 
