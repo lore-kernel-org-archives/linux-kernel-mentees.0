@@ -1,93 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0741E2C326D;
-	Mon, 17 Aug 2026 02:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896F132B135;
+	Mon, 17 Aug 2026 07:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786933562; cv=none; b=J/LPSYVX+0HxAK7A8YHLqi4d6fi6TagLvxrNOOPX+UgK87YSLfxG7mmFdEeaL2qWyNL67GF3J65INk+kZwgFksLuFMNLkGyH9fmoGPkK8NDqoXa8dZpOabXu/9qSXuLOKtddzlTYYBNs4kY96p8ukpdpvfZN4Dr/bs1OdmgoVKg=
+	t=1786950139; cv=none; b=X6cOZ3erIE8xZGHkF7JD7mfiF4mXl6tZIJfVBK4X6EoZhFc0tmw3zSg0OCboeXh8AjVL/twmv+ydOli+q34BN1n1Ol+bRJwUUv/mrLaNXXD54FLkHhBGRqd6lxpaHxZQMmycv4TgkmrCbV29kxTeXKOVJYo2kY2dV+iJjqOPCpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786933562; c=relaxed/simple;
-	bh=vpWvs3/KWV0E7QsvjE/aQojofGn0pvJkVr0xAwTFppA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X+d5jI1blVNdznBBudniQ+eSLLAsjGtgpyhiuha6J2HlQB9Yjy5efQYqfjL3ZEnpDThRpwPI0BBlMau9EwWWNHGAgOsPB5ZxEEcojPwKXx5dcILBIP4zGt2iUQx2Q2VBV23sFVjy5fFNBO9VUzUL/4EucMqxPlEy/KoGEF+6YRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5xzTENA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786950139; c=relaxed/simple;
+	bh=fQKbD2lHIPLP03+uwtqPCJtAobJ0HwhmQxlf0gGePxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C52a+p3W0jpSHzC9eRnVMObcHujh61GKLzdXHofYH2/3VEouaMhNwzUsy9u/dMDk08Vkm85yMfcrJON5f4tlP7TgKGdQeNpx00yFoF8zN1ReL3klsWjX2yvx2CXTPOnAzuJazCW+z0XaABI+6c46roRYa9QTYimdsVUef+qrsXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKoDy8Zv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5xzTENA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EB51F000E9;
-	Mon, 17 Aug 2026 02:25:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKoDy8Zv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3667A1F000E9;
+	Mon, 17 Aug 2026 07:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786933560;
-	bh=WgqUVZHhHkr7Mok5OB8xen4dfW9N5ijCeONfcS2eng8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=M5xzTENAtQDahv++npkCXetOWV0GmXby03pViQh0jtGut8wjM4pUhKwiIbdr7+Gtq
-	 jWGdKqG8+d5aIPgS9Wd5DTNmRgerZhpEIelsN37Aj6OICbyvxWSkQOURb4wNra4ZNY
-	 01tdYQl2CR4/bzjJ6E5IJxcMBueNRa71feYU0h50uYJj6xJK9+IRTVyb8ITakPTaNH
-	 Ezf+l8k/DEvIL8JEwHvz7XQyZTmlxEGlfbP3t3DqaxJtLjCnXAqezsOYnrDZ9Cee8O
-	 Q6+mZScDEbv0TqyDBz2nl6a6u0lynYKP+5Z7wQuUREUui3s5X0LWwfPCD8Wn8z7CUs
-	 JxBvBzftbfStQ==
-Date: Mon, 17 Aug 2026 03:25:52 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mranostay@gmail.com, ~lkcamp/patches@lists.sr.ht,
- linux-kernel-mentees@lists.linux.dev, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] iio: proximity: move LIDAR-Lite out of
- trivial-devices and add Garmin fallback
-Message-ID: <20260817032552.63c04216@jic23-huawei>
-In-Reply-To: <20260810192131.153495-1-rodrigo.gobbi.7@gmail.com>
-References: <20260810192131.153495-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1786950138;
+	bh=Xrz4P9LZIvM6r5UqyozCQv2sifV35c/noV8scVQDuzA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eKoDy8ZvEN9LF+ZNsGefzwNX1jSnZyY4JkVxuxwU/NqpRVmpt5n6UQb09s3uciSZ2
+	 gvFcMWlNZvLl4byPkrfIMx9XP2+6A98JS8Y/Iirw2OiKohClMp4YPbmdV9ZzYMPVtT
+	 mSnL1ZoGf/tynMBMVQE7nkXKLuAW1dgTe7U3BGS3sRFaHWDjnLfN618OvbRRhNxWtj
+	 NN+wU3OoUxqTl/OD+0n7GBk+hrAu96uy2ZfBZ/sWrICuJbJGyABSzqiQSR6kr4IxTb
+	 jPI2dA2mNScgf7iPXF3Ez6MmGTLhNzG0SofBZiS8NJRW6T2Lfb2tD0pJcIQfCblZQ5
+	 UNB143xcn8skQ==
+Date: Mon, 17 Aug 2026 09:02:09 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?Q?Nicol=C3=A1s?= Antinori <nico.antinori.7@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Brigham Campbell <me@brighamcampbell.com>, Conor Dooley <conor+dt@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Marcelo Schmitt <marcelo.schmitt1@gmail.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] dt-bindings: trivial-devices: add Aosong AM2315
+ and AM2320 chips
+Message-ID: <20260817-bouncy-tarantula-of-reading-42c316@quoll>
+References: <cover.1786725567.git.nico.antinori.7@gmail.com>
+ <cf3671822902e82c133563e2169334dd8c41ceb1.1786725567.git.nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cf3671822902e82c133563e2169334dd8c41ceb1.1786725567.git.nico.antinori.7@gmail.com>
 
-On Mon, 10 Aug 2026 16:18:39 -0300
-Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com> wrote:
-
-> This series moves the LIDAR-Lite v2 binding out of trivial-devices
-> into a dedicated schema, documenting the power-enable, power-supply
-> and status-output interrupt properties that trivial-devices.yaml has
-> no way to express.
-> 
-> It then adds the Garmin LIDAR-Lite v3 as a fallback compatible in a
-> separate patch, since it is pin-compatible with the v2 and already
-> matched by the driver, so no driver changes are needed.
+On Fri, Aug 14, 2026 at 02:50:19PM -0300, Nicol=C3=A1s Antinori wrote:
+> Aosong AM2315 and AM2320 are temperature and humidity sensors that do
+> not require configuration.
+>=20
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
 > ---
-Just enough stuff in here that I think a v6 tidying up (and hopefully
-getting a tag from Matt) would be better than me trying to do
-it as part of applying.
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-As such I've marked it changes requested in patchwork.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Jonathan
-
-> Changelog:
-> v5:
->   - split into two commits, one for moving lidar out of trivial and
->   one for adding a fallback compatible for LIDAR-Lite v3;
->   - minor changes at yaml like: title, description, adding irq prop;
->   - improve commit msgs for covering the vendor acquisition and PWM mode;
-> v4: https://lore.kernel.org/all/20260714215433.41259-1-rodrigo.gobbi.7@gmail.com/
-> v3: https://lore.kernel.org/all/20251102221643.9966-1-rodrigo.gobbi.7@gmail.com/
-> v2: https://lore.kernel.org/all/20250801224112.135918-1-rodrigo.gobbi.7@gmail.com/
-> v1: https://lore.kernel.org/all/20250701223341.36835-1-rodrigo.gobbi.7@gmail.com/
-> ---
-> Rodrigo Gobbi (2):
->   dt-bindings: iio: proximity: move LIDAR-Lite v2 out of trivial-devices
->   dt-bindings: iio: proximity: document LIDAR-Lite v3 fallback
->     compatible
-> 
->  .../proximity/pulsedlight,lidar-lite-v2.yaml  | 70 +++++++++++++++++++
->  .../devicetree/bindings/trivial-devices.yaml  |  2 -
->  2 files changed, 70 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/proximity/pulsedlight,lidar-lite-v2.yaml
-> 
+Best regards,
+Krzysztof
 
