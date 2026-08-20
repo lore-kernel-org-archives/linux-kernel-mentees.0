@@ -1,92 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B136D31AA8F;
-	Thu, 20 Aug 2026 01:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089C2357A4A
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Aug 2026 14:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787190049; cv=none; b=lpmYURtiZFNyR8Gy1KjOZLRulIga+xqxaL61+Jmt7dom5zNkrLunbDwP0+2ehnzpB6MQmC3miqV/ZHHbHUMypuhHi0HmGNlgWUfXB4TZMe7R0wxh4hkPtJfyM4cFTuGPOS2DXt9WbOm2HRD1o7GUhZomPYW7EhySRAd1bKgpvCs=
+	t=1787236348; cv=none; b=szpmvgYykU1sVO1uVt0wWTN+iZe484uEwcnwxpYORzOP+65Y4J6qV4wNkIU5QT8ifPH2YDWKbR/pfG4A4NuBhaJms9C2alN2BHftFHAOauWQh4e+BFvrSeHhsVifk2ML8ksvqWu/8uoP/HA8uHWw3IvzM9ElC919BZhc0/gyrFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787190049; c=relaxed/simple;
-	bh=XdqlzmzaybKu2zkXA5dxZ3KTQqvnYAOjSULHWs0JMAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qOJTJO8jfcece3VFt1gJBoFxZrJ7WnvQGtVgDGGf3hHZMGe06g8n6sSFu23/mkrKK23Hbqz3hCZXWe/cxtJNmY7ei0VhRBOYh5FyC/l+CQchUnL2iynn6ovxkGJhM+Sf813xMgNwtBNkxtBxE8dT29RwB78ynK1CHA8mZhuD9q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkIrY0lC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787236348; c=relaxed/simple;
+	bh=oIAsE/e03p+TOGVzlvCWR9X1duR52+pknj+r+YshhDw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j2+ltVCS227o6hmvxca1blcC2Y35B81FP22DJPzmETKPKtLGV9jibuQNfvq3VM4rRanmQJZDHNoOiQeoG/E4okh/aLVpDQkiGB6g4fUnv5G1vQcdMdQGMDZYgQ8hnyaJBM3M14awrl1dl+tVQ1igk9PmU54Nlbij0jzXkW93UuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BCTbNy0G; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkIrY0lC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022DC1F00A3A;
-	Thu, 20 Aug 2026 01:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787190048;
-	bh=TSuCCFfqYAA7FDlG2/zVOeaKx857nYhfp2aHgusRFvc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DkIrY0lCxPzmfvfgSHqYupa9MTqjVWKIHnCWt3zoNEZDGx4zDinPrQ1l8U+6v1wIV
-	 GB/fX+wg2Pz6PbL7K4h6GEAQbQDBHm9+TZGXJTfWTYohdnTJWVNVTssMoBhMZpzd3M
-	 8AQ7QimN5priOxeeVXFGnhtUe1glVyjRf3As5jFBdnrtm0jdazQyqXSCpKQ8AMIIQt
-	 8GHWbq6PVKiuTJ9ZGxl3m64Njjb9qQGdlb6B/I+/QvJxsmDY5IYV9ERwXM6ia5WwP0
-	 xxGyDga1HBmLBus36Wpm+MDGjeKmQffqtq0cC0R8AhXNl7qI1HyYxee0ifV98i+Ghp
-	 2055Z3M3UPTyw==
-Date: Thu, 20 Aug 2026 02:40:43 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, matt@ranostay.sg,
- ~lkcamp/patches@lists.sr.ht, linux-kernel-mentees@lists.linux.dev,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/2] iio: proximity: move LIDAR-Lite out of
- trivial-devices and add Garmin fallback
-Message-ID: <20260820024043.0c61b7f7@jic23-huawei>
-In-Reply-To: <20260819205751.166030-1-rodrigo.gobbi.7@gmail.com>
-References: <20260819205751.166030-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BCTbNy0G"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5c30d9adfa7so992254e0c.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 20 Aug 2026 07:32:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787236346; x=1787841146; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/gm+SgYfIRbiDZdeJlutFSVssEPZa9jM7xptJ+k84VM=;
+        b=BCTbNy0GTJUBs++PUOkbmoxl9Pomt5pESc6keWvKHqsjedz9KotiO/4Qv06eRf8Z35
+         XQai5h2ZG5TBp35ccwDjN7Ng68BIiLQejtSoPirakoXJD7gWBH2+WFphHVEF4Qxb5e2V
+         U7PDridz4CdB6p34tlD6ekkbPkStjvJ+aRb6WMSl3dznTBjRPfAK9hc2KVidNEWK7b7p
+         wqq0ww1M5t5XlXnEw1igdVWUgVDKXIOm/6YXQXrPqvJphCAsjdgV0EmSDLqgAeZjfqhc
+         +RWe+RD2gUhJeyg/Xmwu0mIL5ljOQ/dLjaQkLbPqnhJaVx8B+cE7v0Yv+5Z9r1cWLdJA
+         nY0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787236346; x=1787841146;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/gm+SgYfIRbiDZdeJlutFSVssEPZa9jM7xptJ+k84VM=;
+        b=RtVHQTn9wT0I5K71lidQhh1+ZzjHo/dZhQAFsUwwtNVZbEtFsRezhnpbQT+Ve+On3P
+         W/RSqGieR9zMFhBd7zunDVF6On0d43qsgiG2gmiFz/rnzvO9Hw+CxbCZpAgmufj7Su8t
+         b4k7Ph/NYmEBk5Y4zISIW7tukpdKsk7EvVEoPykrowywlbKlUMVN2ebfAy85V83Oz9xi
+         V/PNx/ECZcHfT30d6VSgV1hcUtRJXeZ7ksycvUvWjy33qrD1Gug0Rr7TVzfSX6sXGClq
+         Za8Qcg7WsuU/nKwPjppTWl+XF1foa+PrCnlV9TKGijG605PfTK6Er6lrR23cExHJwksl
+         Dbhw==
+X-Forwarded-Encrypted: i=1; AHgh+Rom7ryuBhpJI9Z+CUTDuHACthX57aK5Vm9ZrFu7x5tLLc31BR0A8fRpOUqxE4WRn5owDs3tnuM65CjZjjTB8YXqCbAVUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YziUbpalit/ttmswPKHZy8+TIymQ4Mdb1Nja6oCTVFey0mHhnX1
+	oyOVqcDaUS3gEmBIuKe8l5izMb/iJzhqAMUSf85ENRq0ZJu5hmUGmTc=
+X-Gm-Gg: AR+sD10SvNvkFL5eUmNlj+kGz2CW0dmv83OxMW0Oz7OL8a0v+7jrsYq2Cc/ZLVCpFIT
+	HfjbIiS65pzAYe8u3x5PnuFtCPhKHtGWzDHz0ltUUqpBdge+tCIMgrTqvO8urly0nsihMj11LF8
+	/NSv92gzpvrGwMAVk9Q3gNUSIHGxY4lARGaDxKms/2qs5XYunqpWTP3oe2DPKj0Yd7BQhU2mjQ/
+	fGS4v2e1OzkHQrx0qBjnR4kTU1CiJ80ly9AQ+2S1nwU7AE5dy8LRbk/OZ1Vl92nK1Tu9Kpwa1Hm
+	YsSv7GE3WvqQgz84ZmZzsaVOASPbYjVYATV0Yan2akZptAxCPDGas1XlT+lq2QPtt41zUj0A8Gh
+	+Uk+troGkbAE6TJWS6oG1u/zzfWNQHIqAnGxAuSQulUrDxTn9yS9ERmWzcxG4BGtO7YQQfToKtY
+	OSBfJCvar+R7pTvt9/7g+xQmS0aXZ0xMG6WGzzSwrM5youromuneQhUFhHBgHP4+DT3J7AAEvcm
+	WkfnFm9G5vuJG6xKdHGIvWKsfY5eWceopsWaCz9
+X-Received: by 2002:a05:6122:3129:b0:5c5:ac11:9731 with SMTP id 71dfb90a1353d-5c5e3e4c415mr4869914e0c.8.1787236345866;
+        Thu, 20 Aug 2026 07:32:25 -0700 (PDT)
+Received: from localhost.localdomain ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c5e25e3459sm6393922e0c.4.2026.08.20.07.32.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 07:32:25 -0700 (PDT)
+From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v4 0/2] add support for Aosong AM2320
+Date: Thu, 20 Aug 2026 11:31:08 -0300
+Message-ID: <cover.1786973355.git.nico.antinori.7@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 19 Aug 2026 17:55:16 -0300
-Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com> wrote:
+The AM2320 is fully compatible with the AM2315 sensor in terms of I2C
+communication protocol and measurement conversions.
 
-> This series moves the LIDAR-Lite v2 binding out of trivial-devices
-> into a dedicated schema, documenting the power-enable, power-supply
-> and status-output interrupt properties that trivial-devices.yaml has
-> no way to express.
-> 
-> It then adds the Garmin LIDAR-Lite v3 as a fallback compatible in a
-> separate patch, since it is pin-compatible with the v2 and already
-> matched by the driver, so no driver changes are needed.
-> ---
-Applied to the testing branch of iio.git.  I'll rebase that
-on rc1 once available and then it will go out to be picked up by linux-next
-etc. 
+This patch series adds am2320 to the i2c_device_id table, creates
+of_device_id table and adds both am2315 and am2320 to
+trivial-devices.yml dt bindings.
 
-Thanks,
+v4:
+- Addressed minor styling issues in driver's C code pointed by Andy Shevchenko
+  (carried "Reviewed-by: Andy Shevchenko <...> from v3)
+- Adapted commit message pointed by Marcelo Schmitt (carried
+  "Reviewed-by: Marcelo Schmitt <...>" from v3)
+- Carried Acked-by: "Krzysztof Kozlowski <...>: from v3 dt-bindings patch
+  since bindings patch did not change.
 
-Jonathan
+Note: I carried tags from v3 because reviewers declared the tag after
+pointing things that were resolved in v4 (and the dt-bindings one
+because the patch did not change from v3 to v4). If this is a mistake
+please let me know.
 
-> Changelog:
-> v6: updated Matt's email; update commit msg from patch 2;
-> added myself as a second maintainer as suggested; collected
-> Acked-by from Matt (patch 1) and Acked-by/Reviewed-by from Krzysztof;
-> v5: https://lore.kernel.org/all/20260810192131.153495-1-rodrigo.gobbi.7@gmail.com/
-> v4: https://lore.kernel.org/all/20260714215433.41259-1-rodrigo.gobbi.7@gmail.com/
-> v3: https://lore.kernel.org/all/20251102221643.9966-1-rodrigo.gobbi.7@gmail.com/
-> v2: https://lore.kernel.org/all/20250801224112.135918-1-rodrigo.gobbi.7@gmail.com/
-> v1: https://lore.kernel.org/all/20250701223341.36835-1-rodrigo.gobbi.7@gmail.com/
-> ---
-> Rodrigo Gobbi (2):
->   dt-bindings: iio: proximity: move LIDAR-Lite v2 out of trivial-devices
->   dt-bindings: iio: proximity: document LIDAR-Lite v3 fallback
->     compatible
-> 
->  .../proximity/pulsedlight,lidar-lite-v2.yaml  | 71 +++++++++++++++++++
->  .../devicetree/bindings/trivial-devices.yaml  |  2 -
->  2 files changed, 71 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/iio/proximity/pulsedlight,lidar-lite-v2.yaml
-> 
+v3: [3]
+- Added "aosong,am2315" and "aosong,am2320" to trivial-devices.yml.
+- Added of_device_id table.
+- Replaced using a constant for driver's name with chip_info struct.
+- Separated code changes and dt-bindings changes in two commits.
+
+v2: [2]
+ - Generalized KConfig description text.
+
+v1: [1]
+
+[1] https://lore.kernel.org/all/20260805183733.1000550-1-nico.antinori.7@gmail.com/T/#u
+[2] https://lore.kernel.org/all/20260810183337.451812-1-nico.antinori.7@gmail.com/T/#u
+[3] https://lore.kernel.org/all/cover.1786725567.git.nico.antinori.7@gmail.com/
+
+Nicolás Antinori (2):
+  dt-bindings: trivial-devices: add Aosong AM2315 and AM2320 chips
+  iio: humidity: am2315: add support for am2320
+
+ .../devicetree/bindings/trivial-devices.yaml  |  2 ++
+ drivers/iio/humidity/Kconfig                  |  8 +++--
+ drivers/iio/humidity/am2315.c                 | 34 ++++++++++++++++---
+ 3 files changed, 36 insertions(+), 8 deletions(-)
+
+--
+2.47.3
 
