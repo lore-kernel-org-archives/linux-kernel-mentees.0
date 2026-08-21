@@ -1,63 +1,65 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F693F58C1
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Aug 2026 14:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72234C043F
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Aug 2026 14:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787323118; cv=none; b=QjFJwBXYfESS+MgmplY2ZOeR7t/OKPvcse7r4gJChmsqUyRIPWe8i/6Ph2Sp46QR3jUlDYQP2nTxXp188XeZYRontR5gFJlAFINtM5kFMucfjyWbLb6pIgXcCFWawGVni6Rfq2B8ONzmLEKBNwmfCPy1WLy62zm3EAYml0RfEJQ=
+	t=1787323122; cv=none; b=gsmHwALpOtQvg9twYcdrjzZOPNH0jCMtAOvEemf5jEW07bMLyYnVPZnejf07AnGcgWG8QLuUcxI63meSm/M2Lpw4zkdbTRfHXb7zO8LExc/ZPlvjp6nLdXvDognX60xf1cftXCyzVv7onijyLvnSFcDXgRyA6SaPtyvfznYT+aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787323118; c=relaxed/simple;
-	bh=bXQElwg2kECULXg2Mxmkh+mTILQH0EePq+c9oQ529+k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XVpO/id4x93Us9wAF6kYCfzW+A1SSBLkcUQH5W+E8028/Sb+0odma1YZCe4LPyKlbB6x+fpYazC7ynMsvu5tRxsY/E0eby5G8HyE85TDaeZm6D8oXwQIHxmzmppRO6mp6ntR76K/Glh75DAqoM9yLAlLcQdB4Fh1pbWT8qze0mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRbUUzaV; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1787323122; c=relaxed/simple;
+	bh=yDkWoEFDM+6E+tOGZ/Pf2E1ikfxC7ajm6i/wChJMl5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oQuwXO2RXEKqxn/tpBhrIKwC0RZfkZbM8ebLIrM33YR2WsxuU5ccDyHW7qkbzlRYZrhD6YSD+851lA9wemwUXsqcfaoTZuzbx6iDr29JqziVFMSbNQu3o3Immu5AH02i9ZQNzPEDzTopJLGiuEbDtSP10RWgwbuKjjaZcXK6RWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UpaEVzzh; arc=none smtp.client-ip=209.85.128.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRbUUzaV"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-81ff017d420so31760227b3.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Aug 2026 07:38:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UpaEVzzh"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8200ca16f26so15795857b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 21 Aug 2026 07:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787323107; x=1787927907; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AJ7GeXkvxDCAB3BMlDYkkSzT/Txb0FUDU70/A4GPBvY=;
-        b=QRbUUzaVGNTWbu3/ya+CmLVqXopvWghDpcRvDR3vLMibm+eFJkr+F37saElN9K46uk
-         DCsDbpizZtrk3hKBxvT+4r3pTfTkznvXyt1BEtf+Q0KvgylFTwJelan5S2gyHsMt/3Hx
-         D4pwgDS3TgO/k6trjY5EwCw572FZnfdLrL/CXxYK2MG1sfh701ed3cPdZ1VNGHwADex/
-         hL4BWQfz6zEDyzab1sgnr6tD1ZF4CODECRRPsIO08fPWiSlJn0Ejxi7j5Gly+IStW2PS
-         5wjlYqTj5fg1D2qpAgggf2U2uIMaPAZb8W8wV8d9ZZDRjiiFS/S54lP+zXPhdexjTxUt
-         KdpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787323107; x=1787927907;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1787323113; x=1787927913; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=AJ7GeXkvxDCAB3BMlDYkkSzT/Txb0FUDU70/A4GPBvY=;
-        b=QQFNukbyf+1B6cc5RbK+cDCS4WREOkcz9/KRRbpY1/Den3KAFe5qwxWy/MAhZHfQyq
-         Ofl6Psro4SIFurH7nW4yP8wpar677DM789pSXVY8VQ+Ur/cD/iFhbezlE0553/MaWDT1
-         gm2zurSEEVfs1PiFEdRk4p8zY+Ng/BHF3JrQLDjyBEDBlLL8jgtJKGcVBYt+8gHqlTO3
-         P6F79R/j8AgzjVDt2+0TSkNSMCiKsBt0TOrnvDH8iV6vo8SwnNGkYE99mhCe51qh103M
-         plh062W4wk8D+UQEh1/Seb05XkJfP/0eCC2nUKaPJ9N73kF0XDN35gau5O6T8/mBAkqH
-         Z0Sw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpj0u948FYT8Ke87WPWB43UfPKDXox5fFgh8/eDuYX5VkXHPeSrAH85GhbQqFfID8xcvUk1I/SiAOYpYlvLkwlXKuzQiw==@lists.linux.dev
-X-Gm-Message-State: AFuF++m7pAU7eY1+bXdQhvDFsepnPk36x5lo7rlMgukNmjoLNKodvv6O
-	1DVxxjcSkoq/31zlK7n1ayhMXG/GguwaFC8omvtLVQs4MHlpKX38UzI=
-X-Gm-Gg: AR+sD11JhjjpwTnXQx+qDI5BTrgUbTD/dvZ7oXGLW0HkOBZ2WknPSZtw6JM0SQBI6kE
-	jDdUfariiLzelLaaEAlI2vFWMKc0zvG4ESS62+GaqIxMD6XRmSIV2DMCcvfuv3BMKGKtks0aRDT
-	R3lSoYqHMAnz8bDjqMMESMiQGHhJgsvUMxMtM6C12kfzjjzim4lBvplWBHgNK7ov3NCkBTYn7Q7
-	QAqav+eCUSaNXmUwfnadzFXujD3rzvHOPpDNQZLtp9PYBFi8Z/hbYoHIOqYrvLnr/3Y1H7TGJYx
-	RHiCUJkg9bek5uecxwuTq1zYEd3a1Mg36vqLeDdVNDchW6nn6r/xWdnwaQWUCZEQk1URJ+ySI+C
-	fRDo1csg/kcDYMTVoogiSygCTk4bEwzIph6jCCilHUDiltBihVyDHLkXSYOCW/tASVkRZZb5geb
-	u87zPoRV/yQ7jO1gEy3iaJuUFRHZdbYV4OowFzc6fNaCoX07uJTqhJ2c/aLbak9rQFWoB8Eh9lN
-	pdGBRIYUnROKJOGk53giI0shqabBZg2zsYT224t
-X-Received: by 2002:a05:690c:399:b0:81e:c500:c6d0 with SMTP id 00721157ae682-8470139a4a6mr60233797b3.0.1787323107244;
-        Fri, 21 Aug 2026 07:38:27 -0700 (PDT)
+        bh=FpnrrgVBkCseeH30s/+2qScfilYBiNsJRVekRnVKb/Y=;
+        b=UpaEVzzhxG3LrD4nJthsXTnp/5+mpQ6Y2A3oZkzdbBGvDYbW16jhXvVv5zdnw6NKQu
+         0LXkzikmCvTMOYGGPlxXo3VVsv19zjOnU4oxzsC4xOGxKrV9YJJHaF23oa8NoLL19TWq
+         hhFEHsl3BMEYaSp1NvGfZ9qPi/pCUlyTuqQxqkQvJ8ScgZhQyu7jlr2yeXD8OZfWuU54
+         cZE8XOjGn2CIUEVbotKr6TTzdvLiCnemqzbyZ5s/+GROSHDmDSfJHr4aRLcT4H/N1rlB
+         MblQvkkpetROGrYTwW5YdAoAOC9eo8kwv0K8+kFuGhtHoX9l9+AE0g1FWAuJOYWdAdyK
+         01qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787323113; x=1787927913;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FpnrrgVBkCseeH30s/+2qScfilYBiNsJRVekRnVKb/Y=;
+        b=pHApoth+lnAnF6V28SZh7Nw25BZCtpwexXLVO32pDiHzmBnQ1EzzK7lJOYbWe1wixY
+         aDCsJP9hY7Lj8mpT/5LQgJZM6nXcVLbO/bIijyVpMnxgt1UjFYW3ikP8uS+qNqaih0C5
+         +HoJ2PAUPxzoVYwvnDEq08WAU7O9GZ0M2EU0iKdljRQF8H2QcQ7nfLGr3i0IfdyqxX4w
+         Cq63zBCqfbtbZDS/iLV9AS8/Jy8lcTOfFQgvdyLO/OG8MA3geioWK0qhQWklqNrN6FCt
+         M1ONadqpJz1xbE5kxdTjVSFb5zwQFAM9bMFxoyazlc2A7qXZp9kVr5eIdRfOuwVUSZgZ
+         U1SA==
+X-Forwarded-Encrypted: i=1; AHgh+RpjZfgJ3KJmHZCxodm3GnxNwQQ1VxsRZnUKQuOTiNiQ32GTPoPTW5LQCVkeFWpzxBRIIGBstUZTNfz0IaM9IX4iNA4u+w==@lists.linux.dev
+X-Gm-Message-State: AFuF++kOQAjKYKggna7RDek1JF9u8k7j9eVknD9CEAQgHbrMC5KHPGj6
+	7/Xk8vUYJkJ7u+C+1jStXLuNlEvf44Gc132RgUcqG73ZqEQa5BLCfdU=
+X-Gm-Gg: AR+sD10lLnIBlVr8f600k2IyHz4emg8m4QKJ7R3pv3aXI/feWO98AsJO6YIi9veqevG
+	lMzndYLYWjMoJR6hUph1oYnuyF9hnjAPRAOZZ0KzcIVTJfHwBmfZexz1IdOq31N3X2e6qEYB+1N
+	wzExIGiJQ05D0TGgtfnRIlnCVB3/cYv9oEw6nbyxsKQIg92zwQeJLjS4UY5ZonxffskWbMg2OX2
+	OeOxA9iCoa95tzdl2k9FyTkFjadS+DBKosrfUdys4aWcBIBNDCAZV6CcrpW4WXck+hrCQfm5kl6
+	o7GbR/LrZUOTtv5UU8Rgfh3HJ6PusYOywFKWT9rG9JuFis4nT4uanSGs6YMjfaxyh3/DiBCtWpg
+	YV4CaIpd1BSY9c5t/vwjM3yPJhXBijundd0o2pNOOIBBrqy8p9mai+RySjqqCEKUcShOTCwB/Ng
+	6vcEFS+mHBgh4k5i00uWK2b9SVtiD34WHLQK1Ato1WfKnH/708wSAFafP3XFI7gGS3CqspUGyQR
+	wOZdNOqkSYfMji2d8sulzxEIBrttcDUHNQ4nXfV
+X-Received: by 2002:a05:690c:e20c:10b0:81f:d515:8c06 with SMTP id 00721157ae682-849f61ddfc9mr21942087b3.29.1787323112427;
+        Fri, 21 Aug 2026 07:38:32 -0700 (PDT)
 Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-845188b28f2sm41868277b3.38.2026.08.21.07.38.22
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-845188b28f2sm41868277b3.38.2026.08.21.07.38.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 07:38:26 -0700 (PDT)
+        Fri, 21 Aug 2026 07:38:32 -0700 (PDT)
 From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -75,10 +77,12 @@ Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2 0/3] Add support for CH1115 Controller
-Date: Fri, 21 Aug 2026 11:34:15 -0300
-Message-ID: <cover.1787321297.git.nico.antinori.7@gmail.com>
+Subject: [PATCH v2 1/3] dt-bindings: display: add Chipwealth CH1115 OLED Controller
+Date: Fri, 21 Aug 2026 11:34:16 -0300
+Message-ID: <379eb0dbb4a911d80a3af680f647cf13ae0ece32.1787321297.git.nico.antinori.7@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1787321297.git.nico.antinori.7@gmail.com>
+References: <cover.1787321297.git.nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -88,59 +92,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series add support for the CH1115 Controller [1].
-It is a monochrome dot matrix OLED controller that supports several
-interfaces such as SPI and I2C.
+Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
 
-This driver only supports the I2C interface, but all common parts could
-easily be put into a common file to be used with other interfaces.
-I only have I2C to test with.
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+NOTE: patch series based in kernel v7.2
 
-This is the first driver I write. The work is based on the driver
-located at:
-- drivers/gpu/drm/sitronix/st7571-i2c.c
-- drivers/gpu/drm/sitronix/st7571.c
-
-Tested with Raspberry Pi 3b+.
-
-Changelog:
-
-v2:
-- general:
-  - patch series based in kernel v7.2
-- in dt-bindings:
-  - Fixed linter problems
-  - Replaced first_page property with offset
-- In driver code:
-  - Fixed dst_pitch calculation
-  - Renamed file from ch1115.c to ch1115-i2c.c
-  - Support flip-vertical and flip-horizontal dt properties
-  - Fixed several things found by sashiko-ai
-
-v1: [2]
-
-[1] https://datasheet4u.com/download/1576606/CH1115.html
-[2] https://lore.kernel.org/all/cover.1786110720.git.nico.antinori.7@gmail.com/
-
-Nicolás Antinori (3):
-  dt-bindings: display: add Chipwealth CH1115 OLED Controller
-  drm/ch1115: add support for Chipwealth CH1115 OLED controller
-  MAINTAINERS: add entry for Chipwealth CH1115 OLED Controller
-
- .../bindings/display/chipwealth,ch1115.yaml   |  89 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/Kconfig                       |   1 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/chipwealth/Kconfig            |  16 +
- drivers/gpu/drm/chipwealth/Makefile           |   3 +
- drivers/gpu/drm/chipwealth/ch1115-i2c.c       | 854 ++++++++++++++++++
- 8 files changed, 972 insertions(+)
+ .../bindings/display/chipwealth,ch1115.yaml   | 89 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 91 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
- create mode 100644 drivers/gpu/drm/chipwealth/Kconfig
- create mode 100644 drivers/gpu/drm/chipwealth/Makefile
- create mode 100644 drivers/gpu/drm/chipwealth/ch1115-i2c.c
 
+diff --git a/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml b/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
+new file mode 100644
+index 000000000000..9d9c43722131
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/chipwealth,ch1115.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Chipwealth CH1115 Display Controller
++
++maintainers:
++  - Nicolás Antinori <nico.antinori.7@gmail.com>
++
++description:
++  Chipwealth CH1115 is a controller for monochrome dot matrix OLED
++  panels.
++
++  https://datasheet4u.com/download/1576606/CH1115.html
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++
++properties:
++  compatible:
++    const: chipwealth,ch1115
++
++  reg:
++    maxItems: 1
++
++  chipwealth,invert:
++    type: boolean
++    description:
++      Display pixels are inverted, i.e. 0 is white and 1 is black.
++
++  chipwealth,offset:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 63
++    description:
++      Display start line offset. Specifies the vertical alignment and row shift along the
++      Y-coordinate.
++
++  chipwealth,contrast:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 255
++    description:
++      Panel contrast.
++
++  width-mm: true
++  height-mm: true
++  flip-horizontal: true
++  flip-vertical: true
++  panel-timing: true
++
++required:
++  - compatible
++  - reg
++  - width-mm
++  - height-mm
++  - panel-timing
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      status = "okay";
++
++      display@3c {
++        compatible = "chipwealth,ch1115";
++        reg = <0x3c>;
++        width-mm = <12>;
++        height-mm = <8>;
++        chipwealth,contrast = <127>;
++        chipwealth,offset = <8>;
++        panel-timing {
++          clock-frequency = <0>;
++          hactive = <88>;
++          vactive = <48>;
++          hfront-porch = <0>;
++          hback-porch = <0>;
++          hsync-len = <0>;
++          vsync-len = <0>;
++          vfront-porch = <0>;
++          vback-porch = <0>;
++        };
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index d2ba67c4c8e0..1d158ac83ce9 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -325,6 +325,8 @@ patternProperties:
+     description: ChipOne
+   "^chipspark,.*":
+     description: ChipSPARK
++  "^chipwealth,.*":
++    description: Chip Wealth Technology, Ltd.
+   "^chongzhou,.*":
+     description: Shenzhen Chongzhou Electronic Technology Co., Ltd
+   "^chrontel,.*":
 --
 2.47.3
 
