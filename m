@@ -1,198 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294E63EC81B;
-	Mon, 24 Aug 2026 07:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9073E49CA
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787555593; cv=none; b=KIpQT7/ympK8TNsh1pmIoYd0IRvLF05wpZf4BnIIcB5YulEcJQ98afktBRHL4bQnun5z+pcnLKohSh0nmqng54eeOQYxTjZ1bPE0g/rdPKRFFUiLv8JAPX1wplv8IUsrgYPjnEQV4vfSoetvNWgrpTIAEKmdWEiu+WOfMNYoU6M=
+	t=1787647059; cv=none; b=TMUUTlLhu9u+bA0SJB0k4kBz37+XjNAddhP+ERlTgTp3TcpXn2zNNxqdGSVi3bnnXKzBrLN1+EGo+Ee3F07iCZgB9HhWe6qQatvmX+68ePF+lGeq6Kea2oZzm/+OVgPtu0wMSe+i73y75hjmHAr3yNqUd9p+EN3+w47AU/PN8B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787555593; c=relaxed/simple;
-	bh=GjUknA2RoaWJNhBcXll5I/qA4PoGHQdRvlsoorUv/Vo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C0bnzLYhtPzSi2rby0PVcuB39JFYMJ6qzG3XAS2TRnc2kLxkAaBq8vm1sY76GRR9VhheR1Q0lxZ/dLBTdeO5cIzDpxI+K3ZSG7ZOQR52X2wrpwT6GiyMWIFWKYT2wHrOmAIV3MzzmUEWyXFRFkLnQ7HBpPfIf3JEUQrnPrhf70E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CnEQV3zK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787647059; c=relaxed/simple;
+	bh=LNRKnRnQJHlCDb1+W1pzp4TUdD4yCD7c1c5RDxUrecQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r4T2Z7uz69ieY5W1Olab7KY/6HEjhiaoELBDGCcanNLD4WZQbnunoqh2Cec2/iArNjngz5uZZKiSeRAuZ6Gb7aElG5HwYDDi+tX0kxjFXNc+ZkWXh/8oMi1DqFXz9jlNv4U3cx4sXtNmBPW8YrcwiHzmAjRsrELEwBpBbnXDnow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PcQE+qaQ; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CnEQV3zK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D115F1F000E9;
-	Mon, 24 Aug 2026 07:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787555591;
-	bh=dldc0lzYKxH3rU+95/kaiXSuRhtGieYB9JJpIcySH3g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CnEQV3zKk6Gs4OYWkPBpvf33tv0tzcYUFGiiEKUFVba3bQpnCj0Y3ra7H0pkFN/lm
-	 DvOVNUzVQmKsiqJuD7Y6cvT/wqUtuCKaDmT7dTZBpb33ef9C9+ku+xqU2fJCYvLSWb
-	 XjF7lxAGqOdLoqvSTyOG/iSh5v5y2QQBwx52sozFgI6xGn+NMGutoQA3ILE3ROJpQs
-	 rcQgeiY9FDLsrwb8eNKqBkYMqC3oWuQihhlHZ04s90Tgwo74CBVN6Dxf+ROQhib/8s
-	 I0vTIYzdNqkbqoxGWBkaNTTLYI8bypPIkGX7wevt6eT6Sj+hAKHR9E4nMNkZod3T+e
-	 LvEm8wgnQAZJg==
-Message-ID: <4d5e26c8-615b-4893-810d-14351f391655@kernel.org>
-Date: Mon, 24 Aug 2026 09:13:02 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PcQE+qaQ"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc11a905ba5so3247990a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787647058; x=1788251858; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rTiqxajFCS8JhT00U7QUj901RHFXVk9RFW4qrD2ZWqc=;
+        b=PcQE+qaQFF0V1OjvN71e1232j5jNTGmDdpyOxQeaNXsycDGSQNANeOczQzFexeblfQ
+         88KmsoO5V2nL2mTWRbWmcksr1laW4trsG76N2W7CFaUtZDVr9K918X83mqEF82fhP03R
+         z+XFL8JSluwdhrqmtuIXGq5rlh3+eL9wb6Y0dMbMsyW3pF38/4rfwdpyov+KOOFwCJUk
+         hqNuTw0ftuAjOxixdrn50R8B9xsi0ZXG61hX9uClMQ1xBRnuqBT+nbNrA4Zta2VjGPh/
+         9dyHxrBDfBtfwKpSdC8sOy6XD0OG1chOfbTrt22vVvklvO09llfnvVAs7Jap5f1ZSylr
+         KJ0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787647058; x=1788251858;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rTiqxajFCS8JhT00U7QUj901RHFXVk9RFW4qrD2ZWqc=;
+        b=U5hV5rICZoIneOPL8nJnXjmU/tyZQKtKSBkB2oN0TLszTvEkmY4PmHWqBStCl6gwX1
+         mYdd0Bm3JdTRqqvIOMyEIERV50gQPHN5J4fGwNy4kehG2PpCH4q1JUVilF1UFozKMkU+
+         kxPDa7hBFIU1Lr/Ml0gSGrQWV2Kk4fO+oPibDJeVHvzeeIn2xxJMfAxF52eHhpW1GzsE
+         fU0z1HHAXhH8g9hgaNRknqa95JXgF+iPWoQQuC3iE6xttEcNu5HSWdSEStdfnLx8LNgt
+         prqh0cZA9yZjOxOrU0TVnDNQCP125Ea14k7mKnARYn0n2njc2DYYlyjQdc/MdHilPyfI
+         oQDA==
+X-Forwarded-Encrypted: i=1; AHgh+RpqXKRjGvtEkQ2KN3Sn2v0FT7+8rjUPgWL1akTqliScZLMsZ0BqQB2SJNX2ntTkZ0eYJBfDk9FlPsC44K80jDgbKnTwyg==@lists.linux.dev
+X-Gm-Message-State: AFuF++ldO//r+sN8qYJipMFhBupw4V8xe6AfvaeepRykm1bkgZAjsuNh
+	zYEVXGscLI9o2I/cPMX5uquKu0efO6SR6KzgkJH07WEoCWAjpIJI8ZbN
+X-Gm-Gg: AR+sD10sOmANXNInQbLoaLMCyguxPckh4thlDhlhY8SjlYhtS+B4ttpiwb9fY1zU0yZ
+	lWd30Vr+W7jag7YBmzWgAhq7L6CMIRhiJFiXbsKhU14xOY7E2XPTYxHLBi8Cp49j87F1D/SRbpB
+	XTOrycsoqb8SY8+PU1eNkv6y+QIorr5LSKuvRGQY3dvM0gHR5qRNZt9ODnf38TiyBNDUGsy2XeW
+	WBQcVNIxI7q0pftPifhEPGXhxL2j+5WIVKMZ6bzUGzb4jtkn4dMUUsOERhPyKc7DfFQL2LOXz87
+	r4UzAQVC97QY118V1lbfWjtBm2oZ6Rrs7Fjfw75NPWfSxydq3ehl6rZfjuFCHGfZTij1oIUWJva
+	g84l+WHOfyVWiAp/8Ay5sHqnCvXnoGbqDUOqoowdzoyNjxsuf4JB1DGp53pkzvh98liFKgjneN2
+	sFdPqzIjb1Z8vvLFHTpsxTcWMcc/JE/6IBdO0Jw6tyDlGyMuA9BTXsKzwEtEDMbzJdyCB2q3tBI
+	ZDBUc6mZ1bD
+X-Received: by 2002:a05:6a21:320b:b0:3be:b0b3:3962 with SMTP id adf61e73a8af0-3cd9125ad6dmr10437900637.9.1787647057741;
+        Tue, 25 Aug 2026 01:37:37 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 01:37:37 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: Anup Patel <anup@brainfault.org>,
+	Atish Patra <atish.patra@linux.dev>
+Cc: Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linux.dev,
+	me@brighamcampbell.com,
+	SeungJu Cheon <suunj1331@gmail.com>
+Subject: [PATCH v1 0/3] RISC-V: KVM: Fix PMU counter handling issues
+Date: Tue, 25 Aug 2026 17:37:16 +0900
+Message-ID: <20260825083719.643970-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: add Chipwealth CH1115 OLED
- Controller
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Brigham Campbell <me@brighamcampbell.com>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Shuah Khan <skhan@linuxfoundation.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <cover.1787321297.git.nico.antinori.7@gmail.com>
- <379eb0dbb4a911d80a3af680f647cf13ae0ece32.1787321297.git.nico.antinori.7@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <379eb0dbb4a911d80a3af680f647cf13ae0ece32.1787321297.git.nico.antinori.7@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 21/08/2026 16:34, Nicolás Antinori wrote:
-> +
-> +properties:
-> +  compatible:
-> +    const: chipwealth,ch1115
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  chipwealth,invert:
+This series fixes three issues in the KVM RISC-V PMU implementation:
 
-Do not come with own style.
-git grep invert: -- Documentation/devicetree/bindings/display/
-git grep inverted: -- Documentation/devicetree/bindings/display/
+- preserve firmware counter values across stop/start;
+- report failures when writing snapshot data to guest memory; and
+- fix perf-backed counter accounting across read and stop.
 
-so chipwealth,inverted.
+The changes were tested with the existing KVM RISC-V SBI PMU selftests
+and additional tests covering the affected stop/start, snapshot failure,
+and repeated read paths.
+
+SeungJu Cheon (3):
+  RISC-V: KVM: Preserve firmware counter value across stop/start
+  RISC-V: KVM: Report snapshot write failure to the guest
+  RISC-V: KVM: Fix perf-backed counter accounting across stop and read
+
+ arch/riscv/kvm/vcpu_pmu.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
 
-> +    type: boolean
-> +    description:
-> +      Display pixels are inverted, i.e. 0 is white and 1 is black.
-> +
-> +  chipwealth,offset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 63
-> +    description:
-> +      Display start line offset. Specifies the vertical alignment and row shift along the
-> +      Y-coordinate.
+base-commit: 0a0d1d55dad570724bf8c7ea83409639cfb4be9b
+-- 
+2.52.0
 
-Please wrap code according to the preferred limit expressed in Kernel
-coding style (checkpatch is not a coding style description, but only a
-tool).  However don't wrap blindly (see Kernel coding style).
-
-Missing "default:"
-
-> +
-> +  chipwealth,contrast:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 255
-> +    description:
-> +      Panel contrast.
-
-I do not get why this should be fixed property. Contrast feels like
-runtime adjustable feature.
-
-> +
-> +  width-mm: true
-> +  height-mm: true
-> +  flip-horizontal: true
-> +  flip-vertical: true
-> +  panel-timing: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - width-mm
-> +  - height-mm
-> +  - panel-timing
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-
-> +      status = "okay";
-
-Drop, does not exist in bindings.
-
-Please use existing, recently added code as an example/base.
-
-> +
-> +      display@3c {
-> +        compatible = "chipwealth,ch1115";
-> +        reg = <0x3c>;
-> +        width-mm = <12>;
-> +        height-mm = <8>;
-> +        chipwealth,contrast = <127>;
-> +        chipwealth,offset = <8>;
-> +        panel-timing {
-> +          clock-frequency = <0>;
-> +          hactive = <88>;
-> +          vactive = <48>;
-> +          hfront-porch = <0>;
-> +          hback-porch = <0>;
-> +          hsync-len = <0>;
-> +          vsync-len = <0>;
-> +          vfront-porch = <0>;
-> +          vback-porch = <0>;
-> +        };
-> +      };
-> +    };
-Best regards,
-Krzysztof
