@@ -1,64 +1,64 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB833E51F0
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951273E5588
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787647072; cv=none; b=fdL7Ti0MwC9HcUxVXAu73P5ft2UrOXBmYm9+VdYtbOyuL5SwmSH7TnteuKyyZswAEj3H2uXh6HAJHvy/JkhdQd4hHAJ8SEI66ZXznHhMBRlFbq/D6bal1dM9533mVtfLvTns4VCIW98hOIZbc3QQM6ex0z4KQcVKnp6nW97JORM=
+	t=1787647081; cv=none; b=Upu3KUZima2+P/WbTpzqnE7EUn7r3+gGwyGwliDhBkSbjCiz+tVyo6oQVCGMGtyHVfpHXbam5bGjFEgIERdH3AvWfu+LObDvOSdDZc1euZt9oar9UpYwYuPR+U6RAE4ODFUWDI1fL5cIChWxQ1MiLovng1bw/QSs78SetQfzT5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787647072; c=relaxed/simple;
-	bh=QzU+PHGXaMJ/27WJb6wJphrvbMmQUjQ1+684SPuRm40=;
+	s=arc-20240116; t=1787647081; c=relaxed/simple;
+	bh=GC6ctnqH49PdSJv4HAShbCKDfdndlZxHBrXCNy37gbo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OS0NOTr6Vql/XCE9a7HDoaxx/l40UgJ6/YRy/uqmWyTGbZ7p/pyo8CTINBru7oKLjXsMkioBl/4I/eT2lB7J/si5C2HUk3CxYmVX5A+uRyOywYHJhowTMAqMFQQ1Ws7aMkv+FUr2CtpgH1gwKPMC8mZ2hG3airPRSqoCEzkOiAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzTicVv1; arc=none smtp.client-ip=209.85.215.176
+	 MIME-Version; b=VkUt5h8QgTXiRGTIX64hWf6O4zNbi5guPuheZkWy2gRFR15PoOOcFpwiITXzl+kRbiWOAwHW/lNz9ziiWsZJ4B1UWJsVaVCJYT7ti3luTxQimeQp3UPjcj/O33ynnILvn6qzGKs9ytQN8w8YNIWiyxDhN9o3cQNGZmVDghMAH+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7FIPTt+; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzTicVv1"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ca00f126b7eso3293965a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7FIPTt+"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso3925631a12.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787647070; x=1788251870; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787647075; x=1788251875; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SlP9O0s11C5YW6Wj3Uolvqko6ksI3Exocfu05SFa8SI=;
-        b=LzTicVv1YqB1FoPxzdeAQJ6Xu7iWHqpmBJLdM/OhtEGwqRGirDGtT8cJ8LS2qdZO/h
-         TLsjQjDzeyc9FGebOlHnBrkiAQvdjhMk+qEKsEqVvxvAtcA0eGIfXHRkK4eaebCdzYvl
-         LtvHh48Jas1Lu/bo0caWJGJwWMCad91AyWdpW1obgGUYGrKtM/EFKNtdU9HdHh2lUtwG
-         ey6Z94nNqBuWfMc0XrtU6unkLQFHgDTjsPFGEV8cN/dWCFff9hnpq/LVXqOecConxGss
-         Wkgtk3VRE3LSZjBfaBahJN4ZBmsAlUHHjwqI+0gC+grfHVLn6dD+M3NnpQMNrP3iJTS3
-         6e3Q==
+        bh=hN2Jmy0Yce+ny/9mzHdZVPdF+NxcdzE2Ab9UDeAEcWs=;
+        b=I7FIPTt+dMRSVpVhTF26xJ0Er/sfUC45E3DKk0MyCzbNQmm2Z1xUjEo9GCTL8TEZly
+         ggqSoyKmc87kbCAZsYKO8G7ZN075lxFjCitcVpRae+gURhQqfR8MwkdmxUzJPsuHV2zh
+         4XpIiqGikaf2dBUSSbfBTulHjTZKZ7WVi72IZ6Y+ZfDYuHbBt6Ov6w8lmW6UmpZnmqfU
+         cJ9hOPT/iTHFfbmBz91Qsw35jXtQCoHXunzbYjCVfqVyE/b5QH2RYldOME8Ghl5iH5vS
+         tgzR2soelh6Yyo2pjwFStSLavZIIV0xlEavJJtUyCffJHwz5NZgX4XbDg0TkS/0jZ4mw
+         n3YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787647070; x=1788251870;
+        d=1e100.net; s=20251104; t=1787647075; x=1788251875;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SlP9O0s11C5YW6Wj3Uolvqko6ksI3Exocfu05SFa8SI=;
-        b=hXea3iLRNF2EnWPG2K4zBdUqh1ycM3GdXaWkHFZD2vSHL+knC9Kf5GXL01pqPRBVwi
-         Rh2Ii1wZx5jjDh4Cw4W1dZutHFo/QoictfdFitLacZIXoGC7eArGJKvqMleDFrU9ENLU
-         5PkUfTKM8M/+7eTr3jTIhsl3VY4FcXXJ5YhXeLoXEJtKsT1Xb+Fr/xTSIJ6krDRgoAus
-         HzOm9pdWJf2vRr/Q0kk/ABvUvD6J15Q2s3hNi3JxD0XWjWV836E6MeVMyaOTGhE/ZTyX
-         omVMolkkNsgFnXT1U1IZgF9ZUsYTg0jB2cWS5bHZJDD+mHCZVLVfGzXz9+Yp+vPRLXVg
-         XDXg==
-X-Forwarded-Encrypted: i=1; AHgh+RrUJ38Aa3/xlOVsQmhtTAoSVsF999d2m8GrDzFG9eLgfln/QU+nH5/aDk88EfPG+jREYvSsxTyE3C+Sb9Imsmaj0nMyWA==@lists.linux.dev
-X-Gm-Message-State: AFuF++m6JpmwJ1aCuTtfMdKoSvgE4Osjiop/PlZ5jDn0m8m36dECnba4
-	J2sD/2BaZHe2RTeDPRoUZu2R9PnByM4Bnsz5WVt3jFBwLGE74+TlzicA
-X-Gm-Gg: AR+sD13JmDq6Rd1kZn+xy4QX80Z0568yeEjOgu6l8RfcUChDq+iqUxAmnPoQHstStw/
-	CfhWY6FsXRuEtaDXLpnYdXzTm+baQYqrhwem6NgreKuxFhniD4vHrxQWU0C8FrZJTNv4z8JE3yX
-	pvEGuOxuARqIkbqVy5KYCtomBW7Jxz3/zxYy6Cxn4+aeHe0F0M/Izd2tjolEZYfYPaSDoihUiBM
-	W6V5Lx2svr7VNRQA7c+tsyAPBOO0e4vzG86e4mhVo0LcMZ2JRx985Neh5dnpbOXACM+3lD1k76k
-	ukQhnBmbI9NygmQqxJJ+mf0lH3cZpk3rVgYBnP4qLdcqBxBR0WOwWKIVJx3yq/T1RbpoiAk41cb
-	R2NMjcUL8o1L1N2jTS4LpVBM29PrTw6XZ1rElrkc9+eRibPT/4NfKfcebOa/uP5N6aJ4EVq+Xz5
-	ddxcvDppFc6WJkHr4hsaSeDNeNiru6PgGdMFfCx16jsDGjK++j4zjXufq/FGL8KJbdNic5NUcvX
-	NN8ZDdFvdRc
-X-Received: by 2002:a05:6300:6bc7:20b0:3cd:9f99:3381 with SMTP id adf61e73a8af0-3cd9f9933bamr400900637.0.1787647069755;
-        Tue, 25 Aug 2026 01:37:49 -0700 (PDT)
+        bh=hN2Jmy0Yce+ny/9mzHdZVPdF+NxcdzE2Ab9UDeAEcWs=;
+        b=B99wekuu2kusr+5vUmHrB/6J3v+e59SBe+dgsSJXP7lWA3v6DPJLRNiC1ZsZ5rxAcA
+         wPlALhEyBIr2jA90d2qxVc94RhnoKLy3tM04et26sjqT3wMW4pjoQ1gflJUY0D95gWWR
+         YHnpv1yVSqfbO+Tfn1VDbjDCdHRuJ8RRZYTcQ6jZmjPFB0iXcHHfeB+k6M1tDr3K32KU
+         KTwaiUNIRLs4Y91SP8mV+GXp2depC+rbVVOEvN/IfMnGPnwP4PTpfWai1plML+2XRmho
+         JTYVA0KJ7BH9qGBLfnLnV4AEntQP5dn1GNMqwshbyF978DS6uCpgdYPG7HrtsWz1ECV3
+         v4HQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro5dlMS8+YvVGzraR79LpMCj8/nsC7CQYTT1uoO0RZa2QIlaCXwK/0H6WmYmuMR+6pJm9urgTIfomdFCQZCMGcPnKrw1Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++kdT/QExu915Qaj4aIp6xYpHxUzKWvEUawDrNAdZ2cKaFn/1+A3
+	75UKhYw/aWkew8u+E/Cjf/PTB1s9XvITULwpvyCi0UWRGgYFRdvsfSGG
+X-Gm-Gg: AR+sD12Ajil+T625ADw8CKWRaXTmDxhUN4iy+yna5mYWjQ3Sbj/JGAYJxZGJIoIJXp2
+	kOFrmkBGOVLjDdxj7j79yNcD1OXLlcliWxlt7NabR0zy0OoaruuakV5j8ly36cHrzlNd0+U328c
+	C4+2GLxLXzzctqVXY7wHP64YSZcrnGl467pzzFwgHzZQ533XL+azSiq5gc1zE0Gv1ns67vqF+u1
+	fb0M1evnC+YL+keNWGtOvvtlNE95vUri1q3Ku38ln+P0eEZxOy5Ws0+axqLlz7fEyEi5mMOJJLE
+	410/tMeoodC30PIxAiDWXI8m4iZn1L4l/4SVfg224Y9/1/oHEXiVPJLB5GHp3JDjZ9b2ewAdTPj
+	6H0iRMmF08Fmo7NGsGVdOCaUxCXU1nE6u3/4sZlwbklbm2nSHChn8+vE2Y4jhbz4d5AWqO2CMKh
+	M/MoSu7jnjUtFDM+puRNErw7F99Zpi8vnD6k8eQz9BPT7yBntx13uLo/fkPgam/njuSKCOFFSvM
+	2nU4F8f08uf
+X-Received: by 2002:a05:6a20:c90c:b0:3cc:22bb:8911 with SMTP id adf61e73a8af0-3cd2fe7a2cdmr66070868637.6.1787647074852;
+        Tue, 25 Aug 2026 01:37:54 -0700 (PDT)
 Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.46
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 01:37:48 -0700 (PDT)
+        Tue, 25 Aug 2026 01:37:54 -0700 (PDT)
 From: SeungJu Cheon <suunj1331@gmail.com>
 To: Anup Patel <anup@brainfault.org>,
 	Atish Patra <atish.patra@linux.dev>
@@ -75,9 +75,9 @@ Cc: Paul Walmsley <pjw@kernel.org>,
 	linux-kernel-mentees@lists.linux.dev,
 	me@brighamcampbell.com,
 	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH v1 2/3] RISC-V: KVM: Report snapshot write failure to the guest
-Date: Tue, 25 Aug 2026 17:37:18 +0900
-Message-ID: <20260825083719.643970-3-suunj1331@gmail.com>
+Subject: [PATCH v1 3/3] RISC-V: KVM: Fix perf-backed counter accounting across stop and read
+Date: Tue, 25 Aug 2026 17:37:19 +0900
+Message-ID: <20260825083719.643970-4-suunj1331@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260825083719.643970-1-suunj1331@gmail.com>
 References: <20260825083719.643970-1-suunj1331@gmail.com>
@@ -89,36 +89,75 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If kvm_vcpu_write_guest() fails while updating the PMU snapshot area
-on counter stop, the guest may receive SBI_SUCCESS without the
-snapshot being updated, leaving stale data in shared memory.
+pmu_ctr_read() adds the event count returned by perf_event_read_value()
+to counter_val, which can accumulate the same count repeatedly across
+reads. kvm_riscv_vcpu_pmu_ctr_stop() also leaves counter_val stale by
+not folding the current event count into it.
 
-Return SBI_ERR_FAILURE when the snapshot write fails.
+Make reads of perf-backed counters side-effect free, and use
+perf_event_pause() when stopping a counter to fold the current event
+count into counter_val while resetting it. This preserves the counter
+value across stop/start and lets the snapshot path use counter_val
+directly.
 
-Fixes: c2f41ddbcdd7 ("RISC-V: KVM: Implement SBI PMU Snapshot feature")
+Fixes: 0cb74b65d2e5 ("RISC-V: KVM: Implement perf support without sampling")
 Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- arch/riscv/kvm/vcpu_pmu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ arch/riscv/kvm/vcpu_pmu.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/arch/riscv/kvm/vcpu_pmu.c b/arch/riscv/kvm/vcpu_pmu.c
-index 56dd5b1b2846..45dd5233340d 100644
+index 45dd5233340d..7d50490cc622 100644
 --- a/arch/riscv/kvm/vcpu_pmu.c
 +++ b/arch/riscv/kvm/vcpu_pmu.c
-@@ -723,9 +723,10 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
- 		}
+@@ -268,12 +268,13 @@ static int pmu_ctr_read(struct kvm_vcpu *vcpu, unsigned long cidx,
+ 			return -EINVAL;
+ 
+ 		pmc->counter_val = kvpmu->fw_event[fevent_code].value;
++		*out_val = pmc->counter_val;
+ 	} else if (pmc->perf_event) {
+-		pmc->counter_val += perf_event_read_value(pmc->perf_event, &enabled, &running);
++		*out_val = pmc->counter_val +
++			   perf_event_read_value(pmc->perf_event, &enabled, &running);
+ 	} else {
+ 		return -EINVAL;
  	}
+-	*out_val = pmc->counter_val;
  
--	if (shmem_needs_update)
--		kvm_vcpu_write_guest(vcpu, kvpmu->snapshot_addr, kvpmu->sdata,
--					     sizeof(struct riscv_pmu_snapshot_data));
-+	if (shmem_needs_update &&
-+	    kvm_vcpu_write_guest(vcpu, kvpmu->snapshot_addr, kvpmu->sdata,
-+				 sizeof(struct riscv_pmu_snapshot_data)))
-+		sbiret = SBI_ERR_FAILURE;
+ 	return 0;
+ }
+@@ -641,7 +642,6 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
+ {
+ 	struct kvm_pmu *kvpmu = vcpu_to_pmu(vcpu);
+ 	int i, pmc_index, sbiret = 0;
+-	u64 enabled, running;
+ 	struct kvm_pmc *pmc;
+ 	int fevent_code;
+ 	bool snap_flag_set = flags & SBI_PMU_STOP_FLAG_TAKE_SNAPSHOT;
+@@ -679,8 +679,11 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
+ 			}
+ 		} else if (pmc->perf_event) {
+ 			if (pmc->started) {
+-				/* Stop counting the counter */
+-				perf_event_disable(pmc->perf_event);
++				/*
++				 * Stop the counter and fold the live count into counter_val.
++				 * Reset the event value to avoid redundant accumulation.
++				 */
++				pmc->counter_val += perf_event_pause(pmc->perf_event, true);
+ 				pmc->started = false;
+ 			} else {
+ 				sbiret = SBI_ERR_ALREADY_STOPPED;
+@@ -694,9 +697,6 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
+ 		}
  
- out:
- 	retdata->err_val = sbiret;
+ 		if (snap_flag_set && !sbiret) {
+-			if (pmc->perf_event)
+-				pmc->counter_val += perf_event_read_value(pmc->perf_event,
+-									  &enabled, &running);
+ 			/*
+ 			 * The counter and overflow indices in the snapshot region are w.r.to
+ 			 * cbase. Modify the set bit in the counter mask instead of the pmc_index
 -- 
 2.52.0
 
