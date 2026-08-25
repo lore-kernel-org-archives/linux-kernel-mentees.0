@@ -1,64 +1,64 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B133E49DB
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB833E51F0
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787647066; cv=none; b=rjXAriTRRVzSRzf1+8+7CKqCQ5FuNoitVr1ALCrWWgKUxwwA6NjvMpEc4ajYSCKLyF8i/uQhPaRIkdaGAovsFbIp4HiQbIyX6WtYwi4f+sJlp2VJ/nii2kTcn9cFUs4msVF1CC1LKZIaztdxBKzACjyv5/+nNMfA/C8TgTE3Fkk=
+	t=1787647072; cv=none; b=fdL7Ti0MwC9HcUxVXAu73P5ft2UrOXBmYm9+VdYtbOyuL5SwmSH7TnteuKyyZswAEj3H2uXh6HAJHvy/JkhdQd4hHAJ8SEI66ZXznHhMBRlFbq/D6bal1dM9533mVtfLvTns4VCIW98hOIZbc3QQM6ex0z4KQcVKnp6nW97JORM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787647066; c=relaxed/simple;
-	bh=0iAVbxJH3sBm1IgSAaYTJfu2cuy78yxvo5wsLfXwV28=;
+	s=arc-20240116; t=1787647072; c=relaxed/simple;
+	bh=QzU+PHGXaMJ/27WJb6wJphrvbMmQUjQ1+684SPuRm40=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OG3mRFzu0D1m586gEt15P+MO5E8m2lGiiimvH1Y3xvp0ibTsL9gJudmX3cz12+W/W1CKrKW/35oEC1XCWILbiEvWZTJIIPM3YtWqBUssJ56CuQeeI2eUjILkFhr5aVvS5TlmGATMzSwkgmlVTpZtWYFAJORjsaX46tNkUbXrlJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ck3jUKF6; arc=none smtp.client-ip=209.85.215.171
+	 MIME-Version; b=OS0NOTr6Vql/XCE9a7HDoaxx/l40UgJ6/YRy/uqmWyTGbZ7p/pyo8CTINBru7oKLjXsMkioBl/4I/eT2lB7J/si5C2HUk3CxYmVX5A+uRyOywYHJhowTMAqMFQQ1Ws7aMkv+FUr2CtpgH1gwKPMC8mZ2hG3airPRSqoCEzkOiAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzTicVv1; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ck3jUKF6"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so4355171a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzTicVv1"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ca00f126b7eso3293965a12.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787647065; x=1788251865; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787647070; x=1788251870; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EKUnc+hCH/m96lQyJ3IHIfrh5f9TDgQ6D60NAJmR+nI=;
-        b=Ck3jUKF6NgzGLfwzUrlmQTwC6paENIHAO4vh0DB3S1Iy6Is1Lq7/ubnu/OGgpM4Z3j
-         TrXik/tAFTAQZH/10KidCLQz7S9VVjYDAOyinJpRSb8Nj/M+o9L0A0MhXqhAS7MyHq7Z
-         K+FCIbssIG0err4ioGpfTkG7vrGU+pek6AAZqYKjaVS/4pMRDRpkXj0+sHa8qA5bj0l6
-         gPyPpa50ND2k6Yef3MnM7IpKOUU05vfeZq0jVytal7DtJnQl8bdL87j8sHN33VKn70XE
-         b67ATRJurCidGUkd0q8wihRMpCYuPMI+YZsWTe58M5LVLn+ZMUUHW9oQYUkr4DQTx0e+
-         V2Ig==
+        bh=SlP9O0s11C5YW6Wj3Uolvqko6ksI3Exocfu05SFa8SI=;
+        b=LzTicVv1YqB1FoPxzdeAQJ6Xu7iWHqpmBJLdM/OhtEGwqRGirDGtT8cJ8LS2qdZO/h
+         TLsjQjDzeyc9FGebOlHnBrkiAQvdjhMk+qEKsEqVvxvAtcA0eGIfXHRkK4eaebCdzYvl
+         LtvHh48Jas1Lu/bo0caWJGJwWMCad91AyWdpW1obgGUYGrKtM/EFKNtdU9HdHh2lUtwG
+         ey6Z94nNqBuWfMc0XrtU6unkLQFHgDTjsPFGEV8cN/dWCFff9hnpq/LVXqOecConxGss
+         Wkgtk3VRE3LSZjBfaBahJN4ZBmsAlUHHjwqI+0gC+grfHVLn6dD+M3NnpQMNrP3iJTS3
+         6e3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787647065; x=1788251865;
+        d=1e100.net; s=20251104; t=1787647070; x=1788251870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EKUnc+hCH/m96lQyJ3IHIfrh5f9TDgQ6D60NAJmR+nI=;
-        b=I7n0xWmxdO3La133d7lLiTRGw47Itsq2NC1qh/KEIIJDNlDcSifowm72O3xfW38ApW
-         AHuazrTaNBs7QLhCDZhlqsuXCYICnKeMoazkK2SCnmixeWFLqmOMNiozmsW4aQivBNfB
-         WQWfUOedfYpdsonAifeOw13Ew2QQnNA2omvwWEPgeEe82I3vY/rySaQ9LuJqZJS/yp+Y
-         GmZtseXy/VktroHqCIBt0Ux5+pwa/pAjgZCY8kB3bzxCo975FwCw1ZHeX3g0HpUCgVQk
-         sIa+TkgsE58Or03hkcNi4AYBElX2uigNvh5DEH/fy1r3skLGuQu/2csQ1fjaflUkqWwa
-         LHTQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5efpFDV6R6cw7wE3ul2Jk+i3CmaumfpS59dGTDgHmOeKjqx19lh7wt5GdlAHCokzX1yUwZrwwfzh/fB4N/WvY+DBIEQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++nNqVcu7XORL0JkqiZyej/MnuFK5AAKchtvzbxVn5QxOWWhD2El
-	QBGutWXt6gqgR1z24zdFBYh1A9tmh6Xfkt1X0neLlCfItXuMvu0yx+BS
-X-Gm-Gg: AR+sD13zJLx9pMSE3jCf866ciGgtOU/qdHP63aTTxmPTgRCWSs2jcxobP9c36RZY8XW
-	1j9v6C4d+yJYM9wgQ4Q7n00EIBZvhfndcnRZ1CKJc8psMtNEUJkCtCyVqffeGnHm/q6t+71bEmv
-	vHlJUm2pyk8FTq98eR3cnMsBmTZNoeg/M2fUUSfQSIcvzy7XAyab09nfbL0POyBnwsW5EZeP+iC
-	N7CW3WC4LU0cS+qVxvMi4GKVaQ6/1pKDPyoQLgL5OaxYUzFrQinpNVoy+89HK3dcb66iI4yGled
-	Ly9J0oE1zCJIZ4WvBy5PwkF9zX1O1o3oyyVmNZP5y4ksNV7MDuInkAJ+nTuPc1Q0fasFYsNDnp4
-	0ZiJhuQeI2qD50f1Gavmykv8jzqY656fdoai9drtIqsSjQ+mAB4rDhete6zo3GGj1WOGzDLy+yc
-	UbOiB3qOb3W8/7POlZKoRiFHdDhmEAuXLD231KBUGQxA2Z43c1h91zYVoxoPDYzS7JJAZvzcXTu
-	uhAhmNBcjyr
-X-Received: by 2002:a05:6a20:6f04:b0:3c4:1916:9d3c with SMTP id adf61e73a8af0-3cd301428ecmr16874917637.15.1787647064570;
-        Tue, 25 Aug 2026 01:37:44 -0700 (PDT)
+        bh=SlP9O0s11C5YW6Wj3Uolvqko6ksI3Exocfu05SFa8SI=;
+        b=hXea3iLRNF2EnWPG2K4zBdUqh1ycM3GdXaWkHFZD2vSHL+knC9Kf5GXL01pqPRBVwi
+         Rh2Ii1wZx5jjDh4Cw4W1dZutHFo/QoictfdFitLacZIXoGC7eArGJKvqMleDFrU9ENLU
+         5PkUfTKM8M/+7eTr3jTIhsl3VY4FcXXJ5YhXeLoXEJtKsT1Xb+Fr/xTSIJ6krDRgoAus
+         HzOm9pdWJf2vRr/Q0kk/ABvUvD6J15Q2s3hNi3JxD0XWjWV836E6MeVMyaOTGhE/ZTyX
+         omVMolkkNsgFnXT1U1IZgF9ZUsYTg0jB2cWS5bHZJDD+mHCZVLVfGzXz9+Yp+vPRLXVg
+         XDXg==
+X-Forwarded-Encrypted: i=1; AHgh+RrUJ38Aa3/xlOVsQmhtTAoSVsF999d2m8GrDzFG9eLgfln/QU+nH5/aDk88EfPG+jREYvSsxTyE3C+Sb9Imsmaj0nMyWA==@lists.linux.dev
+X-Gm-Message-State: AFuF++m6JpmwJ1aCuTtfMdKoSvgE4Osjiop/PlZ5jDn0m8m36dECnba4
+	J2sD/2BaZHe2RTeDPRoUZu2R9PnByM4Bnsz5WVt3jFBwLGE74+TlzicA
+X-Gm-Gg: AR+sD13JmDq6Rd1kZn+xy4QX80Z0568yeEjOgu6l8RfcUChDq+iqUxAmnPoQHstStw/
+	CfhWY6FsXRuEtaDXLpnYdXzTm+baQYqrhwem6NgreKuxFhniD4vHrxQWU0C8FrZJTNv4z8JE3yX
+	pvEGuOxuARqIkbqVy5KYCtomBW7Jxz3/zxYy6Cxn4+aeHe0F0M/Izd2tjolEZYfYPaSDoihUiBM
+	W6V5Lx2svr7VNRQA7c+tsyAPBOO0e4vzG86e4mhVo0LcMZ2JRx985Neh5dnpbOXACM+3lD1k76k
+	ukQhnBmbI9NygmQqxJJ+mf0lH3cZpk3rVgYBnP4qLdcqBxBR0WOwWKIVJx3yq/T1RbpoiAk41cb
+	R2NMjcUL8o1L1N2jTS4LpVBM29PrTw6XZ1rElrkc9+eRibPT/4NfKfcebOa/uP5N6aJ4EVq+Xz5
+	ddxcvDppFc6WJkHr4hsaSeDNeNiru6PgGdMFfCx16jsDGjK++j4zjXufq/FGL8KJbdNic5NUcvX
+	NN8ZDdFvdRc
+X-Received: by 2002:a05:6300:6bc7:20b0:3cd:9f99:3381 with SMTP id adf61e73a8af0-3cd9f9933bamr400900637.0.1787647069755;
+        Tue, 25 Aug 2026 01:37:49 -0700 (PDT)
 Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.41
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 01:37:44 -0700 (PDT)
+        Tue, 25 Aug 2026 01:37:48 -0700 (PDT)
 From: SeungJu Cheon <suunj1331@gmail.com>
 To: Anup Patel <anup@brainfault.org>,
 	Atish Patra <atish.patra@linux.dev>
@@ -75,9 +75,9 @@ Cc: Paul Walmsley <pjw@kernel.org>,
 	linux-kernel-mentees@lists.linux.dev,
 	me@brighamcampbell.com,
 	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH v1 1/3] RISC-V: KVM: Preserve firmware counter value across stop/start
-Date: Tue, 25 Aug 2026 17:37:17 +0900
-Message-ID: <20260825083719.643970-2-suunj1331@gmail.com>
+Subject: [PATCH v1 2/3] RISC-V: KVM: Report snapshot write failure to the guest
+Date: Tue, 25 Aug 2026 17:37:18 +0900
+Message-ID: <20260825083719.643970-3-suunj1331@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260825083719.643970-1-suunj1331@gmail.com>
 References: <20260825083719.643970-1-suunj1331@gmail.com>
@@ -89,53 +89,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Firmware events accumulate in kvpmu->fw_event[].value while running,
-but counter stop only clears fw_event[].started without saving the
-value back to pmc->counter_val. A subsequent counter start without
-SBI_PMU_START_FLAG_SET_INIT_VALUE reloads the stale counter_val into
-fw_event[].value, losing all events counted so far.
+If kvm_vcpu_write_guest() fails while updating the PMU snapshot area
+on counter stop, the guest may receive SBI_SUCCESS without the
+snapshot being updated, leaving stale data in shared memory.
 
-Save fw_event[].value into counter_val when actually stopping a
-running counter, and remove the now redundant synchronization from
-the snapshot path.
+Return SBI_ERR_FAILURE when the snapshot write fails.
 
-Fixes: badc386869e2c ("RISC-V: KVM: Support firmware events")
+Fixes: c2f41ddbcdd7 ("RISC-V: KVM: Implement SBI PMU Snapshot feature")
 Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- arch/riscv/kvm/vcpu_pmu.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/riscv/kvm/vcpu_pmu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/arch/riscv/kvm/vcpu_pmu.c b/arch/riscv/kvm/vcpu_pmu.c
-index 2025b664961c..56dd5b1b2846 100644
+index 56dd5b1b2846..45dd5233340d 100644
 --- a/arch/riscv/kvm/vcpu_pmu.c
 +++ b/arch/riscv/kvm/vcpu_pmu.c
-@@ -671,10 +671,12 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
- 				goto out;
- 			}
- 
--			if (!kvpmu->fw_event[fevent_code].started)
-+			if (!kvpmu->fw_event[fevent_code].started) {
- 				sbiret = SBI_ERR_ALREADY_STOPPED;
--
--			kvpmu->fw_event[fevent_code].started = false;
-+			} else {
-+				kvpmu->fw_event[fevent_code].started = false;
-+				pmc->counter_val = kvpmu->fw_event[fevent_code].value;
-+			}
- 		} else if (pmc->perf_event) {
- 			if (pmc->started) {
- 				/* Stop counting the counter */
-@@ -692,9 +694,7 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
+@@ -723,9 +723,10 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
  		}
+ 	}
  
- 		if (snap_flag_set && !sbiret) {
--			if (pmc->cinfo.type == SBI_PMU_CTR_TYPE_FW)
--				pmc->counter_val = kvpmu->fw_event[fevent_code].value;
--			else if (pmc->perf_event)
-+			if (pmc->perf_event)
- 				pmc->counter_val += perf_event_read_value(pmc->perf_event,
- 									  &enabled, &running);
- 			/*
+-	if (shmem_needs_update)
+-		kvm_vcpu_write_guest(vcpu, kvpmu->snapshot_addr, kvpmu->sdata,
+-					     sizeof(struct riscv_pmu_snapshot_data));
++	if (shmem_needs_update &&
++	    kvm_vcpu_write_guest(vcpu, kvpmu->snapshot_addr, kvpmu->sdata,
++				 sizeof(struct riscv_pmu_snapshot_data)))
++		sbiret = SBI_ERR_FAILURE;
+ 
+ out:
+ 	retdata->err_val = sbiret;
 -- 
 2.52.0
 
