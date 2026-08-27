@@ -1,86 +1,74 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951273E5588
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 08:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78090353A87
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Aug 2026 11:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787647081; cv=none; b=Upu3KUZima2+P/WbTpzqnE7EUn7r3+gGwyGwliDhBkSbjCiz+tVyo6oQVCGMGtyHVfpHXbam5bGjFEgIERdH3AvWfu+LObDvOSdDZc1euZt9oar9UpYwYuPR+U6RAE4ODFUWDI1fL5cIChWxQ1MiLovng1bw/QSs78SetQfzT5E=
+	t=1787830382; cv=none; b=isOivvjIdZOEsU82/tMcIufm2l8cTu4prelJNR6nRZzk1q/y0i8Q74jtou/RwplaD4990IUy69cuH89hgd6Rt6IANPX3PMqHrXJ2nrO718vzxztybPPNB0LtokR5zO/zT5rep0gKFrr2aaKkNkJ5wIyNcYm5qNGvzk4mh/mnCX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787647081; c=relaxed/simple;
-	bh=GC6ctnqH49PdSJv4HAShbCKDfdndlZxHBrXCNy37gbo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VkUt5h8QgTXiRGTIX64hWf6O4zNbi5guPuheZkWy2gRFR15PoOOcFpwiITXzl+kRbiWOAwHW/lNz9ziiWsZJ4B1UWJsVaVCJYT7ti3luTxQimeQp3UPjcj/O33ynnILvn6qzGKs9ytQN8w8YNIWiyxDhN9o3cQNGZmVDghMAH+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7FIPTt+; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1787830382; c=relaxed/simple;
+	bh=aFboEQUKOgtqGi1HmtTJrsu21tmEZQzBtlGP/6ax/go=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bOvm3aEVRI1d7D7IzkZjOOGIo7WahV9Lh7BxEISQw86pAMI+EtRyl7hiPty6GNR57Okfvni195bmyMEG+ur3P4ZYyQbDgX6bI8YjGLG+1n+eRf7NeFAujj8hVLxRP3XImoq+dLWXSP9F7xm9JozzrdA+a1gPR+rgx/4eua6UnF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ir2rBfjT; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7FIPTt+"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso3925631a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 25 Aug 2026 01:37:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ir2rBfjT"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84f38f3b36eso1714694b3a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 27 Aug 2026 04:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787647075; x=1788251875; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hN2Jmy0Yce+ny/9mzHdZVPdF+NxcdzE2Ab9UDeAEcWs=;
-        b=I7FIPTt+dMRSVpVhTF26xJ0Er/sfUC45E3DKk0MyCzbNQmm2Z1xUjEo9GCTL8TEZly
-         ggqSoyKmc87kbCAZsYKO8G7ZN075lxFjCitcVpRae+gURhQqfR8MwkdmxUzJPsuHV2zh
-         4XpIiqGikaf2dBUSSbfBTulHjTZKZ7WVi72IZ6Y+ZfDYuHbBt6Ov6w8lmW6UmpZnmqfU
-         cJ9hOPT/iTHFfbmBz91Qsw35jXtQCoHXunzbYjCVfqVyE/b5QH2RYldOME8Ghl5iH5vS
-         tgzR2soelh6Yyo2pjwFStSLavZIIV0xlEavJJtUyCffJHwz5NZgX4XbDg0TkS/0jZ4mw
-         n3YQ==
+        d=gmail.com; s=20251104; t=1787830381; x=1788435181; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MioZ+DUe3WCboe2Lc9ge7bI5SNhCFb/I3FaxFf1rsxI=;
+        b=ir2rBfjTzjJAK0AmnFvmaLAhOWjX0bE5m6qyKoIbRp4O2JN3rsK13oXzWCeTsgd5To
+         FsRwVOlj9B+QnXb7sqlf2UgcfR/hgH4NGWb4Z3OGdjQirOWJOnlcYNTN74PJGC2mCYFb
+         yV6DRjy7fObmzw/FJ7cQl0pdO8Oz3K4dIQuHOetyMFSWb2Un6UZxYGg+70sIa6gQcUKc
+         jRNc4JV9TOgSUn78ORTw9zDf/Dan4UawSsXHTMKp7qaDnAnFqxHB3CIMjQBziwQWd4MP
+         UZ3I/jrv7oFdreK+dRfh6LoQCn1gJNrUMkLjSsr4FiHZE9BfTNU96PBD4VxmX+NJ/Afb
+         ur5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787647075; x=1788251875;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hN2Jmy0Yce+ny/9mzHdZVPdF+NxcdzE2Ab9UDeAEcWs=;
-        b=B99wekuu2kusr+5vUmHrB/6J3v+e59SBe+dgsSJXP7lWA3v6DPJLRNiC1ZsZ5rxAcA
-         wPlALhEyBIr2jA90d2qxVc94RhnoKLy3tM04et26sjqT3wMW4pjoQ1gflJUY0D95gWWR
-         YHnpv1yVSqfbO+Tfn1VDbjDCdHRuJ8RRZYTcQ6jZmjPFB0iXcHHfeB+k6M1tDr3K32KU
-         KTwaiUNIRLs4Y91SP8mV+GXp2depC+rbVVOEvN/IfMnGPnwP4PTpfWai1plML+2XRmho
-         JTYVA0KJ7BH9qGBLfnLnV4AEntQP5dn1GNMqwshbyF978DS6uCpgdYPG7HrtsWz1ECV3
-         v4HQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5dlMS8+YvVGzraR79LpMCj8/nsC7CQYTT1uoO0RZa2QIlaCXwK/0H6WmYmuMR+6pJm9urgTIfomdFCQZCMGcPnKrw1Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++kdT/QExu915Qaj4aIp6xYpHxUzKWvEUawDrNAdZ2cKaFn/1+A3
-	75UKhYw/aWkew8u+E/Cjf/PTB1s9XvITULwpvyCi0UWRGgYFRdvsfSGG
-X-Gm-Gg: AR+sD12Ajil+T625ADw8CKWRaXTmDxhUN4iy+yna5mYWjQ3Sbj/JGAYJxZGJIoIJXp2
-	kOFrmkBGOVLjDdxj7j79yNcD1OXLlcliWxlt7NabR0zy0OoaruuakV5j8ly36cHrzlNd0+U328c
-	C4+2GLxLXzzctqVXY7wHP64YSZcrnGl467pzzFwgHzZQ533XL+azSiq5gc1zE0Gv1ns67vqF+u1
-	fb0M1evnC+YL+keNWGtOvvtlNE95vUri1q3Ku38ln+P0eEZxOy5Ws0+axqLlz7fEyEi5mMOJJLE
-	410/tMeoodC30PIxAiDWXI8m4iZn1L4l/4SVfg224Y9/1/oHEXiVPJLB5GHp3JDjZ9b2ewAdTPj
-	6H0iRMmF08Fmo7NGsGVdOCaUxCXU1nE6u3/4sZlwbklbm2nSHChn8+vE2Y4jhbz4d5AWqO2CMKh
-	M/MoSu7jnjUtFDM+puRNErw7F99Zpi8vnD6k8eQz9BPT7yBntx13uLo/fkPgam/njuSKCOFFSvM
-	2nU4F8f08uf
-X-Received: by 2002:a05:6a20:c90c:b0:3cc:22bb:8911 with SMTP id adf61e73a8af0-3cd2fe7a2cdmr66070868637.6.1787647074852;
-        Tue, 25 Aug 2026 01:37:54 -0700 (PDT)
-Received: from fedora ([61.74.238.173])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc199e60abbsm1835887a12.23.2026.08.25.01.37.51
+        d=1e100.net; s=20251104; t=1787830381; x=1788435181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MioZ+DUe3WCboe2Lc9ge7bI5SNhCFb/I3FaxFf1rsxI=;
+        b=ICJpqprzLJj0/O2BmTgnp6losEu8e0xBymPPxjNApPg8uwQeoeu/19+isuBkD8UcUh
+         WA+1CjDF3DszKfz99lVTKailuNx8PD0g7Tn5HwS3yNzwUKAB/xWsxxNVFwjPWdh1KxFp
+         cFK5O6LQ5q7WjLDIYCbJuvBDuMMgxCQIOQ43rXlp1k5zQwxUBU63719v/QAb3/8aavO2
+         t0SgbTt9PoNCso9jTO4GDhKoXXyqEILJOcv5V1ITHwr4WM4ZwRaob1kh6emL/NS0Z4DU
+         +EKOV5+DYDF27EoXRFNmo7sHSlYyy8yb6TDWt50EiOzjB/WKU/ETVBscU6zsXOlKF+86
+         8l5g==
+X-Forwarded-Encrypted: i=1; AHgh+RqT9/o70cNrec32vZCZ3t01n+vgUykXjIVID6Ejl1HW8qTJCZQHhWKo8hN5SGILVG1v+SavpErPMPm2nRhldyIpp1BJ7A==@lists.linux.dev
+X-Gm-Message-State: AFuF++lyxpx8FJQw1sZOvy8YjyJ/bDYCoY2EM5OZqEsi/vIl7SclA0oE
+	LRMbh4+3dZzAgYCMUgnvUPUH/33rjehVXEKYR8DgLHswfW2jkntdQZsJJ4dF6/bVl97HBw==
+X-Gm-Gg: AR+sD12HY8A8VjGxfK8ZNNgBxPCkh4O7J+OwF/f9IfsS8svWP6thVmRfIaqrrDzvmJa
+	GOLpZY8JMAwt+UmDsSz4knG2kPI3Z/aTeRLBP7CjGE6/w0nfWA95uKbBqaAHMiwLBhjlT3dQ0UE
+	U4+M/NQSuaibL3Ra+UqNDOvBiAabOMBVdhUYDfwF0gT/LbBSx0+4e7myfNXKFm7ITmyfTA0zgDg
+	oLwSuycDz397p4gRtlluKVhrkopCFvFphafrVgaaAR/MpOOgNJe42mbDbBIwmnCJzZAoGIEC4KZ
+	heWl6w4wIX6Yl40ERuD209P+UulLyM736nu2kNA4GaSx8KIuV9dVTLIJfuBo93mTDre98OUFBuW
+	IppC/0Wx7ILqEP0gH8/fFazwEaVxTe3RAvH88UsC/tF/bonfGN2PGaZ7xryFbUxhF2/1603pcMS
+	xuwQgkbC6J/bVcExrkhrerG6JFnbwiOR9NnNkx2j/JaPnftqQOfDg8wKloyBlDBJ8XzEcHMHZIR
+	83L4o+fMQ==
+X-Received: by 2002:a05:6a00:6ca7:b0:84e:24df:3870 with SMTP id d2e1a72fcca58-8536ee112damr26946481b3a.0.1787830379646;
+        Thu, 27 Aug 2026 04:32:59 -0700 (PDT)
+Received: from cfarm424.jing.rocks (cfarm424.jing.rocks. [2600:3c18:e002:2e11::c424])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-85359cd71e2sm1940207b3a.12.2026.08.27.04.32.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 01:37:54 -0700 (PDT)
-From: SeungJu Cheon <suunj1331@gmail.com>
-To: Anup Patel <anup@brainfault.org>,
-	Atish Patra <atish.patra@linux.dev>
-Cc: Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
+        Thu, 27 Aug 2026 04:32:59 -0700 (PDT)
+From: Ridham Khurana <khurana.ridham222@gmail.com>
+To: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brigham Campbell <me@brighamcampbell.com>,
 	linux-kernel-mentees@lists.linux.dev,
-	me@brighamcampbell.com,
-	SeungJu Cheon <suunj1331@gmail.com>
-Subject: [PATCH v1 3/3] RISC-V: KVM: Fix perf-backed counter accounting across stop and read
-Date: Tue, 25 Aug 2026 17:37:19 +0900
-Message-ID: <20260825083719.643970-4-suunj1331@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260825083719.643970-1-suunj1331@gmail.com>
-References: <20260825083719.643970-1-suunj1331@gmail.com>
+	Ridham Khurana <khurana.ridham222@gmail.com>
+Subject: [PATCH] platform: cznic: turris-omnia-mcu: Add missing MODULE_DEVICE_TABLE()
+Date: Thu, 27 Aug 2026 11:32:41 +0000
+Message-ID: <20260827113241.993923-1-khurana.ridham222@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -89,75 +77,40 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pmu_ctr_read() adds the event count returned by perf_event_read_value()
-to counter_val, which can accumulate the same count repeatedly across
-reads. kvm_riscv_vcpu_pmu_ctr_stop() also leaves counter_val stale by
-not folding the current event count into it.
+The driver wires of_omnia_mcu_match into the i2c_driver's
+.of_match_table but never exports it with MODULE_DEVICE_TABLE(), so no
+module alias is generated and the module is not autoloaded when the MCU
+is probed from the device tree.
 
-Make reads of perf-backed counters side-effect free, and use
-perf_event_pause() when stopping a counter to fold the current event
-count into counter_val while resetting it. This preserves the counter
-value across stop/start and lets the snapshot path use counter_val
-directly.
+Found by code inspection. Not tested on the hardware itself; with the
+module built, the alias lookup
 
-Fixes: 0cb74b65d2e5 ("RISC-V: KVM: Implement perf support without sampling")
-Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
+  $ modprobe -R 'of:Nsystem-controllerT(null)Ccznic,turris-omnia-mcu'
+
+reports no match before this change and resolves to turris_omnia_mcu
+after it.
+
+Fixes: 992f1a3d4e88 ("platform: cznic: Add preliminary support for Turris Omnia MCU")
+Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
 ---
- arch/riscv/kvm/vcpu_pmu.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Developed and tested on linux-next (next-20260826).  The affected file is
+identical in v7.2, so this applies unchanged to mainline.
 
-diff --git a/arch/riscv/kvm/vcpu_pmu.c b/arch/riscv/kvm/vcpu_pmu.c
-index 45dd5233340d..7d50490cc622 100644
---- a/arch/riscv/kvm/vcpu_pmu.c
-+++ b/arch/riscv/kvm/vcpu_pmu.c
-@@ -268,12 +268,13 @@ static int pmu_ctr_read(struct kvm_vcpu *vcpu, unsigned long cidx,
- 			return -EINVAL;
+ drivers/platform/cznic/turris-omnia-mcu-base.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/platform/cznic/turris-omnia-mcu-base.c b/drivers/platform/cznic/turris-omnia-mcu-base.c
+index e8fc0d7b3343..f0416302a1f3 100644
+--- a/drivers/platform/cznic/turris-omnia-mcu-base.c
++++ b/drivers/platform/cznic/turris-omnia-mcu-base.c
+@@ -403,6 +403,7 @@ static const struct of_device_id of_omnia_mcu_match[] = {
+ 	{ .compatible = "cznic,turris-omnia-mcu" },
+ 	{}
+ };
++MODULE_DEVICE_TABLE(of, of_omnia_mcu_match);
  
- 		pmc->counter_val = kvpmu->fw_event[fevent_code].value;
-+		*out_val = pmc->counter_val;
- 	} else if (pmc->perf_event) {
--		pmc->counter_val += perf_event_read_value(pmc->perf_event, &enabled, &running);
-+		*out_val = pmc->counter_val +
-+			   perf_event_read_value(pmc->perf_event, &enabled, &running);
- 	} else {
- 		return -EINVAL;
- 	}
--	*out_val = pmc->counter_val;
- 
- 	return 0;
- }
-@@ -641,7 +642,6 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
- {
- 	struct kvm_pmu *kvpmu = vcpu_to_pmu(vcpu);
- 	int i, pmc_index, sbiret = 0;
--	u64 enabled, running;
- 	struct kvm_pmc *pmc;
- 	int fevent_code;
- 	bool snap_flag_set = flags & SBI_PMU_STOP_FLAG_TAKE_SNAPSHOT;
-@@ -679,8 +679,11 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
- 			}
- 		} else if (pmc->perf_event) {
- 			if (pmc->started) {
--				/* Stop counting the counter */
--				perf_event_disable(pmc->perf_event);
-+				/*
-+				 * Stop the counter and fold the live count into counter_val.
-+				 * Reset the event value to avoid redundant accumulation.
-+				 */
-+				pmc->counter_val += perf_event_pause(pmc->perf_event, true);
- 				pmc->started = false;
- 			} else {
- 				sbiret = SBI_ERR_ALREADY_STOPPED;
-@@ -694,9 +697,6 @@ int kvm_riscv_vcpu_pmu_ctr_stop(struct kvm_vcpu *vcpu, unsigned long ctr_base,
- 		}
- 
- 		if (snap_flag_set && !sbiret) {
--			if (pmc->perf_event)
--				pmc->counter_val += perf_event_read_value(pmc->perf_event,
--									  &enabled, &running);
- 			/*
- 			 * The counter and overflow indices in the snapshot region are w.r.to
- 			 * cbase. Modify the set bit in the counter mask instead of the pmc_index
+ static struct i2c_driver omnia_mcu_driver = {
+ 	.probe		= omnia_mcu_probe,
 -- 
-2.52.0
+2.47.3
 
