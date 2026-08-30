@@ -1,44 +1,31 @@
-Received: from smtp.smtpout.orange.fr (smtp-11.smtpout.orange.fr [80.12.242.11])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD9A324B20
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 29 Aug 2026 08:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368AA3812C7
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 30 Aug 2026 09:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787992057; cv=none; b=SIWksjpDUfVDX74ZETk902XCNrVqFUC2xMEzCXBGhYvGO9tcFVDNdwEG+nu3bUlR/G+n+PV5NfKrd+pNF2c2mUAYtvJqrs6YoDerIq5c0et7IJf+ZtTip5Ksc/0iDFkw1nwHWPf3DYfr3OBpH0W5ZbLbZ5KF0bjVSg7j9sHAjzc=
+	t=1788082406; cv=none; b=k/vfeyLDCvtqWB7JwuZAuJrsJ60yn6X/dyyIlmRWkea/0CoH6bvF86M7qa7o17FHsDyE62tZ4cpBpX5enS3se04a4fbd8hMgMmMyRsqfWMfHDiykgsK9nP/lfztbkd4LDYbXp2OjHXmyrW/neFo8rBhZnJThsV+Dsjh/jAwtLoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787992057; c=relaxed/simple;
-	bh=tZOvTyQRMqNHqQqGNoRYD8j1Q+k0hOG3tApmviiiRnc=;
+	s=arc-20240116; t=1788082406; c=relaxed/simple;
+	bh=cs9JSlonkFnK9gcBAH4IYHqUYSZMi1dddW2RqM4+dsI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G+dNwX1AkBHqzkEJSAIkKgk2v29OwySvjukuKOjnLhWaezlNAmZGQYCbWTbbTD0NQhIUrJ44bqU8yIPkPQNaDUZ+jM+PcsFYP6TiG1IpybtATUy/Rl1RfPBKvEwTYIh8NUW5WWhX5Q0Rm7T9LW2F/EHOmZX2cXvTv3L9Jsh0kLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=blZ+aBCW; arc=none smtp.client-ip=80.12.242.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="blZ+aBCW"
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e] ([10.64.95.101])
-	by smtp.orange.fr with ESMTP
-	id 0EGkxrKc5ibtH0EGkxAXDJ; Sat, 29 Aug 2026 10:18:30 +0200
-Received: from [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
- ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
-	by smtp.orange.fr with ESMTPSA
-	id 0EGXxPPfLrYCi0EGYxAOOR; Sat, 29 Aug 2026 10:18:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1787991502;
-	bh=pm5AuBFWT26WTMK2I/IakRM9AAO1FZ716ZvF/Hn53X8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=blZ+aBCW52xwmWZZN0sd8OiWTM8AgT2+vz9V9i5Uqm9PH73FnyN+0nIB0ifCTgNMm
-	 vbj8QyeoGYc+223nzvuFgYh3nR0QQMhzqicWMM1Y7Letb474A4T7W/BUjhsytMrkOb
-	 5gqdLHQzmK8UvRy54wryQzU8IBtbyBxka43UBRHjjTy8e6UyAAqomHAQ/rGzYPecDM
-	 f8i4lf1iaJWwAigsw3AA4tuCCZU1giSr3LeXlFZRMPzgkyTuOfCkhu3SAcXj7nMXxN
-	 WcMIndguCjwNpZcVsaJb0GmUYa2w/VvRf4Oy+Fg/7FIQi2xRlNkq5xXk3ehTZVAC6Q
-	 w6G3DXnuYCYcQ==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 29 Aug 2026 10:18:22 +0200
-X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
-Message-ID: <968d5cd7-60e0-450e-b096-6058d76863d8@wanadoo.fr>
-Date: Sat, 29 Aug 2026 10:18:16 +0200
+	 In-Reply-To:Content-Type; b=Qt2OgdynokFUtyihxUffE/XvrEvD+t3DxFkN4dSaIlyhsXRxOCxHgS4eE3iUCwE5algoKtOfFEAqC5dOZEWPtRyEvbeeKPS9L3xTIgbd6Jf3N3cmOMBg8znnAjEoGNhNYg0EyxXqRDTJBZfaYAQ+LK7+Eo1QVl6kLS2/9/vfn4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 67U9Wxjk035779;
+	Sun, 30 Aug 2026 18:32:59 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 67U9Wxgh035769
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 30 Aug 2026 18:32:59 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <61c4cee5-3c63-4b09-abbf-bf945b538403@I-love.SAKURA.ne.jp>
+Date: Sun, 30 Aug 2026 18:32:59 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -46,181 +33,34 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] drm/ch1115: add support for Chipwealth CH1115 OLED
- controller
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Brigham Campbell <me@brighamcampbell.com>,
- Jori Koolstra <jkoolstra@xs4all.nl>, Shuah Khan <skhan@linuxfoundation.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <cover.1787973729.git.nico.antinori.7@gmail.com>
- <cb767f9b1db18f981c363222f96a46061e77e4c7.1787973729.git.nico.antinori.7@gmail.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-In-Reply-To: <cb767f9b1db18f981c363222f96a46061e77e4c7.1787973729.git.nico.antinori.7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
+ context in vub300_inactivity_timer_expired
+To: Johan Hovold <johan@kernel.org>, Jakov Novak <jakovnovak30@gmail.com>
+Cc: linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linux.dev, Ulf Hansson <ulfh@kernel.org>,
+        Guangshuo Li <lgs201920130244@gmail.com>,
+        Runyu Xiao
+ <runyu.xiao@seu.edu.cn>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20260816153809.7067-1-jakovnovak30@gmail.com>
+ <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav415.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-Le 29/08/2026 à 08:32, Nicolás Antinori a écrit :
-> Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
-> 
-> Add DRM support for this chip using i2c bus.
-> 
-> Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+On 2026/08/17 17:13, Johan Hovold wrote:
+> I didn't look at this in any detail, but having that call in
+> mmc_free_host() (e.g. rather than in mmc_remove_host()) looks wrong so
+> perhaps the fix really lies in MMC core.
 
-Hi,
+syzbot has an AI-generated patch at
+https://lkml.kernel.org/r/49982079-95f4-4e8c-bbbc-bcb127e2f378@mail.kernel.org .
 
-a few nitpick below, should it help.
+Please check.
 
-...
-
-> +static int ch1115_connector_init(struct ch1115_device *ch1115)
-> +{
-> +	struct drm_connector *connector = &ch1115->connector;
-> +	struct drm_encoder *encoder = &ch1115->encoder;
-> +	struct drm_device *dev = &ch1115->dev;
-> +	int ret;
-> +
-> +	ret = drm_connector_init(dev, connector, &ch1115_connector_funcs,
-> +				 DRM_MODE_CONNECTOR_Unknown);
-> +
-
-Unneeded empty ilne.
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_connector_helper_add(connector, &ch1115_connector_helper_funcs);
-> +
-> +	return drm_connector_attach_encoder(connector, encoder);
-> +}
-
-...
-
-> +static int ch1115_probe(struct i2c_client *client)
-> +{
-> +	struct ch1115_device *ch1115;
-> +	struct device *dev;
-> +	struct backlight_device *bl;
-> +	int ret;
-> +
-> +	dev = &client->dev;
-> +	ch1115 = devm_drm_dev_alloc(&client->dev, &ch1115_driver,
-> +				    struct ch1115_device, dev);
-> +	if (IS_ERR(ch1115))
-> +		return PTR_ERR(ch1115);
-> +
-> +	i2c_set_clientdata(client, ch1115);
-> +
-> +	ch1115->client = client;
-> +	ch1115->regmap = devm_regmap_init(dev, &ch1115_regmap_bus,
-> +					  client, &ch1115_regmap_config);
-> +	if (IS_ERR(ch1115->regmap)) {
-> +		return dev_err_probe(dev, PTR_ERR(ch1115->regmap),
-> +				     "Failed to initialize regmap\n");
-> +	}
-
-Un-needed { } to be consistent with other paths below.
-
-> +
-> +	ret = ch1115_parse_dt(ch1115);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to parse DT\n");
-> +
-> +	ch1115->pages = DIV_ROUND_UP(ch1115->height, CH1115_PAGE_HEIGHT);
-> +	ch1115->bytes_per_row = DIV_ROUND_UP(ch1115->width, 8);
-> +	ch1115->x_start_offset = ch1115->flip_horizontal
-> +		? CH1115_MAX_WIDTH - ch1115->width
-> +		: 0;
-> +	ch1115->mode = ch1115_mode(ch1115);
-> +
-> +	ch1115->hwbuf = devm_kzalloc(dev, (ch1115->width * ch1115->height) / 8,
-> +				     GFP_KERNEL);
-> +	if (!ch1115->hwbuf)
-> +		return -ENOMEM;
-> +
-> +	ch1115->row = devm_kzalloc(dev, ch1115->width, GFP_KERNEL);
-> +	if (!ch1115->row)
-> +		return -ENOMEM;
-> +
-> +	// Backlight
-> +	bl = devm_backlight_device_register(dev, dev_name(dev), dev, ch1115,
-> +					    &ch1115_bl_ops, NULL);
-> +	if (IS_ERR(bl))
-> +		return dev_err_probe(dev, PTR_ERR(bl),
-> +				     "Unable to register backlight device\n");
-> +
-> +	bl->props.brightness = ch1115->contrast;
-> +	bl->props.max_brightness = CH1115_MAX_CONTRAST;
-> +	ch1115->bl_dev = bl;
-> +
-> +	// DRM
-> +	ret = ch1115_mode_config_init(ch1115);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to initialize mode config\n");
-> +
-> +	ret = ch1115_plane_init(ch1115);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to initialize primary plane\n");
-> +
-> +	ret = ch1115_crtc_init(ch1115);
-> +	if (ret < 0)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to initialize CRTC\n");
-> +
-> +	ret = ch1115_encoder_init(ch1115);
-> +	if (ret < 0)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to initialize encoder\n");
-> +
-> +	ret = ch1115_connector_init(ch1115);
-> +	if (ret < 0)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to initialize connector\n");
-> +
-> +	drm_mode_config_reset(&ch1115->dev);
-> +
-> +	ret = drm_dev_register(&ch1115->dev, 0);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to register DRM device\n");
-> +
-> +	drm_client_setup(&ch1115->dev, NULL);
-> +
-> +	return 0;
-> +}
-> +
-> +static void ch1115_remove(struct i2c_client *client)
-> +{
-> +	struct ch1115_device *ch1115 = i2c_get_clientdata(client);
-> +	int ret;
-> +
-> +	u8 cmd_list[] = {
-> +		CH1115_CMD_OFF,
-> +
-> +		CH1115_CMD_ALL_ON,
-> +
-> +		CH1115_CMD_DC_DC,
-> +		CH1115_VAL_DC_DC_OFF,
-> +	};
-> +
-> +	drm_dev_unplug(&ch1115->dev);
-> +	drm_atomic_helper_shutdown(&ch1115->dev);
-> +
-> +	ret = ch1115_send_command_list(ch1115, cmd_list, ARRAY_SIZE(cmd_list));
-> +	if (ret < 0)
-> +		dev_err(&client->dev, "There was an error executing the shutdown commands");
-
-Missing trailing \n to be consistent with other messages.
-
-> +}
-...
-
-CJ
