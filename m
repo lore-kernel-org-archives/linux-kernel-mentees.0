@@ -1,66 +1,72 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368AA3812C7
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 30 Aug 2026 09:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF263BED7F;
+	Mon, 31 Aug 2026 09:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788082406; cv=none; b=k/vfeyLDCvtqWB7JwuZAuJrsJ60yn6X/dyyIlmRWkea/0CoH6bvF86M7qa7o17FHsDyE62tZ4cpBpX5enS3se04a4fbd8hMgMmMyRsqfWMfHDiykgsK9nP/lfztbkd4LDYbXp2OjHXmyrW/neFo8rBhZnJThsV+Dsjh/jAwtLoY=
+	t=1788167142; cv=none; b=IO2d2paqDwI1InM1Lo7msHdiEBBExpl5Z1MhBqZlA/jof+0cIuLVbndYf/84KBiDuzKeLeoAL7Cx4DNdPobfpDH3Z2oK3gHyIAbDvs0otnkF0+qYL2dzeD3wb+cQbTuo644orhqiRDex/Z8Hk+EOVrafMen1JjyOx2y3pY4c+a4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788082406; c=relaxed/simple;
-	bh=cs9JSlonkFnK9gcBAH4IYHqUYSZMi1dddW2RqM4+dsI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qt2OgdynokFUtyihxUffE/XvrEvD+t3DxFkN4dSaIlyhsXRxOCxHgS4eE3iUCwE5algoKtOfFEAqC5dOZEWPtRyEvbeeKPS9L3xTIgbd6Jf3N3cmOMBg8znnAjEoGNhNYg0EyxXqRDTJBZfaYAQ+LK7+Eo1QVl6kLS2/9/vfn4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 67U9Wxjk035779;
-	Sun, 30 Aug 2026 18:32:59 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.6] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 67U9Wxgh035769
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 30 Aug 2026 18:32:59 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <61c4cee5-3c63-4b09-abbf-bf945b538403@I-love.SAKURA.ne.jp>
-Date: Sun, 30 Aug 2026 18:32:59 +0900
+	s=arc-20240116; t=1788167142; c=relaxed/simple;
+	bh=w7YyoJS5QaauGmQpdZzJhiiLfBTxs4FamTHMunXnIvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sgMI02fGaTSxJEM9eTHKMpjJUOgcoo7oWVD/4wm3jC+IovlDJ9P7AC+quwWS5WZCcwTlYqaiB4njkDsF9AHt/830U1jGgfcUwWc3YzMz4slNUUwYLJAcOOfXSGys195HN180YAKvD7bcdmcWsqlHnEKsDJEmjvG+vf9bVVYhWYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9wMnEAg; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9wMnEAg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8F91F000E9;
+	Mon, 31 Aug 2026 09:05:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788167140;
+	bh=lkFnYsQr7htHEOaaPnp8C+GnUFJy0U347AxVeU6TSes=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z9wMnEAgOQfc1dL66JxFc/2TGbb9YSV2AT3P0+nKicGai1qB8RClIB0ZrU/dwdsDg
+	 H8L8otRT7Lwyjyw9iPCna3nxemYNZ5vd5wulF6azKV/yPrnRxxXHXCcdTZKZRisi8O
+	 YXvHesMBQYtdaQALZmlwZF3LUnjonEdIgQsK1mnj70lN5Aea+NN1xS1H4yucNAlpFt
+	 CB9uHNyqF8mYmItc5DOBkAp0h+r//FCqJRNFlCVzdX8w+s20cmvI+Kag36klz99Sti
+	 qD7d4/40m82mWj5AfWsxCFydKFl6etrBuQGyP8uKnfw8wPtEjPROrGSiQk6GDTlnJi
+	 t4uCBnAww2s8w==
+Date: Mon, 31 Aug 2026 11:05:36 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: =?utf-8?Q?Nicol=C3=A1s?= Antinori <nico.antinori.7@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Brigham Campbell <me@brighamcampbell.com>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] dt-bindings: display: add Chipwealth CH1115 OLED
+ Controller
+Message-ID: <20260831-brawny-original-curassow-8fa9dc@quoll>
+References: <cover.1787973729.git.nico.antinori.7@gmail.com>
+ <5e1a01043e1935d59d48630dc6211652e64b108a.1787973729.git.nico.antinori.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
- context in vub300_inactivity_timer_expired
-To: Johan Hovold <johan@kernel.org>, Jakov Novak <jakovnovak30@gmail.com>
-Cc: linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linux.dev, Ulf Hansson <ulfh@kernel.org>,
-        Guangshuo Li <lgs201920130244@gmail.com>,
-        Runyu Xiao
- <runyu.xiao@seu.edu.cn>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20260816153809.7067-1-jakovnovak30@gmail.com>
- <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav415.rs.sakura.ne.jp
-X-Virus-Status: clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5e1a01043e1935d59d48630dc6211652e64b108a.1787973729.git.nico.antinori.7@gmail.com>
 
-On 2026/08/17 17:13, Johan Hovold wrote:
-> I didn't look at this in any detail, but having that call in
-> mmc_free_host() (e.g. rather than in mmc_remove_host()) looks wrong so
-> perhaps the fix really lies in MMC core.
+On Sat, Aug 29, 2026 at 03:32:13AM -0300, Nicol=C3=A1s Antinori wrote:
+> Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
+>=20
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+> ---
+> NOTE: patch series based in kernel v7.2
+>=20
+>  .../bindings/display/chipwealth,ch1115.yaml   | 81 +++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+>  2 files changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/chipwealth,=
+ch1115.yaml
 
-syzbot has an AI-generated patch at
-https://lkml.kernel.org/r/49982079-95f4-4e8c-bbbc-bcb127e2f378@mail.kernel.org .
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Please check.
+Best regards,
+Krzysztof
 
