@@ -1,72 +1,433 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF263BED7F;
-	Mon, 31 Aug 2026 09:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5A539FCB5
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 31 Aug 2026 22:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788167142; cv=none; b=IO2d2paqDwI1InM1Lo7msHdiEBBExpl5Z1MhBqZlA/jof+0cIuLVbndYf/84KBiDuzKeLeoAL7Cx4DNdPobfpDH3Z2oK3gHyIAbDvs0otnkF0+qYL2dzeD3wb+cQbTuo644orhqiRDex/Z8Hk+EOVrafMen1JjyOx2y3pY4c+a4=
+	t=1788215352; cv=none; b=pabzgOwtuD37/tjKTItvBY+gN1A73iowSDcO5oqnR8GIp21ywJ+rqEL0OyjKOfOFuJwVSaQ+TmnFGvGOwBv6AaA9X+AgnXQK/IA0RslADXh7A+J4kG8scayK6OXS6TVLCykzgZbXRRSAVCm8iH6CD+xba3/UdnL4cGzYKG08PeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788167142; c=relaxed/simple;
-	bh=w7YyoJS5QaauGmQpdZzJhiiLfBTxs4FamTHMunXnIvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sgMI02fGaTSxJEM9eTHKMpjJUOgcoo7oWVD/4wm3jC+IovlDJ9P7AC+quwWS5WZCcwTlYqaiB4njkDsF9AHt/830U1jGgfcUwWc3YzMz4slNUUwYLJAcOOfXSGys195HN180YAKvD7bcdmcWsqlHnEKsDJEmjvG+vf9bVVYhWYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9wMnEAg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788215352; c=relaxed/simple;
+	bh=o9QPZGSAc+R9OGC6IuZRWp/Ch4425nWI9BIe6fWHVxQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vF/o5E278X9RUsghRmxy7TA8waHLowLmiJ19pQC3iRUbLgtE+Zw6qQSWCN8oWGSgo8SSK5WCWrZpSVQzMzOYP/VuTn2hH1ppIX2L29SSv8XX1tEcj67OTeyG0rHEUsrycgMgbI3yhMAmFvA9mPeRZ9hdDiFFNywaM4dD2ynxH3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpu89g7x; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9wMnEAg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8F91F000E9;
-	Mon, 31 Aug 2026 09:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788167140;
-	bh=lkFnYsQr7htHEOaaPnp8C+GnUFJy0U347AxVeU6TSes=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z9wMnEAgOQfc1dL66JxFc/2TGbb9YSV2AT3P0+nKicGai1qB8RClIB0ZrU/dwdsDg
-	 H8L8otRT7Lwyjyw9iPCna3nxemYNZ5vd5wulF6azKV/yPrnRxxXHXCcdTZKZRisi8O
-	 YXvHesMBQYtdaQALZmlwZF3LUnjonEdIgQsK1mnj70lN5Aea+NN1xS1H4yucNAlpFt
-	 CB9uHNyqF8mYmItc5DOBkAp0h+r//FCqJRNFlCVzdX8w+s20cmvI+Kag36klz99Sti
-	 qD7d4/40m82mWj5AfWsxCFydKFl6etrBuQGyP8uKnfw8wPtEjPROrGSiQk6GDTlnJi
-	 t4uCBnAww2s8w==
-Date: Mon, 31 Aug 2026 11:05:36 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?Q?Nicol=C3=A1s?= Antinori <nico.antinori.7@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Brigham Campbell <me@brighamcampbell.com>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Shuah Khan <skhan@linuxfoundation.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: add Chipwealth CH1115 OLED
- Controller
-Message-ID: <20260831-brawny-original-curassow-8fa9dc@quoll>
-References: <cover.1787973729.git.nico.antinori.7@gmail.com>
- <5e1a01043e1935d59d48630dc6211652e64b108a.1787973729.git.nico.antinori.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpu89g7x"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-81ed2a06b9eso2689257b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 31 Aug 2026 15:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788215349; x=1788820149; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KBH1mR8xlaHE++naXpqrsrQoRhbZMi3+JpUgsYGfEdc=;
+        b=kpu89g7xWGnc3/HsQWeUTy7XYcBjrZOp4noIh213d4KSXYpZgkEAxtBisTkENSPE3r
+         ZALFG+i2J3NrEkl9epONwCZGangNcfMTgiuwXHgsZ0X4GIAGa9Em5asHA6ZPsNqL5wvg
+         zxFhbUGZ00o+AIfFsI4UkOJgRDfRhKc25PdhaYMkp1P6eWeWQyxcYerKdhLdammfFm5Z
+         35MsyaGwTDx0+y233k1UY/L2Wg4naVybnIPzGfucjSXD7OrnBgcEmQ6GtVV5iDctEkNY
+         OAOZiXHpUHnFrOqI1OzQLfHIVBwzmlLafd7GCK+AABtgldwCGjJgKmZffXbWczXNm8vD
+         AI1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788215349; x=1788820149;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KBH1mR8xlaHE++naXpqrsrQoRhbZMi3+JpUgsYGfEdc=;
+        b=loOYZHd+FlEwqYuw+EbqHgcjUQErvp6T7BbVxhzHwsNCEXlEcJufWotQBfhnOvJ5cd
+         QK5DEESHwRSjVfVIIWiicoYTz17ZZ3BPNBX5h6t/4H2VpDRsN8u2b838coFuX5p7554m
+         5BcPSw2KUo564lLA30a4Zf7kM/O4wJQQYL+KVLjK1LE9F3NLvZEvUp6ra5lqA6X96zph
+         +ChPXHW+7LBHrOAdSB8GFWYye/nqGeniD74Y6JUgffQGVin+sQCuw2rW/dUj7ubJzP6D
+         qkf7GEaurShYQaG/RNhnuxgDVQ1bLTppVLhHJnVB9mCOjqaAj1/XBTzx4RzTCXHJCuW2
+         FQ1w==
+X-Forwarded-Encrypted: i=1; AKwUvBy88gg1VxnwqXIcu6ActD9bC2GDSTkCfHxk9HbVOeg8SXL0+nUvMTy1S7DPUxQ3MlWE3gYgJc3OwHfYZb/s5aT89Y0JMA==@lists.linux.dev
+X-Gm-Message-State: AFuF++muavXOMteFjxSz9F6rVDa6nNIzp7GrDMqny2DjO6bZSAouOrB0
+	9MbEJUYp877uoX3bWvO/c+7nghTO+wsRKCCx5fZtQMDE9nPgBPuiQ4M=
+X-Gm-Gg: AYBFou0+NK1K5CmUzH23n15lDN6Gr2oKikJ6LNBWv99i9V9CArlbPyKzBSqryWQVTiB
+	RfS6TA5t7XfDCTBfgD42ZWBZUqKfUwLizhNGlJ8vDqz2ACIlU+QNq7z0lawXLCnkNorpCHtFgLf
+	6TIK3u9d/cTpQ2kWea00jrcRJ26nAc0nFWa26mts1Ro/kEyjKOSAXNLyivyj+wcAHe4OOAkDKR8
+	4ilXOqIvjKkgpUVN4pmqnk/5eAuIZuYxRFsFLs1OqU0lULKeH+d5CSa2xhSjnWLotlqw9xpLGVr
+	4L56eMMQl87LcelTLWzutzI7eROhdDJwIZ018O4VA8u7sVWRgDHd1w2e/A32AJuOsIuf9I5sV8F
+	yl+OxmjtPFOT37wPe6+gkcmwlIt1Y+QzNOjlyW60BFpooEdGY5jzTLT7+CGoLTz6W2wS/cKdWw/
+	sgiGGSH3EB7CTz4dK40pFXjUaMXk+GBQ6/gUF9uOEqOBEMGNDut9+Ir3+qpzyaWkOvpBQDedeBN
+	cVGDd9lXZ6mxCpm7zQYQozBtgDsNjQ175brB+0=
+X-Received: by 2002:a05:690c:288:b0:867:fb81:7d23 with SMTP id 00721157ae682-867fb818e6cmr24032427b3.3.1788215348842;
+        Mon, 31 Aug 2026 15:29:08 -0700 (PDT)
+Received: from localhost.localdomain ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-85e58666e15sm62255577b3.0.2026.08.31.15.29.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 15:29:08 -0700 (PDT)
+From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>,
+	Christian Brauner <christian@brauner.io>,
+	Carlos Llamas <cmllamas@google.com>,
+	Alice Ryhl <aliceryhl@google.com>
+Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] rust_binder: simplify Result<()> uses
+Date: Mon, 31 Aug 2026 19:27:10 -0300
+Message-ID: <20260831222857.1402608-1-nico.antinori.7@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <5e1a01043e1935d59d48630dc6211652e64b108a.1787973729.git.nico.antinori.7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 29, 2026 at 03:32:13AM -0300, Nicol=C3=A1s Antinori wrote:
-> Chipwealth CH1115 is a controller for monochrome dot matrix OLED panels.
->=20
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
-> ---
-> NOTE: patch series based in kernel v7.2
->=20
->  .../bindings/display/chipwealth,ch1115.yaml   | 81 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  2 files changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/chipwealth,=
-ch1115.yaml
+`kernel::error::Result<T = (), E = Error>` is a type alias for
+`core::result::Result<T, E>` with `()` as the default type argument
+for T. Explicitly specifying `Result<()>` is redundant.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+This change makes all usages of `Result` consistent across the driver.
 
-Best regards,
-Krzysztof
+Link: https://github.com/Rust-for-Linux/linux/issues/1128
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+ drivers/android/binder/allocation.rs        |  2 +-
+ drivers/android/binder/freeze.rs            | 11 ++++-------
+ drivers/android/binder/node.rs              | 10 +++-------
+ drivers/android/binder/node/wrapper.rs      |  2 +-
+ drivers/android/binder/page_range.rs        |  6 +++---
+ drivers/android/binder/process.rs           |  4 ++--
+ drivers/android/binder/range_alloc/array.rs |  2 +-
+ drivers/android/binder/range_alloc/mod.rs   |  2 +-
+ drivers/android/binder/range_alloc/tree.rs  |  2 +-
+ drivers/android/binder/rust_binder_main.rs  | 12 ++++++------
+ drivers/android/binder/thread.rs            |  8 ++++----
+ drivers/android/binder/transaction.rs       |  2 +-
+ 12 files changed, 28 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/android/binder/allocation.rs b/drivers/android/binder/allocation.rs
+index 165cb797eb1e..4896ba4b444c 100644
+--- a/drivers/android/binder/allocation.rs
++++ b/drivers/android/binder/allocation.rs
+@@ -503,7 +503,7 @@ pub(crate) fn read_from(reader: &mut UserSliceReader) -> Result<BinderObject> {
+     /// The closure should write the bytes for the object into the provided slice.
+     pub(crate) fn read_from_inner<R>(reader: R) -> Result<BinderObject>
+     where
+-        R: FnOnce(&mut [u8; size_of::<BinderObject>()]) -> Result<()>,
++        R: FnOnce(&mut [u8; size_of::<BinderObject>()]) -> Result,
+     {
+         let mut obj = MaybeUninit::<BinderObject>::zeroed();
+
+diff --git a/drivers/android/binder/freeze.rs b/drivers/android/binder/freeze.rs
+index 66912b4cb527..ea2450f3f16f 100644
+--- a/drivers/android/binder/freeze.rs
++++ b/drivers/android/binder/freeze.rs
+@@ -155,7 +155,7 @@ fn should_sync_wakeup(&self) -> bool {
+     }
+
+     #[inline(never)]
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         seq_print!(m, "{}has frozen binder\n", prefix);
+         Ok(())
+     }
+@@ -177,10 +177,7 @@ pub(crate) fn on_process_cleanup(&self, proc: &Process) -> KVVec<Arc<Process>> {
+ }
+
+ impl Process {
+-    pub(crate) fn request_freeze_notif(
+-        self: &Arc<Self>,
+-        reader: &mut UserSliceReader,
+-    ) -> Result<()> {
++    pub(crate) fn request_freeze_notif(self: &Arc<Self>, reader: &mut UserSliceReader) -> Result {
+         let hc = reader.read::<BinderHandleCookie>()?;
+         let handle = hc.handle;
+         let cookie = FreezeCookie(hc.cookie);
+@@ -272,7 +269,7 @@ pub(crate) fn request_freeze_notif(
+         Ok(())
+     }
+
+-    pub(crate) fn freeze_notif_done(self: &Arc<Self>, reader: &mut UserSliceReader) -> Result<()> {
++    pub(crate) fn freeze_notif_done(self: &Arc<Self>, reader: &mut UserSliceReader) -> Result {
+         let cookie = FreezeCookie(reader.read()?);
+         let alloc = FreezeMessage::new(GFP_KERNEL)?;
+         let mut node_refs_guard = self.node_refs.lock();
+@@ -313,7 +310,7 @@ pub(crate) fn freeze_notif_done(self: &Arc<Self>, reader: &mut UserSliceReader)
+         Ok(())
+     }
+
+-    pub(crate) fn clear_freeze_notif(self: &Arc<Self>, reader: &mut UserSliceReader) -> Result<()> {
++    pub(crate) fn clear_freeze_notif(self: &Arc<Self>, reader: &mut UserSliceReader) -> Result {
+         let hc = reader.read::<BinderHandleCookie>()?;
+         let handle = hc.handle;
+         let cookie = FreezeCookie(hc.cookie);
+diff --git a/drivers/android/binder/node.rs b/drivers/android/binder/node.rs
+index 0a82af14cda3..b71b423c56bd 100644
+--- a/drivers/android/binder/node.rs
++++ b/drivers/android/binder/node.rs
+@@ -255,11 +255,7 @@ pub(crate) fn has_oneway_transaction(&self, owner_inner: &mut ProcessInner) -> b
+     }
+
+     #[inline(never)]
+-    pub(crate) fn full_debug_print(
+-        &self,
+-        m: &SeqFile,
+-        owner_inner: &mut ProcessInner,
+-    ) -> Result<()> {
++    pub(crate) fn full_debug_print(&self, m: &SeqFile, owner_inner: &mut ProcessInner) -> Result {
+         let inner = self.inner.access_mut(owner_inner);
+         seq_print!(
+             m,
+@@ -745,7 +741,7 @@ fn should_sync_wakeup(&self) -> bool {
+     }
+
+     #[inline(never)]
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         seq_print!(
+             m,
+             "{}node work {}: u{:016x} c{:016x}\n",
+@@ -1140,7 +1136,7 @@ fn should_sync_wakeup(&self) -> bool {
+     }
+
+     #[inline(never)]
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         let inner = self.inner.lock();
+
+         let dead_binder = inner.dead && !inner.notification_done;
+diff --git a/drivers/android/binder/node/wrapper.rs b/drivers/android/binder/node/wrapper.rs
+index 6e4ca01c941a..828a331f5d99 100644
+--- a/drivers/android/binder/node/wrapper.rs
++++ b/drivers/android/binder/node/wrapper.rs
+@@ -64,7 +64,7 @@ fn should_sync_wakeup(&self) -> bool {
+     }
+
+     #[inline(never)]
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         seq_print!(
+             m,
+             "{}node work {}: u{:016x} c{:016x}\n",
+diff --git a/drivers/android/binder/page_range.rs b/drivers/android/binder/page_range.rs
+index 52ffbf3504e7..047cdf1722cf 100644
+--- a/drivers/android/binder/page_range.rs
++++ b/drivers/android/binder/page_range.rs
+@@ -66,7 +66,7 @@ impl Shrinker {
+     }
+
+     /// Register this shrinker with the kernel.
+-    pub(crate) fn register(&'static self, name: &CStr) -> Result<()> {
++    pub(crate) fn register(&'static self, name: &CStr) -> Result {
+         // SAFETY: These fields are not yet used, so it's okay to zero them.
+         unsafe {
+             self.inner.get().write(ptr::null_mut());
+@@ -352,7 +352,7 @@ pub(crate) fn register_with_vma(&self, vma: &virt::VmaNew) -> Result<usize> {
+     /// Make sure that the given pages are allocated and mapped.
+     ///
+     /// Must not be called from an atomic context.
+-    pub(crate) fn use_range(&self, start: usize, end: usize) -> Result<()> {
++    pub(crate) fn use_range(&self, start: usize, end: usize) -> Result {
+         if start >= end {
+             return Ok(());
+         }
+@@ -398,7 +398,7 @@ pub(crate) fn use_range(&self, start: usize, end: usize) -> Result<()> {
+     ///
+     /// Assumes that `i` is in bounds.
+     #[cold]
+-    unsafe fn use_page_slow(&self, i: usize) -> Result<()> {
++    unsafe fn use_page_slow(&self, i: usize) -> Result {
+         let new_page = Page::alloc_page(GFP_KERNEL | __GFP_HIGHMEM | __GFP_ZERO)?;
+
+         let mm_mutex = self.mm_lock.lock();
+diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/process.rs
+index 5372bfbd93b3..124ac221d27a 100644
+--- a/drivers/android/binder/process.rs
++++ b/drivers/android/binder/process.rs
+@@ -548,7 +548,7 @@ pub(crate) fn pid_in_current_ns(&self) -> kernel::task::Pid {
+     }
+
+     #[inline(never)]
+-    pub(crate) fn debug_print_stats(&self, m: &SeqFile, ctx: &Context) -> Result<()> {
++    pub(crate) fn debug_print_stats(&self, m: &SeqFile, ctx: &Context) -> Result {
+         seq_print!(m, "proc {}\n", self.pid_in_current_ns());
+         seq_print!(m, "context {}\n", &*ctx.name);
+
+@@ -596,7 +596,7 @@ pub(crate) fn debug_print_stats(&self, m: &SeqFile, ctx: &Context) -> Result<()>
+     }
+
+     #[inline(never)]
+-    pub(crate) fn debug_print(&self, m: &SeqFile, ctx: &Context, print_all: bool) -> Result<()> {
++    pub(crate) fn debug_print(&self, m: &SeqFile, ctx: &Context, print_all: bool) -> Result {
+         seq_print!(m, "proc {}\n", self.pid_in_current_ns());
+         seq_print!(m, "context {}\n", &*ctx.name);
+
+diff --git a/drivers/android/binder/range_alloc/array.rs b/drivers/android/binder/range_alloc/array.rs
+index 081d19b09d4b..71bf49f9db0d 100644
+--- a/drivers/android/binder/range_alloc/array.rs
++++ b/drivers/android/binder/range_alloc/array.rs
+@@ -61,7 +61,7 @@ pub(crate) fn is_full(&self) -> bool {
+         self.ranges.len() == self.ranges.capacity()
+     }
+
+-    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result<()> {
++    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result {
+         for range in &self.ranges {
+             seq_print!(
+                 m,
+diff --git a/drivers/android/binder/range_alloc/mod.rs b/drivers/android/binder/range_alloc/mod.rs
+index 1f4734468ff1..bb6e0ec9650e 100644
+--- a/drivers/android/binder/range_alloc/mod.rs
++++ b/drivers/android/binder/range_alloc/mod.rs
+@@ -141,7 +141,7 @@ pub(crate) fn count_buffers(&self) -> usize {
+         }
+     }
+
+-    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result<()> {
++    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result {
+         match &self.inner {
+             Impl::Empty(_size) => Ok(()),
+             Impl::Array(array) => array.debug_print(m),
+diff --git a/drivers/android/binder/range_alloc/tree.rs b/drivers/android/binder/range_alloc/tree.rs
+index 48796fcdb362..058ff7498fa5 100644
+--- a/drivers/android/binder/range_alloc/tree.rs
++++ b/drivers/android/binder/range_alloc/tree.rs
+@@ -111,7 +111,7 @@ pub(crate) fn count_buffers(&self) -> usize {
+             .count()
+     }
+
+-    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result<()> {
++    pub(crate) fn debug_print(&self, m: &SeqFile) -> Result {
+         for desc in self.tree.values() {
+             let state = match &desc.state {
+                 Some(state) => &state.0,
+diff --git a/drivers/android/binder/rust_binder_main.rs b/drivers/android/binder/rust_binder_main.rs
+index 955c4c348f73..aa109663caae 100644
+--- a/drivers/android/binder/rust_binder_main.rs
++++ b/drivers/android/binder/rust_binder_main.rs
+@@ -158,7 +158,7 @@ fn do_work(
+     /// Generally only set to true for non-oneway transactions.
+     fn should_sync_wakeup(&self) -> bool;
+
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, transaction_prefix: &str) -> Result<()>;
++    fn debug_print(&self, m: &SeqFile, prefix: &str, transaction_prefix: &str) -> Result;
+ }
+
+ // Wrapper around a `DeliverToRead` with linked list links.
+@@ -274,7 +274,7 @@ fn should_sync_wakeup(&self) -> bool {
+         false
+     }
+
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         seq_print!(m, "{}", prefix);
+         if self.skip.load(Relaxed) {
+             seq_print!(m, "(skipped) ");
+@@ -545,7 +545,7 @@ unsafe impl<T> Sync for AssertSync<T> {}
+     0
+ }
+
+-fn rust_binder_transactions_show_impl(m: &SeqFile) -> Result<()> {
++fn rust_binder_transactions_show_impl(m: &SeqFile) -> Result {
+     seq_print!(m, "binder transactions:\n");
+     let contexts = context::get_all_contexts()?;
+     for ctx in contexts {
+@@ -558,7 +558,7 @@ fn rust_binder_transactions_show_impl(m: &SeqFile) -> Result<()> {
+     Ok(())
+ }
+
+-fn rust_binder_stats_show_impl(m: &SeqFile) -> Result<()> {
++fn rust_binder_stats_show_impl(m: &SeqFile) -> Result {
+     seq_print!(m, "binder stats:\n");
+     stats::GLOBAL_STATS.debug_print("", m);
+     let contexts = context::get_all_contexts()?;
+@@ -572,7 +572,7 @@ fn rust_binder_stats_show_impl(m: &SeqFile) -> Result<()> {
+     Ok(())
+ }
+
+-fn rust_binder_state_show_impl(m: &SeqFile) -> Result<()> {
++fn rust_binder_state_show_impl(m: &SeqFile) -> Result {
+     seq_print!(m, "binder state:\n");
+     let contexts = context::get_all_contexts()?;
+     for ctx in contexts {
+@@ -585,7 +585,7 @@ fn rust_binder_state_show_impl(m: &SeqFile) -> Result<()> {
+     Ok(())
+ }
+
+-fn rust_binder_proc_show_impl(m: &SeqFile, pid: Pid) -> Result<()> {
++fn rust_binder_proc_show_impl(m: &SeqFile, pid: Pid) -> Result {
+     seq_print!(m, "binder proc state:\n");
+     let contexts = context::get_all_contexts()?;
+     for ctx in contexts {
+diff --git a/drivers/android/binder/thread.rs b/drivers/android/binder/thread.rs
+index 18a14aa8a835..3e898be5ac31 100644
+--- a/drivers/android/binder/thread.rs
++++ b/drivers/android/binder/thread.rs
+@@ -481,7 +481,7 @@ pub(crate) fn new(id: i32, process: Arc<Process>) -> Result<Arc<Self>> {
+     }
+
+     #[inline(never)]
+-    pub(crate) fn debug_print(self: &Arc<Self>, m: &SeqFile, print_all: bool) -> Result<()> {
++    pub(crate) fn debug_print(self: &Arc<Self>, m: &SeqFile, print_all: bool) -> Result {
+         let inner = self.inner.lock();
+
+         if print_all || inner.current_transaction.is_some() || !inner.work_list.is_empty() {
+@@ -1250,7 +1250,7 @@ fn read_transaction_info(
+         cmd: u32,
+         reader: &mut UserSliceReader,
+         info: &mut TransactionInfo,
+-    ) -> Result<()> {
++    ) -> Result {
+         let td = match cmd {
+             BC_TRANSACTION | BC_REPLY => {
+                 reader.read::<BinderTransactionData>()?.with_buffers_size(0)
+@@ -1281,7 +1281,7 @@ fn read_transaction_info(
+     }
+
+     #[inline(never)]
+-    fn transaction(self: &Arc<Self>, cmd: u32, reader: &mut UserSliceReader) -> Result<()> {
++    fn transaction(self: &Arc<Self>, cmd: u32, reader: &mut UserSliceReader) -> Result {
+         let mut info = TransactionInfo::zeroed();
+         self.read_transaction_info(cmd, reader, &mut info)?;
+
+@@ -1738,7 +1738,7 @@ fn should_sync_wakeup(&self) -> bool {
+         false
+     }
+
+-    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, prefix: &str, _tprefix: &str) -> Result {
+         seq_print!(
+             m,
+             "{}transaction error: {}\n",
+diff --git a/drivers/android/binder/transaction.rs b/drivers/android/binder/transaction.rs
+index 245f1556b5db..f6a0707bb4b3 100644
+--- a/drivers/android/binder/transaction.rs
++++ b/drivers/android/binder/transaction.rs
+@@ -576,7 +576,7 @@ fn should_sync_wakeup(&self) -> bool {
+         !self.flags.is_oneway()
+     }
+
+-    fn debug_print(&self, m: &SeqFile, _prefix: &str, tprefix: &str) -> Result<()> {
++    fn debug_print(&self, m: &SeqFile, _prefix: &str, tprefix: &str) -> Result {
+         self.debug_print_inner(m, tprefix);
+         Ok(())
+     }
+--
+2.47.3
 
