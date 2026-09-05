@@ -1,228 +1,203 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE2B4A5EAA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri,  4 Sep 2026 13:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788529595; cv=none; b=JTqzLVmDb/7dSUWMpzPpuTrdzJP7sfU+XXsuLj0Vh6XUwoBSlLXf5S1bHp3T52+uO/5ZVrFeZK1twhXXuj/B2PXW8fX7nLnrf8bXWQ9ix+3qE9LSMyRqVLNrSa9rjsoQtGwRkkdjR/bFaSpQJAN25QoJi/iZ0Doiwy+m6Y/UXEk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788529595; c=relaxed/simple;
-	bh=m6CAE/76TRzV3kyyElyOiCVIZXdgvxUs4/XakeqgH64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YyFb30URJcHTFt6aKsUJ8Tnx880G8Yg8lGN3Y4+xMCIvXT2YsJo5KWrguhMEBwEhCD+c8CAnH9LBg9p3O6OMzS9a4UxzcCnMBKanTpBAxtPUPsFw4dnxrWtOeKi+csfT5agHsDoH7et/CZTpPA3f5r3TBfeDKIPTjcummIUI1Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3M59Ypg; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF8F3002AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788622545; cv=fail; b=q8V2Dwhy36MsyCZyA/cIyFjqPT2HNJ52L+ESgJK76c+raq46358V9emEVssgM7g4JandsDOrNUV3lUzKdk3vTah1AR7oG1vW6azFyMAmunlYpAYn9Vk8J1XMWg9AaGKzcRK68mjcoSiCtrhkju/8P4I94QO/67V6lmG05GzD8eo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788622545; c=relaxed/simple;
+	bh=gFFdN1ha8Tp79B1B3Zl2oM554MhbhbybYNUFrHskT80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qz4fAEhzosRPOgfjbCQp9hy8ZFM1l0cXygubLeyR9o40l4DiXdKAmNlXMcVb2UzLORqhTuGB4VCdxQBAn+wT0DdVTKkhZD6xbQaSlf2estDzCkYIC/T8TE4s9rQ8eo6xCr+c8kxE4AOC6z8MHJzbJ/7TXfWkreUkRLzwAMYcCho=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btZP7RZ9; arc=fail smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3M59Ypg"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-871c8a36fe3so7814557b3.1
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 04 Sep 2026 06:46:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btZP7RZ9"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 78B9640B0A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:42 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.748
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id lv_BU8uFCXbt for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  5 Sep 2026 15:35:41 +0000 (UTC)
+ARC-Filter: OpenARC Filter v1.3.0 smtp4.osuosl.org B914A40B09
+Authentication-Results: smtp4.osuosl.org; arc=none smtp.remote-ip="2607:f8b0:4864:39::10"
+ARC-Seal: i=1; d=osuosl.org; s=arc; a=rsa-sha256; cv=none; t=1788622541;
+	b=Vl29KfzNDCfAqO6yb43zZr2Xb3VFC1X5YiAlC6l3UKjao3CaSSpMl2GtxxyuiozlZDWg
+	 fuQ3CB17VmMNHNPz38aKKKECPKnZNuPAosh5OKPFEdhhKSlmUrT1Jg5T+6ZD/aA1vwj5u
+	 K35WYOhflE+F+DFtfUTfADXtbfT3fG6nxqOtpbimVmDMsZ4/Z8pK+11ypVfJamtRiVbYj
+	 OgV9bM8nwoRd9DQmcqp+IZqflnh6RYWa0Q1/cMTlCepudNe7v5S4xQwPlcaEDrLcXmx5x
+	 lk+jRzWWs7VmEbMmx0cbdsGY2RxRZUP06S+ziVGwQOi/f0FcEqWUCD8UlpKEvS5JJTA==
+ARC-Message-Signature: i=1; d=osuosl.org; s=arc; a=rsa-sha256;
+	c=relaxed/relaxed; t=1788622541;
+	h=Received-SPF:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
+	b=lPCToybu92aKYZf0KH3enLen0oJiYdx/7c5g/TVbx/yhCuVqC2FEeBC3iGxbk/lvcO5u
+	 rUH8Hw+mfcuqZVxm/wRFfT+L3Mc5MrCEP+Ei+PCFFKqXUdxJqzu0lw7VNyntceEsfN8VL
+	 vdFjMNsCqo2W9Wu6MBcEoWaPJgD7T1/HMJQOd8Qfe551PQ94hcdGgowtp58qNOpucCP+A
+	 cjqw+joxCtiu5S0WGdcg2s62l33steaLhNGyyfZGkxK7cMau1oB+Mu26v1SfkN5pJY1z9
+	 lxZhGu1YNvnennkIhTvNriVh+RgblYj9QBUIJKlWtT2YfceIuIwT8AgM1ZmULiRmjAA==
+ARC-Authentication-Results: i=1; smtp4.osuosl.org; dmarc=pass header.from=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btZP7RZ9;
+	arc=none smtp.remote-ip="2607:f8b0:4864:39::10"
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:39::10; helo=mail-pj2-x10.google.com; envelope-from=ayushmukkanwar@gmail.com; receiver=<UNKNOWN> 
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btZP7RZ9
+Received: from mail-pj2-x10.google.com (mail-pj2-x10.google.com [IPv6:2607:f8b0:4864:39::10])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B914A40B09
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:41 +0000 (UTC)
+Received: by mail-pj2-x10.google.com with SMTP id 98e67ed59e1d1-39931869b4aso94170a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 05 Sep 2026 08:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788529592; x=1789134392; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h5E1eI2EQTTOSHZEjahKUxEQTbKv1V9kJEXVEsMI2UI=;
-        b=W3M59Ypgc4mn56bvQ4rgAtyOQ02dsxFNB1Bp3X9LPEbhAJbihJm9l9JJeWGh6IMU0m
-         B0T8hDhO84S6N9F2iVRykmeoFf+b8bYUbICvDtdRmHrMM5Ji5OV/K8ba6CDICDvp/rgi
-         9dVeIVDWOP3TU447CsnYTXaSNEpF43L7T0Q9Gy+EUIjGwd32h4t/P4M0kBJTtViduPwk
-         ebaPlbIzHlHQ7cAEAEZS2esPHQcy0ca8Ady28EqbNEfS1ZrANMVg07gwmM5+523WhElp
-         vqF86OpSj0r4ijel3uJD4VLzwBIBvtOLa2KL4jPPDASTc+V6z25eKEVLIE8G8OKS18Ef
-         rnDw==
+        d=gmail.com; s=20251104; t=1788622541; x=1789227341; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
+        b=btZP7RZ9Kchbgh6X6j2tQg+dvc5cOKVbdqTc1YJHXYmR35Cx3wlJDjKv7/MkY4J4Fh
+         UQkAFgrrwGsZWBCpGCV2V/3fmzuoZekOFd9tPiWiZGZmDQu+MNHZRJDA2hbTXDmFtbyL
+         dZNtFwSud017TnJnKLy55gywQczPEkLvWkwDI1KLWocb4xZ/g95RtQ+BO0goVEeHGr9i
+         OKvaRNKUbIQVPDkjW11xPBMLEImJ/vAownTULKrN0ej4KZVHeBqxme1/XbLqwshmFW+k
+         UUm6rMsXG85/vQ3EDgs0O+PmwuDCbKLwX7gZtdDRQOtW8CAgRKJ2/LQ+5O06AkLwVM/L
+         +HDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788529592; x=1789134392;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=h5E1eI2EQTTOSHZEjahKUxEQTbKv1V9kJEXVEsMI2UI=;
-        b=OnPNfzHZrByT8rxfEea1OZk8g8AsCkKQ0m3LpMoLuGDRTEugH0+LsN5R2kAGvQnjeh
-         2Xaokoag3chvfAk0IcQLP+StRVHMfcWJBCgM1YiUYVNowi5y14vE6Nzk7MscumXfJTWu
-         DwQb9Wohlt08Wgm6ycmgBuO8cBqXrdl9x2KSPWLd6cmZ5DBBIrX+z/aJ0pel3mgmXdz7
-         7grflGmCNjB2OKa6/LtyqBsQiJ1QeggZuLEpESlZDzx0WDRaR3O8HTIkQpMH1H6XkLW1
-         k+3Oej6xQwCOLfC6JwEd1Uln8OPpWemMyHLrpykM1BzYS7798COP6PRU166okRjO0lWV
-         qhRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw1sTA1cHRkyw5O0lKB0JsQqFyDfsWdcI1SN5XC2ASPgZUK3rr3zwHbCmRuBh/Q41VZwjGQWMRj29diBdg+DFkvOe/icg==@lists.linux.dev
-X-Gm-Message-State: AFuF++n3e85r3TlIR24W7hYZ4jBBxSErN8xpgGexLsekXR8/7CoqP7tG
-	tOrB8eZT+n00IpLQ47ekRqla+JWuFtvZ5rCN3fmjiemzvixUu+m7k7I=
-X-Gm-Gg: AYBFou144K4091Y3EOjlcpkHBvRp4aiOhL88tbkUfK/zCKoH5RrnDWRUUFrTxmQM7xV
-	AptWWB71uswMzzrWqoLImDpGoJ4rU8+8jDc1aFDHOGdZNJWBSwkVaiASoAzBevUj1ckn8VqXLgh
-	EvxYN82S1DuNLPrNUhF/bcWFqeYaJaElBWS8MmiWu8AJXmvof7kNtRAaxgGesMWDpCvjwkF4rj5
-	L8HMZ48/z79WqWo1/XsmEaE6oh8ytREwKLRuv1pLKJbxLxPen7XZhhZipWvwb0i/OAcXZkhjbMY
-	u7nKNUuuvQA/VWB1bzrYoE5ZCOydXbIOPCNw9sFOziD+NSMVVwuD7Gek0SR5RiKZJcw/0PGJDSJ
-	yv5h+5lPWVMMtWE2vA3ytsFNVgWi0z1yq/2e3G1oLM/q89SKeuUcVNdPRLE7U4iCqrfqzHVsm4O
-	cdPNn10qJ0USC8qu+4TqNKIZscpU3c7CY1hyF/3cwFY6t4fg05c+fGm1bLn26JKZbQ2HWipfWT+
-	GkoFqPJFU6l0rnTxpHF6L6Oqnm/JfiBNx5BzVQ=
-X-Received: by 2002:a05:690c:e646:b0:873:5bb2:6c29 with SMTP id 00721157ae682-8735bb26efdmr2810627b3.48.1788529591777;
-        Fri, 04 Sep 2026 06:46:31 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714a49a660sm18067947b3.27.2026.09.04.06.46.25
+        d=1e100.net; s=20251104; t=1788622541; x=1789227341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
+        b=ObmVYJd5h/mr/j8StWXQHXFfZab9bqQzANudWs2HkNVEjKyE0lGHBjcMUL0Nct2cF0
+         Y350ll0qQMCT7I9/nAWD8f98KORfc4nnRYCprRl5fi+bRboV/nE+z0k3wYRZ0g6U9unr
+         gAWLFY4s1sVWfiD6LzDug5SuXTcb0daGG8d1P5lg6p8RgB64O2nmx3weX46u3rK0g5qy
+         3hhq+DOW45LnCQaHohQnyaZC/lWdAOUGkZNAV00nrPdbau9bHWv81JHdH+68V9FHL9Gs
+         OcDXd2fKTGl+8HGlx6i1BIUuRpG/jPxM08TWGJcKH+sfMYSX8ehln2OFnpP51xAvFXxC
+         S/yA==
+X-Forwarded-Encrypted: i=1; AKwUvBwRd6Tkn+GlSxIJpqRmvIgbMNYw30G1Ehe9WqnOtGJu0uAjd0NG2G57B9sgjnM2CNEIHdopBg0Dzl0DZ70Gzzp7LT8f7A==@lists.linuxfoundation.org
+X-Gm-Message-State: AFuF++nqHFtAr/RtlSE+augitEYKDrrWMmRGh5E5McIrnwLEYlM1k0GL
+	z+3Lq+ZDkWwDypCG6IM2Afbkd6jYKMrH9CrpFLveJcNWiGa6XbGZWlRx
+X-Gm-Gg: AYBFou31H4V6A0iArFil/PgvPz3sNYtnwdRIOh7aY4pgnEbpUJF7KAuLIxMcbefoVwe
+	UdNnc+SdZAFEo2fUNNTOrdG1AgDsNhzHzH+6I/Wed6MBRQcOA8nm9Q3RRU15gzzd3DDxArntrKU
+	msbF9R8y0Ap5EWPGRe9p51GBjf6xMBt/6/v1WHtVmLMcs/kEpN2CFLWdK//FJr+MA85UtHaWPFe
+	0hkBrj1dk0gbV6ttLPPXCAUYVah06kGHSiFUMfW6Ijsf8bsw7AX+zmGB2bKm1epa1swms55a7Hi
+	Wc6NWvvR97wtVjBGUI0BoBmbdWChMy7jGpWqQ1BToTq8WvIDh3n3j0o1Xq0s5jk08N9nsfGLgGt
+	iU0piC1AzoU3HUqDyBu+AEOi9FEY0ZCMBN6qSvW1vEI2/uU0vE/k4N4f3WF3wpPW6YsGGrFHiOv
+	UAvDDUM0skI/WI1XFWN/KqjAIRGMUCxGADe5NswE0jKrmIIzlnYDxZxygFi1j8H1fBtl2+kLySG
+	2Pu92y8842S+/kw32qMHyYuZNIX5I9nKNUYI2xhAV4MR5TieI4g09EUnDynTV8Cijs=
+X-Received: by 2002:a17:90b:562b:b0:396:d27b:86a4 with SMTP id 98e67ed59e1d1-39b3d5f2c09mr6126052a91.2.1788622540707;
+        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+Received: from fedora.iiita.ac.in ([103.119.35.125])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26123c99sm10493484a91.11.2026.09.05.08.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 06:46:30 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Andi Shyti <andi.shyti@kernel.org>,
-	Igor Korotin <igor.korotin@linux.dev>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	linux-i2c@vger.kernel.org,
+        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v2] i2c: rust: avoid locking when performing I2cAdapter::inc_ref
-Date: Fri,  4 Sep 2026 10:44:43 -0300
-Message-ID: <20260904134600.340991-1-nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	ayushmukkanwar@gmail.com,
+	sashiko-bot@kernel.org
+Subject: [PATCH 1/2] staging: octeon: fix use-after-free in tasklet teardown
+Date: Sat,  5 Sep 2026 21:05:29 +0530
+Message-ID: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The current implementation of `<I2cAdapter as
-AlwaysRefCounted>::inc_ref` relies on the C function `i2c_get_adapter`
-to increment module and device counters. This function acquires a lock,
-looks for the adapter in the IDR table, and, if found, increments the
-named counters before returning the adapter.
+cvm_oct_tx_shutdown() kills the tx cleanup tasklet while
+the net devices are still registered. This could lead
+to use-after-free when a tasklet is scheduled after the
+tasklet_kill() is called which might run after the net
+devices are freed.
+Fix it by unregistering the net devices before the tasklet
+is killed.
 
-In the Rust API, the `I2cAdapter::get` method returns an
-`ARef<I2cAdapter>` upon success. Incrementing this reference count in an
-atomic context (for example, via `ARef::clone`, which relies on
-`AlwaysRefCounted::inc_ref`) could trigger a sleep-in-atomic bug due to
-the mutex locking inside `i2c_get_adapter`.
-
-Since cloning an `ARef` implies we already hold a valid reference to the
-adapter, the IDR table lookup and its associated lock are unnecessary.
-
-The fix consists of bypassing `i2c_get_adapter` and instead calling
-`__i2c_adapter_get` directly to increment the counters.
-
+Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260524181151.24988-1-nico.antinori.7@gmail.com
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+Closes: https://sashiko.dev/#/message/20260615172734.42038-1-ayushmukkanwar%40gmail.com
+Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 ---
-Note: There's Trevor Chan's patch [2] (make `AlwaysRefCounted::inc_ref`
-associated function) in review. If this patch lands first it may cause
-conflicts with that one. Please let me know if it is better to make this
-patch dependant on Trevor's one or wait until it merges.
+Note: This patch has only been compile tested. No runtime testing was
+performed as I do not have access to Octeon hardware.
 
-Changelog:
-- v2:
-  - Implemented suggestion by Gary and Igor to add a C API and call it
-    directly from Rust.
-- v1: [1]
+ drivers/staging/octeon/ethernet.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-v1 Note:
-
-Citing the second part of Sashiko's report:
-
-> Furthermore, if the adapter is unregistered and removed from the IDR,
-> bindings::i2c_get_adapter() will return NULL and fail to increment the
-> reference count. Since inc_ref() ignores the return value, wouldn't
-> dropping that cloned ARef unconditionally call dec_ref()
-> (i2c_put_adapter)?
->
-> Could this lead to an underflow, double-put, and a use-after-free of
-> the adapter and its module? Or if the IDR index was reused, might it
-> increment the new adapter's refcount while decrementing the old one
-> twice?
-
-I don't believe this situation is possible. When `i2c_del_adapter` is
-executed in `i2c-core-base.c`, the kernel waits for all references to be
-dropped prior to removing the device from the IDR. This guarantees that
-no `ARef` is still alive when the IDR removal happens, effectively
-eliminating the risk of an underflow, double-put, or calling `dec_ref`
-on an invalid reference.
-
-[1] https://lore.kernel.org/all/20260615201141.8920-1-nico.antinori.7@gmail.com/
-[2] https://lore.kernel.org/rust-for-linux/20260628100731.64885-1-trev@trevrosa.dev/T/#u
-
- drivers/i2c/i2c-core-base.c | 17 +++++++++++------
- include/linux/i2c.h         |  1 +
- rust/kernel/i2c.rs          |  4 +++-
- 3 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ddaacf876dad..03ad1bb539e9 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -2632,21 +2632,26 @@ i2c_new_scanned_device(struct i2c_adapter *adap,
- }
- EXPORT_SYMBOL_GPL(i2c_new_scanned_device);
-
-+bool __i2c_adapter_get(struct i2c_adapter *adapter)
-+{
-+	if (try_module_get(adapter->owner)) {
-+		get_device(&adapter->dev);
-+		return true;
-+	}
-+	return false;
-+}
-+EXPORT_SYMBOL(__i2c_adapter_get);
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 42ec4b8324a8..98d4e025c301 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -113,7 +113,6 @@ static void cvm_oct_remove_device(int port)
+ 		cancel_delayed_work_sync(&priv->port_periodic_work);
+ 
+ 		cvm_oct_tx_shutdown_dev(dev);
+-		unregister_netdev(dev);
+ 		free_netdev(dev);
+ 		cvm_oct_device[port] = NULL;
+ 	}
+@@ -694,6 +693,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	struct device_node *pip;
+ 	int mtu_overhead = ETH_HLEN + ETH_FCS_LEN;
+ 	struct octeon_ethernet_platform *plat;
++	int port;
+ 
+ 	plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+ 	if (!plat)
+@@ -729,7 +729,6 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
+ 		int num_ports = cvmx_helper_ports_on_interface(interface);
+-		int port;
+ 
+ 		for (port = cvmx_helper_get_ipd_port(interface, 0);
+ 		     port < cvmx_helper_get_ipd_port(interface, num_ports);
+@@ -953,8 +952,21 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_rx:
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
 +
- struct i2c_adapter *i2c_get_adapter(int nr)
- {
- 	struct i2c_adapter *adapter;
-
- 	mutex_lock(&core_lock);
- 	adapter = idr_find(&i2c_adapter_idr, nr);
--	if (!adapter)
--		goto exit;
-
--	if (try_module_get(adapter->owner))
--		get_device(&adapter->dev);
--	else
-+	if (adapter && !__i2c_adapter_get(adapter))
- 		adapter = NULL;
-
-- exit:
- 	mutex_unlock(&core_lock);
- 	return adapter;
- }
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 14ab4d3055af..56832c8e58f5 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -907,6 +907,7 @@ static inline bool i2c_client_has_driver(struct i2c_client *client)
- void i2c_clients_command(struct i2c_adapter *adap,
- 			 unsigned int cmd, void *arg);
-
-+bool __i2c_adapter_get(struct i2c_adapter *adapter);
- struct i2c_adapter *i2c_get_adapter(int nr);
- void i2c_put_adapter(struct i2c_adapter *adap);
- unsigned int i2c_adapter_depth(struct i2c_adapter *adapter);
-diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
-index 0487bae811fb..2fc818da80cf 100644
---- a/rust/kernel/i2c.rs
-+++ b/rust/kernel/i2c.rs
-@@ -419,7 +419,9 @@ unsafe impl AlwaysRefCounted for I2cAdapter {
-     #[inline]
-     fn inc_ref(&self) {
-         // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
--        unsafe { bindings::i2c_get_adapter(self.index()) };
-+        unsafe {
-+            bindings::__i2c_adapter_get(&raw mut (*self.as_raw()));
-+        }
-     }
-
-     #[inline]
---
-2.47.3
+ 	cvm_oct_tx_shutdown();
++	goto disable_ipd;
++
+ err_tx:
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
++
++disable_ipd:
+ 	cvmx_ipd_disable();
+ 
+ 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
+@@ -984,6 +996,11 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
+ 	int port;
+ 
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
++
+ 	cvmx_ipd_disable();
+ 
+ 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
+-- 
+2.54.0
 
