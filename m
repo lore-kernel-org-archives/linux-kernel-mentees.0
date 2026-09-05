@@ -1,101 +1,103 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF8F3002AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A14B4772B6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.137
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788622545; cv=fail; b=q8V2Dwhy36MsyCZyA/cIyFjqPT2HNJ52L+ESgJK76c+raq46358V9emEVssgM7g4JandsDOrNUV3lUzKdk3vTah1AR7oG1vW6azFyMAmunlYpAYn9Vk8J1XMWg9AaGKzcRK68mjcoSiCtrhkju/8P4I94QO/67V6lmG05GzD8eo=
+	t=1788622551; cv=fail; b=eWBO+wWrrkq5He+nLfI+zIl5+Ad1/vrITLYsDVDCQ2wf6LADEERrZdSkJyvGrLEphWFB+bQHIn7eB/ANUlKmgjI5Sm+s6vtoik2wE/VXFeTtt9fjxpLAdJtLrHz+N5cr2J2ZuYJ5m4XDUbPSxA6/9LWkhMzsyAdNqY6Augt7hTk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788622545; c=relaxed/simple;
-	bh=gFFdN1ha8Tp79B1B3Zl2oM554MhbhbybYNUFrHskT80=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qz4fAEhzosRPOgfjbCQp9hy8ZFM1l0cXygubLeyR9o40l4DiXdKAmNlXMcVb2UzLORqhTuGB4VCdxQBAn+wT0DdVTKkhZD6xbQaSlf2estDzCkYIC/T8TE4s9rQ8eo6xCr+c8kxE4AOC6z8MHJzbJ/7TXfWkreUkRLzwAMYcCho=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btZP7RZ9; arc=fail smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1788622551; c=relaxed/simple;
+	bh=GvmssypO3wFrEaIA/09y7tkUfGE1ozQEU6tFnebwajA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NL0+fSyqsHPdGWtCd8wQyrZ2ImOQrKupZsYeZSTEjmTMC+j4k+qpWaodQeAoV3khRPGTR2StMiSOhUW+DhDfFOjp8R2Hbk8zvntkSGFUIrhIGqL+ZHRcWeLKkNF2MnT2Ot3DfvpAw8oOglQbZDayELpoPabx/uFAaUUACdpPTwI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ec3N7qvn; arc=fail smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btZP7RZ9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ec3N7qvn"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 78B9640B0A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:42 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 92D9140B0A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:46 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.748
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lv_BU8uFCXbt for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Sep 2026 15:35:41 +0000 (UTC)
-ARC-Filter: OpenARC Filter v1.3.0 smtp4.osuosl.org B914A40B09
+ id a522vwxqzyvh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  5 Sep 2026 15:35:45 +0000 (UTC)
+ARC-Filter: OpenARC Filter v1.3.0 smtp4.osuosl.org BE01040B09
 Authentication-Results: smtp4.osuosl.org; arc=none smtp.remote-ip="2607:f8b0:4864:39::10"
-ARC-Seal: i=1; d=osuosl.org; s=arc; a=rsa-sha256; cv=none; t=1788622541;
-	b=Vl29KfzNDCfAqO6yb43zZr2Xb3VFC1X5YiAlC6l3UKjao3CaSSpMl2GtxxyuiozlZDWg
-	 fuQ3CB17VmMNHNPz38aKKKECPKnZNuPAosh5OKPFEdhhKSlmUrT1Jg5T+6ZD/aA1vwj5u
-	 K35WYOhflE+F+DFtfUTfADXtbfT3fG6nxqOtpbimVmDMsZ4/Z8pK+11ypVfJamtRiVbYj
-	 OgV9bM8nwoRd9DQmcqp+IZqflnh6RYWa0Q1/cMTlCepudNe7v5S4xQwPlcaEDrLcXmx5x
-	 lk+jRzWWs7VmEbMmx0cbdsGY2RxRZUP06S+ziVGwQOi/f0FcEqWUCD8UlpKEvS5JJTA==
+ARC-Seal: i=1; d=osuosl.org; s=arc; a=rsa-sha256; cv=none; t=1788622545;
+	b=oO4PXCx+lkSrpI46mX42kaUcJnIb95ed0lVpLfJXe+0mefBTEzRSHvY0GCOf3WHvd3Cr
+	 3S8ybSRBXdWqa25V8YGg9MUriO5udsV3F/NurQFPmWEPgiDecyaCjUhbCed8HyLe7UvTe
+	 aFI4S+shA/SFMDD0Dv2fx4uFNsE/dxj5rTGB1iUL4sfZ1XBHR5VGuOA0Cc+65nwSU5f9/
+	 CIKfZC8rsVcVSkDZ7nliwpgag09ZomtLo5RBBlPNe5+PVxo+JyDF8v3zTnEPOLzpMGYUV
+	 1A2DWhHr2u++g5Puac+hEWrTmxa/7ly9fa3BZo8EdsF+M/z8qk2nBYQeYkauCfsjkdA==
 ARC-Message-Signature: i=1; d=osuosl.org; s=arc; a=rsa-sha256;
-	c=relaxed/relaxed; t=1788622541;
+	c=relaxed/relaxed; t=1788622545;
 	h=Received-SPF:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
-	b=lPCToybu92aKYZf0KH3enLen0oJiYdx/7c5g/TVbx/yhCuVqC2FEeBC3iGxbk/lvcO5u
-	 rUH8Hw+mfcuqZVxm/wRFfT+L3Mc5MrCEP+Ei+PCFFKqXUdxJqzu0lw7VNyntceEsfN8VL
-	 vdFjMNsCqo2W9Wu6MBcEoWaPJgD7T1/HMJQOd8Qfe551PQ94hcdGgowtp58qNOpucCP+A
-	 cjqw+joxCtiu5S0WGdcg2s62l33steaLhNGyyfZGkxK7cMau1oB+Mu26v1SfkN5pJY1z9
-	 lxZhGu1YNvnennkIhTvNriVh+RgblYj9QBUIJKlWtT2YfceIuIwT8AgM1ZmULiRmjAA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Lm42doHswCi3RtZeu7IIEEdGs2pytFeZf/X0boG9eKM=;
+	b=TBdg4IwkbRC4xNgURFgigsecZEjoaAQoDFjPXHDFybyzkwzWcB6dFyAEazV8wPpHy7hs
+	 MgywaN4l8hYiBr75hQ2lcnTivYtuwUsNIM1c+SQSz2BDre+GO13hgaGNDge/gwYxGrKXT
+	 aAGwXCA7CijPeCaU/INLfYSaKgjJyJaH9frHYQzsMLqRJFR+aVDLPiuwe8lPPnNxr5OHE
+	 ikeZg1eXjBktjxwMPakM9zk2MzwtFvVl7CfN7DQet7ZiUa2TRwVPfvZt7OGx01kgAQyME
+	 MnABci0QehmoxByjO+c56VN/6cPrjII6u4rchxQ3SAwqkRJTxPV+QouzVIEWkayX6Iw==
 ARC-Authentication-Results: i=1; smtp4.osuosl.org; dmarc=pass header.from=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btZP7RZ9;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ec3N7qvn;
 	arc=none smtp.remote-ip="2607:f8b0:4864:39::10"
 Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:39::10; helo=mail-pj2-x10.google.com; envelope-from=ayushmukkanwar@gmail.com; receiver=<UNKNOWN> 
 Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=btZP7RZ9
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ec3N7qvn
 Received: from mail-pj2-x10.google.com (mail-pj2-x10.google.com [IPv6:2607:f8b0:4864:39::10])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B914A40B09
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:41 +0000 (UTC)
-Received: by mail-pj2-x10.google.com with SMTP id 98e67ed59e1d1-39931869b4aso94170a91.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 05 Sep 2026 08:35:41 -0700 (PDT)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BE01040B09
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat,  5 Sep 2026 15:35:45 +0000 (UTC)
+Received: by mail-pj2-x10.google.com with SMTP id 98e67ed59e1d1-39666e7c9edso93302a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 05 Sep 2026 08:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788622541; x=1789227341; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
-        b=btZP7RZ9Kchbgh6X6j2tQg+dvc5cOKVbdqTc1YJHXYmR35Cx3wlJDjKv7/MkY4J4Fh
-         UQkAFgrrwGsZWBCpGCV2V/3fmzuoZekOFd9tPiWiZGZmDQu+MNHZRJDA2hbTXDmFtbyL
-         dZNtFwSud017TnJnKLy55gywQczPEkLvWkwDI1KLWocb4xZ/g95RtQ+BO0goVEeHGr9i
-         OKvaRNKUbIQVPDkjW11xPBMLEImJ/vAownTULKrN0ej4KZVHeBqxme1/XbLqwshmFW+k
-         UUm6rMsXG85/vQ3EDgs0O+PmwuDCbKLwX7gZtdDRQOtW8CAgRKJ2/LQ+5O06AkLwVM/L
-         +HDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788622541; x=1789227341;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788622545; x=1789227345; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
-        b=ObmVYJd5h/mr/j8StWXQHXFfZab9bqQzANudWs2HkNVEjKyE0lGHBjcMUL0Nct2cF0
-         Y350ll0qQMCT7I9/nAWD8f98KORfc4nnRYCprRl5fi+bRboV/nE+z0k3wYRZ0g6U9unr
-         gAWLFY4s1sVWfiD6LzDug5SuXTcb0daGG8d1P5lg6p8RgB64O2nmx3weX46u3rK0g5qy
-         3hhq+DOW45LnCQaHohQnyaZC/lWdAOUGkZNAV00nrPdbau9bHWv81JHdH+68V9FHL9Gs
-         OcDXd2fKTGl+8HGlx6i1BIUuRpG/jPxM08TWGJcKH+sfMYSX8ehln2OFnpP51xAvFXxC
-         S/yA==
-X-Forwarded-Encrypted: i=1; AKwUvBwRd6Tkn+GlSxIJpqRmvIgbMNYw30G1Ehe9WqnOtGJu0uAjd0NG2G57B9sgjnM2CNEIHdopBg0Dzl0DZ70Gzzp7LT8f7A==@lists.linuxfoundation.org
-X-Gm-Message-State: AFuF++nqHFtAr/RtlSE+augitEYKDrrWMmRGh5E5McIrnwLEYlM1k0GL
-	z+3Lq+ZDkWwDypCG6IM2Afbkd6jYKMrH9CrpFLveJcNWiGa6XbGZWlRx
-X-Gm-Gg: AYBFou31H4V6A0iArFil/PgvPz3sNYtnwdRIOh7aY4pgnEbpUJF7KAuLIxMcbefoVwe
-	UdNnc+SdZAFEo2fUNNTOrdG1AgDsNhzHzH+6I/Wed6MBRQcOA8nm9Q3RRU15gzzd3DDxArntrKU
-	msbF9R8y0Ap5EWPGRe9p51GBjf6xMBt/6/v1WHtVmLMcs/kEpN2CFLWdK//FJr+MA85UtHaWPFe
-	0hkBrj1dk0gbV6ttLPPXCAUYVah06kGHSiFUMfW6Ijsf8bsw7AX+zmGB2bKm1epa1swms55a7Hi
-	Wc6NWvvR97wtVjBGUI0BoBmbdWChMy7jGpWqQ1BToTq8WvIDh3n3j0o1Xq0s5jk08N9nsfGLgGt
-	iU0piC1AzoU3HUqDyBu+AEOi9FEY0ZCMBN6qSvW1vEI2/uU0vE/k4N4f3WF3wpPW6YsGGrFHiOv
-	UAvDDUM0skI/WI1XFWN/KqjAIRGMUCxGADe5NswE0jKrmIIzlnYDxZxygFi1j8H1fBtl2+kLySG
-	2Pu92y8842S+/kw32qMHyYuZNIX5I9nKNUYI2xhAV4MR5TieI4g09EUnDynTV8Cijs=
-X-Received: by 2002:a17:90b:562b:b0:396:d27b:86a4 with SMTP id 98e67ed59e1d1-39b3d5f2c09mr6126052a91.2.1788622540707;
-        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+        bh=Lm42doHswCi3RtZeu7IIEEdGs2pytFeZf/X0boG9eKM=;
+        b=ec3N7qvndlfIGSCMZV+uc5D4tzKK4/t20LfJ+CHVzGxyjFCga6zjfRiaVQfrlNU26w
+         h2ZjUqgfy54DKiAjbfVOyBAYBZ4951ldGV23NR7QKMqx3sqTUqteLGGvDmxbFDqN5b85
+         HvB2zHU2YZ7NyBFXwWoFZGfeZUd+GR/PqbL0uCoNSuU5doVrXeqjM7XW6l5kETLpGHPr
+         kXIBH/QGgWHczFa4GlmLDvnSyIW6d5VOUY2+nAoziXL4mLItXzD1zXL1vzlI6If56HwB
+         kfNGh+vL5Ua142NQ++I6aJv4jmpxG100CueOcTVCeKMVVymb0fHD6mAjNqmK4Z7+Ok9/
+         mquA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788622545; x=1789227345;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Lm42doHswCi3RtZeu7IIEEdGs2pytFeZf/X0boG9eKM=;
+        b=QG5w/7qSXf5T3Lmc6BQTKayfnN3KOqRnsTlxaVIFNT2jIFyH6hVXlqaoVuwamcQ4wU
+         oap35IEHpOVWAjIW9nhjpA6nNyxX418Opb+KZK8ybgAbHjFfagJhfwuLyJRM9ubibSh/
+         pLjH04gTaBpsnLbpRHRhRtFLIBl++6TDpRQIjdrc+5e9riysXgPf2rz3YZMGTgSo6VZf
+         N9/7Q3k4aKWu0KO1TBdZgzq82cX3S/N0L86ZVcFc31Kn8nwtO5+3qLwiUY22WnYI9VbT
+         MlW805eaOPHvLFubxNhrcPFnPSZvx9mZWWoviz+DC8+49bdUfcPIc3+MqH0rbcsCVA+S
+         aOyg==
+X-Forwarded-Encrypted: i=1; AKwUvBw0ucFEGFR0iG0nRNg4r+wybmZCLGXGRTFrd7gHYNUPPHUYiRmeoLx6zmN0NpPrZN2V4D6k4i1rk2vUo1AHis9z+QbdCg==@lists.linuxfoundation.org
+X-Gm-Message-State: AFuF++knq/7OICfn8AG7cq3rtQncScfto5Z4EsupbbLN94VyyX9qgnZf
+	p5b82njhWVQFuSX91odKRaQboHFTaA6h8WFKOOHF8d14W1yzTBDDfhrr
+X-Gm-Gg: AYBFou1OYv0g6iaCKJ5fC3eNMnDay7LicJdMoROCo42b/JI3I34bFn1R7EkcBkJyrr3
+	tYFFre4OEhf0u2All0aQAxmxO5HQ6SMpJG1ayEh+Ua6K72Du2r0tI5IqACbdG3BMTx2dsKJhlNh
+	1IhnS0FOEAFg34YaiY88ULcdE8VXQ7FeAYKe7w8wZgBnE1zwbA4MIK9SvSEmhHJ4hPYejqYdS2N
+	euyJy4kswDg5WOPOpp84cGoLB/VfuTDrAR7tkAAj8X4rpaXrrUpPbZemrZ5H4PFZu1x+e3qUShe
+	plkStbfNaAhKvSqGq4SdZX/XIv30AxCVCnJHkNXVc3PFeaobvdmHo59dwLusil8nhI1SDw2vxFK
+	SG2DCHJSKSLJd03f+5263q2JXEYwpeCLhVggmYe6+QrXP7RLRu9RPHOOvlTCd2UOzFk91GdMvIC
+	RdE8jIaPB4fHgV7ynd0ekY8clfcI/mD13Cg3V5dQFF7EXRmIYTGeaQ1xurQgOFHKkTU+XLsphuN
+	oCNqJ6xF/bIvIPfKjVf/ld3ZGCATRGKATloZnIsT0g6CApTT/oJmUOQ40gzFAfzIncz6hycYSwV
+X-Received: by 2002:a17:90b:528c:b0:38e:7069:7117 with SMTP id 98e67ed59e1d1-39b3d3f7890mr7019686a91.0.1788622544549;
+        Sat, 05 Sep 2026 08:35:44 -0700 (PDT)
 Received: from fedora.iiita.ac.in ([103.119.35.125])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26123c99sm10493484a91.11.2026.09.05.08.35.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26123c99sm10493484a91.11.2026.09.05.08.35.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+        Sat, 05 Sep 2026 08:35:44 -0700 (PDT)
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: error27@gmail.com,
@@ -105,10 +107,12 @@ Cc: error27@gmail.com,
 	skhan@linuxfoundation.org,
 	ayushmukkanwar@gmail.com,
 	sashiko-bot@kernel.org
-Subject: [PATCH 1/2] staging: octeon: fix use-after-free in tasklet teardown
-Date: Sat,  5 Sep 2026 21:05:29 +0530
-Message-ID: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+Subject: [PATCH 2/2] staging: octeon: fix out-of-bounds reads in tx path
+Date: Sat,  5 Sep 2026 21:05:30 +0530
+Message-ID: <20260905153530.36693-2-ayushmukkanwar@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+References: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -117,15 +121,20 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cvm_oct_tx_shutdown() kills the tx cleanup tasklet while
-the net devices are still registered. This could lead
-to use-after-free when a tasklet is scheduled after the
-tasklet_kill() is called which might run after the net
-devices are freed.
-Fix it by unregistering the net devices before the tasklet
-is killed.
+1. cvm_oct_xmit() and cvm_oct_xmit_pow() blindly trust
+skb->protocol == htons(ETH_P_IP) and dereference the IP header
+without verifying if the packet is long enough or if the header
+is in the linear skb data area.
+Fix by checking if skb_headlen is larger than
+skb_network_offset + size of ip header.
 
-Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
+2. cvm_oct_xmit_pow() copies packet data into a fixed size
+hardware buffer using a hardcoded memcpy() size. If a packet
+is smaller than it, memcpy() will read past the end of the
+skb buffer. Fix this by using min_t() so that it does not read
+past the end of the skb.
+
+Fixes: 80ff0fd3ab64 ("Staging: Add octeon-ethernet driver files.")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Closes: https://sashiko.dev/#/message/20260615172734.42038-1-ayushmukkanwar%40gmail.com
 Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
@@ -133,71 +142,56 @@ Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 Note: This patch has only been compile tested. No runtime testing was
 performed as I do not have access to Octeon hardware.
 
- drivers/staging/octeon/ethernet.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ drivers/staging/octeon/ethernet-tx.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..98d4e025c301 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -113,7 +113,6 @@ static void cvm_oct_remove_device(int port)
- 		cancel_delayed_work_sync(&priv->port_periodic_work);
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index 5e536827f87a..452bc9fc8a5d 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -361,6 +361,8 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
  
- 		cvm_oct_tx_shutdown_dev(dev);
--		unregister_netdev(dev);
- 		free_netdev(dev);
- 		cvm_oct_device[port] = NULL;
+ 	/* Check if we can use the hardware checksumming */
+ 	if ((skb->protocol == htons(ETH_P_IP)) &&
++		(skb_network_offset(skb) >= 0) &&
++		(skb_network_offset(skb) + sizeof(struct iphdr) <= skb_headlen(skb)) &&
+ 	    (ip_hdr(skb)->version == 4) &&
+ 	    (ip_hdr(skb)->ihl == 5) &&
+ 	    ((ip_hdr(skb)->frag_off == 0) ||
+@@ -571,6 +573,14 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+ 	work->packet_ptr.s.back = (copy_location - packet_buffer) >> 7;
+ 
+ 	if (skb->protocol == htons(ETH_P_IP)) {
++		if (unlikely(!pskb_may_pull(skb, ETH_HLEN + sizeof(struct iphdr)))) {
++			cvmx_fpa_free(packet_buffer, CVMX_FPA_PACKET_POOL, 0);
++			cvmx_fpa_free(work, CVMX_FPA_WQE_POOL, 1);
++			dev->stats.tx_dropped++;
++			dev_kfree_skb_any(skb);
++			return NETDEV_TX_OK;
++		}
++
+ 		work->word2.s.ip_offset = 14;
+ 		work->word2.s.tcp_or_udp =
+ 		    (ip_hdr(skb)->protocol == IPPROTO_TCP) ||
+@@ -587,7 +597,7 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+ 		 * does.
+ 		 */
+ 		memcpy(work->packet_data, skb->data + 10,
+-		       sizeof(work->packet_data));
++		       min_t(unsigned int, skb->len - 10, sizeof(work->packet_data)));
+ 	} else {
+ 		work->word2.snoip.is_rarp = skb->protocol == htons(ETH_P_RARP);
+ 		work->word2.snoip.is_arp = skb->protocol == htons(ETH_P_ARP);
+@@ -596,7 +606,8 @@ netdev_tx_t cvm_oct_xmit_pow(struct sk_buff *skb, struct net_device *dev)
+ 		work->word2.snoip.is_mcast =
+ 		    (skb->pkt_type == PACKET_MULTICAST);
+ 		work->word2.snoip.not_IP = 1;	/* IP was done up above */
+-		memcpy(work->packet_data, skb->data, sizeof(work->packet_data));
++		memcpy(work->packet_data, skb->data,
++		       min_t(unsigned int, skb->len, sizeof(work->packet_data)));
  	}
-@@ -694,6 +693,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 	struct device_node *pip;
- 	int mtu_overhead = ETH_HLEN + ETH_FCS_LEN;
- 	struct octeon_ethernet_platform *plat;
-+	int port;
  
- 	plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
- 	if (!plat)
-@@ -729,7 +729,6 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
--		int port;
- 
- 		for (port = cvmx_helper_get_ipd_port(interface, 0);
- 		     port < cvmx_helper_get_ipd_port(interface, num_ports);
-@@ -953,8 +952,21 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_rx:
-+	/* Unregister ethernet devices */
-+	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
-+		if (cvm_oct_device[port])
-+			unregister_netdev(cvm_oct_device[port]);
-+
- 	cvm_oct_tx_shutdown();
-+	goto disable_ipd;
-+
- err_tx:
-+	/* Unregister ethernet devices */
-+	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
-+		if (cvm_oct_device[port])
-+			unregister_netdev(cvm_oct_device[port]);
-+
-+disable_ipd:
- 	cvmx_ipd_disable();
- 
- 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
-@@ -984,6 +996,11 @@ static void cvm_oct_remove(struct platform_device *pdev)
- 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
- 	int port;
- 
-+	/* Unregister ethernet devices */
-+	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
-+		if (cvm_oct_device[port])
-+			unregister_netdev(cvm_oct_device[port]);
-+
- 	cvmx_ipd_disable();
- 
- 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
+ 	/* Submit the packet to the POW */
 -- 
 2.54.0
 
