@@ -1,75 +1,69 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8FC3B27DC
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  6 Sep 2026 03:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6843CAE75
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  6 Sep 2026 04:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788666122; cv=none; b=AFwcmNSrDYBLPxcRrk57KC4I5nXsTMtRI+cj0n5UYIaznyTrYWobp555ou+YGtdnEJygYU24ROBSXtqmSjXPE2TsGlSKbNyi643ssA4W7HME0qkoZHBrSLmPo53mp0+PlbrUZOd2xMUR7WE8xMaS+eNeIzJePvWiHRn1/H+1zvo=
+	t=1788668515; cv=none; b=gEf3UNKIbgM8RcRJRtMQsJhUDlgay6ccktNKRhN0DupZJ39GmmQvwp83fXnQ0h507t5pvBbdELccvaXBcfWdhWVJdD5BgGh9gT+uuvZccPcai8J4uf9cKb0J6+JTt4mq8htAlVBuQ/T1aCSv7aH9DWbbQ1qgxwoplkoZGdt0Z2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788666122; c=relaxed/simple;
-	bh=1eg7xfXvqB+X7Z1e0Md87PErbs70YQUknxBBKub28qs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iGXbO2qamPu3ctOzXlxqwIVmLs6wsJIgFTmi/Un1kSRDpX2G2Fh/hBL5BMda5ELkX9d0ZPJIa3svwUjh2iYK/EwjRPAHpFYX65YP+fLn299/a1RzU9m75fY9w4RB7AAlOC9Excw5c0m6cGw7eVv7SwTQqZccm+wbg4n3VJLfnek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBZpRBYb; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1788668515; c=relaxed/simple;
+	bh=vdK3wtpjZYQNeaslASnAOYg/PCjcSi/RbT91Z1Uest0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UN1bBHBXvFpoblNlNMdkg3darqLufgoW3K4MECZmRJwCQbRzM8l8rEgWypfxLkNp8HwO37NMG2XNc/SzXuZdIIficMnRFB21YH7sEO7AdfqYpD/Hxv6P5cspeuCIkb0s57Wg7aM2IRbXP48pYID1eL0emexN1CJ2z3PVXSnBXho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbEbl293; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBZpRBYb"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso2837550a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Sep 2026 20:42:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbEbl293"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-381b831d535so3948496a91.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788666120; x=1789270920; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788668513; x=1789273313; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=48OUlgZ8oJkokpD3G8IEqvdlANt4AE/H+y5S+7nUN5c=;
-        b=UBZpRBYbG4+TLmwKO7CkzG5Sqkx56YLT9BLpFfU0YhnQWDCgGqjHFmuzllgOY+3B1y
-         FZEbddteZR/NXsWAPiuhZNU3mO/M0JSPL2JCn0drkFOK+s/ANTQoYjml/Q0XaWVRJig9
-         lmyvh10tPW4N8/Fgc69eRaPWd26iYxiJBfM2/l1MX/wgBs6d/yaBW2KiW3W6u+Hl4ylW
-         Y8PSPaGSmWn2tcw1w35hqlLG4qDfi/tNgzl4yKblcmHp6CVSEXPfJPThlI6wAoLALGio
-         ROOSYM9OhPKrHlyDF1AFfPS8Lee7iv7LDdOELJtMgZNXvbU6KC0012IC5aYwrYB+M6uB
-         iTvw==
+        bh=VVHZoxQnI4RGBc2Se+Rzzto/jsA46jGgtEifAbeG3A8=;
+        b=QbEbl293X05y1nrssdv/bshizonhdSp3FYrV0awgPBCX468BVmsv2py8FmIS/PhygA
+         0gUQY3AlDlvad7i0pYPZMrsvxRQL8xoGAVSuDoTh8KxHgqprGrTUb8piobY67YMTylfS
+         /Qs7f+CLb3idvvdY0cZvptzk4F0g+OWdG09gAmLZh8o4NUo+Bc9LGE1kzXyvDY+WBven
+         gSTAZ3PltgtHY7aROkVECwXnbcOMZJroL/KWIfRJ5TNYaqvPi+UPIjocxbCuujVhuqhT
+         1JpNBulVrA4fGv7m0xzBdLBPbUSQlqLz1pOaM+070mhffbVglMhQ81Rj3lGIxlFl8xC/
+         ADGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788666120; x=1789270920;
+        d=1e100.net; s=20251104; t=1788668513; x=1789273313;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=48OUlgZ8oJkokpD3G8IEqvdlANt4AE/H+y5S+7nUN5c=;
-        b=IymvuNYQHr3fJe/TmAbOUukWfhRH/khWo85U5nQY+PzZsqGpAaEsPgiI/XpXcTQH5d
-         HqrVctaYE4a7lhilAjnnzBwp2nGxNVYJ8pMBk+aQMbm7cpnop0M6jngqT26rrvtBHAaM
-         JrUjep54MTgVUexA+st8afEQgD+gb1xS4HETLWCDnXcMW9JkUR+hGRlpZFkjVLy+gfvU
-         yJLcY8X409cn1ydl2nuBUxlgJUZHKuRkD2ZawZCf/DFiBvY4Klcds2X46aIi9ZB3UH4C
-         BCBJHXpNDpuPhFHqSjjEuDXS8rekR7wlfbNwwq0FmcqKXRGnxaSpezaKX/WdzHeNnG0q
-         ipEg==
-X-Forwarded-Encrypted: i=1; AKwUvBzyIalrD9383ualBYv+qkSG6ci5Khx5M15/kgyrrO4J3ihWItxwDN+KMREXEoFsgfKUsetav8YIohedx+qNnINr2cuqGA==@lists.linux.dev
-X-Gm-Message-State: AFuF++n2BUCusBzsdqaINS48sW4T6FSTZARbK68TraZ9gbNF1JKAvvMd
-	KOulveMlp5lJNTyEr1LprNT4pxClQyhOBghYM5Hh4BhdVx2I3wE87evI
-X-Gm-Gg: AYBFou0eCq/jTBRrlY3O+pBWBvy0gs7bNZeBPQeq5Bkl/x9JYeFLit7G6dQXdHVEe17
-	wY0l6grW2rXUDxFgmolX8wkrzORZ+yNLgyvLlI6IlLdYxB++pFpn66qOzDu6ClF3U0xt5MUJZqR
-	dLY4odvzI1f1rzNEVMzonD5BTmcbZnhwe5qxOay/qmiG8fJTyuQZdU7bSXdLWyhRR5S8NexsOrc
-	/3AJ5Y1fGz2Q9i7Cv+1gK30dGdST/lUhZDxIYdz9rROU9Rxhf24CuY5c5eOXFBdX/iH2cLUTi80
-	r39L3GjqYHiCv4sjHMcHz2BRlWboA8/SGnj5VodL9CikVlu9EHxB8OEBoytryYI1fO0FRyMue+6
-	LBLM8xeHvqD7HVIapnP9HIF+beiPZgGA1IzfZOcP7jq7ydASZF2M/T6/eWi+1zHE/XypEFTz/FS
-	vCBxtTq14T0fuTOM21IgpR8jIGk1VcSJz+/M2879utM4ptb6KwafCkvqbaE7FeKRGaU452p8/jW
-	jSRDWWFDSJ+p9lcMJxzaM2ugW88l/i7K0f6baYUYaYO
-X-Received: by 2002:a17:90a:da8f:b0:398:b71e:60c1 with SMTP id 98e67ed59e1d1-39b26208e7amr22343140a91.12.1788666118495;
-        Sat, 05 Sep 2026 20:41:58 -0700 (PDT)
+        bh=VVHZoxQnI4RGBc2Se+Rzzto/jsA46jGgtEifAbeG3A8=;
+        b=iEHSBFRqKGxcIt8h8uAStU5hfTldxkAAgeHxpzaK+MZHbi4ZWxHalE9zhNotaShQNN
+         UlzWd6R+rpJMXnKjW23MG+Wm1rrumcy/SSzNW6fsJvgt8TCS6xFe7uClVTx07My43qcq
+         fFJoVezXWFe5/hLLTVq2FA0PVEtU2qLUGkCv30/HyeV4GT1+XdRTv0X2OlcayUVuAVsi
+         5EA1ULSksB0GgjqIRa5yWB1IEQW+3Dz0n/Fu2sPqCw+o7ebHtnNfERyS6NYURh+yGyHX
+         Ew8gHuNZ6SCgONIdJc7Mbr98PJ50nlNutTgQWVF7749BoMuWIlugURrhRiWieIT9Mycq
+         FPmA==
+X-Forwarded-Encrypted: i=1; AKwUvByOkDdHW2ZbaIMjX6VFSbYcezsgNo8eCaCXlD/MPeFbNuHZQ/IjAnuL5K1nVmUr8WzERLaZI1ujvht4wM+0buMwePhOXA==@lists.linux.dev
+X-Gm-Message-State: AFuF++melH3mFwINIzmCc3y3WCVQlE3fn1aRxPjlc4n1bVVZ8wk7At7V
+	1bX90sJbBrOQGJi5vepwWey0ZW7m7z5FsH6L6czUr1OZyh9JI8zwB1YF
+X-Gm-Gg: AYBFou3TPDEfEKVyVvB+Mw7QoGh4J2I94DwVGYRpY1JL6G93KmCA/XijqwLFFjVlBf8
+	pN8k24Os2Yrlea9PXRtpWBh385ypo/jtNpxr2735RV8WsBjara8IjyuYcwAnA7eMe78Jo+DxG3p
+	QWDtn+7dT4p/C0kiUn10skKasqcZQQD2AK0MX/IM0GD8ggfp+y+RctVRaMnssvPrmXXv8x0Ojoi
+	vkLCBXv8puTDndnQW/wiTO10cY50/Jy4IIeMkOnntZBHoq8dhTEcZpUJrLQzHRqiN6WYxYT5O5k
+	gKqqLwuXCESpJ48TcudBv7GWlVgFjkZPiH0B6RhqvRznL/Bk5ey5EkeNui62NSTEN15Z+R/pTE4
+	e8Qbd34kAIibugQ6ZgcUufgG5tMPTIml9R4aRPUGrXuVr+MGymre5iVrkRxPUdeLNtNCzb6J6gb
+	5BzjaPEIh7DQMK6ea0g2i1Giy1u93uiUb2zBcPuTtoPnYYTZTAUU4lSiO3TNfznepivhpm9PM0W
+	DJZQdE99Ii+n0f4XpB1yEHDtDttgn7japyF0VaQUy5GXZKGxhwL1V8=
+X-Received: by 2002:a17:90b:1e51:b0:399:ecd:d68d with SMTP id 98e67ed59e1d1-39b26260f7dmr22268351a91.22.1788668513437;
+        Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
 Received: from debian-rockchip-rock5b-rk3588.. ([27.130.10.21])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08ce4221sm22761765a91.14.2026.09.05.20.41.52
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14332405e92sm9412489c88.8.2026.09.05.21.21.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 20:41:58 -0700 (PDT)
+        Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
 From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+To: Paolo Bonzini <pbonzini@redhat.com>,
 	Shuah Khan <shuah@kernel.org>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Sean Christopherson <seanjc@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
+Cc: Sean Christopherson <seanjc@google.com>,
+	Haibo Xu <haibo1.xu@intel.com>,
+	Anup Patel <anup@brainfault.org>,
+	Andrew Jones <ajones@ventanamicro.com>,
 	kvm@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -79,9 +73,9 @@ Cc: Fuad Tabba <fuad.tabba@linux.dev>,
 	jkoolstra@xs4all.nl,
 	Tharit Tangkijwanichakul <tharitt97@gmail.com>,
 	Gokul K <gokul02k@gmail.com>
-Subject: [PATCH] KVM: selftests: Fix VM leak in early return
-Date: Sun,  6 Sep 2026 03:41:43 +0000
-Message-ID: <20260906034144.14059-1-tharitt97@gmail.com>
+Subject: [PATCH] KVM: selftests: Fix reg_list and VM leak in get_reg_list test
+Date: Sun,  6 Sep 2026 04:21:31 +0000
+Message-ID: <20260906042131.630-1-tharitt97@gmail.com>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -91,43 +85,45 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-test_mmio_ease() returns early and skips the call to kvm_vm_free() when
-ID_AA64PFR1_EL1 is not available.
+Calling the test with --list or --list-filtered causes an early return
+in run_test() which skips freeing the reg_list and vm.
 
 Use a goto so that the early return joins the common exit path.
 
 Reported-by: Gokul K <gokul02k@gmail.com>
 Link: https://lore.kernel.org/all/20260808081050.408657-1-gokul02k@gmail.com/
-Fixes: a90aac553249 ("KVM: arm64: selftests: Test SEAs are taken to SError vector when EASE=1")
+Fixes: 17da79e009c3 ("KVM: arm64: selftests: Split get-reg-list test code")
 Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
 ---
-Tested on a Rock 5B (RK3588). ID_AA64PFR1_EL1.DF2 is not implemented,
-so test_mmio_ease() takes the skip path exercised by this fix.
+Tested on a Rock 5B (RK3588). Running the test with --list and
+--list-filtered now exercises the goto path added by this fix and exits
+cleanly.
 ---
- tools/testing/selftests/kvm/arm64/external_aborts.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tools/testing/selftests/kvm/get-reg-list.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/arm64/external_aborts.c b/tools/testing/selftests/kvm/arm64/external_aborts.c
-index d8fe17a6cc59..7836756a38a6 100644
---- a/tools/testing/selftests/kvm/arm64/external_aborts.c
-+++ b/tools/testing/selftests/kvm/arm64/external_aborts.c
-@@ -339,7 +339,7 @@ static void test_mmio_ease(void)
- 	pfr1 = vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_ID_AA64PFR1_EL1));
- 	if (!SYS_FIELD_GET(ID_AA64PFR1_EL1, DF2, pfr1)) {
- 		pr_debug("Skipping %s\n", __func__);
+diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
+index 216f10644c1a..6eb91d5c739e 100644
+--- a/tools/testing/selftests/kvm/get-reg-list.c
++++ b/tools/testing/selftests/kvm/get-reg-list.c
+@@ -189,7 +189,7 @@ static void run_test(struct vcpu_reg_list *c)
+ 				print_reg(config_name(c), id);
+ 		}
+ 		putchar('\n');
 -		return;
-+		goto done;
++		goto free_reg_list;
  	}
  
- 	/*
-@@ -356,6 +356,7 @@ static void test_mmio_ease(void)
- 
- 	vcpu_inject_sea(vcpu);
- 	vcpu_run_expect_done(vcpu);
-+done:
+ 	for_each_sublist(c, s)
+@@ -306,6 +306,8 @@ static void run_test(struct vcpu_reg_list *c)
+ 	pr_info("%s: PASS\n", config_name(c));
+ 	blessed_n = 0;
+ 	free(blessed_reg);
++
++free_reg_list:
+ 	free(reg_list);
  	kvm_vm_free(vm);
  }
- 
 -- 
 2.47.3
 
