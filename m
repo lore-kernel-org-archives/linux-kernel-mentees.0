@@ -1,129 +1,104 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6843CAE75
-	for <linux-kernel-mentees@lists.linux.dev>; Sun,  6 Sep 2026 04:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA8946D087
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Sep 2026 11:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788668515; cv=none; b=gEf3UNKIbgM8RcRJRtMQsJhUDlgay6ccktNKRhN0DupZJ39GmmQvwp83fXnQ0h507t5pvBbdELccvaXBcfWdhWVJdD5BgGh9gT+uuvZccPcai8J4uf9cKb0J6+JTt4mq8htAlVBuQ/T1aCSv7aH9DWbbQ1qgxwoplkoZGdt0Z2I=
+	t=1788779884; cv=none; b=jN2C+pjySV+AVIZyJJMC1YNCMvGGywpz0ozJMwcwEiHiZdsnQ0sVJZaLZP4GLRWafMtjI4KHK97y7jtqMudy6jTFW+B+zpXkZfYZ4Js2iOCSvPFRQ5YDBTlMmgCooWdi/3YwV/YxcRkl2nKQgxATC34rJ3BZp6oHNM1r3FPUjW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788668515; c=relaxed/simple;
-	bh=vdK3wtpjZYQNeaslASnAOYg/PCjcSi/RbT91Z1Uest0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UN1bBHBXvFpoblNlNMdkg3darqLufgoW3K4MECZmRJwCQbRzM8l8rEgWypfxLkNp8HwO37NMG2XNc/SzXuZdIIficMnRFB21YH7sEO7AdfqYpD/Hxv6P5cspeuCIkb0s57Wg7aM2IRbXP48pYID1eL0emexN1CJ2z3PVXSnBXho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbEbl293; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1788779884; c=relaxed/simple;
+	bh=XYqEV1M0GpB+fKUY4FbmTaxiqGTleihRUV7J7Wx1cSI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ahWn6b9cYoVobjEkXomZl0TXwtxHmBnURJ3p1FCuwb16BBqAi5LolrMSpcO8Vjdf4fANt9c2oBp+XLJhnqWbcGjOKY2FHZZbgZ03CUi+a3nWzVWfNToCHsT0ouycOf1EwETusoG9WTWZYHS6/8Y4/7mTID0GLVYGcWdjMQMISqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KVlSSzRx; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbEbl293"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-381b831d535so3948496a91.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KVlSSzRx"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-482ea739de2so2293620f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Sep 2026 04:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788668513; x=1789273313; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VVHZoxQnI4RGBc2Se+Rzzto/jsA46jGgtEifAbeG3A8=;
-        b=QbEbl293X05y1nrssdv/bshizonhdSp3FYrV0awgPBCX468BVmsv2py8FmIS/PhygA
-         0gUQY3AlDlvad7i0pYPZMrsvxRQL8xoGAVSuDoTh8KxHgqprGrTUb8piobY67YMTylfS
-         /Qs7f+CLb3idvvdY0cZvptzk4F0g+OWdG09gAmLZh8o4NUo+Bc9LGE1kzXyvDY+WBven
-         gSTAZ3PltgtHY7aROkVECwXnbcOMZJroL/KWIfRJ5TNYaqvPi+UPIjocxbCuujVhuqhT
-         1JpNBulVrA4fGv7m0xzBdLBPbUSQlqLz1pOaM+070mhffbVglMhQ81Rj3lGIxlFl8xC/
-         ADGA==
+        d=gmail.com; s=20251104; t=1788779879; x=1789384679; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=XYqEV1M0GpB+fKUY4FbmTaxiqGTleihRUV7J7Wx1cSI=;
+        b=KVlSSzRxoL3UUuO2eBar9sJ8EOLXoZvbPHSx7yjCh9yHZdKV/MPHi65xJq0G+4bsuf
+         pl3EYvys4c1yBw/uVTw2wIYIrjB0OzKfbwsRsAuTx1WR8roBNm2CdJlwjvkXm7E9yAMi
+         k4BEa5vMle4N25BX08vYMZL96DevgJrnPPnEI5uLdGvVWDmxuMOtmXOIdr60mJ5YBW3X
+         pmmtAzgqcT/UTnsZyctOOx0FftSSrMedTns2jF6iOzLhZob3zqTxHPmDFNp6T0U8zzJg
+         iJ7PwaAk3ADYV/whkXn2abU+W6jFyvXQqJ7bimJxni4pHfJpjFyJFsEDXIm2TesHCWIg
+         lFuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788668513; x=1789273313;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VVHZoxQnI4RGBc2Se+Rzzto/jsA46jGgtEifAbeG3A8=;
-        b=iEHSBFRqKGxcIt8h8uAStU5hfTldxkAAgeHxpzaK+MZHbi4ZWxHalE9zhNotaShQNN
-         UlzWd6R+rpJMXnKjW23MG+Wm1rrumcy/SSzNW6fsJvgt8TCS6xFe7uClVTx07My43qcq
-         fFJoVezXWFe5/hLLTVq2FA0PVEtU2qLUGkCv30/HyeV4GT1+XdRTv0X2OlcayUVuAVsi
-         5EA1ULSksB0GgjqIRa5yWB1IEQW+3Dz0n/Fu2sPqCw+o7ebHtnNfERyS6NYURh+yGyHX
-         Ew8gHuNZ6SCgONIdJc7Mbr98PJ50nlNutTgQWVF7749BoMuWIlugURrhRiWieIT9Mycq
-         FPmA==
-X-Forwarded-Encrypted: i=1; AKwUvByOkDdHW2ZbaIMjX6VFSbYcezsgNo8eCaCXlD/MPeFbNuHZQ/IjAnuL5K1nVmUr8WzERLaZI1ujvht4wM+0buMwePhOXA==@lists.linux.dev
-X-Gm-Message-State: AFuF++melH3mFwINIzmCc3y3WCVQlE3fn1aRxPjlc4n1bVVZ8wk7At7V
-	1bX90sJbBrOQGJi5vepwWey0ZW7m7z5FsH6L6czUr1OZyh9JI8zwB1YF
-X-Gm-Gg: AYBFou3TPDEfEKVyVvB+Mw7QoGh4J2I94DwVGYRpY1JL6G93KmCA/XijqwLFFjVlBf8
-	pN8k24Os2Yrlea9PXRtpWBh385ypo/jtNpxr2735RV8WsBjara8IjyuYcwAnA7eMe78Jo+DxG3p
-	QWDtn+7dT4p/C0kiUn10skKasqcZQQD2AK0MX/IM0GD8ggfp+y+RctVRaMnssvPrmXXv8x0Ojoi
-	vkLCBXv8puTDndnQW/wiTO10cY50/Jy4IIeMkOnntZBHoq8dhTEcZpUJrLQzHRqiN6WYxYT5O5k
-	gKqqLwuXCESpJ48TcudBv7GWlVgFjkZPiH0B6RhqvRznL/Bk5ey5EkeNui62NSTEN15Z+R/pTE4
-	e8Qbd34kAIibugQ6ZgcUufgG5tMPTIml9R4aRPUGrXuVr+MGymre5iVrkRxPUdeLNtNCzb6J6gb
-	5BzjaPEIh7DQMK6ea0g2i1Giy1u93uiUb2zBcPuTtoPnYYTZTAUU4lSiO3TNfznepivhpm9PM0W
-	DJZQdE99Ii+n0f4XpB1yEHDtDttgn7japyF0VaQUy5GXZKGxhwL1V8=
-X-Received: by 2002:a17:90b:1e51:b0:399:ecd:d68d with SMTP id 98e67ed59e1d1-39b26260f7dmr22268351a91.22.1788668513437;
-        Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
-Received: from debian-rockchip-rock5b-rk3588.. ([27.130.10.21])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14332405e92sm9412489c88.8.2026.09.05.21.21.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 21:21:53 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Haibo Xu <haibo1.xu@intel.com>,
-	Anup Patel <anup@brainfault.org>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>,
-	Gokul K <gokul02k@gmail.com>
-Subject: [PATCH] KVM: selftests: Fix reg_list and VM leak in get_reg_list test
-Date: Sun,  6 Sep 2026 04:21:31 +0000
-Message-ID: <20260906042131.630-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20251104; t=1788779879; x=1789384679;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XYqEV1M0GpB+fKUY4FbmTaxiqGTleihRUV7J7Wx1cSI=;
+        b=Egm3d6y6vo9YreC5PxnCI8WmbGw/s6M2Q4P+eNsntrSPvuaa4q9dwfHLUF3aJPqNIm
+         f3g++r549mf9VDRsZMNUJba0C2C+5CaXJd2GrLd4TFvUIjEDxpO+RRn7wQ2oldSNFxi6
+         LcVrAC8RSOe4GUrgU2czTxryqNKuGkeT4jd/jq1us7ev/A2K1URnX2aPmMPK5/OYYxfY
+         ByVWYCsGRrWHseQ4C15sfBSWPw7vs8Tbdo+Vg/zdX/FHBkjSZKCa70yKpmGVLfWswE1E
+         +gAbx4gYjCApyclEYo7oZ9v96FGRoFzxgOIaX9z4TaV+MQ3r2OyH2S/DMwGFTnumuZqR
+         VqJA==
+X-Forwarded-Encrypted: i=1; AKwUvByxvvIzFMdqmxEIzvpjlpKUScpyuAhjCey8mBGbMV30BIi64QLqoGEYNcjs+kweRxU/wXpQYS/uqHQcJvK5OSoaDEvEvg==@lists.linux.dev
+X-Gm-Message-State: AFuF++ke1UzKqrQ3tLxdRM67hlpDsyFb174xdFnLUwlXIaSaTrkRzGEr
+	mj3vMrTbA16I9qD3+As0d8rruvniKP/afEZCHubpwchTqi7oD8q2akQ=
+X-Gm-Gg: AYBFou2LmziqB6RzvjmPNXGgwkk9BMF0YZzMMymYKPi8p+RoXiZAFJrbmst7yMf/ZhX
+	1IpICCjgb9N6vVSVSeDKgKr4f+qicTPvloEVxVdPiQNuAqBdCM7FmqxOfETosYVJD6Ii+6wI2fs
+	DBnhkBQrBG3YC9PB2A8rsqHcvTGc/YNNDxpOEU7LzI0nyTerztOq99ZGFdJY9yNF/jrELmlvD3M
+	hJPqCvJAMAFnub47T6gOaRM1pdSrmAMs9rUceV8IT9OJsGz2CMQavuj+k38793lmsWyQ/YLI4Y9
+	7r/NLCTTLIWwREaRk7RdWByM1Ex8V1ANxrE8g1zgiuIyiahHcykwkUs4y4gaOyYJQsJh3ysaebo
+	DjtdfVNEuo9Iu3QToQrh/3xwgdfL4EQAijKc5ylhVSklJ0gMmTpbAD0lhx4iEO455RneffoaIis
+	f9DwSdq4YKyiJYTkS1Vwa8dEliRcVvSiVWLD666/Mvv/V3kHyugEtctkgHqyRl6zBY3xzACRVYB
+	RhN9MxnGGwKWcz6k+Hrw3RXY1WW+dfEI4O8uK2hnGr+y+gCLHRIg/6RolQD+gLuXI7CdkSDF8EP
+	8zYQJ0OOavDRkCYAQwBmlPc77CKESodCihF9hlJMdn9YJHkhziEhMrlWoTSPaQ==
+X-Received: by 2002:a5d:55d1:0:b0:481:4697:8808 with SMTP id ffacd0b85a97d-485872dee4cmr22090578f8f.22.1788779879457;
+        Mon, 07 Sep 2026 04:17:59 -0700 (PDT)
+Received: from localhost (92-242-248-12.broadband.mtnet.hr. [92.242.248.12])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48591eb3d3bsm16032918f8f.0.2026.09.07.04.17.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 04:17:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 07 Sep 2026 13:16:59 +0200
+Message-Id: <DL91IWM6YXRN.3892K60CVKZ3U@gmail.com>
+Cc: <linux-mmc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kernel-mentees@lists.linux.dev>, "Ulf Hansson" <ulfh@kernel.org>,
+ "Guangshuo Li" <lgs201920130244@gmail.com>, "Runyu Xiao"
+ <runyu.xiao@seu.edu.cn>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ <syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com>, "Geert
+ Uytterhoeven" <geert+renesas@glider.be>
+Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
+ context in vub300_inactivity_timer_expired
+From: "Jakov Novak" <jakovnovak30@gmail.com>
+To: "Tetsuo Handa" <penguin-kernel@I-love.SAKURA.ne.jp>, "Johan Hovold"
+ <johan@kernel.org>, "Jakov Novak" <jakovnovak30@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260816153809.7067-1-jakovnovak30@gmail.com>
+ <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
+ <61c4cee5-3c63-4b09-abbf-bf945b538403@I-love.SAKURA.ne.jp>
+In-Reply-To: <61c4cee5-3c63-4b09-abbf-bf945b538403@I-love.SAKURA.ne.jp>
 
-Calling the test with --list or --list-filtered causes an early return
-in run_test() which skips freeing the reg_list and vm.
+> syzbot has an AI-generated patch at
+> https://lkml.kernel.org/r/49982079-95f4-4e8c-bbbc-bcb127e2f378@mail.kerne=
+l.org .
+>
+> Please check.
+I checked the AI-generated patch and it just uses the deadworkqueue in a
+new function. That is the same thing I am doing except that I'm using
+the vub300_queue_dead_work function instead of writing some new code
+that does the same thing.
 
-Use a goto so that the early return joins the common exit path.
-
-Reported-by: Gokul K <gokul02k@gmail.com>
-Link: https://lore.kernel.org/all/20260808081050.408657-1-gokul02k@gmail.com/
-Fixes: 17da79e009c3 ("KVM: arm64: selftests: Split get-reg-list test code")
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
-Tested on a Rock 5B (RK3588). Running the test with --list and
---list-filtered now exercises the goto path added by this fix and exits
-cleanly.
----
- tools/testing/selftests/kvm/get-reg-list.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/kvm/get-reg-list.c b/tools/testing/selftests/kvm/get-reg-list.c
-index 216f10644c1a..6eb91d5c739e 100644
---- a/tools/testing/selftests/kvm/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/get-reg-list.c
-@@ -189,7 +189,7 @@ static void run_test(struct vcpu_reg_list *c)
- 				print_reg(config_name(c), id);
- 		}
- 		putchar('\n');
--		return;
-+		goto free_reg_list;
- 	}
- 
- 	for_each_sublist(c, s)
-@@ -306,6 +306,8 @@ static void run_test(struct vcpu_reg_list *c)
- 	pr_info("%s: PASS\n", config_name(c));
- 	blessed_n = 0;
- 	free(blessed_reg);
-+
-+free_reg_list:
- 	free(reg_list);
- 	kvm_vm_free(vm);
- }
--- 
-2.47.3
-
+The real question is whether mmc_free_host should be allowed to invoke
+the sleep function or not. Geert needs to elaborate on that since he
+added this change in 1036f69e2513 ("mmc: core: Cancel
+delayed work before releasing host").
