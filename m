@@ -1,123 +1,127 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED1F499F21
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Sep 2026 12:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAD2438493
+	for <linux-kernel-mentees@lists.linux.dev>; Mon,  7 Sep 2026 13:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788784176; cv=none; b=ZGqZvwj2y60iBKwQmIOc0GQM525pAG8HzmLdVYlb5gaxHgEfAfDUsOJxBoj2qWZIdm+sUPmVCFJsMkAZvQrFkZBC1fWp9KssDd0ZrrCPgZkU0UUHfldrYcY3cbSjhpRbs0iIfT0kBP2MiWRwI5AEnIGDOQ8rfwWDRPkp/FgW500=
+	t=1788787881; cv=none; b=S57M7Q+i3q1GpxdA5DwQpWZeNh+UdkJqMJl6zCL6b5lqrvI/c6tLDjUgsbDO3h215Z/DuPoHAd+DWAO0fXraNP9+fr1I/vhhgf8k8J/qHkX27Sbg1mHhcgSkzCXRGOZwS4+xqQ3W2Yc2aL87KsCICJS9mSuJEJ0NFSSCvlzTtbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788784176; c=relaxed/simple;
-	bh=l7ug4HLSmucuV0BytQWrh1mjLjuj0w7Cau5Nxw9ih30=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K0JDMNOIXCzVjBijNoQdy1eXjylQxLQ6iEN/56G45UB7+lqohK89jol9c9awVboKk8ErsRKtdlYTl3ISxPKTlfjR7z7vxSqm/iD2ew1fqnbS9PVWDAejz0bn0XxUoTIws3+qy0mPlKJQKxBUNJW1/DGGff8/9+eE3fuU3HD9Y0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=olKCqbsE; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1788787881; c=relaxed/simple;
+	bh=+1G/9UQd/LAm1RyVlXgMRXgP/YziR3pn99psmWP6Q84=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=B45+1c9yj7vmRiHMcnnOs7OVYaPazQD74NOHO+27E6f9oPc0xgvpu+xMh2OtMsmsQPPI87VuU8sKdJdW+BgOYXmcsIGPEhKHQdZUcPL72smc3g+zBKxBP0n7/kbklPIDarxGIcYXn9EDmPeCjrK1GVQJhVMPUkUBK2I99FZFsyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKrY+2YZ; arc=none smtp.client-ip=74.125.224.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="olKCqbsE"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-861145fc841so28236217b3.3
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Sep 2026 05:29:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKrY+2YZ"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4aa8e6bbso84636d50.0
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 07 Sep 2026 06:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788784169; x=1789388969; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5mjYZ3k2SfS7QDSelwqxhC0sbri/VrXDhQqho6Hz/5E=;
-        b=olKCqbsE43qHaqQlg8BmHq9c/zJV5lFDQfrWg6FIvyxznNxmYsXJo8O0HWdMTYO+yy
-         SdzwJDIAgJsTeYT1XBbBt7wwq+0lqnYYa5uym5DR2ItAOneWXYedD+wUaoTjgqPYgJ1l
-         fPRQ3+p1J6q97/rBW4UdJuPiGQG/lYyjRPU5CGRu9Y8nIuIYm6YmD2IUH7+ErDJnAFs2
-         nuCK6OQSjxNVd5t6k770lbPvHp5mSQI+yaiL6Q4tNIt5KPy3h8BreeeicDe0mspue1Ve
-         ksqCS9V5xVVWtYksmFD0j0BmOGb3bvxERB2x0LUfPmONuhpdwe+TiYqy7PMIjvSv/JGs
-         4Gdg==
+        d=gmail.com; s=20251104; t=1788787877; x=1789392677; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=eWEcZDJ0d/jLVDHWzL+8bGu4JgK8yNHYL2NxU1NtGM8=;
+        b=mKrY+2YZcA2XD71525lVnpEZ7MxVfGOZKbJzHaA9wVkxLQr1vdGZkJEbmIDjaBNJbr
+         PGlR+rzt1aIHE9rwZtfUrL4+/tXku3IeFBwzJSEpgQBtACCoDJWcF1/TUo70ea+8FVcL
+         CxqDrvE4BMze+hW6RZCVuh15jRyS/iOoTuDjwncSNVJal0p+em1RQ6iQJWFluHuekg3r
+         6ysxCflmhlZQhOcjKpfk91vut55av579s+H3czEMw2dNThBAdTj/Dqy+gWh8JAkiLw7d
+         HD7uWMpkJkzBuoKgrEQx6g4Ok9MBYlgVN2rTxkh5WcCwz2FyVe1m7HTAkYPxpaCujSM6
+         nosw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788784169; x=1789388969;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1788787877; x=1789392677;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5mjYZ3k2SfS7QDSelwqxhC0sbri/VrXDhQqho6Hz/5E=;
-        b=cIbvO9a2Sqk9pmlYwyzabhqVpNvOWbfUl0XHcciFT6KZD/Y51zqDauicF0kOQwufPz
-         00nQ875oPxPV162lJDliS4JCnGW5l9VjVhjyHxH4zyihgzFmii8CqUzMI19SVUpu6wNh
-         qGmQEKWOTt7UvfWBa2PtsGjt5hht6DOQ7pFiqtEv6FcABmYcI+yb83sl+sqAhhtABJxK
-         n2xkiOuN5hw+N66Z3RAGHqzmt1aNnWFkPdFdwa+LZsWUnNo0JHgiVfNr2FPHkUVlJlNK
-         WLhLPd8tqlPcnNS66zghXyRqXi4iHQm3HQSAz0CC4XB/Kiuk1R7J+h5BLPsvisswVvFz
-         n0XQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzMFhcTIn8NLjHtw2HVmxCcro8wiGjeSpQvFUHPCwSjvj7GzamecQZEyq/hp72kK8BLXgGH0QlM22p/L+jgx5VTB86Fzw==@lists.linux.dev
-X-Gm-Message-State: AFuF++ngFV1bCmR/Fib+u002UeZEAAsCmhPMDpmbV6wfutQeF+JB5jQb
-	/ZVoR5j+JRewNR870k9wV5Jgb7HZPowPfsJOmj19nbnvtkJSGXgSmXw=
-X-Gm-Gg: AYBFou3iKt3BYoZK32WBi/0jS7Y4vKrtSq63qNGCy9GCYw4LyzjjW5jLHwZcu0EGJ9b
-	O1hIqUrzUKvR7hjUGmfk+62/Bf3lnMw+UyBzs0LRSgxxaeghwy0CFeIGeWePYILr293Gx+YXpGS
-	DpTVlIZ4pewIV8cNRZMDZBwNouvn8/SyLggWRCk38aGs9lUwjpRSbVjgCRcArgoBYy0XZGMu9Ee
-	Tnrx7pT7QGyWLHwWQXa8rJmxtgWYm4DDbO+PZPj2VbghsSKHb1DFSPeJ7LkwzLVo6cp9t0/Ytw3
-	8T1hBeWJ/Eu+myGwKEyiwP4EeDQ5pvOAsah3302bnHnTtFmcexwPLtQWPvnJBzjqfelGDSKAatL
-	UfLqaAJD/b/8QdLVuPHk5xoJE/EQqailFQ/6JmtJG4BelxMgQjo4IggpcxNmImoWRFlh1o8jpSz
-	+sI5HiHEGpULAAnGtS3w02oUGTg/IkyTPuZcd0ROEBsTp9hP7LIGPEzzalKc+C84hLNQsVGSBmB
-	gGAiCOYN7KDjUSPHjYAigSfLvrmBpuJ/FM4fLU=
-X-Received: by 2002:a05:690c:d8f:b0:7e9:4a7:9899 with SMTP id 00721157ae682-871261dc570mr103556167b3.11.1788784168867;
-        Mon, 07 Sep 2026 05:29:28 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8714bb0efc1sm70511967b3.45.2026.09.07.05.29.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 05:29:28 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v4 3/3] MAINTAINERS: add entry for Chipwealth CH1115 OLED Controller
-Date: Mon,  7 Sep 2026 09:23:31 -0300
-Message-ID: <b8ec70dfa6e4e711cc95df2a6046741223d67c92.1788711082.git.nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1788711082.git.nico.antinori.7@gmail.com>
-References: <cover.1788711082.git.nico.antinori.7@gmail.com>
+        bh=eWEcZDJ0d/jLVDHWzL+8bGu4JgK8yNHYL2NxU1NtGM8=;
+        b=G6mzemmYd7fud0zp0PbB1hXX9955jLW/uFFsirW47h0IhMYnWdIAKBuzHPlnN2FgwT
+         zbZUrv2fBMnJA0AcMA0wA/QcnAOwvSn/k0yn5xDwovNF2cb71CwIy49tYL1Q8JC81Ap8
+         sw3X9f3F86FjJ+SFW5NgL9XsNPdTvhiTE05si/21rH51hV61JHX8+ujbId7dsmvnJKJY
+         HeaCp8MY2QTNJj9bFyIHhd7+BhWOmF0MHbIvYhbnpOmhPbJPOy+t5JufGrHZ3eMnBXwI
+         RBKyKmsQHgQm90W5KIDoauvhiwBJvCEGAKrGYqA+XnN15oqaQxZKhE3+DKP3aAe974v+
+         ySEg==
+X-Forwarded-Encrypted: i=1; AKwUvBwlF7CwR5ykLZTeTT4LF+1ABeRXK8OyAjBkwnad4Wjt7ozNP++nu3OWZ3EIO5bDXqnrkk8cjKp/7+EiQmOQ/8QJSXXOVQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++kAQ+ezDLkHjBV5rZ9wlu/NS1uBDOoety/k9g9LzaUPs4V1j3Ih
+	MvfJDFZXaFon0VAbdDUYhQfO7v9tQfC13Km+dx4CFC+/YC1x5thMztA=
+X-Gm-Gg: AYBFou25TavvuEgaRNO2Qlzh4tA0ViKOuGIg18X5F5sfpx8dhZd/EBDmMyRp95RMu57
+	kMzeCCudSez/BVC+ZxoDR7OZKau4JiI6MOnwh1QivXY58WJCfTqLNaoaIOg2a68XA3HOWORKZik
+	E4nL6z7WRaHyEtYcX1Gah62VX2u9Qr7XOUF7pdjIpY1unj7lTKC5RmwsejUv5TgMK11is9yN3j9
+	Ar1m2UA3ovTg/MSmMDLx7yUgWpu5v7ehtXQzsW+L3PbQ5pFzy2hm7yUtlC4PHqUkxdQYIsfONam
+	5FvfIx4Ufjt2JUENl9jKujDfCsmY31YN4oULKASk4gp9qjl5vCeEd654BKaA9TAFdc5DuDUFtPH
+	rVHoTyXTgzHhf6DsPxJEWdvPBNq4DTQzylkLOBHb8T5ECfMP8TVx24CZkOvk9s5a5bnSblXNwhq
+	J9RnbOcUczKgAj/9pX066hdH68q+dYQr18yJcR9PMN7CGLFjsmIzQQnYSTYMFozWYoVn3lDXFux
+	2yp0v7mcx+2JdVnskNsd+Y=
+X-Received: by 2002:a05:690e:1288:b0:66f:a6e9:764c with SMTP id 956f58d0204a3-670f494fd90mr258149d50.22.1788787876678;
+        Mon, 07 Sep 2026 06:31:16 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66fb48b374bsm8237629d50.3.2026.09.07.06.31.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2026 06:31:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 07 Sep 2026 10:31:10 -0300
+Message-Id: <DL94DN6MH6UD.2XPV905D3FQ5Q@gmail.com>
+To: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>
+Cc: "Brigham Campbell" <me@brighamcampbell.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shuah Khan"
+ <skhan@linuxfoundation.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/mipi-dsi: docs: Mark mipi_dsi_compression_mode() as
+ deprecated
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+X-Mailer: aerc 0.20.0
+References: <20260702194223.290763-1-nico.antinori.7@gmail.com>
+In-Reply-To: <20260702194223.290763-1-nico.antinori.7@gmail.com>
 
-Add MAINTAINERS entry for the Chipwealth CH1115 dot matrix OLED
-controller.
+Hello,
 
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Thu Jul 2, 2026 at 4:42 PM -03, Nicol=C3=A1s Antinori wrote:
+> The mipi_dsi_compression_mode() function is a thin wrapper around
+> mipi_dsi_compression_mode_ext(), which is already marked as deprecated.
+> Additionally, the non-deprecated mipi_dsi_compression_mode_multi()
+> alternative exists.
+>
+> Document this deprecation to encourage developers to use the multi varian=
+t.
+>
+> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_ds=
+i.c
+> index 3ac1dd5ad640..9e20818f2de0 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -699,6 +699,8 @@ EXPORT_SYMBOL(mipi_dsi_compression_mode_ext);
+>   * Enable or disable Display Stream Compression on the peripheral using =
+the
+>   * default Picture Parameter Set and VESA DSC 1.1 algorithm.
+>   *
+> + * This function is deprecated. Use mipi_dsi_compression_mode_multi() in=
+stead.
+> + *
+>   * Return: 0 on success or a negative error code on failure.
+>   */
+>  int mipi_dsi_compression_mode(struct mipi_dsi_device *dsi, bool enable)
+> --
+> 2.47.3
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 054178b88dcb..0be510e16a8d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8665,6 +8665,12 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
- F:	drivers/gpu/drm/panel/panel-widechips-ws2401.c
+Following up on this patch fixing the documentation comment. Just wanted
+to check if there are any feedback or updates required on this.
 
-+DRM DRIVER FOR CHIPWEALTH CH1115 PANELS
-+M:	Nicolás Antinori <nico.antinori.7@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
-+F:	drivers/gpu/drm/chipwealth/ch1115-i2c.c
-+
- DRM DRIVERS
- M:	David Airlie <airlied@gmail.com>
- M:	Simona Vetter <simona@ffwll.ch>
---
-2.47.3
-
+Thanks,
+Nicol=C3=A1s
