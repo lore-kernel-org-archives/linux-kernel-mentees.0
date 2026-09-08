@@ -1,112 +1,129 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0CC51C354
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  7 Sep 2026 16:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=140.211.166.133
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788798697; cv=fail; b=AMFHMPjUYF3OLCxsjZpPaLdOnMb1s7N7Us1t53rD6RPL9++4zH1tofEG3InCBTBw0qPQpjPVrz568VxMD7tGeHN+GcGc9AEePloDE7uG69wqBqDaBUVpoUyvm+MCW0uTnfsfDWrLRw1gxtUiWVBEeGPRJN210M5UKptCXLNbzbQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788798697; c=relaxed/simple;
-	bh=fY8vl7GDxM6eefJTmcCbIoGsRSR0fg+tHBlSSgyE3EM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nUnoj3O9PfZGeGshG05H9Le6JsGZbuPbis4pQQ9DoGrTgJolhsnV0seL3piz0I6FMyuO4kMWoE6j3iR4ThjBtXxEZccURxADD7xS0pAhnbHu8h/F0LAd2L+IdTkIV5ej/pxqcm2ouoWoee80eXA0M014GLWGIw1229r+dqFEqwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wP7OyOaQ; arc=fail smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283D257EDB2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  8 Sep 2026 16:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788883491; cv=none; b=FKESbL8UAqtPbDpNZNrgvRy5xsb4XtRZ/hTsNouXxArnRQH7byB8eMBgFG5ACsXwlzmDBk3Urzdqf8YgjvB3cd6ld/i7VwPryxJObZY1t2XIa1gWOY6CMXcpuPpPFNj0D9YBS3A7qs6b3s6W0ctguQg0cM7NiKmOg9WGU24PBqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788883491; c=relaxed/simple;
+	bh=7yF6qk24zs7GwL8mnF2yvNXOoswzv1qxjksGdcX06Sc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iEi2Xp1mJqbWYqKU1bf75VfOjGHngXxp4ZypRtz3HAlPeui1lbp94VfHyuwPODT+HhhEDkZJHc7TB3xX8PXauODy3u/4pnSgcKAPqRH4OsEaeAdFSJEO0DMUjkhOAuvfT8gImblLDvJkcyxqaY5+nnb5PUqmENtyJ4q5QeBF1D4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KtnfHpxk; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wP7OyOaQ"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CB4074005A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  7 Sep 2026 16:31:35 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.75
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Iq0XwBa7c5Xw for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Sep 2026 16:31:35 +0000 (UTC)
-ARC-Filter: OpenARC Filter v1.3.0 smtp2.osuosl.org 384974007E
-Authentication-Results: smtp2.osuosl.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; d=osuosl.org; s=arc; a=rsa-sha256; cv=none; t=1788798695;
-	b=EKwYvanDIVB+ajBg9xGphfEWJzwcmTeWCusj4C6chclDQePOHJUNR5hA5cr7JOmcEOJJ
-	 Eni3M8KIeKJ/s2ihs4zKWPDMeXS9JhA6oM7uDB+Y5QkQlHAADjJQLGYgfpe2VKVvxFQ0o
-	 zn5/P+rWAzWVQim1WNtprXDEu5MlNLyYiutsPO9eqwEqWUhlYDmkMTDAXf97iXcZUTUTj
-	 aFqy7ynCLJIVSv4H0RDoYJNpCgQUVecGv2M1DuC0EEwvulHzhY45/derI9p6gikE78ksB
-	 OJ8x4i5XSDY6vvcM6AuOZxKKhtNTBW0TKAj/dl6XQustPefEfRXz0N4YnfNmk8AH9Pg==
-ARC-Message-Signature: i=1; d=osuosl.org; s=arc; a=rsa-sha256;
-	c=relaxed/relaxed; t=1788798695;
-	h=Received-SPF:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=RNRlTS4igMuxIgZGkQ9n1WFx3YFhsS6SdPB9tEv8YYs=;
-	b=ayQ50j9pndN+RgLPH3hUXh4zxnxUvo4NzJ2MFOOCds2n8mvwobOllZ8Qw9Jm1NKfZqmh
-	 OIVOMVGdOkt3qDiCzg7SGPCj1qnRyJSeYEEjfEP701CoIX2q/jNnQri2BfMJS0koSxi4n
-	 lcuCgO8joams6tM3oONOcgkaCR8dcIuYtcKKQXTdQkuRErDMn2gRLRnOxRXgKzIJpfMsI
-	 tOhZpcMQFaHIVXZMFb5AoeZMBJoco48D6Gu2Iyy/PbZX+lQpz1IcHR7vEEohQrimYoMr1
-	 Otyce5caSaBktzSnr/mZ9vyI0/3LjRDqAGvN+5cSgvLZYxtb5lsJRpoC3db7Qh7i63w==
-ARC-Authentication-Results: i=1; smtp2.osuosl.org; dmarc=pass header.from=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=wP7OyOaQ;
-	arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=wP7OyOaQ
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 384974007E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  7 Sep 2026 16:31:33 +0000 (UTC)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 0B1DE601DB;
-	Mon,  7 Sep 2026 16:31:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A1F1F00A3A;
-	Mon,  7 Sep 2026 16:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788798690;
-	bh=RNRlTS4igMuxIgZGkQ9n1WFx3YFhsS6SdPB9tEv8YYs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wP7OyOaQG5pQ6boUpvpWGkkdo+VF8FjIgcTthZScsyxdF1xyZ2e7POD7KroalDbth
-	 NZfEEKQ9g5sbF4XcCN6BWlZHXVKpYSeh4PHUSz1EHu6a7+emv9wSVKb/hohJSa+u1e
-	 1Mgb/pWitV9l8xpKdTkSBj5UheSMXoj4X2yhGKdc=
-Date: Mon, 7 Sep 2026 18:29:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Cc: error27@gmail.com, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KtnfHpxk"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-6aca0f482e5so5461589eaf.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 08 Sep 2026 09:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788883488; x=1789488288; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=51011n7DKhl5RNF5xzZ7n3Z9WFktYO/WAIKo41x7Fmw=;
+        b=KtnfHpxk0uucwcRkOf9mXhNcIYUmpl6XNQNzXKo0l1cdOUHJoTGRkndopCZ6lfJge8
+         bBN0P5uoWPyhJUQu9ekPt3okULM9e+Y1r6cjc0bpQLU5MtU7JX1BRHNvdiottbWOyuMH
+         eWU5mzja6Qq2EenL5DmRivAe7rd3hllFl3b8TJijcOHVldZKO/6gLSByU/JOvinDVt8f
+         nASUptInCKpkb5sfjRwSge3H0MQEX7vaIbXhxR98v6ldadmaQ8qctckYRRAZMvLIbHD5
+         LbpilEW3XpNCS7ltTBfiQiOAbiyeR2DRNVxqV2wjGFbFHQxPaYCbfl4U4hzdBrydbzmr
+         9DYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788883488; x=1789488288;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=51011n7DKhl5RNF5xzZ7n3Z9WFktYO/WAIKo41x7Fmw=;
+        b=pI+O4c2vAS4TOPGZrmMmVXvH6yYflPBmlYL9QamfHJ2oE/IRoSrpU+1EFZFt4G2+Kr
+         aY2Y/1xsnpqX5fQILSsSgycrHXgN42EjE4Aj3vjOi0uDZ7CTUBfHnXsy149WTSdYf9zi
+         GedYWPAnESGQsYFelR65Myn5sm5+rm7LRyeSLnoZQ010NaM0kzw7BLKyIx+67/rbasLd
+         l6lCPH6Uc8f+zUHxZudnd1ZYdzvyQy4FCjVa9W1uryJokEesZnas8QNXVA35giffVsUI
+         C1pWPbi/MgCNFqgq85qaSDTmE77F6Iebo8fSk2PRZwZC2xEhWBegVrvF9qDh8DnycKs8
+         DhbA==
+X-Forwarded-Encrypted: i=1; AKwUvBzZ5GLVe7b5o/QZC0/fEgOLnkqd2b97SkWbitDRV6NQx32YNZ55/de2q9jBLJo56XXPO4r1A4Q6y12XCUCNll4Hn73ZQw==@lists.linux.dev
+X-Gm-Message-State: AFuF++lVEJfijc6rz6FMEu5iSLbRjYFAyOeArrstY92hyrKmotItskyp
+	L4ldON/CO5twJ3gIIban6XXK/vRWLXDEu/U6rNLe6cVM4m+qm9dD/obQ
+X-Gm-Gg: AYBFou3w4N00bwTf9MOSSHJFisRgF38hyWvTTHjzSV95Lx/tTOycC3yeGlVm7BSvt0d
+	pOHHe1e8/eU2ZMbN0VT8EPXofLA/YOhSI8qsdoJMl9RzmIF5LcDTiduB4gDxDzrXeisZHfF0ip9
+	mx9mCIQjGDgFsZebM1iBmM91czfoVRUiqXUGyzG1iMjBWhngaqQcp2QAxShI9/N3uPTCaTaYytI
+	acxAAavfc6Kx5d9uFKOYSpyur9QQ19n3HfT0qDtrbhjP9DDhdXxJ/y5ztY7luQhYkapgj2ROm/B
+	o56ocqNHGIyl1mvhGWmkbALW0gIqbFJk4AOun+LZn3ybmMenPdFjAsJDZZe1J26fCSEfamlwEbn
+	4IiUtZ7CetiJvh5xv65xZ5XClV3o4bb27XU8Pi8uNA/YA+epsZLbNz8wmZaGl8PxjuNjDY4M66D
+	Sqr0bq43/tP+xVQMTprht2ZgLjJgckl8pGsyoP86n35k/ZMEGnU/CAA/zrzn7iyAR74XvvdnSBC
+	n5SysU5UecB
+X-Received: by 2002:a05:6820:2219:b0:6b7:8415:d77c with SMTP id 006d021491bc7-6b78415d829mr15051491eaf.39.1788883487843;
+        Tue, 08 Sep 2026 09:04:47 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:3ef4:ec38:7826:6c9b])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33825669695sm14204525eec.3.2026.09.08.09.04.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 09:04:47 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: seanjc@google.com,
+	pbonzini@redhat.com,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	shuah@kernel.org
+Cc: hpa@zytor.com,
+	binbin.wu@linux.intel.com,
+	kai.huang@intel.com,
+	kvm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org, sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] staging: octeon: fix use-after-free in tasklet
- teardown
-Message-ID: <2026090710-disposal-tameness-3d85@gregkh>
-References: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+	linux-kselftest@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH v1 0/2] KVM: x86: cr8 reserved bit check
+Date: Tue,  8 Sep 2026 23:04:24 +0700
+Message-ID: <20260908160426.6547-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 05, 2026 at 09:05:29PM +0530, Ayush Mukkanwar wrote:
-> cvm_oct_tx_shutdown() kills the tx cleanup tasklet while
-> the net devices are still registered. This could lead
-> to use-after-free when a tasklet is scheduled after the
-> tasklet_kill() is called which might run after the net
-> devices are freed.
-> Fix it by unregistering the net devices before the tasklet
-> is killed.
-> 
-> Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/message/20260615172734.42038-1-ayushmukkanwar%40gmail.com
-> Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-> ---
-> Note: This patch has only been compile tested. No runtime testing was
-> performed as I do not have access to Octeon hardware.
+kvm_is_valid_sregs() validates the incoming CR0, CR4, and efer values on
+KVM_SET_SREGS but never checks CR8. When userspace passes a CR8 value with
+any reserved bit [63:4] set, __set_sregs_common() forwards it to
+kvm_set_cr8(), which rejects the reserved bits and returns early. That
+return value is not checked, so the ioctl reports success while the
+requested value is silently dropped, and a subsequent KVM_GET_SREGS then
+returns a CR8 different from the one userspace believed it had written.
 
-Please wait until you have the hardware, as the sashiko review comments
-say there are still issues with this patch series :(
+This was found by code inspection of kvm_is_valid_sregs() and confirmed
+with the selftest added in patch 2.
 
-thanks,
+Patch 1 factors the reserved-bit check into kvm_is_valid_cr8() and uses it
+in both kvm_set_cr8() and kvm_is_valid_sregs() so that KVM_SET_SREGS
+rejects reserved CR8 bits up front.
 
-greg k-h
+Patch 2 extends set_sregs_test to cover CR8: it verifies that bits [3:0]
+can be set and read back, and that every reserved bit [63:4] is rejected
+by KVM_SET_SREGS.
+
+Testing
+=======
+Tested on an Intel host:
+                              Unpatched kernel    Patched kernel
+set_sregs_test CR8 case       FAIL                PASS
+KVM x86 selftests             baseline            no regressions
+kvm-unit-tests                baseline            no regressions
+
+Tharit Tangkijwanichakul (2):
+  KVM: x86: Reject reserved CR8 bits in KVM_SET_SREGS
+  KVM: selftests: Add CR8 reserved-bit checks to set_sregs_test
+
+ arch/x86/kvm/regs.c                              |  8 +++++++-
+ tools/testing/selftests/kvm/x86/set_sregs_test.c | 12 ++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+-- 
+2.53.0
+
