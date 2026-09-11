@@ -1,105 +1,114 @@
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DDC22D792
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 10 Sep 2026 00:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1080C42E8F8;
+	Fri, 11 Sep 2026 07:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000046; cv=none; b=PYltn3n6j19FNAnAVfuf+iM2mEFs+olQvpHRBr3VtcmdGK56adXFXZ54tdFTnyHJRrFWvu27tCcmb3aPMpFhJdhhwW+G0cYE0Y/Vu1YMN5O5ncFOWfI+Wj76u02UJy0KIu0J3IwaiIGinZILbfMbi9Byi5FIxXyD3yISix72yM4=
+	t=1789110293; cv=none; b=B9o7ZoQP+IBFUavL0oZUzyDwSHhFecTv/p74r1KVYIs+gg06A7lbyr57thkfK8aLCqKi5mFL964PBE+sbq6WtZ+RQkfccZsbO12iiqgSQkp0M2tq4vCC1Gg1t7BnP11D2pDVPxEdvJ5VBNrBvNVK8xI37iwzTFIAntQ9RCr51wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000046; c=relaxed/simple;
-	bh=W/cQoJNpCMvhT/b6a6u/tSJdTecPVVcp+05IoAxGuKA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=cfOzBl1OjWHFFnZUvIojjprfjN8AwZa44e0KeqKzVogiEc8DKat9f6D2EysAheavyBoZYgr8PqWajmRjdser1LVMCBx0lDGJUQyEHKSLhV8fqPOOP28IoLPFs2+VHRJMlGsOPnGD6gNeP40aeGYDsO/39F5DTstk5INVicv3B+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tKQcFZf2; arc=none smtp.client-ip=209.85.216.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1789110293; c=relaxed/simple;
+	bh=5wjjclgMQHcLBZziHA24E6wMzIJIbKl/2zFWVYpkc/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PjMgdclmdrNlrxuGEK/J89jA8lzK4Z3cHJ+nDEx3sLHv6/6SXKiKx7NPCd9Uzivrw0ZUjmsWa0dxhLIKP0IF4X381pQPtZJBqxS28nYyy1/yDAnpbGhREo96RV7ePp9oCiCRNY5c0J+A8BZ0PL60xOfX8cT+ARxiRLnvyjZFaGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvJnAOn2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tKQcFZf2"
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-39533bb224cso4090886a91.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 09 Sep 2026 17:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789000044; x=1789604844; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p8JHNVACgZQItEORarLzV/z1PEss/g3cX3jzovh/lk8=;
-        b=tKQcFZf2JmURP6nSui+b6f+tyF45ZAzNBUN1QHxb7BiMCjAO1nrmzU5ZN3UOzeSwul
-         d3f5LiPLfTQaINcnJhQMFjnGVWvEh1nNH/tAI2fOajcP1aRtJrsJACNOxaobD26L3vy8
-         ydU1LKIGgRvar4seR9tOmJmXpRpTjzSyu4G2HNQOdt/QA/tVVJR3xN17vnXx9ZywmiXb
-         pYdcfKnZAzF63qqMoJcQUOesSzpk3j5we8OIWd9k1Er1ZePZwUL5RAUNm+S8BVeTT2+n
-         AlbYXBitSoT8nw4iNkeP10zok3kewgexoWhvt6OHJQUP3rWCdOiof4QyGeAZ9WkoHuhh
-         2JpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789000044; x=1789604844;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=p8JHNVACgZQItEORarLzV/z1PEss/g3cX3jzovh/lk8=;
-        b=a1LkmicCv0T2+ocGnMGPqngVTVY+vUvK27AjLZBD+lLqPcGDfYiG2tfjgQWeO+yjQ2
-         eHzXNKW7K+ILw74FlNZJgu4TqTLNYb1BGnTXUDpTKclQ2sNmNVNH/njWiUrV8evujUdj
-         xY3YC5kwr4UJf4cJ9NO65Y7agt4JC6kgxEB4gWfnnxaJFZv0xGfqLIAKKdS5xQc4pgj6
-         FSiqqDUrizL1XXDohxDxTBc2aj1WiYDbfMcBOjHPhsCrDLh2MFQ7z/Z+WlYmlU5Mtj5i
-         aZHf/qVfpI+mW7xgy6pcbpLFKndlUYQGPiXydNJgHj3PhOK0nY93D9bqYMuyhf1iMUun
-         EcZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz258kZVK5TnVJLacmbuWvQKbNRqUfOzipAQzkzIVuv1Xb5TkOfV7KrnKZWvuSZDI0o38C7Fc3Sx4tiS5n1wdJ2xLu/Sw==@lists.linux.dev
-X-Gm-Message-State: AFuF++mN21muohAE/evT2pvPY5n8x4kfYxbicaqSb7i4EY9auyGDAFrj
-	499Of/oStvnHwWeMjpe5EFuQnTe5WE9+uXx6ZDsr6DnBiBa51HDLOMUxPFSFIVv9ZyZYIBcMC0Y
-	N96Ijcw==
-X-Received: from pjqo21.prod.google.com ([2002:a17:90a:ac15:b0:39b:7935:6c42])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4d87:b0:380:540:d499
- with SMTP id 98e67ed59e1d1-39b26100bfdmr51740780a91.6.1789000043798; Wed, 09
- Sep 2026 17:27:23 -0700 (PDT)
-Date: Wed, 9 Sep 2026 17:27:23 -0700
-In-Reply-To: <20260908160426.6547-2-tharitt97@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvJnAOn2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA011F000FF;
+	Fri, 11 Sep 2026 07:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789110282;
+	bh=5wjjclgMQHcLBZziHA24E6wMzIJIbKl/2zFWVYpkc/8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EvJnAOn2t5c2JyRwCjOcrewLe6nb9xlMWqS/EbwJbHziNIcmH3pvJRGNqvuJyUP//
+	 +iHGwlbINk8DvJOJP64VTvFZxYgQQEsDajKkZkcGneN4Zs/nVq750P9jk3UtLwdJgq
+	 xrafAah+Ur3KHzoFsl1cTsogFQuPBSE/N2TnSdrZkqMpWpeMgKoYm09wbW8waKBfCO
+	 YqX8r7EUIT4Noq7OeFs3IKhPbC/3ab457Yk0megOUohvcT1ZVXrv3sUpjyuq5t6ujZ
+	 RlcF3uFg4z5+nH8VX8niwT2XPd5m5us56ib8MLQfMTkb6a5iu2adO2H1l/WkqNmT/Y
+	 32Jo5LY4yls8g==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x4vJP-00000002paD-15Jx;
+	Fri, 11 Sep 2026 09:04:39 +0200
+Date: Fri, 11 Sep 2026 09:04:39 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Ulf Hansson <ulfh@kernel.org>, Jakov Novak <jakovnovak30@gmail.com>,
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com
+Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
+ context in vub300_inactivity_timer_expired
+Message-ID: <aqOoBwBav8JZhMQ9@hovoldconsulting.com>
+References: <20260816153809.7067-1-jakovnovak30@gmail.com>
+ <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
+ <CAMuHMdU_Rx4ZGi9SsNxKUDyYmV-GbD8rD9NMVzYginBMXdZDMg@mail.gmail.com>
+ <ap7CaVj82BJZgjf6@hovoldconsulting.com>
+ <CAMuHMdX6JfqpLMGDQJSQ8E8XNobRwr16LOzuphPt3Afs-OZdJA@mail.gmail.com>
+ <aqEDb0THnCM-Q_Vy@hovoldconsulting.com>
+ <aqGWWhvL5CKH2mgx@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260908160426.6547-1-tharitt97@gmail.com> <20260908160426.6547-2-tharitt97@gmail.com>
-Message-ID: <aqH5azSkQJVXg3ef@google.com>
-Subject: Re: [PATCH v1 1/2] KVM: x86: Reject reserved CR8 bits in KVM_SET_SREGS
-From: Sean Christopherson <seanjc@google.com>
-To: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Cc: pbonzini@redhat.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, shuah@kernel.org, hpa@zytor.com, 
-	binbin.wu@linux.intel.com, kai.huang@intel.com, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	me@brighamcampbell.com, jkoolstra@xs4all.nl
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ypLbD7kLLG8T2WMv"
+Content-Disposition: inline
+In-Reply-To: <aqGWWhvL5CKH2mgx@shikoro>
 
-On Tue, Sep 08, 2026, Tharit Tangkijwanichakul wrote:
-> kvm_is_valid_sregs() validates the incoming CR0, CR4, and efer values but
-> never checks CR8.
-> 
-> When userspace passes a CR8 value with any of the
-> reserved bits [63:4] set, __set_sregs_common() forwards it to
-> kvm_set_cr8(), which rejects the reserved bits and returns early. That
-> return value is not checked, so the ioctl reports success while the
-> requested value is silently dropped. A subsequent KVM_GET_SREGS then
-> returns a CR8 different from the one userspace believed it had written.
-> 
-> Factor the reserved-bit check out into kvm_is_valid_cr8() and use it both
-> in kvm_set_cr8() and in kvm_is_valid_sregs().
-> 
-> Fixes: 2f5bb3fe5835 ("KVM: x86: Move the bulk of register specific code from x86.c to regs.c")
 
-Heh, this goes back much further than just moving code around, all the way to:
+--ypLbD7kLLG8T2WMv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  6aa8b732ca01 ("[PATCH] kvm: userspace interface")
+On Wed, Sep 09, 2026 at 07:24:46PM +0200, Wolfram Sang wrote:
+>=20
+> > > > Sure, but should you be scheduling rescan work before all resources=
+ have
+> > > > been set up and the host has been registered?
+> > >=20
+> > > I would like to defer that question to the TMIO experts.
+>=20
+> From a high level view, independently of TMIO/SDHI...
+>=20
+> > Are they on CC?
+> >=20
+> > Ulf, perhaps you can take a look at this? It seems wrong to enable
+> > interrupts and trigger rescans before the host controller has been set
+> > up and registered.
+>=20
+> ... it is always a good practice to enable irqs only when the device is
+> fully set up. From a glimpse, this seems to be the case here as well.
+>=20
+> It needs serious testing, though. SDHI is a complex, organically grown
+> mass of code. There might be subtle side effects. It should still be
+> worth it IMO. I can put it on my todo list, but no promises...
 
-which did this in kvm_vcpu_ioctl_set_sregs():
+Thanks for taking a look. I guess we should fix this inconsistency in
+MMC core eventually, but that the vub300 needs to be reworked to handle
+this quirk in the mean time.
 
-  6aa8b732ca01 (Avi Kivity         2006-12-10 02:21:36 -0800 2109)        vcpu->cr8 = sregs->cr8;
+If only to stop the flood of LLM generated fixes to the syzbot report...
 
-I suppose one could argue that:
+Johan
 
-  Fixes: 7017fc3d1a12 ("KVM: Define and use cr8 access functions")
+--ypLbD7kLLG8T2WMv
+Content-Type: application/pgp-signature; name=signature.asc
 
-is more appropriate, since this specific behavior was introduced then.  I'll
-probably just shove both in there and massage the changelog to explain the history.
+-----BEGIN PGP SIGNATURE-----
 
-No need for a v2, I'll fixup when applying.  Thanks!
+iJEEABYKADkWIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaqOoAxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQC8XNwux9ZQjVSwEAxhUSOYohLwgwRjbyWmph
+LRJqFOQ5mdeMUjtJjqfls5QBAJg938/Rjigc5olijd6lXoUhvwQAtrP6iVEZ2z8t
+EIwF
+=3HVw
+-----END PGP SIGNATURE-----
+
+--ypLbD7kLLG8T2WMv--
