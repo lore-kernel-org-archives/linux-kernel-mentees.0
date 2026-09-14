@@ -1,79 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2564B45DF68;
-	Mon, 14 Sep 2026 12:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00E2481A9E
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 14 Sep 2026 15:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789388938; cv=none; b=BWI4uVEFOC6pLnV5X1e/G0/OqOy+fdzBgSL+udKSGgagai0iMOTKBekYr7vw/FI0EWjVrN0r8LLFJyddpeSdHbSJFwqw0HLB0E+zEEd47jCKLzsZ5lotiixPJfWEauZg+jWeuLBRwDUYlU7G3l6Mv8aiXl4e4yzhxq9yQgjs8AE=
+	t=1789401202; cv=none; b=MUk0ZCV4IqTDxKSGReqHcX+3paCfHPRl1c2HE9cKun1siqc13u9EF2UglNgZogjrDbMHr6HGa5UqDeLBAXUc4w/P2zEyRkDJ6IEZNnGwEb0Ty1UrRguWSd48cEobJEMTSmhGnb8HtY0t7YoSfD+2bxAXI4qALVyE/CjOGBSUWOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789388938; c=relaxed/simple;
-	bh=a/sGyoaxrAUbVh+o5UPxtnjNV3daqp2e3L87v3wFogQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmqCuK2rRX0TXso9vZiQ2Q73zDpcxcuvnR/oLydvgIBg8q3GXA6K+TDza8oYn6idU8QRRpLDqIPXYVUzIiGgRkPQBrgAEifiHsBHRIlZqCvJVZyCbL/8GlKkJguPMwgCQWfAlRWRXVYbvoKeN+/Dl07BiSC0KFmgB/NhQFfhnmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWWGRRHW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789401202; c=relaxed/simple;
+	bh=crM3R9hRHTxMxzuPeb+4LXPev3iRD5Mq5JnkLkFMHiE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=huLQTzLv5qNp1E5z07rOabZC6CmEVNwSMEiVUaWUPQYMh7h3MBcGKn3Lp5NZnD2ZCxmFzL1z0I9DyLpckhCGce1nEXDOMIdN1roVlKbO+ttuqmZegfxh7n2T9enlQVplA06RDJ38kaBQuoe5TgjV8on61xxPH3368HHGZ2hooMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YSijULWO; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWWGRRHW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A378B1F000FF;
-	Mon, 14 Sep 2026 12:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789388936;
-	bh=+qlh1VbO0SyoEVKnvEfyQ9fT3hZrDXAh6A7IW4+sy80=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hWWGRRHWpF0SRKxkqoPdJOMP3oih97enzfC12BwxEQZxhlZbWDR6zVhdDWs7T9G2Q
-	 4yDmXBrzRaUwAeJ3Gwbw0EKBbdurogRdLqK4CN7x7O6z+OGY2taNT6ivurUbDlGxN1
-	 tPZLZPv+n44pCI6kEcFeGr5ZBBcnPdrpYWCampX+61Mo3YU81ACLldDvSpzLhbdspV
-	 8LcN0d2FdLr06tcHhYn3zUtN2W4tNgG6GXRyUVx3J0CI6c0f/X9XNVBGogI7snBB8C
-	 DLK/8a620Fzld722XbFi3v1lYdYdcDr25ZiqNEOq7bO++N10CIdvQINCL0XHfI5N9J
-	 eBgnnnFJTc4DQ==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1x65nq-00000004IeV-1amM;
-	Mon, 14 Sep 2026 14:28:54 +0200
-Date: Mon, 14 Sep 2026 14:28:54 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Jakov Novak <jakovnovak30@gmail.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Ulf Hansson <ulfh@kernel.org>, linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com
-Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
- context in vub300_inactivity_timer_expired
-Message-ID: <aqfohk7axSSqbpuX@hovoldconsulting.com>
-References: <20260816153809.7067-1-jakovnovak30@gmail.com>
- <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
- <CAMuHMdU_Rx4ZGi9SsNxKUDyYmV-GbD8rD9NMVzYginBMXdZDMg@mail.gmail.com>
- <ap7CaVj82BJZgjf6@hovoldconsulting.com>
- <CAMuHMdX6JfqpLMGDQJSQ8E8XNobRwr16LOzuphPt3Afs-OZdJA@mail.gmail.com>
- <aqEDb0THnCM-Q_Vy@hovoldconsulting.com>
- <aqGWWhvL5CKH2mgx@shikoro>
- <aqOoBwBav8JZhMQ9@hovoldconsulting.com>
- <DLCFZ1Z5FV92.3JAXNVQWJZGN8@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YSijULWO"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-86a25369f16so2696605b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 14 Sep 2026 08:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789401200; x=1790006000; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1yZDlFBVOyLbSIx2cXxBcavLUPo8eOaYZf7Gr8V9kXY=;
+        b=YSijULWO79LXWVP2mzbjEWIDucV1juv9AUOTcHllRS8mDHVM0/3QeY5dOqqByJyGGp
+         PMI9TDwewjxLw551E/U4nA/tphpRiKp7XVFNKS7eO/vbM2UvrpjbZESShfEV3jjXuS6x
+         x0+lsYl0l225230c9r9dl4vURkGwMDRM2IeOA1IlyWdGMOmWS+yN5QwfSPh8K3bUFAgw
+         psmSM5UrbdYiADIbEvg4tqVwHPLSS48DDkgES6YXvPzCNFL27+5LuA5s3UzP6wMfO++H
+         ADHeSfVMG7XYcQp2tkY9lsrrNBSoc3Zu2SDJpDMUflxyrVbjJfEEe96wRfDOyx8VnlQG
+         Vr1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789401200; x=1790006000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1yZDlFBVOyLbSIx2cXxBcavLUPo8eOaYZf7Gr8V9kXY=;
+        b=eUnUJrXzgbTx+cfdEEyqbKICE45j4t9UEmAW3KRwJ2fFQDNf6A1OkYl3zbqBcW5nsK
+         scLdnBxWkSUcRVjC8jk3optAckLiMqsUnJNDPq/MjcdWUV9oRmV9EAi/sO8+HYun39YK
+         VcQf5fZ7fO6gbJICSRZZvD3gJIpEKJcBXFbxY1UQOYLE2QOx8cNAn0Dk6EYdevPf2Bl/
+         fy/aEhSe8ZDas4vq63E8AmyEzCrwRH0b71ZSAkgbvm8sqaMTM163VF/B55sRgbNzzXrZ
+         O8jqouqfFbGJStrakQsRVTFPW1yyBPHJwjVzbHZHwYPDBAsJP17FM/EP31xBZZcHrd1N
+         QzIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwcN10ghHyIJ/SDpeFCN0EtQuGoACjqGrxFaDotLnFytckcm89Monx6+KN+ndl2r97ll9BUVB6XCqKGDn8t2ycv59rUzg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lNpnuzNAEAvBmpX4q3NMr9QIn0EvR/7j+n7H2X8yq05EzMalDY
+	oHR5966OWkTmKB7+a6pZAeA5Z0xxW6ZMKQVi1wuCwO1aZ0y3TYhkT2Z2
+X-Gm-Gg: AYBFou2WL6IrsxczR6YQ/n3SAbCAUW12UIIkhs29Xb3pJ4l1NmJsUXQuANPvmukTvlH
+	H6PJkphmhPsHP82CBApe1NyOTuSW03pWjYVRxsYHMLpIBHh+auwaGOpw5kJVyGIPyJrAc2/gxiZ
+	yXY3kecZj/NkcrPiS6GfjCLaMeqTRtzLGbwo2rXLwbrjKp0MIyPLzCsekFFHmv5v6DhE+fyUPLM
+	Nn72mZHL6LI4WqqGQV1J1wC61j+a4Hyp4/J1p0DuQpJey2JDH3tZuchY5oIpWfBu+8jaE0w4P7F
+	Ig3cft9oDZ4waSjnibGS5PaQ2VIRrUEfQ3UwNqDCdaSqOQqFQ+hKylNArqgbU17d11vtOFS7k4z
+	4Vn5L6fcWAoSIa3PFWofaGU33A8jJvOviHSUgU6GGafu5kBzbvwd2CwpzUT5MWQH6gjxW75zRkH
+	60Mt7wV1RpxNzfIoLD1cESQLOeuPemwXt99cye5oDZEDnW1d3hQkaRqgk+bhOJ4qaKdVMkPqP0s
+	Q/oq+m0MA9Gvea1OlsBwpA=
+X-Received: by 2002:a05:6a00:2403:b0:864:cbc5:b8c1 with SMTP id d2e1a72fcca58-86f83344128mr6350391b3a.2.1789401200037;
+        Mon, 14 Sep 2026 08:53:20 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:f7d8:563c:bb30:8f02])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86b6139e3bfsm4767999b3a.50.2026.09.14.08.53.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 08:53:19 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+	kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH] KVM: selftests: Test partial KVM_CLEAR_DIRTY_LOG requests
+Date: Mon, 14 Sep 2026 22:53:01 +0700
+Message-ID: <20260914155301.14499-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLCFZ1Z5FV92.3JAXNVQWJZGN8@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 11, 2026 at 01:14:20PM +0200, Jakov Novak wrote:
+The clear-log mode invokes KVM_CLEAR_DIRTY_LOG with first_page set to
+zero and num_pages covering the entire memory slot. But the clear-log
+allows targeted clearing. So, the test does not verify that KVM
+correctly applies a bitmap relative to a nonzero first_page,
+or that pages not selected by a partial request remain dirty.
 
-> > Thanks for taking a look. I guess we should fix this inconsistency in
-> > MMC core eventually, but that the vub300 needs to be reworked to handle
-> > this quirk in the mean time.
-> 
-> Should I send a v2 based on my first patch with the Reported-by,
-> Tested-by and Fixes tags fixed or is there something else I missed? 
+Add a focused test that creates a memory slot with
+KVM_DIRTY_LOG_INITIALLY_SET, then submits a 64-page clear request
+starting at page 64 with only bitmap bit 1 set. Verify that memslot page
+65 becomes clean while every other host-page bit remains dirty.
 
-It seems we don't need to worry about this driver anymore:
+Write to page 65 from the guest and verify that dirty tracking was
+re-enabled and the page becomes dirty again.
 
-	https://lore.kernel.org/lkml/20260914111642.169707-1-ulf.hansson@oss.qualcomm.com/
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+Tested on x86_64 with 4K host and guest pages:
+	./dirty_log_test -M clear-log
+	PASS
+ 
+Tested on arm64 Rock 5B with 4K host pages, including 4K, 16K and
+64K guest page modes:
+	./dirty_log_test -M clear-log
+	PASS
+---
+ tools/testing/selftests/kvm/dirty_log_test.c | 104 +++++++++++++++++++
+ 1 file changed, 104 insertions(+)
 
-Johan
+diff --git a/tools/testing/selftests/kvm/dirty_log_test.c b/tools/testing/selftests/kvm/dirty_log_test.c
+index af5eb0334a74..a12b538c3144 100644
+--- a/tools/testing/selftests/kvm/dirty_log_test.c
++++ b/tools/testing/selftests/kvm/dirty_log_test.c
+@@ -815,6 +815,106 @@ static void run_test(enum vm_guest_mode mode, void *arg)
+ 	kvm_vm_free(vm);
+ }
+ 
++/* Use the 2nd 64-page range to exercise a non-zero offset. */
++#define TEST_CLEAR_LOG_FIRST_PAGE	64
++#define TEST_CLEAR_LOG_NUM_PAGES	64
++#define TEST_CLEAR_LOG_BIT		1
++#define TEST_CLEAR_LOG_PAGE		(TEST_CLEAR_LOG_FIRST_PAGE + \
++					 TEST_CLEAR_LOG_BIT)
++static void guest_code_clear_log(void)
++{
++	u64 addr = guest_test_virt_mem + TEST_CLEAR_LOG_PAGE * host_page_size;
++
++	while (true) {
++		vcpu_arch_put_guest(*(u64 *)addr, 1);
++		GUEST_SYNC(1);
++	}
++}
++
++/*
++ * Verify KVM_CLEAR_DIRTY_LOG only clears (and re-arms) the requested range:
++ * with KVM_DIRTY_LOG_INITIALLY_SET every page starts dirty; clearing a single
++ * page must leave its neighbours dirty and must write-protect the page so the
++ * next guest write re-dirties it.
++ */
++static void run_clear_log_partial_test(enum vm_guest_mode mode, void *arg)
++{
++	unsigned long *bmap, *clear_bmap;
++	struct kvm_vcpu *vcpu;
++	struct kvm_vm *vm;
++	u64 page;
++
++	guest_num_pages = vm_adjust_num_guest_pages(mode, 3 * BITS_PER_LONG);
++
++	vm = create_vm(mode, &vcpu, 2 * guest_num_pages, guest_code_clear_log);
++
++	guest_page_size = vm->page_size;
++	host_page_size = getpagesize();
++	host_num_pages = vm_num_host_pages(mode, guest_num_pages);
++
++	guest_test_virt_mem = DEFAULT_GUEST_TEST_MEM;
++	guest_test_phys_mem = (vm->max_gfn - guest_num_pages) * guest_page_size;
++	guest_test_phys_mem = align_down(guest_test_phys_mem, host_page_size);
++
++	bmap = bitmap_zalloc(host_num_pages);
++	clear_bmap = bitmap_zalloc(BITS_PER_LONG);
++
++	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
++				    guest_test_phys_mem, TEST_MEM_SLOT_INDEX,
++				    guest_num_pages, KVM_MEM_LOG_DIRTY_PAGES);
++	virt_map(vm, guest_test_virt_mem, guest_test_phys_mem, guest_num_pages);
++
++	sync_global_to_guest(vm, host_page_size);
++	sync_global_to_guest(vm, guest_test_virt_mem);
++
++	kvm_vm_get_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap);
++	for (page = 0; page < host_num_pages; page++)
++		TEST_ASSERT(test_bit_le(page, bmap),
++			    "Page %lu should be dirty after INITIALLY_SET", page);
++
++	__set_bit_le(TEST_CLEAR_LOG_BIT, clear_bmap);
++	kvm_vm_clear_dirty_log(vm, TEST_MEM_SLOT_INDEX, clear_bmap,
++			       TEST_CLEAR_LOG_FIRST_PAGE,
++			       TEST_CLEAR_LOG_NUM_PAGES);
++
++	kvm_vm_get_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap);
++	for (page = 0; page < host_num_pages; page++) {
++		if (page == TEST_CLEAR_LOG_PAGE)
++			TEST_ASSERT(!test_bit_le(page, bmap),
++				    "Cleared page %lu should be clean", page);
++		else
++			TEST_ASSERT(test_bit_le(page, bmap),
++				    "Page %lu should still be dirty", page);
++	}
++
++	/* The cleared page is now write-protected; a guest write must re-arm it */
++	vcpu_run(vcpu);
++	TEST_ASSERT(get_ucall(vcpu, NULL) == UCALL_SYNC,
++		    "Unexpected guest exit: %s",
++		    exit_reason_str(vcpu->run->exit_reason));
++
++	kvm_vm_get_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap);
++	TEST_ASSERT(test_bit_le(TEST_CLEAR_LOG_PAGE, bmap),
++		    "Page %lu should be dirty again after re-arming",
++		    (u64)TEST_CLEAR_LOG_PAGE);
++
++	free(bmap);
++	free(clear_bmap);
++	kvm_vm_free(vm);
++}
++
++static void test_clear_log_partial(void)
++{
++	host_log_mode = LOG_MODE_CLEAR_LOG;
++	if (!log_mode_supported()) {
++		print_skip("Log mode '%s' not supported",
++			   log_modes[host_log_mode].name);
++		return;
++	}
++
++	for_each_guest_mode(run_clear_log_partial_test, NULL);
++}
++
+ static void help(char *name)
+ {
+ 	puts("");
+@@ -913,5 +1013,9 @@ int main(int argc, char *argv[])
+ 		for_each_guest_mode(run_test, &p);
+ 	}
+ 
++	if (host_log_mode_option == LOG_MODE_ALL ||
++	    host_log_mode_option == LOG_MODE_CLEAR_LOG)
++		test_clear_log_partial();
++
+ 	return 0;
+ }
+-- 
+2.53.0
+
