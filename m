@@ -1,92 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DEF46EC86;
-	Mon, 14 Sep 2026 12:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2564B45DF68;
+	Mon, 14 Sep 2026 12:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789387457; cv=none; b=ARsb/Q/Gv3wLXAq7lggg0QZhLysTihCIwjGIewI9bwfvVl3LFLBVtGcj6cErEUkD4/MeS7VZ7A9JYIjiNaaSSNyvrNkr5iM1Ms0DtZejk3hQDVAVMbIm+VJRIGt9AeMARsJWNCcp1HlX8tb0uDj+m9Y2763bWXFV1mEPed7HrsY=
+	t=1789388938; cv=none; b=BWI4uVEFOC6pLnV5X1e/G0/OqOy+fdzBgSL+udKSGgagai0iMOTKBekYr7vw/FI0EWjVrN0r8LLFJyddpeSdHbSJFwqw0HLB0E+zEEd47jCKLzsZ5lotiixPJfWEauZg+jWeuLBRwDUYlU7G3l6Mv8aiXl4e4yzhxq9yQgjs8AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789387457; c=relaxed/simple;
-	bh=F53OZhFkUab24xX0buEm3kIAACPTXkMQuVJTXFN7YAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jk3vK5Xb7O2u0v8kullL1UlSssDlWxCvL0l9/LTJt+I9O0PT01N91ssODXfzjxGrkZsUkUMjvkNh7XLg7fPxDR1zcagXFdaLsGVrJFmjXouZtrVwPqrfbuJoM48hiU7ouZta+GzEd2LgChbLaUFH1O507qDVlEXZhYgoEBOeOUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hUxLR/Xw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789388938; c=relaxed/simple;
+	bh=a/sGyoaxrAUbVh+o5UPxtnjNV3daqp2e3L87v3wFogQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmqCuK2rRX0TXso9vZiQ2Q73zDpcxcuvnR/oLydvgIBg8q3GXA6K+TDza8oYn6idU8QRRpLDqIPXYVUzIiGgRkPQBrgAEifiHsBHRIlZqCvJVZyCbL/8GlKkJguPMwgCQWfAlRWRXVYbvoKeN+/Dl07BiSC0KFmgB/NhQFfhnmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hWWGRRHW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hUxLR/Xw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C341F00893;
-	Mon, 14 Sep 2026 12:04:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hWWGRRHW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A378B1F000FF;
+	Mon, 14 Sep 2026 12:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789387455;
-	bh=sMpwNCN/PilYOizsb4vbTSRly0vNd+P9tAq4T5tOvSg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hUxLR/XwBZ8wNJtCuQH3h1F+HL5DxMocu6uC2lWGnqbHe6TO4yYQnlbTcF2WGBKNM
-	 mmd/YztTKVcxrI88onZHwERLpzBdOrsfZSCkKmJmlyXEH7CxJ2T9G7PBPqlq1fCm+k
-	 UGK1WBt/woedV61WjppbviNQA7+SaVvCIuzL5bESHxo5sBdFUCHzjV3/n/RI6synyF
-	 yvwkoERzCX5y7DTHfgb0AkAmvQjElDiOp5jIacg7REOSYf5xwkSZ1ILzQyEdqKx6DM
-	 e5CnaxhKUi6kBJyILesWLDFygsFNxFxbeISAe9+VV5I/lhKnqfpKNSxen0F38v0e2A
-	 JFJe7y3QKJNHg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1x65Px-00000008bEf-39VU;
-	Mon, 14 Sep 2026 12:04:13 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Oliver Upton <oupton@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Sean Christopherson <seanjc@google.com>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	Gokul K <gokul02k@gmail.com>
-Subject: Re: [PATCH] KVM: selftests: Fix VM leak in early return
-Date: Mon, 14 Sep 2026 13:04:12 +0100
-Message-ID: <178938739499.3215146.16232496567237748545.b4-ty@b4>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260906034144.14059-1-tharitt97@gmail.com>
-References: <20260906034144.14059-1-tharitt97@gmail.com>
+	s=k20260515; t=1789388936;
+	bh=+qlh1VbO0SyoEVKnvEfyQ9fT3hZrDXAh6A7IW4+sy80=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hWWGRRHWpF0SRKxkqoPdJOMP3oih97enzfC12BwxEQZxhlZbWDR6zVhdDWs7T9G2Q
+	 4yDmXBrzRaUwAeJ3Gwbw0EKBbdurogRdLqK4CN7x7O6z+OGY2taNT6ivurUbDlGxN1
+	 tPZLZPv+n44pCI6kEcFeGr5ZBBcnPdrpYWCampX+61Mo3YU81ACLldDvSpzLhbdspV
+	 8LcN0d2FdLr06tcHhYn3zUtN2W4tNgG6GXRyUVx3J0CI6c0f/X9XNVBGogI7snBB8C
+	 DLK/8a620Fzld722XbFi3v1lYdYdcDr25ZiqNEOq7bO++N10CIdvQINCL0XHfI5N9J
+	 eBgnnnFJTc4DQ==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1x65nq-00000004IeV-1amM;
+	Mon, 14 Sep 2026 14:28:54 +0200
+Date: Mon, 14 Sep 2026 14:28:54 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Jakov Novak <jakovnovak30@gmail.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Ulf Hansson <ulfh@kernel.org>, linux-mmc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	syzbot+1ee4f3b9228e35f14677@syzkaller.appspotmail.com
+Subject: Re: [PATCH] mmc: vub300: fix sleeping function call from invalid
+ context in vub300_inactivity_timer_expired
+Message-ID: <aqfohk7axSSqbpuX@hovoldconsulting.com>
+References: <20260816153809.7067-1-jakovnovak30@gmail.com>
+ <aoLCr8JEYaYxcJcQ@hovoldconsulting.com>
+ <CAMuHMdU_Rx4ZGi9SsNxKUDyYmV-GbD8rD9NMVzYginBMXdZDMg@mail.gmail.com>
+ <ap7CaVj82BJZgjf6@hovoldconsulting.com>
+ <CAMuHMdX6JfqpLMGDQJSQ8E8XNobRwr16LOzuphPt3Afs-OZdJA@mail.gmail.com>
+ <aqEDb0THnCM-Q_Vy@hovoldconsulting.com>
+ <aqGWWhvL5CKH2mgx@shikoro>
+ <aqOoBwBav8JZhMQ9@hovoldconsulting.com>
+ <DLCFZ1Z5FV92.3JAXNVQWJZGN8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: oupton@kernel.org, pbonzini@redhat.com, shuah@kernel.org, tharitt97@gmail.com, fuad.tabba@linux.dev, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, seanjc@google.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl, gokul02k@gmail.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLCFZ1Z5FV92.3JAXNVQWJZGN8@gmail.com>
 
-On Sun, 06 Sep 2026 03:41:43 +0000, Tharit Tangkijwanichakul wrote:
-> test_mmio_ease() returns early and skips the call to kvm_vm_free() when
-> ID_AA64PFR1_EL1 is not available.
+On Fri, Sep 11, 2026 at 01:14:20PM +0200, Jakov Novak wrote:
+
+> > Thanks for taking a look. I guess we should fix this inconsistency in
+> > MMC core eventually, but that the vub300 needs to be reworked to handle
+> > this quirk in the mean time.
 > 
-> Use a goto so that the early return joins the common exit path.
+> Should I send a v2 based on my first patch with the Reported-by,
+> Tested-by and Fixes tags fixed or is there something else I missed? 
 
-Applied to next, thanks!
+It seems we don't need to worry about this driver anymore:
 
-[1/1] KVM: selftests: Fix VM leak in early return
-      commit: bb6c7d2bf564cdaa24b14764b7126f5cab45965a
+	https://lore.kernel.org/lkml/20260914111642.169707-1-ulf.hansson@oss.qualcomm.com/
 
-Cheers,
-
-	M.
--- 
-Without deviation from the norm, progress is not possible.
-
-
+Johan
