@@ -1,170 +1,142 @@
-Received: from mail-vs2-f41.google.com (mail-vs2-f41.google.com [74.125.227.41])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FEF44C645
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Sep 2026 19:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789501029; cv=none; b=l2hlb3ZLktxJARUXjdSSEdtlEK0IZjUD6ayukxE1v1SpsuXJ7FB9G8BfPCK7C/myWCHGzv1tZdBVyachublwDLNzuPlgK/IvgmItu/sb6/xCHPPlkApB99ASIMRrhm33OkFgvqYQQ761O1KopUTHjgrr4iSW555+rHeKx4BEFeA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789501029; c=relaxed/simple;
-	bh=iQpFxkadxuZthWNzpNDmq94Hthwi+6Tsc7gHXxzEn3E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tx9O8QbaALagfdfFmeNwfbr4SF6t1qHN37Y5IWVexZBYmIK2Jb9liC8/Djy7EdeIR1G1ra+qNC0iwTsLOoWa5ABla8CkaSLUMIAOo9B4o4EQYazBxkaGSAV2u7NMLGsf798t3Qil2s+IsvNKUdnt9odsJrbndIhhBgqjxDVom20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K70u38QE; arc=none smtp.client-ip=74.125.227.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DAC388393
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Sep 2026 15:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789573891; cv=pass; b=EOi+IGQZpul5+cEX79kEdIZgI9RpCHPaCVTrthq9G/ycusG2iOog5pLG71BGDC8zYbg5GCbAviNaOvcAvreHjb6ubUs429Tbg0wgOXNjhWqj4MVVJ1kpajMaSMlhwhui63LC0hhZlU7aw2g56xHTm539VmqrhFO1kpEsk6B7C7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789573891; c=relaxed/simple;
+	bh=bo+nR5vgnm+LSKdCiwZsyqB138gI9BLV55OIiNb16sk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cqfIc3EIVzINLEp93dOL4NPls2Cf1ymcy5JRQib2xndlTJKs3oWAcBKUwvTgQuNSKRxJDoy++Iz1B92LnzU1CelS3ByaqhLhaBbQNXH/gVL3RU4+hvCweodN1t2szq/Tg9CTqntKaLAyRcVA5C+dK8FCi+f7BP6w9Ug+uWeLNT8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fXaIFQCG; arc=pass smtp.client-ip=74.125.230.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K70u38QE"
-Received: by mail-vs2-f41.google.com with SMTP id ada2fe7eead31-78a53fe85easo44100137.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 15 Sep 2026 12:37:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fXaIFQCG"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910c9ff1fso127303585a.2
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 16 Sep 2026 08:51:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789573887; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QwpwCaZWrsOOnkgXd4DX2liV9WDSvu1PF+x62kVl6RoPNI4d4pp/bI/krTCo0+gah6
+         1N0KnHlgTIUTC6lbjR/L/5tp3eTLrqX9iCT/EHGxY1MXbF+pd7AwJX5PQbbuUGEY6/Us
+         LEU5LKTIGzX0MHupei3+eKqmtl0sE1NvkdmvUGLTPegbp62QLnKWI8QVi1LolMMzYujT
+         1O/jwN5wgWJ7EX1SnquAlduVV0DN0ZL14mDES4PhfpXuiGILBGEsnZJTbDI1nbuSa+TI
+         AsUfEs85ifWdueGSGuj5FjMW/JBh8IZM/F8blbaHhEOYN14geeEsKekxEuyxTGAzcg9M
+         D5EA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1DZZDmRFFus61Ri0IMvmk4ynsdfBpq9f2UmqLYuX2d8=;
+        fh=jsh0LGW3DVEavMKjeZbV0nrFWxHvmrQ1rDBaUxOnV9o=;
+        b=R1ROd86/pbtQo0wLqFdI0Drm6LuEkKJjFy2tBgzJ3gyxCWWRzNGqXlCkf9TFMRqX0G
+         m5YkgC/TDRA7dSnvr/DUVHAHVs6kCUQfUvg3X5edQJ5ppNeSV+Fhi/p+OhHRw3WAGAFQ
+         0Ulg/91i9YM+bU0sHt/Sg+AtiE6Shb3h8fYtKSPywBRyoQGRfwqqH6kShxiHvr9S+EWK
+         6vDEZExl8HJXmI/SF9TPT+uT0I8FpUYzul67RUTTA8nQFhLvpJUku7qoUBX5wVj6GTn2
+         UwxYEy4fmt0KtHe/H5kF4loSUI9nGcJczq4TMZJaDNHoKwfFK6HWbtcVcPblLFHfeVtl
+         xBRQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789501025; x=1790105825; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789573887; x=1790178687; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Fv2qyWJdbrcJvcqAwpcW93SKoGJg7N/Guzup2THPVL4=;
-        b=K70u38QEGvnm/I9deFYuYUQouzVRAU5w7pnMRgbRkQHiqNF8cgRTj7bZziL/8Jre60
-         HGwCitYxW6tbFd58OY+/LDWw3+Enlay8MDbPvq+76d3R+ljz+CmL0RLsfCt0wseqFg3f
-         FwMYE5gz53ZsHmwNXitOiUHRFXR+/aUTfqNKeVwzyo2OiyUkUVYfCz/lMLFJfExA2TDk
-         FhguaMuGxWTrrQ4a3n2+iZBd43UTse1aWfTfUa2NSIA0WWFLD0S2M/uBYtqJzQkXFblq
-         wr0XLF4KJNQLTMik896HoCocxK8mMu/3GxHyUEk9Bb/mmsLLlhHceYBJVnDGUSAmiybk
-         UwXQ==
+        bh=1DZZDmRFFus61Ri0IMvmk4ynsdfBpq9f2UmqLYuX2d8=;
+        b=fXaIFQCGJDbUyLhVvoj/pnwVsSIXbawBgemvJMO0wolY/iXwcnfm/keXHNJbyHUCMS
+         IJWYs1cbvFskNkqIYMRzqsMCJmMG+kRlpgmH4qWKAjy15HY6BD58yO5vyuyEDMMVT5Q0
+         PHxdoFtNt94V6eRAEb0cEgL8SdGzoNGVZDoGW8RrKeQBCadpsOHKBF+qK4NtAqGMB2u5
+         VWmPLs2Qg+3qY91+mUOP+qJcYtR0PuLI73sodYs4w5CND8hh5xeYZ67etcp7s5b0JzJv
+         TZLcjtf2jlZ28FOEgB5LuHbx8cveBdZVyB0V/LFbGutQnkbTZstYaZX6fxbRTtHQSpP+
+         wdYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789501026; x=1790105826;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1789573887; x=1790178687;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Fv2qyWJdbrcJvcqAwpcW93SKoGJg7N/Guzup2THPVL4=;
-        b=InTQyP7WEA4vZTrBIKmgYK9qFdWjOaJBaiLNAPEriNYSz0fns3KWSVPyK7nPQi4G0X
-         nq1k7jUKYILgOLD5arV0Ule3VEZ2COGHEbWagQF1dj1PLAA7yLnQIWLlab2lHvK/aqaN
-         LKqSDMbN/gmtBPD8d7Scd6vONO6O/QQw4dixmBx+3BKjImS+r8RNwtWk5/L2ckpCAwLI
-         nPF3wM+yoxS8z36RGRVUKigK6pzAer7P8BIQ40uvjXI24DAhush9f1UArwzrzbHmH3eA
-         opuauouvGb4V0atUt3dAvcA6YE6HSpifmEjRxO+R6jhXd25fvQLNZAMqjBHmYJI0y6r2
-         aBCw==
-X-Forwarded-Encrypted: i=1; AKwUvBzr1558SKDr/SX+X9FMickFh7i8Og9g2ePnggEQya26tKlAASYizT7NJyDPHhz8MTdYUKjOz+gVXq0+4Lw+OSLqh/6Gmg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nVKb2eOBHBINi5KXApMJ5O97JFrWrhpdxcZxLZC4muje6P+EkN
-	HorkjH/Ea2BxICLdoEYGh25XyqRq2gtrcKxNWJvzRf9CbU/Oli2awt0=
-X-Gm-Gg: AYBFou0rHpeN2WGr9aDR3c4dAKBmeaM5tPkRb6rLwumJBEeKcW7NLsMRXWRvHe9xxS+
-	FMErDHOkSVxbTIkT/APoRc6Ci2Qg47CO+Yq5T7jqQj5Y7/SaZeI6Uz7tGqTTMVES/ODgI52lIQa
-	rT0Z6Uq78EcGVikI8Pt+F0thALIsjjreq/mvO9zD8NadVuWgPO8/fqXxMwtpoCLBQWrocGpeBQc
-	GvOfHceOimjTYRhvw2fzxSG++lAN++VRrcgXc41MiMGcMTUYa6/RYX6lmDgF1I3mj6TqGmd4IXd
-	P1xpLbDL8QNKRsaJ5fOhrLwdbecG9Ao00nBT5VS6h9CHSVOc6vJ57Kx9RuQ6JfpaKg9C55QhPK0
-	cMG+WesXecW6v6U7h7qYXhhJp5DA82RxSNR6EZhnsJ+r9wcFIbL9zeQrcqN1ZV2whxJ98wnamYd
-	pAx7uIKMrX9jdTfezNAv3AgH62dqjfKEjBfuQ1L4dtA4AwbPliVqEz06HLe0GE0iAEYCAUr8cTF
-	s1zlX7nXAT3O3WoDzErQGCdl9r+10oSNilHfH+HYk95eQNgLQ==
-X-Received: by 2002:a05:6102:5607:b0:790:c7bb:43fd with SMTP id ada2fe7eead31-79b5bf316f7mr12420909137.8.1789501025587;
-        Tue, 15 Sep 2026 12:37:05 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-79fb1148f57sm691450137.4.2026.09.15.12.36.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 12:37:05 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Alice Ryhl <aliceryhl@google.com>,
-	Burak Emir <burak.emir@gmail.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>,
-	Miguel Ojeda <ojeda@kernel.org>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Rae Moar <raemoar63@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Yury Norov <yury.norov@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH RFC 3/3] rust: bitmap: kunit: uncomment owned_bitmap_out_of_bounds panic case
-Date: Tue, 15 Sep 2026 16:33:54 -0300
-Message-ID: <1a319df6587bfdcfa497fc964a9a6d21a8988e54.1789500084.git.nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1789500084.git.nico.antinori.7@gmail.com>
-References: <cover.1789500084.git.nico.antinori.7@gmail.com>
+        bh=1DZZDmRFFus61Ri0IMvmk4ynsdfBpq9f2UmqLYuX2d8=;
+        b=TGKbLhyJ2Y5TPrDG0ucQFZnkzHVaPRbXIxa8MNJKuxgSD9K8nB7s9AW91KP1YlvQ4k
+         Vvn0YkrARGUH/oKP15VPI9tMf7Ww2GDwNbnnynZ+G8EpSyoYCl4Dn8urA5VXMt9LgbKb
+         utEelwQ/7GX8cildlebNpoXAR6C1KSRhU1Sbvysns9YgwGbqMWM7gZpmaRec+pIyYP5N
+         10Udhod/JWm4dnlFUrADkiySmBjPf44a/Od4qlcXEu2rwuoFW2VgWMUjCkmhm4s9TSCL
+         KJnlCiRKzQyKwHEHBCJBzyV+GE/c6g5ZgIfne4JMydNDa5EWTmmAd9CvrlC16n9VGqc9
+         CZjA==
+X-Forwarded-Encrypted: i=1; AKwUvBz/L7niIV7IdvaE8zqJB4C1LQ3f0TDbzOTUnOgTjltE+vLO/gX8WtsnbJ5A9f2O393X5B+JHoxPWPDEPep+ztUw/VSQeg==@lists.linux.dev
+X-Gm-Message-State: AFuF++kA2epmI/qh1yyI5otSyFlAWRFEfVmjO6lOg39eLwnolLbeqB5r
+	6pnOtv897DbRT0KOe/hH5gq3IMZDA5OOKL5wDiNvXYwjiPMZk3dJFqGnlPoupTZSrZSBeChOPsw
+	GLYwG4HSU6PdXVwmt4kDT8v0hUpOiJvI=
+X-Gm-Gg: AYBFou2SPh55eiaPttz/yiNCwtwYzQmGkXuk2htE6bf3XkOznMcOMOxpSVS9oj+7bWZ
+	H0uSKyb752x9hKC1IqdxaeDPFDyyrOGz0Cf7PTeJivTj21N0opkuYiez/yDJI6zZI8N9Wo473dr
+	1zEnYhMWsVZgk2Pz3V1sV0w8B+LHd2JmUxZ6OHrzbyxTAN0zE8VtsXXGS0TasAJ/tOpV9LGfk4b
+	SLla3XlNZz1jqQBbBxzE31e1Po8g6D5q5DvP5d6C4wiT6JYQ4i0wObVHQpxaTQlvkg0+raMr3dG
+	jYT/gc+Iy9MJCFD85BUby9JrsMHE7I6XgccUM6ur+u4eUaoF0gDQ38T5fXFNMBS0C8gSVj9fRtT
+	k8WlQFhoEQzMrAPGrDlVGY+iJb656os/DXKLyA7YWRGDnSA==
+X-Received: by 2002:a05:620a:2b41:b0:93a:463:1296 with SMTP id
+ af79cd13be357-93bb77012a6mr512342585a.18.1789573887002; Wed, 16 Sep 2026
+ 08:51:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260914155301.14499-1-tharitt97@gmail.com> <20260914161000.E3CD21F000FF@smtp.kernel.org>
+In-Reply-To: <20260914161000.E3CD21F000FF@smtp.kernel.org>
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Date: Wed, 16 Sep 2026 22:51:14 +0700
+X-Gm-Features: AcwNN1XHwQyBqLjDeQ7jaI6DM6CbzWrYOn3V2n8CNvXZZDMWJ0_m1PdaYmObsWE
+Message-ID: <CACak8wMDhXTXkS6PAMCY1_SbvGK_v6YQBCZxBLJZY382JuKbiw@mail.gmail.com>
+Subject: Re: [PATCH] KVM: selftests: Test partial KVM_CLEAR_DIRTY_LOG requests
+To: sashiko-reviews@lists.linux.dev
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Sean Christopherson <seanjc@google.com>, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+	me@brighamcampbell.com, jkoolstra@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rust KUnit tests now support `#[should_panic]` attribute. Uncomment the
-test so it can be run when CONFIG_RUST_BITMAP_HARDENED=y.
+> > +/* Use the 2nd 64-page range to exercise a non-zero offset. */
+> > +#define TEST_CLEAR_LOG_FIRST_PAGE    64
+> > +#define TEST_CLEAR_LOG_NUM_PAGES     64
+> > +#define TEST_CLEAR_LOG_BIT           1
+> > +#define TEST_CLEAR_LOG_PAGE          (TEST_CLEAR_LOG_FIRST_PAGE + \
+> > +                                      TEST_CLEAR_LOG_BIT)
+> > +static void guest_code_clear_log(void)
+> > +{
+> > +     u64 addr =3D guest_test_virt_mem + TEST_CLEAR_LOG_PAGE * host_pag=
+e_size;
+> > +
+> > +     while (true) {
+> > +             vcpu_arch_put_guest(*(u64 *)addr, 1);
+>
+> [Severity: Medium]
+> Will this result in an out-of-bounds guest memory access on architectures=
+ where
+> the host page size is larger than the guest page size?
 
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
- rust/kernel/bitmap.rs | 40 ++++++++++++++++++----------------------
- 1 file changed, 18 insertions(+), 22 deletions(-)
+Agreed.
+The allocation is sized in guest pages, but the clear request and
+guest write offset are expressed in host pages.
+I'll fix this in v2 by starting with 3*64=3D192 host pages and
+converting that count to guest pages before applying the allocation
+adjustment.
 
-diff --git a/rust/kernel/bitmap.rs b/rust/kernel/bitmap.rs
-index b27e0ec80d64..a9935b2be8c5 100644
---- a/rust/kernel/bitmap.rs
-+++ b/rust/kernel/bitmap.rs
-@@ -571,33 +571,29 @@ fn bitmap_set_clear_find() -> Result<(), AllocError> {
-         Ok(())
-     }
+> > +     kvm_vm_get_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap);
+> > +     for (page =3D 0; page < host_num_pages; page++)
+> > +             TEST_ASSERT(test_bit_le(page, bmap),
+> > +                         "Page %lu should be dirty after INITIALLY_SET=
+", page);
+>
+> [Severity: Medium]
+> Does this assertion assume that KVM_DIRTY_LOG_INITIALLY_SET is always sup=
+ported
+> if KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 is present?
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260914155301.14=
+499-1-tharitt97@gmail.com?part=3D1
 
-+    #[cfg(not(CONFIG_RUST_BITMAP_HARDENED))]
-     #[test]
-     fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
--        // TODO: Kunit #[test]s do not support `cfg` yet,
--        // so we add it here in the body.
--        #[cfg(not(CONFIG_RUST_BITMAP_HARDENED))]
--        {
--            let mut b = BitmapVec::new(128, GFP_KERNEL)?;
--            b.set_bit(2048);
--            b.set_bit_atomic(2048);
--            b.clear_bit(2048);
--            b.clear_bit_atomic(2048);
--            assert_eq!(None, b.next_bit(2048));
--            assert_eq!(None, b.next_zero_bit(2048));
--            assert_eq!(None, b.last_bit());
--        }
-+        let mut b = BitmapVec::new(128, GFP_KERNEL)?;
-+        b.set_bit(2048);
-+        b.set_bit_atomic(2048);
-+        b.clear_bit(2048);
-+        b.clear_bit_atomic(2048);
-+        assert_eq!(None, b.next_bit(2048));
-+        assert_eq!(None, b.next_zero_bit(2048));
-+        assert_eq!(None, b.last_bit());
-         Ok(())
-     }
-
--    // TODO: uncomment once kunit supports [should_panic] and `cfg`.
--    // #[cfg(CONFIG_RUST_BITMAP_HARDENED)]
--    // #[test]
--    // #[should_panic]
--    // fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
--    //     let mut b = BitmapVec::new(128, GFP_KERNEL)?;
--    //
--    //     b.set_bit(2048);
--    // }
-+    #[cfg(CONFIG_RUST_BITMAP_HARDENED)]
-+    #[test]
-+    #[should_panic]
-+    fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
-+        let mut b = BitmapVec::new(128, GFP_KERNEL)?;
-+
-+        b.set_bit(2048);
-+        Ok(())
-+    }
-
-     #[test]
-     fn bitmap_copy_and_extend() -> Result<(), AllocError> {
---
-2.47.3
-
+Agreed.
+I'll check for the KVM_DIRTY_LOG_INITIALLY_SET at the start of the
+test, and skip the test if it is unavailable.
