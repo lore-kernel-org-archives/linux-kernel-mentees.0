@@ -1,94 +1,147 @@
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DA64A2A74
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Sep 2026 14:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D0B4A4F01
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Sep 2026 14:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789999594; cv=none; b=OWU4dI+XSHTcOTVj9Zrt3LDGLGGPICaNIwDPefoMUBp9UZJRPEzz0s5ff/DMTjf09QLnvOc4y2gsbr/CtIT1LBawFMd7RyWfLwargF9BH0DXCYhjYDGEcj8TtCzSUd4E4y6y6sFFSsPe4XBT6HXXrLbaW3VcrYY0Pt/ucRP5dW8=
+	t=1790000997; cv=none; b=I+lBMXreDI6s7Hz3Bf+OGxmBYdsn/euIXloiIKtCf/MMWdOzJMd5CAd1mBEMofx/8sYmpK4ZISungZhtatZjSQufXZyyOsyNOzLooWqTaD5iqLovpa6O4XXsftztQf41GzyFIzuNIVLltSPaaqNUWBWM7Qd57xP5V0HxASYbyEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789999594; c=relaxed/simple;
-	bh=OzuuWVIqtaFd/YYFW4xK7+t91VemYX3wot5lc8ID+mk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=A8Ull3AB1WEFSLjEbxHqOpNX0frK498Zk1QF8JvoJkysEfm9gV/6j4rHEoWgS1Mo22Ab/fjooux4oUEwRTro1RDc3DayHx2fF0IdL8rChNtOzdiFJO60Cnj9vZaXDA10kOXFrATpmtZlJKGpDyt2YU8bWCLCF19qrVB4KzQ0290=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=toChFK9a; arc=none smtp.client-ip=209.85.215.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1790000997; c=relaxed/simple;
+	bh=aHmSDEox5unyo5rBT5HswPBoY3cjScx7iK573f2E5hg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Dc7LtSIDq40hmVLivCPHd46oBUwwivO6dzRYJnxcR5TqU/pYuAnXyBUCAV4Ge/4HFz1Th1yRXBJ8zKoqpsNcEEB7YX1PbvrcK+SEDOfDpEKPllzQ4oCJgDlpE8tu6+RReQB372eGZmvSB4KNxYkOfhr9yIi9MczEyW41puqyGig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q3FryyNK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="toChFK9a"
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc1a439db36so2749201a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 21 Sep 2026 07:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789999592; x=1790604392; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pZN6pn1oKVfiJrGbRYveJPh3MZHL0XDj4nwpj69nUOA=;
-        b=toChFK9ap3fsFOr97Fd5Mn/q4mRdNjoGjUffh9Th9uWh+UrO02QRrcJYGokrI+9VEf
-         cPUKdY+WZ0pPZ3T/IYu2D9QZs3cJaj75TBbkZUskV8+SF2iX7A255H8Lj0F+PorCfa+Q
-         XQjhozERNg+/EA5QzhvHR/r5ee2zY1GE+8kn3sEBAkAbM+V2kRbXNnPuMYu0+HKc2Udh
-         30yJN1WWQtnCGOy0FTt6U7qAi80EZBfrNO4s7yvbCvZrwhqK15hoZvkto5p1FTHm2eSJ
-         L9btPgmJnV0PMnC4K5DBkRjUilT508mpVY0X3xQQfnu/P6sU8SxvPRY5V6sni2B1lqfI
-         0jlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789999592; x=1790604392;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pZN6pn1oKVfiJrGbRYveJPh3MZHL0XDj4nwpj69nUOA=;
-        b=ixJN5DvGGDMHXkWCr1iiWW1gpwpBDnQNSw/cQk3hZlZRRlIERGam+/Xw1+u+DHx7iK
-         T2CSQKzaB3VErfBeQj5gBWlKvhb61oRnmgPYl+xeMdIH8liiqryvMoinxs27YUUPNC1L
-         3WLbBHnoGfBItQQRfxcUj6or3LiEerqhu03GF1kPiYaNQW2HNpI8qP5anXQ+RxccjeW1
-         v7RFva0/vmxT5DZOkOJszNYlUq8aGrDMYzpw+5L0iVlbhZByPUY71brYVXfyvwQPBNSw
-         RnbSkr5IHMpqMJQ5McdY3bK8kWV3ZdQPxvHscgd/lzf/oysvLXS8rYN/sYMuNY+prJN4
-         tR5w==
-X-Forwarded-Encrypted: i=1; AKwUvBwfO0qXyL6TUMsRorjhlKtfBA29Vvz8AofRramieTo9GLt8TTjWL+3Mfdw/s8f0yAXbEu69MIl5oMzQ688y3/rxeqaCKA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nb79XNBrYDCqJcDzijbTdIgsMHpCJjRU3EsJbGwq/k5eNq0KFZ
-	pnGZ9Qg8eqNXWuIwc+BlQ1Stmv7FtyvYlUdW8ubnjjJWKAM+FVw0T6hXOxsvXfVuH60GlBMjhVm
-	3rLgOng==
-X-Received: from pfbdl11.prod.google.com ([2002:a05:6a00:490b:b0:879:66b7:29a9])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:2443:b0:3d3:ae1f:d7f5
- with SMTP id adf61e73a8af0-3dd8c4ff268mr16788092637.21.1789999592068; Mon, 21
- Sep 2026 07:06:32 -0700 (PDT)
-Date: Mon, 21 Sep 2026 07:05:16 -0700
-In-Reply-To: <20260908160426.6547-1-tharitt97@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q3FryyNK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790000994;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SPlmkLvWk9PpLgPSN8V3xc5g1sWFhg/iDECwVzzJ4c=;
+	b=Q3FryyNKIzJ7vee9FKISGK2KfkJ3d6q+lwb9Tw5VOrEqOGpm8uuyXdHjxNYh44ITCVB+fE
+	Qzrqe6M013Fo1vTU5jwRa2BxM4N+ulmkDco33sDnXAck35pR3sOBdytIwQDFjiS4oebThX
+	4yaEzM1bX45thYIvz5Rjx7yFp4+or4w=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-2wbglG7APSmlHI_acoQYzw-1; Mon,
+ 21 Sep 2026 10:29:51 -0400
+X-MC-Unique: 2wbglG7APSmlHI_acoQYzw-1
+X-Mimecast-MFC-AGG-ID: 2wbglG7APSmlHI_acoQYzw_1790000989
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 832A318011D4;
+	Mon, 21 Sep 2026 14:29:49 +0000 (UTC)
+Received: from mpatocka-thinkpadx1carbongen12.rmtcz.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2849641B;
+	Mon, 21 Sep 2026 14:29:45 +0000 (UTC)
+Date: Mon, 21 Sep 2026 16:29:43 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
+    Benjamin Marzinski <bmarzins@redhat.com>, Milan Broz <mbroz@redhat.com>, 
+    dm-devel@lists.linux.dev, Shuah Khan <shuah@kernel.org>, 
+    Brigham Campbell <me@brighamcampbell.com>, linux-kernel@vger.kernel.org, 
+    linux-kernel-mentees@lists.linux.dev, 
+    syzbot+48d935cf48a4a76be346@syzkaller.appspotmail.com
+Subject: Re: [PATCH] dm ioctl: don't let data_start run past the buffer
+In-Reply-To: <20260918234339.54105-1-raghunathpalla.0209@gmail.com>
+Message-ID: <956ce83b-ef24-56f1-d70a-f7378f55cdf8@redhat.com>
+References: <20260918234339.54105-1-raghunathpalla.0209@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260908160426.6547-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
-Message-ID: <178999676410.711234.12909851740804144889.b4-ty@google.com>
-Subject: Re: [PATCH v1 0/2] KVM: x86: cr8 reserved bit check
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, pbonzini@redhat.com, tglx@kernel.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	shuah@kernel.org, Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Cc: hpa@zytor.com, binbin.wu@linux.intel.com, kai.huang@intel.com, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-	skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: -lZOJ65qvDv0BOdtLQ_SU9dqGe6Al7FAK1wWu6Nafs4_1790000989
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 08 Sep 2026 23:04:24 +0700, Tharit Tangkijwanichakul wrote:
-> kvm_is_valid_sregs() validates the incoming CR0, CR4, and efer values on
-> KVM_SET_SREGS but never checks CR8. When userspace passes a CR8 value with
-> any reserved bit [63:4] set, __set_sregs_common() forwards it to
-> kvm_set_cr8(), which rejects the reserved bits and returns early. That
-> return value is not checked, so the ioctl reports success while the
-> requested value is silently dropped, and a subsequent KVM_GET_SREGS then
-> returns a CR8 different from the one userspace believed it had written.
+
+
+On Sat, 19 Sep 2026, Palla Raghunath wrote:
+
+> struct dm_ioctl has seven bytes of trailing padding, so the smallest
+> buffer userspace is allowed to ask for, offsetof(struct dm_ioctl, data),
+> is seven bytes shorter than sizeof(struct dm_ioctl).
 > 
-> [...]
+> get_result_buffer() sets data_start to sizeof(struct dm_ioctl) without
+> looking at how big the buffer actually is. Ask for the minimum and
+> data_start ends up seven bytes past the end. Callers add it to
+> data_size, and ctl_ioctl() copies that much back to userspace:
+> 
+>   BUG: KASAN: slab-out-of-bounds in _copy_to_user+0xad/0xd0
+>   Read of size 312 at addr ffff8880169e4c00 by task repro-dm/140
+>    ctl_ioctl+0x5e3/0xcb0
+>    dm_ctl_ioctl+0x25/0x40
+>   allocated 305-byte region [ffff8880169e4c00, ffff8880169e4d31)
+> 
+> A DM_LIST_DEVICES with data_size set to 305 is enough to hit it, and the
+> seven bytes that leak are whatever sat next to the allocation.
+> 
+> Clamp data_start to the buffer size.
+> 
+> Reported-by: syzbot+48d935cf48a4a76be346@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=48d935cf48a4a76be346
+> Fixes: 76c072b48e39 ("dm ioctl: move compat code")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+> ---
+>  drivers/md/dm-ioctl.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/md/dm-ioctl.c b/drivers/md/dm-ioctl.c
+> index a6b8e97755cd..211569dd3c54 100644
+> --- a/drivers/md/dm-ioctl.c
+> +++ b/drivers/md/dm-ioctl.c
+> @@ -656,6 +656,13 @@ static void *get_result_buffer(struct dm_ioctl *param, size_t param_size,
+>  {
+>  	param->data_start = align_ptr(param + 1) - (void *) param;
+>  
+> +	/*
+> +	 * The buffer can be as small as offsetof(*param, data), which is
+> +	 * less than sizeof(*param), so don't run off the end of it.
+> +	 */
+> +	if (param->data_start > param_size)
+> +		param->data_start = param_size;
+> +
+>  	if (param->data_start < param_size)
+>  		*len = param_size - param->data_start;
+>  	else
+> -- 
+> 2.34.1
 
-Applied to kvm-x86 misc, thanks!
+Hi
 
-[1/2] KVM: x86: Reject reserved CR8 bits in KVM_SET_SREGS
-      https://github.com/kvm-x86/linux/commit/3e7a842fe533
-[2/2] KVM: selftests: Add CR8 reserved-bit checks to set_sregs_test
-      https://github.com/kvm-x86/linux/commit/2b0e0aa54fa2
+I accepted the patch, but I changed it slightly, so that there is just one 
+condition in get_result_buffer. The resulting function is:
 
---
-https://github.com/kvm-x86/linux/tree/next
+static void *get_result_buffer(struct dm_ioctl *param, size_t param_size,
+                               size_t *len)
+{
+        param->data_start = align_ptr(param + 1) - (void *) param;
+
+        if (param->data_start < param_size) {
+                *len = param_size - param->data_start;
+        } else {
+                /*
+                 * The buffer can be as small as offsetof(*param, data), which
+                 * is less than sizeof(*param), so don't run off the end of it.
+                 */
+                *len = 0;
+                param->data_start = param_size;
+        }
+
+        return ((void *) param) + param->data_start;
+}
+
+Mikulas
+
