@@ -1,197 +1,135 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021127.outbound.protection.outlook.com [52.101.95.127])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48734423A72
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 13:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.127
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790084139; cv=fail; b=L0IJ2n0b+o4ungZXeFnbPv8Pqkhr+PsIZ2NptLRJtHJpaVslXR4pfUOdwO3J+TwPVHivuuQExB+UVTG5QMTooB2R+MB1/7KZ+xuMxdp+Qu0r//MowOiln/KX/+DtqHgicJm0O0C+NgfuXtF9DfA4zfKHUTmdIRcv/RUi1HYU+ig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790084139; c=relaxed/simple;
-	bh=0TqHePDfklZwYDl2PNCkkz8/sKuNnuXaFYpQXUXl2sA=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=kdcgsDtdGnijsN83WdNjRwIlEH7UT8U8vwDrbgQab08fXOE1FBSSO0FzyMZ2+QEP8+ow30YbLZm8TFA5kEcaWFfDcAp9sFo95qQo5c1Svr21KL4fXhjXeh4bZarTcwYoAEs7T5MnEjisGNvAsp8cqBfyhFwKb0ITiYMUFypevDI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=LRXBWL51; arc=fail smtp.client-ip=52.101.95.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="LRXBWL51"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RlZ2yG7qyDEZ9ynkBvH7VSljLCq2W6LKh4AfjXourCpIASNJ1ANsr34BhXXb1zXx1z3Eg4rRZdw6HLWm5OMweGSZi6T3m98kLXo7ZHB2S3uk6bUBpOePfTpJsc0WXq0Wp1KU8g0t1IMSK7/+TcEaE8XVs8f104kEJBmb2NyNKrK4ceYPqhr3SbP804sJoOil00zi7QeLcEa0wvud9/v6tamlp7klywhDSIjGIWzw5LyUeh7xOoHT+WC4TwlqvpSwr+HN+XEgcbA/LeY2Xh6UC016STsd1dsu3jp50o4UjEuw0pQ0w+HB7l1cfxdsVPZWiywXpnTDNxM6rnAqqmQ5vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nqG+APlDHrAl79d7egWwThDnuq+1bxHPdWLsbhcslSU=;
- b=py5Zp/6jPNnFg/q29IymL4/QXo54bzVvfoxr+xCjyDSXHPdmP/MqYi7FVU/go+4+lo8MlvSk0rtbF1LnDulQhfsUx/p9Pgd76I6nCjLQfpxYRLflv3HNosIdtWXeCovHr57SWoeeB6WKtjx+faiVBSbKk58UbcU/ahTLdqyKUvtju+DQBfRuV2ZnGYkbcD4kLO+4eoM68SxO3gtxcCSMMl6dc/q0FFjX/nwzarf+zCXggqDEt+R9zHhFwqxruB/UHoLnyedDCzpLXy0jjffwjJ9lXkzTL5+B57/EpNM4nDWHq4i56DnqPr+Ply8NKz3xHOc2/3xSzZgFYI2aPxLUkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nqG+APlDHrAl79d7egWwThDnuq+1bxHPdWLsbhcslSU=;
- b=LRXBWL517saWiAbD9k01abjiTTTDKELl63WOX7VfazxoAiyc7NO/XQIxsFu1Q6O2w3jbhwQsQCvI92LT9260vIO5PCefuJ4YGCuDYirkM6f0ToVxc84OcABBXjAmE5YQl6t6BoSXTw5aGUdtwc5LumScLgFUSX9M0EzD8DgZma4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWLP265MB6628.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1ed::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
- 2026 13:35:34 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.012; Tue, 22 Sep 2026
- 13:35:34 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 22 Sep 2026 14:35:33 +0100
-Message-Id: <DLLVV64UIC5E.10C9AB66BOEXV@garyguo.net>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Jori Koolstra"
- <jkoolstra@xs4all.nl>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Rae Moar" <raemoar63@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Yury Norov" <yury.norov@gmail.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH RFC 0/3] rust: kunit: #[should_panic] and same test name
- with different #[cfg(...)] support
-From: "Gary Guo" <gary@garyguo.net>
-To: "David Gow" <david@davidgow.net>, =?utf-8?q?Nicol=C3=A1s_Antinori?=
- <nico.antinori.7@gmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Burak
- Emir" <burak.emir@gmail.com>, "Brendan Higgins"
- <brendan.higgins@linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>
-X-Mailer: aerc 0.22.0
-References: <cover.1789500084.git.nico.antinori.7@gmail.com>
- <d20cc2b2-afeb-432c-924b-55ad00d980fe@davidgow.net>
-In-Reply-To: <d20cc2b2-afeb-432c-924b-55ad00d980fe@davidgow.net>
-X-ClientProxiedBy: LO3P265CA0011.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::16) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35869539791
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 15:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790090861; cv=none; b=EOkDgsjq1+ynt4TXShF0HdzWsbmZM9/0ERXe9o1Cibt4gzPOkDt3gykNLrQDgNXwrk2ZMpDMovdvCJzoayETPDXM3rKP5Dq82+uYBsZdJB9OI43arVdsmiD82IL2darHjxSqG74kSU+MU8TRDuTU2k6iObaKd+PUUNXKc/Z4se4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790090861; c=relaxed/simple;
+	bh=ed/J0wxXUIqzdHhF5vCCqhoLUrEJ1cSfwwOkVLGZUnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y27bLGLHhejhqmtiMaNRn3AvGELqDlHDdju/r1k89CyUFs4bOXP7wWACdGSUp7jE6E0LTWq6b2R3a3f9gcbwsCz3bxOqiReM4KRFX8xNy3jSflaULLYkZpBx6xydfOsvI0TzMinersiqhhH6wXVqLZnbHD9nGj4iSv699OXgYys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 9F83A1EAC6A; Tue, 22 Sep 2026 23:27:29 +0800 (AWST)
+X-Spam-Level: 
+Received: from [IPV6:2001:8003:8802:7000::41b] (unknown [IPv6:2001:8003:8802:7000::41b])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 80A811EAC5D;
+	Tue, 22 Sep 2026 23:27:25 +0800 (AWST)
+Message-ID: <d00d6512-ec95-4337-ad62-a515b507862b@davidgow.net>
+Date: Tue, 22 Sep 2026 23:27:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB6628:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8054b994-0638-494c-dc94-08df18ae60e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|7416014|376014|56012099006|6133799003|10067099003|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	RyFbqY/585SaWT9CWXYiiFy6KavcHDXEtReZfWxamRLf6tqZ33LSGhit0TPm2Ht5Iy2Qrz+JWB1dYTD4U4FVLjnC6zMenxx7TXbC2FrDKOGXyLUxF3OJe3RvRkMzUDYlS8zRLotoFGZ5IF8f+hg2y012blR+BqFG+Z/ybnncvFB0A+yVo7OubtkLRony5HIRD81uQUaPdDmxf9vMPA6lk6zEBANdWjnCw9XVKXJ5GyVwkZNsiI31jfCp69VfA1b0K3wevnRC/lvrEPVKcVu+jlw9lTdY3NJiPl9RklVz+UnK4bujHfYNDjVU4jKJSUAKaC0mE/x+u6AN5wuzoBr6aIoNiTvBfLq0FC6MFSUjJ8Sc+WR9QO9LzHv6DxWUsUTK/MHGJBGqvDW7fiWXrtN8ZFGjDEflYBVem4Th72sh7DO/ahPgoMHOmCAIqzs8dKgvf/0B1eoAWqNbK/7edHLthSFpPyZugvynFZ6cIvBDua7L/pDA6NGh8LJRxqmPi+nfYtOWKqAf6r3wSDbeOvIMGI1kUxYbak7R2w2olde+tDp54UWxtdGHGulv4tZMAvJzG40jCFvWYbnlsG4lLFYawAYQbgnLQEHynag8RCu57IxGuoWJuwl0douKc8OWIopbwBBP90Oon1BNS2VnDgggzPP5JMlu2JG8leNeoWybjuE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(7416014)(376014)(56012099006)(6133799003)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NE9qYXZQVFhtc3QyamtnUjlEWTJPR1l6dkJ5OEp1K1FCRVFBUlQ4Q1ZPYmxo?=
- =?utf-8?B?YStNbm55RVFqNEVZWHhmTGJZdyt6cHh5YWxJaFRWZmdvY1VqN0k3LzVRTVBx?=
- =?utf-8?B?MDZLaS9ZcGZYSjYyWS83TzhuVmM5Yko4aGpuc1p3NFg1RUFwN1RzWE9yTmRR?=
- =?utf-8?B?MzFNRkMyeC9pWEtxTTI0UFZRYkpZUXpNSWxsVkhTclowQmRRcnk5WnNvYmxh?=
- =?utf-8?B?elhYaHJGTTZiVWJsWWU4c2MzMU5SZWhka3FtaEpVQTFMcU5HbHN2N2IrYnU0?=
- =?utf-8?B?N1VMeTQvZFR4TkVhSzJNMVVEdXN6Q3htZngrZHdDYkdQYXp0bzRwY1hNVzJo?=
- =?utf-8?B?dDNNaWlEMWNBTGVhQ0tXeDF6NVFYNks0RGxMeXZuM0x6SUtNRnhlWUlONXhE?=
- =?utf-8?B?UUNNRkZsci9KaUtJNTNya2FMYmthaW1qb2x3SGFsd2JPbFRodWRpUHhBNFBi?=
- =?utf-8?B?dksxK1Nnbno3ZEtrekZscjM0RGl5eWFsZzdTUVlWem0wMlZZR2podjZaT292?=
- =?utf-8?B?bCtpNm1Yb0kvOWJLeUZibS9scndEaVJwTVNKMWpQcnZ4d3oxQW1QOGRaUkhR?=
- =?utf-8?B?NnRTamJ6YmhZdXVZWHVjczNZTnQzZ3lnR0dyWjVRdVlIWDh4b0kxZ1VickZZ?=
- =?utf-8?B?b0VnQTNVdFhtNDh6RGkwd1JTT25zdlMzVUptU1IrdXVZSVlkYlh5ckZMV3Rt?=
- =?utf-8?B?alVneXhoNHoyRWEza01UbWdXNVBjQUw5RXpxa21RQno4amRtQzhTc21LcWcv?=
- =?utf-8?B?NG5tcGZmMm51dWpzenJLMDIwU0R5enJtWGF5aC9ncUdycVZobndzalY0N2hO?=
- =?utf-8?B?OW11ckppdVY5WFVvYUFJMGdKOU8zYXhjblQ3ZE43czArUjdQZ21BaGZ1WUVS?=
- =?utf-8?B?Y1cwaHJ3UjFlTC9TR3NWK2xLQnNadlREdVEvNEJldWEvTTh0Z084T2ZiaXBW?=
- =?utf-8?B?amVUdnU4VXo5dTBzU3FWdUFCNGZTV0NKY0tTSjNiam9Zc2g5dlhCaFNZQjI2?=
- =?utf-8?B?VE9LNnBFQXVsakdYUXN2QnQ3dTc5R1IyQ3AvUU8xNngwOVl4SUhDU1FPdmYz?=
- =?utf-8?B?N3ZlT1BGVUUyc3Y5elRzTTNDZFRHTHVMWWhJNVNTTkRUOWE2Z09ReTI1am1M?=
- =?utf-8?B?bGkzSXZndVZIczJsMzEwSnMrcGRaR3RyYjhlNXdKUndsWkpyNVJVZWR5azBO?=
- =?utf-8?B?T0s2VXBrWFZ4OEJSUHVsZzlTbXJKRjBHVjBGQnlCRTNvcS9nRFBYZXo3TVkz?=
- =?utf-8?B?cVJ3STdGSHJQdWxsckUvYWdzaGtPWVZ4OGk5VU1lcWt4dU84bVNnQjBnbnpp?=
- =?utf-8?B?SWUvSndlY2t1NHBrVTdFTmJJam5mRTArWWYrTTdCSzlmNVBZRDNBMTN3NXdJ?=
- =?utf-8?B?Z28yWUlkOGFsODV4MzBjNk9lNXlyekNBb0xYeXR6Y251SFZSc21jc3MzUCtr?=
- =?utf-8?B?SUhIa3lvVk9zQnZvdHhWUUY2blV4T3lLZDA4amZwVVZGRHNoc2hKY1kremNH?=
- =?utf-8?B?bzFSM2cvRkd5aWxSVlUyMUVESzZFZmN6NUUzY05JZzdEdnZUVjdyb05JdmNQ?=
- =?utf-8?B?WEo4Y3ZtVUJjYmQwNnZKNzRqTXk0clR1Y2FPMWpQRk9xbVZNOEliSGtZWk1j?=
- =?utf-8?B?Zy9jKzdOSExJc3BJeWRrTDNMUlF3TWZMcXpkbVN3T1QvNStvcjNIL1Zjalc1?=
- =?utf-8?B?eXU5aHJ5Y01mTFZxV3pkY2dOMFphQ2tFMGQ4ZWZvNUErSk5BOVFzNUM1Ry9L?=
- =?utf-8?B?cmtSOFBnK1M2YUhRYlZob25kMVIwNXN0NEcrNGtnWm9yTk9rU1kvclAxQUtC?=
- =?utf-8?B?Vmh3c3RGUGdDc1JJbUxwTThwblkyWnBKbDVlWXZNWHZLK056QkNxQUs1empw?=
- =?utf-8?B?RWsvdGNpVjhXVWhhKzJ0MURRYmFpcm1vWWlvVWhnMGJWNlNLaTYxT1VUS3JU?=
- =?utf-8?B?dS9RbVV2amt1bTF5b3NBa3VjSkZWR3hJUEhqMi9CM0xMVzhKMWdua1g5T2Nv?=
- =?utf-8?B?RFMxUVZBVkZhUlI1TUl2UU55NXpjYVV6VFpGSExpcDZ1OUZVOUs3R0tORFN0?=
- =?utf-8?B?a0ZvdERyNXhGVWFldFJPUmx4bUhiUGgxTzRmSGw0eGdmSHMzYmo4YktkNXQ3?=
- =?utf-8?B?a3FteHRFVlJza1FNRGRxUThPRlJjN25HQUJuZFl1dm45Y3NmMmV4djgvZTVt?=
- =?utf-8?B?NDhMeGVFVFNuemg3eU1DbkZIQjVjK1lpSFdUQlVFbXdpZ1BjSkp0UHZsOENE?=
- =?utf-8?B?enNSUlcvVUZ5WDl1RHo1b3BLNVBIcU1lTWNxTUZmUzhnZ3hFK2YzZm5tYUZC?=
- =?utf-8?B?UmhHaWNrc1BrZExwenRZYXBUYmljS0RzTDI4cVVCVFViaUszNzBDUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8054b994-0638-494c-dc94-08df18ae60e1
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 13:35:33.9755
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b1Q3hSRDuqn7ozC92I1CUPbfo0s1w6yCELJDy7RPNa0LzQ9JQHjsLEY5if9wn94CRPctgCeKmT8RyUoGGA9GTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6628
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/3] rust: kunit: #[should_panic] and same test name
+ with different #[cfg(...)] support
+To: Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Nicol=C3=A1s_Antinori?=
+ <nico.antinori.7@gmail.com>, Alice Ryhl <aliceryhl@google.com>,
+ Burak Emir <burak.emir@gmail.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+References: <cover.1789500084.git.nico.antinori.7@gmail.com>
+ <d20cc2b2-afeb-432c-924b-55ad00d980fe@davidgow.net>
+ <DLLVV64UIC5E.10C9AB66BOEXV@garyguo.net>
+Content-Language: en-US
+From: David Gow <david@davidgow.net>
+In-Reply-To: <DLLVV64UIC5E.10C9AB66BOEXV@garyguo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue Sep 22, 2026 at 8:56 AM BST, David Gow wrote:
-> Le 16/09/2026 =C3=A0 03:33, Nicol=C3=A1s Antinori a =C3=A9crit=C2=A0:
->> - Is it ok to 'stringify' the configuration so it can be distinguished
->>    in the report? Would you prefer something like `_case_1` `_case_2` ..
->>    instead?
+Le 22/09/2026 à 21:35, Gary Guo a écrit :
+> On Tue Sep 22, 2026 at 8:56 AM BST, David Gow wrote:
+>> Le 16/09/2026 à 03:33, Nicolás Antinori a écrit :
+>>> - Is it ok to 'stringify' the configuration so it can be distinguished
+>>>     in the report? Would you prefer something like `_case_1` `_case_2` ..
+>>>     instead?
+> 
+> I also don't like the stringifcation of cfgs.
+> 
+>>
+>> I don't _like_ this: my preference would be for us to keep the same
+>> name, and just not emit a test_case for anything which should be
+>> compiled out with cfg. Unfortunately, implementing that is a bit harder
+>> than would be ideal: we need a way of evaluating the cfg() arguments in
+>> a proc macro, I think. (Ultimately, because otherwise there's no way of
+>> statically determining the length of the TEST_CASES array?)
+> 
+> This is possible with a trick. In pin-init we have a similar need, so what I do
+> is for
+> 
+>      #[macro]
+>      struct Foo {
+>          #[cfg(a)]
+>          bar: u32,
+>      }
+> 
+> to be expanded to
+> 
+>      #[cfg(a)]
+>      #[macro]
+>      struct Foo {
+>          bar: u32
+>      }
+> 
+>      #[cfg(not(a))]
+>      #[macro]
+>      struct Foo {
+>      }
+> 
+> However, for kunit I don't think that's needed. Deduplicating the names
+> should be sufficient?
+> 
+The problem with (at least my naive implementation of) duplication is 
+that -- while it works great for switching between implementations -- it 
+doesn't handle the case where _no_ implementation is active.
 
-I also don't like the stringifcation of cfgs.
+(The current implementation just compiles to a skipped test if the 
+#[cfg(...)] isn't active, which sidesteps the problem until we have 
+multiple implementations...)
 
->
-> I don't _like_ this: my preference would be for us to keep the same=20
-> name, and just not emit a test_case for anything which should be=20
-> compiled out with cfg. Unfortunately, implementing that is a bit harder=20
-> than would be ideal: we need a way of evaluating the cfg() arguments in=20
-> a proc macro, I think. (Ultimately, because otherwise there's no way of=20
-> statically determining the length of the TEST_CASES array?)
+Even the expansion above could be problematic, as we really are trying 
+to add entries to a static array, so I don't know what we could put in 
+the not(a) case (particularly since there'd be potentially lots of them).
 
-This is possible with a trick. In pin-init we have a similar need, so what =
-I do
-is for
+Maybe the trick is to generate the array size by using a big series of 
+something like:
+static mut TEST_CASES: [...,
+	#[cfg(a)] 1
+	#[cfg(not(a))]0
+	+
+	#[cfg(b)] 1
+	#[cfg(not(b))]0
+	+
+	…] = {
+	#[cfg(a)] case1,
+	#[cfg(b)] case1,
+	…
+	}
+}
 
-    #[macro]
-    struct Foo {
-        #[cfg(a)]
-        bar: u32,
-    }
+Then, as long as there's only one or zero active configurations, the 
+array size should match, and any duplicates will be caught by having 
+multiple definitions of case1.
 
-to be expanded to
+I assume the compiler would be able to reduce that down to a 
+compile-time integer, even if it is extremely ugly...
 
-    #[cfg(a)]
-    #[macro]
-    struct Foo {
-        bar: u32
-    }
-
-    #[cfg(not(a))]
-    #[macro]
-    struct Foo {
-    }
-
-However, for kunit I don't think that's needed. Deduplicating the names
-should be sufficient?
-
-Best,
-Gary
-
->
-> Unless you've got a good idea how to fix this, though, I'm happy to put=20
-> up with adding the configs to the name for now. Though if there's a nice=
-=20
-> way to make the names shorter=20
-> (rust_test_kunit_parse_cfg_in_kunit_test_cfg_config_rust_kunit_selftest_e=
-quals_n=20
-> is definitely too long a test name, for instance), that'd be best.
-
+-- David
