@@ -1,130 +1,250 @@
-Received: from mail-pz2-f40.google.com (mail-pz2-f40.google.com [74.125.228.40])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166A4443AB7
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 09:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BAC4EF15C
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 09:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790068876; cv=none; b=gM4XPes/j5+zFmZMHi7/xj70AkgbmJuSMYzbj+7M15IWpALrv42KGX7ezNX4T6L64BKEflipA1WXmJ3vm19xOff8jYJV38UNMzXlt+bTaEhnaKz6Y2cHkqN9eVbQ5D7799Z1k2BlubzbdVSZYxrAejEJruZ/u1Qbf2ArUzdNBkk=
+	t=1790071127; cv=none; b=RuK8fE2/AXIZaqrFpWIiXB+L1HAVRsjXJPxl71kMpVFfilqSxPCvisQHwinBNhk5vagsmH1ebBqO3AFq7kx3UhbuTXTLrnukDf6n4mNky/3tcinBfb8/PQCTl4hh7gs2UBOYTPnJV5a5NjHHNjy2klUXgI6eslYg0aP2PYEoWa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790068876; c=relaxed/simple;
-	bh=QwgutwokZ3b0qwkGY6l4hQt9JqC8neMMcSvmNTqPuqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=duktn2b5oMBuvuxWNUPp0MW+puCcmaNlQCoYG8WzhD/LCnRE3AG5qrN3FecSY40sKVBMebq4dVM3Wbf6GRMxD1n1XWcRKQd65M0YpxbffdE4juwDll+E6y1u3bpIirZulUkjwcMaegxmnI+pSrvcYgUyTLnysycMIN0ysYVvkMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+MZh6PW; arc=none smtp.client-ip=74.125.228.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790071127; c=relaxed/simple;
+	bh=RwCFSgGwANKGfvDoF5VZzkTz9TJE6jsyfOd5Cbm/aqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WS6wJcKvhGnhSHq8JXTVsAU/n6D6BIJDEC3AtbedYfuZ3e+xIbdcy74u4tGDfJTl57kD7NIMeoaRAnWB4Bm5d+dUhLX6IuVTqXGj4GpSaTX9dkKILiYRBDxARDlh6q2Uarn9tsdLATPxOiXPcLt31NiA0Uuef8NdSWxDHa9sDTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K8+fofch; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y0r44oIp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wfyLr/Mm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=E+BXUt+D; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+MZh6PW"
-Received: by mail-pz2-f40.google.com with SMTP id 41be03b00d2f7-cc5121bcf1aso3164361a12.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 02:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790068873; x=1790673673; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VhqwyCXWCrR9ZsZI79xSj7TfrvM5uh6vx6A8zPKncw8=;
-        b=F+MZh6PW07Rk536xYTtyEfSeu9On+agB/sjrJCz4LB6oe6BFNWurFPi/7PCklFeE/F
-         NVkVjTo/gDyVDgxXkvCA1ltRedRbMieSso4+lSYnly77fksRdfO4KPqJWZy0ETUcRwVD
-         j94BW0OsgVW7n0/WAieS/jJwqgLRD5wK8+ZhzzUf1tzmBJnL/lYv2M9d5AfF9PEDFFKW
-         gAcFkYFHBADpVrYxucwZ3VsqupKoMRPf91nBzf8sQauJmm48eUxlLKm3PJMjfXJRZqUH
-         sMKYNShEMnzEcoqyG5r9Q3H3UQ+jHGoap2/lPW6AX/LdYmHm55raHik6UdeIqu5t8p2x
-         dBuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790068873; x=1790673673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VhqwyCXWCrR9ZsZI79xSj7TfrvM5uh6vx6A8zPKncw8=;
-        b=juvG2mCu/T9AsedaeZyFytW0d84MnjyvE4EPAuVG8E0jByQKwZiRRSKlDvYY05T+gJ
-         GqkHaCtKS/2kMmeSbz5r8M6Sw8PShv3NI5gTGDS1MqMGQ5V8MEUNU7OC7AfpFXaAPNJL
-         wOlgmy06J5dtssRHtS/DR/QWEsC2MS5bX+a7h+nDpxRcp376ezjRY9x8iQfeJD/SFI3q
-         cALvzZULAAdHxVjc/tqDKaNbIT0FCNvUDRmSddE6SuhpBSh/UXcstOjXbfWNneSCgoUo
-         UQ8DdMuO13W8KTX/fAfWVzhj349xSlT8HQsi/ycDQy/72dXUyh55Zt0apRQhimZIN/4Z
-         vCRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzvklyI2cOxcumyYCk5elczvOoMpMaAFmf5crj/X8TT18QqZ97rg0euTtnY+Rmrocq7OBpGxiu00OBDmKex6P68Gqsw4w==@lists.linux.dev
-X-Gm-Message-State: AFuF++lmIL6Nzy2iDbRg1vfASJhPqVmAOucs1QSi4A6HpaGzZ+762shH
-	N4gW5sMvDIf2kiYBV6stOcBtQ1JgzZLFe82rx1Z3Rh1LxXBuJzETqH9c
-X-Gm-Gg: AYBFou10fvDydo0bc9xO6/G6RT+SmwcFkT+XvaYCG2qDFLwtYmy2JbFNBE2fKB+CZ2N
-	aIZdeRfWMAIZ+AJmNb8zNTk2FxRxLJP1FCPNKh/s7QW+oyW47eEm8UAlfmTd9V2QzD3dOrqdeEd
-	mBQoByuwGU+HyLiNMA6bVxnhDN3Rl6a5qgE6tPw7Y+3oDAkl8OAfoI7EtnedFEXOCXhyUj2Vcvp
-	U/5JEk5glc9Aw4c/qs+c54u6rd8FUbBNRe6LVDGURTFnCRzKcvfRKMoLlztnbVZGZ4L8V0nSYlq
-	3rNr3TZfhE6UUurRlftkwzj6oUiO91YlbIZh51L9g4ssQJCjsDQkg0hPhHId2ogmmSMYWDo9ji5
-	6YeJHx5R3I1NMQ1Rz0pKkYBAigFf+pmVaCGyVqrDupfiCSEG+W+PlecfG/MRvIpXxVi55vvCRfc
-	gR8ScbbxDgv9rThdesofsYvAy8aAWn349a3A+3ISUL84MgbvNVRdik2lbQhiymxEXJ2wmjBSqT5
-	CMlBUfmUdEHx07yBxA=
-X-Received: by 2002:a17:90b:2686:b0:39e:4546:fb26 with SMTP id 98e67ed59e1d1-3a072e96de0mr714758a91.0.1790068873149;
-        Tue, 22 Sep 2026 02:21:13 -0700 (PDT)
-Received: from cfarm424.jing.rocks (cfarm424.jing.rocks. [2600:3c18:e002:2e11::c424])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a06caf4a73sm899819a91.2.2026.09.22.02.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 02:21:12 -0700 (PDT)
-From: Ridham Khurana <khurana.ridham222@gmail.com>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Cc: Srinivas Neeli <srinivas.neeli@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	Ridham Khurana <khurana.ridham222@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] gpio: zynq: fix runtime PM leak on request error path
-Date: Tue, 22 Sep 2026 09:20:58 +0000
-Message-ID: <20260922092102.1053513-1-khurana.ridham222@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K8+fofch";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y0r44oIp";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wfyLr/Mm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="E+BXUt+D"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CA9B6219DF;
+	Tue, 22 Sep 2026 09:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790071119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
+	b=K8+fofchFWOwYOyx3KzDPQyIGOilZq0/PYZy3IZ9fvpbZO8Zj8iPBCv0dcLp83HG71O22e
+	u+bOSYXynzFbquKGLjrC1A2zRPKOg/34zzH14RR++kGTWi9a2vtMJfUvKuRYCxMkbTllF4
+	vsKgZxhZWkcPS6H9ZqrcpDjHSXxYJ70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790071119;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
+	b=Y0r44oIpALfJ3Ep7Dz2t1mxdkwT4kOgUluMgJzY+qII5PjcblOVx3A6TZpRc3ifrGtMlN/
+	t2fP0FDi8/pNSUDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="wfyLr/Mm";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=E+BXUt+D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790071115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
+	b=wfyLr/MmYA1O18+FzeiMqsWb2OSwEVAUSESatbDaRWn3B/lxdVjsvcWzPAmOWWXCi2bwj8
+	esIP9p3xCKJld/Kb5FFoOaIhG3D0+PgoPPfjknu8I/IR5xlyiNSUmg+UqPfrC96AMn9c2h
+	q4T6a4z8Ng6MImZQSd1TBP/KP5jHNrk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790071115;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
+	b=E+BXUt+DrdqHUFIaRLqtXHI+knoiaEqEhy19xRFrG3mPyK1UWUqmP5/agsK56M6a8FanrT
+	7g8gUJDLoxm03ICA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C402139EE;
+	Tue, 22 Sep 2026 09:58:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ONGaH0tRsmrpBwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 22 Sep 2026 09:58:35 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 14746A13D4; Tue, 22 Sep 2026 11:58:35 +0200 (CEST)
+Date: Tue, 22 Sep 2026 11:58:35 +0200
+From: Jan Kara <jack@suse.cz>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
+	Brigham Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev, 
+	syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com, stable@vger.kernel.org, 
+	=?utf-8?B?7J207IOB7Zi4?= <kudo3228@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, Jan Kara <jack@suse.cz>, 
+	Deepanshu Kartikey <kartikey406@gmail.com>, David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH RESEND] romfs: reject directory entry chains that do not
+ move forward
+Message-ID: <34t4huzelgho3zelar7vp332rwerth7nso6e76jrfced4chtrt@7q2cjbeymwov>
+References: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CA9B6219DF
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[e8ebfecec06a009dd2d3];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,brighamcampbell.com,lists.linux.dev,syzkaller.appspotmail.com,gmail.com,suse.cz,redhat.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,appspotmail.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,syzkaller.appspot.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
 
-pm_runtime_get_sync() leaves the usage counter incremented even when it
-fails, and zynq_gpio_request() returns the error without dropping it.
+Adding Dave Howells since he put himself into the headers of this
+filesystem :)
 
-gpiolib does not call ->free() when ->request() fails, so zynq_gpio_free(),
-which holds the only matching pm_runtime_put(), never runs. The reference
-is leaked and the controller can no longer runtime-suspend, so its clock
-stays enabled.
+On Fri 18-09-26 17:46:41, Palla Raghunath wrote:
+> romfs_lookup() and romfs_readdir() walk a directory's entry chain by
+> following ri.next, and stop only once the offset is zero or past the end
+> of the image. Nothing stops an entry from pointing at itself, so on a
+> crafted image a lookup of a name that is not present spins forever.
+> 
+> That loop has no cond_resched() and no signal check, so the task cannot
+> be killed, and it spins with i_rwsem held and the dentry left in the
+> in-lookup state. A second lookup of the same name then waits forever in
+> d_alloc_parallel(), and it is that waiter the hung task watchdog
+> reports, which makes this look like a dcache problem:
+> 
+>   INFO: task syz-executor239:5636 blocked for more than 143 seconds.
+>    d_alloc_parallel+0xd13/0x16c0 fs/dcache.c:2839
+>    __lookup_slow+0x82/0x2f0 fs/namei.c:1904
+> 
+> Require the chain to move forward and return -EIO if it does not. File
+> headers are laid out in increasing order and both loops already treat
+> the chain as a bounded forward-only walk, so this only enforces what
+> they assume. In romfs_readdir() a cycle never advances ctx->pos and has
+> getdents() repeat entries forever, so check there too.
+> 
+> The hard link chain bounded by commit d30b5a954e0a ("romfs: detect hard
+> link cycles") is a separate one. Sangho Lee posted a fix for this chain
+> in July 2026 that validates it at inode instantiation; it has had no
+> replies.
+> 
+> Reported-by: syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e8ebfecec06a009dd2d3
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
 
-Switch to pm_runtime_resume_and_get(), which only increments the usage
-counter on success.
+I doubt these bugs have any practical relevance so I wouldn't CC stable.
+But I guess that's for Christian.
 
-Fixes: 3242ba117e9b ("gpio: Add driver for Zynq GPIO controller")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
----
-Build-tested on arm64 with CONFIG_GPIO_ZYNQ=m. Not tested on Zynq hardware.
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 
- drivers/gpio/gpio-zynq.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+The patch looks good, I'm just not sure we are guaranteed ROMFS directories
+are indeed following monotonically increasing disk offset (although that's
+the most logical thing to do) - added Dave to CC for that. Otherwise feel
+free to add:
 
-diff --git a/drivers/gpio/gpio-zynq.c b/drivers/gpio/gpio-zynq.c
-index 15a79d9a2e9e..13e4c5f0e297 100644
---- a/drivers/gpio/gpio-zynq.c
-+++ b/drivers/gpio/gpio-zynq.c
-@@ -798,15 +798,7 @@ static int zynq_gpio_runtime_resume(struct device *dev)
- 
- static int zynq_gpio_request(struct gpio_chip *chip, unsigned int offset)
- {
--	int ret;
--
--	ret = pm_runtime_get_sync(chip->parent);
--
--	/*
--	 * If the device is already active pm_runtime_get() will return 1 on
--	 * success, but gpio_request still needs to return 0.
--	 */
--	return ret < 0 ? ret : 0;
-+	return pm_runtime_resume_and_get(chip->parent);
- }
- 
- static void zynq_gpio_free(struct gpio_chip *chip, unsigned int offset)
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/romfs/super.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/romfs/super.c b/fs/romfs/super.c
+> index 7f783d6173e8..846b57f265ef 100644
+> --- a/fs/romfs/super.c
+> +++ b/fs/romfs/super.c
+> @@ -143,7 +143,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+>  {
+>  	struct inode *i = file_inode(file);
+>  	struct romfs_inode ri;
+> -	unsigned long offset, maxoff;
+> +	unsigned long offset, maxoff, next;
+>  	int j, ino, nextfh;
+>  	char fsname[ROMFS_MAXFN];	/* XXX dynamic? */
+>  	int ret;
+> @@ -191,7 +191,16 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+>  			    romfs_dtype_table[nextfh & ROMFH_TYPE]))
+>  			goto out;
+>  
+> -		offset = nextfh & ROMFH_MASK;
+> +		/* likewise, a chain that does not move forward would have
+> +		 * getdents() repeat entries forever
+> +		 */
+> +		next = nextfh & ROMFH_MASK;
+> +		if (next && next <= offset) {
+> +			offset = maxoff;
+> +			ctx->pos = offset;
+> +			goto out;
+> +		}
+> +		offset = next;
+>  	}
+>  out:
+>  	return 0;
+> @@ -203,7 +212,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
+>  static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
+>  				   unsigned int flags)
+>  {
+> -	unsigned long offset, maxoff;
+> +	unsigned long offset, maxoff, next;
+>  	struct inode *inode = NULL;
+>  	struct romfs_inode ri;
+>  	const char *name;		/* got from dentry */
+> @@ -245,8 +254,15 @@ static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
+>  			break;
+>  		}
+>  
+> -		/* next entry */
+> -		offset = be32_to_cpu(ri.next) & ROMFH_MASK;
+> +		/* next entry; the chain must move forward, or a corrupt image
+> +		 * will keep us here forever
+> +		 */
+> +		next = be32_to_cpu(ri.next) & ROMFH_MASK;
+> +		if (next && next <= offset) {
+> +			ret = -EIO;
+> +			goto error;
+> +		}
+> +		offset = next;
+>  	}
+>  
+>  	return d_splice_alias(inode, dentry);
+> -- 
+> 2.34.1
+> 
 -- 
-2.47.3
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
