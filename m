@@ -1,250 +1,197 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021127.outbound.protection.outlook.com [52.101.95.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BAC4EF15C
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 09:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790071127; cv=none; b=RuK8fE2/AXIZaqrFpWIiXB+L1HAVRsjXJPxl71kMpVFfilqSxPCvisQHwinBNhk5vagsmH1ebBqO3AFq7kx3UhbuTXTLrnukDf6n4mNky/3tcinBfb8/PQCTl4hh7gs2UBOYTPnJV5a5NjHHNjy2klUXgI6eslYg0aP2PYEoWa8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790071127; c=relaxed/simple;
-	bh=RwCFSgGwANKGfvDoF5VZzkTz9TJE6jsyfOd5Cbm/aqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WS6wJcKvhGnhSHq8JXTVsAU/n6D6BIJDEC3AtbedYfuZ3e+xIbdcy74u4tGDfJTl57kD7NIMeoaRAnWB4Bm5d+dUhLX6IuVTqXGj4GpSaTX9dkKILiYRBDxARDlh6q2Uarn9tsdLATPxOiXPcLt31NiA0Uuef8NdSWxDHa9sDTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K8+fofch; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y0r44oIp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wfyLr/Mm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=E+BXUt+D; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48734423A72
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 22 Sep 2026 13:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.127
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790084139; cv=fail; b=L0IJ2n0b+o4ungZXeFnbPv8Pqkhr+PsIZ2NptLRJtHJpaVslXR4pfUOdwO3J+TwPVHivuuQExB+UVTG5QMTooB2R+MB1/7KZ+xuMxdp+Qu0r//MowOiln/KX/+DtqHgicJm0O0C+NgfuXtF9DfA4zfKHUTmdIRcv/RUi1HYU+ig=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790084139; c=relaxed/simple;
+	bh=0TqHePDfklZwYDl2PNCkkz8/sKuNnuXaFYpQXUXl2sA=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=kdcgsDtdGnijsN83WdNjRwIlEH7UT8U8vwDrbgQab08fXOE1FBSSO0FzyMZ2+QEP8+ow30YbLZm8TFA5kEcaWFfDcAp9sFo95qQo5c1Svr21KL4fXhjXeh4bZarTcwYoAEs7T5MnEjisGNvAsp8cqBfyhFwKb0ITiYMUFypevDI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=LRXBWL51; arc=fail smtp.client-ip=52.101.95.127
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K8+fofch";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y0r44oIp";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wfyLr/Mm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="E+BXUt+D"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CA9B6219DF;
-	Tue, 22 Sep 2026 09:58:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790071119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
-	b=K8+fofchFWOwYOyx3KzDPQyIGOilZq0/PYZy3IZ9fvpbZO8Zj8iPBCv0dcLp83HG71O22e
-	u+bOSYXynzFbquKGLjrC1A2zRPKOg/34zzH14RR++kGTWi9a2vtMJfUvKuRYCxMkbTllF4
-	vsKgZxhZWkcPS6H9ZqrcpDjHSXxYJ70=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790071119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
-	b=Y0r44oIpALfJ3Ep7Dz2t1mxdkwT4kOgUluMgJzY+qII5PjcblOVx3A6TZpRc3ifrGtMlN/
-	t2fP0FDi8/pNSUDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="wfyLr/Mm";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=E+BXUt+D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1790071115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
-	b=wfyLr/MmYA1O18+FzeiMqsWb2OSwEVAUSESatbDaRWn3B/lxdVjsvcWzPAmOWWXCi2bwj8
-	esIP9p3xCKJld/Kb5FFoOaIhG3D0+PgoPPfjknu8I/IR5xlyiNSUmg+UqPfrC96AMn9c2h
-	q4T6a4z8Ng6MImZQSd1TBP/KP5jHNrk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1790071115;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dyXC0qvUVpIhSk2IhvGo0kA+uk0SK/Z5hz/KOeDBmU4=;
-	b=E+BXUt+DrdqHUFIaRLqtXHI+knoiaEqEhy19xRFrG3mPyK1UWUqmP5/agsK56M6a8FanrT
-	7g8gUJDLoxm03ICA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C402139EE;
-	Tue, 22 Sep 2026 09:58:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ONGaH0tRsmrpBwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 22 Sep 2026 09:58:35 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 14746A13D4; Tue, 22 Sep 2026 11:58:35 +0200 (CEST)
-Date: Tue, 22 Sep 2026 11:58:35 +0200
-From: Jan Kara <jack@suse.cz>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
-	Brigham Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev, 
-	syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com, stable@vger.kernel.org, 
-	=?utf-8?B?7J207IOB7Zi4?= <kudo3228@gmail.com>, Mateusz Guzik <mjguzik@gmail.com>, Jan Kara <jack@suse.cz>, 
-	Deepanshu Kartikey <kartikey406@gmail.com>, David Howells <dhowells@redhat.com>
-Subject: Re: [PATCH RESEND] romfs: reject directory entry chains that do not
- move forward
-Message-ID: <34t4huzelgho3zelar7vp332rwerth7nso6e76jrfced4chtrt@7q2cjbeymwov>
-References: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="LRXBWL51"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RlZ2yG7qyDEZ9ynkBvH7VSljLCq2W6LKh4AfjXourCpIASNJ1ANsr34BhXXb1zXx1z3Eg4rRZdw6HLWm5OMweGSZi6T3m98kLXo7ZHB2S3uk6bUBpOePfTpJsc0WXq0Wp1KU8g0t1IMSK7/+TcEaE8XVs8f104kEJBmb2NyNKrK4ceYPqhr3SbP804sJoOil00zi7QeLcEa0wvud9/v6tamlp7klywhDSIjGIWzw5LyUeh7xOoHT+WC4TwlqvpSwr+HN+XEgcbA/LeY2Xh6UC016STsd1dsu3jp50o4UjEuw0pQ0w+HB7l1cfxdsVPZWiywXpnTDNxM6rnAqqmQ5vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nqG+APlDHrAl79d7egWwThDnuq+1bxHPdWLsbhcslSU=;
+ b=py5Zp/6jPNnFg/q29IymL4/QXo54bzVvfoxr+xCjyDSXHPdmP/MqYi7FVU/go+4+lo8MlvSk0rtbF1LnDulQhfsUx/p9Pgd76I6nCjLQfpxYRLflv3HNosIdtWXeCovHr57SWoeeB6WKtjx+faiVBSbKk58UbcU/ahTLdqyKUvtju+DQBfRuV2ZnGYkbcD4kLO+4eoM68SxO3gtxcCSMMl6dc/q0FFjX/nwzarf+zCXggqDEt+R9zHhFwqxruB/UHoLnyedDCzpLXy0jjffwjJ9lXkzTL5+B57/EpNM4nDWHq4i56DnqPr+Ply8NKz3xHOc2/3xSzZgFYI2aPxLUkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nqG+APlDHrAl79d7egWwThDnuq+1bxHPdWLsbhcslSU=;
+ b=LRXBWL517saWiAbD9k01abjiTTTDKELl63WOX7VfazxoAiyc7NO/XQIxsFu1Q6O2w3jbhwQsQCvI92LT9260vIO5PCefuJ4YGCuDYirkM6f0ToVxc84OcABBXjAmE5YQl6t6BoSXTw5aGUdtwc5LumScLgFUSX9M0EzD8DgZma4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by CWLP265MB6628.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1ed::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
+ 2026 13:35:34 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0451.012; Tue, 22 Sep 2026
+ 13:35:34 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 22 Sep 2026 14:35:33 +0100
+Message-Id: <DLLVV64UIC5E.10C9AB66BOEXV@garyguo.net>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg"
+ <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
+ <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Jori Koolstra"
+ <jkoolstra@xs4all.nl>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Rae Moar" <raemoar63@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Yury Norov" <yury.norov@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH RFC 0/3] rust: kunit: #[should_panic] and same test name
+ with different #[cfg(...)] support
+From: "Gary Guo" <gary@garyguo.net>
+To: "David Gow" <david@davidgow.net>, =?utf-8?q?Nicol=C3=A1s_Antinori?=
+ <nico.antinori.7@gmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Burak
+ Emir" <burak.emir@gmail.com>, "Brendan Higgins"
+ <brendan.higgins@linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>
+X-Mailer: aerc 0.22.0
+References: <cover.1789500084.git.nico.antinori.7@gmail.com>
+ <d20cc2b2-afeb-432c-924b-55ad00d980fe@davidgow.net>
+In-Reply-To: <d20cc2b2-afeb-432c-924b-55ad00d980fe@davidgow.net>
+X-ClientProxiedBy: LO3P265CA0011.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:bb::16) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260918164645.9230-1-raghunathpalla.0209@gmail.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CA9B6219DF
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[e8ebfecec06a009dd2d3];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,brighamcampbell.com,lists.linux.dev,syzkaller.appspotmail.com,gmail.com,suse.cz,redhat.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,appspotmail.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,syzkaller.appspot.com:url]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWLP265MB6628:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8054b994-0638-494c-dc94-08df18ae60e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|7416014|376014|56012099006|6133799003|10067099003|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	RyFbqY/585SaWT9CWXYiiFy6KavcHDXEtReZfWxamRLf6tqZ33LSGhit0TPm2Ht5Iy2Qrz+JWB1dYTD4U4FVLjnC6zMenxx7TXbC2FrDKOGXyLUxF3OJe3RvRkMzUDYlS8zRLotoFGZ5IF8f+hg2y012blR+BqFG+Z/ybnncvFB0A+yVo7OubtkLRony5HIRD81uQUaPdDmxf9vMPA6lk6zEBANdWjnCw9XVKXJ5GyVwkZNsiI31jfCp69VfA1b0K3wevnRC/lvrEPVKcVu+jlw9lTdY3NJiPl9RklVz+UnK4bujHfYNDjVU4jKJSUAKaC0mE/x+u6AN5wuzoBr6aIoNiTvBfLq0FC6MFSUjJ8Sc+WR9QO9LzHv6DxWUsUTK/MHGJBGqvDW7fiWXrtN8ZFGjDEflYBVem4Th72sh7DO/ahPgoMHOmCAIqzs8dKgvf/0B1eoAWqNbK/7edHLthSFpPyZugvynFZ6cIvBDua7L/pDA6NGh8LJRxqmPi+nfYtOWKqAf6r3wSDbeOvIMGI1kUxYbak7R2w2olde+tDp54UWxtdGHGulv4tZMAvJzG40jCFvWYbnlsG4lLFYawAYQbgnLQEHynag8RCu57IxGuoWJuwl0douKc8OWIopbwBBP90Oon1BNS2VnDgggzPP5JMlu2JG8leNeoWybjuE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(7416014)(376014)(56012099006)(6133799003)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE9qYXZQVFhtc3QyamtnUjlEWTJPR1l6dkJ5OEp1K1FCRVFBUlQ4Q1ZPYmxo?=
+ =?utf-8?B?YStNbm55RVFqNEVZWHhmTGJZdyt6cHh5YWxJaFRWZmdvY1VqN0k3LzVRTVBx?=
+ =?utf-8?B?MDZLaS9ZcGZYSjYyWS83TzhuVmM5Yko4aGpuc1p3NFg1RUFwN1RzWE9yTmRR?=
+ =?utf-8?B?MzFNRkMyeC9pWEtxTTI0UFZRYkpZUXpNSWxsVkhTclowQmRRcnk5WnNvYmxh?=
+ =?utf-8?B?elhYaHJGTTZiVWJsWWU4c2MzMU5SZWhka3FtaEpVQTFMcU5HbHN2N2IrYnU0?=
+ =?utf-8?B?N1VMeTQvZFR4TkVhSzJNMVVEdXN6Q3htZngrZHdDYkdQYXp0bzRwY1hNVzJo?=
+ =?utf-8?B?dDNNaWlEMWNBTGVhQ0tXeDF6NVFYNks0RGxMeXZuM0x6SUtNRnhlWUlONXhE?=
+ =?utf-8?B?UUNNRkZsci9KaUtJNTNya2FMYmthaW1qb2x3SGFsd2JPbFRodWRpUHhBNFBi?=
+ =?utf-8?B?dksxK1Nnbno3ZEtrekZscjM0RGl5eWFsZzdTUVlWem0wMlZZR2podjZaT292?=
+ =?utf-8?B?bCtpNm1Yb0kvOWJLeUZibS9scndEaVJwTVNKMWpQcnZ4d3oxQW1QOGRaUkhR?=
+ =?utf-8?B?NnRTamJ6YmhZdXVZWHVjczNZTnQzZ3lnR0dyWjVRdVlIWDh4b0kxZ1VickZZ?=
+ =?utf-8?B?b0VnQTNVdFhtNDh6RGkwd1JTT25zdlMzVUptU1IrdXVZSVlkYlh5ckZMV3Rt?=
+ =?utf-8?B?alVneXhoNHoyRWEza01UbWdXNVBjQUw5RXpxa21RQno4amRtQzhTc21LcWcv?=
+ =?utf-8?B?NG5tcGZmMm51dWpzenJLMDIwU0R5enJtWGF5aC9ncUdycVZobndzalY0N2hO?=
+ =?utf-8?B?OW11ckppdVY5WFVvYUFJMGdKOU8zYXhjblQ3ZE43czArUjdQZ21BaGZ1WUVS?=
+ =?utf-8?B?Y1cwaHJ3UjFlTC9TR3NWK2xLQnNadlREdVEvNEJldWEvTTh0Z084T2ZiaXBW?=
+ =?utf-8?B?amVUdnU4VXo5dTBzU3FWdUFCNGZTV0NKY0tTSjNiam9Zc2g5dlhCaFNZQjI2?=
+ =?utf-8?B?VE9LNnBFQXVsakdYUXN2QnQ3dTc5R1IyQ3AvUU8xNngwOVl4SUhDU1FPdmYz?=
+ =?utf-8?B?N3ZlT1BGVUUyc3Y5elRzTTNDZFRHTHVMWWhJNVNTTkRUOWE2Z09ReTI1am1M?=
+ =?utf-8?B?bGkzSXZndVZIczJsMzEwSnMrcGRaR3RyYjhlNXdKUndsWkpyNVJVZWR5azBO?=
+ =?utf-8?B?T0s2VXBrWFZ4OEJSUHVsZzlTbXJKRjBHVjBGQnlCRTNvcS9nRFBYZXo3TVkz?=
+ =?utf-8?B?cVJ3STdGSHJQdWxsckUvYWdzaGtPWVZ4OGk5VU1lcWt4dU84bVNnQjBnbnpp?=
+ =?utf-8?B?SWUvSndlY2t1NHBrVTdFTmJJam5mRTArWWYrTTdCSzlmNVBZRDNBMTN3NXdJ?=
+ =?utf-8?B?Z28yWUlkOGFsODV4MzBjNk9lNXlyekNBb0xYeXR6Y251SFZSc21jc3MzUCtr?=
+ =?utf-8?B?SUhIa3lvVk9zQnZvdHhWUUY2blV4T3lLZDA4amZwVVZGRHNoc2hKY1kremNH?=
+ =?utf-8?B?bzFSM2cvRkd5aWxSVlUyMUVESzZFZmN6NUUzY05JZzdEdnZUVjdyb05JdmNQ?=
+ =?utf-8?B?WEo4Y3ZtVUJjYmQwNnZKNzRqTXk0clR1Y2FPMWpQRk9xbVZNOEliSGtZWk1j?=
+ =?utf-8?B?Zy9jKzdOSExJc3BJeWRrTDNMUlF3TWZMcXpkbVN3T1QvNStvcjNIL1Zjalc1?=
+ =?utf-8?B?eXU5aHJ5Y01mTFZxV3pkY2dOMFphQ2tFMGQ4ZWZvNUErSk5BOVFzNUM1Ry9L?=
+ =?utf-8?B?cmtSOFBnK1M2YUhRYlZob25kMVIwNXN0NEcrNGtnWm9yTk9rU1kvclAxQUtC?=
+ =?utf-8?B?Vmh3c3RGUGdDc1JJbUxwTThwblkyWnBKbDVlWXZNWHZLK056QkNxQUs1empw?=
+ =?utf-8?B?RWsvdGNpVjhXVWhhKzJ0MURRYmFpcm1vWWlvVWhnMGJWNlNLaTYxT1VUS3JU?=
+ =?utf-8?B?dS9RbVV2amt1bTF5b3NBa3VjSkZWR3hJUEhqMi9CM0xMVzhKMWdua1g5T2Nv?=
+ =?utf-8?B?RFMxUVZBVkZhUlI1TUl2UU55NXpjYVV6VFpGSExpcDZ1OUZVOUs3R0tORFN0?=
+ =?utf-8?B?a0ZvdERyNXhGVWFldFJPUmx4bUhiUGgxTzRmSGw0eGdmSHMzYmo4YktkNXQ3?=
+ =?utf-8?B?a3FteHRFVlJza1FNRGRxUThPRlJjN25HQUJuZFl1dm45Y3NmMmV4djgvZTVt?=
+ =?utf-8?B?NDhMeGVFVFNuemg3eU1DbkZIQjVjK1lpSFdUQlVFbXdpZ1BjSkp0UHZsOENE?=
+ =?utf-8?B?enNSUlcvVUZ5WDl1RHo1b3BLNVBIcU1lTWNxTUZmUzhnZ3hFK2YzZm5tYUZC?=
+ =?utf-8?B?UmhHaWNrc1BrZExwenRZYXBUYmljS0RzTDI4cVVCVFViaUszNzBDUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8054b994-0638-494c-dc94-08df18ae60e1
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 13:35:33.9755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b1Q3hSRDuqn7ozC92I1CUPbfo0s1w6yCELJDy7RPNa0LzQ9JQHjsLEY5if9wn94CRPctgCeKmT8RyUoGGA9GTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6628
 
-Adding Dave Howells since he put himself into the headers of this
-filesystem :)
+On Tue Sep 22, 2026 at 8:56 AM BST, David Gow wrote:
+> Le 16/09/2026 =C3=A0 03:33, Nicol=C3=A1s Antinori a =C3=A9crit=C2=A0:
+>> - Is it ok to 'stringify' the configuration so it can be distinguished
+>>    in the report? Would you prefer something like `_case_1` `_case_2` ..
+>>    instead?
 
-On Fri 18-09-26 17:46:41, Palla Raghunath wrote:
-> romfs_lookup() and romfs_readdir() walk a directory's entry chain by
-> following ri.next, and stop only once the offset is zero or past the end
-> of the image. Nothing stops an entry from pointing at itself, so on a
-> crafted image a lookup of a name that is not present spins forever.
-> 
-> That loop has no cond_resched() and no signal check, so the task cannot
-> be killed, and it spins with i_rwsem held and the dentry left in the
-> in-lookup state. A second lookup of the same name then waits forever in
-> d_alloc_parallel(), and it is that waiter the hung task watchdog
-> reports, which makes this look like a dcache problem:
-> 
->   INFO: task syz-executor239:5636 blocked for more than 143 seconds.
->    d_alloc_parallel+0xd13/0x16c0 fs/dcache.c:2839
->    __lookup_slow+0x82/0x2f0 fs/namei.c:1904
-> 
-> Require the chain to move forward and return -EIO if it does not. File
-> headers are laid out in increasing order and both loops already treat
-> the chain as a bounded forward-only walk, so this only enforces what
-> they assume. In romfs_readdir() a cycle never advances ctx->pos and has
-> getdents() repeat entries forever, so check there too.
-> 
-> The hard link chain bounded by commit d30b5a954e0a ("romfs: detect hard
-> link cycles") is a separate one. Sangho Lee posted a fix for this chain
-> in July 2026 that validates it at inode instantiation; it has had no
-> replies.
-> 
-> Reported-by: syzbot+e8ebfecec06a009dd2d3@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=e8ebfecec06a009dd2d3
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
+I also don't like the stringifcation of cfgs.
 
-I doubt these bugs have any practical relevance so I wouldn't CC stable.
-But I guess that's for Christian.
+>
+> I don't _like_ this: my preference would be for us to keep the same=20
+> name, and just not emit a test_case for anything which should be=20
+> compiled out with cfg. Unfortunately, implementing that is a bit harder=20
+> than would be ideal: we need a way of evaluating the cfg() arguments in=20
+> a proc macro, I think. (Ultimately, because otherwise there's no way of=20
+> statically determining the length of the TEST_CASES array?)
 
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+This is possible with a trick. In pin-init we have a similar need, so what =
+I do
+is for
 
-The patch looks good, I'm just not sure we are guaranteed ROMFS directories
-are indeed following monotonically increasing disk offset (although that's
-the most logical thing to do) - added Dave to CC for that. Otherwise feel
-free to add:
+    #[macro]
+    struct Foo {
+        #[cfg(a)]
+        bar: u32,
+    }
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+to be expanded to
 
-								Honza
+    #[cfg(a)]
+    #[macro]
+    struct Foo {
+        bar: u32
+    }
 
-> ---
->  fs/romfs/super.c | 26 +++++++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/romfs/super.c b/fs/romfs/super.c
-> index 7f783d6173e8..846b57f265ef 100644
-> --- a/fs/romfs/super.c
-> +++ b/fs/romfs/super.c
-> @@ -143,7 +143,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
->  {
->  	struct inode *i = file_inode(file);
->  	struct romfs_inode ri;
-> -	unsigned long offset, maxoff;
-> +	unsigned long offset, maxoff, next;
->  	int j, ino, nextfh;
->  	char fsname[ROMFS_MAXFN];	/* XXX dynamic? */
->  	int ret;
-> @@ -191,7 +191,16 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
->  			    romfs_dtype_table[nextfh & ROMFH_TYPE]))
->  			goto out;
->  
-> -		offset = nextfh & ROMFH_MASK;
-> +		/* likewise, a chain that does not move forward would have
-> +		 * getdents() repeat entries forever
-> +		 */
-> +		next = nextfh & ROMFH_MASK;
-> +		if (next && next <= offset) {
-> +			offset = maxoff;
-> +			ctx->pos = offset;
-> +			goto out;
-> +		}
-> +		offset = next;
->  	}
->  out:
->  	return 0;
-> @@ -203,7 +212,7 @@ static int romfs_readdir(struct file *file, struct dir_context *ctx)
->  static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
->  				   unsigned int flags)
->  {
-> -	unsigned long offset, maxoff;
-> +	unsigned long offset, maxoff, next;
->  	struct inode *inode = NULL;
->  	struct romfs_inode ri;
->  	const char *name;		/* got from dentry */
-> @@ -245,8 +254,15 @@ static struct dentry *romfs_lookup(struct inode *dir, struct dentry *dentry,
->  			break;
->  		}
->  
-> -		/* next entry */
-> -		offset = be32_to_cpu(ri.next) & ROMFH_MASK;
-> +		/* next entry; the chain must move forward, or a corrupt image
-> +		 * will keep us here forever
-> +		 */
-> +		next = be32_to_cpu(ri.next) & ROMFH_MASK;
-> +		if (next && next <= offset) {
-> +			ret = -EIO;
-> +			goto error;
-> +		}
-> +		offset = next;
->  	}
->  
->  	return d_splice_alias(inode, dentry);
-> -- 
-> 2.34.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+    #[cfg(not(a))]
+    #[macro]
+    struct Foo {
+    }
+
+However, for kunit I don't think that's needed. Deduplicating the names
+should be sufficient?
+
+Best,
+Gary
+
+>
+> Unless you've got a good idea how to fix this, though, I'm happy to put=20
+> up with adding the configs to the name for now. Though if there's a nice=
+=20
+> way to make the names shorter=20
+> (rust_test_kunit_parse_cfg_in_kunit_test_cfg_config_rust_kunit_selftest_e=
+quals_n=20
+> is definitely too long a test name, for instance), that'd be best.
+
