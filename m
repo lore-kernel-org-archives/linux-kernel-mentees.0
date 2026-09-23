@@ -1,81 +1,76 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFAE530DFF
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 16:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BF53E1713
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 17:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790180255; cv=none; b=u/4TTL2zHZdVxnQhjxHmIkGBiG5hdYHJAeS4dyy8mWHtSF9GbYsF3PZGu3F1ldlNSHsrJMHesB0ivrCSBW5vDN2GUA8msFbMctx6MBfomX8R8M+STM7xrPF5IUtcfVkdIaOBeGRrjGdyJuhWRHbh0iGz/VqgkEoRm36ofvW13Jc=
+	t=1790184363; cv=none; b=Ktvsv8waQSi/h9/eLq47RAUoFafteZ+IbhuIaLv1hpJdWmL7xuhRnvqPgm1p3owC7DC/YsFWfz/xU8kGrViQmk3rcnY2Ny3DZtsIpLKCEO8GrIR9FvUHilqifS/G32YiK1s1vTLNhENaqH+5Ly3zjHCWDnjtlPuvgcoJKcSs9eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790180255; c=relaxed/simple;
-	bh=sbnmurq/uAX+vNJcFUT4c5jU9IwDiC579Dx07vz6Q7Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bkAwp0ar6KP7zMdvs5ITZ2IkRN6O23CZPbxHcjleUX41SNg9OkPm566qW4rUkHlCGOyg0W9gLzeEdI08DI8t8/Cd3eMXWb8odUaCBkIWtYOKgTljC7uGGgfUAK/+1wdbhD3wiPUzRK7jGCLybqDUO3uXZnj9lXwfZYruDP/fJas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ARDZZeJI; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1790184363; c=relaxed/simple;
+	bh=3KsAEjFLqBZmEEPAhvTPCECnRvZP15T6L/+sh2LbO88=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kJKlTdsmzZFUHbjz+97CApdf6OY6sg+eUTlC3fXMQcCbLPWpKz8hw4MPDXPTxgVYBb+aDh3AO63U3HCyLAsXTHJY44qieTRm9TcZ7N8RYds6uuaF9Ph0RFiV7FWWBI5tuWtvezwCqIgYL0fQpC7aOUXIYLYWgu5oj0gRMtmEPn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A88+UW2p; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ARDZZeJI"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4843e397f74so12458f8f.1
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 09:17:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A88+UW2p"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8693af0d7c4so790933b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 10:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790180252; x=1790785052; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790184361; x=1790789161; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6FsqUSBp8jlzbulaQzZnxDz2zVSSSTOE4AXgMopXxYY=;
-        b=ARDZZeJIR1/BOiZunAbM3mWHrrtplDhOq+EcjweEKhzcEjpl5lX8weuCAZljTHxzf5
-         jyKE9F6Hma6kKak0vpIQtM+iRoDXm0X2PkwrKukpwBikER6sh/NCViaMqADjKhNhcSFJ
-         7dB1bg5SwsjDJjrmWRQJy9mmBR+d/f1DkktKYcbJBPfFHt0ctjeyHGRt1G05NOTpEfC/
-         iySj/x5cdORiTibC5yrxpuZdDRs7zl66J3GXPaZiarjcW5JnSiHOU+bQ5BXpSl5fGTOP
-         NTJdkc4NeHvywBX+FRvbg9fSmobVMevZUGwsPonjwuib3ynQR5QWBbWsuGbtJP3TlZ2P
-         rGGg==
+        bh=O22RbiDeWdUAyKALr8GFPofw9Urxk2fBLIPun4++/1o=;
+        b=A88+UW2p5nybLPgT9YqVJnVu867qCwrUIurLM2MYTxkbefbYccw25mXU7lkilvlwZg
+         cC54JJWN9bUB5FguPUWXTWoQPyEnsq2NsX0DJjjfjqbX13/A7oaaY07DD7h6WaUlrVte
+         xQfZggDupMpY50BKatV1EtExunPcYOrSiT9nMm9O7S8y8AuCl5bJ7LcRdQog7e6W3r4B
+         bFdOvRtVc0lCQs2vPFtlHAibJrJh+INzitZx3Sj3cpsMxexq/CNIZvS0ZIqtPYlRzsIm
+         R+ZHTG0MDduqNbkMd+IOtcseelP6To+U9ROAYvpBwWPOfYMwhaURhsSla9LNM/8oIoYO
+         V5nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790180252; x=1790785052;
+        d=1e100.net; s=20260707; t=1790184361; x=1790789161;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6FsqUSBp8jlzbulaQzZnxDz2zVSSSTOE4AXgMopXxYY=;
-        b=kZeSd3wuSP2PxyR5f07z0lvXHED4zcX0O8w/3VmHOBqrh7//GOcdBXTKqbG8O2WDtr
-         MU9MBohv2NqBG5F79BK5Bgt/UKGF4FD8LI9knHIvfjjkfFv/jujVuMl6UKAjNcAJ/0c/
-         w5O99eoQtdANLdulqqMfuktnON/kW20oi/7fetLLFBNrjOiPOJE0LNwYyjZ7eP/m9gF6
-         pnSHyzXwz9yMHAMVF4QmMN9ljJ6TR3kZt5kWJmyts+oBXFsSyU53rUbkH7ZCe63zVaie
-         cPNSf9V8KW0E9WqbX8eYKA4XGLV4zWVZ5KFButfGGPGGdp5LyMslA5V1ZmrTB62gZyLl
-         dRXw==
-X-Forwarded-Encrypted: i=1; AKwUvBw98DLmXPH1KLhDWYRAHcL7fSSahOdM+GfQp7NU63wlTICk18ytjYnK3aW39zOppmK0vHS1Ws4kOMGe+D/jTe1XL01uKQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lLo1oqLmFIRRf756Ln9VYoUvXdZGODFj2eyaiZ/pfzlwBMe8LG
-	+ficsOPBMpIOXSV9B7Zcs9ZL39mTzo8sSMLFGFXASzYBYz/I5eJludNy
-X-Gm-Gg: AYBFou1Mn4vHSBR7JzRFokdzdd0MWkZCT2kM4z6CVs8d6eWNp0GSreI8cFvyYoQFw/s
-	Tr3t/4r7POVR7s8KpqCyoRNeqNAnwzszppMRMlEq79I0Hcs3cOdndOVIsGUeNW8mg2uVGYhSgUJ
-	++MptHXCg2qUOGm4k+4eRI4urmw34keF0ZQFoR2Q0e+wOSJSXs5mvhxQYvzuEtnxNULfDXH2oxl
-	XqZoUecf+odcok35/KhwWu6+DefY1Hqj4jkb2ROxFQV2OBCIjplpXJwfh1/rEnJ0s2U6VLmm157
-	XYZHZgriolyW2pNrfmZFfurl/P2WQe3vqGTW0076jdltavKbfChekhPZbvEzBzYAc7MxN8VH755
-	83hP2F8oaePCTc909iFMtS8sxvxvpwvFIYeoTicjjIJvzL3nEINpfCaOLSzvQPCcbtzXgYiLf4K
-	bQLRyA3Gn9pzwjwWq8mClg4AGHLxvTHKLY9VxfS9hnjxH32bBTUx8aLgDZU5qx+t9Owf/Q4N91b
-	dy2kUAl/U2sVCrsvWpwy61c7kbduuGJScIVcH4L9tpnaI9Q8DwP+4HOj5fqeMWxJ086jqt/zMdJ
-	RQ==
-X-Received: by 2002:a05:6000:1788:b0:487:22b1:e511 with SMTP id ffacd0b85a97d-48860f8dca0mr13416589f8f.9.1790180251439;
-        Wed, 23 Sep 2026 09:17:31 -0700 (PDT)
-Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48867b49661sm7602716f8f.0.2026.09.23.09.17.30
+        bh=O22RbiDeWdUAyKALr8GFPofw9Urxk2fBLIPun4++/1o=;
+        b=FmVlVlrBhTB+A9voPcha137L3IrrkeaHDJiKv0tS8FBrbhtc02fR611xF8rakdGMpj
+         qADIFUNbVEh31Kf7IOkgv5QI1lYu6G0jzLHmRKIb/KsTXGyhbSosUUF0U4YEtP3dEz1v
+         KpP7WimU7TgDrqSeGouNNG9yhFil0GVgyuEqqQFMjMXlw49ZRG/vTANq+DQvKK7sPNLx
+         55M6PVv+YGRkkJe7f922p47rSiKwBp5iwAvj9QELsZHQdyxhW0c7s45ffXdsalkHqJD5
+         6xFyJuPUs5DCmUctY2lFGn2VVXAyXRCrlFhaPU9o/vOgFcJTXqKxArTzzvEy//7vqOo7
+         qlPg==
+X-Forwarded-Encrypted: i=1; AKwUvByRqNnCawhFu3VhKpSlMsAUSaY/gMCLu72SRqNpcsDqE+RKicJ8hx4ZYbNvcpCwf+Z2XfdKTMFf82YZ4KjmEkk/8ZFjWg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mE5GtVXOiurlQXg2jz2ilm3ENMwRMBDv+/GiY+nRRCjLSfWoPC
+	pMjatqOOG3s4O3LcDXP5cnlJqURsmhziwR4ZUbbwEcVn+YttnhDp/4yrqtdUFZRk7QwQNA==
+X-Gm-Gg: AYBFou2AfxKSUS1167Rz460Ae8oSD9ZfZzAFr+xHXkWId76JxN+5JKDW2rX5qeBSh5M
+	vY77t7Z//sco/H4irj6e7URrOJxAvwMfu2N82GaPWCnkUXfzbfV3huOzBrPIVte9UkAw4hricWg
+	QK3vRoApsahgjI4Z4c8dWHraxRSZcK90TmpJy8ZLKMdx2gU9G4pXnErwL9i97ppy09rTO5gZwT9
+	EwSfbR2jhfLRKEfnj1nkpB6vAzF0AaKDAdgGwRiSSernsx2lr48YzL1XhT6bCSIbDT7S94H6eHS
+	ONetAiGDmsE2/p+F4gIcLbOVToJZgvaA9TeJ/UxRKv1HW6M7GS5J/LdLA9pqlJE3VXg7ALSpt/k
+	Cwi9QewpSAqE5DSGCHt+6P65nkSLt5BGiAggruZeGbDGebF4q1n1rd306+2HGdGyhO3QmdZrJK3
+	UUZCLVnlf7OTTiHHdUwIvkMSQfznxSRnbDfAdeyCQoau+1iCa2RGHBRlKJRcC+nDTjnsWnmWfu5
+	OXGO+UgZZ/5r8M6ef6K8wDbLSjcwIk=
+X-Received: by 2002:a05:6a00:14d6:b0:86b:4138:4084 with SMTP id d2e1a72fcca58-87d19376b36mr3446218b3a.15.1790184360521;
+        Wed, 23 Sep 2026 10:26:00 -0700 (PDT)
+Received: from cfarm424.jing.rocks (cfarm424.jing.rocks. [2600:3c18:e002:2e11::c424])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1e601b5dsm1685893b3a.61.2026.09.23.10.25.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 09:17:30 -0700 (PDT)
-From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: Shuah Khan <shuah@kernel.org>,
+        Wed, 23 Sep 2026 10:25:59 -0700 (PDT)
+From: Ridham Khurana <khurana.ridham222@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
 	Brigham Campbell <me@brighamcampbell.com>,
 	linux-kernel-mentees@lists.linux.dev,
-	raghunathpalla.0209@gmail.com,
-	syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com,
-	Song Liu <song@kernel.org>,
-	Yu Kuai <yukuai@fygo.io>,
-	Li Nan <magiclinan@didiglobal.com>,
-	Xiao Ni <xiao@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	"Trela, Maciej" <Maciej.Trela@intel.com>,
-	linux-raid@vger.kernel.org
-Subject: [PATCH] md/raid0: don't BUG() on a bio that lands off the end of the array
-Date: Wed, 23 Sep 2026 17:17:28 +0100
-Message-Id: <20260923161729.122240-1-raghunathpalla.0209@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Ridham Khurana <khurana.ridham222@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] hwmon: (lm95245) Fix negative temperature conversion
+Date: Wed, 23 Sep 2026 17:25:48 +0000
+Message-ID: <20260923172551.1593798-1-khurana.ridham222@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -84,133 +79,45 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-find_zone() looks for the strip zone holding a given sector and BUG()s if
-it can't find one.  That is only a safe assumption while the capacity the
-array advertises matches what the zones actually cover, and a personality
-takeover can break exactly that.
+temp_from_reg_signed() uses only the high byte when the sign bit is set
+and drops the fractional bits in the low byte. Writing -500 to
+temp2_offset stores 0xff80 (-0.5 degrees C) in the offset registers,
+but reading temp2_offset back returns -1000.
 
-level_store() lets you switch a live array to a different personality.
-The new ->run() recalculates mddev->array_sectors, but level_store() never
-tells the gendisk about it - it is the one place in md that changes the
-array size without a set_capacity_and_notify(), which do_md_run(),
-array_size_store(), update_size(), md_reap_sync_thread() and linear_add()
-all do.  So when a takeover makes the array smaller, the block device goes
-on advertising the old size and I/O sails off the end of the new mapping.
+Negative temp1_input and temp2_input values are rounded down to the
+next whole degree the same way. The chip reports -0.125 degrees C as
+0xffe0, which the driver returns as -1000.
 
-syzbot got there with a raid1 that had no metadata.  Such a member comes in
-through md_import_device(dev, -1, -1), which never sets rdev->sectors, and
-the check in bind_rdev_to_array() that keeps mddev->dev_sectors inside the
-member is skipped precisely when rdev->sectors is 0:
+Treat the register pair as a single 16-bit two's complement value.
+lm95241 had the same conversion fixed in commit 0c2a40e2fe4f
+("hwmon: (lm95241) Fix negative temperature results").
 
-	if (!test_bit(Journal, &rdev->flags) &&
-	    rdev->sectors &&
-	    (mddev->dev_sectors == 0 || rdev->sectors < mddev->dev_sectors)) {
-
-md/component_size had set dev_sectors to 2048, so raid1 came up with
-array_sectors = 2048 and the disk got a 2048 sector capacity.  Writing
-"raid0" to md/level then took the array over: create_strip_zones() rounded
-rdev->sectors (0) down to a chunk multiple, so the single strip zone ended
-at 0 and raid0_size() returned 0.  The capacity stayed at 2048, so the
-partition scan on the next open of /dev/md0 read sector 0 and fell over:
-
-  kernel BUG at drivers/md/raid0.c:318!
-  RIP: 0010:find_zone drivers/md/raid0.c:318 [inline]
-  RIP: 0010:raid0_map_submit_bio drivers/md/raid0.c:568 [inline]
-  RIP: 0010:raid0_make_request+0xf17/0x10b0 drivers/md/raid0.c:626
-  Call Trace:
-   <TASK>
-   md_handle_request+0xb0a/0xe60 drivers/md/md.c:417
-   __submit_bio+0x27f/0x340 block/blk-core.c:681
-   submit_bio_noacct_nocheck+0x4e8/0xa40 block/blk-core.c:792
-   block_read_full_folio+0x7a6/0x810 fs/buffer.c:2373
-   read_part_sector+0xb6/0x2b0 block/partitions/core.c:724
-   adfspart_check_ICS+0xb1/0x960 block/partitions/acorn.c:357
-   bdev_disk_changed+0x851/0x17a0 block/partitions/core.c:695
-   blkdev_get_whole+0x372/0x510 block/bdev.c:793
-   bdev_open+0x324/0xd70 block/bdev.c:1002
-   blkdev_open+0x461/0x600 block/fops.c:674
-   __x64_sys_openat+0x138/0x170 fs/open.c:1434
-
-Just refreshing the capacity in level_store() is not enough on its own.
-If the size is managed externally - md/array_size written while the array
-was stopped, which slips past array_size_store()'s -E2BIG check -
-md_set_array_sectors() does nothing, array_sectors keeps the larger value
-and we BUG() all the same.  level_store() cannot turn the takeover away
-the way do_md_run() does either, because ->takeover() has already run and
-the old personality has already been freed.
-
-md-linear has always just failed a sector outside its mapping instead of
-asserting, so do the same here: let find_zone() return NULL and have its
-two callers report the bio and end it with an I/O error.
-
-Tested both ways into this state - a takeover that leaves the array
-zero-length, and one where md/array_size pins array_sectors at 2048.
-Before, each panics in find_zone(); after, the read just fails:
-
-  md/raid0:md0: sector 0 out of bounds, array size 0
-  md/raid0:md0: sector 0 out of bounds, array size 2048
-
-Reported-by: syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=422b372cabfbaa528725
-Fixes: 9af204cf720c ("md: Add support for Raid5->Raid0 and Raid10->Raid0 takeover")
-Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Fixes: fffd80ccc1e6 ("hwmon: LM95245 driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
 ---
- drivers/md/raid0.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Build-tested on arm64 with CONFIG_SENSORS_LM95245=m, tested with i2c-stub in QEMU. Not tested on hardware.
 
-diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-index 35e103f0c2c3..04c022d74fae 100644
---- a/drivers/md/raid0.c
-+++ b/drivers/md/raid0.c
-@@ -301,6 +301,7 @@ static int create_strip_zones(struct mddev *mddev, struct r0conf **private_conf)
+ drivers/hwmon/lm95245.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hwmon/lm95245.c b/drivers/hwmon/lm95245.c
+index 11553391f54b..925574b8b0ca 100644
+--- a/drivers/hwmon/lm95245.c
++++ b/drivers/hwmon/lm95245.c
+@@ -96,9 +96,9 @@ static int temp_from_reg_unsigned(u8 val_h, u8 val_l)
  
- /* Find the zone which holds a particular offset
-  * Update *sectorp to be an offset in that zone
-+ * Returns NULL if the sector is off the end of the array.
-  */
- static struct strip_zone *find_zone(struct r0conf *conf,
- 				    sector_t *sectorp)
-@@ -315,7 +316,16 @@ static struct strip_zone *find_zone(struct r0conf *conf,
- 				*sectorp = sector - z[i-1].zone_end;
- 			return z + i;
- 		}
--	BUG();
-+	return NULL;
-+}
+ static int temp_from_reg_signed(u8 val_h, u8 val_l)
+ {
+-	if (val_h & 0x80)
+-		return (val_h - 0x100) * 1000;
+-	return temp_from_reg_unsigned(val_h, val_l);
++	s16 val_hl = (val_h << 8) | val_l;
 +
-+static void raid0_out_of_bounds(struct mddev *mddev, struct bio *bio)
-+{
-+	pr_err_ratelimited("md/raid0:%s: sector %llu out of bounds, array size %llu\n",
-+			   mdname(mddev),
-+			   (unsigned long long)bio->bi_iter.bi_sector,
-+			   (unsigned long long)mddev->array_sectors);
-+	bio_io_error(bio);
++	return val_hl * 1000 / 256;
  }
  
- /*
-@@ -471,6 +481,10 @@ static void raid0_handle_discard(struct mddev *mddev, struct bio *bio)
- 
- 	orig_start = start;
- 	zone = find_zone(conf, &start);
-+	if (!zone) {
-+		raid0_out_of_bounds(mddev, bio);
-+		return;
-+	}
- 
- 	if (bio_end_sector(bio) > zone->zone_end) {
- 		bio = bio_submit_split_bioset(bio,
-@@ -566,6 +580,11 @@ static void raid0_map_submit_bio(struct mddev *mddev, struct bio *bio)
- 	md_account_bio(mddev, &bio);
- 
- 	zone = find_zone(mddev->private, &sector);
-+	if (!zone) {
-+		raid0_out_of_bounds(mddev, bio);
-+		return;
-+	}
-+
- 	switch (conf->layout) {
- 	case RAID0_ORIG_LAYOUT:
- 		tmp_dev = map_sector(mddev, zone, bio_sector, &sector);
+ static int lm95245_read_conversion_rate(struct lm95245_data *data)
 -- 
-2.34.1
+2.47.3
 
