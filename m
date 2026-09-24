@@ -1,123 +1,105 @@
-Received: from mail-vs2-f25.google.com (mail-vs2-f25.google.com [74.125.227.25])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568E259B673
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 22:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCF33F4822
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 16:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790202992; cv=none; b=WXWqB6QFhoEMwcEtDb5qkDHjeJSfUrjO6u3lskkPIJ2Czu656MwtZX0kgXiizd2fUT4sbNMd4PVMJlTLzKvo8Kj2tPhj0IgJJrIxoiEF+bE0pNLVuG0KecxD8XU4Ulwb8PSLkRHnW8XIaeyO8N5FH7Mif07ISvZGsqXWngzFwXU=
+	t=1790268501; cv=none; b=g5F0UE0wHREgJpM5TZMezWQkCHmNkVNQgnihZLgbV4HU1ct4xvLAbNiRlZj57flOdYIkIG/llzCMXVpG0mTbvhLQkS/aPZsJhURTuSlix/LcAjHXXBtd46kvU6ug2WEalvp/+OuO+JwUCz/c/c3fzvle8AwYpD6Cj5MrgAzAbKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790202992; c=relaxed/simple;
-	bh=hko1Wr/P+mWTP60B1SdiXSjPWfGT6Bm7y3xjnUp5+yU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=syix5+RQ65EBEC/wbuMVznZeBH9IbwaBHLOLkUlqulAPE0R4wenw2keDyeLLkedG6gPBMdQb2ZCy1wv3z54+ZwtRDL3oH6O5v5fatTzIrDSkzMsI/pPoIC7rsnRkv5W4w8QHxm+7rPohrC3idhWaULqOtuuJCYk3r9hKYTFrqPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Equmowrm; arc=none smtp.client-ip=74.125.227.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1790268501; c=relaxed/simple;
+	bh=09gWLrxV9B2YL08j33NGm5uI7VMhjtGXOM0U4bCV5Gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jp3yOBtiAG0QvPY6n6GyKhjNZeoIxdeMrfOA9BRo4HCtPf19+52zGBn3JmCol6imO/15AMjTwENI2Inp4/qIRySe9UWhud2/JEfPeEQ8FFKRbUejSixcVPDGSYQ0Lm2Bc1o49TOSUaC+d9fJkZxoet0+OkQsvzBXr/jJGl++lAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlXkpQpx; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Equmowrm"
-Received: by mail-vs2-f25.google.com with SMTP id 71dfb90a1353d-5c67e5059fbso475938e0c.3
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 23 Sep 2026 15:36:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlXkpQpx"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b350c69b4so89337a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 09:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790202989; x=1790807789; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jqAh36LRZFOSOGvgNmY+eEB5gitwvA40LvfMFJdUpDA=;
-        b=EqumowrmvfGZx7Y0eIfmYQd/pEjD85j/GzUxrXh8XDg9G4EV5F4gh9++o2HSp27ij0
-         9SxUpIJjpLuBTGNmGfU7GFhR5NLsr2ZX64/rKX+USV4fXivEEAvWh/lk8CXVla8KJZ3A
-         YWsBiT7gs7fE22Se/Vlt7KLkZOqXGMtJX3EsO1irdoJ9BiuuEs4c5tvXTRQQDCFqTtf5
-         w2G3RnyG4LJUHoczXnMPmaxd5h2nWu4CjGs4BjyGrfSedn9mUjTEYSh4rX0PfBa4WYP2
-         /MrJDgctzRMAvChJVqRRiA0w0z6MLTSSg1Vnen96Mukke04b4+C0T63FyCnSOL3uu2nJ
-         XIqA==
+        d=gmail.com; s=20251104; t=1790268500; x=1790873300; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vcbua5mIvOolDP5npCwiYAbITQjIUK3wgIKLBNoELyk=;
+        b=HlXkpQpxXh3rwgNhuY1BgnGNjCuDq/IoNSbqV7M2zqmzER1oT6dAFp2GPH1C6MLo0p
+         vFXW/xTo7GNpy8qbxtuQ2wbrjT/IEN20ogdLICts5mU1vih4O/eLUhdupygOraatGNk/
+         dbp85xCplR/CVviU4HiyRXxJBCSo2Vs66+kpNYaTLNrRqBDuBqOAkb2iDTYjDBoYWsn9
+         ZP0ruy6G0u8S/DRcnxqxWDs3OQvGCw6HVSuTSemmnSKHxvBkRHR/SEe84pXFcJZ2Zwgc
+         FloYc3EvN97K83LYJR5/mR8Px7Uc2ZBTOklwphVMg9dkCUwMfW+tuC4MDOUb2qngZVr5
+         v6VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790202989; x=1790807789;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790268500; x=1790873300;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jqAh36LRZFOSOGvgNmY+eEB5gitwvA40LvfMFJdUpDA=;
-        b=Sm/0aG5kwUqzgpOWYnfnKoXOGYAAeQT8AVLPck24qbEZeP9Ey/Kd7EtfA579YMycXp
-         /uoXqBlOoD5K7NUM3EmHRAEoPDu5JOpaqd9CtCF2DcC1SFCjDMFzK+7YEvJpetnHQLlc
-         sLQOozCLpsud7js7GwSQ/eMfpqcOfCvRmFzzrp4Q6E22I75aVKcsrjeg1sIlnIJ83EMN
-         SMv9P0862zNtRsAEpTtYiA7B+4SBJ+S7tX7r+KOC2jIISMpXC1PnsuHEdUcpl4ItxzLp
-         ShmnEzVYLN97Mvsfx4qwweMgENtZ1Pf4RpMctH4Y1hAwKu1CdCNVfOQNCM5ytKfugvrC
-         rEaw==
-X-Forwarded-Encrypted: i=1; AKwUvBz6+1X4EA/swhtgdWDRfVFOFD74A4YS+WpAPrBmqP7elfSjCQDq45ZX+hIcykMpVST10OXVIhm/5DJC6UDKeg8NkrDxaQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lclqG/0nRMy0qZo8bHQzOc7nFltAZFNiEOGvQsL2vfyPlixP/C
-	1zIx3ZEzPG8mlnBe97zPQROiBwdQg5LWSiCeLZC737vR2EDKEDKY53A=
-X-Gm-Gg: AYBFou3RhPaGkVSkwE5hoIq7bKcQB6ARwZOslxI/l4LdLJgoGzsYHLeogf18CjyULTW
-	9T/e6ywbrDjm6Wz4r6ZHVP565xqouleVw5ip0rXEJXdwAq9x4ATHyuhFiXTRFpW9tBo0VvEvV5y
-	WoTEqsOdiodJ6mMzrIfD1JX/ZuPDT5NWWQ7o+R17CPqcaQkcB8cWF7eabTMrG5xp7cxEnIRdQzM
-	VFv1rj/sKsxXPaOqKvsnI6HbDo+eEZ61GAIMwesHHexehm1FLHLgtUxwhcM6nzSqATYhKe+mFVV
-	QdxiveIT2DPPK+vI+hi9IAAxSyK2vir5aTTggel829tA7fRyAXi9qTnBBkG0BX12NHfTrThjhu6
-	k5VwdA2tbrvcLQWoBu1P+kuQ7fl5cGAx7qWTdBDbk17wm/4Mg9NKJhx5u1cT3q3biBfIDYJLH+d
-	zoAAkm2UvIQbEZMKqvZbmFQncN8PekcNJzpf0cSPZ6x41cpJWcA3qEFTEwm+kzer78KZ1H9XUnW
-	xXmK0TzVZ5CGs0Oam9ZDWcMw9mgrwKyzw9oH8Mehrx6BLOGsg==
-X-Received: by 2002:a05:6102:2914:b0:7a6:e08f:9fa with SMTP id ada2fe7eead31-7af1cc992f3mr537802137.13.1790202989138;
-        Wed, 23 Sep 2026 15:36:29 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c9f04fb621sm5162983e0c.9.2026.09.23.15.36.18
+        bh=vcbua5mIvOolDP5npCwiYAbITQjIUK3wgIKLBNoELyk=;
+        b=U9SUf1NdMY9Xf3C1FgFij4RHuoFGawvIm5epjoa0MPj166db2Q+izWxf+HqQkWavwv
+         TNaCBaTuIVWzod2500k1chi/m3j157vAqacNocVJmEEc47cQ8JZ1bchZP0boNPftwihQ
+         UH8mPSm2wnLpOwKgzmBHb4WSJC7+GPViJCnjGhschG3dzz6lEpC9MGtEsejKLrXZ/ctk
+         Df1B1/xoJje7T8iIkdMAZmG+MAsuyE5L2wV+ZMwYls5quV/yGyc4cZtZn8Yv+PYDveFk
+         iAtzOWNeBIcIXPTr//vc2ABu8YlRk3IxNcDrWeiiJAkdoieHzgVmPg36d+7TOFN7ru/U
+         gqYg==
+X-Forwarded-Encrypted: i=1; AKwUvBx+Z3DA2PLrkSRa9sdOQBr+R4j6wesZNrORSrup38taGWq73qso6JNJEsX/WjISc1wBH7Cnd55onKj+baIsSHTVx/kxLA==@lists.linux.dev
+X-Gm-Message-State: AFuF++ky6JVm04CkHAD3X1Qq/kleOOhrW9fvVngj2OWGPb6jPfM/ctoU
+	ly4Zpuz2ZS5D1WAMF4evGQ35Tf9Wg0wn4+ExpRhnJNbu/sGoFOe3SCPG
+X-Gm-Gg: AYBFou1S7IWUQztGHcFZJmEKpG150OVau8xiGSjMGzDcb35GO76GQV3yjEBij3jdL86
+	4uEZVXt0DPkA+VN/zt5DU1TIMzi8g3rQ9i0ySpr4p2W121w2uAUpLSy/NBkGEARXy2qodr3pdqE
+	joD/V2aWwd/RS5mxMNnnPl5j7rKU4JRkAw4b0NU9IEDacKvteV9FQKWrcpip1zkU7X5vVtUBYDu
+	7Hvy6LNNOwEKtKHWaYs7kQ6buprKY5IKicFjUqby1JhszL27y0MJYAvbhT2OrT6aVc0FKE3d4ZO
+	FozAvKEPJb3XAdJHKJU8VQC5Twycltc5+OQLt++1clSS6bwo3O32F9m2yAqLCgiYrWMq2Z/KtWC
+	oixYD0UHmIWciIPHAxHP4ETFSK9Dm14z4ZB8WumzF9RrXcPrqFgGsD5vBxNk4pNMnhb3W2mLkYY
+	NCYVCJhysKIk4OepUOD3X+KZk1zXChxYMshwxZ9A0RbBjwJm5v3mtqmO7fY9L75NfxaIJLEXciw
+	alK/pe4mCIz
+X-Received: by 2002:a17:90a:1108:b0:3a0:9ed5:5420 with SMTP id 98e67ed59e1d1-3a09ed559a0mr1484080a91.44.1790268499752;
+        Thu, 24 Sep 2026 09:48:19 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a09733f48fsm5863409a91.11.2026.09.24.09.48.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 15:36:24 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
+        Thu, 24 Sep 2026 09:48:19 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 24 Sep 2026 09:48:18 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ridham Khurana <khurana.ridham222@gmail.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shuah Khan <shuah@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
 	Brigham Campbell <me@brighamcampbell.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v5 3/3] MAINTAINERS: add entry for Chipwealth CH1115 OLED Controller
-Date: Wed, 23 Sep 2026 19:35:15 -0300
-Message-ID: <5ba56a096d825fef6b291f4cddfdc5f0caef9dbb.1790200427.git.nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1790200427.git.nico.antinori.7@gmail.com>
-References: <cover.1790200427.git.nico.antinori.7@gmail.com>
+	linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (lm95245) Fix negative temperature conversion
+Message-ID: <0d7f2c30-a775-43ce-a74b-a2019558e5a6@roeck-us.net>
+References: <20260923172551.1593798-1-khurana.ridham222@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923172551.1593798-1-khurana.ridham222@gmail.com>
 
-Add MAINTAINERS entry for the Chipwealth CH1115 dot matrix OLED
-controller.
+On Wed, Sep 23, 2026 at 05:25:48PM +0000, Ridham Khurana wrote:
+> temp_from_reg_signed() uses only the high byte when the sign bit is set
+> and drops the fractional bits in the low byte. Writing -500 to
+> temp2_offset stores 0xff80 (-0.5 degrees C) in the offset registers,
+> but reading temp2_offset back returns -1000.
+> 
+> Negative temp1_input and temp2_input values are rounded down to the
+> next whole degree the same way. The chip reports -0.125 degrees C as
+> 0xffe0, which the driver returns as -1000.
+> 
+> Treat the register pair as a single 16-bit two's complement value.
+> lm95241 had the same conversion fixed in commit 0c2a40e2fe4f
+> ("hwmon: (lm95241) Fix negative temperature results").
+> 
+> Fixes: fffd80ccc1e6 ("hwmon: LM95245 driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
 
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Applied.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 054178b88dcb..0a3c3e6f0af1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8665,6 +8665,12 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
- F:	drivers/gpu/drm/panel/panel-widechips-ws2401.c
-
-+DRM DRIVER FOR CHIPWEALTH CH1115 PANELS
-+M:	Nicolás Antinori <nico.antinori.7@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/chipwealth,ch1115.yaml
-+F:	drivers/gpu/drm/tiny/ch1115-i2c.c
-+
- DRM DRIVERS
- M:	David Airlie <airlied@gmail.com>
- M:	Simona Vetter <simona@ffwll.ch>
---
-2.47.3
-
+Thanks,
+Guenter
