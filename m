@@ -1,132 +1,117 @@
-Received: from mail-dl2-f42.google.com (mail-dl2-f42.google.com [74.125.229.170])
+Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E024D4A3F00
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 21:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D1B4248DB
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 23:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790286427; cv=none; b=F+Lr4DMZndPSr958Q78d1Gst7n0E6noAFZdcmTLjADZHzcOXaKHZ/LxMBH4NhzTZT38rnuYdAT3Jpl4tZkjWE9ppCX0AqQIhPuihKxY2kuVvtpo2hKvHRjLZsdzFNCpo6UlSzhgiPX2FrT8BFIhK50qFg1FNt8+x8lUYwRXDEOQ=
+	t=1790292238; cv=none; b=NXo7mU1ukyEeHzJXYPGbTMbP/IlchmiYeG38o8c/WAu5hJdogbvhxIQ0fy5BdlIizLkxVGHVLMpkHWvfN488bkUt5ret1NTuoyDCYcBosUVozn0aohH0cfmfaVYDP38Wr5R4GE8BW+02e6w3PNILZpM8mDgtGW5B0AaLZBUGYyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790286427; c=relaxed/simple;
-	bh=sJB8a2Uid+eUS/2yZz14rm+h24VJn2Vq54W8G0uPAe4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b7DZjsRco+P9M4fBhn8ozbStcsWdPC9bFYtOrSDnI8O4vIa6CODaUpLUbJMJ6XVCAWK6qskAKsyr9zMCG7KUCmNHH5gmHEE0z/AqhKClkZ3VIdOcByDpO/YepPZIfxyEt79DMjCaoy2z/hsB146ED4FjGVnjppmZFf4geKMZHvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RVXXqu06; arc=none smtp.client-ip=74.125.229.170
+	s=arc-20240116; t=1790292238; c=relaxed/simple;
+	bh=L9s05IwcaEGjCqGmULp2mdtQR1iZBPLwYB39kXJUY+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KrfW+YSujIijbEQUEdugXBQX2bChCPakz1KNWpx3LAUCwH+xX75/bPFoimU4lNUBYu4nmuHpbqzeP1giKCCS1qU9daMriutuigSkxaHydXs7viXItogG6sAlobUp8zOE1diiQTKXZ9+qhwc7M8dP0HasVSnuVcXNQD+nKJx0LQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LyKLJBlo; arc=none smtp.client-ip=74.125.229.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RVXXqu06"
-Received: by mail-dl2-f42.google.com with SMTP id a92af1059eb24-144efd1ea76so197578c88.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 14:47:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LyKLJBlo"
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-32dec843c37so350588eec.3
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 24 Sep 2026 16:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790286424; x=1790891224; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vmbHwdbLykki4BBoXNNKdYpZGlaAV7d37IywwLOJY5w=;
-        b=RVXXqu06TKMZNoK5T484bEz/L+wQIbcDWqF5HnQUBiw1k5OUU8VS3l0hc9qkEQ2K2Y
-         ryIxZamMuE4llM895kpX3Db6iIkEzmAO8UITnUyCzzsXDzrgl9IW9ZQP6qzFc00LuxH+
-         G+T9Xk99NFna/N8PWP+/LC+F3taF9JUQhLz6Z/99HCWbGnC2SQ6pCOm8gY2ys1oRhOtl
-         xKiY+GMonbLizPPdvk41Dm2hJOaPY0UepEuuA5Yh6sthECEo6uHgnwxs7wiiJoboGr0f
-         k8Iki/TkhIRJDmE2nWPkmYl3sjE0fvS1MHOrThpre2wixvd1xyC/xB/hBsdKErgZo6US
-         d3Vg==
+        d=gmail.com; s=20251104; t=1790292236; x=1790897036; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N0BCZSjIX+UY6/4hcfUjcg/hMZ34STcp2U1v/I0YunY=;
+        b=LyKLJBlo7dkPv9fZiQF/Yw6qj2yehwqrinBUEvm+YFRwnx0F3BfraYa4UPrnT4RAPc
+         TLvhK7MA/0FDVTBs1QZhNUkGZwUGihl3He7N/DdzrFPDuk8/pMXg+5/wuPETvB7Io+2e
+         7wf5jC4sgwzaEVFJi1NgXWT8oGRYd8hnd3kVl6Sqs3O1RhK4yTHO9o9PHry89jDBnAcF
+         ygEN0bIiZc260ZcFSlTUWTiDory+iJWThMsJpeqOtqpFgadc/F7TyFhXvstrsnlnTvqz
+         jGbBq4tOtYHYzHjflKbVHgVN3IiB4QSflMOzcp5eE8rzjU+UJaP/QqZIcW3g3AjMzJWY
+         iWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790286424; x=1790891224;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vmbHwdbLykki4BBoXNNKdYpZGlaAV7d37IywwLOJY5w=;
-        b=0aHJjwq6wqAi7N2SV/rfYbDMxYCcjEykxpYfG6DV/IFQja9Piw8LOVY++V/33eRueq
-         RrIXjgl0/RaWPoD66dkT6QlWIP07kp098VIbvRqaZPV17UpHuAu4pdyCUenbUrKTUwtT
-         scbWE3j9qg1hMxizJ/HRXKeiHcYZZQebKK77S6TQC2kj32XV4By4G2bQ5VVVFhrXX9ya
-         w1Ib2DcyVw8Azgab4uXEQmmIqDsLltun+p0SoDbaLYkMFAz2aKujoBsUhzvBMlhPpLI7
-         3cJameqZQ19dxZ4dZ2TxYzr2ZpPpdCnjJcIqyWKmU+ysYSLEZrzDtLJ0Wiw7Ou2L0gom
-         2xrg==
-X-Forwarded-Encrypted: i=1; AKwUvBziLQteo9EozaldAac4cdXe8HOlXKilmCVKxLgq0+BBdjw8mIZ8CW3oixtay4EIxUciFOQyKQ/ldSeosNVt7FvGrzlgQg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nAbbAnPPdCZMPqwo03YL+rWVRRHfADkDgtAyxcB6g2jF90Vz4o
-	3v1L4Ya0JwwzVrbqZBtPx0EdpCB48GtX/a+jNRGTob7cI1spvXHPt6w=
-X-Gm-Gg: AYBFou158lF59ELd+htTX9mnbjR/G69MMLFexxFqgKdsfhiYXxFwo/uz0rKxR7d4NdU
-	EVSpSd31uaYR4hc+pwHeqOZ3ZQhnN1UqGuaTJzsGa4NACGWthFmWpResIJclUnGy8G7FXa+dRW4
-	a9FrKV4Fu8efilh1oQpbmxohjt63LVcD/ilHKe5gatCDZEP/d+T9gCUYMmCkC5fvtjaHiD8ZvX/
-	E6Esz37diAxS52jMz4JLD/5Okp3LUfmpiaLvpMgkE5sSuMq09nMQWWIW8s8tjA73jBWkaIlhJKS
-	eV55qwncbKUu/S6h8HaTYjRQtqU7/dNU6p1yG9gB076vHHkJrUld34iJIf1JFQiHOQ+rPhzplBN
-	yJuDNoiguu7BtL5rU+1FFMmJlrs3LYU3raGox3po5Btpszn4o04r3wF+yTZyag5hNK2Nxw03yMp
-	+iMEsKQxp47Ja2ai3B+KuW94RbKzQxCgHzv5UnQL6bD0dk9HOwoSYVIcA98peCEXKm+qCHrd3bW
-	wQA++XpscTH5/jAv8eAbcFvkBOJHC/YI20Ll8poVp1fRnf6PA==
-X-Received: by 2002:a05:7022:3b0c:b0:143:761a:863e with SMTP id a92af1059eb24-145040d406amr4150298c88.44.1790286423822;
-        Thu, 24 Sep 2026 14:47:03 -0700 (PDT)
-Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145acc45f03sm1171577c88.7.2026.09.24.14.47.00
+        d=1e100.net; s=20260707; t=1790292236; x=1790897036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N0BCZSjIX+UY6/4hcfUjcg/hMZ34STcp2U1v/I0YunY=;
+        b=rVdreKq0VU/jyUFH3TGbIcjAmfNID2qmhi4twS6AJDVltQVz1/4fUYlAkox7c+fN2h
+         AM0VVBpCTQP9jvGBAfpBJwgvQd5IXuEtjuBoPTKRdZz/nJ41Y1ditwIDKfY539BSqGEv
+         HtYigzFQFsKr+k9F9ygoBBzmCe54sKu1it+MYt330pM08uIqhvQQ1CiBZr1tjW8QrBg6
+         o0VpVFX44wdlLy94IzkvsaOGZRQIQwP8KiHSqIr9qG6rjsMK4GNO6zJ6+UiiZQAw5bpL
+         QAGwVvWXnzMgbT5fIZ+6Oeu75b3KLw0a3NyiVQ97j9ejve+f7vizKiQm3v5o3yt9oAcB
+         rkZg==
+X-Forwarded-Encrypted: i=1; AKwUvByovNwpqz+u9yad4PZFz/4GHQUYFYeKc8NovOH3YRh9hAnaW4U5PwzlrbRHVT0fvLgFflwUJGBbRa7vExljgUV9eXCFwA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kAuLPePHeZfuocSzajwZwezqqVteNU1nqG1ET4th+MlwSeGtDg
+	Olw9RKbeOWQLoOFjTS2HtEpEc/FofO8UBCrpDv5n2s4gGoC0MmA9VMzZ
+X-Gm-Gg: AYBFou3juvUat9rrzU26D+vWAj7/fvtjqTguMz5Xc3OEkKChc7oyjBcb5/5spDFcO4x
+	EPRBMPnCfv988o0gB2H2BRZI96Ql1QaO5u35YRLoQ+uwhJPzemzQCBH5U7KeSzDzu7v2YjjNN91
+	SQYMEzPyoO77OOCdOAqV6gYh23SwKoPFvp8BwOH/u5jyeeJeRf6Wehar+0ewHYpOXLNrnpH7gNp
+	0tB08GSfoKFWhyNykl6TwxgIdumeF9ZNrfS5N20UIGoWHA2og0g2e7hQXtS1jubSF2Q/Cs6r4/2
+	xcPfByN46zEu2l3+cTOlxfox6g5nsV5x9RPIBmpEK/7mmm879DKKohZTnpowfXUplgb66zHP50k
+	v47CJG2ZP6VKNYjTvgSglFeLjjCBb0YocPB3tI8h8v7BtAQ263My/dyH+/NTBk6t4f4Ns2Qkmf3
+	SSQhGSWlJn5STzOYMfDTrkcpStDIOgTdWl4LMShUBUFp9lULtl9R3uu7AE0ps=
+X-Received: by 2002:a05:693c:87d5:20b0:33b:bfb7:31cc with SMTP id 5a478bee46e88-34001f1961emr3645480eec.16.1790292235455;
+        Thu, 24 Sep 2026 16:23:55 -0700 (PDT)
+Received: from evangelion-g ([2a09:bac5:40e1:11cd::1c6:c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144757263sm1516795eec.12.2026.09.24.16.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 14:47:03 -0700 (PDT)
-From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
-To: nico.antinori.7@gmail.com,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: christophe.jaillet@wanadoo.fr,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	jkoolstra@xs4all.nl,
-	linux-kernel-mentees@lists.linux.dev,
+        Thu, 24 Sep 2026 16:23:54 -0700 (PDT)
+From: Ayush Yaduvanshi <ayush37735@gmail.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com,
-	skhan@linuxfoundation.org
-Subject: [PATCH] fixup: remove uninitialized variable bl
-Date: Thu, 24 Sep 2026 18:45:57 -0300
-Message-ID: <20260924214640.6149-1-nico.antinori.7@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <29b7f9786f08989c8f941ab85a76c62d1f5ee43b.1790200427.git.nico.antinori.7@gmail.com>
-References: <29b7f9786f08989c8f941ab85a76c62d1f5ee43b.1790200427.git.nico.antinori.7@gmail.com>
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	Ayush Yaduvanshi <ayush37735@gmail.com>
+Subject: [PATCH] ice: dpll: fix kernel-doc parameter descriptions
+Date: Fri, 25 Sep 2026 04:51:38 +0530
+Message-ID: <20260924232138.69492-1-ayush37735@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Remove the uninitialized variable bl and fix the IS_ERR check.
+Remove stale @count and @cgu parameter descriptions from
+ice_dpll_init_fwnode_pins() and ice_dpll_init_pins_e825().
 
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
 ---
-Small follow-up patch that fixes usage of unintialized variable.
+ drivers/net/ethernet/intel/ice/ice_dpll.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Apologies for this oversight!
-
- drivers/gpu/drm/tiny/ch1115-i2c.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/tiny/ch1115-i2c.c b/drivers/gpu/drm/tiny/ch1115-i2c.c
-index cb6198a8e55b..631dd25e7dcc 100644
---- a/drivers/gpu/drm/tiny/ch1115-i2c.c
-+++ b/drivers/gpu/drm/tiny/ch1115-i2c.c
-@@ -751,7 +751,6 @@ static int ch1115_probe(struct i2c_client *client)
- {
- 	struct ch1115_device *ch1115;
- 	struct device *dev;
--	struct backlight_device *bl;
- 	int ret;
-
- 	dev = &client->dev;
-@@ -802,8 +801,8 @@ static int ch1115_probe(struct i2c_client *client)
-
- 	ch1115->bl_dev = devm_backlight_device_register(dev, dev_name(dev), dev, ch1115,
- 							&ch1115_bl_ops, &bl_props);
--	if (IS_ERR(bl))
--		return dev_err_probe(dev, PTR_ERR(bl),
-+	if (IS_ERR(ch1115->bl_dev))
-+		return dev_err_probe(dev, PTR_ERR(ch1115->bl_dev),
- 				     "Unable to register backlight device\n");
-
- 	// DRM
---
-2.47.3
+diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
+index 85a74cd6ea1f..d00a2fb683d1 100644
+--- a/drivers/net/ethernet/intel/ice/ice_dpll.c
++++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
+@@ -3919,7 +3919,6 @@ ice_dpll_init_fwnode_pin(struct ice_dpll_pin *pin, const char *name)
+  * @pf: board private structure
+  * @pins: pointer to pins array
+  * @start_idx: starting index for pins
+- * @count: number of pins to initialize
+  *
+  * Initialize input pins for E825 RCLK support. The parent pins (rclk0, rclk1)
+  * are expected to be defined by the system firmware (ACPI). This function
+@@ -4025,7 +4024,6 @@ static int ice_dpll_init_txclk_pins(struct ice_pf *pf, int start_idx)
+ /**
+  * ice_dpll_init_pins_e825 - init pins and register pins with a dplls
+  * @pf: board private structure
+- * @cgu: if cgu is present and controlled by this NIC
+  *
+  * Initialize directly connected pf's pins within pf's dplls in a Linux dpll
+  * subsystem.
+-- 
+2.53.0
 
