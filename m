@@ -1,201 +1,105 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07BD4F55C4
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Sep 2026 21:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E92949DB80;
+	Fri, 25 Sep 2026 22:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790371184; cv=none; b=SM8uOsurqOiQ6niuqjj+8+UM6EPZ/UGigxH1XecL/Ak+qOhmtl+kXh4P/U0RcMQaj34ovix7GkmEK+WVsz0wRnjdFTdJ5g2YibJHA6rOChuV79GtZl6qffa0mQy0jd6Xv6hTqcmfejlO1vk9Uehu3rTuuPTlDngLAX2Fm2Iaotk=
+	t=1790374503; cv=none; b=Y9qjzI6Fn1YSbc4oKC8DUFfHZGLD8/zBZb8vrUiAV0NbakvK3OJuxF3QvpWvuDXmRn+LtOzoVW73h9JtNXR23ALKh9f7mCPvnLWYQcXamiSegCVJabo3QSl6dmMcECng1dPL/1fYiDVQZOMmY1bhiRq2OQsD/JrwgSvBnK9D3JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790371184; c=relaxed/simple;
-	bh=0GWPqZpmdGFUSUdNZnUFUlJDkU2OEy7Ysxs/AaAevAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCfs2GqBOkfFpucPGFZnOoZzdamSPNVmgaKJPlAndY2jdERBpooVd244K1xMEaShKfqzeLuyCs96G81Xk+UmHbm4vHyFobD2haMH7frl56GOOkGB55HTXdaye/FgJwAsILtgS+QMl7GRx9b+19FJ67tBwfWmj+oFD7saDrc7fdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4SCW/ZT; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790374503; c=relaxed/simple;
+	bh=2q+RDUY3jyCj0avmWeJvTt1W4LILIcflnxTZ01CqvDc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=lovyu8+546CYDafNU5wPa7ZR+XJoJ7dHNZh9KUEM0sWjw/lXD0v2H/yLrsm3F8K4QbTlgzuFJFTa8Mk2P9jQDJuZJhnOX7z0brECFf7aAhZMJHQOR7gCxgNRkNHfLUqEK83hB+f/cd+v5WxBNUsQmnKaL5lVBJJaUfoXrzrfY6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qxVDR1bg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4SCW/ZT"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4aa0f1a94so470194a12.2
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 25 Sep 2026 14:19:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qxVDR1bg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F4B1F000FF;
+	Fri, 25 Sep 2026 22:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790371182; x=1790975982; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JB0nUqbya8/nZnbD9q59QxieeAyOe2s3ehiXTlDcKL4=;
-        b=b4SCW/ZT2MocF1zZ7MT41JM0R6Fz4Z6XK+9nDIzk7Uztwx8jCon2CaujIDE9baYPhx
-         SmUMIz+3a5bOjcF+mM3pKxvDFZt7tj9ruTyQTbm93OeBgl64uRQ5KVxddiE1D56686tV
-         P2mZSPlvGP232DOrxIPaq94njlxD+T9EdJZB+sQMrsCYe/FlVJ9tfTxP4M6juh4W+O3+
-         hEoOUpkZg4zH+mBFGaHbd/TsHCvc0ZlZ4hDLDt4B9rHKOKTlqpjlpIOOnOoAGbEXHlPO
-         oQkb9pFLvsXFcDdX4cAG3ZRe3XWMKP4yz5WYRhfGUSKj/VyehLmMRT2qfyFeOuHJXIIT
-         mQYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790371182; x=1790975982;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JB0nUqbya8/nZnbD9q59QxieeAyOe2s3ehiXTlDcKL4=;
-        b=hr2NujbB3QC/KsqWVU5O+DdwoMen8IXQIDVTs4eFytbveJ20TMYemjqLHAsqqOAWtu
-         tevmSBxONAyDJYXV+gtPZtfxmjiju26knh69GDWSgjOINDDrTrZJLbiMDWL4QNcsXV8U
-         coZZaZvOHWEXcOq37Z+qKWos8C8N8SBu/nq/6T9xC7w2wLqypm4jX0nilckboSrNk1ML
-         oz7KBoSDQMq/xDoK3vHcA6fEMaXPq8hvygbSbvnFai8xkNNrwF6fvkhEl4ST3hhGBNhm
-         2A1Wo8pRcPO3o35pAzwo2X8BPF2FwQizqY40mzyr0jxH/mYyT6Ip3kdrwOqLwycs83AP
-         z6GA==
-X-Forwarded-Encrypted: i=1; AKwUvBzg08ul8OvwwJgHswp/jVQNy6TvkZLbjV+vQFjlKSz4ZgtzgWw1zF4h+olfIgDhHv0OvkCxX6E60brx398XI+DBZ3Q5nA==@lists.linux.dev
-X-Gm-Message-State: AFuF++matyk3L+UtWY4qETxkJRW7bRvbCJOZutWqQDI6Ttt2oyeC703o
-	ZHxyXV+9dSlo/QhAhO531ByEb+aK7nJ1a5cUrSaiYIWSiO+1OzaAODt+
-X-Gm-Gg: AYBFou0EB/aR5hlh39brg4x+xQrZf2UjLs7vGsuBAxk3HL4Mvy6RjmDa8txuZtDJttQ
-	MamehP1TMq5xD/6LfiPE5NSUX3eIR2TkpKjfMFmObYNM+0HHiCdmeNxf+JdWSrzqwHGVRBV2Mip
-	bXP+3CDnPRzdN9tNz5QpGIx0UKSOhIjktOx9i3V6ISJ80wmCIm+udZLZQ11lsLnDWDp7aKfuMCI
-	QJGzT5VvOK+s2R5C0ewA1U5S8eKr/Qsy7Ntm3ieI/Abk15CfysPoKEc0R5qgCp9gbZ2i+2e/o4r
-	85vY/3LnQH2W5KVPnw0mjFF7ktUWTG/lcr+hA89nvE4YPlG0Q1+kxKrfVrlMPOLszsy/KHVRpnE
-	nZ64e8gqRfy+KgzMkduALHYvg4qWlHtNxTSaXUS3KiR7s2yBcmnO79IAr1zQnRjQxncElNUaIko
-	yZi5ylaULkSFfGUCSyRGpvllRmY2QZtDR9Lc39X6wsOHwJP5ia5LP+YwI+Jnch2I6nULAbhAye5
-	tXsUC13SWJq
-X-Received: by 2002:a05:6a21:748b:b0:3dd:a196:9070 with SMTP id adf61e73a8af0-3de0e9432damr6262879637.58.1790371181958;
-        Fri, 25 Sep 2026 14:19:41 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc787943cc9sm1828969a12.21.2026.09.25.14.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 14:19:41 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 25 Sep 2026 14:19:39 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Christian Lamparter <chunkeey@gmail.com>
-Cc: Ridham Khurana <khurana.ridham222@gmail.com>,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christian Lamparter <chunkeey@googlemail.com>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Nikita Shubin <nikita.shubin@maquefel.me>,
-	Shuah Khan <shuah@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] hwmon: (lm70) Fix rounding of negative temperatures
-Message-ID: <3334ba64-2f0b-4e66-9a3b-84f46af70212@roeck-us.net>
-References: <20260924205326.1739229-1-khurana.ridham222@gmail.com>
- <f28a5470-0d9e-4045-9c64-5614e0e88de2@gmail.com>
+	d=linux-foundation.org; s=korg; t=1790374501;
+	bh=Gv3eO9GNPrNvYVMn07KZEaWja3PX8hQiFyYjoNkPaLQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=qxVDR1bg1fo5VwO2/RGg5Vtr+CwwYlXKWaJbHeaOFrsRIEK1O6pCV38B9XtQQBxr6
+	 hAlcZq47eA0Wku2HzDmgfyqeJG9EVIDe40BQoTe/mo/gXl0SW20FqiNtv6b60Ne3/8
+	 BCCJDOSTtZbkTRGxu+3ULtmDL5DGFlj9DQTXGrRw=
+Date: Fri, 25 Sep 2026 15:15:00 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Brigham
+ Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev,
+ syzbot+442828bb356b10813a47@syzkaller.appspotmail.com, Uladzislau Rezki
+ <urezki@gmail.com>, Baoquan He <baoquan.he@linux.dev>, linux-mm@kvack.org
+Subject: Re: [PATCH] mm/vmalloc: do not warn on -ENOMEM from va_clip() in
+ pcpu_get_vm_areas()
+Message-Id: <20260925151500.75fcb001ef8cd7f4842e62aa@linux-foundation.org>
+In-Reply-To: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
+References: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f28a5470-0d9e-4045-9c64-5614e0e88de2@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 25, 2026 at 08:03:06PM +0200, Christian Lamparter wrote:
-> Hi,
-> 
-> On 9/24/26 10:53 PM, Ridham Khurana wrote:
-> > temp1_input_show() drops the low bits of the temperature register by
-> > dividing the raw value (raw / 32 on the LM70). These bits are not part
-> > of the temperature: the LM70, LM71, LM74 and TMP122/TMP124 always
-> > return some of them as 1, and the TMP125 fills them with copies of the
-> > temperature LSB. Division rounds toward zero, so a negative temperature
-> > with any of these bits set is reported one LSB too high.
-> > 
-> > For example, the TMP122 returns 0xffff for -0.0625 degrees C, which the
-> > driver reports as 0. The LM70 returns 0xf39f for -25 degrees C, which
-> > the driver reports as -24750.
-> > 
-> > Use an arithmetic right shift instead, which drops the low bits and
-> > rounds down. tmp421 had a similar problem with negative values, fixed
-> > by commit 724e8af85854 ("hwmon: (tmp421) fix rounding for negative
-> > values").
-> 
-> For the TMP125 yes:
-> 
-> Reviewed-by: Christian Lamparter <chunkeey@gmail.com>
-> 
-> 
-> > Fixes: e1a8e913f97e ("[PATCH] lm70: New hardware monitoring driver")
-> > Fixes: a86e94dc946d ("hwmon: (lm70) Add support for LM71 and LM74")
-> > Fixes: cd929672a9ef ("hwmon: (lm70) Add ti,tmp125 support")
-> > Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
-> > ----
-> I wrote a little test program by hand (see below) and ran it on x64.
-> No idea if different archs behave differently or if
-> a clever unsafe math optimizing compiler flag will
-> convert the  "/ 32" to a " >> 5" but I doubt that...
-> 
-> ---
-> tmp125: raw:7ec0 tmp125_proposed: -2500 tmp125_now: -2500
-> tmp125: raw:7eff tmp125_proposed: -2250 tmp125_now: -2000  <--- loss of percision
-> tmp125: raw:7f00 tmp125_proposed: -2000 tmp125_now: -2000
-> tmp125: raw:7f3f tmp125_proposed: -1750 tmp125_now: -1500  <--- more
-> tmp125: raw:7f40 tmp125_proposed: -1500 tmp125_now: -1500
-> tmp125: raw:7f7f tmp125_proposed: -1250 tmp125_now: -1000  <--- and this
-> tmp125: raw:7f80 tmp125_proposed: -1000 tmp125_now: -1000
-> tmp125: raw:7fbf tmp125_proposed:  -750 tmp125_now:  -500  <--- also bad
-> tmp125: raw:7fc0 tmp125_proposed:  -500 tmp125_now:  -500
-> tmp125: raw:7fff tmp125_proposed:  -250 tmp125_now:     0  <--- ouch
-> tmp125: raw:   0 tmp125_proposed:     0 tmp125_now:     0
-> tmp125: raw:  3f tmp125_proposed:   250 tmp125_now:   250
-> tmp125: raw:  40 tmp125_proposed:   500 tmp125_now:   500
-> tmp125: raw:  7f tmp125_proposed:   750 tmp125_now:   750
-> tmp125: raw:  80 tmp125_proposed:  1000 tmp125_now:  1000
-> tmp125: raw:  bf tmp125_proposed:  1250 tmp125_now:  1250
-> tmp125: raw:  c0 tmp125_proposed:  1500 tmp125_now:  1500
-> tmp125: raw:  ff tmp125_proposed:  1750 tmp125_now:  1750
-> tmp125: raw: 100 tmp125_proposed:  2000 tmp125_now:  2000
-> tmp125: raw: 13f tmp125_proposed:  2250 tmp125_now:  2250
-> tmp125: raw: 140 tmp125_proposed:  2500 tmp125_now:  2500
-> 
+On Fri, 25 Sep 2026 21:54:49 +0100 Palla Raghunath <raghunathpalla.0209@gmail.com> wrote:
 
-Sorry, you lost me with the above. Are you suggesting that the patch is
-correct, that it is only correct for TMP125, or something else ?
+> When pcpu_get_vm_areas() has to split a free vmap_area in the middle
+> (NE_FIT_TYPE), va_clip() needs an extra vmap_area object. It takes the
+> per-cpu ne_fit_preload_node if one is there, and otherwise falls back
+> to kmem_cache_alloc(GFP_NOWAIT), which may fail and return -ENOMEM.
+> pcpu_get_vm_areas() never preloads, and a single call can do more than
+> one such split: on a NUMA system it places one area per node group, so
+> the first split consumes the preloaded object and the next one depends
+> on the GFP_NOWAIT allocation.
+> 
+> That failure is expected and already handled: the recovery path returns
+> the areas clipped so far to the free tree, purges lazily freed areas and
+> retries. But the error is checked with WARN_ON_ONCE(), so a transient
+> allocation failure under memory pressure or fault injection triggers a
+> kernel warning, and a panic with panic_on_warn. syzbot hit this on a
+> two-node VM while creating a per-cpu BPF array map.
+> 
+> Keep the WARN_ON_ONCE() for errors other than -ENOMEM, which do indicate
+> a bug, and take the recovery path either way. This matches what commit
+> b9183788a2de ("mm/vmalloc: do not warn on -ENOMEM from va_alloc()") did
+> for the other va_clip() caller.
+> 
+> Fixes: 1b23ff80b399 ("mm/vmalloc: invoke classify_va_fit_type() in adjust_va_to_fit_type()")
+> Reported-by: syzbot+442828bb356b10813a47@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=442828bb356b10813a47
 
-Guenter
+I assume sysbot hit this via fault injection.    The report doesn't make this
+info easily available.  Or maybe it wasn't fault injection.
 
-> (the positive values all look good.)
-> 
-> --- SNIP test.c program
-> 
-> #just name the file test.c and run make test (in a directory without any other makefile)
-> #include <stdio.h>
-> #include <asm-generic/int-l64.h>
-> 
-> static __s32 sign_extend32(__u32 value, int index)
-> {
->         __u8 shift = 31 - index;
->         return (__s32)(value << shift) >> shift;
-> }
-> 
-> static int tmp125_now(__s16 raw)
-> {
->         return (sign_extend32(raw, 14) / 32) * 250;
-> 
-> }
-> 
-> static int tmp125_proposed(__s16 raw)
-> {
->         return (sign_extend32(raw, 14) >> 5) * 250;
-> 
-> }
-> 
-> int main(int argc, char **args)
-> {
->         for (__s16 raw = -320; raw <= 320; raw+=32) {
->                 __s16 tmp=raw & 0x7fe0 | ((raw & 32) >> 1) | ((raw & 32) >> 2) | ((raw & 32) >> 3) | ((raw & 32) >> 4) | ((raw & 32) >> 5);
->                 printf("tmp125: raw:%4x tmp125_proposed:%6d tmp125_now:%6d\n", tmp, tmp125_proposed(tmp), tmp125_now(tmp));
->         }
-> 
->         return 0;
-> }
-> 
-> --- SNAP
-> 
-> FYI: TMP125 datasheet says:
-> "The  Temperature  Register  of  the  TMP125  is  a  16-bit, read-only register that stores
-> the output of the most recentconversion. However, temperature is represented by only10-bits,
-> which are in signed two’s complement format. Thefirst bit of the Temperature Register, D15,
-> is a leading zero. Bits D14 and [sic] D5 are used to indicate temperature. Bits D4 to D0
-> are the same as D5 (see Table 1)."
-> 
-> (They probably meant Bits D14 >>to<< D5 are used to indicate temperature).
-> 
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -5107,9 +5107,14 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+>  
+>  		ret = va_clip(&free_vmap_area_root,
+>  			&free_vmap_area_list, va, start, size);
+> -		if (WARN_ON_ONCE(unlikely(ret)))
+> -			/* It is a BUG(), but trigger recovery instead. */
+> +		if (unlikely(ret)) {
+> +			/*
+> +			 * -ENOMEM from the GFP_NOWAIT fallback is expected.
+> +			 * Anything else is a BUG(), but trigger recovery instead.
+> +			 */
+> +			WARN_ON_ONCE(ret != -ENOMEM);
+
+Look good.
+
+The WARN_ON_ONCE() is potentially redundant.  We could make va_clip()
+remove __GFP_NOWARN from its kmem_cache_alloc() and let the page
+allocator do the warn for us.  Doesn't matter.
+
+>  			goto recovery;
+> +		}
+>  
+>  		/* Allocated area. */
+>  		va = vas[area];
+> -- 
+> 2.34.1
