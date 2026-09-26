@@ -1,136 +1,113 @@
-Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B65441A923
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 10:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA9D340B0EF
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 10:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790419466; cv=none; b=JOX7NokdPFDztkZWE4YMbOWTs+zrcbGPeHJkTaWkMcZSdChThy56wfe0t1i87JNgxCvVelRPargXRTXmT5M1uW+YeT1K+6tnHUNj/bz5r1l3chXYQLSa7fsGl95tsIAaTF19NfSfMMa1PyEMfLWIDClmT/Ga5fT7fti2qy6hmP8=
+	t=1790419476; cv=none; b=rX01y2U9tzyvX0R6KeqpNp9dmvBFn6Cjmdqet9pEKAdJIqNEiVm0TLoJ+ltRLPgnmx6CUOgh3vV/XLL7xTcOWwGBzb9ci3qpjGAqfgbA6KcrCN5E/ny3dc2t3ViaCzkGrXmYlbd/ju3KZDKg5m9f8rlxw9QQdMIGMrVp4WOR5Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790419466; c=relaxed/simple;
-	bh=6fpG91MXXQbhpol2AXqdF9dFywJtNWGjaLWU4oYG/WM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B99+L/6Stl9KuedBuu6RF5qZ4ngwKA+1iD7Ev2CfzpnNYVbGwVXiYhMePA2YXfJjf1DLd0pHvyAF9cKFsb7ut66ZGIMUSUdgYnadHAXaRpZUVcnm9qVw0gxhBzYZtIr53s9hsS3zXyQNmie1B72SuwH7maQR7+XvYCGdM19WIqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rNolJV4q; arc=none smtp.client-ip=74.125.227.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790419476; c=relaxed/simple;
+	bh=tdcDb7EMI5MXWG2z6HDtUpPG9NMnbPPbqLSL0Wmwbus=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XhQVqC/DblxI8O5R0awplUIJtD3gx4i3bfr4aJEbkUh5H8+eT1043rK5KXsjRf/A5IrfodW8lKAJwkX3/WLSn2Pd8qG/aJNubRqnYEzLW23FS0qNYlYu1Ft9hz5YY1JBW41OvPrT4FrhWMWzghTs+YY8BQm7xXVrdQ71ovKqowI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=GDW48iZa; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rNolJV4q"
-Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a0bcdf41a3so747690a91.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 03:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790419447; x=1791024247; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4odAGIPcyvnNWb4sPZdqKZBZfrGmbPznm9W/871R/J8=;
-        b=rNolJV4qmOREvezdOZS1x1Qwwo7suwwqPD/adkRGT7yKOgzLF0Mnn8GvneBnR3Z9Z0
-         V4cbSWh5fJFyl2L6Qx/ScOeaZ35qbFrPB/1FxSUV1TLR/eNAvzuwXlaONwnrFSHuuFgI
-         13yFI8X98Qcm45keDyT2VkPkDK89wj5pKv8Oc899jGmcUlfLf7AeJstj7d5rbH0DCJgp
-         IgSULfkbO2QF+rq/WD7+uxfUiK6LcCC4EkibgKOeleAYjLkzyAm3vmD7XFX/2QEJ3mM8
-         rTiBuyObPh6GMKEoM3uFO/Nof15czSoZZC/pPmq8dUYEpwDm9b3ZWwj7X4am+7/r6/VX
-         d3Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790419447; x=1791024247;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4odAGIPcyvnNWb4sPZdqKZBZfrGmbPznm9W/871R/J8=;
-        b=vjg5VIXvwIblXtxKtyOTKENiwMaWz6A2CTWhdHwAW2VGbYClNbphtlkeLA+sYSKJdL
-         kDRjjVSIIBlrFJuCNFUfGjEPlo7HGjrLiClUp3KRVGQLBZ5Cfhh82MnFTcgaM7+rMvQy
-         fvjnoZWS4PMQdN61Vn/t+HOHF7pGhvk8S36ks87wDD9kf5GjdEcQuea86xhdsWFafVRc
-         U0WYiXDXuLIUI0WKJSE41LEggPvsAVsazY123TJYrlNaE29TWMG98w1tEyy5lU3mOov0
-         0zKcHGwqHSr2rGsrMe0PFAADQgNCKfc1CyDbgb62U3hX2j6r1xPCH+wIc+FKtmsimkRP
-         LqEA==
-X-Forwarded-Encrypted: i=1; AKwUvBxpSd9MuRaWI2OpYesRkJP8V+g4HLyhZ3yrmokhCNxTjGffQHYMxOcY/w+GlbcpsuzY13Gub6CCtwFgJ8VOW5g00qB02Q==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJaIl5LnfTwGqB488h1PFKGSUtM7u+bM2nkoH+0KErqofcUfo9g
-	jgtDf2LNSVw7rsL7ks62qTJmuyhZC6bMfUhkUBpPMGWWob0hgtClShuT
-X-Gm-Gg: AYBFou272HJrGv8aeysTev3fb34zz/f5B3g2QAz1DBUIGvtKN4u572B+UUm0PFLqPH3
-	Z3FWQ4lMZ1VYDimGk4BxFsGKGOEoTGjtZUWMpP3dzsH4rx0QdxTogq1HPx5UQPTy1o3Ly6cM0nf
-	2mTcuKa5WpEewXHdWJ7A3dsKzBqT4earwJhrqSTWiAebau/6qaVMQIcwXWvBXVbwxlr8FB525Xn
-	O2Oy6uYWa+MNRMtlJKQEuYdqH+K8jGCE7mTVlkz2r2H5UEbX/ZcZhwFhIguWhf6Mi5fybDKtReH
-	ZzRigfPTbLykVTUA2gLGyKmdoRsNMYmPA0ntwkTLweVYubxIF8ncNhZf4aDOwUarc4Wj694wSkL
-	SKUBjegXhlzS6cirNlxq9CDHzeSHMO43CylqbtFxsGjoiJU8Gt2j25z+E9ht1fbWAtPure+uzd3
-	oOa/b55P3qiRvQyG2gw6hKZnw7+7WSX60okYSFsBBhAZwfpDirB1oBgj5/21fbdZIfegrCH8ik+
-	lnXlmwlNpFnNe+zKnHJ67qhhvNngnLzhw==
-X-Received: by 2002:a17:90b:1f90:b0:39e:6c69:f47b with SMTP id 98e67ed59e1d1-3a098d4085dmr7176558a91.58.1790419446869;
-        Sat, 26 Sep 2026 03:44:06 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:819f:6ccc:5ca5:5f73])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec711sm15800578a91.6.2026.09.26.03.44.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 03:44:06 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>
-Cc: Shuah Khan <shuah@kernel.org>,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH] KVM: selftests: Verify KVM_MSR_EXIT_REASON_INVAL on reserved EFER write
-Date: Sat, 26 Sep 2026 17:43:55 +0700
-Message-ID: <20260926104355.13697-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="GDW48iZa"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4CE31596;
+	Sat, 26 Sep 2026 03:44:07 -0700 (PDT)
+Received: from [10.164.11.10] (unknown [10.164.11.10])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9193C3F632;
+	Sat, 26 Sep 2026 03:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790419451; bh=tdcDb7EMI5MXWG2z6HDtUpPG9NMnbPPbqLSL0Wmwbus=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GDW48iZarz1IDGWNkaFpOCVJkeWVdPlytnKkrMZ96NZl5ztLfc7ze3i6YbNCQ01l2
+	 EzJc5uaLXjC9xSpXDLmu/HhUNq5Xrx6tPgBvWNVl4ijNYCiABuSQ6svYKBFKxRG5/E
+	 iQaixhGKnBdce6wkr0My14Gj6yYbZK6pT3Muy+TE=
+Message-ID: <14e54610-ab62-472a-801f-d929171cde01@arm.com>
+Date: Sat, 26 Sep 2026 16:14:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/vmalloc: do not warn on -ENOMEM from va_clip() in
+ pcpu_get_vm_areas()
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>,
+ linux-kernel@vger.kernel.org
+Cc: Shuah Khan <shuah@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ linux-kernel-mentees@lists.linux.dev,
+ syzbot+442828bb356b10813a47@syzkaller.appspotmail.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ linux-mm@kvack.org
+References: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
+Content-Language: en-US
+From: Dev Jain <dev.jain@arm.com>
+In-Reply-To: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The msr_filter_deny test covers the FILTER and UNKNOWN MSR exit
-reasons, but nothing exercises KVM_MSR_EXIT_REASON_INVAL.
 
-Have the guest set a reserved bit (bit 63) in EFER while preserving
-the other bits, and verify that the write exits to userspace with
-KVM_MSR_EXIT_REASON_INVAL along with the attempted value.
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
-Tested on Intel Core i5-10210U (VMX). Not tested on AMD.
----
- .../selftests/kvm/x86/userspace_msr_exit_test.c      | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+On 26/09/26 2:24 am, Palla Raghunath wrote:
+> When pcpu_get_vm_areas() has to split a free vmap_area in the middle
+> (NE_FIT_TYPE), va_clip() needs an extra vmap_area object. It takes the
+> per-cpu ne_fit_preload_node if one is there, and otherwise falls back
+> to kmem_cache_alloc(GFP_NOWAIT), which may fail and return -ENOMEM.
+> pcpu_get_vm_areas() never preloads, and a single call can do more than
+> one such split: on a NUMA system it places one area per node group, so
+> the first split consumes the preloaded object and the next one depends
+> on the GFP_NOWAIT allocation.
+> 
+> That failure is expected and already handled: the recovery path returns
+> the areas clipped so far to the free tree, purges lazily freed areas and
+> retries. But the error is checked with WARN_ON_ONCE(), so a transient
+> allocation failure under memory pressure or fault injection triggers a
+> kernel warning, and a panic with panic_on_warn. syzbot hit this on a
+> two-node VM while creating a per-cpu BPF array map.
+> 
+> Keep the WARN_ON_ONCE() for errors other than -ENOMEM, which do indicate
+> a bug, and take the recovery path either way. This matches what commit
+> b9183788a2de ("mm/vmalloc: do not warn on -ENOMEM from va_alloc()") did
+> for the other va_clip() caller.
+> 
+> Fixes: 1b23ff80b399 ("mm/vmalloc: invoke classify_va_fit_type() in adjust_va_to_fit_type()")
+> Reported-by: syzbot+442828bb356b10813a47@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=442828bb356b10813a47
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+> ---
 
-diff --git a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-index 2808ce727e5f..7446e1404264 100644
---- a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-+++ b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-@@ -309,6 +309,9 @@ static void guest_msr_calls(bool trapped)
- 	/* Invalid MSR, should always be handled by user space exit */
- 	GUEST_ASSERT(rdmsr(0xdeadbeef) == 0xdeadbeef);
- 	wrmsr(0xdeadbeef, 0x1234);
-+
-+	/* Setting a reserved EFER bit is rejected by KVM, exit with INVAL */
-+	wrmsr(MSR_EFER, rdmsr(MSR_EFER) | BIT_ULL(63));
- }
- 
- static void guest_code_filter_deny(void)
-@@ -627,6 +630,13 @@ static void handle_wrmsr(struct kvm_run *run)
- 		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_UNKNOWN,
- 			    "deadbeef trap w/o inval fault");
- 	}
-+
-+	if (run->msr.index == MSR_EFER) {
-+		TEST_ASSERT(run->msr.data & BIT_ULL(63),
-+			    "MSR_EFER data missing reserved bit");
-+		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_INVAL,
-+			    "MSR_EFER trap w/o inval fault");
-+	}
- }
- 
- KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
-@@ -667,7 +677,7 @@ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
- 
- done:
- 	TEST_ASSERT(msr_reads == 4, "Handled 4 rdmsr in user space");
--	TEST_ASSERT(msr_writes == 3, "Handled 3 wrmsr in user space");
-+	TEST_ASSERT(msr_writes == 5, "Handled 5 wrmsr in user space");
- }
- 
- KVM_ONE_VCPU_TEST(user_msr, msr_permission_bitmap, guest_code_permission_bitmap)
--- 
-2.53.0
+Makes sense:
+
+Reviewed-by: Dev Jain <dev.jain@arm.com>
+
+>  mm/vmalloc.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index bea9f76ed7e7..24c7d0a5472e 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -5107,9 +5107,14 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+>  
+>  		ret = va_clip(&free_vmap_area_root,
+>  			&free_vmap_area_list, va, start, size);
+> -		if (WARN_ON_ONCE(unlikely(ret)))
+> -			/* It is a BUG(), but trigger recovery instead. */
+> +		if (unlikely(ret)) {
+> +			/*
+> +			 * -ENOMEM from the GFP_NOWAIT fallback is expected.
+> +			 * Anything else is a BUG(), but trigger recovery instead.
+> +			 */
+> +			WARN_ON_ONCE(ret != -ENOMEM);
+>  			goto recovery;
+> +		}
+>  
+>  		/* Allocated area. */
+>  		va = vas[area];
 
