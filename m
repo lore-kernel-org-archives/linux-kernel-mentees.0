@@ -1,192 +1,136 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E353A5433
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 09:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B65441A923
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 10:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790414567; cv=none; b=Hxu37QdPE2WuddHrsN0BItHv+8SdJiof7cXK5jNN+nmlnZqZ2ffxQHqKnOeOmvxVwpgWxUuq+yqGBDHP1VGfvg4iMwkpxQOwB61erwPvb7jARS+uiKT/ieAIsTzeQdjT75RJrv85r3lK4//BhrOe592kh9iHsU17Tt+a25peOxo=
+	t=1790419466; cv=none; b=JOX7NokdPFDztkZWE4YMbOWTs+zrcbGPeHJkTaWkMcZSdChThy56wfe0t1i87JNgxCvVelRPargXRTXmT5M1uW+YeT1K+6tnHUNj/bz5r1l3chXYQLSa7fsGl95tsIAaTF19NfSfMMa1PyEMfLWIDClmT/Ga5fT7fti2qy6hmP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790414567; c=relaxed/simple;
-	bh=GtaZyzdhln69h6A+uvKrkaqN0V1hWvpxkiSvYDKzWGE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eibftL0tTgQ0aHR9OlnpIzweiDAC8t4cfE9nbD4pxPi4GjGtHs3kcCfJPpmB3wa5rmzIqbWp376kFntIYriq6F/3R+UbDzdHgDVunzbYhouFt7XmZG37WlYGhgExa0Ut+nS846BCrVQ7/ZQmp7F02/MV8zFe2PFbnDWlKFRD+aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cr/PS97z; arc=none smtp.client-ip=74.125.225.99
+	s=arc-20240116; t=1790419466; c=relaxed/simple;
+	bh=6fpG91MXXQbhpol2AXqdF9dFywJtNWGjaLWU4oYG/WM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B99+L/6Stl9KuedBuu6RF5qZ4ngwKA+1iD7Ev2CfzpnNYVbGwVXiYhMePA2YXfJjf1DLd0pHvyAF9cKFsb7ut66ZGIMUSUdgYnadHAXaRpZUVcnm9qVw0gxhBzYZtIr53s9hsS3zXyQNmie1B72SuwH7maQR7+XvYCGdM19WIqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rNolJV4q; arc=none smtp.client-ip=74.125.227.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cr/PS97z"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48877902c99so1400983f8f.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 02:22:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rNolJV4q"
+Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a0bcdf41a3so747690a91.2
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 26 Sep 2026 03:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790414562; x=1791019362; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v9TrmrMnb+MXVfFJfRp27XAGJDT0tpc1zF4/Ua/Sl38=;
-        b=cr/PS97zL+LHAMpkgfrSjnxJ2yrWGl/874yuFNTA94DGcTJQWP8sKEaXxm5nM3Gj5l
-         kbKr1SYztV/fBUgRstJmzeMY9tZFw8jWypfPQPVzxLOw94/1DYPA2KRxK7XsZaNavKOe
-         Uoijy781/jTjRnlTAtMrVxzGGJTRZRZ7CLJIeztdFISNjdwjK1SFVfEhKPEslpi3XdrI
-         jwuKr+VIW/FdBBEJJzP2W9m1YJyEr7+gxaoHN3/bNsb8DqkQOuqZcfYEm/rYeliLgR2O
-         08Cbu6Dz+8PE0fU3wrE6j6+/OmfrG/dccYG5T5eZmwtBr/d/aFmAXvlxdeipYx46HqWg
-         o/tg==
+        d=gmail.com; s=20251104; t=1790419447; x=1791024247; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4odAGIPcyvnNWb4sPZdqKZBZfrGmbPznm9W/871R/J8=;
+        b=rNolJV4qmOREvezdOZS1x1Qwwo7suwwqPD/adkRGT7yKOgzLF0Mnn8GvneBnR3Z9Z0
+         V4cbSWh5fJFyl2L6Qx/ScOeaZ35qbFrPB/1FxSUV1TLR/eNAvzuwXlaONwnrFSHuuFgI
+         13yFI8X98Qcm45keDyT2VkPkDK89wj5pKv8Oc899jGmcUlfLf7AeJstj7d5rbH0DCJgp
+         IgSULfkbO2QF+rq/WD7+uxfUiK6LcCC4EkibgKOeleAYjLkzyAm3vmD7XFX/2QEJ3mM8
+         rTiBuyObPh6GMKEoM3uFO/Nof15czSoZZC/pPmq8dUYEpwDm9b3ZWwj7X4am+7/r6/VX
+         d3Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790414562; x=1791019362;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790419447; x=1791024247;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=v9TrmrMnb+MXVfFJfRp27XAGJDT0tpc1zF4/Ua/Sl38=;
-        b=guIMgbFS1ka/KAmW1H6rF/xG8SC4g5hRHUnlJr4EPzu2Nd0dwfgbPMreeBfbVZJmac
-         3ejXKcSwNxfdhe/Y5sYI8F84b2h1WeX18PZPefmviQWhaug59MoUAc2SZexo755VobMF
-         bhRUNWBxovvq4zTmeeGVoLk7SZ4zSMy6X8u2bkU/na/vVI+vcvmeNqC2oJ8cZI/CPOMx
-         Z4ClOrqwbSndvljnHxkKqErWDTLpEkeKUW/SsomzbT8QAxkSpLWJhxlMEtwXvq31Wy6F
-         5wgFeLStMl8ysN76eazVRwCl7Lr845VUQRnhRidy8z6khoY3QUNqkX+tWyZnKNeqNqdj
-         pv7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwhpSYrBnYFZ4OfNI1s/qTzA700kc8DmoY/ZoblOepinSnDCqXiLL9V+QG82nixGvjtdLuE4BXr7GFF+t8kYs+wgWsrUw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKr1QOi+a5Rx8fl9Cob0FC263Fem8xAEJVhK9xJbPVZIk84XeH8
-	6Np4TWJwCWHjIXiKN5aLnxzDFv5CZo8P5cE6kCv1bNAr1nbJKM9Gua8B
-X-Gm-Gg: AYBFou1K49kGZS18HCwGne/L622ZKL7A4ETFUgImSbT4LYoOWhy9xvLNA9nH6jzFHSE
-	Mgn8tArzGprnwWd+vwoD1LdPbPQBHkRfJp9zlGm9WWWCZAEITJjh1EpaI7XNqM1tVKt5TfljNtB
-	1hUSMHDcuffZG3igZvhK61mQdHzaVLoZidnMegXK2HKpALLb7lBanSRrOl4a/93AvpEPi4aIHre
-	cL76896mAqGr0/cB7gqOmQsE0C5VH96O/PYInc1ijAOpGbuhOWhhuVR0CVHDXdOsIUIfdv9jyrJ
-	uzT9yHce93ly7TfgukvAh7JPmlhlcKbtkH6LJNYrN8iselhM0hEsHfED5E02EoPILYq/sM4hqlO
-	CR7MmzkAbXYN2N96Zsp8NAps82BldPdiwBL49bukafsi6hQBcneebWCS3tAqRoUHwT2RoFyIxwM
-	ZQ8BkWJNh18nJyLKZpWlywDgxRISSbQny01NGI035olIbcVuu1dvhDmGjYHZD/GuorSx3la1Fs1
-	K/ZkW76R/pl8zHumcKJOes7Iyb9XOWJNX2tTjEJgP8VBy14iDD3kz//dF/cJWKpxKdH
-X-Received: by 2002:a05:6000:2302:b0:487:27f9:835 with SMTP id ffacd0b85a97d-4887170d4f6mr15558058f8f.42.1790414561982;
-        Sat, 26 Sep 2026 02:22:41 -0700 (PDT)
-Received: from shift (p200300d5ff3cee0050f496fffe46beef.dip0.t-ipconnect.de. [2003:d5:ff3c:ee00:50f4:96ff:fe46:beef])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a640df9sm12495506f8f.24.2026.09.26.02.22.40
+        bh=4odAGIPcyvnNWb4sPZdqKZBZfrGmbPznm9W/871R/J8=;
+        b=vjg5VIXvwIblXtxKtyOTKENiwMaWz6A2CTWhdHwAW2VGbYClNbphtlkeLA+sYSKJdL
+         kDRjjVSIIBlrFJuCNFUfGjEPlo7HGjrLiClUp3KRVGQLBZ5Cfhh82MnFTcgaM7+rMvQy
+         fvjnoZWS4PMQdN61Vn/t+HOHF7pGhvk8S36ks87wDD9kf5GjdEcQuea86xhdsWFafVRc
+         U0WYiXDXuLIUI0WKJSE41LEggPvsAVsazY123TJYrlNaE29TWMG98w1tEyy5lU3mOov0
+         0zKcHGwqHSr2rGsrMe0PFAADQgNCKfc1CyDbgb62U3hX2j6r1xPCH+wIc+FKtmsimkRP
+         LqEA==
+X-Forwarded-Encrypted: i=1; AKwUvBxpSd9MuRaWI2OpYesRkJP8V+g4HLyhZ3yrmokhCNxTjGffQHYMxOcY/w+GlbcpsuzY13Gub6CCtwFgJ8VOW5g00qB02Q==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJaIl5LnfTwGqB488h1PFKGSUtM7u+bM2nkoH+0KErqofcUfo9g
+	jgtDf2LNSVw7rsL7ks62qTJmuyhZC6bMfUhkUBpPMGWWob0hgtClShuT
+X-Gm-Gg: AYBFou272HJrGv8aeysTev3fb34zz/f5B3g2QAz1DBUIGvtKN4u572B+UUm0PFLqPH3
+	Z3FWQ4lMZ1VYDimGk4BxFsGKGOEoTGjtZUWMpP3dzsH4rx0QdxTogq1HPx5UQPTy1o3Ly6cM0nf
+	2mTcuKa5WpEewXHdWJ7A3dsKzBqT4earwJhrqSTWiAebau/6qaVMQIcwXWvBXVbwxlr8FB525Xn
+	O2Oy6uYWa+MNRMtlJKQEuYdqH+K8jGCE7mTVlkz2r2H5UEbX/ZcZhwFhIguWhf6Mi5fybDKtReH
+	ZzRigfPTbLykVTUA2gLGyKmdoRsNMYmPA0ntwkTLweVYubxIF8ncNhZf4aDOwUarc4Wj694wSkL
+	SKUBjegXhlzS6cirNlxq9CDHzeSHMO43CylqbtFxsGjoiJU8Gt2j25z+E9ht1fbWAtPure+uzd3
+	oOa/b55P3qiRvQyG2gw6hKZnw7+7WSX60okYSFsBBhAZwfpDirB1oBgj5/21fbdZIfegrCH8ik+
+	lnXlmwlNpFnNe+zKnHJ67qhhvNngnLzhw==
+X-Received: by 2002:a17:90b:1f90:b0:39e:6c69:f47b with SMTP id 98e67ed59e1d1-3a098d4085dmr7176558a91.58.1790419446869;
+        Sat, 26 Sep 2026 03:44:06 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:819f:6ccc:5ca5:5f73])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec711sm15800578a91.6.2026.09.26.03.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 02:22:41 -0700 (PDT)
-Received: from localhost ([127.0.0.1])
-	by shift.daheim with esmtp (Exim 4.100.1)
-	(envelope-from <chunkeey@gmail.com>)
-	id 1xAOaQ-0000000042U-0kW6;
-	Sat, 26 Sep 2026 11:22:39 +0200
-Message-ID: <eb76f982-d29a-41b4-a5ae-61ce486f4839@gmail.com>
-Date: Sat, 26 Sep 2026 11:22:39 +0200
+        Sat, 26 Sep 2026 03:44:06 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Shuah Khan <shuah@kernel.org>,
+	kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH] KVM: selftests: Verify KVM_MSR_EXIT_REASON_INVAL on reserved EFER write
+Date: Sat, 26 Sep 2026 17:43:55 +0700
+Message-ID: <20260926104355.13697-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (lm70) Fix rounding of negative temperatures
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Ridham Khurana <khurana.ridham222@gmail.com>,
- linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
- Christian Lamparter <chunkeey@googlemail.com>,
- Alexander Sverdlin <alexander.sverdlin@gmail.com>,
- Nikita Shubin <nikita.shubin@maquefel.me>, Shuah Khan <shuah@kernel.org>,
- Jori Koolstra <jkoolstra@xs4all.nl>,
- Brigham Campbell <me@brighamcampbell.com>,
- linux-kernel-mentees@lists.linux.dev
-References: <20260924205326.1739229-1-khurana.ridham222@gmail.com>
- <f28a5470-0d9e-4045-9c64-5614e0e88de2@gmail.com>
- <3334ba64-2f0b-4e66-9a3b-84f46af70212@roeck-us.net>
-Content-Language: en-US
-From: Christian Lamparter <chunkeey@gmail.com>
-In-Reply-To: <3334ba64-2f0b-4e66-9a3b-84f46af70212@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The msr_filter_deny test covers the FILTER and UNKNOWN MSR exit
+reasons, but nothing exercises KVM_MSR_EXIT_REASON_INVAL.
 
-On 9/25/26 11:19 PM, Guenter Roeck wrote:
-> On Fri, Sep 25, 2026 at 08:03:06PM +0200, Christian Lamparter wrote:
->> On 9/24/26 10:53 PM, Ridham Khurana wrote:
->>> temp1_input_show() drops the low bits of the temperature register by
->>> dividing the raw value (raw / 32 on the LM70). These bits are not part
->>> of the temperature: the LM70, LM71, LM74 and TMP122/TMP124 always
->>> return some of them as 1, and the TMP125 fills them with copies of the
->>> temperature LSB. Division rounds toward zero, so a negative temperature
->>> with any of these bits set is reported one LSB too high.
->>>
->>> For example, the TMP122 returns 0xffff for -0.0625 degrees C, which the
->>> driver reports as 0. The LM70 returns 0xf39f for -25 degrees C, which
->>> the driver reports as -24750.
->>>
->>> Use an arithmetic right shift instead, which drops the low bits and
->>> rounds down. tmp421 had a similar problem with negative values, fixed
->>> by commit 724e8af85854 ("hwmon: (tmp421) fix rounding for negative
->>> values").
->>
->> For the TMP125 yes:
->>
->> Reviewed-by: Christian Lamparter <chunkeey@gmail.com>
->>
->>
->>> Fixes: e1a8e913f97e ("[PATCH] lm70: New hardware monitoring driver")
->>> Fixes: a86e94dc946d ("hwmon: (lm70) Add support for LM71 and LM74")
->>> Fixes: cd929672a9ef ("hwmon: (lm70) Add ti,tmp125 support")
->>> Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
->>> ----
->> I wrote a little test program by hand (see below) and ran it on x64.
->> No idea if different archs behave differently or if
->> a clever unsafe math optimizing compiler flag will
->> convert the  "/ 32" to a " >> 5" but I doubt that...
->>
->> ---
->> tmp125: raw:7ec0 tmp125_proposed: -2500 tmp125_now: -2500
->> tmp125: raw:7eff tmp125_proposed: -2250 tmp125_now: -2000  <--- loss of percision
->> tmp125: raw:7f00 tmp125_proposed: -2000 tmp125_now: -2000
->> tmp125: raw:7f3f tmp125_proposed: -1750 tmp125_now: -1500  <--- more
->> tmp125: raw:7f40 tmp125_proposed: -1500 tmp125_now: -1500
->> tmp125: raw:7f7f tmp125_proposed: -1250 tmp125_now: -1000  <--- and this
->> tmp125: raw:7f80 tmp125_proposed: -1000 tmp125_now: -1000
->> tmp125: raw:7fbf tmp125_proposed:  -750 tmp125_now:  -500  <--- also bad
->> tmp125: raw:7fc0 tmp125_proposed:  -500 tmp125_now:  -500
->> tmp125: raw:7fff tmp125_proposed:  -250 tmp125_now:     0  <--- ouch
->> tmp125: raw:   0 tmp125_proposed:     0 tmp125_now:     0
->> tmp125: raw:  3f tmp125_proposed:   250 tmp125_now:   250
->> tmp125: raw:  40 tmp125_proposed:   500 tmp125_now:   500
->> tmp125: raw:  7f tmp125_proposed:   750 tmp125_now:   750
->> tmp125: raw:  80 tmp125_proposed:  1000 tmp125_now:  1000
->> tmp125: raw:  bf tmp125_proposed:  1250 tmp125_now:  1250
->> tmp125: raw:  c0 tmp125_proposed:  1500 tmp125_now:  1500
->> tmp125: raw:  ff tmp125_proposed:  1750 tmp125_now:  1750
->> tmp125: raw: 100 tmp125_proposed:  2000 tmp125_now:  2000
->> tmp125: raw: 13f tmp125_proposed:  2250 tmp125_now:  2250
->> tmp125: raw: 140 tmp125_proposed:  2500 tmp125_now:  2500
->>
-> 
-> Sorry, you lost me with the above. Are you suggesting that the patch is
-> correct, that it is only correct for TMP125, or something else ?
-> 
-> Guenter
+Have the guest set a reserved bit (bit 63) in EFER while preserving
+the other bits, and verify that the write exits to userspace with
+KVM_MSR_EXIT_REASON_INVAL along with the attempted value.
 
-Ok, I guess the same thing happend to me now too?
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+Tested on Intel Core i5-10210U (VMX). Not tested on AMD.
+---
+ .../selftests/kvm/x86/userspace_msr_exit_test.c      | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Is there something specific you want to hear? My reasoning is that I wrote that
-cd929672a9ef ("hwmon: (lm70) Add ti,tmp125 support")
+diff --git a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
+index 2808ce727e5f..7446e1404264 100644
+--- a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
++++ b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
+@@ -309,6 +309,9 @@ static void guest_msr_calls(bool trapped)
+ 	/* Invalid MSR, should always be handled by user space exit */
+ 	GUEST_ASSERT(rdmsr(0xdeadbeef) == 0xdeadbeef);
+ 	wrmsr(0xdeadbeef, 0x1234);
++
++	/* Setting a reserved EFER bit is rejected by KVM, exit with INVAL */
++	wrmsr(MSR_EFER, rdmsr(MSR_EFER) | BIT_ULL(63));
+ }
+ 
+ static void guest_code_filter_deny(void)
+@@ -627,6 +630,13 @@ static void handle_wrmsr(struct kvm_run *run)
+ 		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_UNKNOWN,
+ 			    "deadbeef trap w/o inval fault");
+ 	}
++
++	if (run->msr.index == MSR_EFER) {
++		TEST_ASSERT(run->msr.data & BIT_ULL(63),
++			    "MSR_EFER data missing reserved bit");
++		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_INVAL,
++			    "MSR_EFER trap w/o inval fault");
++	}
+ }
+ 
+ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
+@@ -667,7 +677,7 @@ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
+ 
+ done:
+ 	TEST_ASSERT(msr_reads == 4, "Handled 4 rdmsr in user space");
+-	TEST_ASSERT(msr_writes == 3, "Handled 3 wrmsr in user space");
++	TEST_ASSERT(msr_writes == 5, "Handled 5 wrmsr in user space");
+ }
+ 
+ KVM_ONE_VCPU_TEST(user_msr, msr_permission_bitmap, guest_code_permission_bitmap)
+-- 
+2.53.0
 
-I definitely wasn't aware that / 32 screws the with the rouding result for negative
-integers and >> 5 wasn't. For unsigned compilers actually replace the divison when
-the divisor is a 2^x constant on their own. You can find so many threads/topics about
-that explaining why (basically pick your favourite).
-
-https://softwareengineering.stackexchange.com/questions/209678/why-does-division-and-multiplication-by-2-use-the-shift-operator-rather-than-div
-https://stackoverflow.com/a/27052650
-...
-
-It's been too long to remember what went through my head back then, but I knew that
-replacing / 32 with >> 5 is a common optimization because the bitshift operation is
-faster than spooling up the hardware dividers. But it would have looked funny when
-all the other conversion codes (especially the LM70s. Because it's almost identical...
-except the LM70 has the sign-bit at D15 and hence the raw value can be directly cast
-to a s16 type). So definitly that >> 5 was on my mind.
-
-Now, I was surprised to hear that / 32 and >> 5 differ for negative numbers and I wanted
-to find out and the experiment tells me: yes, it's true.
-
-Do you get the same result? What if you replace the function with the other
-LM/TMP implementation?
-
-But I have the suspicion, this doesn't answer your question, or does it?
-
-Cheers,
-Christian
