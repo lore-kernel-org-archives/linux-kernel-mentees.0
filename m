@@ -1,105 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E92949DB80;
-	Fri, 25 Sep 2026 22:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E39288C2D;
+	Sat, 26 Sep 2026 01:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790374503; cv=none; b=Y9qjzI6Fn1YSbc4oKC8DUFfHZGLD8/zBZb8vrUiAV0NbakvK3OJuxF3QvpWvuDXmRn+LtOzoVW73h9JtNXR23ALKh9f7mCPvnLWYQcXamiSegCVJabo3QSl6dmMcECng1dPL/1fYiDVQZOMmY1bhiRq2OQsD/JrwgSvBnK9D3JA=
+	t=1790387479; cv=none; b=QrxloEVoh0HDgs58DSMVPmP1jw0sRVMCfaxfXDQ+be6kiMIVVtukGGRTQZj4oaBLKA6cmBYKScR4nU5hArC2oYIM6e+ttVMZL5boRjmXRH6ivOHfzlvOr8kR4ua2mraq7taT1sv8vGQHT33HX9xvgw9/zECY8p4j/lh/VDQKcUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790374503; c=relaxed/simple;
-	bh=2q+RDUY3jyCj0avmWeJvTt1W4LILIcflnxTZ01CqvDc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=lovyu8+546CYDafNU5wPa7ZR+XJoJ7dHNZh9KUEM0sWjw/lXD0v2H/yLrsm3F8K4QbTlgzuFJFTa8Mk2P9jQDJuZJhnOX7z0brECFf7aAhZMJHQOR7gCxgNRkNHfLUqEK83hB+f/cd+v5WxBNUsQmnKaL5lVBJJaUfoXrzrfY6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qxVDR1bg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790387479; c=relaxed/simple;
+	bh=iRbh/GNTMBnAySZz6qHQEI5VRTmYvgSqj69I9Y9gLzY=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=A/AtCugz9icgpnSBy3RhGnf8LNTgDVZBcPzzVI8lej5A2UJAGlETi9U6FM+yeq441K2RF9NCXzgD8j1rVi+F/Q4lnJamtZs78XGiVlzpXKX7KVc9/9bVtqaTbfv3OAPLX+xfn00Eji5GYlX27RfDnhspP3pPw//tz5u2X+D7+vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkWJQp+F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qxVDR1bg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F4B1F000FF;
-	Fri, 25 Sep 2026 22:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1790374501;
-	bh=Gv3eO9GNPrNvYVMn07KZEaWja3PX8hQiFyYjoNkPaLQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=qxVDR1bg1fo5VwO2/RGg5Vtr+CwwYlXKWaJbHeaOFrsRIEK1O6pCV38B9XtQQBxr6
-	 hAlcZq47eA0Wku2HzDmgfyqeJG9EVIDe40BQoTe/mo/gXl0SW20FqiNtv6b60Ne3/8
-	 BCCJDOSTtZbkTRGxu+3ULtmDL5DGFlj9DQTXGrRw=
-Date: Fri, 25 Sep 2026 15:15:00 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, Brigham
- Campbell <me@brighamcampbell.com>, linux-kernel-mentees@lists.linux.dev,
- syzbot+442828bb356b10813a47@syzkaller.appspotmail.com, Uladzislau Rezki
- <urezki@gmail.com>, Baoquan He <baoquan.he@linux.dev>, linux-mm@kvack.org
-Subject: Re: [PATCH] mm/vmalloc: do not warn on -ENOMEM from va_clip() in
- pcpu_get_vm_areas()
-Message-Id: <20260925151500.75fcb001ef8cd7f4842e62aa@linux-foundation.org>
-In-Reply-To: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
-References: <20260925205450.21262-1-raghunathpalla.0209@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkWJQp+F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE141F000FF;
+	Sat, 26 Sep 2026 01:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790387477;
+	bh=n70V3vdtX6ryAsqYNi13UkyqF4WaKk+bYDJNpQ4nOnM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=bkWJQp+FjkW+hC1+S34vjASvOHnKb7rpwr6dU8KWmutF0gKK6/ljnY5pNt1TlxvhK
+	 XP1vL77Q+4el0ebhWClBzu4us5rp/TWW8LV+w25m1EI3ZHMEoiqqwJzDFdMH0yHcfM
+	 hGH5GlgVW6t9WVTWpa8vu7oz7vwD+YiA8f54xwwV7g8D0QALsHRXwRBVVf0swY7LJx
+	 39XwILRrF/9R7gL4gwqaNbrcf3mDQoFoqfHFkrc/gCzLhyMSMtcSpWeFo9IRmvYW7r
+	 X8aiEtOPOuN22hoc0DBz8M8zey93jWjjMQMFlG78i53pZY5U6OzJCPSXQpQPiOCxD2
+	 wKVarVTyPUAdw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93CCA3809A08;
+	Sat, 26 Sep 2026 01:50:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] ice: dpll: fix kernel-doc parameter descriptions
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179038740515.3239957.17007030778615072789.git-patchwork-notify@kernel.org>
+Date: Sat, 26 Sep 2026 01:50:05 +0000
+References: <20260924232138.69492-1-ayush37735@gmail.com>
+In-Reply-To: <20260924232138.69492-1-ayush37735@gmail.com>
+To: Ayush Yaduvanshi <ayush37735@gmail.com>
+Cc: anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+ intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ skhan@linuxfoundation.org, jkoolstra@xs4all.nl, me@brighamcampbell.com,
+ linux-kernel-mentees@lists.linux.dev
 
-On Fri, 25 Sep 2026 21:54:49 +0100 Palla Raghunath <raghunathpalla.0209@gmail.com> wrote:
+Hello:
 
-> When pcpu_get_vm_areas() has to split a free vmap_area in the middle
-> (NE_FIT_TYPE), va_clip() needs an extra vmap_area object. It takes the
-> per-cpu ne_fit_preload_node if one is there, and otherwise falls back
-> to kmem_cache_alloc(GFP_NOWAIT), which may fail and return -ENOMEM.
-> pcpu_get_vm_areas() never preloads, and a single call can do more than
-> one such split: on a NUMA system it places one area per node group, so
-> the first split consumes the preloaded object and the next one depends
-> on the GFP_NOWAIT allocation.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri, 25 Sep 2026 04:51:38 +0530 you wrote:
+> Remove stale @count and @cgu parameter descriptions from
+> ice_dpll_init_fwnode_pins() and ice_dpll_init_pins_e825().
 > 
-> That failure is expected and already handled: the recovery path returns
-> the areas clipped so far to the free tree, purges lazily freed areas and
-> retries. But the error is checked with WARN_ON_ONCE(), so a transient
-> allocation failure under memory pressure or fault injection triggers a
-> kernel warning, and a panic with panic_on_warn. syzbot hit this on a
-> two-node VM while creating a per-cpu BPF array map.
-> 
-> Keep the WARN_ON_ONCE() for errors other than -ENOMEM, which do indicate
-> a bug, and take the recovery path either way. This matches what commit
-> b9183788a2de ("mm/vmalloc: do not warn on -ENOMEM from va_alloc()") did
-> for the other va_clip() caller.
-> 
-> Fixes: 1b23ff80b399 ("mm/vmalloc: invoke classify_va_fit_type() in adjust_va_to_fit_type()")
-> Reported-by: syzbot+442828bb356b10813a47@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=442828bb356b10813a47
+> Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
+> ---
+>  drivers/net/ethernet/intel/ice/ice_dpll.c | 2 --
+>  1 file changed, 2 deletions(-)
 
-I assume sysbot hit this via fault injection.    The report doesn't make this
-info easily available.  Or maybe it wasn't fault injection.
+Here is the summary with links:
+  - ice: dpll: fix kernel-doc parameter descriptions
+    https://git.kernel.org/netdev/net-next/c/a72690652227
 
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -5107,9 +5107,14 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
->  
->  		ret = va_clip(&free_vmap_area_root,
->  			&free_vmap_area_list, va, start, size);
-> -		if (WARN_ON_ONCE(unlikely(ret)))
-> -			/* It is a BUG(), but trigger recovery instead. */
-> +		if (unlikely(ret)) {
-> +			/*
-> +			 * -ENOMEM from the GFP_NOWAIT fallback is expected.
-> +			 * Anything else is a BUG(), but trigger recovery instead.
-> +			 */
-> +			WARN_ON_ONCE(ret != -ENOMEM);
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Look good.
 
-The WARN_ON_ONCE() is potentially redundant.  We could make va_clip()
-remove __GFP_NOWARN from its kmem_cache_alloc() and let the page
-allocator do the warn for us.  Doesn't matter.
-
->  			goto recovery;
-> +		}
->  
->  		/* Allocated area. */
->  		va = vas[area];
-> -- 
-> 2.34.1
