@@ -1,92 +1,88 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661354E2F03
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 21:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50EE4E50B2
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 21:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790718266; cv=none; b=MohBp4BpgRYsr1+I8gtTAR/TRLQr7XoXKptr47zzUR2CXPM/DW38SSeV1/Hew+TnXbMS9l9AvLur53FMpWTMPI6aaQVsfsDq7k178+83I0ChTKZk+PqLJDyHdupF5CeKRRQAfccNyYcCeHhGHfLPR4Y437DHHw3kqCWhwF/RPRw=
+	t=1790718528; cv=none; b=fLq674RUJftRV1YAaEOYXz4YUlH6bZSIy07Hds6ZB0ujFsHk5jdJHT8Dw2cAtgkbs282YGKnxz/FiRwSGEFvevd4MWJ/HrG0CSA48qT5iqJ5ZY3JD99p+9YzVpWSAi47K/tZcblIG1ghN9nRcmJLmmFk83au2eQvB63ky/yVJbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790718266; c=relaxed/simple;
-	bh=sSS5ujNqwDF2ukOfHcgyrFNo6NxMTwMpa3kXviLIz/s=;
+	s=arc-20240116; t=1790718528; c=relaxed/simple;
+	bh=jEAlHCaf7HwrBMr2fEr3XlegkapBlO+MtAspedqTvo8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ElNG19BuBZf/QWWjRZcZbtW8dsHaTY1Zn4MK/Tw2Y5DlXybBo6mdHcKJuDxB5b7lIBYO2NSbgCqkxsb0iB35nCTmGEaKiTcBsKg5STeZraegG43KnaFyj866WIlghqGbKCFN3rUbvdfGS+SvDAc21ML+MmIgINb+phaj4RWAxkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=kEBkUOrR; arc=none smtp.client-ip=74.125.227.168
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2pqkmdNYsuyLR3fFjQqiI29fPkmHzzaru060/AtDw1RhuZstsz8u+lo/U9PVMIo8D8azJpB4oHAe5ApMWxh8+So6rVHwapqwHF20cXSjEVEs1rRm3HzgGxeM/vlagJvwRiGdPdwncPISAuBEs+o0bdOzHyu1A4vEePeEkWg2GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=VGtwie+d; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="kEBkUOrR"
-Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0eeda3e03so1733576a91.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 14:44:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="VGtwie+d"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-868cfc5c244so1537544b3a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 14:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790718257; x=1791323057; darn=lists.linux.dev;
+        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790718524; x=1791323324; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:mail-followup-to:message-id:subject:cc:to:from:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9q+E3Xh65cY9+ofmYDsNL60Gz/7NdFCbD28qz8ceGUE=;
-        b=kEBkUOrRReYeLgkvtZwInOZ9U5Fc1g3MWZ8YGv73mEuZTvfg7bM9bJoy8d6R0U1m+B
-         KJe8HdUXQzcTP/XLO8CSix2V+j6zN/YjwrIRo6JfPMABHLv1EgQ4/b8vZP15GvLVvdEs
-         QAehvA2V0snWct7QtXawsfOYokk92+h/OFTbvRAZSeKAX/RRtnYjFLqSwotHTHsaQzfm
-         eZbu5Wy6Fboa4N74qQ9GvyAqgPKED8TeQnG8xgw0cvkH2qEQOYrEdpWnDvAPfHJaHO7C
-         Im0he1bBEpJawf9Krmrhn67SgWa1LuhrgqXxLJT1RtG741glaSDnOwvC/fyzxllmEPJo
-         14pQ==
+        bh=GnGR8D9Ofu0keKVSYqoY+bfqxp7ik+ClHNVT61CMuqY=;
+        b=VGtwie+doefHPsHv2vrksrH1NCXkDfcJ9aiw4tBclmKBIbk+Ey1/PsGhLrUqxj+K+6
+         lKQytDehHDwa09ilmJWJxelI3cq5v4sYB6Iqls0ZyyiXZYt5aaHV1up+6uCLBOXzav6j
+         7+evvTAu4MIUt5NOjHl9kOW7VUksZf2HQJs1H988nT4TepLnPQsqSSqH0Ij/KOiIODxP
+         M9Fw6LLWFwfY3NJKSMSUHcDKQdd9KIO2xCOSdEJhCJJjfKXdQ6SqvzbYeFmjPysXXB/c
+         YOglqr7sMIIo19yThagp+rzdOfDjV1qNr3GtdG+ChAsZuH8pOET3uRs1N62vaMbpM9Md
+         lXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790718257; x=1791323057;
+        d=1e100.net; s=20260707; t=1790718524; x=1791323324;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=9q+E3Xh65cY9+ofmYDsNL60Gz/7NdFCbD28qz8ceGUE=;
-        b=a5TBKguMtYySvKD9iZIoDjZ979YuCobUnV2W6UVB2ua9jnWg8x8dWsdv7eJqm+JQ1f
-         PDXNEuWly1uhvQtwwGaEopgnC2LV7Xoc8gnq/ILX1IuBxfI8ZsAJhu+7ucLwF6SfVclZ
-         SFTnD5AD5WEJzcb7h77v0QAOGi1j+IpynV5nUdcseUDU7sYe+Kp3SXZyt8W9R50aWEXC
-         vbKNMtzyq3d+pxS5vVp6T/iu8+3XEpe+j3hu3F5FrYZRFrao8IMqsxcQdHodIf22KVfb
-         waiaEbEzNH1nuo0cL/KwNvFQxcQ/D0I2oTi9UTgGH8Xk3rNoNukwd4SGwu2TO5o1HEhX
-         s5wg==
-X-Forwarded-Encrypted: i=1; AKwUvBzcpNhrRPYY5IL2+n10dI1Hf/voezxXK7XrhxaP+4gxZAHc+0V+EYQhuJgEjBfvXqqNsX1LlJq9h7Xsjmlgjaffc4R1CA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLZErk/2/8u2Gz+Uuu6Lb2NGCDXaaY1vmwxWiFIiKw+nE6v2mi+
-	A3K3boru3uSErlwfpoE+iV0SuTdpwSbRDaIMcFgsSO5uaoj45CjN2YduzKQfrPyWH7c=
-X-Gm-Gg: AYBFou3LkHczoQOsYTxfQDLHp8xkwjKVq3kYXY8zK69wErx/S1AfA+0xraf05OjOF26
-	vesV7bbByaGRK31n59j/n6UNAxpiQu14mb98qVJBvTOo+ojE2ai5j/OHM7utwTza1xcjyLOZ2RH
-	sw1YtJ7sejIPYtJE7TTf/JicMVm3eObeQGg8w1PwnqY2cO82afwweylTOq9C5x4gyw7BhD1MYsn
-	Hznv6y7jblWty4LQ3Bc3v9hFeVHVUf9A2OQsA9pewv9igTWuLpRvQE0KVwuElspTlYCYPrmsFRW
-	TyNGmJegy2KPo3xR4lywVsF1i0o7ujjowv5qEuc7oEDqXEBfAvfaWVQErMJA6THJZNpz89rOIIr
-	69Wp+yKLDx6CT3DiYCRT6maP90NEKoh50DY3lZiWFW8NDlZeWaowL3hKQErigY3hF+P0SwDrYbs
-	JnrEBpPH1yC0XLmPcAwXH29tQiB97TBXe2EOLzO22fgviixsbNDWfsJa/MrMOPib8qI7MIowO6E
-	wX+hJtIWwHruCaeilK0GOFv
-X-Received: by 2002:a17:90b:5109:b0:3a4:b8f3:8192 with SMTP id 98e67ed59e1d1-3a4bfeddacemr290081a91.52.1790718257035;
-        Tue, 29 Sep 2026 14:44:17 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:4c::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4c6142209sm74299a91.0.2026.09.29.14.44.14
+        bh=GnGR8D9Ofu0keKVSYqoY+bfqxp7ik+ClHNVT61CMuqY=;
+        b=TbCuBZSwelyaPC4UIRJIGr+54+pdIzhOa+qLGepO+1w8m9EKV8uQLlo1yMLfL8kl36
+         xSaArHDEP9nUSh62N9q38mqEeMzuW5GwpJbPVro0UZjdbsPmJdE/EgD8AbLa5fgqvNpD
+         sqsqlLtsRcJjCBcyfWqsc5lAvxVLxerq6CJpsjZTf2DHVeokc2XZF10XpGQ9XE8Zra8/
+         kyIUF6ZM2yUAyjWAgd6vMIl5U5uOCwvkwPiMAKJGc8YhRyQ0bINIpH5xdPDGolROibSD
+         lRs5cPSn7Bp1I33WLfyzMXU/qeFleQ/WZUcI7Oom8ZigWcQ8RivP4507twmw9ENjDpfq
+         e4ww==
+X-Forwarded-Encrypted: i=1; AKwUvBy8miVmrlT+v28vDGgdbNxbR4GSzEo0KtDt0QkUY6SpxovwzLXmzGlpj1nj35jZwoF5e8YdfXYr69kiuZ2pln0DYeaXLw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mx8s/BtJEVMOEItpVVPr5QzQAKYHIJphweZvgn5z6f8H4k7k6c
+	x14P4YjyRR34RR6Z9UgogBeOnbKdRwauCYebq9956bd+AxXBMkb6SHArGtmYXv+vfy4=
+X-Gm-Gg: AYBFou33YUrNbeutRK/vg7m+QhFaiE6xMORQdvH34PQKXkLYFgcuNZsRMNuYcXS8CLs
+	4Vp99OAlJjXL+nAoxjiQ1o9ayjGuqhsrlhcGfhfSu/Tn/p2XQc8NnaRJdOL1H3ntl9nhEu9dTNR
+	xA9iBdgKVCeCWgdl9K0B3Co5NseMEmjuB6d1w9RS1Q03nZK5jPdWIC1V6hFL3HqXdAvM+soo9jo
+	u4zxUnQDkR5ICgiXblnl+d3nHHY4OXch9UrNpLpAtkp5qYB/Bgb7nulfhB71Aeumwpk4DbEoLA6
+	UKxGNs9tbQr1pVnbtiy0lSGyAKdg5YnEy38yEvsVZRxn5RyCyE40KoSn0kX3Sx3ab9WCMh+VibZ
+	XoaECgbicW6zesGL0iaVGdeNATS4JTbEqm9+CZTvlQjJJN6cgnSNRBWT6TmYlhj037lVcGsXots
+	UYOsZXv4qnx+Vz5TOvwiEwfhexY271dCU4uQXIcWHseZc1Hf3zDHu92FdWoq2OYxMcT7+awPDZ2
+	UWFYv9OoUr+mN0ZtxWeLC4=
+X-Received: by 2002:a05:6a00:3005:b0:874:705d:f63e with SMTP id d2e1a72fcca58-886c48b3682mr475937b3a.32.1790718524401;
+        Tue, 29 Sep 2026 14:48:44 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:58::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8868ccc884csm451233b3a.50.2026.09.29.14.48.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 14:44:15 -0700 (PDT)
-Date: Tue, 29 Sep 2026 14:44:14 -0700
+        Tue, 29 Sep 2026 14:48:43 -0700 (PDT)
+Date: Tue, 29 Sep 2026 14:48:42 -0700
 From: Joe Damato <joe@dama.to>
 To: Ayush Yaduvanshi <ayush37735@gmail.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com, linux-kernel@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH net-next] sfc: siena: fix kernel-doc description for
- efx_ptp_timeset
-Message-ID: <arwxLnscbs05f84x@devvm20253.cco0.facebook.com>
+Subject: Re: [PATCH net-next] atlx: fix kernel-doc description for
+ atlx_tx_timeout
+Message-ID: <arwyOuM3q36/q4RX@devvm20253.cco0.facebook.com>
 Mail-Followup-To: Joe Damato <joe@dama.to>,
 	Ayush Yaduvanshi <ayush37735@gmail.com>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
-	linux-net-drivers@amd.com, linux-kernel@vger.kernel.org,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-kernel-mentees@lists.linux.dev
-References: <20260929100625.50380-1-ayush37735@gmail.com>
+References: <20260929101714.51579-1-ayush37735@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -95,16 +91,16 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929100625.50380-1-ayush37735@gmail.com>
+In-Reply-To: <20260929101714.51579-1-ayush37735@gmail.com>
 
-On Tue, Sep 29, 2026 at 03:36:24PM +0530, Ayush Yaduvanshi wrote:
-> Remove excess @valid struct member description from
+On Tue, Sep 29, 2026 at 03:47:13PM +0530, Ayush Yaduvanshi wrote:
+> Add missing @txqueue parameter description to atlx_tx_timeout
 > 
-> efx_ptp_timeset.
+> to eliminate kernel-doc warning.
 > 
 > Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
 > ---
->  drivers/net/ethernet/sfc/siena/ptp.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/net/ethernet/atheros/atlx/atlx.c | 1 +
+>  1 file changed, 1 insertion(+)
 
 Reviewed-by: Joe Damato <joe@dama.to>
