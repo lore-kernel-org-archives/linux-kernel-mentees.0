@@ -1,144 +1,110 @@
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDECA4EF151
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Sep 2026 16:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207034F4059
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 09:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790613609; cv=none; b=Qb3mRkg1gQNxUWd0O4CnxPIZ/ZejKoy8RBZVvSz7SeNtC9JvpeVUlKRJXOqBS8M/7Wc2pNWMWoD5TxT9q3OOuLWONJNklnW+ARyxog1mBXynyi0QjrosjiM37i4rShXRmVW/BZppBH6qFM9WOUtdAADPgfjjVuAGovmc2LE8Udo=
+	t=1790675010; cv=none; b=g5rwoTPBUFRK8Ni+p0XnS2z2J7Ulm8LAaCMmNq1NnY61ZapQ4xg0Slc+J37pdIhUlb6W6gPxfyziNmnvTyMVHmMeXbQ0IS49qiUIRvJESo+gVd8vEY/fqzE9JIMld22ZekAfceN8gCjK2turysq4i1U5ebjoO49IEBjHPErr0nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790613609; c=relaxed/simple;
-	bh=6THoCCBVd+/ZjxZ3xgtcJIVoQhC/QcPIewn4tAZ+WI0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=BMjB150+6tb1ZNu7cqEF6h6dqFVHni/3BzzY55ICg9J0sdE+FS5sZxZokb47Q11jup71sriVnIDogFSbWWQHsQGtbvc5c20v/GopFr0jAdmkG+zPWQwlDLnrVqu5UK0DouGFs59TBlhhsZ5OCQ/NbLO5VZUrt1ivh6hIAIfz0tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AaMvCIwi; arc=none smtp.client-ip=209.85.215.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1790675010; c=relaxed/simple;
+	bh=OdQgp1gL3QtlQrsCyzRykVIHp+LSRj6Wvz9fNOlGfq0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NoEa50X6BlP0JdiFMlLAE+6SWaj1qdYhWTsmzJmf67Ge48S9VHyPO1GiA43LddELJthMHh4cPfppAn8gqE2wzfvGqekttqbZLesqIAwtOiKFIFnEvJFuHuMjcIpwoG3d2j+0CXAdZ2a8t6oDPkqyLSa1ilq83SpPyNOUcoY70EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9WMqnuT; arc=none smtp.client-ip=74.125.229.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AaMvCIwi"
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cc44d708055so3977531a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 28 Sep 2026 09:40:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9WMqnuT"
+Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-347866278b6so941926eec.2
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 02:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790613607; x=1791218407; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/MWRr8LBMaJZmxpSUxy/Rjeh3NVu2xmhfdirmx3vVU0=;
-        b=AaMvCIwi/R5Kl9Zix7bFIMi4YzHJRr39yW+pcXTcNam1y6PmhgKPoYa2mMtHbLXLEa
-         Phl0j7Mzy4LW5cyTNGsV1j1ZbKBvtcevMA4CtwmWDCb2pw8mprbYrBqsjG2IA3aXVb8x
-         00XFuVYmb1WPvR7W7XIHmwAXDFhJYMBAPvXkTXh4xZaENgq4Yd9S62oqOSJyqT4T4gCO
-         h5AQ+/1NN+a3IuF5u3anD9VJmesjrE9HxnsoWfxUC/AoTaGcBx7rQ07aiXoL4EvweRaQ
-         mB5roym5Q3mK+zaEOiJumAuhjI4fNSto1MBwRxSMnjx7vawDXCI359OBGS6nZhIlZ9Kj
-         Dx5w==
+        d=gmail.com; s=20251104; t=1790675008; x=1791279808; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MMNDGpCcXlVn+K/qHQzmlZIK4VMU5usMdqSK6Jfjkss=;
+        b=B9WMqnuTUpfgJenwn+Os5Zo9mBcHS6u6JP/LnEFKSmPhh0z4GM40yFv4v9zM+sBkh1
+         KoqVvNMe8TOVWboTWUYimsp7wVHC3v06Jv55ddAxtvi8amDYqhfiQNmmXozrARO/DDff
+         D9PrkIlc+PlphfEQXr4Q926w0SD8y1+XO5oLUtnV/iu5e60+Inka6dpfXBJIk6wt6yyY
+         yVORizzhlUjEuaB1RN8eDAyVCEWb7dr38o6nn/v2nugSaciI5N0+BOrEzAv2X/aM5q0b
+         dibbmOR3yPuvsOs97ZsORr63TumVi89PS96WIkADHMQnwfWPLkjBa7VFryTMtqx94gYK
+         KqSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790613607; x=1791218407;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790675008; x=1791279808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/MWRr8LBMaJZmxpSUxy/Rjeh3NVu2xmhfdirmx3vVU0=;
-        b=1QtLnjLEqVD+W/YpQZd4iVCdYn4dXfZfSpZaPR1zqSQelaJSh7ME1pJlJaSDTjgGmb
-         RQvVFyfu1vGm1Ltz9R3PHVxe2PMsv0a7m+48/AWMWFcmPJuPu9LKNGu7BGQv4ERlvXSY
-         3fxkHrkV5kRtl8mwPKxQ2PN+6FMq3i3i2dn7/9XAyDUAquEOz4vhuKPnGZ9RndSSG6oy
-         kXcePaQ5Gb66k/F88sIvgEhWmy4f04SU2Do10BFTOeLmqiDCPVQINrlWEUIxEZcnpplb
-         bq/84XgX3lNgworefSt3TGESd1HyVRc+/JY/ebkTLED7kSHwRkIrNsFbiMLkomxQzIZR
-         BEvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw/GFYO+7M41MktDGZ8ZfxBz0Ug9vhnweviYGbI6tzHSLckN2b27frCr1kECRsG6qB/92fTnwpaM92QtDYzUK7m7OwZAw==@lists.linux.dev
-X-Gm-Message-State: AFuF++l82WJOsCYUhBq3HQ0C9iO8WHYbgx1UEPS/mrfbTqspPukSekiR
-	XZt7cKGs0KyVN2yu0Ys5knKy/xhuRIjcm+Vfv9dxeDHhtTG71D8o94BSlxGAHlOhlQYGq1TaYxC
-	AP4iNTw==
-X-Received: from pgbgj7.prod.google.com ([2002:a05:6a02:4947:b0:cc7:9d5b:c2ac])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:cf8f:b0:3de:79b7:d62e
- with SMTP id adf61e73a8af0-3de79b7da7cmr609965637.54.1790613606937; Mon, 28
- Sep 2026 09:40:06 -0700 (PDT)
-Date: Mon, 28 Sep 2026 09:40:06 -0700
-In-Reply-To: <20260926104355.13697-1-tharitt97@gmail.com>
+        bh=MMNDGpCcXlVn+K/qHQzmlZIK4VMU5usMdqSK6Jfjkss=;
+        b=D5EwBFau6kSdliUAsomubsXXss0woqkSdXHpBMkhgf1MWwy7+Qrwuo771l01JhNsAU
+         99YMz2suJjKR2lBiipwebZvWzATkQ6ggvvuy/kUSMRpKSJkRVMrKiQXlUjcd7eA69tMG
+         PwBlOUse6ZT43QISvVt8+9y7WLB/VXKJqkl6MLegGdduhMjJXEgNX6egQ59CypNzvn3u
+         i5qRQSVRJJ9BrsjUEnRlvMLIFVe1pxAXsj4z4x/Fp19VbGbRg/0FaYgXWoteIa/6busU
+         u1oUdV42JtMXdBChJaRRlHhRv+uSUT52U2X2ul0ZV+JezSHjwZTbXAEL2a+vCM2nv+N9
+         8U6g==
+X-Forwarded-Encrypted: i=1; AKwUvBwxHzzXcJ5Sad0BEZEo6BcvnwdntGmBTH0AL6KfcMZFFlXpmO1GI6ibGYVTViUUhxGf/lRN2SZ6apbNvd/ksupIuOyPCQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKLD58EGenDbNqzB2Driso58S4/nnQtmzlcSTtpqM3I1/GSBaS8
+	RRYas5uUke6MbCzI5HypKqak3OTx4TnDMbZmu3VB99MifBY5Zbboh3b2
+X-Gm-Gg: AYBFou3cP2/oYZL3udCE18oDzAC1JnuvhdkwKEbwEYNutl9X9mB03tOk5A0ExVsPioU
+	AETNdQFOm5IXT95raBttXDDegGJZZUJJsjTbS+oIgAACtka3FMe50D9abwOOvSMb/BhQa8oyCiL
+	JOZRAy0/9vsezNYfF5+cDXJN536PoiyDnmYRuxedNnxMmKBYebADSYkshRwLyk3LG753Igh4xMb
+	eXZsI9r8c1TuF1FGa1IVEoIxs3BmjhgHqExYpS/6CP0bYVSFZV6nN3/5eq9QqcYwUcCttNxC9OZ
+	a8uU32Qfgb101pKGGIFvdp5dS04JOXEviESQiO3uMTeclWeJ2FDq5w1p2dvOwHlT/4oCx9jmTRI
+	kj1BeYrsP7YZDZSzsoe+IdwDNUZoptujEgTG9FrUJOjmHmBekQtE6Olv5JjjT0GakFrW2PFJgoF
+	qJdmNduF6I1WjiaOmIcdJdqgnxOeQab5W+BA1j0u4kPlA4tCQoMXkCK6Dkrg==
+X-Received: by 2002:a05:7300:3e95:b0:33b:c29a:7c3b with SMTP id 5a478bee46e88-3426cddfb00mr11220105eec.0.1790675008092;
+        Tue, 29 Sep 2026 02:43:28 -0700 (PDT)
+Received: from evangelion-g ([2a09:bac5:40e4:11cd::1c6:2])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34141a4a5ecsm36247742eec.3.2026.09.29.02.43.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 02:43:27 -0700 (PDT)
+From: Ayush Yaduvanshi <ayush37735@gmail.com>
+To: Edward Cree <ecree.xilinx@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>
+Cc: netdev@vger.kernel.org,
+	linux-net-drivers@amd.com,
+	linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	Ayush Yaduvanshi <ayush37735@gmail.com>
+Subject: [PATCH net-next] sfc: fix kernel-doc description for efx_ptp_timeset
+Date: Tue, 29 Sep 2026 15:12:11 +0530
+Message-ID: <20260929094211.48125-1-ayush37735@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260926104355.13697-1-tharitt97@gmail.com>
-Message-ID: <arqYZpzSNppxYBK9@google.com>
-Subject: Re: [PATCH] KVM: selftests: Verify KVM_MSR_EXIT_REASON_INVAL on
- reserved EFER write
-From: Sean Christopherson <seanjc@google.com>
-To: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Shuah Khan <shuah@kernel.org>, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, me@brighamcampbell.com, 
-	jkoolstra@xs4all.nl
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 26, 2026, Tharit Tangkijwanichakul wrote:
-> The msr_filter_deny test covers the FILTER and UNKNOWN MSR exit
-> reasons, but nothing exercises KVM_MSR_EXIT_REASON_INVAL.
-> 
-> Have the guest set a reserved bit (bit 63) in EFER while preserving
-> the other bits, and verify that the write exits to userspace with
-> KVM_MSR_EXIT_REASON_INVAL along with the attempted value.
-> 
-> Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-> ---
-> Tested on Intel Core i5-10210U (VMX). Not tested on AMD.
-> ---
->  .../selftests/kvm/x86/userspace_msr_exit_test.c      | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-> index 2808ce727e5f..7446e1404264 100644
-> --- a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-> +++ b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
-> @@ -309,6 +309,9 @@ static void guest_msr_calls(bool trapped)
->  	/* Invalid MSR, should always be handled by user space exit */
->  	GUEST_ASSERT(rdmsr(0xdeadbeef) == 0xdeadbeef);
->  	wrmsr(0xdeadbeef, 0x1234);
-> +
-> +	/* Setting a reserved EFER bit is rejected by KVM, exit with INVAL */
-> +	wrmsr(MSR_EFER, rdmsr(MSR_EFER) | BIT_ULL(63));
+Remove excess @valid struct member description from
 
-I'd rather use an MSR that is less likely to gain supported bits in the future.
-It's definitely unlikely EFER[63] will be used in the near future, but it's far
-from impossible.
+efx_ptp_timeset.
 
-My vote would be to write a non-canonical (even with LA57=1) value to MSR_FS_BASE
-and/or MSR_GS_BASE.  While it's technically possible that x86 could extend the
-canonical address space, that's pretty much guaranteed to require truly massive
-architectural changes.  And if we reuse the NONCANONICAL macro (which we should),
-then even if the unlikely happens, at the very least it will be easy to find what
-all needs to be updated.  As a bonus, the test already uses in MSR_FS_BASE and
-MSR_GS_BASE, so they're naturally fits.
+Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
+---
+ drivers/net/ethernet/sfc/ptp.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Alternatively, we could use PAT, as it's extremely unlikely x86 is going to gain
-new memory types in the near future, but I like using a non-canonical value.
+diff --git a/drivers/net/ethernet/sfc/ptp.c b/drivers/net/ethernet/sfc/ptp.c
+index 6ca9a75af01d..00cfd8d5b46e 100644
+--- a/drivers/net/ethernet/sfc/ptp.c
++++ b/drivers/net/ethernet/sfc/ptp.c
+@@ -193,7 +193,6 @@ struct efx_ptp_event_rx {
+  * @wait: Number of NIC clock ticks between hardware timestamp being read and
+  *          host end time being seen
+  * @window: Difference of host_end and host_start
+- * @valid: Whether this timeset is valid
+  */
+ struct efx_ptp_timeset {
+ 	u32 host_start;
+-- 
+2.53.0
 
->  }
->  
->  static void guest_code_filter_deny(void)
-> @@ -627,6 +630,13 @@ static void handle_wrmsr(struct kvm_run *run)
->  		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_UNKNOWN,
->  			    "deadbeef trap w/o inval fault");
->  	}
-> +
-> +	if (run->msr.index == MSR_EFER) {
-> +		TEST_ASSERT(run->msr.data & BIT_ULL(63),
-> +			    "MSR_EFER data missing reserved bit");
-> +		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_INVAL,
-> +			    "MSR_EFER trap w/o inval fault");
-> +	}
->  }
->  
->  KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
-> @@ -667,7 +677,7 @@ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
->  
->  done:
->  	TEST_ASSERT(msr_reads == 4, "Handled 4 rdmsr in user space");
-> -	TEST_ASSERT(msr_writes == 3, "Handled 3 wrmsr in user space");
-> +	TEST_ASSERT(msr_writes == 5, "Handled 5 wrmsr in user space");
->  }
->  
->  KVM_ONE_VCPU_TEST(user_msr, msr_permission_bitmap, guest_code_permission_bitmap)
-> -- 
-> 2.53.0
-> 
-> 
