@@ -1,129 +1,153 @@
-Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB5E2D592D
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 16:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698972; cv=pass; b=gDm1oPmrZYbCkzjQWOLmxVetXR4JDHMe193g/VYq+wf+8zHtjX3lxEomJWVdwg1MV/WGWxBdlm6mpnE8tYNexiMNEg28J8ilmQKVDmcAJSQ7xVI2uu+opx7CmoZSE1sdzcKYZ5KM4KGmdEGiQHusGi0Tvhhpk5OR4KUx2IBzdnw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698972; c=relaxed/simple;
-	bh=EUIv/v9If5sMrJ7ZxRvlVjCML+V2/1G7/EZAFvUebhQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZoxrlD+MVypIBM85ZNhWxPb25Um/ghs9oya2PVdhJYjNxTLVjFaDkAQnCr3D9DvNhLtuCaS/1cYRgCwuDLGoubbkFJQgJojFKd+hsa4mEmBqJCOtUVr3wiZLSbBmK2O8XmvbYdjc/QF59vmRIXNVKoFFSb67ldex7LeDiU/aqo0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+qBYZ3W; arc=pass smtp.client-ip=74.125.229.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155E352ED31
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 16:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790699392; cv=none; b=acwdILRgz5PUHcIr0pnxo6srFQ2hgQoDMOkGd9bZ+TrjnhwuW5qIYAnfqkwpbnTwQyztdig7Q4ZNwXfujb5IO4k4Pg4A5XkZ86F35glJmI5ZfwBQJFbYrfH+DfQI35rORwZIBWoLoPn/6OJ+xw5weAvdyCOK0WO0R3FZ/D/bF60=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790699392; c=relaxed/simple;
+	bh=at9caQSNlDirzi19HDDan4Y2L3uJCRt9I9RlxktvPA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVNpwdPCyHktqkMTeoLl4xTy4EskV0s/FO59N/8CvrdwLaKWE/twFK1BrOUgTGhcOycnGQd2pxswTgyE5KUrAtSmePHztNDoaXTjEZHEfsY5BsC3kGWxXMsZCSp0BOaIOVyf11QxfcdyhW0BTTiYVaHO1nVFbMMgHoM7KlfAbdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kr2Rl82R; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+qBYZ3W"
-Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-343697ad877so295376eec.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 09:22:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790698971; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NgazjvIgKgxJzHipHP/rMtsTRtrjdc5zdY67LXdEfBIpWUkPP/xyyUcBWlLNfXAVeN
-         fX5t3yL5PF+XkGwSJF8h67/iME5gx7lTDLM5pHQFO8UrG6Jjv62T40MhbKTWRLB4fCH+
-         PAMSWJYG56LFeVG4NBB3J2C71xpdf2BcaUamHm0338KAipCgg5EzlZ30lnVV48E9sguC
-         lLJJl3zR9n461QYsS5jD+LW4qGC3VVuS+w4PPObJKcKgtf7x9ihwsME2uq5UgfmDpiau
-         cr+XceS2AIHZp1UebRQcoDEBq6YwhXoK7Osd1VO/jljugQ0PwijN0KMT4bWr8oxx3Aru
-         GHwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aeqA9IgsbpJKecOhElEeP5QFRXfeP7pkj4jRPnaVoXE=;
-        fh=S4QYoIi23MyvymXf3uunt5kERF3jwvOwf23t43NWr/g=;
-        b=iE8FXFRGGUcm3Kyu9Z5AEuH1DiSkF1ydmeiMZhK9RPUrYdIHfr63YQ7d3NtUrt8HHM
-         UcdWMGR7OPtXDiErToFOb0mwvOuXc6nLLUvLQkTTPzGwPb74JT/rZ3sEwG0hiN6U7w2j
-         KexDetUKin7tqeecBjr9KBcptF2OvM9DrB7+faerdKzGUURUnnhQToIvkdSBkXBrPp4m
-         gqt1NYw5zE+f4YowWkStvnXRkQkjIVLNutUQPK8oZF4P1a0bkYxdJSkOu380yKBdlDBI
-         YaDkaG/ftz70MQMwoTdAomK1y7X7bq/J0svWncfEqbX6zwbbkmCXWqQnpJOvqx8bGLV5
-         t2AA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kr2Rl82R"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a494638445so929603a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 09:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790698971; x=1791303771; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aeqA9IgsbpJKecOhElEeP5QFRXfeP7pkj4jRPnaVoXE=;
-        b=e+qBYZ3WLT33JFlnmuVzq5jBEvbZCZ/HAlgVax9SrGJAF1Y9nP1/VOXdL/0ECHGc4K
-         YbuKLvuv/VROsREAmBOPSi4GG7wUkrS2wnomEYhirPxnysT8rFwlui2jFXxmj/aAk+1C
-         sKIPhomfZLWaqNyvuugoayRBTq4aFCXxCm3pSfk+Fx3SMNEz/UCLPIJka9CdGpqwhWz4
-         P5wL3TbOi97XGrYq++IE1cyjeenPyt+CBptctDyWYp95JExpV/0GUz0Z4PlbffDgFlxG
-         2YlUckCEEDjZM4W12/EfZCTd8Dt0hSN5hSjKJaT7uJfF3aS6K9H7RZDhvXVx7kCOc6eb
-         HsUw==
+        d=gmail.com; s=20251104; t=1790699389; x=1791304189; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tH7cezq+gJXVplHNKlxZez1fJO97a08MzeloZBiVfiI=;
+        b=kr2Rl82RmHkxh7v90loCzT7+xxvpnpGTC7DV1KiIWmYom93xDWCQ2vu/f4D3s5tqNC
+         WralywN5yDEWIqscQ3ii0JufsF/pm4zl6ceWBbonQ6jG6XQyicjj5gxgNmp0X1UV3vqm
+         wvO4Ym5iLHxXfK97Z7GdDTZfyIc7qU1yh/UaMcncgI9fOILi4yMI9xdQDpRZzsvMifZ2
+         4Nv3khuDB9oBmwiS4GIqN9lj1YbuZtZkvbFGx7YARptMRsNSYeFIWcQW3bhOu6pPdZs4
+         dwtR/3alV2HyMAOdaFaT+yiBU8EKPExNUVt8Eo+nVeu7P0u1crRvOFJcoYh3LBrpVmou
+         iYpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790698971; x=1791303771;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aeqA9IgsbpJKecOhElEeP5QFRXfeP7pkj4jRPnaVoXE=;
-        b=BZS1aaHA+h6YbT0ymFFA5vk2I2l+VrJq4FMmk2KPErYFnsJKlJZXfTrBPoM0Fo/2oK
-         oQYB2AIBXJhMU/+7BxVeYX/5aDPfQQ3M1OJ6PF8uo/3w46PjYAVTElFt3dRtnGEVeXwx
-         lBprFBn+TSCdnOoa+S0Yx5TCkmV0Tcp7VCwJ8YzmkO8j3GoKmAyTPN21fGQm1a3AN5kd
-         7OTJnY96l/gE/FqtNom/u1qvZU7wizBSTZwh+zjZRiDXdsMc+mgvhlaO2x65lbaG1hBd
-         mtRX/va7+eiTBOrKxGOyJE8BahVlaACacxgb9IIe1YDst4hIPQylYeQNXFjPoFgKpMBB
-         BtsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzWov2mvwzLYzUBLp2WhEPYsaTrPh9EAfEbbuTLEdvdyapOjgEw05mkX/M6ptdKWp40OOf5nciJaJaDdU/jCY0UGU6I4Q==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLxYHZFuTVQ2dJDCFXjA2U5jlSb6Y7cXK475SehQW96aHtv9pOT
-	z5LCij7Zq5FwjJbdG5E5bQaqO61vi+ymKdgn8baTCJ9i01HCQhpk0yocEtO5ML+nyx895NR4odS
-	Q4Xyuk4xh6HrDLGZym6iek9tCxvkfFck=
-X-Gm-Gg: AYBFou1C7troJlKbBX1yL5SWQaHbsbzvfNL9wpgjdhBTikNloN/msAWi5hXFI2rAnQF
-	Upfurpasf2w1Au8zqjTev2PZuiVZ3857xWoBHbqiQz6jYLAljd4wie1fz4MYTw6/UljPX4Aem2D
-	zIZoaBcFgaSFz5iW4/ltS+4ey/UeAB7Us/ZPcl5S7pYx0q4PZmDXY3+fF6P8y8nPP415AkDBaWx
-	111olviiJ+RAkxHeP1BU5espXrM5NlJ0TALemefvDWWLtLP3I5QrXoy+mi7BS91t0BIWL8eNfgO
-	/al6DUh++h4y2NaJ1LC3wyYaD9lg5PgL2B/uyUB1fAn8Y7MniykVS93vx0K995PpUUTmhtY1MOc
-	6j84aHdFu+tJv3X6tKOMSHkFx6Z61sYODGtn9hPOKgWuw6DIBs651Xo4vsgUL6PXDXcKZ6yJqDX
-	Ko+ZkzdgDVUtOz4G/P2YbVYN7RGPZOjxCCrrE8fUEPAZfq6vM4mlI=
-X-Received: by 2002:a05:693c:4092:b0:34b:7c9c:9a69 with SMTP id
- 5a478bee46e88-34b7c9c9c19mr3727503eec.0.1790698970688; Tue, 29 Sep 2026
- 09:22:50 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790699389; x=1791304189;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tH7cezq+gJXVplHNKlxZez1fJO97a08MzeloZBiVfiI=;
+        b=v4hJboUwDkIUaKctuMszhht3+CzWFJ9zqfDTULYzHBr0q9mk9KmOBfFMcqoDB1HsvV
+         6nS4lY9jQQ6+9TCBIjHv5sOTjE0jD4MubY/O8YMEXf+SeRsgZn28g/VSUZCHdJ7mh8tl
+         q+bxN/1o5nbKvYpUfXz/6Js7iqRbBdRkX/ZJsietZahAFVdG0hAD8Nt+pwCqv7b3wg2b
+         BslBLndjaAl46XE7vd6tYaPGUE6zyB67OirfqAOv5AkcK7NNmC0bLRUTGwvLnIfIcGqx
+         TGlohd3hebUWOV9b5YaBXZ60fGYcq15irLy5IUZpMbEmhGt4TnQ856kr1ugPPZETBVnY
+         Vsng==
+X-Forwarded-Encrypted: i=1; AKwUvBw+ri6DDLyOtvkkKUXx7vksHbASzWiI7s8ypGu3HWCyhozWRDac+LKif45Ovxe6V+uj3ipy7bVuhaJCuYehrB9ph92Srw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJUqIPrqgLvx2m7irWhSrPwlvZE0VvU7hCCPeJ7tGg7k7D01FiU
+	nGCvnGLjrqHoYWPi6xouz1RC3sVOrkzsON56cuzsE5SrinrE3Qk599Uv
+X-Gm-Gg: AYBFou3YyhZok3MAIMYFSVWtmW3g2jkz9EA4B1fsiFVdB9ckm2gI0rRjY8vUlgKX/l9
+	E5k10RbFAy1BlbxXHK1gkMEzJhpEfLqgQS8lihbOSWKWFUcpt1qumjzAM9p01uYIwRdTpNHu8Wi
+	Nh5Q8QNpeWrDuMP1fBBDE8lPkIfqHXp9o4mdKgQ2ugfyJ933Og1SAKX7kp12gCaKrI+/yCGqBE2
+	2bmrrOz+uMCEbzaSjtxbWRYbsWCbjoI0ZWxXYD0uIO8INeh7FTXJ57Sx2D18rDJ2HH/Tahkr6Wu
+	kB3NMmTz1R7v3URwMnUsiLrnPshfjhKyv5lC0AhlWp1b8yT0i0Yid3OVg+FMdUu/l8MN7vS0ehR
+	giLojqTn+J405s5c5iiyJPrmCmR5bp9tEunREe8O3bc0icpd4lRVuuP0m+2ljIcAmJebdDM0VpF
+	dMlQTU3XzgNjKtF+LICgsnPMOp5NfYzvp/YcvBEScx3VrrErbMZNWO5mlaA5DxIRsrrlhpK+oD6
+	Ffjm8Z2fXDNOOrdqzaTgw==
+X-Received: by 2002:a17:90b:2882:b0:3a4:b8fd:5d67 with SMTP id 98e67ed59e1d1-3a4b8fd5e29mr379785a91.50.1790699389050;
+        Tue, 29 Sep 2026 09:29:49 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:8c3c:36b:3374:1c96])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a497ecef67sm6481678a91.6.2026.09.29.09.29.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 09:29:48 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: seanjc@google.com,
+	pbonzini@redhat.com,
+	shuah@kernel.org
+Cc: kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH v2] KVM: selftests: Verify KVM_MSR_EXIT_REASON_INVAL on non-canonical FS_BASE write
+Date: Tue, 29 Sep 2026 23:29:40 +0700
+Message-ID: <20260929162940.14610-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1790599486.git.nico.antinori.7@gmail.com> <DLRXDBH5LB8G.24QDEEJWMGJG7@gmail.com>
-In-Reply-To: <DLRXDBH5LB8G.24QDEEJWMGJG7@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 29 Sep 2026 18:22:37 +0200
-X-Gm-Features: AclHuK_Wo_2TR6t3qQINXg6vuhw5smx_hDmbOB227r8MxbF1Jg4nL8yAzsAQFa0
-Message-ID: <CANiq72mzKkiDM7iBuDfO2u26roEaGGfYXQx4W0+33JHwE2p+jg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] rust: kunit: support #[should_panic] and same test
- name with different #[cfg(...)]
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, Burak Emir <burak.emir@gmail.com>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, Yury Norov <yury.norov@gmail.com>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 29, 2026 at 6:02=E2=80=AFPM Nicol=C3=A1s Antinori
-<nico.antinori.7@gmail.com> wrote:
->
-> For some reason, GMail is not letting me send the first patch of the
-> series as it marks it as spam. I'll check what happens and send a PATCH
-> RESEND of the series or reply this series with thah patch (I already
-> tried that and failed).
->
-> Apologies for the inconvenience.
+The msr_filter_deny test covers the FILTER and UNKNOWN MSR exit
+reasons, but nothing exercises KVM_MSR_EXIT_REASON_INVAL.
 
-I would suggest trying the `b4` web submission endpoint in that case:
+Have the guest write a non-canonical value to FS_BASE and verify
+that the write exits to userspace with KVM_MSR_EXIT_REASON_INVAL along
+with the attempted value.
 
-  https://b4.docs.kernel.org/en/latest/contributor/send.html
+FS_BASE writes are passed through to hardware, i.e. a plain WRMSR
+takes #GP directly without exiting, so use forced emulation to route
+the write through KVM.
 
-I hope that helps.
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+---
+v2:
+ - Use a write of non-canonical to FS_BASE value instead of 
+   reserved EFER bit 63 because writing non-canonical can't 
+   become valid without massive architectural changes unlike EFER reserved bit
+   (suggested by Sean).
+Tested on Intel Core i5-10210U (VMX). Not tested on AMD.
+---
+ .../kvm/x86/userspace_msr_exit_test.c         | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-Cheers,
-Miguel
+diff --git a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
+index 2808ce727e5f..40b084cba2c0 100644
+--- a/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
++++ b/tools/testing/selftests/kvm/x86/userspace_msr_exit_test.c
+@@ -309,6 +309,14 @@ static void guest_msr_calls(bool trapped)
+ 	/* Invalid MSR, should always be handled by user space exit */
+ 	GUEST_ASSERT(rdmsr(0xdeadbeef) == 0xdeadbeef);
+ 	wrmsr(0xdeadbeef, 0x1234);
++
++	/*
++	 * Writing a non-canonical value to FS_BASE is rejected by KVM, but
++	 * FS_BASE writes are passed through to hardware, so force emulation
++	 * to route the write through KVM and get an INVAL exit.
++	 */
++	if (is_forced_emulation_enabled)
++		test_em_wrmsr(MSR_FS_BASE, NONCANONICAL);
+ }
+ 
+ static void guest_code_filter_deny(void)
+@@ -627,6 +635,13 @@ static void handle_wrmsr(struct kvm_run *run)
+ 		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_UNKNOWN,
+ 			    "deadbeef trap w/o inval fault");
+ 	}
++
++	if (run->msr.index == MSR_FS_BASE) {
++		TEST_ASSERT(run->msr.data == NONCANONICAL,
++			    "MSR_FS_BASE data is not NONCANONICAL");
++		TEST_ASSERT(run->msr.reason == KVM_MSR_EXIT_REASON_INVAL,
++			    "MSR_FS_BASE trap w/o inval fault");
++	}
+ }
+ 
+ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
+@@ -667,7 +682,9 @@ KVM_ONE_VCPU_TEST(user_msr, msr_filter_deny, guest_code_filter_deny)
+ 
+ done:
+ 	TEST_ASSERT(msr_reads == 4, "Handled 4 rdmsr in user space");
+-	TEST_ASSERT(msr_writes == 3, "Handled 3 wrmsr in user space");
++	TEST_ASSERT(msr_writes == (is_forced_emulation_enabled ? 5 : 3),
++		    "Handled %u wrmsr in user space, expected %u",
++		    msr_writes, is_forced_emulation_enabled ? 5 : 3);
+ }
+ 
+ KVM_ONE_VCPU_TEST(user_msr, msr_permission_bitmap, guest_code_permission_bitmap)
+-- 
+2.53.0
+
