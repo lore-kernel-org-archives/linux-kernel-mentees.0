@@ -1,109 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2493EEAC2;
-	Wed, 30 Sep 2026 07:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE1375F7B
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 09:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790754367; cv=none; b=qvXcWAvxxa78TnouFtOs6MlQLNcLrCWf8pEOsLvrvjPvCCMsJxpDTd2qY/HgI2mnhXqiFPAKchow7mcHYjajyOjb8iY9vtd2ouvdp+rBvhcvUf1bYtV+YU2Dl3G4TH/B7z0P3f1ive0D+ZH5hRjocVzZBii0p5kCcuqnAQ7OS70=
+	t=1790761040; cv=none; b=grgG0GRJdz6vYfUCPXygIHKhSM3amXfIAAGYP1qBeqXJWq/AzFNZYfgkOErRTgrJc2cE72Yg+ZzgtBS8X68G5VvC/4nMYIGZNNvaEQ/z+EmzHYgHTkuSOl/msT8uIQ7bnsVIez0iQg3ezVGBLqSK1Jdi5xNhx6KBF/Ft7GunKAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790754367; c=relaxed/simple;
-	bh=vkdhDZJqaaOH8K/0FmGkj2kSC4Ue1jE4jyMQawHSd9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oxY/maUnnlXOVoCmB1j5PT4gXj3w+k4vefnqMEssRC+4hToMPVyYw2hm3kFwPdRtOXZXoOVWS5gT8lDY8b6yfvtjM8UGNQYOklLlGR02XfP3vcjSGpOlO/g+66ray8dvYCcVV973b/L/9FiAAzY2ha8UxudskOxJuRwoX87Mgig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVDu7uhD; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVDu7uhD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22391F000FF;
-	Wed, 30 Sep 2026 07:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790754366;
-	bh=qM9t6iP2bgFF9RahCkjeLDxCRIlqy5ztRLf73Y/bLXU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kVDu7uhDaxO446ri8ycNWWVSGgdU8tPuJN9xijTCSpXWv4ZcRrc+r3JZ4MCMjTmr9
-	 GAv5aAkhBqn8aGj1JbPkM20ZM5G1mNrbZ0Y8lKUpAkGB6tCcEN9iglYzRGrtSn+oRd
-	 8vQm19tN4DQcQE5SW49M3Qvd4JOmaE54QxR4ofoMXor9GukvaVkfz7NKpX/4gWu9wU
-	 6kFKMhPnI+urQ4x1Gl7cgBU9+eUVXqvPvSeGprTI51HvLihq8SlpO1VP9VnqwKpf4o
-	 O48qXeR7jNdGZ6b9GjnFnuY6a91XUINxBHg2VmEdP6j5zkmtNRVKl0gmH1bP7Ibrb4
-	 G6Q6UW+NsyTrg==
-Message-ID: <da512295-e265-43eb-b44a-74bc7647acfa@kernel.org>
-Date: Wed, 30 Sep 2026 09:45:58 +0200
+	s=arc-20240116; t=1790761040; c=relaxed/simple;
+	bh=5jxWXMd8DplD93Thpc8/25G1u6WaT0TActwQ5PLnlh4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sVjN1byMCV5jzqqYYJ8dJPL908bffYXDRvWDYvNP2PTKCxgaev6QNcuSYiWMLA1RQYm+ITPQK+8l3de7f4N36CNPKl7uox9EU6AG/Vi1hdwL2jLmeNhUZbQu2e8k4lwE7uSGV09i00tJolBG7zAcV4v4NGoY3wkT5vy4Z6cEzuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 7fc2bbe0bcb211f19a56ed5b684f684d-20260930
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_QP, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
+	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
+	HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
+	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:af5cedb7-ee9d-4a48-ba9e-668e90a1522a,IP:10,
+	URL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-15
+X-CID-INFO: VERSION:1.3.19,REQID:af5cedb7-ee9d-4a48-ba9e-668e90a1522a,IP:10,UR
+	L:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:NOTI_GNA5D1EA,ACTI
+	ON:release,TS:-15
+X-CID-META: VersionHash:7db8b62,CLOUDID:01e194da639580da6cdf8f18d5fb04a2,BulkI
+	D:260930154619DME7EEX6,BulkQuantity:1,SF:10|66|78|81|82|83|102|127|850|865
+	|898,TC:nil,Content:0|15|50|99,EDM:2,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,Q
+	S:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,
+	ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 7fc2bbe0bcb211f19a56ed5b684f684d-20260930
+X-User: sangyao@kylinos.cn
+Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
+	(envelope-from <sangyao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1714997772; Wed, 30 Sep 2026 17:37:05 +0800
+From: Yao Sang <sangyao@kylinos.cn>
+To: raghunathpalla.0209@gmail.com
+Cc: axboe@kernel.dk,
+	dlemoal@kernel.org,
+	hch@lst.de,
+	kbusch@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	me@brighamcampbell.com,
+	sagi@grimberg.me,
+	sangyao@kylinos.cn,
+	shuah@kernel.org,
+	syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com,
+	syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com
+Subject: Re: [PATCH] nvme-multipath: revalidate head zones after unfreezing the head queue
+Date: Wed, 30 Sep 2026 17:36:23 +0800
+Message-Id: <20260930093623.461383-1-sangyao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
+References: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme-multipath: revalidate head zones after unfreezing
- the head queue
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Yao Sang <sangyao@kylinos.cn>
-Cc: Shuah Khan <shuah@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com,
- syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com,
- linux-nvme@lists.infradead.org
-References: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/09/30 8:26, Palla Raghunath wrote:
-> When a namespace on a multipath controller is updated,
-> nvme_update_ns_info() freezes the head disk queue, commits the new
-> limits, and then calls nvme_mpath_revalidate_zones() before it
-> unfreezes the queue again.
-> 
-> That is the wrong way round for blk_revalidate_disk_zones(). It starts
-> a limits update, which takes q->limits_lock, and it freezes the queue
-> itself while updating the zone resources. The block layer takes
-> limits_lock before freezing the queue, never the other way around, so
-> calling it with the head queue already frozen reverses that order.
-> 
-> syzbot has hit this twice. One report goes through q->limits_lock. The
-> other one is on linux-next, where blk_revalidate_disk_zones() also
-> takes disk->zone_revalidate_mutex and holds it across alloc_workqueue()
-> the first time a disk's zone resources are set up. Lockdep then sees:
-> 
->   q_usage_counter(io) (frozen head queue, nvme_update_ns_info())
->   --> &disk->zone_revalidate_mutex
->   --> wq_pool_mutex --> fs_reclaim --> q_usage_counter(io)
-> 
->   WARNING: possible circular locking dependency detected
->   kworker/u8:10/3352 is trying to acquire lock:
->   (&disk->zone_revalidate_mutex){+.+.}-{4:4}, at: blk_revalidate_disk_zones+0x1c5/0x1650
->   but task is already holding lock:
->   (&q->q_usage_counter(io)#75){++++}-{0:0}, at: nvme_update_ns_info+0x3ac/0x1200
->   ...
->    blk_revalidate_disk_zones+0x1c5/0x1650 block/blk-zoned.c:2560
->    nvme_mpath_revalidate_zones+0x106/0x1c0 drivers/nvme/host/multipath.c:301
->    nvme_update_ns_info+0x984/0x1200 drivers/nvme/host/core.c:2620
-> 
-> The rest of the driver already does this correctly:
-> nvme_update_ns_info_block() unfreezes ns->disk->queue before calling
-> blk_revalidate_disk_zones(), and nvme_mpath_set_live() revalidates the
-> head zones without freezing the queue. Do the same here, and only
-> revalidate the head zones once the queue is unfrozen and the limits
-> update has succeeded.
-> 
-> Fixes: 224041412693 ("nvme-multipath: revalidate zones for namespace heads")
-> Reported-by: syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b0910be96b7c31314822
-> Reported-by: syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2e02ccadb3c5522a5c59
-> Link: https://lore.kernel.org/all/2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org/
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Brigham Campbell <me@brighamcampbell.com>
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
-
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
--- 
-Damien Le Moal
-Western Digital Research
+Looks good to me:=0D
+=0D
+Reviewed-by: Yao Sang <sangyao@kylinos.cn>=0D
+Tested-by: Yao Sang <sangyao@kylinos.cn>=0D
