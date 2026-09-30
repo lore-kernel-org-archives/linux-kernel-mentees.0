@@ -1,106 +1,166 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50EE4E50B2
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 21:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7DF3C9EE5
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 06:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790718528; cv=none; b=fLq674RUJftRV1YAaEOYXz4YUlH6bZSIy07Hds6ZB0ujFsHk5jdJHT8Dw2cAtgkbs282YGKnxz/FiRwSGEFvevd4MWJ/HrG0CSA48qT5iqJ5ZY3JD99p+9YzVpWSAi47K/tZcblIG1ghN9nRcmJLmmFk83au2eQvB63ky/yVJbw=
+	t=1790749614; cv=none; b=nwqQ33fjIzARtCamBo6Z6hhm0ZQxHwFUNd6wA+4ybUXI50LsbXSTqaSFRYV8vWPOdg8GZ85pLzK/SOpyko0fk/7URJJmaWdFfkFcdmstHllErhTyCtz9soWA1nI60emwfjTdslfpX/FhnW0s2flaiJUsE1Dw/owT9XwX9fcQqbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790718528; c=relaxed/simple;
-	bh=jEAlHCaf7HwrBMr2fEr3XlegkapBlO+MtAspedqTvo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o2pqkmdNYsuyLR3fFjQqiI29fPkmHzzaru060/AtDw1RhuZstsz8u+lo/U9PVMIo8D8azJpB4oHAe5ApMWxh8+So6rVHwapqwHF20cXSjEVEs1rRm3HzgGxeM/vlagJvwRiGdPdwncPISAuBEs+o0bdOzHyu1A4vEePeEkWg2GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=VGtwie+d; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	s=arc-20240116; t=1790749614; c=relaxed/simple;
+	bh=F22y+hLCAnYJAYt6Xv8/W8DAmL+JuAlNySq4CKo7i/Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=shOB0hbwUbC/0sWbriBMhbDI6nzgZkq5TCS8RJBnLYp2tMPbwNF0aUGyG1Pp/Zbw+QF8RPf9TTIh+xE+CTiLO/f1/Cne5kj6sqdQcaMg1Q/MiWR8Zk5ldJC1fTAvhChtr0fbkLXot6DektrY61DnELLkid+egA4tvh929RmYvAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=skMvvJy0; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="VGtwie+d"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-868cfc5c244so1537544b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 14:48:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skMvvJy0"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so45982065e9.0
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 29 Sep 2026 23:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790718524; x=1791323324; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GnGR8D9Ofu0keKVSYqoY+bfqxp7ik+ClHNVT61CMuqY=;
-        b=VGtwie+doefHPsHv2vrksrH1NCXkDfcJ9aiw4tBclmKBIbk+Ey1/PsGhLrUqxj+K+6
-         lKQytDehHDwa09ilmJWJxelI3cq5v4sYB6Iqls0ZyyiXZYt5aaHV1up+6uCLBOXzav6j
-         7+evvTAu4MIUt5NOjHl9kOW7VUksZf2HQJs1H988nT4TepLnPQsqSSqH0Ij/KOiIODxP
-         M9Fw6LLWFwfY3NJKSMSUHcDKQdd9KIO2xCOSdEJhCJJjfKXdQ6SqvzbYeFmjPysXXB/c
-         YOglqr7sMIIo19yThagp+rzdOfDjV1qNr3GtdG+ChAsZuH8pOET3uRs1N62vaMbpM9Md
-         lXIg==
+        d=gmail.com; s=20251104; t=1790749611; x=1791354411; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=StVMALYl7NrhXL0BqWH9nKh8uCpTcpQuXS9uSRoi8JE=;
+        b=skMvvJy083TqpPheaHJmhmsmJ7nDx9WZ5DWpfVQFUqjSkFwThZlHT6nZyo/iRh+b/I
+         PfyF0FfHKSu9MFyiv+BxD1+zucuaR/txYCNpWocSQZxKo3feZO32vyf8StV6/1Yzoixr
+         CqpTCsUmLcv4HtKPsSxvS/T4QdwQBcDkZ9N/vcyFXTu/cTLktJvNqqwZEctyEF/6u7bD
+         ujgG6JDC0FLOIYyaSt3rKWjOK1yp54gWHrk0uF5OflVpR5mTFgQLXiL/0FqCVYgPzopa
+         VxanqV1FmD7NFfVpMRe0gMRYv/wyYUb5M2j/rsB2lTLxZQ+wPoo3dWFJgriMZLj7b9O0
+         YT6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790718524; x=1791323324;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=GnGR8D9Ofu0keKVSYqoY+bfqxp7ik+ClHNVT61CMuqY=;
-        b=TbCuBZSwelyaPC4UIRJIGr+54+pdIzhOa+qLGepO+1w8m9EKV8uQLlo1yMLfL8kl36
-         xSaArHDEP9nUSh62N9q38mqEeMzuW5GwpJbPVro0UZjdbsPmJdE/EgD8AbLa5fgqvNpD
-         sqsqlLtsRcJjCBcyfWqsc5lAvxVLxerq6CJpsjZTf2DHVeokc2XZF10XpGQ9XE8Zra8/
-         kyIUF6ZM2yUAyjWAgd6vMIl5U5uOCwvkwPiMAKJGc8YhRyQ0bINIpH5xdPDGolROibSD
-         lRs5cPSn7Bp1I33WLfyzMXU/qeFleQ/WZUcI7Oom8ZigWcQ8RivP4507twmw9ENjDpfq
-         e4ww==
-X-Forwarded-Encrypted: i=1; AKwUvBy8miVmrlT+v28vDGgdbNxbR4GSzEo0KtDt0QkUY6SpxovwzLXmzGlpj1nj35jZwoF5e8YdfXYr69kiuZ2pln0DYeaXLw==@lists.linux.dev
-X-Gm-Message-State: AFuF++mx8s/BtJEVMOEItpVVPr5QzQAKYHIJphweZvgn5z6f8H4k7k6c
-	x14P4YjyRR34RR6Z9UgogBeOnbKdRwauCYebq9956bd+AxXBMkb6SHArGtmYXv+vfy4=
-X-Gm-Gg: AYBFou33YUrNbeutRK/vg7m+QhFaiE6xMORQdvH34PQKXkLYFgcuNZsRMNuYcXS8CLs
-	4Vp99OAlJjXL+nAoxjiQ1o9ayjGuqhsrlhcGfhfSu/Tn/p2XQc8NnaRJdOL1H3ntl9nhEu9dTNR
-	xA9iBdgKVCeCWgdl9K0B3Co5NseMEmjuB6d1w9RS1Q03nZK5jPdWIC1V6hFL3HqXdAvM+soo9jo
-	u4zxUnQDkR5ICgiXblnl+d3nHHY4OXch9UrNpLpAtkp5qYB/Bgb7nulfhB71Aeumwpk4DbEoLA6
-	UKxGNs9tbQr1pVnbtiy0lSGyAKdg5YnEy38yEvsVZRxn5RyCyE40KoSn0kX3Sx3ab9WCMh+VibZ
-	XoaECgbicW6zesGL0iaVGdeNATS4JTbEqm9+CZTvlQjJJN6cgnSNRBWT6TmYlhj037lVcGsXots
-	UYOsZXv4qnx+Vz5TOvwiEwfhexY271dCU4uQXIcWHseZc1Hf3zDHu92FdWoq2OYxMcT7+awPDZ2
-	UWFYv9OoUr+mN0ZtxWeLC4=
-X-Received: by 2002:a05:6a00:3005:b0:874:705d:f63e with SMTP id d2e1a72fcca58-886c48b3682mr475937b3a.32.1790718524401;
-        Tue, 29 Sep 2026 14:48:44 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:58::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8868ccc884csm451233b3a.50.2026.09.29.14.48.43
+        d=1e100.net; s=20260707; t=1790749611; x=1791354411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=StVMALYl7NrhXL0BqWH9nKh8uCpTcpQuXS9uSRoi8JE=;
+        b=x8muUikBrDqqrI28MvrdOBJmk6TAyXLi8Lud9/LK7xaPpxG93UMX/sJVw+LLxFWeVT
+         JAgjZMSvllO5N6BFCVHrlmTa2B8sys8b9+sbMRIRuiLS61l4t8GLlrRUc+FDDzwhWqNE
+         VhemovGNZSw7RHPtFL7flxx3X6IHkK4J9iP3ufZDSl7yMcrnnJ/8CQP1J+aulP380IKf
+         d7ceQNcxeWtbmHVa2tTZXYfkG+PhtebVGY0ORbRha3XeZA3ONQskogPCgTvj3mQ7f+AT
+         hXmzJx/QVssdfv9bzinj5+c4+tHzXTL6nlY9zCXa8vpeqB9OLhPgQWRpwZR9DY+vvXAB
+         xUWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxl/u3TifbSYVPHNz/Tpd14EHlygbVKRd76YLjsiKANCctpNJlavU74QpML1pDf056ZIkwoTBelq0ij9nr2AADphn8NDQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++nFxWN8Ol0DwWVIZgVMC2NwiN02s32Hlu4AU6tMUrKRr5mK0NFU
+	9In9rY+rKbCKgOgkvifgp5aYvM0yv3xYzRNpqCGWTDg0uHYxvIRz2YHa
+X-Gm-Gg: AYBFou3SZ8Z+L02daeWaXfLXqvboBHlnAyyN8rk6GAG6mw9UPGDJf8xyhBU7IQMxnGa
+	47bsmUhN0iCU9LmJ+unBAIGU4Gw/c2qiTjh2iPvHUAEW3ZLVKQQVpQkGgjjbnl+VfHJrt+HXOoq
+	Eeje2Qf1RodybePxx77yCIhz6M3A0WbFFbJYn+kgGkd07FkLcgzVEwzRWG/JZFytz79EUSbaCVs
+	I/zKKofhYC6pco34Z4lWqZjfX41xPNp84vBOEvJ982qnH+vw5zcAGCtXT53aNZ40H49s4u1VLMo
+	/tvjyk5i/u8RW0ilToKseESDEeNANXpLbTvetBIjP+NhBV2dO2Tf29md3qSpjDFbq5Hmh4m8Dmw
+	s0WlZawQS3cryCy+Ovty4jFq126nwHdPNHoZRLK9YJtDQKV2WaJ+YMFrr6AGt2T4uG3ZwXmBQ5n
+	3jY4Mzt0zck9E9AyWMmWmvj9Hsp8zuK1hcdTqU2EWJ/12FYF0sTjYuQatAR5KLBWt5q1bR0/xPt
+	bAtvHdoMx8xpFh4dKI6z4/XazqGMZ8FF1sCIoV/yU0RcC8ZeaC2O4v1N1+DqgaK204=
+X-Received: by 2002:a05:600d:4448:10b0:49f:fd4c:cccd with SMTP id 5b1f17b1804b1-4a01b11e83bmr2983255e9.28.1790749610287;
+        Tue, 29 Sep 2026 23:26:50 -0700 (PDT)
+Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01b1e79e4sm6866825e9.2.2026.09.29.23.26.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 14:48:43 -0700 (PDT)
-Date: Tue, 29 Sep 2026 14:48:42 -0700
-From: Joe Damato <joe@dama.to>
-To: Ayush Yaduvanshi <ayush37735@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH net-next] atlx: fix kernel-doc description for
- atlx_tx_timeout
-Message-ID: <arwyOuM3q36/q4RX@devvm20253.cco0.facebook.com>
-Mail-Followup-To: Joe Damato <joe@dama.to>,
-	Ayush Yaduvanshi <ayush37735@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linux.dev
-References: <20260929101714.51579-1-ayush37735@gmail.com>
+        Tue, 29 Sep 2026 23:26:49 -0700 (PDT)
+From: Palla Raghunath <raghunathpalla.0209@gmail.com>
+To: Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Yao Sang <sangyao@kylinos.cn>
+Cc: Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	raghunathpalla.0209@gmail.com,
+	linux-kernel@vger.kernel.org,
+	syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com,
+	syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH] nvme-multipath: revalidate head zones after unfreezing the head queue
+Date: Wed, 30 Sep 2026 07:26:47 +0100
+Message-Id: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260929101714.51579-1-ayush37735@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 29, 2026 at 03:47:13PM +0530, Ayush Yaduvanshi wrote:
-> Add missing @txqueue parameter description to atlx_tx_timeout
-> 
-> to eliminate kernel-doc warning.
-> 
-> Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
-> ---
->  drivers/net/ethernet/atheros/atlx/atlx.c | 1 +
->  1 file changed, 1 insertion(+)
+When a namespace on a multipath controller is updated,
+nvme_update_ns_info() freezes the head disk queue, commits the new
+limits, and then calls nvme_mpath_revalidate_zones() before it
+unfreezes the queue again.
 
-Reviewed-by: Joe Damato <joe@dama.to>
+That is the wrong way round for blk_revalidate_disk_zones(). It starts
+a limits update, which takes q->limits_lock, and it freezes the queue
+itself while updating the zone resources. The block layer takes
+limits_lock before freezing the queue, never the other way around, so
+calling it with the head queue already frozen reverses that order.
+
+syzbot has hit this twice. One report goes through q->limits_lock. The
+other one is on linux-next, where blk_revalidate_disk_zones() also
+takes disk->zone_revalidate_mutex and holds it across alloc_workqueue()
+the first time a disk's zone resources are set up. Lockdep then sees:
+
+  q_usage_counter(io) (frozen head queue, nvme_update_ns_info())
+  --> &disk->zone_revalidate_mutex
+  --> wq_pool_mutex --> fs_reclaim --> q_usage_counter(io)
+
+  WARNING: possible circular locking dependency detected
+  kworker/u8:10/3352 is trying to acquire lock:
+  (&disk->zone_revalidate_mutex){+.+.}-{4:4}, at: blk_revalidate_disk_zones+0x1c5/0x1650
+  but task is already holding lock:
+  (&q->q_usage_counter(io)#75){++++}-{0:0}, at: nvme_update_ns_info+0x3ac/0x1200
+  ...
+   blk_revalidate_disk_zones+0x1c5/0x1650 block/blk-zoned.c:2560
+   nvme_mpath_revalidate_zones+0x106/0x1c0 drivers/nvme/host/multipath.c:301
+   nvme_update_ns_info+0x984/0x1200 drivers/nvme/host/core.c:2620
+
+The rest of the driver already does this correctly:
+nvme_update_ns_info_block() unfreezes ns->disk->queue before calling
+blk_revalidate_disk_zones(), and nvme_mpath_set_live() revalidates the
+head zones without freezing the queue. Do the same here, and only
+revalidate the head zones once the queue is unfrozen and the limits
+update has succeeded.
+
+Fixes: 224041412693 ("nvme-multipath: revalidate zones for namespace heads")
+Reported-by: syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b0910be96b7c31314822
+Reported-by: syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2e02ccadb3c5522a5c59
+Link: https://lore.kernel.org/all/2bfc96f2-7d0d-47e0-936e-8810abb31a9f@acm.org/
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+---
+ drivers/nvme/host/core.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ee7d09030c18..5d7dfd7a63d4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2617,10 +2617,19 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_ns_info *info)
+ 		set_capacity_and_notify(ns->head->disk, get_capacity(ns->disk));
+ 		set_disk_ro(ns->head->disk, nvme_ns_is_readonly(ns, info));
+ 		nvme_mpath_revalidate_paths(ns->head);
+-		ret = nvme_mpath_revalidate_zones(ns->head);
+ 
+ unfreeze_head_queue:
+ 		blk_mq_unfreeze_queue(ns->head->disk->queue, memflags);
++
++		/*
++		 * Wait until the head queue is unfrozen before revalidating
++		 * its zones. blk_revalidate_disk_zones() takes the queue limits
++		 * lock and then freezes the queue on its own, so it must not be
++		 * called with the queue already frozen. This is also what
++		 * nvme_update_ns_info_block() does for ns->disk.
++		 */
++		if (!ret)
++			ret = nvme_mpath_revalidate_zones(ns->head);
+ 	}
+ 
+ 	return ret;
+
+base-commit: 4a5e49ba0abb8b4328d6318c9aef0c0121f95507
+-- 
+2.34.1
+
