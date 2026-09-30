@@ -1,148 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F904E2F3D;
-	Wed, 30 Sep 2026 13:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790774632; cv=none; b=uk423MgTY5/qp2U/OYfp6lHHqmXInl3kdhAe71SA2tlPhImKeczuLtWJWjvne5XX0hEY/XYA5YKVGo2AZeAl65pgc1I8SU4kaT4cDfovvK4yRR1ZWpxHwxzAXI1kt8OjWA9ofIX53fbkWm1jF29zJ1IFDjMcIt95/xbyD/DIjC4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790774632; c=relaxed/simple;
-	bh=8S7movF99Sr4akm1D/WjYBF9/k/U/PR/3/s/56zwB3I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j0RbR0QOtxi6Gc4WOhLP0mbJ8OaW0KL3XP2KPBWW1ZxRMW+WQyilxCD6AkreIyYdY7Dtstct2thYU1gZi3GH6UoPTKy9gJH8yIvyYDtLbXqMm0elc3VCAlLKQ9NCx5lDM9qs2TyKoVuf3RlxTUIMyIY+oVhdOTvZZjczWmCvPlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qptgSK0s; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1EB46D093
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 14:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790779303; cv=pass; b=Z4wd8w16ysrpLWkmFIZNMH8nlTEe4AfGOYw0lDV4g944tXY87ufK61GB9Z5NekDdFUMZbquzm9lO6NsJvhPtt6XOuPhF1DfUzbZdKF0IvNWB1/04tk+puPFIAZPGjpFogxix6bycmi/4hfzZmek3SZib96H7NuD+WHvHAVLm+t0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790779303; c=relaxed/simple;
+	bh=9sp+r2dymTSIz3G/KUyoL3W5ou2ax6jh34iwuHuVsrY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BY2Qo+8N/Ykdw9q0dF+HlIM91EfF42w2HjW2SZeQWIIcaUaavtd1m4Clh9OKqYUmd4uj4bGpygUVkMWHzWg0RZhJIciziULYdPhgBuS9WRoAiUOwupZeioo7lI0IjpdBAOKuRET2pFw05N3/ukKkKS0eDUp1FqMBgXDYi5dh/9w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpJyr2bB; arc=pass smtp.client-ip=74.125.229.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qptgSK0s"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 18441C4AF14;
-	Wed, 30 Sep 2026 13:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790774630;
-	bh=8S7movF99Sr4akm1D/WjYBF9/k/U/PR/3/s/56zwB3I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=qptgSK0ss0M8B6Gfg6oWUmidFnT8hYbwjtx50eOD3GCi1+PW5/Kpiz4et9EgQTkb8
-	 VIE7yPNhTaprLUWdK1N8LvN8yWunHn08eTJN/mezJmITbqfrbTCedHYTH8PeRhZqz/
-	 tpOGwhrBQLjU22kL9+nJo2vVrIgaeyTdk/nV4sumojyBREyG0VgM/cPgOGz7RbUQX7
-	 nWUM7fOFv5orbBOWTzqBfEmD6oW5XtwV0dLpRLGVyW0Pjl3jIyLstmdVdxfB0OHxOt
-	 c34pCz02Y+IHeUHVM/KVUEr3Gs4wn+H/3TWfBtck5tl/Fjg1HXWsH61rdfNwg5bMHp
-	 4w6evDq+aC6ew==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05668CA5FCD;
-	Wed, 30 Sep 2026 13:23:50 +0000 (UTC)
-From: =?utf-8?q?Nicol=C3=A1s_Antinori_via_B4_Relay?= <devnull+nico.antinori.7.gmail.com@kernel.org>
-Date: Wed, 30 Sep 2026 10:23:30 -0300
-Subject: [PATCH 3/3] rust: bitmap: kunit: uncomment
- owned_bitmap_out_of_bounds panic case
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpJyr2bB"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33e4e75342aso410916eec.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 07:41:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790779283; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KPF7OFfST2juw16b3bWjnQP066XXhCgCo5KzUyxLtUbrrPfiTdriWn1fU2RP61WMsH
+         4BpnoOpzpWcGFlgOX/q6eDGHUdyQpdth8UYEExTqJ+MXjfgNI0z0zTkzrRdInvddJ1Uw
+         h6wEPHwexJLAtM/20nxrpZQRhw9fLYwIcCxEonD7f8ajMurW3V62TE+GJukvB3aqevQ7
+         NedVnBRtfcUR8QNG6+0X0XuAtZafW6W+KbS/7/PYcdgOMbwTcdSRMV/XTDciweK1eUTq
+         7ho0DAc5/k4CXwl8ks+9Pz/0bt4605onuo3CCvMPVNJTARdB4wIW3nMLshboaX0Swft1
+         zbqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9sp+r2dymTSIz3G/KUyoL3W5ou2ax6jh34iwuHuVsrY=;
+        fh=dBAOep6EAPDsFijv9uZWpxevBSrgG40GFqQuli8ijHk=;
+        b=ZxKkrBThquuzSuFHlSymHUn+bkIa/M5w30rrs5OIAK488aX+HZP9XaKWPj2SOE1GKL
+         xiaEYE7Jx6jvqq1STyrluuOo9/AJK3aFEQWa3YJMGQZt06xcxuRwlWcW7xgAUijHFtvD
+         l2ZopYzvmnN1WKy0Ys9pecQaZfLFChr0n65zgHS5HStmebC2Qqi8sMHc3ScZVhSMlGMo
+         OSne4SFKX0aMBLU1M3rHn3R3yD7X2Zgr3o5jKVrhaTzKyij47m0hkZr3khvSSAROz6fX
+         uHs99Dw4QVY3AfnSdWYNUsVFnPL8gLAo9aLat6gaB/uLBT56KeqLUiVsW4ebNABQu8SF
+         8B3g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790779283; x=1791384083; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9sp+r2dymTSIz3G/KUyoL3W5ou2ax6jh34iwuHuVsrY=;
+        b=lpJyr2bBziFqqfaL0yvlVCEva+gRRIz954aUx6IkCJSxLOV6ALxKEILU8LEopg2d4F
+         cuKwPayTzrP0hayGT9IX0ALQjimEkOSMtJrYfAFtweyOzc22SXI25igfN4AbghoGvHEA
+         dshyWhQxY1cSZ/FuT3w8HqFmk46Xg+tNsIK0dZ9pPdiXA6hb5YqNisxw9CYHdNI74E8F
+         yeStxEbdJ7qjQOJxcDTFGv8dy3vU2J9iOpl97OrWyx6pUObBoZey1fhwwV8v8IsnMxWy
+         APJbmjfy0NA9m6FhNmef7gBPzFQMkjFs77GDb8XDjnfZ+bWwNdL+Ipng8b3hIpgjxIwo
+         e/qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790779283; x=1791384083;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9sp+r2dymTSIz3G/KUyoL3W5ou2ax6jh34iwuHuVsrY=;
+        b=1lK5ZVJOfnE7YP1gpqjGyy/Ar61rJtArbi13XJVwXG6NjzZc4psJEjx35mvwmY1e3d
+         8fa7FQyuWF8s2ueisxhyPzpII4uVSuAOb/Sa5QOhvQbTHpznBcFU4/5WTYZF0iCguiqW
+         SoLLQnDSBpyhZpjh6dk6ArzLouWl4MrOR3vmWG6qwgECs3/gKt1FsbhuUUVCXH4dgbde
+         VXMWkvZ/N6QZ/pyydFjx2iQHjqQztoRigWwG89KM6hDb69YAvHXszOgsY4DoxM7dLU2q
+         a+lZl/p2TYzrNz8mCO/PSk0mgXzim6zrWemZ26GuuUJzNc4ZdXP/voTSBYDunsNyK/U0
+         +JOg==
+X-Forwarded-Encrypted: i=1; AKwUvBzm7ekMiCIjGXP1jXPzRzauCV2zF2UcAt96kInDGBVsA1yfmkmN7TsmKXjHJuVXWr54xaggNh18j9Pqdakt4/sU1OcjLg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLwDt9QWy6o8wISio1xrnO2fNoEcBdn9sOTuwuVt+sgOycBuUnY
+	Z/EcNjJDdn+l+IqWc3yQlfI6CRglk+oj4Oip0zMolxY1A1XOaP5H+M8DvemasmaFDLJnWJlwhJ1
+	ZAdddAgcurXJyfZqM0EROynC0guMcvAU=
+X-Gm-Gg: AYBFou29/2+tiHW56oCCwTtfGLd7tZKKiB/GmiS0ZBnTmClA+3ZGm6FcvccN44x/bB4
+	rW915P5brHSfaLlmLY25WSgM2MHo6NWGBhJul26kTsvn69KpRnH9JpfhlWwVaP5czrFymjhXliq
+	635DxqvEYJMOntWGvJ/l2TzoBpBWajcE+KQaVn5+0e38T6EWXEY2zGAjfx4f1k4hvswnwqbALOi
+	I9ND/EKrsGyZBPyBjkDjUctfiGngDoJPNRIyjTtTNpanHY8jyr6VFciQKB8NCm2ztSm3Ht35imX
+	K9q0+RahGeK/TGDcTzf7Qgmz6wWPADQNMEA40dlfMbBEq5vO2oQGYIw022sf4IFc3wGk5qaYKfY
+	CWKOmtDlt/AVSr0h1O0lZ49OT9uJxooHK6lWnyxVyw+RdLgROHs9au+v1mxheK4wL2EkGnQusMe
+	GVJ46QL1tcVnhkq6NOvPaCp0AWovx4decfEzVK5+m9km7fMykpX2EkZ1gKpthsfA==
+X-Received: by 2002:a05:693c:41d0:10b0:34c:15b5:b4e7 with SMTP id
+ 5a478bee46e88-34cdbcd280emr3610200eec.2.1790779282558; Wed, 30 Sep 2026
+ 07:41:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260930-rust_kunit_v4-v1-3-e3b0d45311dd@gmail.com>
 References: <20260930-rust_kunit_v4-v1-0-e3b0d45311dd@gmail.com>
 In-Reply-To: <20260930-rust_kunit_v4-v1-0-e3b0d45311dd@gmail.com>
-To: Alice Ryhl <aliceryhl@google.com>, Burak Emir <burak.emir@gmail.com>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Miguel Ojeda <ojeda@kernel.org>
-Cc: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn1_gh@protonmail.com>, 
- Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, 
- Jori Koolstra <jkoolstra@xs4all.nl>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
- Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2339;
- i=nico.antinori.7@gmail.com; h=from:subject:message-id;
- bh=s6VeCuzis2IJcLMPOzgr0J64uvSAp4KLvVLQ8SXTshM=;
- b=owGbwMvMwCV2QdXfwqNJ1YjxtFoSQ9Ze3mSHM4VvSs+fub5T79K116Z6u+MPbt5ZcOiJZmaO4
- VtlzudzO0pZGMS4GGTFFFnmcr7/bGxrXlEuvSkIZg4rE8gQBi5OAZiIqD8jw4qkZ3scIx+uFT3X
- I5T7SWbTN8V1ykF6fssFFgY83CYutYnhr9gahvLOhbFNUx4n8aj+uzjrjdn3a9faWBrbH2b9Eb2
- 3hx8A
-X-Developer-Key: i=nico.antinori.7@gmail.com; a=openpgp;
- fpr=9D09EFF3333D3778771BB252D0254F3848822532
-X-Endpoint-Received: by B4 Relay for nico.antinori.7@gmail.com/default with
- auth_id=1086
-X-Original-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-Reply-To: nico.antinori.7@gmail.com
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 30 Sep 2026 16:41:08 +0200
+X-Gm-Features: AclHuK_ynM6whJXw6qHZ7KW0enKmjR2gXUpLMMaayW1XxJgbGhEQ4tEW6NDWhxM
+Message-ID: <CANiq72k2RfFBncNBCGGdWFEJ-wWZ1MzA8ErrBDAcAvbGSRaS=Q@mail.gmail.com>
+Subject: Re: [PATCH 0/3] rust: kunit: support #[should_panic] and same test
+ name with different #[cfg(...)]
+To: nico.antinori.7@gmail.com
+Cc: Alice Ryhl <aliceryhl@google.com>, Burak Emir <burak.emir@gmail.com>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn1_gh@protonmail.com>, 
+	Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, Jori Koolstra <jkoolstra@xs4all.nl>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, Yury Norov <yury.norov@gmail.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel-mentees@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Nicolás Antinori <nico.antinori.7@gmail.com>
+On Wed, Sep 30, 2026 at 3:23=E2=80=AFPM Nicol=C3=A1s Antinori via B4 Relay
+<devnull+nico.antinori.7.gmail.com@kernel.org> wrote:
+>
+> This patch series intends to implement two features for KUnit tests
+> written in Rust. The work is based on a TODO comment made in the
+> `bitmap.rs` module [1].
 
-Rust KUnit tests now support `#[should_panic]` attribute. Uncomment the
-test so it can be run when CONFIG_RUST_BITMAP_HARDENED=y.
+I am glad it worked with `b4`! Hopefully no more Gmail issues :)
 
-Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
----
- rust/kernel/bitmap.rs | 40 ++++++++++++++++++----------------------
- 1 file changed, 18 insertions(+), 22 deletions(-)
+(Nit: in cases like this, I would suggest increasing tagging with
+RESEND or maybe increasing the version to avoid the same subject line
+in Lore and other clients.)
 
-diff --git a/rust/kernel/bitmap.rs b/rust/kernel/bitmap.rs
-index b27e0ec80d643da5d5510ee79e24493323e61b72..a9935b2be8c54d1b66d1c1cade1eba1fb06b6cd3 100644
---- a/rust/kernel/bitmap.rs
-+++ b/rust/kernel/bitmap.rs
-@@ -571,33 +571,29 @@ fn bitmap_set_clear_find() -> Result<(), AllocError> {
-         Ok(())
-     }
- 
-+    #[cfg(not(CONFIG_RUST_BITMAP_HARDENED))]
-     #[test]
-     fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
--        // TODO: Kunit #[test]s do not support `cfg` yet,
--        // so we add it here in the body.
--        #[cfg(not(CONFIG_RUST_BITMAP_HARDENED))]
--        {
--            let mut b = BitmapVec::new(128, GFP_KERNEL)?;
--            b.set_bit(2048);
--            b.set_bit_atomic(2048);
--            b.clear_bit(2048);
--            b.clear_bit_atomic(2048);
--            assert_eq!(None, b.next_bit(2048));
--            assert_eq!(None, b.next_zero_bit(2048));
--            assert_eq!(None, b.last_bit());
--        }
-+        let mut b = BitmapVec::new(128, GFP_KERNEL)?;
-+        b.set_bit(2048);
-+        b.set_bit_atomic(2048);
-+        b.clear_bit(2048);
-+        b.clear_bit_atomic(2048);
-+        assert_eq!(None, b.next_bit(2048));
-+        assert_eq!(None, b.next_zero_bit(2048));
-+        assert_eq!(None, b.last_bit());
-         Ok(())
-     }
- 
--    // TODO: uncomment once kunit supports [should_panic] and `cfg`.
--    // #[cfg(CONFIG_RUST_BITMAP_HARDENED)]
--    // #[test]
--    // #[should_panic]
--    // fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
--    //     let mut b = BitmapVec::new(128, GFP_KERNEL)?;
--    //
--    //     b.set_bit(2048);
--    // }
-+    #[cfg(CONFIG_RUST_BITMAP_HARDENED)]
-+    #[test]
-+    #[should_panic]
-+    fn owned_bitmap_out_of_bounds() -> Result<(), AllocError> {
-+        let mut b = BitmapVec::new(128, GFP_KERNEL)?;
-+
-+        b.set_bit(2048);
-+        Ok(())
-+    }
- 
-     #[test]
-     fn bitmap_copy_and_extend() -> Result<(), AllocError> {
-
--- 
-2.47.3
-
-
+Cheers,
+Miguel
