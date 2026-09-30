@@ -1,81 +1,138 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE1375F7B
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 09:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43B74071E2
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 10:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790761040; cv=none; b=grgG0GRJdz6vYfUCPXygIHKhSM3amXfIAAGYP1qBeqXJWq/AzFNZYfgkOErRTgrJc2cE72Yg+ZzgtBS8X68G5VvC/4nMYIGZNNvaEQ/z+EmzHYgHTkuSOl/msT8uIQ7bnsVIez0iQg3ezVGBLqSK1Jdi5xNhx6KBF/Ft7GunKAg=
+	t=1790765635; cv=none; b=nQawcd4R2qQ+qoFH+++qAPANrO36AuIL7Do8aJChSDop47/ILFiKpmo5drsyPsWPmVw5XNnPkSaRe3CRhh+ybJKAYzXRQjO8HH0fV3gc4V0Wm+pTUacFhCAo6ZmAruBN63sDxDhxJJoQMyeRx2YzShNv0aYiVNatXyvKHZIKbig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790761040; c=relaxed/simple;
-	bh=5jxWXMd8DplD93Thpc8/25G1u6WaT0TActwQ5PLnlh4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sVjN1byMCV5jzqqYYJ8dJPL908bffYXDRvWDYvNP2PTKCxgaev6QNcuSYiWMLA1RQYm+ITPQK+8l3de7f4N36CNPKl7uox9EU6AG/Vi1hdwL2jLmeNhUZbQu2e8k4lwE7uSGV09i00tJolBG7zAcV4v4NGoY3wkT5vy4Z6cEzuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7fc2bbe0bcb211f19a56ed5b684f684d-20260930
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_QP, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
-	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
-	HR_SJ_PRE_RE, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
-	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:af5cedb7-ee9d-4a48-ba9e-668e90a1522a,IP:10,
-	URL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-15
-X-CID-INFO: VERSION:1.3.19,REQID:af5cedb7-ee9d-4a48-ba9e-668e90a1522a,IP:10,UR
-	L:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:NOTI_GNA5D1EA,ACTI
-	ON:release,TS:-15
-X-CID-META: VersionHash:7db8b62,CLOUDID:01e194da639580da6cdf8f18d5fb04a2,BulkI
-	D:260930154619DME7EEX6,BulkQuantity:1,SF:10|66|78|81|82|83|102|127|850|865
-	|898,TC:nil,Content:0|15|50|99,EDM:2,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,Q
-	S:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,
-	ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 7fc2bbe0bcb211f19a56ed5b684f684d-20260930
-X-User: sangyao@kylinos.cn
-Received: from localhost.localdomain [(223.70.159.239)] by mailgw.kylinos.cn
-	(envelope-from <sangyao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1714997772; Wed, 30 Sep 2026 17:37:05 +0800
-From: Yao Sang <sangyao@kylinos.cn>
-To: raghunathpalla.0209@gmail.com
-Cc: axboe@kernel.dk,
-	dlemoal@kernel.org,
-	hch@lst.de,
-	kbusch@kernel.org,
+	s=arc-20240116; t=1790765635; c=relaxed/simple;
+	bh=lb6gEf/21kZKV9cz1QriYTYSED2/a97q5K/C9CtoXSE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hETBUHbmKqU7RwnlUk8x7y4cCs8S2d43nj3nZy/6r4RBpTCZdTxjMUxaBV4QS3491KY1p1hR/OALfDl+F5CscoNvBcb6UMJBYpDvMsUuNv5FfPwjWVBLjdcnvOsJ/KOSE8woqGpMPXE2mA3xpa5it8li/pdspZokRotaNYPDcCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrJ1H83P; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrJ1H83P"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396cccbba91so2460721a91.1
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 30 Sep 2026 03:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790765624; x=1791370424; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GgJIB0bMoo4nkNRzK+zBMt7lqFO3N9sH9lPeSDZw+pw=;
+        b=LrJ1H83P0zCgFUrlpHfIF0Sf0E5/ppuFIHWMQN2YNM4YZwZxX1LdafuT6+ebWiLyl5
+         kBBfauHBBrNCYtjjlEVfufq9rOhlrhag2w/cjOH3fTOXbAi0R6ixypwiBUM2zNdLdnrZ
+         rnBAGZY7R2TdROZa2WFzaTiUstzAxIIbB2glZ4oI80q4ddi6kMEmT+Heu1TORd6BbgTY
+         nxkmEfB/EDPiQUeFCNDAGKdm76Axr6SMcOmof+rT1L1piSJSkhSsJuCZ8sja86nZa34+
+         T9YxyGYi2bKxZY5Dzm5JhbZYwh2MwQQfRTHYfCFz2aqE1U+6Bngac6D1G6dezLXrcnE0
+         Z4BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790765624; x=1791370424;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GgJIB0bMoo4nkNRzK+zBMt7lqFO3N9sH9lPeSDZw+pw=;
+        b=tLRLp1IZbLf1BPgR1slSItoZsgJ77xhMSP3VryNchiD7C/Ma2VeGfITT4NoLnCXjMJ
+         z2fiTh8uYWkCWpWtjvm/37pjhwFY23gqF8UjkKp4KOUWafnCH/5AtVtHrQE4KRQNGjvB
+         CbvbT5kt3br5TDPDZS5Yc/GwAZ0aA4isK0UaJ3UNFfw9mFdmFmrE31jDSkFcj4+oTEKp
+         TYPRagQJnWHb9dc9tRsnM8G3A5zyzV0VVMm9GHVSIiNOq65IK3RW89UgkDmARJTuD1gL
+         sDT/eVnY+6vQe0zKzdq1DYWSHF/OEziad3r5fbJNkgd6XaqJEiU6Xjm0sFf786mmspoU
+         uAmA==
+X-Forwarded-Encrypted: i=1; AKwUvByTIH2iMwXQS/DVSY53r83W+/UyDNFo/W2NA35dUcemL+M6qPGT5k5vzv7UfTroXiLbtukeSz0nYqbuH8Wo2+OBlRBzUA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIemZmYwAtEuTks9NrvwiQ2FDodL2RJKUrROct23n/qkmMRZrQY
+	wUF5lnqT2UYkGNotxpo7XwvcH6K6d/JPhUwzrLoGyCWSsiRTOT2pUW96
+X-Gm-Gg: AYBFou2cHei/aC69Hjdd4sIR26KQuJyyRT5V9pf3kWYWqlw6kF94f3+DBsps/Tu5uka
+	/l7Mp2wcxr9Y9OZ0kJmnd2bThIWYoOxCgsTEOOv2q2KG5/BmwuZUwmFf50ouIMyiVIlA4dICsNh
+	A7c8Tmhl3mBP9NGpfJfIofNjT407Jxj7fcB5lIZQdooipBKwIcC3NuU2Dn8I3Oa0AEUuk2xxEEC
+	VKGQAn808BXKzgAmcjDbMrGaFTGPUYSgqbEaV4KFB8Hn5Z0FvwDdcjUArsN6dbPLWx2PbhetlY+
+	6baKBOh6I/LXUkTALkaEa7V/ud3iS2NDyJsjQnN7dnNHV7PuR9gmA8Q3va7sxv3AgNiuNVYRf0F
+	g4da4CIZ1voXZAGJxKkbm1tP2ve8uzSyQoFKAMFk/9Uhi67oGvLm4TDfaFw+Wz3xlzuVb3WGP26
+	uK8teBkvGCZ55IN+d8zZvkh7aZSRUuT90KvCrT8sYVEO8fBzBZ5CwyteeHON2EtjI+yhW/6hWw4
+	WhV4pegv7v/cbNOwrs=
+X-Received: by 2002:a17:90b:2b44:b0:39d:b1bd:b384 with SMTP id 98e67ed59e1d1-3a4d1510453mr765358a91.17.1790765624466;
+        Wed, 30 Sep 2026 03:53:44 -0700 (PDT)
+Received: from cfarm424.jing.rocks (cfarm424.jing.rocks. [2600:3c18:e002:2e11::c424])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ce1c5972sm2799185a91.11.2026.09.30.03.53.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 03:53:44 -0700 (PDT)
+From: Ridham Khurana <khurana.ridham222@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	Nirmala Devi Mal Nadar <m.nirmaladevi@ltts.com>,
+	Bhargav Raviprakash <bhargav.r@ltts.com>,
+	Lee Jones <lee@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Brigham Campbell <me@brighamcampbell.com>,
 	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	me@brighamcampbell.com,
-	sagi@grimberg.me,
-	sangyao@kylinos.cn,
-	shuah@kernel.org,
-	syzbot+2e02ccadb3c5522a5c59@syzkaller.appspotmail.com,
-	syzbot+b0910be96b7c31314822@syzkaller.appspotmail.com
-Subject: Re: [PATCH] nvme-multipath: revalidate head zones after unfreezing the head queue
-Date: Wed, 30 Sep 2026 17:36:23 +0800
-Message-Id: <20260930093623.461383-1-sangyao@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
-References: <20260930062648.73871-1-raghunathpalla.0209@gmail.com>
+	Ridham Khurana <khurana.ridham222@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] regulator: tps6594-regulator: Fix n_linear_ranges for TPS65224 BUCK2-4
+Date: Wed, 30 Sep 2026 10:53:25 +0000
+Message-ID: <20260930105333.3522412-1-khurana.ridham222@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Looks good to me:=0D
-=0D
-Reviewed-by: Yao Sang <sangyao@kylinos.cn>=0D
-Tested-by: Yao Sang <sangyao@kylinos.cn>=0D
+The TPS65224 BUCK2, BUCK3 and BUCK4 descriptors pass 4 as
+n_linear_ranges, but tps65224_bucks_2_3_4_ranges[] only has two
+entries, covering selectors 0x00-0x45.
+
+The linear range helpers loop over n_linear_ranges entries, so any
+lookup of a selector above 0x45 reads past the end of the array and
+treats whatever follows it as two more ranges. This happens on the
+normal registration path when the core checks the voltage constraints
+against every selector. TPS652G1 uses the same descriptors and is
+affected too.
+
+Use ARRAY_SIZE() so the count always matches the table.
+
+Fixes: 00c826525fba ("regulator: tps6594-regulator: Add TI TPS65224 PMIC regulators")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ridham Khurana <khurana.ridham222@gmail.com>
+---
+Build-tested on arm64 with W=1. Not tested on hardware.
+
+ drivers/regulator/tps6594-regulator.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/regulator/tps6594-regulator.c b/drivers/regulator/tps6594-regulator.c
+index a54d88c58e7b..84974531822e 100644
+--- a/drivers/regulator/tps6594-regulator.c
++++ b/drivers/regulator/tps6594-regulator.c
+@@ -242,21 +242,21 @@ static const struct regulator_desc tps65224_buck_regs[] = {
+ 			  TPS65224_MASK_BUCKS_VSET,
+ 			  TPS6594_REG_BUCKX_CTRL(1),
+ 			  TPS6594_BIT_BUCK_EN, 0, 0, tps65224_bucks_2_3_4_ranges,
+-			  4, 0, 0, NULL, 0, 0),
++			  ARRAY_SIZE(tps65224_bucks_2_3_4_ranges), 0, 0, NULL, 0, 0),
+ 	TPS6594_REGULATOR("BUCK3", "buck3", TPS6594_BUCK_3,
+ 			  REGULATOR_VOLTAGE, tps6594_bucks_ops, TPS65224_MASK_BUCKS_VSET,
+ 			  TPS6594_REG_BUCKX_VOUT_1(2),
+ 			  TPS65224_MASK_BUCKS_VSET,
+ 			  TPS6594_REG_BUCKX_CTRL(2),
+ 			  TPS6594_BIT_BUCK_EN, 0, 0, tps65224_bucks_2_3_4_ranges,
+-			  4, 0, 0, NULL, 0, 0),
++			  ARRAY_SIZE(tps65224_bucks_2_3_4_ranges), 0, 0, NULL, 0, 0),
+ 	TPS6594_REGULATOR("BUCK4", "buck4", TPS6594_BUCK_4,
+ 			  REGULATOR_VOLTAGE, tps6594_bucks_ops, TPS65224_MASK_BUCKS_VSET,
+ 			  TPS6594_REG_BUCKX_VOUT_1(3),
+ 			  TPS65224_MASK_BUCKS_VSET,
+ 			  TPS6594_REG_BUCKX_CTRL(3),
+ 			  TPS6594_BIT_BUCK_EN, 0, 0, tps65224_bucks_2_3_4_ranges,
+-			  4, 0, 0, NULL, 0, 0),
++			  ARRAY_SIZE(tps65224_bucks_2_3_4_ranges), 0, 0, NULL, 0, 0),
+ };
+ 
+ static const struct tps6594_regulator_irq_type tps6594_buck1_irq_types[] = {
+-- 
+2.47.3
+
