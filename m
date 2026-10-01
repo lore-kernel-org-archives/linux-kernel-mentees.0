@@ -1,73 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f36.google.com (mail-yx2-f36.google.com [74.125.224.164])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F713B27D8;
-	Thu,  1 Oct 2026 11:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4352F51616C
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 Oct 2026 13:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.164
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790854975; cv=none; b=PxBiCC/+JGIioiMbzYUX3734By5+/j5QboaCNnHEW++ILL0yvhkyVC0zvT5xmNEjDDiXxUKFPq3E8lK8kBRnUCm6ezdf3qUvI+aPZHjl7XTWXB+3TmFBpp9GziwSv3iXHilIt1H7wEenpCdaWD5pPyRocCayPuSsZQ66tnz4n6k=
+	t=1790862232; cv=none; b=K1eNx5zXi1bgFnSzl2xMIundxfigMT+OU2FQldmnO31VmIjPM6O2nGcq/BRThvAF5YYuv/qCwdHjYsB2KzGB2TELK4qAq0UWjUxj7CgWva7sV5aN6itymgcJ67qaaYrbbohKf+/rMqe4Ia9CqMnMBMH1pzCSEOCa8v4P1DuJvEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790854975; c=relaxed/simple;
-	bh=/ZEMQHkWmcKgXb9n9tm3zJMbwbpKg2VRquvky9560/Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jo7KLBV5HrSUBp4TZwaCW85+/NM3dQ2U6VBifF+t11PcjRpVXFuHV8wVLooWPcGJFQMEKOtIn5PTqaIB+E7izzc5IP1q01ttVSV1SJMxT41IxAZDZ0b4ZACtxZbI9KIinhnTvxROhjs2bUXSaO2scoHopbArgVwdtisGgUTI1VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z7bGx+9Y; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790862232; c=relaxed/simple;
+	bh=YtxTa1VgrUAUHV74VfDLuMxfbVAqObQYg4zUaDxY7zM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=CnwjpgXwmfdlsXBeXjjxMyMGpy1PPqfkJ58ERtuJjMVYoKWVUfEVg16yoxgWYgU7yoKCmVacnzYhA5CA+Lcy+Tum1eOyAtBVpIvOjy5bqlSMeft1rIeeHPJFqWh94RHO1NmLrCFdSqt/sVxMnA1G8GG6DNf5fEZlzIU9KrgneYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Um+DmYta; arc=none smtp.client-ip=74.125.224.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z7bGx+9Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28EED1F00898;
-	Thu,  1 Oct 2026 11:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790854974;
-	bh=ezo9AABzihn8v9w+EzLT2Oqew0alnRrS/G6JzrXB5K0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Z7bGx+9YjwQE9mmx5xOfDrWwbuyPcSv80D+JAIMF/rbGp+AAKEwfzI+EPb7nQsdJK
-	 pK0KmwY+OHTVp2I1huCwyQFIXyUXy3IbfwBL6c/P089Bn46pBhVyEYJ5Gfcu1jV1Tp
-	 Vj0QjTMV7Nwb8S6ea+60PhwGOA1LattBvoasIP7H7WZ13C1P/lk2Ydbhk5jyPA/yzM
-	 uttRxmd8TJSFcv9+pQhG+RZrCrHq51nRqfqnuyefDqHLe4qN+xucigLvVBd05DwTRW
-	 e2pjwmZJgo089MtmhNI+1kqpYx5e3KGU28SBQWzwq9A6Beg3t/x2///mazUmVJV+Kj
-	 aE03LVf3B+8ag==
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
- Ridham Khurana <khurana.ridham222@gmail.com>
-Cc: soc@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, 
- Shuah Khan <shuah@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- Brigham Campbell <me@brighamcampbell.com>, 
- linux-kernel-mentees@lists.linux.dev
-In-Reply-To: <20260921204204.797294-1-khurana.ridham222@gmail.com>
-References: <20260921204204.797294-1-khurana.ridham222@gmail.com>
-Subject: Re: [PATCH RESEND] platform: cznic: turris-omnia-mcu: Add missing
- MODULE_DEVICE_TABLE()
-Message-Id: <179085497050.480978.17953690152528059792.b4-ty@b4>
-Date: Thu, 01 Oct 2026 13:42:50 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Um+DmYta"
+Received: by mail-yx2-f36.google.com with SMTP id 00721157ae682-8acdb1ddd96so9922177b3.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 01 Oct 2026 06:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790862228; x=1791467028; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YtxTa1VgrUAUHV74VfDLuMxfbVAqObQYg4zUaDxY7zM=;
+        b=Um+DmYtakqRgTkzz3OA35+HAh9Z80AQcpWs6PHBbFGvEZ2xm5IZNKiarEurrGQuH7R
+         kW0rbaPh1Po3t0of1h9Ub7Fn2Na1krSAYXlV/MZ+o/xVAsKNEWC3DsWCoBT24rP23nGs
+         ZyfTHc5F8DOZI0LIOj2VxD0rdJnVtoKJ+fahrfbxSahaXxRDlOjay/QPzigFAiXRc6m+
+         nps3ZUOhI/LC6UDwuzRlK42iucE1dK+oG3+VZZ813Mkv/dvGSahRjCCFuEeu1zEOIz+u
+         UBnb76WeGYkzaXLSY0t36e94U9vymgT+5CoLAXnkXcc+nJRhU3S8hKIhxA1IW32c2a15
+         GcYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790862228; x=1791467028;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YtxTa1VgrUAUHV74VfDLuMxfbVAqObQYg4zUaDxY7zM=;
+        b=I6wXOudCJRhEchm+1hzFDArDsLj/rCV804tyTpZOUVpElAIgI8zB+ldRLaoniRXBbd
+         8Poe1sTN7ZYU37voRluv3dyU6uoSvWAP2XGnGxTCtMBMXp6uuXav+iUu70A1bCD+J5nn
+         tHYgIHyJwfNZW+VJgu4FmOahkt3SZdDcVt/A/tmv5JiwNn91jZ8AzinPPmCzxhQ7fLKS
+         qqElpv7JuomZ8+sSv3SkbNTbQ8z7FgUPUKhf1Dl4pVlrNrxQGo4lmeplrOK9r+zHuEy2
+         Bf/8QwsejfAX1v23cFnFx/JEZCavWFSt7/M+gFCabguGJvjfFYkCG2cwEc7PVkhoXST7
+         8vZw==
+X-Forwarded-Encrypted: i=1; AKwUvBy2KqUir7civylpzUVO4RKeiz1QXChkr/9VpBS6GITfDQd7B+c8xw0lrgG1eV7tWQgLa9p27QrBpOIO28xG2x6y4xsdng==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKIKYuYSd5BvecV1ImgqlvvNWFzCaJy6RoVL01c80juvUzeAMEq
+	3rDKZqEp/RHeuZ0yOypWLBHZ8jawYmxC3elukJyiDuc8fvqFfsD/6P8=
+X-Gm-Gg: AYBFou1I3fGmt9ViI6Z1hvjAporeXBNSL6Rgd4noyi6VajsPuDNlgtKUJNG731ZWK/w
+	vHZMXw81fXN6LfWMGeMJaVlM8mJ8oY0VKfUBF3npDTKuMDTCECY+t0SGLRPOwcW4kcWqmO7vi+q
+	F06QbORWkbuZLCHqR1uVUGMv34qg1cz/FJK4sBXkgmQbnMxgtVS/MiK3rGuY797BAOw57UV7lSZ
+	i+XbJl+4FuJHLFJzS86H4/hmdRa6Up7vMveZ7H2nq4z0geAw6PSVpirq+aQqWxYdhigzymTonGq
+	WivW9OBwmnwV121zDVpWpYL/8nkxc+hKQ8cunBhR2oJWzXPJ/mlGx9BSd6+3Xr6FI2+ncwDZftF
+	6qFrnsI/yTTeR2rVqq8BnYfP7vu0UY5yJRCB1npBbOCrOKt/jQ5ZY6+Lt+G9kBHXVsc50IZ8Qe8
+	5l5Sb9A+BJoMt8ZPeM4WohZTKSwAB8tOXjp6nfDSM3hGEjSmciQfnGJXu7d6TwW/eXusYsXPj2u
+	S8vwhta6+Dnu8AdRDPF8tDYByr9HNhUkpDZhtyPS6BL
+X-Received: by 2002:a05:690c:c353:b0:8a9:a268:d719 with SMTP id 00721157ae682-8ac93fe3e62mr20075197b3.66.1790862228362;
+        Thu, 01 Oct 2026 06:43:48 -0700 (PDT)
+Received: from localhost ([186.158.238.108])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8acdaceb3f6sm10232417b3.25.2026.10.01.06.43.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2026 06:43:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 01 Oct 2026 10:43:41 -0300
+Message-Id: <DLTJOAQSES8X.3ONDW2BU044FQ@gmail.com>
+From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Burak Emir"
+ <burak.emir@gmail.com>, "Brendan Higgins" <brendan.higgins@linux.dev>,
+ "David Gow" <david@davidgow.net>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg"
+ <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn1_gh@protonmail.com>, "Boqun Feng"
+ <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Jori Koolstra"
+ <jkoolstra@xs4all.nl>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Rae Moar" <raemoar63@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Yury Norov" <yury.norov@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
+Subject: Re: [PATCH 0/3] rust: kunit: support #[should_panic] and same test
+ name with different #[cfg(...)]
+X-Mailer: aerc 0.20.0
+References: <20260930-rust_kunit_v4-v1-0-e3b0d45311dd@gmail.com>
+ <CANiq72k2RfFBncNBCGGdWFEJ-wWZ1MzA8ErrBDAcAvbGSRaS=Q@mail.gmail.com>
+In-Reply-To: <CANiq72k2RfFBncNBCGGdWFEJ-wWZ1MzA8ErrBDAcAvbGSRaS=Q@mail.gmail.com>
 
+On Wed Sep 30, 2026 at 11:41 AM -03, Miguel Ojeda wrote:
+> On Wed, Sep 30, 2026 at 3:23=E2=80=AFPM Nicol=C3=A1s Antinori via B4 Rela=
+y
+> <devnull+nico.antinori.7.gmail.com@kernel.org> wrote:
+>>
+>> This patch series intends to implement two features for KUnit tests
+>> written in Rust. The work is based on a TODO comment made in the
+>> `bitmap.rs` module [1].
+>
+> I am glad it worked with `b4`! Hopefully no more Gmail issues :)
 
-On Mon, 21 Sep 2026 20:41:47 +0000, Ridham Khurana wrote:
-> The driver wires of_omnia_mcu_match into the i2c_driver's
-> .of_match_table but never exports it with MODULE_DEVICE_TABLE(), so no
-> module alias is generated and the module is not autoloaded when the MCU
-> is probed from the device tree.
-> 
-> Found by code inspection. Not tested on the hardware itself; with the
-> module built, the alias lookup
-> 
-> [...]
+Yes! Thank you very much for the suggestion! I'll have it that as a
+fallback mechanism for now on
+>
+> (Nit: in cases like this, I would suggest increasing tagging with
+> RESEND or maybe increasing the version to avoid the same subject line
+> in Lore and other clients.)
 
-Applied, thanks!
+Sorry about that! I had the intention but forgot to do it
 
-[1/1] platform: cznic: turris-omnia-mcu: Add missing MODULE_DEVICE_TABLE()
-      https://git.kernel.org/soc/soc/c/59797443846bc2451c35816026bbb79d281c9f23
-
-Best regards,
--- 
-Krzysztof Kozlowski <krzk@kernel.org>
+>
+> Cheers,
+> Miguel
 
