@@ -1,133 +1,255 @@
-Received: from mail-ed2-f33.google.com (mail-ed2-f33.google.com [74.125.228.97])
+Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0A45187D4
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 Oct 2026 14:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6E8322C88
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  1 Oct 2026 18:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790863694; cv=none; b=cEM0hpu1onjf7glzWx1SdJc/bNkqaUHR2mSAZq1fvjZxwwOOREdY7Dfn4fBPe/h1YOuMZQtlGrNOeKMt3nLtLtq/IgJCE63nXkBPJAYOiw+Y7yjItGBRcv93PXclZOWmOknM6eVo9ymnNqA6BfGla8UgXMRMPEuY1yWrgIe8SEo=
+	t=1790880220; cv=none; b=G3RODr7TqBifbjjkjwwC5sJQ8rEHolzyzEJv9FJq1CgcRHsvRhiraoIFoz9aXFz9JbaMp0O/dv2axZuDaky2bwZYJH+NeRSvieWlmglD0g1yc3URWR/f1kr3cKe6AfLVX08YDqnPfeho/nVZKh98qH4Nc4Ab93svfF7TR4rStO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790863694; c=relaxed/simple;
-	bh=zECpyUBkuoTFGnpwSyLJZls4RBh3ZrxrUUu2x8F+Hms=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=IwJ3gT/mUrbfR2C/Ow00yPXs4zRaZYwRNUNLszXPAdcuugVP5X2e9dtu8KZJog8EmIkbvaqN02AAUd79rUyFlWEd4rPFtrBNScGkpEA8Iu7+tqGKLwhTvu8+44pqqjTf8O2jr0Nl1UJxQFapgAVFr34lFGSx1JNXoyXCBZbJ09w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mn3SX5N+; arc=none smtp.client-ip=74.125.228.97
+	s=arc-20240116; t=1790880220; c=relaxed/simple;
+	bh=qW4KtOk37cubL+JO+4SY3vwYvYgXRg8JxwPSIqcYtZM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uxTGElyRE+0K4QOClGxh7jAH0Eerum+VT6doNa1+0j5/x4s7YRV3g15mIZh9aZxe2ioOcMgGe8Zn4DKN5MhXD4UcoHOUkrpn9DlQqCGNs0hvqPZIvwmFbgBclzI/cVaiYbIkS7t60ailIqDlJPtV2qOq59Ib7Py6qnhQKAFLbv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T1YTleOT; arc=none smtp.client-ip=74.125.225.98
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mn3SX5N+"
-Received: by mail-ed2-f33.google.com with SMTP id 4fb4d7f45d1cf-6ac768bda6aso7809138a12.0
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 01 Oct 2026 07:08:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1YTleOT"
+Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48b01c41135so1526698f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 01 Oct 2026 11:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790863691; x=1791468491; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=zECpyUBkuoTFGnpwSyLJZls4RBh3ZrxrUUu2x8F+Hms=;
-        b=Mn3SX5N+/lra5tNmSxE4bQKLQu60VE69tnlJbbNvWhnkvFO0IaF7zlnOHN/7BgIyWu
-         m0Q7aV89ZdkWIPA9iijNbzTTZIGb0zbq9fbLdV9+HBzdW52cSE2r4eO316gN6DbTlnay
-         NnhQb8YbFuN8kgdVN9P8m+DtzlovaMbuvm8p8CO7YGAlBBKwgEdr0anOCgYvw5/PJlJw
-         qS7MJunC+/rpgqLkchrPAXZ4SsyRTyy8boJZ952JnM5o1uuE+qfClz2ezL3F9OfJVwb2
-         4OCMr+jrs4w+RZ6DWchaULd1Iqi1G1y+j1zPMR2S8nhZCgiAexJmoP8Dcey9y1puSFdE
-         o6eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790863691; x=1791468491;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1790880213; x=1791485013; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zECpyUBkuoTFGnpwSyLJZls4RBh3ZrxrUUu2x8F+Hms=;
-        b=E8ttmFcor2agLfDrHtNwDx9ZkLoNwZPzMG1y5FgY0q335yF/RQz+G8H3Pje+8ZsWh6
-         3y77Y2T7L2nHFbWVJ2LCzYA9lAopNp/96zpBX3ohoK3hQu5YBnLgFvFC/FB3HeiTc7Fk
-         3WB7KcoJPY71VNWQsOFIBBADqiiE28jcnWsUsBDoJRDWc2QinRB6AlWccE4bZRKvXl3T
-         UwxCoqL0gcPAg+FpuXumZ3kOSI+/qBVslo1ROurK8dokmFIPx919x0r7FX2J3cs4ePtS
-         Lu2QBXowhPa4QAeV2BdRbrHZz1nfEt4n9xqy2HPZ50lnz4iG2HDHlGDX0weBDeKXcvBg
-         3ITg==
-X-Forwarded-Encrypted: i=1; AKwUvBy4Y6LvhCNgtNjNq0ZVPJAduZEB4kvjfd+DdgUDpHLqbqdgnq5sKRoY8zEV9YrXhbspuE3aSzNBaqT2/QzRdBKLBqnyRA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJNYJpJIINjTrgvyaPKC30cBK4S3N5kE8Cg69Ere70Q9FmfaafD
-	tqMXvwZXLE4UKc867siMWh/HUYFWZoAOgXDlnR+hxLE4hC8zDrvG7FCgmSId
-X-Gm-Gg: AYBFou3CfbQFxv75XOMN8NFtHRvnDe/0ZiuLX8wNaXP017iTvcn3XpZkDwjBxSM/qH2
-	VNnAqjMxVwEP4iAhWViFDI3QZrqb7pkozipaKHZwPsiBMKgoSXW9SrbRYnMfEYPvB0nNhxkr4rH
-	vPHoBrS5uhEGF1J8oJEAFz4oONHJl/whvcUFVoKy/8l9ON7VARWaOvNdMEgb6PPbUAOMXLnCP8N
-	8LUwerlIWdpK0DN6+dgKcG6w3s7MdJuVT67l2XDe8CFSmbKULFJkrYb4ZhcYdG3LXHlJN6PatDq
-	oGTpWzNnkxJtlxaXNC/TkxotCQpfR1lq6NSSqAdiU4vruLT86ErgivcoNuIJIddkC65RvzEhMrV
-	TcBd1dZPDNjx7q2ktt7TeEPB/5deg74WFc8Bu2aUsKaJAwqyZ+e99mTNm6t86dZYj6oITvTC5uF
-	vFmgrWZ7JOTsi3qIrKyWnY5BLBMqCgkVOPge4+3sw5dWjwiUEOZ5388AoukbzSnzE1TXILy15oN
-	uPt26jBUCcWBydiNYel+uaKHr4wndwMLuZs/le8sBCR
-X-Received: by 2002:a05:6402:52cf:b0:6ac:c4fd:c726 with SMTP id 4fb4d7f45d1cf-6ae1995216dmr3927218a12.42.1790863690562;
-        Thu, 01 Oct 2026 07:08:10 -0700 (PDT)
-Received: from localhost ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ae5ca76374sm1111911a12.30.2026.10.01.07.08.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2026 07:08:09 -0700 (PDT)
+        bh=kb370HTCyakyOGVcYFBEvfEz7eT1+tcdRjWgQ5JA2ho=;
+        b=T1YTleOT/5qPuQ4E9M8SJYj6ZDg8pp79SG8a0yhSDds8yG7y6Ti+7vQACixDd8Cw7k
+         yEomCDEL0oUeb5sixnTJ+tR19c882/E8nVtXWbdVarqklS/onNdQeWnMCuIGj/vGhZ8n
+         UFxmkZ2sIjfGl5vlB377gQLtHdERALLMX5aMilKK8cjiMBKqfvG6wsk0cyr3qjC62MNY
+         2WXXS/94OOhvOwwVcSr/N2ehImBzOpSu/DkG0BbibQOmlq1Zz6m1X/0wO7C2tFD92RYZ
+         agWW9haEySaKFJwkML9yWc9RFQa53Yrdmog78hqG9vgkTA4sjqzgO7EhicbldGCnyqkp
+         AnsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790880213; x=1791485013;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kb370HTCyakyOGVcYFBEvfEz7eT1+tcdRjWgQ5JA2ho=;
+        b=Z8GEAxrVWRzf7g6JV6KUxWe4PCv4J3m9/PL+SIE76ZrdXSVUXutI/qcQ5M+kRGMEii
+         3JoyMfVxSjqNeI+YJ/KTFvMk2YrQWokjAI1DzPZQrw4nA6YyaQs2NorYPCMr4xLeyDFF
+         0hpEFA3bo3go6DbjdElz9I/TXSAwga03SOHPoUy7jKs2osuAHSquHpx4sCDXTzDQPiRX
+         7+xVFCuGHFgYKNGpSjS+lVsflaHWsmD5dZDMqorughD80gkXMbKqwrWS73xQqGAs7azv
+         J5YV4l/W685EsZFbeVplZDtnAB9L/VaTGMiABZRysAVu7gCUUN/HCV2iZiQ/eztUNfO8
+         f/ug==
+X-Forwarded-Encrypted: i=1; AKwUvBxnMDwk0M0aDq4vLYtv5b8xSF7jfNjg9wXwwVtM2MWd2E62eO2avFHgYNMyvoeMBXUum/j0y8MiobdUzNREvD3x/SO8Ow==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJCA1VWAofvqZ9TmQJyhkGNJH2LDEtCQG+7dKUjzUeoIZwqFbe8
+	O3YATXKWPPdW26m2OjoatMBvo1KBcMzwdazNLzpvccP0s89RBZDOyyCc
+X-Gm-Gg: AYBFou3zovB/aKDSt5FVugvKVlZCuSI970SlaSoF7svrbOzgGRvVZp1heC4vYtG5EDK
+	+1KKCHwMUhqTYzy8rTzAEzmwpy2xbs/EzcKWd45AKH0RhuBbvoP/vgvhTF4VJDSMeT1yGzTyD+u
+	6VHoqkzN3wVNnz5N4d3HfjWgnqdrFlfEideMFj1x19SF8PWynOu9LOyECQ9em+2YgafCaAPmjwT
+	bELbniwB4B4AvNBhYdcWr8J6BhnBU3xVDNuSKOw0h9/oJkW5M4S0B7SzLg8lXCKxbcjZws5CRKs
+	2GnydmhlXWcNeBZeWsbf5kL4/yN7xFSh54qau5Zxmk6irwvaWQz864dmgxLU9yRjuUt3kuuYhCm
+	2QyaIBqZTg+BnrevsjOKce64LxY90P+t9fM7ojTy/AvZXfH3lh0xxe48AexwI3ZdmFm+WdJ4E71
+	4xpZiI1/YOQmznq6A22bSX+Q69zuOS+73Ng0wTuGfnvG3brDlPLkcuRrHzr6aE6eBRdhxrCRivO
+	6lJ5BxoyFcgaAx28GrIts6ZglaLs7DUSkJ7AQwK6+O8cmH7iKwKR6K3Dk2xWoWbLrL430BB
+X-Received: by 2002:a5d:6f13:0:b0:488:898b:5c78 with SMTP id ffacd0b85a97d-48b12737a0bmr866442f8f.29.1790880213322;
+        Thu, 01 Oct 2026 11:43:33 -0700 (PDT)
+Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380fac3csm138889f8f.21.2026.10.01.11.43.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 11:43:32 -0700 (PDT)
+From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+To: Dave Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v5] drm/qxl: fix use-after-free in qxl_irq_handler on PCI
+Date: Thu,  1 Oct 2026 20:43:18 +0200
+Message-ID: <20261001184321.80615-1-megia.oscar@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 01 Oct 2026 11:08:00 -0300
-Message-Id: <DLTK6X5RFK4Q.1OW6JA242CMRJ@gmail.com>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Rae Moar"
- <raemoar63@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>, "Tamir
- Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>, "Yury
- Norov" <yury.norov@gmail.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH 0/3] rust: kunit: support #[should_panic] and same test
- name with different #[cfg(...)]
-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-To: "Gary Guo" <gary@garyguo.net>, "Alice Ryhl" <aliceryhl@google.com>,
- "Burak Emir" <burak.emir@gmail.com>, "Brendan Higgins"
- <brendan.higgins@linux.dev>, "David Gow" <david@davidgow.net>, "Miguel
- Ojeda" <ojeda@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20260930-rust_kunit_v4-v1-0-e3b0d45311dd@gmail.com>
- <DLSQJS2QT4JW.3BPUMU5M6N171@garyguo.net>
-In-Reply-To: <DLSQJS2QT4JW.3BPUMU5M6N171@garyguo.net>
+Content-Transfer-Encoding: 8bit
 
-On Wed Sep 30, 2026 at 11:54 AM -03, Gary Guo wrote:
-> On Wed Sep 30, 2026 at 2:23 PM BST, Nicol=C3=A1s Antinori via B4 Relay wr=
-ote:
->> This patch series intends to implement two features for KUnit tests
->> written in Rust. The work is based on a TODO comment made in the
->> `bitmap.rs` module [1].
->>
->> Changelog:
->> - RFC patch: [3]
->>
->> 1. Supporting `#[should_panic]` [2]:
->>
->> KUnit tests in Rust follow the user-space syntax, but at the moment
->> `#[should_panic]` is not supported. The first patch of this series adds
->> support for the attribute (only in its basic form, `#[should_panic =3D
->> "message"]` is not supported yet).
->>
->> The way it is supported is by adding a new boolean property called
->> `rust_should_panic` to `kunit_attributes` struct in kunit/test.h and
->
-> This is now more general than Rust panics? Perhaps this should just be
-> "should_bug"?
+Executing below script:
 
-I used the name suggested by David Gow in the RFC Patch [1]. I believe
-"should_panic" is better because it directly matches the attribute name
-and will stay consistent in case the panic handler changes the way it
-trigger kernel panics (although this is very unlikely I think).
+i=0;\
+while [ 1 -eq 1 ]; do\
+  i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
+  if (($i%1000==0)); then\
+      echo loops=$i; free;\
+      grep nr_free_pages /proc/vmstat;\
+      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
+      sync; echo 3 > /proc/sys/vm/drop_caches;\
+      echo 1 > /proc/sys/vm/compact_memory;\
+      udevadm settle;\
+      free;\
+      grep nr_free_pages /proc/vmstat;\
+      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
+      uptime;\
+  fi;\
+  echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
+done
 
-That said, I'd be happy to change it to should_bug if that is preferred,
-please let me know what you think!
+After a few seconds, it reports:
 
-Best regards,
-Nicol=C3=A1s=20
+==================================================================
+BUG: KASAN: slab-use-after-free in qxl_irq_handler+0x269/0x2b0
+Read of size 8 at addr ffff888001c6cd48 by task swapper/0/0
 
-[1] https://lore.kernel.org/rust-for-linux/d20cc2b2-afeb-432c-924b-55ad00d9=
-80fe@davidgow.net/
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+     7.1.0-10963-g1a3746ccbb0a #31 PREEMPT(lazy)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+               BIOS Arch Linux 1.17.0-2-2 04/01/2014
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0x4d/0x70
+ print_report+0x14b/0x4b0
+ ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+ ? profile_tick+0x56/0x90
+ ? tick_nohz_handler+0x23c/0x5c0
+ kasan_report+0x117/0x140
+ ? qxl_irq_handler+0x269/0x2b0
+ ? qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ __handle_irq_event_percpu+0x116/0x450
+ ? __pfx__raw_spin_lock+0x10/0x10
+ handle_irq_event+0xa6/0x1c0
+ handle_fasteoi_irq+0x271/0xb10
+ ? __pfx_handle_fasteoi_irq+0x10/0x10
+ __common_interrupt+0x60/0x130
+ common_interrupt+0x7a/0x90
+ </IRQ>
+ <TASK>
+  asm_common_interrupt+0x26/0x40
+ RIP: 0010:pv_native_safe_halt+0xf/0x20
+ Code: 42 de 00 c3 cc cc cc cc 0f 1f 00 90 90 90 90 90 90 90 90 90
+       90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d a3 cf 20 00
+       fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90
+       90 90 90 90 90
+ RSP: 0018:ffffffffb8207e48 EFLAGS: 00000206
+ RAX: ffff8880b296f000 RBX: ffffffffb82146c0 RCX: 0000000000000001
+ RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000067a04
+ RBP: fffffbfff70428d8 R08: ffffffffb7247e1d R09: 1ffff1100d846202
+ R10: ffffed100d846203 R11: ffffed100d846203 R12: 0000000000000000
+ R13: 0000000000000000 R14: 1ffffffff7040fcd R15: dffffc0000000000
+  ? ct_kernel_exit.constprop.0+0x9d/0xc0
+  default_idle+0x9/0x10
+  default_idle_call+0x37/0x60
+  do_idle+0x3a8/0x5d0
+  ? __pfx___schedule+0x10/0x10
+  ? __pfx_do_idle+0x10/0x10
+  cpu_startup_entry+0x4e/0x60
+  rest_init+0x11a/0x120
+  start_kernel+0x382/0x390
+  x86_64_start_reservations+0x24/0x30
+  x86_64_start_kernel+0xd6/0xe0
+  common_startup_64+0x13e/0x158
+  </TASK>
 
+in v4, disable_irq() was introduced, but because qxl requests its IRQ with
+IRQF_SHARED, calling disable_irq() masks the interrupt line globally at the
+controller level (IO-APIC), potentially hanging other devices sharing the
+same line (e.g., virtio devices). Furthermore, placing free_irq() too early
+caused hardware teardown timeouts (e.g., waiting on qdev->release_event in
+qxl_device_fini()).
+
+Fix this by:
+1. Masking interrupts specifically on the QXL hardware via ram_header->int_mask = 0
+   and flushing pending work before calling free_irq().
+2. Placing qxl_irq_fini() in qxl_pci_remove() after drm_atomic_helper_shutdown()
+   so completion events are handled during atomic shutdown, but before releasing
+   legacy VGA resources and device structures.
+
+Assisted-by: OpenCode:1.17.13-Big Pickle/DeepSeek V4 Flash
+Fixes: 48bd85808443 ("drm/qxl: Convert to Linux IRQ interfaces")
+Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+---
+Changes in v2:
+  - Updated qxl_ttm_init to add ttm_device_fini on error in
+    qxl_ttm_init_mem_type.
+
+Changes in v3:
+  - Added free_irq on qxl_probe unload.
+  - Set to NULL after free on qxl_device_fini and
+    added idr_destroy on release_idr and surf_id_idr.
+  - Free client_monitors_config.
+
+Changes in v4:
+  - Delete all code unnecessary. Leave only code to fix the BUG.
+
+Changes in v5:
+  - Replace disable_irq() with device-specific interrupt masking via
+    qdev->ram_header->int_mask = 0 to prevent global masking on IRQF_SHARED lines.
+  - Reorder qxl_irq_fini() call in qxl_pci_remove() to ensure hardware teardown
+    events (like release_event in qxl_device_fini) complete before free_irq().
+---
+ drivers/gpu/drm/qxl/qxl_drv.c |  2 ++
+ drivers/gpu/drm/qxl/qxl_drv.h |  1 +
+ drivers/gpu/drm/qxl/qxl_irq.c | 13 +++++++++++++
+ 3 files changed, 16 insertions(+)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+index 1e6a2392d7c6..3ec2f9395439 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.c
++++ b/drivers/gpu/drm/qxl/qxl_drv.c
+@@ -154,10 +154,12 @@ static void
+ qxl_pci_remove(struct pci_dev *pdev)
+ {
+ 	struct drm_device *dev = pci_get_drvdata(pdev);
++	struct qxl_device *qdev = to_qxl(dev);
+ 
+ 	drm_kms_helper_poll_fini(dev);
+ 	drm_dev_unregister(dev);
+ 	drm_atomic_helper_shutdown(dev);
++	qxl_irq_fini(qdev);
+ 	if (pci_is_vga(pdev) && pdev->revision < 5)
+ 		vga_put(pdev, VGA_RSRC_LEGACY_IO);
+ }
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index cc02b5f10ad9..e8598fdbe886 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -424,6 +424,7 @@ void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
+ 
+ /* qxl_irq.c */
+ int qxl_irq_init(struct qxl_device *qdev);
++void qxl_irq_fini(struct qxl_device *qdev);
+ 
+ void qxl_debugfs_add_files(struct qxl_device *qdev,
+ 			   struct drm_info_list *files,
+diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_irq.c
+index 4018bcf808e5..9d2311b15660 100644
+--- a/drivers/gpu/drm/qxl/qxl_irq.c
++++ b/drivers/gpu/drm/qxl/qxl_irq.c
+@@ -105,3 +105,16 @@ int qxl_irq_init(struct qxl_device *qdev)
+ 	}
+ 	return 0;
+ }
++
++void qxl_irq_fini(struct qxl_device *qdev)
++{
++	struct drm_device *ddev = &qdev->ddev;
++	struct pci_dev *pdev = to_pci_dev(ddev->dev);
++
++	if (qdev->ram_header)
++		qdev->ram_header->int_mask = 0;
++
++	cancel_work_sync(&qdev->client_monitors_config_work);
++
++	free_irq(pdev->irq, ddev);
++}
+-- 
+2.55.0
 
