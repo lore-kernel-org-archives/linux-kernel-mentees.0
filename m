@@ -1,35 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8152F8E95;
-	Fri,  2 Oct 2026 00:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F942361675
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  2 Oct 2026 07:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790901609; cv=none; b=WgIU6UuGvpNIB5xMxnwXTAQdw0kydufutjHYedzlcw/EnXro5AoUwQvopKGljJW7u3f5wNe8R96t3XosDerSHiuYI2bkfid4chttZDIo36KTi32KOKZ7uPewur7y2VeRl9rZdML470M15VpCdQtEgcjOxPMMfPURYeWDhix74BE=
+	t=1790924879; cv=none; b=fBsBlgO3oRZQymV0gWDJe+q+3juazJtl6DoBYAri8CXPJKVN4m0aHDnbC89O8hDpxy1Ga473qeTuyM3ifqpqyNyHN3HmwpU6JoM5xG36rHWOy93nfA5NHzGFvhYRBlXgE9JdYJI1/rt7secTM8FNZI8bLsUHT9xq6uAcwkU3/hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790901609; c=relaxed/simple;
-	bh=nzA55e04y9X36ngZJ9feqsNy74JQaSEl0mP0xPciQLo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Sl5RFHR1WrKmiPed9R8CVWkHC4AWMQcWPcJhl8gNTL7/RtRNVkChM4+vvpFWpEQaMMonmOc2zbsCXmM3e78YckojhiZH5XkaKkL+U8ZI0aSToc4ZgQmD3RwPOeDwihonmCwGGsZMgOTqxVDcYuZcN1mctAu2BRkWtwQrGBtl+wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtiTUzDY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790924879; c=relaxed/simple;
+	bh=LpUy2Y1w/G5Q3IxHxcSWocshtWJTMQsLmw8IXEWGS88=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WyeoXyFTF7Fh0PrVQZEdiMcYlHGXdKZFJQOT5jUmTWEdB7+jcHLbj8Bn/lPV43jPWhazUrWMAmRja7Cvhxk+DOlpHgicZV706Yj3HyMXsPNDMfLaSf90iA16L37U3Ch61Qq3rUHu8ichL7Tc0vfJ0bRLW66JGKtBeoitJDMwu10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIw+Rk3j; arc=none smtp.client-ip=74.125.225.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtiTUzDY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813681F000FF;
-	Fri,  2 Oct 2026 00:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790901608;
-	bh=q46L2/V1DUaQ34+1OqzdQ2rZFyX2k0O3zNkucInFmA8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=JtiTUzDY4RymK52vtSr4hBIEGZDYUZY2u2iD6hdhLwpKISTb5JebC6Bz5aJAr4V5m
-	 SFyJ8qGqedp//DyQso4QW+KSsuFWeRqXFjjusB4NtmIVn0JqdI8BkiX6JKym3u5k/B
-	 Qv0nmo3KDGQ6K0qg/qK8NHPOBfjTqUSve6jjKFgIKxR5mpsARXRi+N3h99dYAdHNHD
-	 V9JS70Dp0hPIa2D14AKTdo1a5OuuK33OrURWuD6xZ7qpETLKTQ31NIk5tYGbnnrCCd
-	 p5bzVbRrSli4BmiIKnCwDmrmkc0bbUHR9dUidS8Oey7v3Tx9HChbihD3bLPeUUhjuM
-	 KFmNTK0boW3/Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7745F381197C;
-	Fri,  2 Oct 2026 00:40:08 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIw+Rk3j"
+Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48aff58e6abso1502810f8f.3
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 02 Oct 2026 00:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790924876; x=1791529676; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lqdQB+3qbWBs9BdmeFMcXI7bQfwAeguI+SXZ5In6E8g=;
+        b=lIw+Rk3jRAo4UqXqyqTXcnunF9bBvzYKOAAxIMD1YNR+zwTftoMPD2aH3GKIWBBGAq
+         hllT1fHFngYbQNlDS8HthfUnmEpSxSoBUg+OjmO5gQIkQ/Xk8Je0avxfZ3OexiKD92nl
+         JRVQji5OVWQlWEd0acIBD6GRkMo3Hy/x6o7NnDpAQ7UhoCcWPgDWK+QwLwMCQpqNhDwZ
+         /EhcQnAPzto3T9chFtAzRYuh+rHz42m/MaZdH7k92xUOurUFmQauPhLvgSNFcbj8R8bR
+         0On2Or8Gp9wCsCOGCGWO2Q82575eraGM3DG0NdB1jAPiRcgnqoHYowBfrGbu9u/uR4UF
+         iceQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790924876; x=1791529676;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lqdQB+3qbWBs9BdmeFMcXI7bQfwAeguI+SXZ5In6E8g=;
+        b=a+d2lAEOAnU2YcsRXTqhFRmNqncczd85Zee8ABXe+UfEhedBF4D15vgoSfoxRDk2QX
+         r4plGPq+GZIEXacl3yjXUPYg4495nDGCwK6IHu+BXoWerAZz2TkR7n+pw6G0501Bf4zF
+         yHmSNgAKsakf7cpeCzr+v6IV1AT4ezcTEbk2VBe5NDHR/H6AlDei1igFAqUdr5DPUh6M
+         PU2PxjkqSNaH/Qz0DwFsGDnVu/YMYB8kWsDh8EXtkl4FVg2ODZchzyR5HwWjBRmxN4bS
+         OsXHRpxRToftCtWic7MYtHV0VdK7H1BrQq7URX/R8V2JXdpL0tU3C+tWov4orES5/6uG
+         trUg==
+X-Forwarded-Encrypted: i=1; AKwUvBx34Nje61Rua0qWxWRlkAC4FBtvaVtSCLlbH1T7PmYKyqdHvXloOELcvSXsejOF15D3omIohFtm/vmi9Sii51RH0+XWOA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLVSjGt+N8PwQleS7I5T7Wbs4AZFQHqkcm018SfXFEYX/4yS/7r
+	1+7R9rxz/HKj1H2XNzAdw6Rk+PPYNgZZrbwrG0DFpOjBJU5+qjVOEXql
+X-Gm-Gg: AYBFou2Ek/gaHO3aR0r9TYiMJLWj5Q0ML7jbNe8xhx4bEBAH+2we/yZmND9s7wzJQr1
+	tr3kTl6AH3ST9onFALE91Lr7JQahExLZMDH32OFyru59A9j8sUpD4GrhWlycCjv26AhFCrhZlk7
+	EdAaHGwLzQDGBJSfey4anfy9zjVklB7xYSzQ1N5M3pf8TnhI31QQ5v35d7JldAh0Evj1por6QL2
+	Zok2CsFB3Wi4/N+KKOa8O9fIWnQumXanc/Dey11GMjMxsggLUzvuhJOjdNDXrWQgJwSSkL6hlS/
+	rJPrv8yzco4ICNlorLTIFNnqaOAGXA1C04w723szvJ8AFU2dt2dIA/Q+LMOA3LAGtsItix0NERr
+	lVlgwAwizBuFbyHVphghi7WkfBtVVf1jEzxZQx6BUR8jJvwLAEnIelBOn9jLlcrbgU4rwG+jCRY
+	5sGPS6qAAcBjr2pTe4Hte3iGSyv9dPnsOw6vW/eay4AG7WGYR6Kvz/2D6SzTcBw6nwQCqxnSIyz
+	SLu96lZTX61ywE1uZfXcmJk88Z62tvFmr7l/IASkHks53nu+IG+c+E+bdPbe4X6IZzquf246+cf
+	Lg==
+X-Received: by 2002:a5d:5e84:0:b0:48b:1ed:db34 with SMTP id ffacd0b85a97d-48b12747ac0mr2993279f8f.45.1790924875458;
+        Fri, 02 Oct 2026 00:07:55 -0700 (PDT)
+Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b82253e6bsm3121772f8f.6.2026.10.02.00.07.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 00:07:54 -0700 (PDT)
+From: Palla Raghunath <raghunathpalla.0209@gmail.com>
+To: Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Chengfeng Ye <nicoyip.dev@gmail.com>,
+	Gianluca Anzolin <gianluca@sottospazio.it>,
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	raghunathpalla.0209@gmail.com,
+	syzbot+4a807caf7680652d53b6@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] Bluetooth: RFCOMM: Fix NULL tty_dev dereference in rfcomm_dev_shutdown
+Date: Fri,  2 Oct 2026 08:07:52 +0100
+Message-Id: <20261002070752.84486-1-raghunathpalla.0209@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -37,44 +83,58 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] sfc: fix kernel-doc description for
- efx_ptp_timeset
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179090160702.3158777.11776047725730596443.git-patchwork-notify@kernel.org>
-Date: Fri, 02 Oct 2026 00:40:07 +0000
-References: <20260929094211.48125-1-ayush37735@gmail.com>
-In-Reply-To: <20260929094211.48125-1-ayush37735@gmail.com>
-To: Ayush Yaduvanshi <ayush37735@gmail.com>
-Cc: ecree.xilinx@gmail.com, richardcochran@gmail.com, netdev@vger.kernel.org,
- linux-net-drivers@amd.com, linux-kernel@vger.kernel.org,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, skhan@linuxfoundation.org,
- jkoolstra@xs4all.nl, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev
 
-Hello:
+syzbot hit a NULL pointer dereference in rfcomm_dev_shutdown() when an
+RFCOMM tty is closed.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+rfcomm_dev_add() puts the new device on rfcomm_dev_list first and only
+then registers the tty device and saves it in dev->tty_dev. If that
+registration fails, dev->tty_dev is never set at all. The device can be
+looked up in the meantime, so an open() of /dev/rfcommN gets through
+rfcomm_tty_install() and attaches to it. When that tty is closed again,
+rfcomm_dev_shutdown() uses dev->tty_dev without checking it:
 
-On Tue, 29 Sep 2026 15:12:11 +0530 you wrote:
-> Remove excess @valid struct member description from
-> 
-> efx_ptp_timeset.
-> 
-> Signed-off-by: Ayush Yaduvanshi <ayush37735@gmail.com>
-> ---
->  drivers/net/ethernet/sfc/ptp.c | 1 -
->  1 file changed, 1 deletion(-)
+  Oops: general protection fault, probably for non-canonical address
+  KASAN: null-ptr-deref in range [0x0000000000000040-0x0000000000000047]
+  RIP: 0010:rfcomm_dev_shutdown+0x48/0xb0 net/bluetooth/rfcomm/tty.c:131
+  Call Trace:
+   tty_port_shutdown+0x1bf/0x220 drivers/tty/tty_port.c:372
+   tty_port_close+0x4e/0x150 drivers/tty/tty_port.c:705
+   tty_release+0x359/0x1670 drivers/tty/tty_io.c:1718
+   __fput+0x418/0xa50 fs/file_table.c:512
 
-Here is the summary with links:
-  - [net-next] sfc: fix kernel-doc description for efx_ptp_timeset
-    https://git.kernel.org/netdev/net-next/c/bbafd2f4b354
+rfcomm_dev_destruct() already copes with a NULL dev->tty_dev. Add the
+same check to rfcomm_dev_shutdown(), so the tty device is only moved
+when it was actually registered.
 
-You are awesome, thank you!
+Fixes: cad348a17e17 ("Bluetooth: Implement .activate, .shutdown and .carrier_raised methods")
+Reported-by: syzbot+4a807caf7680652d53b6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4a807caf7680652d53b6
+Cc: stable@vger.kernel.org
+Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+---
+I reproduced this on next-20261001 with a small program that creates and
+releases rfcomm0 in a loop while two other threads keep opening and
+closing /dev/rfcomm0, with a vhci controller up so the open gets as far
+as rfcomm_dev_activate(). It crashed within about ten seconds every time.
+With this patch applied it ran for five minutes without any problems.
+
+ net/bluetooth/rfcomm/tty.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/bluetooth/rfcomm/tty.c b/net/bluetooth/rfcomm/tty.c
+index dc3cdf614def..198c7dd1a95b 100644
+--- a/net/bluetooth/rfcomm/tty.c
++++ b/net/bluetooth/rfcomm/tty.c
+@@ -128,7 +128,7 @@ static void rfcomm_dev_shutdown(struct tty_port *port)
+ {
+ 	struct rfcomm_dev *dev = container_of(port, struct rfcomm_dev, port);
+ 
+-	if (dev->tty_dev->parent)
++	if (dev->tty_dev && dev->tty_dev->parent)
+ 		device_move(dev->tty_dev, NULL, DPM_ORDER_DEV_LAST);
+ 
+ 	/* close the dlc */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
