@@ -1,74 +1,75 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8507138D3F2
-	for <linux-kernel-mentees@lists.linux.dev>; Sat,  3 Oct 2026 22:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E40322C88
+	for <linux-kernel-mentees@lists.linux.dev>; Sun,  4 Oct 2026 11:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791068399; cv=none; b=iMUBGo2Gp31lyBtvpcsBsuEwYzqH1E48LtWmf+HWYCnO+xuXU9vgzYzw9SeiCvvgbVAaqO3r+GOpa3NaFOgoudCq1AKQqhQh6yaMkI+Cfh9WgsMU/w1EVoRlULM+9uuUugIOZGZEVJoiuPLtuiK3yUFs2w666Z6AVEnz58eKSCc=
+	t=1791113179; cv=none; b=j01LtGUaa8pHhgzqUfUkJn5OlayA24aY9Pk5J1rKTT6OvBF/P8TjSbR3m3VCO6J2ne67ER88gGC1v6OT9vt13ZZtQ8FhjncbwFRV9d+AMiqvR9OZXMTecWpnOOeMwIBk7yznluq3I9y3CB6ktN98sAtM/sTs1Y3YI3KPbXUq99A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791068399; c=relaxed/simple;
-	bh=SUutfiwzO/e+2stY1S7H/GwbXbashPZzZ96LlGG+qEY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eJxW7R+c7GehXtsQcS5n/jJjkpxibMI4bNIGga8sjrGjR3pGANrApc+sz5P7yOWS1Vi5S0mlVaCS0b4hHgbpF1cQZ+Qyy5v38HY6moOf+hkP893GyZi1vh2u0VBb57aWmsTcHOQm3k/rvNccbfm1kJQChs/Hk9CPZgMZI6Uh0j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s88vB/il; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1791113179; c=relaxed/simple;
+	bh=VTbymmEjpOCQuBqxJS7p1ucb7WAhHa+umEskl+i05JU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sZ9F1GRLOyCxulzWY2RsDe56QijS552ftoB9TLIkaQtcF9hRFWtWi+8ZfhpMv5D1Zc6vJE2mn3wMYQQFlQFzK2wuEahMtx0YmSZ7QxJ03XHTOFvWoE3qF5PSejjq5mgANigmbrBxMZeY/0smKBz1UCIkpQjwYZPelZcbut+Huyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X26Lpa/m; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s88vB/il"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48c5358fc28so84227f8f.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 03 Oct 2026 15:59:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X26Lpa/m"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so5749565e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 04 Oct 2026 04:26:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791068396; x=1791673196; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791113176; x=1791717976; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NovMvuXEi62igDdNspHTToOhEM/m3GWr8IsLt04Y3NU=;
-        b=s88vB/ilNUEIjSt/Ciwkxb5SeaW5+5zUMhO12ZL+sE0UlM6ZZKZsLJUJGPNS9+PRkR
-         Dd5AXVmZ+hkTjzAOuK69XfeeDUpeMXcmlb8d/kdudCtguQ+cAHxnhKHiPTKdj/wumUpM
-         2ASNIDx20svHNGzK8ReHcKzrwNWUbl3vTdM8Bp4pdHZ7MweidrNn7aViRpOuAklNfHlp
-         DO6N1vm4QdBr7/Eqlpt3uqU/aLFCMoyL0Vz/p3oM2y37tm9Xo+UB0epyjZIcUGE5GZm4
-         xV+3HZLdivZhHSoAC+cbNlTphW+UvQxjkYfDKk3qUbZrI4pFrfrqsCuupRKYIoZ9WbK2
-         hh+A==
+        bh=uaP/Sg1mAHupYqT3+SwRzFofHSCYAQCOIKhJz2Ezv8E=;
+        b=X26Lpa/mPru8ilag+VVmAamK0Mq3sk3N5yHKPXgV3c1nfFXnoE3Ojg0HPdN4kwnBj4
+         xjQETZEWp5vz9gup2IRm8172uojRSDdcDmpd1xlLIyHrcMURzqbTxbqwhTf0gN7Mnzkw
+         WkMxW6EhZWDfdj3B8D+WL+hCyfWiuSl6yENU1WZGXe9pB6ji7o4TwzJuCdNyHXgmEIEu
+         MjRMzdPgk5miFClw3iveQEJJYb3neQzz8CJYiXFJ7ObZE28BF4FTH0lFasZ2flLgb/pd
+         OSQSx9kNlFmDh/TG1jNR0qqLotXuZmtz0s9Rswnzj0TyBOedGOTk/JIc+1chFSNou/Pv
+         ApOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791068396; x=1791673196;
+        d=1e100.net; s=20260707; t=1791113176; x=1791717976;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NovMvuXEi62igDdNspHTToOhEM/m3GWr8IsLt04Y3NU=;
-        b=KyZcjps3eh9KBVe7NVe3SwTpSi3KNNHTJ6YMJnSxS79nIvAcNzGUjoyTVWlrXigBH3
-         S3IM5T6HcD1pdxWF44u9fikzNAJiMwj10WaQXixFhG4vaiNuR0YupAZMWQs38fgB94Md
-         d70X8pVTpNh/tQ2Tx6nSLyfJG9iB5Jmh2LNXKDLAdF7Vqabp7fJMnyvwJuj70aD+I9Nr
-         cXM9X+C5N8qx08VgqyNxdBbsr8se3jsPmhfSISC4f/hvUpJBE6dIqlfKXsl4Bw0iQGKE
-         DPphCHeI09Zb6ZHt0UfZ4eY7Q7KuS9kHX9RlLIfdpNKipab9jzWICtcyVkWuuMmeZOJb
-         j3Rg==
-X-Forwarded-Encrypted: i=1; AKwUvBwU1zbUk91RQTJEjw1c2y18SGb+KLZosW2yWxIOUTrkzOZf9LeBQseTB7g9NbwUtsA9/x1ReDmjfE1w+yrASpAiThZOlA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLIbjWCQPmUEXgQ1e1eu7jf69bqJps/NfakMVrEu+Oo8td/04af
-	vfam7a81mdLOlpkURMl7LcETWzdZBrhC5HBHYlhA3NHBgMOqjclAJKkN
-X-Gm-Gg: AYBFou0awoZ2n2DRPDSg4I8huXZWjMeWXh6BJ56CKJtN9pWBomo5l5kPsHEv9ohHhUx
-	CcuDzaQZ743CXWLmX0aj4RjN09vEXtMl3S9RnLuvLaa0TR+hZQWLZ+arUVcdGOSeqwrcD6uutBW
-	wdvav6pn+KH2ROonvOvMgwAi6rQcADtrShoqVVdVHcovEFjijcmWsb5MxcigsAorcw9NoOXq6Ln
-	2ph5hEbooogG0GV3m/Ht4IxKgKxRphxJGHmHw4aW0A0yBK1M5vYEfclqJ3OkNddKKgt0BvY/Gv3
-	+YVqI+lcctWMnVbNRCkyJXrDTt+XWuXmu8natj74f8eTzmqlHuFvdo7RQh7E87xxQpSkSnCePxw
-	vd2abQ/u5hUsgnsEtHkCW63BvMhqf9lRl/Pa67tbyBiBWaXkNN6Oga06P0m9mx/9cX3+nNlJpwk
-	woAaZwljy6z61yl+upzDDwxddgJaoAJW92EzLbG0UsQ/R+x/5VyD5hEp++N1B1kFwioijsKAhac
-	48s0UH+u11/xlWUHfW59ccstq3irYHKET5TY0ZVUuztrlYNBQyU/gnWPVbpHbNwAaU=
-X-Received: by 2002:a05:6000:2610:b0:48a:f511:e418 with SMTP id ffacd0b85a97d-48c48010c2dmr5226227f8f.38.1791068395569;
-        Sat, 03 Oct 2026 15:59:55 -0700 (PDT)
+        bh=uaP/Sg1mAHupYqT3+SwRzFofHSCYAQCOIKhJz2Ezv8E=;
+        b=PyO3B2ie5sEJ6k63cpv+OprSNCivbrjbFT5FWvgJRDiV/l1oPvWWpuqMqMU093CaDp
+         GWriLScuHtxT7GRegnFYB0O+Zpk3eiNPZK1p3ctO/LYFl8vpY3bojGodKbxAS1zzRPJl
+         8RkOoJCg6hDPK7TYbAWpF4M1kep3HtNx8Ws/BOhnFUu02xfHonBUVCU0/1hYwKYAqlNO
+         bF3Ab46Ue108hmbbxt3ROdYtea9O7tANrw5SJV4kagNNR/pxjHw6ZwcymyrrEzeNl4T0
+         qs5/Un/3oTQCAfoo/HJsaHB5K8kx0r6L8Y0AKuoJ/EpylTvflgADUv67+Z+VvOFYSrTo
+         CZBA==
+X-Forwarded-Encrypted: i=1; AKwUvBz3Z6DbQfQG7h2yloxu6qp+7MqT5BROczyOLqIKAE7U0uYuN8Gt6Vhh1beWWYXkd1EcWjlcI3llCgeeHNdgi273ryp/NQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++nFL/3ZzpMGpAXjXK0xPAQ/zi7Dto8pfSMXTkBdj0AV6LZjMrV9
+	OCeHgCFxXj/SSphwA4Q7fymBxCUbqLplQLb9HPvmkckBM7kdJJ1/oW25
+X-Gm-Gg: AYBFou2NwkZz0roePDZQjk64EDBDWTIgQHTgqbdLIoG67gLTH/2C+IIvGmqtd/q6cpl
+	J/P75Q5YVlEAy5tgTqqY3lSwLCWQg31yN4sVfdnRn23Di7N3JCXtFnpXb1bhyTBl28OQyv/Cq+R
+	NEXmxmMhrha5C1DQ1qUAajnPSlzKim/0CCAZvVPX/tHviEfh8CEMzx+d+fxnadcY39WFhShArwz
+	09e+AVHpN9Cbwt572Q2kd1A+rcuBikswe2HFxt7zk5IDWv2UTCe6nghaxAFgPg+CbtDFsTZ1JUi
+	wpACobkPThQBJLD8zLzdpaIcEOrTruuCbMxFCqidkU8BMxMeZSWY5KqKmo1Qt3jUmXVdAyOPKY0
+	nbLDdcNAQYY8VcYqI28secde9WP3icZpxareujgvxW1FLAM9HGuIqGqk3tE2w5CidBAzOEip9Hn
+	vgzxFTPTR4vgrJ6ErmCksjPC0deFdusfJCRi9Rd97hMiTlcIEUClrSQSj7ohoxbKBlXPnBq0m3l
+	xz2WJE174WXg4VvHhGo18/pDVRyY8B7bvC78UzeFlZCb0NHqXV02FBXbkqswV89Kck=
+X-Received: by 2002:a05:600c:3510:b0:49f:ff32:803c with SMTP id 5b1f17b1804b1-4a02758653cmr126337265e9.16.1791113175399;
+        Sun, 04 Oct 2026 04:26:15 -0700 (PDT)
 Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b383065a4sm13841740f8f.44.2026.10.03.15.59.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027727cecsm257088855e9.9.2026.10.04.04.26.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 15:59:55 -0700 (PDT)
+        Sun, 04 Oct 2026 04:26:14 -0700 (PDT)
 From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
+To: Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>
+Cc: linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Shuah Khan <shuah@kernel.org>,
 	Brigham Campbell <me@brighamcampbell.com>,
 	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
 	raghunathpalla.0209@gmail.com,
-	syzbot+3decf7252f8521fa80ff@syzkaller.appspotmail.com
-Subject: [PATCH] nfc: port100: don't wait forever for a sync command to complete
-Date: Sat,  3 Oct 2026 23:59:52 +0100
-Message-Id: <20261003225952.86316-1-raghunathpalla.0209@gmail.com>
+	syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
+Subject: [PATCH] RDMA/cma: wait for addr_handler() to finish in rdma_destroy_id()
+Date: Sun,  4 Oct 2026 12:26:13 +0100
+Message-Id: <20261004112613.18171-1-raghunathpalla.0209@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -78,78 +79,103 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-port100_send_cmd_sync() sends a command and then sleeps in
-wait_for_completion() until the device answers. There is no timeout,
-so if the device never sends anything back, the caller sleeps forever.
+syzbot hit a use-after-free of id_priv in addr_handler(). The bad read
+is in debug_mutex_unlock(), from the last mutex_unlock() of
+handler_mutex, and the memory was freed by ucma_close() ->
+rdma_destroy_id().
 
-syzbot hit this in probe, with a fake RC-S380 that enumerates fine and
-then never answers GET_COMMAND_TYPE:
+addr_handler() moves the state from RDMA_CM_ADDR_QUERY to
+RDMA_CM_ADDR_RESOLVED (or RDMA_CM_ADDR_BOUND on error) under
+handler_mutex. If rdma_destroy_id() runs at that point, it waits on
+handler_mutex. When addr_handler() unlocks, the destroying task can take
+the mutex before mutex_unlock() has returned. It then sees a state other
+than RDMA_CM_ADDR_QUERY, so cma_cancel_operation() skips
+rdma_addr_cancel(), and _destroy_id() frees id_priv. mutex_unlock() in
+the work then touches the freed lock:
 
-  INFO: task kworker/0:1:10 blocked for more than 143 seconds.
-  Workqueue: usb_hub_wq hub_event
-   wait_for_completion+0x2ca/0x5e0
-   port100_send_cmd_sync drivers/nfc/port100.c:933 [inline]
-   port100_get_command_type_mask+0x1df/0x3a0 drivers/nfc/port100.c:1018
-   port100_probe+0x694/0xba0 drivers/nfc/port100.c:1549
-   usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
+  ib_addr work                         close()
+  addr_handler()
+    mutex_lock(handler_mutex)
+    ADDR_QUERY -> ADDR_RESOLVED
+    ...                                rdma_destroy_id()
+                                         mutex_lock(handler_mutex)
+    mutex_unlock(handler_mutex)
+      owner cleared                      gets the mutex
+                                         state != ADDR_QUERY, no cancel
+                                         kfree(id_priv)
+      debug_mutex_unlock(lock)  <- use-after-free
 
-Probe runs from hub_event() with the USB device lock held, so it's not
-only this device that gets stuck. The hub worker is stuck too, and so
-is anything else that needs that lock. In the syzbot case the process
-behind the fake device is itself waiting for that lock in
-usbdev_open(), so it can never answer, and the two wait on each other
-for good.
+Documentation/locking/mutex-design.rst says mutex_unlock() may still
+touch the mutex after another task has acquired it, so handler_mutex
+can't be what keeps id_priv alive here. The comment in
+cma_cancel_operation() assumes it can. Before commit 722c7b2bfead
+("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()"),
+addr_handler() held a reference on id_priv until after mutex_unlock(),
+which covered this.
 
-Use wait_for_completion_timeout() instead. If it times out, kill
-in_urb. The command then finishes with an error the normal way,
-through cmd_complete_work. That path still writes to arg, which lives
-on our stack, so wait for it before returning.
+So in rdma_destroy_id(), call rdma_addr_cancel() before taking
+handler_mutex if a resolve was ever started on this id. The req stays on
+req_list until the callback returns, so rdma_addr_cancel() finds it and
+cancel_delayed_work_sync() waits until addr_handler() is really done.
+This doesn't deadlock with the work itself. When addr_handler() destroys
+the id because the event handler returned non-zero, it uses
+destroy_id_handler_unlock(), not rdma_destroy_id(). Event handlers also
+run with handler_mutex held, so they can't call rdma_destroy_id() on
+their own id anyway.
 
-I tested this with the syzbot reproducer on next-20261002. Without the
-patch, 5 hub workers and the 5 reproducer processes hang almost right
-away. With it, probe gives up after the timeout ("Could not get
-supported command types"), and the reproducer kept going for 5 minutes
-(177 iterations) with no hung tasks and no KASAN reports.
+There's no reproducer from syzbot, so I made the window bigger with a
+debug-only mdelay(1000) after the mutex_unlock() in addr_handler(),
+followed by a read of handler_mutex.magic. A small test program creates
+an id, resolves an address on an rxe device and closes the fd while the
+work sits in that delay. Without this patch KASAN reports the same
+slab-use-after-free as syzbot (1048 bytes into a kmalloc-2k object,
+freed by ucma_close()). With it the test runs clean, and close() just
+waits for the work to finish.
 
-Fixes: 0347a6ab300a ("NFC: port100: Commands mechanism implementation")
-Reported-by: syzbot+3decf7252f8521fa80ff@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3decf7252f8521fa80ff
+Fixes: 722c7b2bfead ("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()")
+Reported-by: syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ae549381b4daac2895b1
 Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 ---
- drivers/nfc/port100.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/infiniband/core/cma.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index e769a30b8b5c..2ca593f6c9fd 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -86,6 +86,9 @@ static u8 ack_frame[PORT100_FRAME_ACK_SIZE] = {
- #define PORT100_CMD_STATUS_OK      0x00
- #define PORT100_CMD_STATUS_TIMEOUT 0x80
+diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+index 337a49d1acf7..24235eb0c49b 100644
+--- a/drivers/infiniband/core/cma.c
++++ b/drivers/infiniband/core/cma.c
+@@ -1968,10 +1968,10 @@ static void cma_cancel_operation(struct rdma_id_private *id_priv,
+ 		/*
+ 		 * We can avoid doing the rdma_addr_cancel() based on state,
+ 		 * only RDMA_CM_ADDR_QUERY has a work that could still execute.
+-		 * Notice that the addr_handler work could still be exiting
+-		 * outside this state, however due to the interaction with the
+-		 * handler_mutex the work is guaranteed not to touch id_priv
+-		 * during exit.
++		 * The addr_handler work can still be finishing its
++		 * mutex_unlock() after it has left this state.
++		 * rdma_destroy_id() waits for that before it takes
++		 * handler_mutex.
+ 		 */
+ 		rdma_addr_cancel(&id_priv->id.route.addr.dev_addr);
+ 		break;
+@@ -2121,6 +2121,17 @@ void rdma_destroy_id(struct rdma_cm_id *id)
+ 	struct rdma_id_private *id_priv =
+ 		container_of(id, struct rdma_id_private, id);
  
-+/* Timeout in ms for port100_send_cmd_sync() */
-+#define PORT100_SYNC_CMD_TIMEOUT 5000
++	/*
++	 * addr_handler() can still be in mutex_unlock(&handler_mutex) after
++	 * it has moved the state on from RDMA_CM_ADDR_QUERY, and
++	 * mutex_unlock() may touch the mutex even after we have taken it.
++	 * Wait for the work to finish before we free id_priv. The req stays
++	 * on req_list until the callback returns, so rdma_addr_cancel() will
++	 * find it.
++	 */
++	if (id_priv->used_resolve_ip)
++		rdma_addr_cancel(&id->route.addr.dev_addr);
 +
- #define PORT100_MDAA_TGT_HAS_BEEN_ACTIVATED_MASK 0x01
- #define PORT100_MDAA_TGT_WAS_ACTIVATED_MASK      0x02
- 
-@@ -930,7 +933,16 @@ static struct sk_buff *port100_send_cmd_sync(struct port100 *dev, u8 cmd_code,
- 		return ERR_PTR(rc);
- 	}
- 
--	wait_for_completion(&arg.done);
-+	if (!wait_for_completion_timeout(&arg.done,
-+					 msecs_to_jiffies(PORT100_SYNC_CMD_TIMEOUT))) {
-+		/*
-+		 * No answer from the device. Kill in_urb so the command
-+		 * completes with an error, and wait for that, since the
-+		 * completion handler still writes to arg.
-+		 */
-+		usb_kill_urb(dev->in_urb);
-+		wait_for_completion(&arg.done);
-+	}
- 
- 	return arg.resp;
+ 	mutex_lock(&id_priv->handler_mutex);
+ 	destroy_id_handler_unlock(id_priv);
  }
 -- 
 2.34.1
