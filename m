@@ -1,214 +1,189 @@
-Received: from lf-2-18.ptr.blmpb.com (lf-2-18.ptr.blmpb.com [101.36.218.18])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F287480950
-	for <linux-kernel-mentees@lists.linux.dev>; Mon,  5 Oct 2026 17:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.36.218.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C141A3CB2D5
+	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Oct 2026 20:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791221072; cv=none; b=cUzKXz0VVBo7O57295KwNC+WVeD3VAh24EVrtFVcGDmT8Kx+U1lrhSI/M7RknH3WUW9rvrLaVvVpGSYcnANuHEZSRpvNTCKcgfqpgFMFEJQ5rv8aQsdKEe5ygt7YFaVIydHpbxlpZjgcKel5vxC3x4KxjgKyJHgak4HBzgE4iHQ=
+	t=1791319329; cv=none; b=GJITOK2Vn9bSi10bpS9s/tq4HYsfA53DGHU3VQ7mZzDy6TYu+F4hko2LJhgnERl/Fu6dNdJgQc6qncI0V0cJP0k14bfEarbmkiXcBBdDoVGrvgIZdtu/A9rlvYaaGk5cEwPqNM3fh0Fu/ZXwWLBaodhYkeVrGSniyzASCAa3jl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791221072; c=relaxed/simple;
-	bh=+4dwxtkuASJ+VXA542DwW+MJLJJ4Vv84XSBi1O04Fh0=;
-	h=Subject:Date:Mime-Version:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Content-Type; b=d3i+B1siBzGFt+7yrmJRtxaG2ugLgmDNGXHaHtl2UQ8ckyGh6nF/s0fBKyQAvR2lO7+Sxa4iCkUXKC2/0rc1QPIvZRKdQW0CJr9Ne6yyd8RmoX2K12FTlBJmJociAfGsJ6SDWW8TsgvoRSTWyzyzYgLBAHPjTV/2cACkFQlkwTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io; spf=pass smtp.mailfrom=fygo.io; dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b=S2kMZ5pN; arc=none smtp.client-ip=101.36.218.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fygo.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fygo.io
+	s=arc-20240116; t=1791319329; c=relaxed/simple;
+	bh=ae1+jQ+9/ez5KK1iccrevpE3Y/v2hJ7/j3WMLTOnlbY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CWIlvVZwRyUQ1Uy7FUjtwCfD7QiM5wrBVrL+ekfjyd04jS2fE//IMx2y6FbvPKLEZJ69Y5QWT4bwXaAF1G2yVjLm4Yj8pDSJd1wL/AifYetLnAo8ggHrQy8kwRa5pC0kVExMiU+A7Dfk1Fi675rQBdHVdLMy0oz0PmPcMkEejIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xfhlkg01; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fygo-io.20200929.dkim.larksuite.com header.i=@fygo-io.20200929.dkim.larksuite.com header.b="S2kMZ5pN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fygo-io.20200929.dkim.larksuite.com; t=1791220979;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=xslE3x+zIE1ZTUq02+3BJMjQkkhFAMeVu0zHJVwqij4=;
- b=S2kMZ5pNT20HKGRsdVj51UpzxZwRkPb6I7GlXR/Jly0JRbNXmmIXqL7hXwhbByhsXFn+9Z
- v3Hz8lnQodMS8W3Bd07qrH31SzoHtNcLe+Un6532uk8DcbWac+v1uHl7xr+rlhkAKNOvZz
- DIHEtk2HIqPbJzRzDvFCfeo1IuYlEPy1Q0ktjWRUQ5kkSQdAGLaJWxL0H/f6mBUgxlG3lx
- LDSPdQSv7JU+7RsUU793uB/8wcSWYeBeKThotPgqKA9QkGIKJLngDP4nonHxdGQvwc9SSY
- i9wYu//4T7iUv6g/Gis06OM0DjiSZqU2TQsTO4Z12I+xJy98HffN1ZRhaoDxIA==
-Subject: Re: [PATCH] md/raid0: don't BUG() on a bio that lands off the end of the array
-Date: Tue, 6 Oct 2026 01:22:53 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xfhlkg01"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1682bff3cso17952735e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 Oct 2026 13:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791319325; x=1791924125; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aA2FYIjUqF5r/91lBwDXxKR+/AAiwQXpqeT47CJCmVU=;
+        b=Xfhlkg01+q/WJwmIMAHXetixnLVM1gWPMWcaF0Wajr1/dtC/t1ejNJ70IkaRrAB0Zv
+         nGWr1gjEJeLHgdb7k30uqxScnix+WSJKGPzSDHVqmQAmXWXTzZ/QLM02wGY/5vHY1hZ6
+         dSLlp9R/lc0bh8CQcC6AAqwXSu2whtVIQ6t6Oep5gRaeaHbFdve8oasmdRZjkMhuWENl
+         Eq33/5Z6cpPSW5eqIN0dx/qONYN0UIILlBCNgMawXBntwKMMehhe+GDj7EUqqJvrFz5Z
+         LRZU7ebyv/OWHz40zTMB4zM3EdvaDDYZjfqsJ5Yxvhmu+8rgIbvqsgUGx8lM4WYWHYbq
+         BGsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791319325; x=1791924125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aA2FYIjUqF5r/91lBwDXxKR+/AAiwQXpqeT47CJCmVU=;
+        b=BKMvHpIpqQa5vh+hnkQ6oDnUzAudVeBAHoSgyHbZcg+5YWPwgyNjAghFzrBKnlVAWS
+         glZYJA6R5tZxjadPF/G8D/b3BECJJEEciBbSS5Cwa3XIcVrI4u08rw5DCGTZKaPHq/i5
+         rx7JR9C1FbGxqLmc32uRFKEWESE2Wu3XQLXVKNZOA83JfvUhV+ujYtcJ2N3hEAJwdkaB
+         5X2dGBVxCU76FfuVL4ZtB8/VbluJ0YYKsj7mDNDpkf6tdUtovT/0SvUgh8giwtVCyv3S
+         5QRdGln9pUl1Xs9nigAQkg2v4sV83yu4RPd2PIvJ3NvBKCo8XnTuyZKFQIJbhLMdJrxo
+         XPOw==
+X-Forwarded-Encrypted: i=1; AKwUvBysTp93Zw0zTFZ0RNEBRGvWQWK86+oZH1h01XwniMziU0yGr/rz+aOjv0/42OmKYk0gRYu5UuH+c7suJgOv6YruoKhbeQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++mvppr0CqaekDhG9tZpJffddHJ/if2LG09EJwJwAT1hcUeiu1yA
+	YRZ7XV41X4r3LzsU8mpvBq/LahbJPgKpX8DIw5ev1dEtUyKrClUxYOa2
+X-Gm-Gg: AYBFou0bsLci9DDtq6y8pGS5R/Lk596+W5fbX4NvknM44xIgZMg0ID3moBCOL8w3elP
+	q9zqo24ItkIxys+JVWGUK+KwS7g+qd4yGtHVxJF4k5OwFWpgNmqfZx8pfgpc4YNV77DfG557DyA
+	h6K2jYtoy++L4a1BN85qMt7gqSJazYam19y742QCuFtUuZE3kioVRX357kmnJLz8WgnUgVVgpBK
+	Uy6iVryYC3ORfnpB1XUDgGU67ZLANw2grVlZPw9TQM1ToSHmO+gH7SwuuQoerN0VYnHf7XXK0BO
+	XORtuTQeMeEp+IL3UttyHQGuiMZorxcXLazFU4SWQNadQJ20Z2Qt3BxGJLaAhxsmhkyAmnqnoY8
+	TvVzydJh9gx6W2WTPDriiukp/9jSq1CUEMtFwMpDGi2DaJnjADY5z0stb9TctayEcOlcp+AKEq2
+	70sggo5XGQgelxemo7EiWBva320hTZ5HmZFUtOfDWyp6UQI4AkB3Ti5YkseB8oiTKt+aTxH1ZI2
+	6sHfS3bl48f4U0CyH7abv8R/5ZEy+dBSe5fNbJdnH36QeN5CVxtQyksRQXM6G740mI=
+X-Received: by 2002:a05:600c:8b8b:b0:4a0:251f:dabd with SMTP id 5b1f17b1804b1-4a18064cd98mr384095e9.16.1791319324673;
+        Tue, 06 Oct 2026 13:42:04 -0700 (PDT)
+Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1787e7792sm93473055e9.0.2026.10.06.13.42.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 13:42:04 -0700 (PDT)
+From: Palla Raghunath <raghunathpalla.0209@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	Neill Kapron <nkapron@google.com>,
+	=?UTF-8?q?Micha=C5=82=20Nazarewicz?= <mina86@mina86.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	raghunathpalla.0209@gmail.com,
+	stable@vger.kernel.org,
+	syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_fs: fix use-after-free of ffs_dev in ffs_free_inst()
+Date: Tue,  6 Oct 2026 21:42:02 +0100
+Message-Id: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Received: from [192.168.1.104] ([39.182.0.177]) by smtp.larksuite.com with ESMTPS; Mon, 05 Oct 2026 17:22:57 +0000
-X-Original-From: yu kuai <yukuai@fygo.io>
-From: "yu kuai" <yukuai@fygo.io>
-To: "Palla Raghunath" <raghunathpalla.0209@gmail.com>, 
-	<linux-kernel@vger.kernel.org>, "yu kuai" <yukuai@fygo.io>
-Cc: "Shuah Khan" <shuah@kernel.org>, 
-	"Brigham Campbell" <me@brighamcampbell.com>, 
-	<linux-kernel-mentees@lists.linux.dev>, 
-	<syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com>, 
-	"Song Liu" <song@kernel.org>, "Li Nan" <magiclinan@didiglobal.com>, 
-	"Xiao Ni" <xiao@kernel.org>, "NeilBrown" <neil@brown.name>,  "Trela, 
-	 Maciej" <Maciej.Trela@intel.com>, <linux-raid@vger.kernel.org>
-Message-Id: <7f55f471-867b-47a9-8f02-f65adaf6cd29@fygo.io>
-In-Reply-To: <20260923161729.122240-1-raghunathpalla.0209@gmail.com>
-References: <20260923161729.122240-1-raghunathpalla.0209@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Reply-To: yukuai@fygo.io
-X-Lms-Return-Path: <lba+26ac3dcf2+c03a35+lists.linux.dev+yukuai@fygo.io>
-User-Agent: Mozilla Thunderbird
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi,
+When a function instance is removed through configfs, ffs_free_inst()
+first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
+dev from its mount and drops the lock again. Only then does it retake
+the lock and free the dev with _ffs_free_dev().
 
-=E5=9C=A8 2026/9/24 0:17, Palla Raghunath =E5=86=99=E9=81=93:
-> find_zone() looks for the strip zone holding a given sector and BUG()s if
-> it can't find one.  That is only a safe assumption while the capacity the
-> array advertises matches what the zones actually cover, and a personality
-> takeover can break exactly that.
->
-> level_store() lets you switch a live array to a different personality.
-> The new ->run() recalculates mddev->array_sectors, but level_store() neve=
-r
-> tells the gendisk about it - it is the one place in md that changes the
-> array size without a set_capacity_and_notify(), which do_md_run(),
-> array_size_store(), update_size(), md_reap_sync_thread() and linear_add()
-> all do.  So when a takeover makes the array smaller, the block device goe=
-s
-> on advertising the old size and I/O sails off the end of the new mapping.
->
-> syzbot got there with a raid1 that had no metadata.  Such a member comes =
-in
-> through md_import_device(dev, -1, -1), which never sets rdev->sectors, an=
-d
-> the check in bind_rdev_to_array() that keeps mddev->dev_sectors inside th=
-e
-> member is skipped precisely when rdev->sectors is 0:
->
-> 	if (!test_bit(Journal, &rdev->flags) &&
-> 	    rdev->sectors &&
-> 	    (mddev->dev_sectors =3D=3D 0 || rdev->sectors < mddev->dev_sectors))=
+Between those two steps the dev is still on the ffs_devices list. If
+someone mounts functionfs with the same instance name right then,
+ffs_acquire_dev() finds the dev, marks it mounted and points the new
+ffs_data at it. The dev is freed a moment later, and when that mount
+is torn down, ffs_closed() writes to freed memory. syzbot hit this:
+
+  BUG: KASAN: slab-use-after-free in ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
+  BUG: KASAN: slab-use-after-free in ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
+  Write of size 1 at addr ffff8880237b1e4a by task syz-executor/11910
+  Call Trace:
+   ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
+   ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
+   ffs_data_reset drivers/usb/gadget/function/f_fs.c:2336 [inline]
+   ffs_fs_kill_sb+0x84/0x370 drivers/usb/gadget/function/f_fs.c:2180
+   deactivate_locked_super+0xbe/0x110 fs/super.c:586
+   cleanup_mnt+0x3d3/0x460 fs/namespace.c:1329
+  ...
+  Freed by task 17408:
+   kfree+0x1c5/0x650 mm/slub.c:6923
+   _ffs_free_dev drivers/usb/gadget/function/f_fs.c:4336 [inline]
+   ffs_free_inst+0x233/0x2c0 drivers/usb/gadget/function/f_fs.c:4152
+   usb_put_function_instance+0x95/0xc0 drivers/usb/gadget/functions.c:77
+   config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
+   configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+
+Fix it by doing the release and the free while holding the lock once.
+To allow that, move the body of ffs_release_dev() into a new
+_ffs_release_dev() that expects the lock to be held already, and keep
+ffs_release_dev() as a wrapper for ffs_data_put(). A racing mount now
+either gets the dev before ffs_free_inst() runs, in which case the
+release clears its pointer, or doesn't find the dev at all.
+
+I was able to reproduce this in QEMU with a small program that keeps
+creating and removing an ffs function directory in configfs while a
+second thread mounts and unmounts functionfs with the same name. On an
+unpatched kernel it hit the same KASAN report within about ten
+minutes. With this patch applied, the same program ran for 30 minutes
+without any problem.
+
+Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver data cross-references")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6227549bd2c8a1ec8ba0
+Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+---
+ drivers/usb/gadget/function/f_fs.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index c64a268e98a4..f8ea9a980605 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -288,6 +288,7 @@ static struct ffs_dev *_ffs_find_dev(const char *name);
+ static struct ffs_dev *_ffs_alloc_dev(void);
+ static void _ffs_free_dev(struct ffs_dev *dev);
+ static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data);
++static void _ffs_release_dev(struct ffs_dev *ffs_dev);
+ static void ffs_release_dev(struct ffs_dev *ffs_dev);
+ static int ffs_ready(struct ffs_data *ffs);
+ static void ffs_closed(struct ffs_data *ffs);
+@@ -4147,8 +4148,8 @@ static void ffs_free_inst(struct usb_function_instance *f)
+ 	struct f_fs_opts *opts;
+ 
+ 	opts = to_f_fs_opts(f);
+-	ffs_release_dev(opts->dev);
+ 	ffs_dev_lock();
++	_ffs_release_dev(opts->dev);
+ 	_ffs_free_dev(opts->dev);
+ 	ffs_dev_unlock();
+ 	kfree(opts);
+@@ -4363,10 +4364,11 @@ static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data)
+ 	return ret;
+ }
+ 
+-static void ffs_release_dev(struct ffs_dev *ffs_dev)
++/*
++ * Same as ffs_release_dev(), for callers that already hold ffs_dev_lock.
++ */
++static void _ffs_release_dev(struct ffs_dev *ffs_dev)
  {
->
-> md/component_size had set dev_sectors to 2048, so raid1 came up with
-> array_sectors =3D 2048 and the disk got a 2048 sector capacity.  Writing
-> "raid0" to md/level then took the array over: create_strip_zones() rounde=
-d
-> rdev->sectors (0) down to a chunk multiple, so the single strip zone ende=
-d
-> at 0 and raid0_size() returned 0.  The capacity stayed at 2048, so the
-> partition scan on the next open of /dev/md0 read sector 0 and fell over:
+-	ffs_dev_lock();
+-
+ 	if (ffs_dev && ffs_dev->mounted) {
+ 		ffs_dev->mounted = false;
+ 		if (ffs_dev->ffs_data) {
+@@ -4377,7 +4379,12 @@ static void ffs_release_dev(struct ffs_dev *ffs_dev)
+ 		if (ffs_dev->ffs_release_dev_callback)
+ 			ffs_dev->ffs_release_dev_callback(ffs_dev);
+ 	}
++}
+ 
++static void ffs_release_dev(struct ffs_dev *ffs_dev)
++{
++	ffs_dev_lock();
++	_ffs_release_dev(ffs_dev);
+ 	ffs_dev_unlock();
+ }
+ 
+-- 
+2.34.1
 
-This takeover looks like real problem in the first place, a takeover on liv=
-e array
-can't shrink or mess up the user data, which means if there is a file syste=
-m mounted
-on the array, the file system should still be consistent after take over.
-
-I'll suggest rejecting such takeover to fix this problem.
-
->
->    kernel BUG at drivers/md/raid0.c:318!
->    RIP: 0010:find_zone drivers/md/raid0.c:318 [inline]
->    RIP: 0010:raid0_map_submit_bio drivers/md/raid0.c:568 [inline]
->    RIP: 0010:raid0_make_request+0xf17/0x10b0 drivers/md/raid0.c:626
->    Call Trace:
->     <TASK>
->     md_handle_request+0xb0a/0xe60 drivers/md/md.c:417
->     __submit_bio+0x27f/0x340 block/blk-core.c:681
->     submit_bio_noacct_nocheck+0x4e8/0xa40 block/blk-core.c:792
->     block_read_full_folio+0x7a6/0x810 fs/buffer.c:2373
->     read_part_sector+0xb6/0x2b0 block/partitions/core.c:724
->     adfspart_check_ICS+0xb1/0x960 block/partitions/acorn.c:357
->     bdev_disk_changed+0x851/0x17a0 block/partitions/core.c:695
->     blkdev_get_whole+0x372/0x510 block/bdev.c:793
->     bdev_open+0x324/0xd70 block/bdev.c:1002
->     blkdev_open+0x461/0x600 block/fops.c:674
->     __x64_sys_openat+0x138/0x170 fs/open.c:1434
->
-> Just refreshing the capacity in level_store() is not enough on its own.
-> If the size is managed externally - md/array_size written while the array
-> was stopped, which slips past array_size_store()'s -E2BIG check -
-> md_set_array_sectors() does nothing, array_sectors keeps the larger value
-> and we BUG() all the same.  level_store() cannot turn the takeover away
-> the way do_md_run() does either, because ->takeover() has already run and
-> the old personality has already been freed.
->
-> md-linear has always just failed a sector outside its mapping instead of
-> asserting, so do the same here: let find_zone() return NULL and have its
-> two callers report the bio and end it with an I/O error.
->
-> Tested both ways into this state - a takeover that leaves the array
-> zero-length, and one where md/array_size pins array_sectors at 2048.
-> Before, each panics in find_zone(); after, the read just fails:
->
->    md/raid0:md0: sector 0 out of bounds, array size 0
->    md/raid0:md0: sector 0 out of bounds, array size 2048
->
-> Reported-by: syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D422b372cabfbaa528725
-> Fixes: 9af204cf720c ("md: Add support for Raid5->Raid0 and Raid10->Raid0 =
-takeover")
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
-> ---
->   drivers/md/raid0.c | 21 ++++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
-> index 35e103f0c2c3..04c022d74fae 100644
-> --- a/drivers/md/raid0.c
-> +++ b/drivers/md/raid0.c
-> @@ -301,6 +301,7 @@ static int create_strip_zones(struct mddev *mddev, st=
-ruct r0conf **private_conf)
->  =20
->   /* Find the zone which holds a particular offset
->    * Update *sectorp to be an offset in that zone
-> + * Returns NULL if the sector is off the end of the array.
->    */
->   static struct strip_zone *find_zone(struct r0conf *conf,
->   				    sector_t *sectorp)
-> @@ -315,7 +316,16 @@ static struct strip_zone *find_zone(struct r0conf *c=
-onf,
->   				*sectorp =3D sector - z[i-1].zone_end;
->   			return z + i;
->   		}
-> -	BUG();
-> +	return NULL;
-> +}
-> +
-> +static void raid0_out_of_bounds(struct mddev *mddev, struct bio *bio)
-> +{
-> +	pr_err_ratelimited("md/raid0:%s: sector %llu out of bounds, array size =
-%llu\n",
-> +			   mdname(mddev),
-> +			   (unsigned long long)bio->bi_iter.bi_sector,
-> +			   (unsigned long long)mddev->array_sectors);
-> +	bio_io_error(bio);
->   }
->  =20
->   /*
-> @@ -471,6 +481,10 @@ static void raid0_handle_discard(struct mddev *mddev=
-, struct bio *bio)
->  =20
->   	orig_start =3D start;
->   	zone =3D find_zone(conf, &start);
-> +	if (!zone) {
-> +		raid0_out_of_bounds(mddev, bio);
-> +		return;
-> +	}
->  =20
->   	if (bio_end_sector(bio) > zone->zone_end) {
->   		bio =3D bio_submit_split_bioset(bio,
-> @@ -566,6 +580,11 @@ static void raid0_map_submit_bio(struct mddev *mddev=
-, struct bio *bio)
->   	md_account_bio(mddev, &bio);
->  =20
->   	zone =3D find_zone(mddev->private, &sector);
-> +	if (!zone) {
-> +		raid0_out_of_bounds(mddev, bio);
-> +		return;
-> +	}
-> +
->   	switch (conf->layout) {
->   	case RAID0_ORIG_LAYOUT:
->   		tmp_dev =3D map_sector(mddev, zone, bio_sector, &sector);
-
---=20
-Thanks,
-Kuai
