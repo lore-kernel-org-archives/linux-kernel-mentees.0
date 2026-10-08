@@ -1,77 +1,82 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C141A3CB2D5
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  6 Oct 2026 20:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C6A3A5431
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  8 Oct 2026 19:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791319329; cv=none; b=GJITOK2Vn9bSi10bpS9s/tq4HYsfA53DGHU3VQ7mZzDy6TYu+F4hko2LJhgnERl/Fu6dNdJgQc6qncI0V0cJP0k14bfEarbmkiXcBBdDoVGrvgIZdtu/A9rlvYaaGk5cEwPqNM3fh0Fu/ZXwWLBaodhYkeVrGSniyzASCAa3jl0=
+	t=1791487135; cv=none; b=qQhv22xtOq/PTKCxIN17Mgz4dq+nfy97lMBSoL+wRt4oQkL5LnJK1WgEHzXjydqHl51NY5rKHYrBLWVqDzo6GeO2V5kuTDvvN+28OsL5looHS6Vi4Eb8rO/KUPb2YdK7GXxUlxST73RW1WLqyy5anuqsXF7Gnb+i44FMJFsvA1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791319329; c=relaxed/simple;
-	bh=ae1+jQ+9/ez5KK1iccrevpE3Y/v2hJ7/j3WMLTOnlbY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CWIlvVZwRyUQ1Uy7FUjtwCfD7QiM5wrBVrL+ekfjyd04jS2fE//IMx2y6FbvPKLEZJ69Y5QWT4bwXaAF1G2yVjLm4Yj8pDSJd1wL/AifYetLnAo8ggHrQy8kwRa5pC0kVExMiU+A7Dfk1Fi675rQBdHVdLMy0oz0PmPcMkEejIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xfhlkg01; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1791487135; c=relaxed/simple;
+	bh=NtDq6e8LX1lDAOuEJn4iBhESf83UdpiEIuIR6bCr5Ks=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=snO5hX/K8q2nE8KSb1nCP0581sGwHGAR+vmpyDSXLY7a9fbwvA1glwdNG6bEL7FgJ4u70t4JnlhBn5DfSlVqrifi7CKzPe66+Sk9VjSjBQWkYf/luOj1OTSznEj7fg27xRvXx3+4OENudaB8Mo3U2h94WT0oO8rhuzzR5JQLLZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MA0kRON4; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xfhlkg01"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1682bff3cso17952735e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 06 Oct 2026 13:42:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MA0kRON4"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48b0584ad71so2266446f8f.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 08 Oct 2026 12:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791319325; x=1791924125; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791487133; x=1792091933; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aA2FYIjUqF5r/91lBwDXxKR+/AAiwQXpqeT47CJCmVU=;
-        b=Xfhlkg01+q/WJwmIMAHXetixnLVM1gWPMWcaF0Wajr1/dtC/t1ejNJ70IkaRrAB0Zv
-         nGWr1gjEJeLHgdb7k30uqxScnix+WSJKGPzSDHVqmQAmXWXTzZ/QLM02wGY/5vHY1hZ6
-         dSLlp9R/lc0bh8CQcC6AAqwXSu2whtVIQ6t6Oep5gRaeaHbFdve8oasmdRZjkMhuWENl
-         Eq33/5Z6cpPSW5eqIN0dx/qONYN0UIILlBCNgMawXBntwKMMehhe+GDj7EUqqJvrFz5Z
-         LRZU7ebyv/OWHz40zTMB4zM3EdvaDDYZjfqsJ5Yxvhmu+8rgIbvqsgUGx8lM4WYWHYbq
-         BGsg==
+        bh=NvBBYt0QHaBsGt4sgK0v6LDNYZqIUkl6IROUmRuxWdQ=;
+        b=MA0kRON4QhGs4BFgBBAgi4HRfsrAJG2EJZEtjdlzBWzrS11n2MkBbKy41ES+f2Sv7P
+         XD5g+jI9SWeImTwn37uTXuKSJoaiPZtsPuAPLASS30Tty5rtPk/xcbUCdXr22vmutoQc
+         jlwKzyBh6OBE6Gs9fBjY9T8W+022jdIF7/3WHLuJPCIRxQB91TgHI+U5NO86qZTyT18N
+         fAfajRYIwtPdSvMR36Tflqj1P4WXEAJBVPPfcNPuAioMHJJUy84onfJYQJ4fUy479k3f
+         cDy2Be813t/dpu4ZzbtnGI6Ousdu/bQsr+KP78VY6cIIfOqj2nEyQNJGo0vH/32HAa1f
+         XkCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791319325; x=1791924125;
+        d=1e100.net; s=20260707; t=1791487133; x=1792091933;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aA2FYIjUqF5r/91lBwDXxKR+/AAiwQXpqeT47CJCmVU=;
-        b=BKMvHpIpqQa5vh+hnkQ6oDnUzAudVeBAHoSgyHbZcg+5YWPwgyNjAghFzrBKnlVAWS
-         glZYJA6R5tZxjadPF/G8D/b3BECJJEEciBbSS5Cwa3XIcVrI4u08rw5DCGTZKaPHq/i5
-         rx7JR9C1FbGxqLmc32uRFKEWESE2Wu3XQLXVKNZOA83JfvUhV+ujYtcJ2N3hEAJwdkaB
-         5X2dGBVxCU76FfuVL4ZtB8/VbluJ0YYKsj7mDNDpkf6tdUtovT/0SvUgh8giwtVCyv3S
-         5QRdGln9pUl1Xs9nigAQkg2v4sV83yu4RPd2PIvJ3NvBKCo8XnTuyZKFQIJbhLMdJrxo
-         XPOw==
-X-Forwarded-Encrypted: i=1; AKwUvBysTp93Zw0zTFZ0RNEBRGvWQWK86+oZH1h01XwniMziU0yGr/rz+aOjv0/42OmKYk0gRYu5UuH+c7suJgOv6YruoKhbeQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mvppr0CqaekDhG9tZpJffddHJ/if2LG09EJwJwAT1hcUeiu1yA
-	YRZ7XV41X4r3LzsU8mpvBq/LahbJPgKpX8DIw5ev1dEtUyKrClUxYOa2
-X-Gm-Gg: AYBFou0bsLci9DDtq6y8pGS5R/Lk596+W5fbX4NvknM44xIgZMg0ID3moBCOL8w3elP
-	q9zqo24ItkIxys+JVWGUK+KwS7g+qd4yGtHVxJF4k5OwFWpgNmqfZx8pfgpc4YNV77DfG557DyA
-	h6K2jYtoy++L4a1BN85qMt7gqSJazYam19y742QCuFtUuZE3kioVRX357kmnJLz8WgnUgVVgpBK
-	Uy6iVryYC3ORfnpB1XUDgGU67ZLANw2grVlZPw9TQM1ToSHmO+gH7SwuuQoerN0VYnHf7XXK0BO
-	XORtuTQeMeEp+IL3UttyHQGuiMZorxcXLazFU4SWQNadQJ20Z2Qt3BxGJLaAhxsmhkyAmnqnoY8
-	TvVzydJh9gx6W2WTPDriiukp/9jSq1CUEMtFwMpDGi2DaJnjADY5z0stb9TctayEcOlcp+AKEq2
-	70sggo5XGQgelxemo7EiWBva320hTZ5HmZFUtOfDWyp6UQI4AkB3Ti5YkseB8oiTKt+aTxH1ZI2
-	6sHfS3bl48f4U0CyH7abv8R/5ZEy+dBSe5fNbJdnH36QeN5CVxtQyksRQXM6G740mI=
-X-Received: by 2002:a05:600c:8b8b:b0:4a0:251f:dabd with SMTP id 5b1f17b1804b1-4a18064cd98mr384095e9.16.1791319324673;
-        Tue, 06 Oct 2026 13:42:04 -0700 (PDT)
+        bh=NvBBYt0QHaBsGt4sgK0v6LDNYZqIUkl6IROUmRuxWdQ=;
+        b=Xo0uNBuK5I+k8Ku7Pen0I6LsFmUGTiakNtOsS0KEoPHgm+cwxhKh8AL9/9GmbBwYMa
+         As7Fl4KK5L/QKclxDz8ADG2R4RHTw+yvcy5HLKefQpL2zxAj4VvHe9jixuOhOSe0JT7X
+         Rkq4fffuqnT2XTG14JR5d4X0arBs8vj3yOo9sPge9WaPe8pOEvlGEUIO8iwLINgVsONh
+         RXle5o0zashsjfP3n76fgpWR0KmwdQ/saEu4PgYLNdognaFqy6FoHq/z3Y7fN5Bnb0Fq
+         Mt1+pWbcTy+rU+FPcenkaU7dtMa56vQHCNfhozXNUtEZzZT+2GPKg5KIaQRvutQXPMGq
+         i+dg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/Uc7YkVsbvDm27UEXnZjpRg9jUOIr9tK9MZzX60vcaSWraCckwnziQRMP0GSdmnJ8YYv11S0jkMlpZuEShT5+GmdWfQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKw70f0sNQs8ppj7WISCIeP1P143cVy0hu9rve37ggpZX1SDsxp
+	PINKxkaAmYqE2hNEG33pkjp0pVmVwBuv/yjXIWTO8dwKNKQEDiNotAWQ
+X-Gm-Gg: AYBFou3o9xIunH842GMx0u+6vcCMoPEZnCLsQspE+DV42dpuMnT2CAE775KfonCvtoZ
+	Jd0AIDEnr9SJ9ovQUVTtkWNArcFL1biK4gLWQBkHbSRZK1+vIWGhs3dj2IaLot3Mhhim1K/vzHv
+	hMuhEMJvVftRm2BULBWwnStQOize8odgWD7069h+H4yg08jelrOxktPKXpDkJa50VMUnXICtFod
+	L2uyikSaZD5VH5AVUbZ6phoiPzauDjoDe56I/poMbgF/DE5PvvXZfL8llC1PJ4CXNYVZr8/hDB/
+	wjxBRFKN/v1z00ziilHoJ5wvD0zerz6HIZPBAFcsm6iozemio/xvXxVlRWSOlxMOdXRzstQ4AHc
+	MkpaZ+LBnqngvliYcasxrKyppDA6LCl11LQMVdR++EQg8I19YzcxjXNoj0idC4l8ZWZpX3Bxxpc
+	ctdWd25o2etb2I5dndBHHQkkSBnndxghTYiIuNGzwAMsW8NFVdG67LzhIARpSiQW5Vwv3XrosTG
+	gh5NQHWSKFf2LzAuIJoB8t2jjOIZlnvfxp6g/ps3WaIAn414wlkO0r8MyVGD8oJXQsd
+X-Received: by 2002:a5d:64c9:0:b0:48c:7037:aee9 with SMTP id ffacd0b85a97d-48c72890fdcmr12484231f8f.50.1791487132477;
+        Thu, 08 Oct 2026 12:18:52 -0700 (PDT)
 Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1787e7792sm93473055e9.0.2026.10.06.13.42.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db650fe17sm1104128f8f.9.2026.10.08.12.18.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 13:42:04 -0700 (PDT)
+        Thu, 08 Oct 2026 12:18:52 -0700 (PDT)
 From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	Neill Kapron <nkapron@google.com>,
-	=?UTF-8?q?Micha=C5=82=20Nazarewicz?= <mina86@mina86.com>,
+To: Justin Tee <justin.tee@broadcom.com>,
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>,
+	Paul Ely <paul.ely@broadcom.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Daniel Wagner <dwagner@suse.de>,
+	Hannes Reinecke <hare@suse.de>,
+	linux-nvme@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	Shuah Khan <shuah@kernel.org>,
 	Brigham Campbell <me@brighamcampbell.com>,
 	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
 	raghunathpalla.0209@gmail.com,
-	stable@vger.kernel.org,
-	syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
-Subject: [PATCH] usb: gadget: f_fs: fix use-after-free of ffs_dev in ffs_free_inst()
-Date: Tue,  6 Oct 2026 21:42:02 +0100
-Message-Id: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
+	syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
+Subject: [PATCH] nvmet-fc: don't drop the last assoc reference in nvmet_fc_delete_ctrl()
+Date: Thu,  8 Oct 2026 20:18:48 +0100
+Message-Id: <20261008191848.47066-1-raghunathpalla.0209@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -81,109 +86,83 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a function instance is removed through configfs, ffs_free_inst()
-first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
-dev from its mount and drops the lock again. Only then does it retake
-the lock and free the dev with _ffs_free_dev().
+syzbot hit a recursive locking report on subsys->lock when a subsystem
+is unlinked from an FC port.
 
-Between those two steps the dev is still on the ffs_devices list. If
-someone mounts functionfs with the same instance name right then,
-ffs_acquire_dev() finds the dev, marks it mounted and points the new
-ffs_data at it. The dev is freed a moment later, and when that mount
-is torn down, ffs_closed() writes to freed memory. syzbot hit this:
+nvmet_port_del_ctrls() holds subsys->lock while it calls ->delete_ctrl()
+for each controller. nvmet_fc_delete_ctrl() grabs a reference on the
+association, queues del_work and then drops the reference. If del_work
+gets to run to completion before that put, ours is the last reference.
+Freeing the assoc tears down the queues, the last nvmet_cq_put() drops
+the last ctrl reference, and nvmet_ctrl_free() goes for subsys->lock
+again:
 
-  BUG: KASAN: slab-use-after-free in ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
-  BUG: KASAN: slab-use-after-free in ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
-  Write of size 1 at addr ffff8880237b1e4a by task syz-executor/11910
-  Call Trace:
-   ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
-   ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
-   ffs_data_reset drivers/usb/gadget/function/f_fs.c:2336 [inline]
-   ffs_fs_kill_sb+0x84/0x370 drivers/usb/gadget/function/f_fs.c:2180
-   deactivate_locked_super+0xbe/0x110 fs/super.c:586
-   cleanup_mnt+0x3d3/0x460 fs/namespace.c:1329
+  WARNING: possible recursive locking detected
   ...
-  Freed by task 17408:
-   kfree+0x1c5/0x650 mm/slub.c:6923
-   _ffs_free_dev drivers/usb/gadget/function/f_fs.c:4336 [inline]
-   ffs_free_inst+0x233/0x2c0 drivers/usb/gadget/function/f_fs.c:4152
-   usb_put_function_instance+0x95/0xc0 drivers/usb/gadget/functions.c:77
-   config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
-   configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+   nvmet_ctrl_free+0xa6/0x8e0 drivers/nvme/target/core.c:1766
+   nvmet_cq_put+0x158/0x200 drivers/nvme/target/core.c:848
+   nvmet_fc_target_assoc_free+0x418/0x2220 drivers/nvme/target/fc.c:1173
+   nvmet_fc_delete_ctrl+0x717/0x7e0 drivers/nvme/target/fc.c:1581
+   nvmet_port_del_ctrls+0xfb/0x150 drivers/nvme/target/core.c:311
+   nvmet_port_subsys_drop_link+0x1e8/0x310 drivers/nvme/target/configfs.c:1119
 
-Fix it by doing the release and the free while holding the lock once.
-To allow that, move the body of ffs_release_dev() into a new
-_ffs_release_dev() that expects the lock to be held already, and keep
-ffs_release_dev() as a wrapper for ffs_data_put(). A racing mount now
-either gets the dev before ffs_free_inst() runs, in which case the
-release clears its pointer, or doesn't find the dev at all.
+It's a real hang, not only a lockdep warning. I reproduced it with
+fcloop by putting an msleep() before the put: rm on the configfs link
+gets stuck in D state for good.
 
-I was able to reproduce this in QEMU with a small program that keeps
-creating and removing an ffs function directory in configfs while a
-second thread mounts and unmounts functionfs with the same name. On an
-unpatched kernel it hit the same KASAN report within about ten
-minutes. With this patch applied, the same program ran for 30 minutes
-without any problem.
+I don't think we need that reference at all. del_work does
+list_del_rcu() and synchronize_rcu() before it drops the initial
+reference, so an assoc we find on assoc_list can't go away before
+rcu_read_unlock(). nvmet_fc_schedule_delete_assoc() doesn't sleep, so
+just call it inside the RCU section and get rid of the get/put. If the
+assoc is already being deleted, terminating is set and the call is a
+no-op, which matches what happened before when the get failed.
 
-Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver data cross-references")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6227549bd2c8a1ec8ba0
+With the same msleep() in place the patched kernel unlinks cleanly and
+the assoc is freed from the workqueue.
+
+Fixes: 4049dc96b8de ("nvmet-fc: defer cleanup using RCU properly")
+Reported-by: syzbot+da94a51633758d13bd63@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=da94a51633758d13bd63
 Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 ---
- drivers/usb/gadget/function/f_fs.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/nvme/target/fc.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c64a268e98a4..f8ea9a980605 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -288,6 +288,7 @@ static struct ffs_dev *_ffs_find_dev(const char *name);
- static struct ffs_dev *_ffs_alloc_dev(void);
- static void _ffs_free_dev(struct ffs_dev *dev);
- static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data);
-+static void _ffs_release_dev(struct ffs_dev *ffs_dev);
- static void ffs_release_dev(struct ffs_dev *ffs_dev);
- static int ffs_ready(struct ffs_data *ffs);
- static void ffs_closed(struct ffs_data *ffs);
-@@ -4147,8 +4148,8 @@ static void ffs_free_inst(struct usb_function_instance *f)
- 	struct f_fs_opts *opts;
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 1b557775e033..eecdffefa24f 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1567,8 +1567,14 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 		list_for_each_entry_rcu(assoc, &tgtport->assoc_list, a_list) {
+ 			queue = assoc->queues[0];
+ 			if (queue && queue->nvme_sq.ctrl == ctrl) {
+-				if (nvmet_fc_tgt_a_get(assoc))
+-					found_ctrl = true;
++				/*
++				 * No assoc reference here: we're called with
++				 * subsys->lock held, and if del_work beat us,
++				 * our put would free the ctrl under that lock.
++				 * RCU keeps the assoc alive until unlock.
++				 */
++				nvmet_fc_schedule_delete_assoc(assoc);
++				found_ctrl = true;
+ 				break;
+ 			}
+ 		}
+@@ -1576,11 +1582,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
  
- 	opts = to_f_fs_opts(f);
--	ffs_release_dev(opts->dev);
- 	ffs_dev_lock();
-+	_ffs_release_dev(opts->dev);
- 	_ffs_free_dev(opts->dev);
- 	ffs_dev_unlock();
- 	kfree(opts);
-@@ -4363,10 +4364,11 @@ static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data)
- 	return ret;
- }
+ 		nvmet_fc_tgtport_put(tgtport);
  
--static void ffs_release_dev(struct ffs_dev *ffs_dev)
-+/*
-+ * Same as ffs_release_dev(), for callers that already hold ffs_dev_lock.
-+ */
-+static void _ffs_release_dev(struct ffs_dev *ffs_dev)
- {
--	ffs_dev_lock();
--
- 	if (ffs_dev && ffs_dev->mounted) {
- 		ffs_dev->mounted = false;
- 		if (ffs_dev->ffs_data) {
-@@ -4377,7 +4379,12 @@ static void ffs_release_dev(struct ffs_dev *ffs_dev)
- 		if (ffs_dev->ffs_release_dev_callback)
- 			ffs_dev->ffs_release_dev_callback(ffs_dev);
+-		if (found_ctrl) {
+-			nvmet_fc_schedule_delete_assoc(assoc);
+-			nvmet_fc_tgt_a_put(assoc);
++		if (found_ctrl)
+ 			return;
+-		}
+ 
+ 		spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
  	}
-+}
- 
-+static void ffs_release_dev(struct ffs_dev *ffs_dev)
-+{
-+	ffs_dev_lock();
-+	_ffs_release_dev(ffs_dev);
- 	ffs_dev_unlock();
- }
- 
 -- 
 2.34.1
 
