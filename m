@@ -1,149 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C541C1B808;
-	Fri,  9 Oct 2026 02:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A124DEC0A
+	for <linux-kernel-mentees@lists.linux.dev>; Fri,  9 Oct 2026 14:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791512066; cv=none; b=oKW+racMhzTgbybUNceu50uq8+xOOpv0tR2ZAfSc0KUBFTZGe+PZJ7nS5ci5KhidHl9GCblVtMc7m1ojFOduKiyXtXDDH3Icqm0wdWd6/zJweUGMLQZHiSiKPSSfqPtegwfDxIqG1115jFgraHkxnzL+CjNGYCum1/4GwUY2iyY=
+	t=1791556179; cv=none; b=hSjHXh8hEYvYlfgkfNqi8Y8mFhu6KWi/xlAIPavFA0FWhV1wUQSxXgxfPuK9ABA8+uL/Q+L/Klyov29DNmvp1FGdxXwTY5DToHEVJAeShiG7G9CFD+59Wwsn9ZTSY+iZxc10zu1cuTpNDR5G9fXw1bmySExU0lpRsLOc1PGZGgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791512066; c=relaxed/simple;
-	bh=XjYMJefxXIo3gGyZdbK27YJ+okAMpEelayGP13vzO/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5Hf1utg8Nd85mV+emhnCFWwQ8sPTqA2VZ9rWaxc2ImvCY3JUwuyl0SNgTMXCKgw5IU2wlSJuFKj8wwfgOfz+/tgzDaxH8K/pO1abtRTTZZ+Sc3zuEKBVPm08DniNQTpH0FKJ1r/ngigt4xwkHGuRpCbjBHWiSkCRGwFaXwIdos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8g/i35F; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8g/i35F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084A71F00893;
-	Fri,  9 Oct 2026 02:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791512065;
-	bh=9G5OUQT2UcbTq7GSmFBBz/ZFJx0o7ze/5N1vD4295TA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=A8g/i35FU6xtuf2sQgGMZXq/m777NIiX+7+Bjpqv3Ebcs1hW6y15kY7BhUVjQk5js
-	 2Ary1d/LHl7lloNAOQ3BRfeGPtrV6N+ArTm+fd9r0anQh1yF2gSPJUYxSz+3udENhh
-	 8U/d/KKvxjMt/1+wM0b5paKw7gnc07E42PPNrVcVOmtNbJqo8G1yQ+RE0qEVTcQPKU
-	 FK8y72JxsHMEi53EB4+F58Xz5JxRsRLKA7LNjLyRsIrw6EjxLQvRTxbC/mibS2wbju
-	 PJp58A9PN5XfsGsw99KDBKsn+4g6bzu0DWobxkdDWTXuseEfxBRI47OPyhFc5gE9W8
-	 hEBDh/dqHMHDA==
-Date: Thu, 8 Oct 2026 19:14:23 -0700
-From: "Peter Chen (Qualcomm)" <peter.chen@kernel.org>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Grzegorz Jaszczyk <grzegorz.jaszczyk@linaro.org>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: phy: don't overwrite a device_type the bus already
- set
-Message-ID: <ashN_7U0r_aXJOP6@hu-petche-lv.qualcomm.com>
-References: <20260924194236.168010-1-raghunathpalla.0209@gmail.com>
+	s=arc-20240116; t=1791556179; c=relaxed/simple;
+	bh=CsNEcSseIDsr0m2RL/k2dyWm7uTwoNCldkmTt/+nYn4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G3OzHhXl/Nkwuq2u/e3M3d2P/uzy69NbPR9Rg0Vq6MMe/pUF0tyin0oEOi7/AcIOp/XoTe+yBGco/Yp1XgMJD8BMlWZ+exddASbUfydcBH2IxWHSvv3eSgIsRgVmDYHK0YhQ31dMKbYT1F7/1FmyyU0sh2K6jRnlAWSDZ+sk+as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2DE7021B8F;
+	Fri,  9 Oct 2026 14:29:35 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FE9C1368B;
+	Fri,  9 Oct 2026 14:29:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A+GNNE36yGrMIwAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Fri, 09 Oct 2026 14:29:34 +0000
+Message-ID: <e2beb9bc-7b92-4ae4-8190-c99bee8de1ca@suse.de>
+Date: Fri, 9 Oct 2026 16:28:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260924194236.168010-1-raghunathpalla.0209@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH nf] netfilter: ip6t_SYNPROXY: check TCP header before
+ verifying checksum
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Patrick McHardy <kaber@trash.net>
+Cc: Shuah Khan <shuah@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com,
+ Phil Sutter <phil@nwl.cc>, Simon Horman <horms@kernel.org>,
+ netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ netdev@vger.kernel.org
+References: <20260926204519.43402-1-raghunathpalla.0209@gmail.com>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <20260926204519.43402-1-raghunathpalla.0209@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 2DE7021B8F
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: 0.00
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.00 / 50.00];
+	TAGGED_RCPT(0.00)[5a8667f002726fc59f88]
 
-On 26-09-24 20:42:33, Palla Raghunath wrote:
-> usb_add_phy_dev() replaces the device_type of whatever device the PHY
-> driver passed in:
+On 9/26/26 10:45 PM, Palla Raghunath wrote:
+> synproxy_tg6() passes par->thoff to nf_ip6_checksum() before it has
+> checked that a TCP header is actually present at that offset.
 > 
-> 	x->dev->type = &usb_phy_dev_type;
+> par->thoff comes from ipv6_find_hdr(), called by ip6_packet_match()
+> with target -1. ipv6_find_hdr() only checks that each extension header's
+> first two bytes are in the skb. It then adds that header's declared
+> length to the offset and stops at the first non-extension header, so it
+> can return an offset past the end of the packet. With
+> CHECKSUM_NONE, nf_ip6_checksum() calls skb_checksum(skb, 0, thoff, 0).
+> When thoff is larger than skb->len, the BUG_ON(len) in skb_checksum()
+> fires:
 > 
-> That device isn't ours.  PHY drivers point x->dev at the device they are
-> bound to, and its bus has usually set a device_type up already.
+>    kernel BUG at net/core/skbuff.c:3606!
+>    RIP: 0010:skb_checksum+0x8b2/0x8c0
+>    Call Trace:
+>     nf_ip6_checksum+0x1bd/0x320 net/netfilter/utils.c:89
+>     synproxy_tg6+0x1a4/0x6e0 net/ipv6/netfilter/ip6t_SYNPROXY.c:21
+>     ip6t_do_table+0xd37/0x15b0 net/ipv6/netfilter/ip6_tables.c:366
+>     ...
 > 
-> i2c is where this hurts.  An i2c client keeps its release callback on
-> the device_type, and leaves dev->release NULL:
+> In the syzbot reproducer, a 60-byte packet carries an AH header, then two
+> hop-by-hop headers. The last hop-by-hop header has nexthdr TCP and
+> hdrlen 167, so thoff is 1400.
 > 
-> 	const struct device_type i2c_client_type = {
-> 		.groups  = i2c_dev_groups,
-> 		.uevent  = i2c_device_uevent,
-> 		.release = i2c_client_dev_release,
-> 	};
+> Fetch the TCP header with skb_header_pointer() first, as
+> nf_reject_ip6_tcphdr_get() already does. This drops packets that do not
+> contain a full TCP header at thoff before the checksum is computed.
 > 
-> usb_phy_dev_type has no ->release, so once it has replaced
-> i2c_client_type there is nothing left to free the client with, and
-> usb_remove_phy() doesn't put the old type back either.  Removing the
-> client then hits the warning in device_release():
-> 
->   Device '0-002c' does not have a release() function, it is broken
->   WARNING: drivers/base/core.c:2642 at device_release+0x1de/0x280
->   Workqueue: usb_hub_wq hub_event
->   Call Trace:
->    kobject_put+0x162/0x260
->    device_unregister+0x27/0x30
->    i2c_deregister_clients+0x27d/0x410
->    i2c_del_adapter+0xe9/0x230
->    i2c_tiny_usb_disconnect+0x3f/0x90
->    usb_unbind_interface+0x1e5/0x9c0
->    device_remove+0x125/0x170
->    device_release_driver_internal+0x4e2/0x6b0
->    bus_remove_device+0x2f5/0x470
-> 
-> syzbot gets there with a fake i2c-tiny-usb adapter: instantiate an
-> isp1301 on the new bus through its new_device attribute, then unplug the
-> USB device.
-> 
-> Only i2c is affected.  phy-isp1301.c is the one i2c driver among the
-> twelve callers of usb_add_phy_dev(); the others pass a platform device
-> or a struct phy, and both leave ->type NULL and keep their release on
-> dev->release or dev->class->dev_release, so device_release() still finds
-> one for them.
-> 
-> So only take the device_type if nothing else has.  Callers that rely on
-> the uevent handler still get it, their ->type being NULL, and the i2c
-> client keeps the release it cannot do without.
-> 
-> Tested on x86_64 with the syzbot reproducer: before the change the first
-> isp1301 instantiation panics on unplug, after it 292 instantiate/unplug
-> cycles pass without a splat.
-> 
-> Reported-by: syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3fb7629cfd12d04beeab
-> Fixes: a8534cb092d7 ("usb: phy: introduce usb_phy device type with its own uevent handler")
+> Fixes: 4ad362282cb4 ("netfilter: add IPv6 SYNPROXY target")
+> Reported-by: syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5a8667f002726fc59f88
 > Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
-
-Add Cc: stable@vger.kernel.org, otherwise:
-
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
-
-Peter
 > ---
->  drivers/usb/phy/phy.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+
+Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
+
+The nftables synproxy eval path is also affected but I think it would be 
+better to keep it in a separate patch in order to facilitate 
+backporting. The issue were introduced at different times and nftables 
+synproxy expression is "recent" compared to the iptables target.
+
+I am sending a patch for the nftables expression and will CC you in case 
+you can test it too.
+
+Thanks!
+
+>   net/ipv6/netfilter/ip6t_SYNPROXY.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-> index 5a9b9353f343..ded18c7fe32f 100644
-> --- a/drivers/usb/phy/phy.c
-> +++ b/drivers/usb/phy/phy.c
-> @@ -705,7 +705,13 @@ int usb_add_phy_dev(struct usb_phy *x)
->  	if (ret)
->  		return ret;
->  
-> -	x->dev->type = &usb_phy_dev_type;
-> +	/*
-> +	 * Don't clobber a device_type the bus already set.  x->dev is the
-> +	 * PHY driver's own device, and for an i2c client the release
-> +	 * callback lives on the type.
+> diff --git a/net/ipv6/netfilter/ip6t_SYNPROXY.c b/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> index d51d0c3e5fe9..04db1f82420b 100644
+> --- a/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> +++ b/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> @@ -18,13 +18,16 @@ synproxy_tg6(struct sk_buff *skb, const struct xt_action_param *par)
+>   	struct synproxy_options opts = {};
+>   	struct tcphdr *th, _th;
+>   
+> -	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
+> -		return NF_DROP;
+> -
+> +	/* par->thoff may point past the end of the packet; make sure a
+> +	 * full TCP header is present before checksumming up to it.
 > +	 */
-> +	if (!x->dev->type)
-> +		x->dev->type = &usb_phy_dev_type;
->  
->  	ATOMIC_INIT_NOTIFIER_HEAD(&x->notifier);
->  
-> -- 
-> 2.34.1
-> 
+>   	th = skb_header_pointer(skb, par->thoff, sizeof(_th), &_th);
+>   	if (th == NULL)
+>   		return NF_DROP;
+>   
+> +	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
+> +		return NF_DROP;
+> +
+>   	if (!synproxy_parse_options(skb, par->thoff, th, &opts))
+>   		return NF_DROP;
+>   
 
--- 
-
-Thanks,
-Peter Chen
