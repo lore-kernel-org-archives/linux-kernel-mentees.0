@@ -1,256 +1,203 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9BC436BC9
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 11:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7943DDB09
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 17:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791716532; cv=none; b=JQEShX7VRO/vZ22BW58wwKTwQfZXpM3FACUucDzz8ng9cHRLr61hl4GZTByNqn4z2TDluUJnFxpKQsycVu6mBtd4HZVn/rzT2PHm9w7P3Ulhd7zEuBTvSfexKUD3D8XKibp8Vg6ShjoLAX3KJQGdk3HngwRDfL8afm+xc7Rxj+8=
+	t=1791740932; cv=none; b=tCyj84ZUP0uq/vaEdLEgRAFlKsUhJZaSJ701SDS7tGsd5T9dEabFLNlqWLHRCYOfyYtCXg5c4QsS+VhANeoazwqprCPcgQlXH5URGf9ikfisvqWhB+cjzngv+kAkiE58NUH/zsSDBPaEN1Gwt6ibd830Fq8z4KFWsYPp09EamZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791716532; c=relaxed/simple;
-	bh=ID59jjhelGBlALrOEwLjK4+YAvd/ykxpAnzLuaEkcso=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sTe2XLT4Nh54PukSMjWWjGD0Ku5rcLIGzY6Cj6MZm/Om5JXVdOfolrRbvzW3FROjLhWefTiskzyccAubUjtxCjZ+20Yqo+Z05K3V0sNrE75gBFSQfrmaMJLCdKlngLa19VgdXzVWYkCPteT6j0PP8v9EfqrMu+nfeKkpl7T6nSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ULo8R1xi; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1791740932; c=relaxed/simple;
+	bh=hGNopC5q5uAVdNTtczdcI0MSFHjygXY4DDOanfognps=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q+rdrRXcW498SwWiC7iHdyX8U54+tmpw6NncSODZ0WAVcNHUjwOOYzCAwl3AMLTd7BG63qGJ06ihU2eaVzu7h/Sao/k4vNzH65vGA0FFPiLxTXBMVy3+2fYpUYiSPAXm81NzWG0SxxCWO8GsgsOIdeWwN/SydZ98yO7r421e7hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRmcYtpq; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ULo8R1xi"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1688d7769so8416355e9.0
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 04:02:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRmcYtpq"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a02718da81so8783415e9.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 10:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791716527; x=1792321327; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9yLUxPzbiNldjCwSi9bPvpj+pj/YOzN3wSQS/XDWpqw=;
-        b=ULo8R1xiuV+GT4CIKmEQXafvyK9c/tJAsgPtTaT1of3qQYxVgEN8cNgDW6mZSr+fce
-         OjbrpDcKc+DiRC/fGQHXHBQJd5LtcHFvdFtLJWessZkaOE3fp+2yQp8PpkJBWES9Tzx+
-         yqEQcmJZXvYl31UN/QUDgftNG+j5lI4z6sCpVWeewjdtC/K8SLBX8OtieIPSiBvPzCKl
-         qi0I7yklCrzIwTPTRo3ZPC9pLt31kH9IozRdWcyw/u4Cif4j8LIDz3U8bCtYcTWy1GRR
-         vb4cKRi0hg1rG3GlpO/A3EEgHMbMYkZhNHu/04H9DH+EtK0Fdc7ALqdP41sNvxcT/+Ck
-         GN6w==
+        d=gmail.com; s=20251104; t=1791740929; x=1792345729; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=upDrwNGB9JbvjpAZkj932h4EK026LhsRYnlCJhqIVww=;
+        b=TRmcYtpqLQtZ2xH78V236X/6nt7NHxCsEQWooIkyzxDW2EBCLmdGqMufrvWXPgY+nS
+         kCjTM+mlvVr/ygaFrW7gxVO8K2HO7cmd4nlVzd+etqsRNcakUmRnvIT6VwKKYBGaWext
+         3RMgi5YwZEqgIC8R1VHvnv8x26TEF1wrByWhs2nengRo2bF5cd513JjRFvK64MqrQ+Zm
+         UL5tJspyUDwuWKrELpZZjtfFcnhrbjHGgqtmlIpgTk4QJWR6RmsYJIfaVCJ27rnK5zgP
+         NS7o5vSE2aSct3UPMXfsJFMWEipIBgz8mgEQ7HcL3bIY4Bh2GcbA+MDjev04/QeGroxh
+         oLFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791716527; x=1792321327;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9yLUxPzbiNldjCwSi9bPvpj+pj/YOzN3wSQS/XDWpqw=;
-        b=oEy0nquJCkw71f4OtCis8ESBupunTPi5+2Tj2mCtkFf1eLiJHmYugjlw1myAyvKS5D
-         IsaAW8xSoMc06RLySzmUlVE4MU9neJKnAV1NY7d6NqndEUAkfioFfx3MoMRp9HTIkicx
-         QQsYo7QSDFrfu41YlrkWvPluDKXpJAyPnQ0Ivkw4xxhdfb5DbAzvUtoDvXilfeRd7nse
-         f4vDCWQfGucJDUu8bc+Q3KNoeXtmEovkI2x0qrDNJXBujP3NHcgG+0pLk9Fpach54naz
-         9QadtwTp6KEE3oSQuQ6XOgLW9GMrD7OcjyxJ0wg4+9Nv8juTh1hSqeAcOunRZQ+lSipr
-         D07A==
-X-Forwarded-Encrypted: i=1; AKwUvByNLQfTfFeCiByG5NVAmRHPfpWVYwRy4e6rwZFGs215I0CPSwhwkzoqHZHEhgX77dj8yVE5CX9TqvZ8Cp8PIWIzZZfPGw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIF1/jbJBgarSpi2JLesZD8nCnTq/9BvU5ukRCN1is8g2Hi26BE
-	XglCmElc5JMxx6GlCCOuZWcJv3oS3ApBbG8KQlwhdUaqm1kA0JsFe96w
-X-Gm-Gg: AYBFou3gHpRafClcf7sEfSZ4PnO3snc5DWIC0J2xDCmxXgUO1WiXaQTJVZsY1YP4dDG
-	zW7sXpiouzXg+sVpPygQXX2+pYV4/2co45n+aJI3+fH6lYNs3BzIbAAewMwVIWUSvZFTrGp3VE8
-	rkrG1kloMbImAXUmTbf9I1WwrAQ3oCpNYBka7nIKK2ZdRUx9wK/7wbIBxMqf06TB+9cIKBwOsY2
-	jTPXjYniAvBIn3plPMuXhyLBlKBhu7Zv1RVZ6a1N5SkTYY33S3E9L7M3MohjCF8OBmS/QYtin9W
-	2zGUZdztuy1WqwOymdVKR4pTbJEd2BcBxA7I2lgOHdcv5E36FAU1KwWYM3ZbUk2ZFNVEYsaYuV6
-	kBisdTIy3XIUCNFdxAosuoPKe4aYjjL6ep5rdWriYd1bwPoH7DBgi6ax8vorrWKP+RZQoFypfZp
-	WYlc7eFKagbhFGlL3GeUpDQ05Xk1L3oHo2Kom1odaTfy2AHpHPyO5pZ05+CAqAv+4Pekerz5IHH
-	+2NGA6W59JzlWcSaKU8Ax7gWjD2EZ9LLjUt5PPD7sVeheHFUk7jOuiGsH9ANw==
-X-Received: by 2002:a05:600c:3b98:b0:499:79b9:e220 with SMTP id 5b1f17b1804b1-4a18e49886amr139699625e9.10.1791716526419;
-        Sun, 11 Oct 2026 04:02:06 -0700 (PDT)
-Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bb6beaesm124386765e9.0.2026.10.11.04.02.04
+        d=1e100.net; s=20260707; t=1791740929; x=1792345729;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=upDrwNGB9JbvjpAZkj932h4EK026LhsRYnlCJhqIVww=;
+        b=b3lpVwIot1zOH8OIl+Cjdcq8wu3OtMHXFOdeZIL2ffnv4jz5tRakfQfzdZkNOkPoc8
+         iMFhOyIGNRPrgRqq92qXmb7ftZCn8IS6XfN4ot4hlifZfltASHaqu7Jc2fL21L4rCbF3
+         Tk8azq2a4J3E9spaudX+Sid09CezWtTGGVipyppNjhVD4g8Txh+75PheNtefa1GW88Xl
+         IdWep94zzD+nejpROCKYiLS3OI8CHa4TO5OKmRRiCEjqKj9Jx9pP2tD0Jr6Qi1YsP3Lj
+         HNtKjpakJoY1PrzsztgY7vE1A+O62BQuhxEwfchwFxVkHpVHsq03X+mTUyaCL3huqQ4L
+         rsFQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzRJ/TPPv+U7srWrAvTnCkXEELzIkWRrGqIWdcUjBwS+0/CuDfCh+whIesn5iYbOG+XJs37P1v84ee28iRnN8aeE0fV7w==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKcDiHxA7nOl/Jp778/GqhEGpuT6l/l2O70qbkHxCaI85EbESJS
+	Wc8LW/7XGjdqBC2tvDU3XRozx2b7OG5vi8vmKFgQbvoufkN4/P8Wgq+oL1PCqWTBvSQ=
+X-Gm-Gg: AYBFou1n2wRH+xW7AlE2Qzu8mAYtbWcW8TzJEP0Jz1+uuUadZjG4udzlQL9jblgYKm8
+	ZKwDHMK3agsuJAFWumy1dlb6Ay4oA95JfIRPz1PxyfAlYzkFcbAdfujKYe4t0ZNLBZ39S2UN5Bg
+	7iWr8gDVjSq8yVMcUsm4kkUe5rqXg0nGoeU1E9Tlq3elUQqiTxHxwuddfl+HT3F65vv8FOoJdVv
+	kSWgdRn/9eX5aSVmEwOuXC/HWdq+rlibwzy2oRIWVS2O8YNLgIpeOSt9wReBldm59wnHBz42242
+	9NMcXVKvd4oYLpIf65SWx5Sp6jlyNgxANWxv0rp95fViOwpgD1jfxU2pCUF5pxiMQJa8IyLDQAI
+	X1xSnx+fArnN0o+5qajCdAR6rZ2J7dWD7lfFC/lj5HGmsYiEqHvldXR+ShaEXQD8vRKDGMoZhTR
+	MDuiH1QO0twumn3cYELXhSyrQBMYnJGA0wZyGdQCg8I/uTldVjzlzOhCEPG0365tQdYPIuQhctB
+	7Oi5axZmcPJ4YlD1yYl6t72sI7LAOISD/EWYksZLbBWiI5Ni7J48TIsKuds9l32+OaD
+X-Received: by 2002:a05:600c:3b0a:b0:4a1:779c:dc8e with SMTP id 5b1f17b1804b1-4a18e4a01b7mr144162915e9.10.1791740928517;
+        Sun, 11 Oct 2026 10:48:48 -0700 (PDT)
+Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18beabbd0sm262519065e9.12.2026.10.11.10.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 04:02:04 -0700 (PDT)
-From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
-To: Dave Airlie <airlied@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
-Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
-	virtualization@lists.linux.dev,
-	spice-devel@lists.freedesktop.org,
+        Sun, 11 Oct 2026 10:48:48 -0700 (PDT)
+From: Palla Raghunath <raghunathpalla.0209@gmail.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>
+Cc: linux-rdma@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v6] drm/qxl: fix use-after-free in qxl_irq_handler on PCI
-Date: Sun, 11 Oct 2026 13:01:42 +0200
-Message-ID: <20261011110144.40575-1-megia.oscar@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	raghunathpalla.0209@gmail.com,
+	syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
+Subject: [PATCH v2] RDMA/cma: wait for addr_handler() to finish in rdma_destroy_id()
+Date: Sun, 11 Oct 2026 18:48:46 +0100
+Message-Id: <20261011174846.59186-1-raghunathpalla.0209@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Executing below script:
+syzbot hit a use-after-free of id_priv in addr_handler(). The bad read
+is in debug_mutex_unlock(), from the last mutex_unlock() of
+handler_mutex, and the memory was freed by ucma_close() ->
+rdma_destroy_id().
 
-i=0;\
-while [ 1 -eq 1 ]; do\
-  i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
-  if (($i%1000==0)); then\
-      echo loops=$i; free;\
-      grep nr_free_pages /proc/vmstat;\
-      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
-      sync; echo 3 > /proc/sys/vm/drop_caches;\
-      echo 1 > /proc/sys/vm/compact_memory;\
-      udevadm settle;\
-      free;\
-      grep nr_free_pages /proc/vmstat;\
-      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
-      uptime;\
-  fi;\
-  echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
-done
+addr_handler() moves the state from RDMA_CM_ADDR_QUERY to
+RDMA_CM_ADDR_RESOLVED (or RDMA_CM_ADDR_BOUND on error) under
+handler_mutex. If rdma_destroy_id() runs at that point, it waits on
+handler_mutex. When addr_handler() unlocks, the destroying task can take
+the mutex before mutex_unlock() has returned. It then sees a state other
+than RDMA_CM_ADDR_QUERY, so cma_cancel_operation() skips
+rdma_addr_cancel(), and _destroy_id() frees id_priv. mutex_unlock() in
+the work then touches the freed lock:
 
-After a few seconds, it reports:
+  ib_addr work                         close()
+  addr_handler()
+    mutex_lock(handler_mutex)
+    ADDR_QUERY -> ADDR_RESOLVED
+    ...                                rdma_destroy_id()
+                                         mutex_lock(handler_mutex)
+    mutex_unlock(handler_mutex)
+      owner cleared                      gets the mutex
+                                         state != ADDR_QUERY, no cancel
+                                         kfree(id_priv)
+      debug_mutex_unlock(lock)  <- use-after-free
 
-==================================================================
-BUG: KASAN: slab-use-after-free in qxl_irq_handler+0x269/0x2b0
-Read of size 8 at addr ffff888001c6cd48 by task swapper/0/0
+Documentation/locking/mutex-design.rst says mutex_unlock() may still
+touch the mutex after another task has acquired it, so handler_mutex
+can't be what keeps id_priv alive here. The comment in
+cma_cancel_operation() assumes it can. Before commit 722c7b2bfead
+("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()"),
+addr_handler() held a reference on id_priv until after mutex_unlock(),
+which covered this.
 
-CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
-     7.1.0-10963-g1a3746ccbb0a #31 PREEMPT(lazy)
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
-               BIOS Arch Linux 1.17.0-2-2 04/01/2014
-Call Trace:
- <IRQ>
- dump_stack_lvl+0x4d/0x70
- print_report+0x14b/0x4b0
- ? __pfx__raw_spin_lock_irqsave+0x10/0x10
- ? profile_tick+0x56/0x90
- ? tick_nohz_handler+0x23c/0x5c0
- kasan_report+0x117/0x140
- ? qxl_irq_handler+0x269/0x2b0
- ? qxl_irq_handler+0x269/0x2b0
- ? __pfx_qxl_irq_handler+0x10/0x10
- qxl_irq_handler+0x269/0x2b0
- ? __pfx_qxl_irq_handler+0x10/0x10
- ? __pfx_qxl_irq_handler+0x10/0x10
- __handle_irq_event_percpu+0x116/0x450
- ? __pfx__raw_spin_lock+0x10/0x10
- handle_irq_event+0xa6/0x1c0
- handle_fasteoi_irq+0x271/0xb10
- ? __pfx_handle_fasteoi_irq+0x10/0x10
- __common_interrupt+0x60/0x130
- common_interrupt+0x7a/0x90
- </IRQ>
- <TASK>
-  asm_common_interrupt+0x26/0x40
- RIP: 0010:pv_native_safe_halt+0xf/0x20
- Code: 42 de 00 c3 cc cc cc cc 0f 1f 00 90 90 90 90 90 90 90 90 90
-       90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d a3 cf 20 00
-       fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90
-       90 90 90 90 90
- RSP: 0018:ffffffffb8207e48 EFLAGS: 00000206
- RAX: ffff8880b296f000 RBX: ffffffffb82146c0 RCX: 0000000000000001
- RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000067a04
- RBP: fffffbfff70428d8 R08: ffffffffb7247e1d R09: 1ffff1100d846202
- R10: ffffed100d846203 R11: ffffed100d846203 R12: 0000000000000000
- R13: 0000000000000000 R14: 1ffffffff7040fcd R15: dffffc0000000000
-  ? ct_kernel_exit.constprop.0+0x9d/0xc0
-  default_idle+0x9/0x10
-  default_idle_call+0x37/0x60
-  do_idle+0x3a8/0x5d0
-  ? __pfx___schedule+0x10/0x10
-  ? __pfx_do_idle+0x10/0x10
-  cpu_startup_entry+0x4e/0x60
-  rest_init+0x11a/0x120
-  start_kernel+0x382/0x390
-  x86_64_start_reservations+0x24/0x30
-  x86_64_start_kernel+0xd6/0xe0
-  common_startup_64+0x13e/0x158
-  </TASK>
+So in rdma_destroy_id(), call rdma_addr_cancel() before taking
+handler_mutex if a resolve was ever started on this id. The req stays on
+req_list until the callback returns, so rdma_addr_cancel() finds it and
+cancel_delayed_work_sync() waits until addr_handler() is really done.
+This doesn't deadlock with the work itself. When addr_handler() destroys
+the id because the event handler returned non-zero, it uses
+destroy_id_handler_unlock(), not rdma_destroy_id(). Event handlers also
+run with handler_mutex held, so they can't call rdma_destroy_id() on
+their own id anyway.
 
-qxl_device_fini() tears down GEM, buffer objects and command rings,
-but it never releases the IRQ resources allocated during device
-initialization. This leaves the IRQ handler and its associated state
-alive after the device has been finalized, which can lead to use-after-
-free if an interrupt fires during or after teardown.
+After that cancel, clear used_resolve_ip and make cma_cancel_operation()
+check it, so the request isn't canceled a second time on the way out.
+Every id with an addr request outstanding has used_resolve_ip set, so
+the device removal path still cancels as before. The loopback and AF_IB
+resolves also use RDMA_CM_ADDR_QUERY, but they never queue an addr
+request, so there was nothing for rdma_addr_cancel() to do for them.
 
-Add the missing qxl_irq_fini() call to the finalization path, placed
-before qxl_gem_fini() so that no IRQ can be delivered while GEM and
-buffer object resources are being freed.
+There's no reproducer from syzbot, so I made the window bigger with a
+debug-only mdelay(1000) after the mutex_unlock() in addr_handler(),
+followed by a read of handler_mutex.magic. A small test program creates
+an id, resolves an address on an rxe device and closes the fd while the
+work sits in that delay. Without this patch KASAN reports the same
+slab-use-after-free as syzbot (1048 bytes into a kmalloc-2k object,
+freed by ucma_close()). With it the test runs clean, and close() just
+waits for the work to finish.
 
-Assisted-by: OpenCode:1.17.13-Big Pickle/DeepSeek V4 Flash
-Fixes: 48bd85808443 ("drm/qxl: Convert to Linux IRQ interfaces")
-Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+Fixes: 722c7b2bfead ("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()")
+Reported-by: syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ae549381b4daac2895b1
+Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 ---
-Changes in v2:
-  - Updated qxl_ttm_init to add ttm_device_fini on error in
-    qxl_ttm_init_mem_type.
+v2:
+- Don't call rdma_addr_cancel() twice on the same id: clear
+  used_resolve_ip after the early cancel in rdma_destroy_id() and check it
+  in cma_cancel_operation() (Leon)
+- v1: https://lore.kernel.org/all/20261004112613.18171-1-raghunathpalla.0209@gmail.com/
 
-Changes in v3:
-  - Added free_irq on qxl_probe unload.
-  - Set to NULL after free on qxl_device_fini and
-    added idr_destroy on release_idr and surf_id_idr.
-  - Free client_monitors_config.
+ drivers/infiniband/core/cma.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
-Changes in v4:
-  - Delete all code unnecessary. Leave only code to fix the BUG.
-
-Changes in v5:
-  - Replace disable_irq() with device-specific interrupt masking via
-    qdev->ram_header->int_mask = 0 to prevent global masking on
-    IRQF_SHARED lines.
-  - Reorder qxl_irq_fini() call in qxl_pci_remove() to ensure hardware
-    teardown events (like release_event in qxl_device_fini) complete before
-    free_irq().
-
-Changes in v6:
-  - qxl_irq_fini() call in qxl_pci_remove() do not free all resources
-    if your run unbind after end xorg. Place qxl_irq_fini() in
-    qxl_device_fini() before GEM and buffer object resources are being
-    freed is the correct place to release IRQ resources.
----
- drivers/gpu/drm/qxl/qxl_drv.h |  1 +
- drivers/gpu/drm/qxl/qxl_irq.c | 15 +++++++++++++++
- drivers/gpu/drm/qxl/qxl_kms.c |  1 +
- 3 files changed, 17 insertions(+)
-
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index cc02b5f10ad9..e8598fdbe886 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.h
-+++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -424,6 +424,7 @@ void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
+diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+index 337a49d1acf7..72138f40dd78 100644
+--- a/drivers/infiniband/core/cma.c
++++ b/drivers/infiniband/core/cma.c
+@@ -1968,12 +1968,14 @@ static void cma_cancel_operation(struct rdma_id_private *id_priv,
+ 		/*
+ 		 * We can avoid doing the rdma_addr_cancel() based on state,
+ 		 * only RDMA_CM_ADDR_QUERY has a work that could still execute.
+-		 * Notice that the addr_handler work could still be exiting
+-		 * outside this state, however due to the interaction with the
+-		 * handler_mutex the work is guaranteed not to touch id_priv
+-		 * during exit.
++		 * The addr_handler work can still be finishing its
++		 * mutex_unlock() after it has left this state.
++		 * rdma_destroy_id() waits for that before it takes
++		 * handler_mutex, and clears used_resolve_ip so the request
++		 * isn't canceled twice.
+ 		 */
+-		rdma_addr_cancel(&id_priv->id.route.addr.dev_addr);
++		if (id_priv->used_resolve_ip)
++			rdma_addr_cancel(&id_priv->id.route.addr.dev_addr);
+ 		break;
+ 	case RDMA_CM_ROUTE_QUERY:
+ 		cma_cancel_route(id_priv);
+@@ -2121,6 +2123,20 @@ void rdma_destroy_id(struct rdma_cm_id *id)
+ 	struct rdma_id_private *id_priv =
+ 		container_of(id, struct rdma_id_private, id);
  
- /* qxl_irq.c */
- int qxl_irq_init(struct qxl_device *qdev);
-+void qxl_irq_fini(struct qxl_device *qdev);
- 
- void qxl_debugfs_add_files(struct qxl_device *qdev,
- 			   struct drm_info_list *files,
-diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_irq.c
-index 4018bcf808e5..3698428b50ef 100644
---- a/drivers/gpu/drm/qxl/qxl_irq.c
-+++ b/drivers/gpu/drm/qxl/qxl_irq.c
-@@ -105,3 +105,18 @@ int qxl_irq_init(struct qxl_device *qdev)
- 	}
- 	return 0;
- }
-+
-+void qxl_irq_fini(struct qxl_device *qdev)
-+{
-+	struct drm_device *ddev = &qdev->ddev;
-+	struct pci_dev *pdev = to_pci_dev(ddev->dev);
-+
-+	if (qdev->ram_header) {
-+		qdev->ram_header->int_mask = 0;
-+		outb(0, qdev->io_base + QXL_IO_UPDATE_IRQ);
++	/*
++	 * addr_handler() can still be in mutex_unlock(&handler_mutex) after
++	 * it has moved the state on from RDMA_CM_ADDR_QUERY, and
++	 * mutex_unlock() may touch the mutex even after we have taken it.
++	 * Wait for the work to finish before we free id_priv. The req stays
++	 * on req_list until the callback returns, so rdma_addr_cancel() will
++	 * find it. Nothing can issue a new request now, so clear
++	 * used_resolve_ip and let cma_cancel_operation() skip its cancel.
++	 */
++	if (id_priv->used_resolve_ip) {
++		rdma_addr_cancel(&id->route.addr.dev_addr);
++		id_priv->used_resolve_ip = 0;
 +	}
 +
-+	cancel_work_sync(&qdev->client_monitors_config_work);
-+
-+	free_irq(pdev->irq, ddev);
-+}
-diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-index 461b7ab9ad5c..fc2502752ae2 100644
---- a/drivers/gpu/drm/qxl/qxl_kms.c
-+++ b/drivers/gpu/drm/qxl/qxl_kms.c
-@@ -310,6 +310,7 @@ void qxl_device_fini(struct qxl_device *qdev)
- 	qxl_surf_evict(qdev);
- 	qxl_vram_evict(qdev);
- 
-+	qxl_irq_fini(qdev);
- 	qxl_gem_fini(qdev);
- 	qxl_bo_fini(qdev);
- 	qxl_ring_free(qdev->command_ring);
+ 	mutex_lock(&id_priv->handler_mutex);
+ 	destroy_id_handler_unlock(id_priv);
+ }
 -- 
-2.56.0
+2.34.1
 
