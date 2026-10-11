@@ -1,173 +1,167 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727A33DFC6A
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 17:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25734468C17
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 23:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791740938; cv=none; b=Xh2xFOHdbv6l6/RM3T+60Blkqwq64q7alE30RhoZEiDDi8xfbexADv/IU1nY9otDxkBCDI119qYPLBa4yeEi0JvS27HVG+MzVp8KfIEdDgFm6OQEav83RHwCeEmlwyGAhiSbOatq4sYpy7LfsNRWs5HCti2FE/kHLSrwAo9wArc=
+	t=1791760372; cv=none; b=NiBAGfdziC7VUByt1AqKTsF703fRHfMybGPsx0oQmg0Z2hW7Hb/RjPNLtVz5J68pRxkoUtm7JuVGETDFB7HxtI2vPMl1IRawIicZ1vQ8IJdWPF/Y9Gog1ZjcEnaNn7lQnzVmKcmAWkORjvXxLroiERXbzkdau8a4MPj1yjXciHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791740938; c=relaxed/simple;
-	bh=+ac6ZuafHdUeOx4kM7JtsJyMiC3/HL6rFzc5v99ZtBw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OWDUWK+ojnnDXO2RIJE9gmhIQy2vBi5roJ6494Ll4/IhhkPXLa+8KfNyA3N4UobCPuXXorwetgD4xANbKd0yZovkKJUtdJCPI7gbd2wFY2crO8bYo5x16jn3jyce86ZSqNBNsfPQcarsGe9MExysh5aHviX+F8nsqYdGy8esaLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=famphMlv; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1791760372; c=relaxed/simple;
+	bh=oiqejljpC0r+WZwUgtEHk+QEL0SEdtKyU3/JxT4QOkI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iz9TuqKtKT9OIx3wojiK5PQS4RAMNpCqtl9QkCzklWQOBJzZ8mBmqeSFCfAw9H+RWZeYQqJtgxdObSWLZV5ab/UbKW9bN1o9thqrk6TOewMyJlv9yCw6ANBwKpwnPEfstCiQsYewt2wWCdjMCf7WUVk21LkPxkBalU+wAT+DeIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CR/5on2i; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="famphMlv"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a020e65269so6813015e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 10:48:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CR/5on2i"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c315869241fso191292366b.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 16:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791740936; x=1792345736; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lnKvaxco2zJAP8jwsjWRlSJGBk6Z5phho18+IObWBjI=;
-        b=famphMlv5krjRRuXhVXJ7Kj92r43hwfhHKAz6Y4w5tIY39OZ7QuwZU3t6CdiNTZDle
-         wqjfG/kN7koMVr5g1+YJM8B7fvKlAideNf56xv+TC+LjIbEkeYor0Q0mxiav2Dhl+mWT
-         IgwHwwSJgWyYYRviDSrV5MTtzR7x4Wtpvdm/P2McGYxV036o5oZx3UliBGyEczCr6stP
-         ND7mNj4qcHuoH0lcJh0Cm1VWGGxoNohOq/C3as3IBfcwaqrqCnMLWqeerryGlqQlYoqT
-         3mq844nbm/e7nAuX5snqD3DXi0TqzfRdUN9RUqfEFTffqyc23NPWeqxChyxNw6Hyg9/+
-         KjTA==
+        d=gmail.com; s=20251104; t=1791760369; x=1792365169; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RgqrNqMtaQsL974qKMls+lDoPZ135EhOvjmIHmRaXDw=;
+        b=CR/5on2iTaoBpfh5Z9cbMukd7US1PoglBbD+ywDC58Yed7SwUQsSNj7qlenP6i9g1A
+         fWjDINLLX6wrNWuLebD5S8lQ0z3ByUzxQZXXuH0VD8rcEbLcJqfaxpnafzFvTVNfHMap
+         bx4EROZ3GG+K4fGItJUuRS30AslI+bOzfzq0MkhQ1vEdeDbgGWsKAPsad4yJCaqJvx1p
+         4eD1GU5DFechxfOM8TIGcxtFbphUOSPr2ujxcHVotZd4GWvtNEX9kNeX8aJlECJrMlek
+         ANOY47qPGE0iw8U9tWPogkvwrv8Ji7dqO1MsSnBuKYQfqqoXlHQ32Q8oGYCFRYhH8+6V
+         Hcow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791740936; x=1792345736;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lnKvaxco2zJAP8jwsjWRlSJGBk6Z5phho18+IObWBjI=;
-        b=nD8rZ0i3XJa4uRtGxGSkdiwb95vA1ZRtdBQN48PEcs6HQWfHFevX/aPp3fhnKYxkBV
-         hr1yryqMMjnYw91RTTu36wkdno/YriCyLnRDKKtqjNGUK4GgyX+k0w9Tt/2ZUojSl1IR
-         8Z9ISW8Z5RDBPmh8l/nmw7QmKJH8etz2RYdaKtgSEIXiwayFAYQkWwXqWkLHEwgpFZcg
-         /pAgY8GFhlyKhAMXsTVa6GoKlTAL5fRUrnH/OwUu6zHEghu+s1//EoHs7HdeZvrcDBM2
-         ZMn74R+v57ml2BhFtNEquVUiofYzNSv8Z1uSHo9RbafmcvHU1p9EiGd8biY1CTYonETu
-         hifg==
-X-Forwarded-Encrypted: i=1; AKwUvBwkZqx075enzq9q5RK6HVykvjanC/dV6LlkQJPb8keovxm4DZEw+/7bVGMQjUJLkevQUFWWSPYVwQS5N6tItb75JofpjQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIUKM5ZHicK6hSAw06nm2UaAC1pydQ3QJyoDQoDVOgne9+KshQe
-	61EF8C42aTKhifXusewivBLzNXtMHRCpT5g+ncRlAzid1GRyGFLy9p0J
-X-Gm-Gg: AYBFou0o3Oib2HEi+ZMziz0djp6vwEvOHzRqOXiSyzMqbmsDHlbbzpjFOJgoqbuGCY5
-	FijPkwJKbJ75v4E6BWzUdMYcDiJxqA71rlHWY8W3f+cY5Ahf8Hy+CY8ilM71N6vn2WLxg50p5Lp
-	18qkbiltWxHlsPyhJXv48HqThfPet5dosrz/CFwYCLD47mB6hH4Ya6lsMbO5njNkdhfNkXO3S/l
-	djmzc1R4WGvatIDrEGX9fbwjLw3rEVmMV2nItrzm/H91tM3+56DhDDdU4zz6TnbgNQ7QGo28cUS
-	ZnvEhf+XzffS+74eV9BnI625d+iogGZlWrh1Xc23g1x9IKAjtpCJzPCgofN1QlBVcFtFuQjAFcW
-	glzCY/YgAa1GMbnXIbE93dtcsLF/O8EgCx0EO6VP4CNVF2Ub9++18pO1v+FVAcn8Ab7Za2GYxsK
-	IAjYWu6EOxspaHoRI4J7zW4Dpt6DEVJfLDPffVWPmqZeHONTsYKopLecMOQxanbVr9aHj2vrpZF
-	9am9i4TL+JM2VNiTIV0b446L56p05bq+3DfgmLVQZgm58+E+LMFs7o4pttSFxIbW90=
-X-Received: by 2002:a05:600c:3e8f:b0:4a0:1c0e:b057 with SMTP id 5b1f17b1804b1-4a18e44653cmr141326245e9.4.1791740935316;
-        Sun, 11 Oct 2026 10:48:55 -0700 (PDT)
-Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19471edd5sm249995755e9.11.2026.10.11.10.48.54
+        d=1e100.net; s=20260707; t=1791760369; x=1792365169;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RgqrNqMtaQsL974qKMls+lDoPZ135EhOvjmIHmRaXDw=;
+        b=AWzrRS1ARtfgZqUqJ7hLrqoMHWY+xxv5yepQcEWqRBPp8pMIdCj4gDeq4jqYWCGOQk
+         cTuwgtbPthCt+Vtg7dyygLzJiMlmGXgGHrZ6XglFMWoe69gRC2481+g7t7UlJvSSj+//
+         LKCcPo40sTi9OA2/abZJ7idkehh8bxMRnar6i8l/ycGCD3+khGnsOm9GfDvHqFjp3Fig
+         nJCC+QDRMUuA78DwLobzGIL5g0855xgvYRvZiJRQaabvAx8+ZtiOJtRoNfdisj40afbT
+         3d74GWgyBqcvoHPlU50ctcuHyceqYpE0QigAPn4Vxe0dTrAXA1UTxMS6EptZpsax4sXv
+         4HTg==
+X-Forwarded-Encrypted: i=1; AKwUvBxcFis7fcWjfDYSrjcBhIhI7eqkcxLJfc/aNGVwCaDWOtnsrzQ20zSr2HwHqVdbsaGnZmdGw/MoC52R81S8y/GnRm/Kkw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJcWrY2Q8LiFKyf5CpfdEi31lU5aMVSioI2/GBKjYumg3ysm3dG
+	I5Cehfriboi5tusZ7jocTFb8lTZvvXrOUi8WdEkDH3duYmrSJ5q+G4Sr
+X-Gm-Gg: AYBFou1I0Slz4NDJ4w+tRO3IgGn96jMKLK2Yp1LKFqZsvZMH1ACCCa3aTTnRO9Tj59g
+	G+WozW240DCGsE8WoYGXiWzmLwbRNvutEPB9paFtNEsOgATGj12yuAt/xFYtPAGuqEA1jUGUFn8
+	zSVRGF0hFH42jah0xfkivc/spBUAv8lmMTHutCnZHyW3O0DBqsf4vZQC8wN8eRecMR2Aeko9nKo
+	ti7ygB4ShIPureAsfBEG1y1f/qEXcJJe8A5eKej4zSDypywAVLMvC3kzfpY6YVISJLgNk5RjEvI
+	AypsQCEtYG/CENyBZFWrg7LMj4FLlZwaXlTmWYwzcfJvxmmiSWXe/fTQnq9D9AS2M3uuFJg7Oge
+	sIHpXmXMkJGe000hVigkMag/x+L98ATfdBcWB7QWkZD1RtR3qqZdozq5YdWmG8xYuU9gPHBRFFo
+	/72ICUwaZpwlgVQvW9mQHaOjVpd6yPOBnfPmf+A115NWSYCSCOVrCvm3tsniYKHQ5F19GSGpqjR
+	oqLwmA7OSX2xNMaCjgI4lf/
+X-Received: by 2002:a17:907:9620:b0:c29:5172:6151 with SMTP id a640c23a62f3a-c31aa02998amr786006666b.45.1791760369272;
+        Sun, 11 Oct 2026 16:12:49 -0700 (PDT)
+Received: from erwin (109241130011.warszawa.vectranet.pl. [109.241.130.11])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3596566d8bsm4873366b.16.2026.10.11.16.12.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 10:48:54 -0700 (PDT)
-From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Chen <peter.chen@kernel.org>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	raghunathpalla.0209@gmail.com,
-	syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: phy: don't overwrite a device_type the bus already set
-Date: Sun, 11 Oct 2026 18:48:53 +0100
-Message-Id: <20261011174853.59234-1-raghunathpalla.0209@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 11 Oct 2026 16:12:48 -0700 (PDT)
+Sender: =?UTF-8?Q?Micha=C5=82_Nazarewicz?= <mnazarewicz@gmail.com>
+From: =?utf-8?Q?Micha=C5=82?= Nazarewicz <mina86@mina86.com>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Neill Kapron <nkapron@google.com>, Shuah Khan
+ <shuah@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ raghunathpalla.0209@gmail.com, stable@vger.kernel.org,
+ syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: gadget: f_fs: fix use-after-free of ffs_dev in
+ ffs_free_inst()
+In-Reply-To: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
+References: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
+Date: Mon, 12 Oct 2026 01:12:48 +0200
+Message-ID: <ebgvv59g1ly3pyekh2c8vg5v@mina86.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-usb_add_phy_dev() replaces the device_type of whatever device the PHY
-driver passed in:
+On Tue, Oct 06 2026, Palla Raghunath wrote:
+> When a function instance is removed through configfs, ffs_free_inst()
+> first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
+> dev from its mount and drops the lock again. Only then does it retake
+> the lock and free the dev with _ffs_free_dev().
 
-	x->dev->type = &usb_phy_dev_type;
+> Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver=
+ data cross-references")
+> Cc: stable@vger.kernel.org
+> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D6227549bd2c8a1ec8ba0
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 
-That device isn't ours.  PHY drivers point x->dev at the device they are
-bound to, and its bus has usually set a device_type up already.
+Acked-by: Micha=C5=82 Nazarewicz <mina86@mina86.com>
 
-i2c is where this hurts.  An i2c client keeps its release callback on
-the device_type, and leaves dev->release NULL:
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/func=
+tion/f_fs.c
+> index c64a268e98a4..f8ea9a980605 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -288,6 +288,7 @@ static struct ffs_dev *_ffs_find_dev(const char *name=
+);
+>  static struct ffs_dev *_ffs_alloc_dev(void);
+>  static void _ffs_free_dev(struct ffs_dev *dev);
+>  static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_da=
+ta);
+> +static void _ffs_release_dev(struct ffs_dev *ffs_dev);
+>  static void ffs_release_dev(struct ffs_dev *ffs_dev);
+>  static int ffs_ready(struct ffs_data *ffs);
+>  static void ffs_closed(struct ffs_data *ffs);
+> @@ -4147,8 +4148,8 @@ static void ffs_free_inst(struct usb_function_insta=
+nce *f)
+>  	struct f_fs_opts *opts;
+>=20=20
+>  	opts =3D to_f_fs_opts(f);
+> -	ffs_release_dev(opts->dev);
+>  	ffs_dev_lock();
+> +	_ffs_release_dev(opts->dev);
+>  	_ffs_free_dev(opts->dev);
+>  	ffs_dev_unlock();
+>  	kfree(opts);
+> @@ -4363,10 +4364,11 @@ static int ffs_acquire_dev(const char *dev_name, =
+struct ffs_data *ffs_data)
+>  	return ret;
+>  }
+>=20=20
+> -static void ffs_release_dev(struct ffs_dev *ffs_dev)
+> +/*
+> + * Same as ffs_release_dev(), for callers that already hold ffs_dev_lock.
+> + */
+> +static void _ffs_release_dev(struct ffs_dev *ffs_dev)
+>  {
+> -	ffs_dev_lock();
+> -
+>  	if (ffs_dev && ffs_dev->mounted) {
+>  		ffs_dev->mounted =3D false;
+>  		if (ffs_dev->ffs_data) {
+> @@ -4377,7 +4379,12 @@ static void ffs_release_dev(struct ffs_dev *ffs_de=
+v)
+>  		if (ffs_dev->ffs_release_dev_callback)
+>  			ffs_dev->ffs_release_dev_callback(ffs_dev);
+>  	}
+> +}
+>=20=20
+> +static void ffs_release_dev(struct ffs_dev *ffs_dev)
+> +{
+> +	ffs_dev_lock();
+> +	_ffs_release_dev(ffs_dev);
+>  	ffs_dev_unlock();
+>  }
 
-	const struct device_type i2c_client_type = {
-		.groups  = i2c_dev_groups,
-		.uevent  = i2c_device_uevent,
-		.release = i2c_client_dev_release,
-	};
-
-usb_phy_dev_type has no ->release, so once it has replaced
-i2c_client_type there is nothing left to free the client with, and
-usb_remove_phy() doesn't put the old type back either.  Removing the
-client then hits the warning in device_release():
-
-  Device '0-002c' does not have a release() function, it is broken
-  WARNING: drivers/base/core.c:2642 at device_release+0x1de/0x280
-  Workqueue: usb_hub_wq hub_event
-  Call Trace:
-   kobject_put+0x162/0x260
-   device_unregister+0x27/0x30
-   i2c_deregister_clients+0x27d/0x410
-   i2c_del_adapter+0xe9/0x230
-   i2c_tiny_usb_disconnect+0x3f/0x90
-   usb_unbind_interface+0x1e5/0x9c0
-   device_remove+0x125/0x170
-   device_release_driver_internal+0x4e2/0x6b0
-   bus_remove_device+0x2f5/0x470
-
-syzbot gets there with a fake i2c-tiny-usb adapter: instantiate an
-isp1301 on the new bus through its new_device attribute, then unplug the
-USB device.
-
-Only i2c is affected.  phy-isp1301.c is the one i2c driver among the
-twelve callers of usb_add_phy_dev(); the others pass a platform device
-or a struct phy, and both leave ->type NULL and keep their release on
-dev->release or dev->class->dev_release, so device_release() still finds
-one for them.
-
-So only take the device_type if nothing else has.  Callers that rely on
-the uevent handler still get it, their ->type being NULL, and the i2c
-client keeps the release it cannot do without.
-
-Tested on x86_64 with the syzbot reproducer: before the change the first
-isp1301 instantiation panics on unplug, after it 292 instantiate/unplug
-cycles pass without a splat.
-
-Reported-by: syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3fb7629cfd12d04beeab
-Fixes: a8534cb092d7 ("usb: phy: introduce usb_phy device type with its own uevent handler")
-Cc: stable@vger.kernel.org
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
-Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
----
-v2:
-- Add Cc: stable, as Peter asked, and his Reviewed-by
-- v1: https://lore.kernel.org/all/20260924194236.168010-1-raghunathpalla.0209@gmail.com/
-
- drivers/usb/phy/phy.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-index 5a9b9353f343..ded18c7fe32f 100644
---- a/drivers/usb/phy/phy.c
-+++ b/drivers/usb/phy/phy.c
-@@ -705,7 +705,13 @@ int usb_add_phy_dev(struct usb_phy *x)
- 	if (ret)
- 		return ret;
- 
--	x->dev->type = &usb_phy_dev_type;
-+	/*
-+	 * Don't clobber a device_type the bus already set.  x->dev is the
-+	 * PHY driver's own device, and for an i2c client the release
-+	 * callback lives on the type.
-+	 */
-+	if (!x->dev->type)
-+		x->dev->type = &usb_phy_dev_type;
- 
- 	ATOMIC_INIT_NOTIFIER_HEAD(&x->notifier);
- 
--- 
-2.34.1
-
+--=20
+Best regards
+=E3=83=9F=E3=83=8F=E3=82=A6 =E2=80=9C=F0=9D=93=B6=F0=9D=93=B2=F0=9D=93=B7=
+=F0=9D=93=AA86=E2=80=9D =E3=83=8A=E3=82=B6=E3=83=AC=E3=83=B4=E3=82=A3=E3=83=
+=84
+=C2=ABIf at first you don=E2=80=99t succeed, give up skydiving=C2=BB
