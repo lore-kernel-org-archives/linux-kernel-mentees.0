@@ -1,158 +1,256 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF0637AA9E;
-	Sun, 11 Oct 2026 10:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9BC436BC9
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 11:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791714879; cv=none; b=LLH+nh7VSipzsE3NjBRgUygN6lIbhHhOkoj+Cvq5yRcfNo6oFHP5oalMirMk/OjNkkC7aHZBhtlr+rkVE7B0hCoLZAH2326VzKvmBbkvpgj4AS0uiZriKgGj7xgSKWFQUWKVNVzVhZLi/dJn/uip6eEnzt0945VJO0aduR70+bs=
+	t=1791716532; cv=none; b=JQEShX7VRO/vZ22BW58wwKTwQfZXpM3FACUucDzz8ng9cHRLr61hl4GZTByNqn4z2TDluUJnFxpKQsycVu6mBtd4HZVn/rzT2PHm9w7P3Ulhd7zEuBTvSfexKUD3D8XKibp8Vg6ShjoLAX3KJQGdk3HngwRDfL8afm+xc7Rxj+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791714879; c=relaxed/simple;
-	bh=NOo7j1H9AH366+ck3fSKrd/N/DCyKEjgWiSYfSjyQCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UVFldvuZbOfLJBa0NmCGRiOCarULSXx9zzI9JQIVT4pXN4W1qhYtzrbvJVgAJ75nN8rtVsxOdK9+iFB0/xnBXnc5wHUl4iN72I0q8esTSp2R1MpNF1ApVaJYThM9lSEqdXHaNzVi7GLTaceVsdKNYJlZcAfODUh2i3ORVdVZEIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpmdJURV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791716532; c=relaxed/simple;
+	bh=ID59jjhelGBlALrOEwLjK4+YAvd/ykxpAnzLuaEkcso=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sTe2XLT4Nh54PukSMjWWjGD0Ku5rcLIGzY6Cj6MZm/Om5JXVdOfolrRbvzW3FROjLhWefTiskzyccAubUjtxCjZ+20Yqo+Z05K3V0sNrE75gBFSQfrmaMJLCdKlngLa19VgdXzVWYkCPteT6j0PP8v9EfqrMu+nfeKkpl7T6nSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ULo8R1xi; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpmdJURV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8041F0089B;
-	Sun, 11 Oct 2026 10:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791714878;
-	bh=icm2LtJfPODYQnA9wYSVo4ITb9OjHw/HtenDlAvctjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fpmdJURVzA3Zyv9Rhdq88PScXzTS2sNAmco0YA2NUcK4peAFfF0QWppF0hC/4RcUs
-	 pvsa4yDHEFHGSSNAPZwVm/GY58TK81rwv8Zvl6+XskUQ8HEjyxAXrUQqMePggJWh8o
-	 +jrpjWHqvZRbO+qYwlVlkfPPLdlCH3Xo9lxgCXkK+6wcg6etk/FJZi0ZhlNb7CQOHR
-	 pm13eqN8Voh5MV6GI9mFnzlw3b3E48HbtVXkkad/Ogmg0Ls5dp8nWR+d23DmB6Tvp9
-	 vQCLoulU49E6ShODaogBy0gN548SZh/9eujZulIODgsd0rqTfwPWdwgX0DO2Kmdr+I
-	 9QiVTjjeE8rNw==
-Date: Sun, 11 Oct 2026 13:34:33 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
-Subject: Re: [PATCH] RDMA/cma: wait for addr_handler() to finish in
- rdma_destroy_id()
-Message-ID: <20261011103433.GB27033@unreal>
-References: <20261004112613.18171-1-raghunathpalla.0209@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ULo8R1xi"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1688d7769so8416355e9.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Oct 2026 04:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791716527; x=1792321327; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9yLUxPzbiNldjCwSi9bPvpj+pj/YOzN3wSQS/XDWpqw=;
+        b=ULo8R1xiuV+GT4CIKmEQXafvyK9c/tJAsgPtTaT1of3qQYxVgEN8cNgDW6mZSr+fce
+         OjbrpDcKc+DiRC/fGQHXHBQJd5LtcHFvdFtLJWessZkaOE3fp+2yQp8PpkJBWES9Tzx+
+         yqEQcmJZXvYl31UN/QUDgftNG+j5lI4z6sCpVWeewjdtC/K8SLBX8OtieIPSiBvPzCKl
+         qi0I7yklCrzIwTPTRo3ZPC9pLt31kH9IozRdWcyw/u4Cif4j8LIDz3U8bCtYcTWy1GRR
+         vb4cKRi0hg1rG3GlpO/A3EEgHMbMYkZhNHu/04H9DH+EtK0Fdc7ALqdP41sNvxcT/+Ck
+         GN6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791716527; x=1792321327;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9yLUxPzbiNldjCwSi9bPvpj+pj/YOzN3wSQS/XDWpqw=;
+        b=oEy0nquJCkw71f4OtCis8ESBupunTPi5+2Tj2mCtkFf1eLiJHmYugjlw1myAyvKS5D
+         IsaAW8xSoMc06RLySzmUlVE4MU9neJKnAV1NY7d6NqndEUAkfioFfx3MoMRp9HTIkicx
+         QQsYo7QSDFrfu41YlrkWvPluDKXpJAyPnQ0Ivkw4xxhdfb5DbAzvUtoDvXilfeRd7nse
+         f4vDCWQfGucJDUu8bc+Q3KNoeXtmEovkI2x0qrDNJXBujP3NHcgG+0pLk9Fpach54naz
+         9QadtwTp6KEE3oSQuQ6XOgLW9GMrD7OcjyxJ0wg4+9Nv8juTh1hSqeAcOunRZQ+lSipr
+         D07A==
+X-Forwarded-Encrypted: i=1; AKwUvByNLQfTfFeCiByG5NVAmRHPfpWVYwRy4e6rwZFGs215I0CPSwhwkzoqHZHEhgX77dj8yVE5CX9TqvZ8Cp8PIWIzZZfPGw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIF1/jbJBgarSpi2JLesZD8nCnTq/9BvU5ukRCN1is8g2Hi26BE
+	XglCmElc5JMxx6GlCCOuZWcJv3oS3ApBbG8KQlwhdUaqm1kA0JsFe96w
+X-Gm-Gg: AYBFou3gHpRafClcf7sEfSZ4PnO3snc5DWIC0J2xDCmxXgUO1WiXaQTJVZsY1YP4dDG
+	zW7sXpiouzXg+sVpPygQXX2+pYV4/2co45n+aJI3+fH6lYNs3BzIbAAewMwVIWUSvZFTrGp3VE8
+	rkrG1kloMbImAXUmTbf9I1WwrAQ3oCpNYBka7nIKK2ZdRUx9wK/7wbIBxMqf06TB+9cIKBwOsY2
+	jTPXjYniAvBIn3plPMuXhyLBlKBhu7Zv1RVZ6a1N5SkTYY33S3E9L7M3MohjCF8OBmS/QYtin9W
+	2zGUZdztuy1WqwOymdVKR4pTbJEd2BcBxA7I2lgOHdcv5E36FAU1KwWYM3ZbUk2ZFNVEYsaYuV6
+	kBisdTIy3XIUCNFdxAosuoPKe4aYjjL6ep5rdWriYd1bwPoH7DBgi6ax8vorrWKP+RZQoFypfZp
+	WYlc7eFKagbhFGlL3GeUpDQ05Xk1L3oHo2Kom1odaTfy2AHpHPyO5pZ05+CAqAv+4Pekerz5IHH
+	+2NGA6W59JzlWcSaKU8Ax7gWjD2EZ9LLjUt5PPD7sVeheHFUk7jOuiGsH9ANw==
+X-Received: by 2002:a05:600c:3b98:b0:499:79b9:e220 with SMTP id 5b1f17b1804b1-4a18e49886amr139699625e9.10.1791716526419;
+        Sun, 11 Oct 2026 04:02:06 -0700 (PDT)
+Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bb6beaesm124386765e9.0.2026.10.11.04.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 04:02:04 -0700 (PDT)
+From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+To: Dave Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v6] drm/qxl: fix use-after-free in qxl_irq_handler on PCI
+Date: Sun, 11 Oct 2026 13:01:42 +0200
+Message-ID: <20261011110144.40575-1-megia.oscar@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261004112613.18171-1-raghunathpalla.0209@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 04, 2026 at 12:26:13PM +0100, Palla Raghunath wrote:
-> syzbot hit a use-after-free of id_priv in addr_handler(). The bad read
-> is in debug_mutex_unlock(), from the last mutex_unlock() of
-> handler_mutex, and the memory was freed by ucma_close() ->
-> rdma_destroy_id().
-> 
-> addr_handler() moves the state from RDMA_CM_ADDR_QUERY to
-> RDMA_CM_ADDR_RESOLVED (or RDMA_CM_ADDR_BOUND on error) under
-> handler_mutex. If rdma_destroy_id() runs at that point, it waits on
-> handler_mutex. When addr_handler() unlocks, the destroying task can take
-> the mutex before mutex_unlock() has returned. It then sees a state other
-> than RDMA_CM_ADDR_QUERY, so cma_cancel_operation() skips
-> rdma_addr_cancel(), and _destroy_id() frees id_priv. mutex_unlock() in
-> the work then touches the freed lock:
-> 
->   ib_addr work                         close()
->   addr_handler()
->     mutex_lock(handler_mutex)
->     ADDR_QUERY -> ADDR_RESOLVED
->     ...                                rdma_destroy_id()
->                                          mutex_lock(handler_mutex)
->     mutex_unlock(handler_mutex)
->       owner cleared                      gets the mutex
->                                          state != ADDR_QUERY, no cancel
->                                          kfree(id_priv)
->       debug_mutex_unlock(lock)  <- use-after-free
-> 
-> Documentation/locking/mutex-design.rst says mutex_unlock() may still
-> touch the mutex after another task has acquired it, so handler_mutex
-> can't be what keeps id_priv alive here. The comment in
-> cma_cancel_operation() assumes it can. Before commit 722c7b2bfead
-> ("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()"),
-> addr_handler() held a reference on id_priv until after mutex_unlock(),
-> which covered this.
-> 
-> So in rdma_destroy_id(), call rdma_addr_cancel() before taking
-> handler_mutex if a resolve was ever started on this id. The req stays on
-> req_list until the callback returns, so rdma_addr_cancel() finds it and
-> cancel_delayed_work_sync() waits until addr_handler() is really done.
-> This doesn't deadlock with the work itself. When addr_handler() destroys
-> the id because the event handler returned non-zero, it uses
-> destroy_id_handler_unlock(), not rdma_destroy_id(). Event handlers also
-> run with handler_mutex held, so they can't call rdma_destroy_id() on
-> their own id anyway.
-> 
-> There's no reproducer from syzbot, so I made the window bigger with a
-> debug-only mdelay(1000) after the mutex_unlock() in addr_handler(),
-> followed by a read of handler_mutex.magic. A small test program creates
-> an id, resolves an address on an rxe device and closes the fd while the
-> work sits in that delay. Without this patch KASAN reports the same
-> slab-use-after-free as syzbot (1048 bytes into a kmalloc-2k object,
-> freed by ucma_close()). With it the test runs clean, and close() just
-> waits for the work to finish.
-> 
-> Fixes: 722c7b2bfead ("RDMA/{cma, core}: Avoid callback on rdma_addr_cancel()")
-> Reported-by: syzbot+ae549381b4daac2895b1@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=ae549381b4daac2895b1
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
-> ---
->  drivers/infiniband/core/cma.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-> index 337a49d1acf7..24235eb0c49b 100644
-> --- a/drivers/infiniband/core/cma.c
-> +++ b/drivers/infiniband/core/cma.c
-> @@ -1968,10 +1968,10 @@ static void cma_cancel_operation(struct rdma_id_private *id_priv,
->  		/*
->  		 * We can avoid doing the rdma_addr_cancel() based on state,
->  		 * only RDMA_CM_ADDR_QUERY has a work that could still execute.
-> -		 * Notice that the addr_handler work could still be exiting
-> -		 * outside this state, however due to the interaction with the
-> -		 * handler_mutex the work is guaranteed not to touch id_priv
-> -		 * during exit.
-> +		 * The addr_handler work can still be finishing its
-> +		 * mutex_unlock() after it has left this state.
-> +		 * rdma_destroy_id() waits for that before it takes
-> +		 * handler_mutex.
->  		 */
->  		rdma_addr_cancel(&id_priv->id.route.addr.dev_addr);
->  		break;
-> @@ -2121,6 +2121,17 @@ void rdma_destroy_id(struct rdma_cm_id *id)
->  	struct rdma_id_private *id_priv =
->  		container_of(id, struct rdma_id_private, id);
->  
-> +	/*
-> +	 * addr_handler() can still be in mutex_unlock(&handler_mutex) after
-> +	 * it has moved the state on from RDMA_CM_ADDR_QUERY, and
-> +	 * mutex_unlock() may touch the mutex even after we have taken it.
-> +	 * Wait for the work to finish before we free id_priv. The req stays
-> +	 * on req_list until the callback returns, so rdma_addr_cancel() will
-> +	 * find it.
-> +	 */
-> +	if (id_priv->used_resolve_ip)
-> +		rdma_addr_cancel(&id->route.addr.dev_addr);
-> +
+Executing below script:
 
-It may call `rdma_addr_cancel()` twice. This is probably harmless, but still
-undesirable.
+i=0;\
+while [ 1 -eq 1 ]; do\
+  i=$((i+1)); echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/unbind;\
+  if (($i%1000==0)); then\
+      echo loops=$i; free;\
+      grep nr_free_pages /proc/vmstat;\
+      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
+      sync; echo 3 > /proc/sys/vm/drop_caches;\
+      echo 1 > /proc/sys/vm/compact_memory;\
+      udevadm settle;\
+      free;\
+      grep nr_free_pages /proc/vmstat;\
+      grep -E "VmallocUsed|Slab|Reclaimable|SUnreclaim" /proc/meminfo;\
+      uptime;\
+  fi;\
+  echo 0000:00:01.0 > /sys/bus/pci/drivers/qxl/bind;\
+done
 
-Thanks
+After a few seconds, it reports:
 
->  	mutex_lock(&id_priv->handler_mutex);
->  	destroy_id_handler_unlock(id_priv);
->  }
-> -- 
-> 2.34.1
-> 
+==================================================================
+BUG: KASAN: slab-use-after-free in qxl_irq_handler+0x269/0x2b0
+Read of size 8 at addr ffff888001c6cd48 by task swapper/0/0
+
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+     7.1.0-10963-g1a3746ccbb0a #31 PREEMPT(lazy)
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+               BIOS Arch Linux 1.17.0-2-2 04/01/2014
+Call Trace:
+ <IRQ>
+ dump_stack_lvl+0x4d/0x70
+ print_report+0x14b/0x4b0
+ ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+ ? profile_tick+0x56/0x90
+ ? tick_nohz_handler+0x23c/0x5c0
+ kasan_report+0x117/0x140
+ ? qxl_irq_handler+0x269/0x2b0
+ ? qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ qxl_irq_handler+0x269/0x2b0
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ ? __pfx_qxl_irq_handler+0x10/0x10
+ __handle_irq_event_percpu+0x116/0x450
+ ? __pfx__raw_spin_lock+0x10/0x10
+ handle_irq_event+0xa6/0x1c0
+ handle_fasteoi_irq+0x271/0xb10
+ ? __pfx_handle_fasteoi_irq+0x10/0x10
+ __common_interrupt+0x60/0x130
+ common_interrupt+0x7a/0x90
+ </IRQ>
+ <TASK>
+  asm_common_interrupt+0x26/0x40
+ RIP: 0010:pv_native_safe_halt+0xf/0x20
+ Code: 42 de 00 c3 cc cc cc cc 0f 1f 00 90 90 90 90 90 90 90 90 90
+       90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d a3 cf 20 00
+       fb f4 <c3> cc cc cc cc 66 2e 0f 1f 84 00 00 00 00 00 66 90
+       90 90 90 90 90
+ RSP: 0018:ffffffffb8207e48 EFLAGS: 00000206
+ RAX: ffff8880b296f000 RBX: ffffffffb82146c0 RCX: 0000000000000001
+ RDX: 0000000000000001 RSI: 0000000000000004 RDI: 0000000000067a04
+ RBP: fffffbfff70428d8 R08: ffffffffb7247e1d R09: 1ffff1100d846202
+ R10: ffffed100d846203 R11: ffffed100d846203 R12: 0000000000000000
+ R13: 0000000000000000 R14: 1ffffffff7040fcd R15: dffffc0000000000
+  ? ct_kernel_exit.constprop.0+0x9d/0xc0
+  default_idle+0x9/0x10
+  default_idle_call+0x37/0x60
+  do_idle+0x3a8/0x5d0
+  ? __pfx___schedule+0x10/0x10
+  ? __pfx_do_idle+0x10/0x10
+  cpu_startup_entry+0x4e/0x60
+  rest_init+0x11a/0x120
+  start_kernel+0x382/0x390
+  x86_64_start_reservations+0x24/0x30
+  x86_64_start_kernel+0xd6/0xe0
+  common_startup_64+0x13e/0x158
+  </TASK>
+
+qxl_device_fini() tears down GEM, buffer objects and command rings,
+but it never releases the IRQ resources allocated during device
+initialization. This leaves the IRQ handler and its associated state
+alive after the device has been finalized, which can lead to use-after-
+free if an interrupt fires during or after teardown.
+
+Add the missing qxl_irq_fini() call to the finalization path, placed
+before qxl_gem_fini() so that no IRQ can be delivered while GEM and
+buffer object resources are being freed.
+
+Assisted-by: OpenCode:1.17.13-Big Pickle/DeepSeek V4 Flash
+Fixes: 48bd85808443 ("drm/qxl: Convert to Linux IRQ interfaces")
+Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+---
+Changes in v2:
+  - Updated qxl_ttm_init to add ttm_device_fini on error in
+    qxl_ttm_init_mem_type.
+
+Changes in v3:
+  - Added free_irq on qxl_probe unload.
+  - Set to NULL after free on qxl_device_fini and
+    added idr_destroy on release_idr and surf_id_idr.
+  - Free client_monitors_config.
+
+Changes in v4:
+  - Delete all code unnecessary. Leave only code to fix the BUG.
+
+Changes in v5:
+  - Replace disable_irq() with device-specific interrupt masking via
+    qdev->ram_header->int_mask = 0 to prevent global masking on
+    IRQF_SHARED lines.
+  - Reorder qxl_irq_fini() call in qxl_pci_remove() to ensure hardware
+    teardown events (like release_event in qxl_device_fini) complete before
+    free_irq().
+
+Changes in v6:
+  - qxl_irq_fini() call in qxl_pci_remove() do not free all resources
+    if your run unbind after end xorg. Place qxl_irq_fini() in
+    qxl_device_fini() before GEM and buffer object resources are being
+    freed is the correct place to release IRQ resources.
+---
+ drivers/gpu/drm/qxl/qxl_drv.h |  1 +
+ drivers/gpu/drm/qxl/qxl_irq.c | 15 +++++++++++++++
+ drivers/gpu/drm/qxl/qxl_kms.c |  1 +
+ 3 files changed, 17 insertions(+)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index cc02b5f10ad9..e8598fdbe886 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -424,6 +424,7 @@ void qxl_gem_prime_vunmap(struct drm_gem_object *obj,
+ 
+ /* qxl_irq.c */
+ int qxl_irq_init(struct qxl_device *qdev);
++void qxl_irq_fini(struct qxl_device *qdev);
+ 
+ void qxl_debugfs_add_files(struct qxl_device *qdev,
+ 			   struct drm_info_list *files,
+diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_irq.c
+index 4018bcf808e5..3698428b50ef 100644
+--- a/drivers/gpu/drm/qxl/qxl_irq.c
++++ b/drivers/gpu/drm/qxl/qxl_irq.c
+@@ -105,3 +105,18 @@ int qxl_irq_init(struct qxl_device *qdev)
+ 	}
+ 	return 0;
+ }
++
++void qxl_irq_fini(struct qxl_device *qdev)
++{
++	struct drm_device *ddev = &qdev->ddev;
++	struct pci_dev *pdev = to_pci_dev(ddev->dev);
++
++	if (qdev->ram_header) {
++		qdev->ram_header->int_mask = 0;
++		outb(0, qdev->io_base + QXL_IO_UPDATE_IRQ);
++	}
++
++	cancel_work_sync(&qdev->client_monitors_config_work);
++
++	free_irq(pdev->irq, ddev);
++}
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index 461b7ab9ad5c..fc2502752ae2 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -310,6 +310,7 @@ void qxl_device_fini(struct qxl_device *qdev)
+ 	qxl_surf_evict(qdev);
+ 	qxl_vram_evict(qdev);
+ 
++	qxl_irq_fini(qdev);
+ 	qxl_gem_fini(qdev);
+ 	qxl_bo_fini(qdev);
+ 	qxl_ring_free(qdev->command_ring);
+-- 
+2.56.0
+
