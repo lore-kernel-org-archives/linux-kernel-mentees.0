@@ -1,125 +1,130 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2537D51991A
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 13:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4493FF886;
+	Tue, 13 Oct 2026 13:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791897305; cv=none; b=rtJ00qXun/yz8BwdDmhQkB42p3kz8JMk3a5o0IQ+dUkb4IX+uJz/eZwpVBbiXvL6n0uQUjFU3Ux6tyH/c7P/pFWkhgUnwv0Xh+SfNzl91q8XPlW4ihRwlmLErMi10AfFMesx4pjk76zzhd7eV3q9eAmrmxjQp4hYVWRIIHKBiJ0=
+	t=1791899517; cv=none; b=cd6sEWKitrXj2NLbnZpHLBGrVWBlh376w8yN6gHKGGfbQDGHWhOr6u40JAD8EsooxfZGplOlcK/y2VXgWi3oTQPACI1j7oSIFzKgCvTzMc/pVB45nzFuHc7oYuNZFdk6K5t2FbZhQfWamgRmgUEA5/vcQV3gmI+ObUf5rSjoxiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791897305; c=relaxed/simple;
-	bh=ID7ITH/ey5fDaXQS2sirspBvibpDl8OQIA3uc+tsOM4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=Sn1JujMzQlGQU1LJIL6ChHmVw0uRBRXRab+wAtboODVqAwDNb/tbyuy8b25Q/b6JYTA3BE7CL3WWvq+uFtBLlCm9JKvied7aalw0k4sAIbtD5TxNL3xEhtifj+3+rXg5aV6DWId5bB9juQYKjBXusDFOLHIbmHRiDhHfxvtC758=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1indhb6; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791899517; c=relaxed/simple;
+	bh=bahVI3Ax/ZyEicmhpxPli+bgLsjnIUHODRWel3iO2tQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=MwYNUj+Nq5yxVeuJ97V5g+T6xAY1epDphwS2RE2ZKyiv4lHjuEODJuc2lqz1T+eOPwmhEmfbOnNlLZk9hGj7xW7qnLddJZpK6QdKAn66J8WsagL/LCAWRrf6U0ZWNJfbYuIVS9l5uzsObirPJNP9i42zLFzUdu70V3VVZUZFM+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=AboGi5wF; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1indhb6"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-74ab6c88052so798525137.2
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 06:15:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="AboGi5wF"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 966291D47;
+	Tue, 13 Oct 2026 13:52:43 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=AboGi5wF;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 1ACCE215F;
+	Tue, 13 Oct 2026 13:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791897303; x=1792502103; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ID7ITH/ey5fDaXQS2sirspBvibpDl8OQIA3uc+tsOM4=;
-        b=S1indhb6pyI6/vvL13UZhpaRxF8CCV40kWClDAZcvEBDpvZ4DRd4rE3G8560u0jED/
-         zLhLzWLIqdKq71SJN/DS1ZpPRuMfXaE1VbNKxEc4l579xbWw8Jo/aAPWPoTSgNIwrTbn
-         GyWtAzkfBnXNZ3SkqDc7s+GjfJ1Dnnxx3cvxPheH3hBhbY5WKcm1nNJNYmzvRXz9EWdA
-         p4ll6ib32NmFLnC20UDsWEY1eC43vT8y/UjPOJxs9YyR48ikPAbV9S+eJ820yCqHfvA/
-         jH9gPkXKTS+EKhz8uVcuUiBk5OQYEftXg/viTS5n71K+GVLnMlrftYOJJsy3B3czPFnn
-         44Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791897303; x=1792502103;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ID7ITH/ey5fDaXQS2sirspBvibpDl8OQIA3uc+tsOM4=;
-        b=wIE9fRJof2mbvs+5JOPFGBOx/u0gSzA7ebDA1pwXjzgVxmyKDGLUBqcKxn+g4hrSew
-         xTfVrQHTLPCwBrzEOiy0RgGnq4vjjO6/m4nCbwksmWL6hFmJlDriR5XQ4vy2MQ+5zgTR
-         CEEiiUD842y9ZVzzKPAU4ccJ1WP52cxhbw5/FcEpvod0GuU6WJ3/28+kZJ3Y086KWCBz
-         mJZQkvphKffqY+Y1+R7lOA51B62OomW4xjELkJ68es4CvbGPAhwyoo0fe6Te5MvdMJGx
-         a7AHsP3mHNiBO2Z5Xoif4CDu3CUcTIS77amHaOzcBnlCCKgTlKKxHLb1x9ToaS/JWBjQ
-         SfVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxGW+TqCvXmmZCcyBvVwT/7zDty9wMPZ9CUtigkk8sPW4MyZQsam9cHSq6EkNMjGHTIRU7prdvRcwc3ODTkZP31we+YWA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKN0TvgiDk+A+VGIOw/7J17WQU5hsHsRBw1d8HjqOWsx3r4Mncu
-	87M/ZhD9XF64ZI2ylnf00JIXnIapCl9TVyANO0rGeE1UBhgdM9VLkZw=
-X-Gm-Gg: AYBFou0xZdTi/kDkmEyhOX+mSVAr9/Y2Lcj8AnnDiGNMLioExPmf4KNq/YYGpgv0lJC
-	KVK5EnkJ/2FRFriupxh2Xt5xAJs94hfvRM8m3Errq0sXGHjdnZjwkKIXBeFStK0ZesNNjl86CHW
-	SKqgCl4U3SfA8hRbxgigcfdF2fWuBVDLPlpeOzfZMwr/jgNSGF/fXbRxQMCViRKt76VuaXORqsE
-	qfpNnZWJby6GK8FxEHPTomfDaZjkX6igiXp6bqFwXxnpOfgjuIiuXmgLy0ryw/SI0qhDu2FeXx/
-	0l7X/ByByNOyG2AGhRoAXjfGe6c1YjtdEVeNiUmNxIBQO4H4QVoF/S4jDT3zVO1l6DFNkdYQ42x
-	uXpl+ZwTKSrDdQh7+VndJ8ooN3W+qIIpHOrfXdpo6Hm1vfzNx65QqBjLWMlzITA05A7jAOGXZNs
-	nooj0EAeVuQW8rU3wKYuQdp991OZRzBgZ0PWxhKC9bFTe3pTGYitmxptTq9aYSjotSdXDkSoml+
-	msypUIkw5typFE3bJLCJuDWOamV4vHJ8g==
-X-Received: by 2002:a05:6102:441f:b0:7a7:19aa:f0d4 with SMTP id ada2fe7eead31-7cb37a04f94mr2579211137.33.1791897302771;
-        Tue, 13 Oct 2026 06:15:02 -0700 (PDT)
-Received: from localhost ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cb3539092esm8734108137.3.2026.10.13.06.14.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 06:15:01 -0700 (PDT)
+	d=paragon-software.com; s=mail; t=1791899513;
+	bh=PmHM9vt9eDeZXXVo1fBMSVboaBjLr0ljMeJYoQzV7Gk=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=AboGi5wFFB3NcSoRaLtOgXo2nxTneWVWqU3IjX1wb/lTRnLJixG2MGBhC8A/wqr5O
+	 6pZd5B6polbJ+vM+Tmb4ARhZaJSur83CfOj0xRmu80bp1MzUDL5ts9Bs2fZim1432P
+	 c+yXOJgCa2OpCqF6QZS6mP16dPrqUlp6hZw17pHU=
+Received: from [192.168.95.128] (172.30.20.169) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Tue, 13 Oct 2026 16:51:51 +0300
+Message-ID: <0ceff955-1b44-4162-b9b8-868af1b10b93@paragon-software.com>
+Date: Tue, 13 Oct 2026 15:51:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 10:14:55 -0300
-Message-Id: <DM3QKTJYPA8I.13TW7H9HIV3YB@gmail.com>
-Subject: Re: [PATCH v2] i2c: rust: avoid locking when performing
- I2cAdapter::inc_ref
-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-To: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>, "Andi
- Shyti" <andi.shyti@kernel.org>, "Igor Korotin" <igor.korotin@linux.dev>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Benno
- Lossin" <lossin@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Boqun Feng" <boqun@kernel.org>, "Brigham
- Campbell" <me@brighamcampbell.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Danilo Krummrich" <dakr@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, "Jori Koolstra" <jkoolstra@xs4all.nl>, "Miguel
- Ojeda" <ojeda@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Shuah Khan" <skhan@linuxfoundation.org>, "Tamir
- Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
- "Sashiko" <sashiko-bot@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20260904134600.340991-1-nico.antinori.7@gmail.com>
-In-Reply-To: <20260904134600.340991-1-nico.antinori.7@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] fs/ntfs3: prevent positive E_NTFS_NONRESIDENT from
+ reaching writeback error handling
+To: Vidhu Sarwal <vidhu.linux@gmail.com>
+CC: <ntfs3@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <skhan@linuxfoundation.org>,
+	<linux-kernel-mentees@lists.linux.dev>,
+	<syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com>
+References: <20260713084140.249515-1-vidhu.linux@gmail.com>
+Content-Language: en-US
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+In-Reply-To: <20260713084140.249515-1-vidhu.linux@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: vdlg-exch-02.paragon-software.com (172.30.1.105) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
+
+On 7/13/26 10:41, Vidhu Sarwal wrote:
+
+> attr_data_write_resident() returns the internal positive status code
+> E_NTFS_NONRESIDENT when the DATA attribute becomes non-resident.
+> ntfs_writepages() propagates this value into generic writeback error
+> handling, which expects a standard negative errno and triggers
+> WARN_ON_ONCE(err > 0).
+>
+> Translate positive E_NTFS_* status codes to -EIO before recording
+> the writeback error. This prevents positive internal status codes from
+> reaching generic writeback code while preserving the existing behaviour
+> of treating this path as a writeback error.
+>
+> Reported-by: syzbot+57f9327d593d301ce2a2@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=57f9327d593d301ce2a2
+> Signed-off-by: Vidhu Sarwal <vidhu.linux@gmail.com>
+> ---
+> RFC:
+>
+> I'd appreciate guidance on whether -EIO is the appropriate errno here.
+>
+> E_NTFS_NONRESIDENT indicates that the DATA attribute became
+> non-resident during writeback. Translating it to -EIO prevents the
+> positive internal status code from reaching generic writeback code and
+> preserves the existing behaviour of treating this path as a writeback
+> error.
+>
+> However, if the intended behaviour is to retry the write using the
+> non-resident path instead of failing it, then the correct solution would
+> be more than a simple errno translation. The proposed change assumes the
+> current terminal-error behaviour is intentional.
+>   fs/ntfs3/inode.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+> index 0c9bd669117d..9458867c6b0b 100644
+> --- a/fs/ntfs3/inode.c
+> +++ b/fs/ntfs3/inode.c
+> @@ -1019,6 +1019,15 @@ static int ntfs_writepages(struct address_space *mapping,
+>
+>                          folio_unlock(folio);
+>                          if (err2) {
+> +                               /*
+> +                                * attr_data_write_resident() can return the
+> +                                * positive internal code E_NTFS_NONRESIDENT;
+> +                                * both mapping_set_error() and writeback_iter()
+> +                                * need a negative errno and warn on a positive
+> +                                * value.
+> +                                */
+> +                               if (err2 > 0)
+> +                                       err2 = -EIO;
+>                                  mapping_set_error(mapping, err2);
+>                                  if (!err)
+>                                          err = err2;
+>
+> base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+> --
+> 2.53.0
 
 Hello,
 
-On Fri Sep 4, 2026 at 10:44 AM -03, Nicol=C3=A1s Antinori wrote:
-> The current implementation of `<I2cAdapter as
-> AlwaysRefCounted>::inc_ref` relies on the C function `i2c_get_adapter`
-> to increment module and device counters. This function acquires a lock,
-> looks for the adapter in the IDR table, and, if found, increments the
-> named counters before returning the adapter.
->
-> In the Rust API, the `I2cAdapter::get` method returns an
-> `ARef<I2cAdapter>` upon success. Incrementing this reference count in an
-> atomic context (for example, via `ARef::clone`, which relies on
-> `AlwaysRefCounted::inc_ref`) could trigger a sleep-in-atomic bug due to
-> the mutex locking inside `i2c_get_adapter`.
->
-> Since cloning an `ARef` implies we already hold a valid reference to the
-> adapter, the IDR table lookup and its associated lock are unnecessary.
->
-> The fix consists of bypassing `i2c_get_adapter` and instead calling
-> `__i2c_adapter_get` directly to increment the counters.
->
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/patchset/20260524181151.24988-1-nico.antino=
-ri.7@gmail.com
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
-
-Following up on this patch. Please let me know if you have any feedback
-or if any changes are needed!
+Sorry for the delay.
+Your patch was applied, thanks.
 
 Regards,
-Nicol=C3=A1s=20
+Konstantin
+
