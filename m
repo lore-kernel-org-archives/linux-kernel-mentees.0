@@ -1,179 +1,188 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0250154281B
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 21:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08591531AFB
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 22:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791928705; cv=none; b=Z9E0ZTKreJCpebl/M8/IoYwi6KBqig2vIH5HXvumFGDX5ielQ9WEXoIYu+ZBXWWPD7sKXs11cJAJd/AYaI5eqWCIqa0MJFDNJRMrTr+BXDkf8FsJ3p9GdiSSls3Ql6udNluVae8fdn9jy0E+z7XDEYQdrFM/zQb8o71FztPHyZQ=
+	t=1791929333; cv=none; b=BxLfORGAVuL29ymBNBE56E6P9YGQYPkCaWJeslD7708ymCFiDjsMv+6XXGorbyBhX42s05Krf4BBIOdaFXffNYVQn+3dYIczW0pL7tJl1+pItpTJ11f9De+HG1qOv2J9YG1lNWHkoyAYdV1ySu9sj0nMlGYBH8AtvbMkPmIw7Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791928705; c=relaxed/simple;
-	bh=ZVzarpf8WNOwq2Ti/pRme3ZP570l4a1ExNIDsoiGNYY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=BEqH9cOdcoOCiBorDk3sYdERJWRp9VJhxnwQNG1o8SG2t6Xf1SwR4TMHXvc2OdX3nTiI0hd41eFWVIEcqMS/wP4L87FLA/yGyJNwLv00Q23uXCYKzRvfLcv5wCFQQQoZrI3FmEMNkqZFGuLlKkHBDfY0zuaApfO5qRDRFzP73to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XyJr6lsU; arc=none smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791929333; c=relaxed/simple;
+	bh=KMT7N2pBzNN5X4LMz/2lE/oP6K4KTZ2E8ZjROHI3lKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dLDh28ioU+X1hMGHfQpUZmXIRtDnELrOeLYd4C447FN5wLWHeiE8RMDXYb7Sy9luevbHN5ZCMCTdeD+Z0MhCID5a3ABE5Ws9ecUVbJASRr1nnfWci+uo3xuvwBUEJfQKoIMc3F7PbR6UNUyTx2up+AHFS2Cyj1YcaCMdq1JebfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=UW2jrewu; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XyJr6lsU"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-97622cc1f40so1884839241.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 14:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791928703; x=1792533503; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=p1do2oSuujusCaRjwJuehcZTG9i2h5W9hCTlUTrulZ0=;
-        b=XyJr6lsUmSzpkf/dbPdOtgaXkTvRWyieF/nPU3xIBOXPLzc0K3N8iRkNXYZiOYpEzb
-         FmRzL+JzPek8CKAejm2rCN5vXUbtmR4prKpx04RMQo5ic+tXrUZLbUV0ZEMC5OH++0zO
-         aP5g6u9HBbwbxQSeMmawgR6F2egr2wg7o1mes9il46hSQmX4X9hSdlEf9imCSmjY8HrC
-         0c7C/2q9zRADh6mwgnK1zSch7wUuRvhSBxTrNXMZoaUBHlSkgijMFootc8RmmXTl1dyd
-         xfryHvliDlWM1AQCBGlx/ZaTelXHyYC5PPAd/gZkwWFe63rumUH1vcjnKx1Z5YAMUXp4
-         /gAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791928703; x=1792533503;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p1do2oSuujusCaRjwJuehcZTG9i2h5W9hCTlUTrulZ0=;
-        b=mYs4CGu7JYP0b9VpZ18G43YeGe+Pxo/HvVqp2nDQT4aONKegSQk5oDWv6shPR0OzSN
-         zjQZjsxEw6LHwgehgT11E3hNSq17DvMqR+GASffYWRjAn6wUYmKe+PAB/vC6XedZnHRE
-         ZojdZcppi/+Dh+XLIE6aGqpCGVA3PwRoH7iHZP7z5/Bd9dVZrSZpS7ts2eaGfs6TeqfY
-         fzmBBh28ppFenrDh2FVhI2zWTfTwq+RVloaw5/Lcg6pRHeEDa/C8Jx4m1rxX+0hPCA26
-         enITqccxFa2AwrhqDTHQbbQS5ePdy5dZBWR/A/Q7CEIrZPQ9V6/Ur3ZR3QLy8MgLFflz
-         9HNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxQjkFGSU7RC/0ePfMY40buYiCMlgOFxJVvFrRdRAaFbYPpc5Pm6zKe8edul+14ZCTgRhP8LdgLS9kjS1ukW+2Szp3F2A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJhxZks6fh9md0S3/huVuy5SS2qQRULgspfzsB98muIRzghMxy+
-	vnWcwo0BH1xhJ787amRTUGMKzfN+OEHCSGQOo0q1ts41pml18pF0uRY=
-X-Gm-Gg: AYBFou1Od/p3DpCn9tu+leWNBvq1qQrd72QBqi6VeEJNf28K5YWr3nkkEhXLXnWY2wP
-	NW8Pe/X9fmEnYOUGaDE/avm0xYDC1Tn6gCFD3jTlxNhVguM1atDvZRECDvKiw7+YO1Of4HV1rwp
-	8/DlfvGuY5vAD3nkvGGPIGB/w/mxeeWJumkSG9fmyUigovCUd/S+bFivOfVYk1TTvcUcOhSYBhL
-	hYxt46Yc567QW6Zn4KCcE9Q1EBqweeqsKrBO9O7NKhBP0CFEDrjVjFafZmCGYTBEddcxIctJAuY
-	8g8/5tNxDjA0cjIusIH49XRsr7tYxFY+OWqQ4t9vcQletuNOhpmtDuoyxwK7yVUUrgayWsvARCP
-	Xp5WNlXd3dLCYTlgKSSDZsj3I50k8NYYKkfjY3G2sRVJ6GLorI3IekoWHmV2fWSPbOTTwBCkdbh
-	D01xoSjZJ2zlIYuzunmUCUy3iN95vm0FjJGXcufWMijXCq4lndAUhvXK/KXkhhyz2ngon3SRbp2
-	0z2WmfylmFRZEOUFj0hUo0XwoJyOzZ9TQ==
-X-Received: by 2002:a05:6122:30e7:b0:5e5:35a5:8b09 with SMTP id 71dfb90a1353d-5e91f4c2a8amr4731717e0c.17.1791928702687;
-        Tue, 13 Oct 2026 14:58:22 -0700 (PDT)
-Received: from localhost ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5e9646bad8fsm1758237e0c.17.2026.10.13.14.58.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 14:58:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="UW2jrewu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1791929322;
+	bh=uKgHnDIaynoRPome4UjorUn5kpbOJOlehjx4uXDbuCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UW2jrewucs5HWKoO4OtUrCeMSyKlJD/CHsQIibiB+5kboatRwz++MwtcVU/NFBcGr
+	 8XTQB7xhwesXdrtovvs2EuMsNtL0ojQBHoTMkPOeFgXQlAx6RBq1O9DfvcdOpl0ebO
+	 ExySqTaq2dwZXvMVtO5d9x/6fBbgDlwVCn45HAHSy03c1Ev/8oC6T+3Y2MJHchabZ1
+	 JHCTUvKcS3umvYCBEYxSywjXNCQMmhC/Ctt0M870FQu6w9KWQXY9XoL0PbF3+jWmSC
+	 HimS/o1q2qT5Wxe+ZhLpbdGo2K1XXoAxc1/0nc5jp68lamUyQt6Tu7Hy9zSrcnuaPO
+	 3T0zwBkKND4RQ==
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with UTF8SMTPSA id 821D36005A;
+	Wed, 14 Oct 2026 00:08:42 +0200 (CEST)
+Date: Wed, 14 Oct 2026 00:08:39 +0200
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
+	Fernando Fernandez Mancera <fmancera@suse.de>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	netdev@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com
+Subject: Re: [PATCH nf v2] netfilter: synproxy: check TCP header before
+ verifying checksum
+Message-ID: <as6r5-bAeNxesDY7@chamomile>
+References: <20261009162624.16294-1-raghunathpalla.0209@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 18:58:14 -0300
-Message-Id: <DM41PHVITKOG.3I6P2X8048BEP@gmail.com>
-Subject: Re: [PATCH 1/3] rust: kunit: add #[should_panic] support
-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-To: <nico.antinori.7@gmail.com>, "Alice Ryhl" <aliceryhl@google.com>, "Burak
- Emir" <burak.emir@gmail.com>, "Brendan Higgins"
- <brendan.higgins@linux.dev>, "David Gow" <david@davidgow.net>, "Miguel
- Ojeda" <ojeda@kernel.org>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Jori Koolstra"
- <jkoolstra@xs4all.nl>, =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Rae Moar" <raemoar63@gmail.com>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Tamir Duberstein" <tamird@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Yury Norov" <yury.norov@gmail.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
-X-Mailer: aerc 0.20.0
-References: <20260930-rust_kunit_v4-v1-0-e3b0d45311dd@gmail.com>
- <20260930-rust_kunit_v4-v1-1-e3b0d45311dd@gmail.com>
-In-Reply-To: <20260930-rust_kunit_v4-v1-1-e3b0d45311dd@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261009162624.16294-1-raghunathpalla.0209@gmail.com>
 
-Hello,
+Hi,
 
-There are two observations by Sashiko in this patch [1]:
+On Fri, Oct 09, 2026 at 05:26:24PM +0100, Palla Raghunath wrote:
+> synproxy_tg6() calls nf_ip6_checksum() with par->thoff before it checks
+> that there is actually a TCP header at that offset.
+> 
+> par->thoff comes from ipv6_find_hdr(), which ip6_packet_match() calls
+> with target -1. ipv6_find_hdr() only makes sure the first two bytes of
+> each extension header are in the skb.
 
-> [Severity: Low]
-> Does this interception occur too late to prevent spurious error logs?
+I think this qualifies as nf-next material, since this is now fixed in
+the core through:
+
+   ee319bd3a0e9 ("ipv6: do not let ipv6_find_hdr() return an offset past the packet end")
+
+
+> It then adds the header's declared length to the offset and stops at
+> the first non-extension header, so the offset it returns can be past
+> the end of the packet. For a CHECKSUM_NONE skb, nf_ip6_checksum()
+> then calls skb_checksum(skb, 0, thoff, 0), and if thoff is bigger
+> than skb->len we hit the BUG_ON(len) in skb_checksum():
+> 
+>   kernel BUG at net/core/skbuff.c:3606!
+>   RIP: 0010:skb_checksum+0x8b2/0x8c0
+>   Call Trace:
+>    nf_ip6_checksum+0x1bd/0x320 net/netfilter/utils.c:89
+>    synproxy_tg6+0x1a4/0x6e0 net/ipv6/netfilter/ip6t_SYNPROXY.c:21
+>    ip6t_do_table+0xd37/0x15b0 net/ipv6/netfilter/ip6_tables.c:366
+>    ...
+> 
+> syzbot's reproducer sends a 60-byte packet with an AH header followed by
+> two hop-by-hop headers. The second hop-by-hop header says the next header
+> is TCP and has hdrlen 167, which gives a thoff of 1400.
+> 
+> nft_synproxy_do_eval() has the same ordering: it calls nf_checksum()
+> before it fetches the TCP header.
+> 
+> In both places, get the TCP header with skb_header_pointer() first and
+> only then verify the checksum, the same way nf_reject_ip6_tcphdr_get()
+> does it. Packets that don't have a full TCP header at thoff are now
+> dropped before we try to checksum them.
 >
-> When a Rust test panics as expected, it triggers a kernel fault caught by
-> KUnit with an exit code of -EINTR. However, kunit_try_catch_run()
-> unconditionally logs an error message for -EINTR before returning to this
-> function
->
-> lib/kunit/try-catch.c:kunit_try_catch_run() {
->     ...
->     else if (exit_code =3D=3D -EINTR) {
->         if (test->last_seen.file)
->             kunit_err(test, "try faulted: last line seen %s:%d\n", ...);
->         else
->             kunit_err(test, "try faulted\n");
->     }
->     ...
-> }
-
-Even though the tests marked as `#[should_panic]` are reported as
-successful by KUnit, when run with `--raw_output=3Dall` those log errors
-appear. Is this a problem? Along with those the Oops message and stack
-trace message show up as well. The report summary is clean if no special
-logging options are used.
-
-> [Severity: Medium]
-> Will this condition correctly handle KUnit assertions inside a
-> #[should_panic] test?
->
-> The kunit_tests macro overrides assert! with kunit_assert!. If an
-> assert! fails, kunit_assert! reports a KUnit assertion failure and
-> aborts the thread via __kunit_abort, which results in -EFAULT rather
-> than -EINTR.
->
-> Since -EFAULT is cleared to 0 in kunit_try_catch_run(), this condition
-> checking strictly for -EINTR will fail to intercept the abort. Will this
-> cause valid #[should_panic] tests containing an assert! failure to be
-> incorrectly marked as KUNIT_FAILURE instead of passing?
-
-This is something I missed when working on the series and is accurate.
-The following test:
-
-#[test]
-#[should_panic]
-fn rust_test_assert_false() {
-    assert!(false)
-}
-
-Is reported as failed:
-
-[18:31:00] # rust_test_assert_false: ASSERTION FAILED at rust/kernel/kunit.=
-rs:383
-[18:31:00] Expected false to be true, but is false
-[18:31:00] # rust_test_assert_false.speed: normal
-[18:31:00] [FAILED] rust_test_assert_false
-
-But the user-space behavior is to pass the test [2].=20
-
-Does it make sense to leave this behavior as it is for the kernel? If I
-am not mistaken tests like those can easily be expressed without the
-`#[should_panic]` attribute and negating the condition inside `assert!`.
-`assert!` that are not in the test body behave as expected.
-
-
-To solve those I'd need to check the `rust_should_panic` flag inside in
-`kunit_try_catch_run` function. That would require changing its
-signature (since the `kunit_try_catch` struct does not contain the
-`test_case` struct and the context argument is void*, so I can't safely
-cast it to what I need). Other alternative is to create a new function
-for cases where `rust_should_panic` is true.
-
-My approach to this was to modify as little as possible in the C side.
-I think the current behavior is ok but I want to know your opinion.
-
-Best regards,
-Nicol=C3=A1s
-
-[1] https://sashiko.dev/#/patchset/20260930-rust_kunit_v4-v1-0-e3b0d45311dd=
-@gmail.com?part=3D1
-[2] https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=3D202=
-4&gist=3D2b4b29a266271497ea9932068ecdb8ff
+> Fixes: 4ad362282cb4 ("netfilter: add IPv6 SYNPROXY target")
+> Fixes: a311a8981727 ("netfilter: nft_synproxy: use the family-aware checksum helper")
+> Reported-by: syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=5a8667f002726fc59f88
+> Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+> ---
+> Thanks Fernando for the review, and for spotting the nft_synproxy case
+> and giving me the chance to fix it in this patch as well.
+> 
+> v2:
+> - Also fix nft_synproxy_do_eval() and add its Fixes: tag, as Fernando
+>   suggested
+> - Drop the comment in synproxy_tg6()
+> - Add Fernando's Reviewed-by
+> - Rebase on v7.3-rc7
+> 
+> Testing: I ran syzbot's reproducer on v7.3-rc7 with this patch applied
+> and ee319bd3a0e9 ("ipv6: do not let ipv6_find_hdr() return an offset
+> past the packet end") reverted, since that commit already stops the bad
+> offset from reaching the target on current trees. The BUG doesn't fire
+> any more. The nft_synproxy change is only build-tested so far; I haven't
+> managed to get a packet through an nft synproxy rule with the bad offset
+> yet.
+> 
+> v1: https://lore.kernel.org/all/20260926204519.43402-1-raghunathpalla.0209@gmail.com/
+> 
+>  net/ipv6/netfilter/ip6t_SYNPROXY.c |  6 +++---
+>  net/netfilter/nft_synproxy.c       | 12 ++++++------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/net/ipv6/netfilter/ip6t_SYNPROXY.c b/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> index d51d0c3e5fe9..b3aa4fe67589 100644
+> --- a/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> +++ b/net/ipv6/netfilter/ip6t_SYNPROXY.c
+> @@ -18,13 +18,13 @@ synproxy_tg6(struct sk_buff *skb, const struct xt_action_param *par)
+>  	struct synproxy_options opts = {};
+>  	struct tcphdr *th, _th;
+>  
+> -	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
+> -		return NF_DROP;
+> -
+>  	th = skb_header_pointer(skb, par->thoff, sizeof(_th), &_th);
+>  	if (th == NULL)
+>  		return NF_DROP;
+>  
+> +	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
+> +		return NF_DROP;
+> +
+>  	if (!synproxy_parse_options(skb, par->thoff, th, &opts))
+>  		return NF_DROP;
+>  
+> diff --git a/net/netfilter/nft_synproxy.c b/net/netfilter/nft_synproxy.c
+> index 554a96a000f4..6b290a89886d 100644
+> --- a/net/netfilter/nft_synproxy.c
+> +++ b/net/netfilter/nft_synproxy.c
+> @@ -118,12 +118,6 @@ static void nft_synproxy_do_eval(const struct nft_synproxy *priv,
+>  		return;
+>  	}
+>  
+> -	if (nf_checksum(skb, nft_hook(pkt), thoff, IPPROTO_TCP,
+> -			nft_pf(pkt))) {
+> -		regs->verdict.code = NF_DROP;
+> -		return;
+> -	}
+> -
+>  	tcp = skb_header_pointer(skb, thoff,
+>  				 sizeof(struct tcphdr),
+>  				 &_tcph);
+> @@ -132,6 +126,12 @@ static void nft_synproxy_do_eval(const struct nft_synproxy *priv,
+>  		return;
+>  	}
+>  
+> +	if (nf_checksum(skb, nft_hook(pkt), thoff, IPPROTO_TCP,
+> +			nft_pf(pkt))) {
+> +		regs->verdict.code = NF_DROP;
+> +		return;
+> +	}
+> +
+>  	if (!synproxy_parse_options(skb, thoff, tcp, &opts)) {
+>  		regs->verdict.code = NF_DROP;
+>  		return;
+> -- 
+> 2.34.1
+> 
