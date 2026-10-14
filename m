@@ -1,188 +1,229 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08591531AFB
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 13 Oct 2026 22:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6451DDC38
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 Oct 2026 06:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791929333; cv=none; b=BxLfORGAVuL29ymBNBE56E6P9YGQYPkCaWJeslD7708ymCFiDjsMv+6XXGorbyBhX42s05Krf4BBIOdaFXffNYVQn+3dYIczW0pL7tJl1+pItpTJ11f9De+HG1qOv2J9YG1lNWHkoyAYdV1ySu9sj0nMlGYBH8AtvbMkPmIw7Yo=
+	t=1791959536; cv=none; b=S8RI/1b2Qc53fWhqDK7eX0HI8vC/6xBK94iQs5IoTBmRhCJlo9LPJLeDrEh4I7IKcLUN4tVip0yKvdNhTd81Ez4/eLy65i/pafxPe+CrvCqBo78yFVpXNV4C14aYccGmcz7BnKrvcQU+MnHwpATRw9wn4MWXN2vVo7wEzT89ROA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791929333; c=relaxed/simple;
-	bh=KMT7N2pBzNN5X4LMz/2lE/oP6K4KTZ2E8ZjROHI3lKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dLDh28ioU+X1hMGHfQpUZmXIRtDnELrOeLYd4C447FN5wLWHeiE8RMDXYb7Sy9luevbHN5ZCMCTdeD+Z0MhCID5a3ABE5Ws9ecUVbJASRr1nnfWci+uo3xuvwBUEJfQKoIMc3F7PbR6UNUyTx2up+AHFS2Cyj1YcaCMdq1JebfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=UW2jrewu; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="UW2jrewu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1791929322;
-	bh=uKgHnDIaynoRPome4UjorUn5kpbOJOlehjx4uXDbuCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UW2jrewucs5HWKoO4OtUrCeMSyKlJD/CHsQIibiB+5kboatRwz++MwtcVU/NFBcGr
-	 8XTQB7xhwesXdrtovvs2EuMsNtL0ojQBHoTMkPOeFgXQlAx6RBq1O9DfvcdOpl0ebO
-	 ExySqTaq2dwZXvMVtO5d9x/6fBbgDlwVCn45HAHSy03c1Ev/8oC6T+3Y2MJHchabZ1
-	 JHCTUvKcS3umvYCBEYxSywjXNCQMmhC/Ctt0M870FQu6w9KWQXY9XoL0PbF3+jWmSC
-	 HimS/o1q2qT5Wxe+ZhLpbdGo2K1XXoAxc1/0nc5jp68lamUyQt6Tu7Hy9zSrcnuaPO
-	 3T0zwBkKND4RQ==
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with UTF8SMTPSA id 821D36005A;
-	Wed, 14 Oct 2026 00:08:42 +0200 (CEST)
-Date: Wed, 14 Oct 2026 00:08:39 +0200
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	Fernando Fernandez Mancera <fmancera@suse.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	netdev@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
-	syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com
-Subject: Re: [PATCH nf v2] netfilter: synproxy: check TCP header before
- verifying checksum
-Message-ID: <as6r5-bAeNxesDY7@chamomile>
-References: <20261009162624.16294-1-raghunathpalla.0209@gmail.com>
+	s=arc-20240116; t=1791959536; c=relaxed/simple;
+	bh=M0CbVGu27IF62hJR158NCT+iCcmlZWlvdsXmCFU9ZBg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ggsiGKeNnDpL60sUV4sKKQ0KzTnvqXDaPlakAprxueR4AqUA1APkWgP+3r0KF9ExnWVNWTzwibcia/BaI2idMpoZSj8IKImcLhvFaj/LPRy3yt5/B0RCa+stNwZ/rp1e62+PrfiwmUpj90Yrl3iCHZgBoL72KLF1Ut79x7hyGvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4j4Ltz0vBfzKHMVt
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 Oct 2026 14:31:07 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 00B84405A3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 14 Oct 2026 14:32:06 +0800 (CST)
+Received: from [10.174.178.164] (unknown [10.174.178.164])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgB3tfTgIc9qqn2JAQ--.25361S3;
+	Wed, 14 Oct 2026 14:32:02 +0800 (CST)
+Message-ID: <b7fd32d5-ae6f-4eb4-b02f-ba27db86ab5d@huaweicloud.com>
+Date: Wed, 14 Oct 2026 14:31:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261009162624.16294-1-raghunathpalla.0209@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] md/raid0: don't BUG() on a bio that lands off the end of
+ the array
+To: yukuai@fygo.io, Palla Raghunath <raghunathpalla.0209@gmail.com>,
+ linux-kernel@vger.kernel.org
+Cc: Shuah Khan <shuah@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ linux-kernel-mentees@lists.linux.dev,
+ syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com,
+ Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+ Xiao Ni <xiao@kernel.org>, NeilBrown <neil@brown.name>,
+ "Trela, Maciej" <Maciej.Trela@intel.com>, linux-raid@vger.kernel.org,
+ "chengzhihao1@huawei.com" <chengzhihao1@huawei.com>,
+ yangerkun <yangerkun@huawei.com>
+References: <20260923161729.122240-1-raghunathpalla.0209@gmail.com>
+ <7f55f471-867b-47a9-8f02-f65adaf6cd29@fygo.io>
+From: Zizhi Wo <wozizhi@huaweicloud.com>
+In-Reply-To: <7f55f471-867b-47a9-8f02-f65adaf6cd29@fygo.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgB3tfTgIc9qqn2JAQ--.25361S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3JFyUCw43Xr4rCFy5ury8Xwb_yoWxCF4Up3
+	y8Kaya9rWkGFWfZ3ZFva47Ga4rtryftrWUCF93J34rC3Z8Crn7tFyUKryYgFyUCryrCFyU
+	t3WDWF9rCF98KrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	7KsUUUUUU==
+X-CM-SenderInfo: pzr2x6tkl6x35dzhxuhorxvhhfrp/
 
-Hi,
-
-On Fri, Oct 09, 2026 at 05:26:24PM +0100, Palla Raghunath wrote:
-> synproxy_tg6() calls nf_ip6_checksum() with par->thoff before it checks
-> that there is actually a TCP header at that offset.
-> 
-> par->thoff comes from ipv6_find_hdr(), which ip6_packet_match() calls
-> with target -1. ipv6_find_hdr() only makes sure the first two bytes of
-> each extension header are in the skb.
-
-I think this qualifies as nf-next material, since this is now fixed in
-the core through:
-
-   ee319bd3a0e9 ("ipv6: do not let ipv6_find_hdr() return an offset past the packet end")
 
 
-> It then adds the header's declared length to the offset and stops at
-> the first non-extension header, so the offset it returns can be past
-> the end of the packet. For a CHECKSUM_NONE skb, nf_ip6_checksum()
-> then calls skb_checksum(skb, 0, thoff, 0), and if thoff is bigger
-> than skb->len we hit the BUG_ON(len) in skb_checksum():
+在 2026/10/6 1:22, yu kuai 写道:
+> Hi,
 > 
->   kernel BUG at net/core/skbuff.c:3606!
->   RIP: 0010:skb_checksum+0x8b2/0x8c0
->   Call Trace:
->    nf_ip6_checksum+0x1bd/0x320 net/netfilter/utils.c:89
->    synproxy_tg6+0x1a4/0x6e0 net/ipv6/netfilter/ip6t_SYNPROXY.c:21
->    ip6t_do_table+0xd37/0x15b0 net/ipv6/netfilter/ip6_tables.c:366
->    ...
+> 在 2026/9/24 0:17, Palla Raghunath 写道:
+>> find_zone() looks for the strip zone holding a given sector and BUG()s if
+>> it can't find one.  That is only a safe assumption while the capacity the
+>> array advertises matches what the zones actually cover, and a personality
+>> takeover can break exactly that.
+>>
+>> level_store() lets you switch a live array to a different personality.
+>> The new ->run() recalculates mddev->array_sectors, but level_store() never
+>> tells the gendisk about it - it is the one place in md that changes the
+>> array size without a set_capacity_and_notify(), which do_md_run(),
+>> array_size_store(), update_size(), md_reap_sync_thread() and linear_add()
+>> all do.  So when a takeover makes the array smaller, the block device goes
+>> on advertising the old size and I/O sails off the end of the new mapping.
+>>
+>> syzbot got there with a raid1 that had no metadata.  Such a member comes in
+>> through md_import_device(dev, -1, -1), which never sets rdev->sectors, and
+>> the check in bind_rdev_to_array() that keeps mddev->dev_sectors inside the
+>> member is skipped precisely when rdev->sectors is 0:
+>>
+>> 	if (!test_bit(Journal, &rdev->flags) &&
+>> 	    rdev->sectors &&
+>> 	    (mddev->dev_sectors == 0 || rdev->sectors < mddev->dev_sectors)) {
+>>
+>> md/component_size had set dev_sectors to 2048, so raid1 came up with
+>> array_sectors = 2048 and the disk got a 2048 sector capacity.  Writing
+>> "raid0" to md/level then took the array over: create_strip_zones() rounded
+>> rdev->sectors (0) down to a chunk multiple, so the single strip zone ended
+>> at 0 and raid0_size() returned 0.  The capacity stayed at 2048, so the
+>> partition scan on the next open of /dev/md0 read sector 0 and fell over:
 > 
-> syzbot's reproducer sends a 60-byte packet with an AH header followed by
-> two hop-by-hop headers. The second hop-by-hop header says the next header
-> is TCP and has hdrlen 167, which gives a thoff of 1400.
+> This takeover looks like real problem in the first place, a takeover on live array
+> can't shrink or mess up the user data, which means if there is a file system mounted
+> on the array, the file system should still be consistent after take over.
 > 
-> nft_synproxy_do_eval() has the same ordering: it calls nf_checksum()
-> before it fetches the TCP header.
+> I'll suggest rejecting such takeover to fix this problem.
 > 
-> In both places, get the TCP header with skb_header_pointer() first and
-> only then verify the checksum, the same way nf_reject_ip6_tcphdr_get()
-> does it. Packets that don't have a full TCP header at thoff are now
-> dropped before we try to checksum them.
->
-> Fixes: 4ad362282cb4 ("netfilter: add IPv6 SYNPROXY target")
-> Fixes: a311a8981727 ("netfilter: nft_synproxy: use the family-aware checksum helper")
-> Reported-by: syzbot+5a8667f002726fc59f88@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=5a8667f002726fc59f88
-> Reviewed-by: Fernando Fernandez Mancera <fmancera@suse.de>
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
-> ---
-> Thanks Fernando for the review, and for spotting the nft_synproxy case
-> and giving me the chance to fix it in this patch as well.
+
+Hi Palla,
+
+We've recently hit the same takeover issue on our side, so this is
+definitely a real problem that still needs fixing.
+
+I noticed the thread has been quiet for a while. If you haven't had the
+bandwidth to follow up, I'd be happy to pick this up and send a patch
+along the lines Yu Kuai suggested.
+
+Please let me know if that works for you, or if someone is already
+working on it so we don't duplicate effort.
+
+Thanks,
+Zizhi Wo
+
+>>
+>>     kernel BUG at drivers/md/raid0.c:318!
+>>     RIP: 0010:find_zone drivers/md/raid0.c:318 [inline]
+>>     RIP: 0010:raid0_map_submit_bio drivers/md/raid0.c:568 [inline]
+>>     RIP: 0010:raid0_make_request+0xf17/0x10b0 drivers/md/raid0.c:626
+>>     Call Trace:
+>>      <TASK>
+>>      md_handle_request+0xb0a/0xe60 drivers/md/md.c:417
+>>      __submit_bio+0x27f/0x340 block/blk-core.c:681
+>>      submit_bio_noacct_nocheck+0x4e8/0xa40 block/blk-core.c:792
+>>      block_read_full_folio+0x7a6/0x810 fs/buffer.c:2373
+>>      read_part_sector+0xb6/0x2b0 block/partitions/core.c:724
+>>      adfspart_check_ICS+0xb1/0x960 block/partitions/acorn.c:357
+>>      bdev_disk_changed+0x851/0x17a0 block/partitions/core.c:695
+>>      blkdev_get_whole+0x372/0x510 block/bdev.c:793
+>>      bdev_open+0x324/0xd70 block/bdev.c:1002
+>>      blkdev_open+0x461/0x600 block/fops.c:674
+>>      __x64_sys_openat+0x138/0x170 fs/open.c:1434
+>>
+>> Just refreshing the capacity in level_store() is not enough on its own.
+>> If the size is managed externally - md/array_size written while the array
+>> was stopped, which slips past array_size_store()'s -E2BIG check -
+>> md_set_array_sectors() does nothing, array_sectors keeps the larger value
+>> and we BUG() all the same.  level_store() cannot turn the takeover away
+>> the way do_md_run() does either, because ->takeover() has already run and
+>> the old personality has already been freed.
+>>
+>> md-linear has always just failed a sector outside its mapping instead of
+>> asserting, so do the same here: let find_zone() return NULL and have its
+>> two callers report the bio and end it with an I/O error.
+>>
+>> Tested both ways into this state - a takeover that leaves the array
+>> zero-length, and one where md/array_size pins array_sectors at 2048.
+>> Before, each panics in find_zone(); after, the read just fails:
+>>
+>>     md/raid0:md0: sector 0 out of bounds, array size 0
+>>     md/raid0:md0: sector 0 out of bounds, array size 2048
+>>
+>> Reported-by: syzbot+422b372cabfbaa528725@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=422b372cabfbaa528725
+>> Fixes: 9af204cf720c ("md: Add support for Raid5->Raid0 and Raid10->Raid0 takeover")
+>> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+>> ---
+>>    drivers/md/raid0.c | 21 ++++++++++++++++++++-
+>>    1 file changed, 20 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
+>> index 35e103f0c2c3..04c022d74fae 100644
+>> --- a/drivers/md/raid0.c
+>> +++ b/drivers/md/raid0.c
+>> @@ -301,6 +301,7 @@ static int create_strip_zones(struct mddev *mddev, struct r0conf **private_conf)
+>>    
+>>    /* Find the zone which holds a particular offset
+>>     * Update *sectorp to be an offset in that zone
+>> + * Returns NULL if the sector is off the end of the array.
+>>     */
+>>    static struct strip_zone *find_zone(struct r0conf *conf,
+>>    				    sector_t *sectorp)
+>> @@ -315,7 +316,16 @@ static struct strip_zone *find_zone(struct r0conf *conf,
+>>    				*sectorp = sector - z[i-1].zone_end;
+>>    			return z + i;
+>>    		}
+>> -	BUG();
+>> +	return NULL;
+>> +}
+>> +
+>> +static void raid0_out_of_bounds(struct mddev *mddev, struct bio *bio)
+>> +{
+>> +	pr_err_ratelimited("md/raid0:%s: sector %llu out of bounds, array size %llu\n",
+>> +			   mdname(mddev),
+>> +			   (unsigned long long)bio->bi_iter.bi_sector,
+>> +			   (unsigned long long)mddev->array_sectors);
+>> +	bio_io_error(bio);
+>>    }
+>>    
+>>    /*
+>> @@ -471,6 +481,10 @@ static void raid0_handle_discard(struct mddev *mddev, struct bio *bio)
+>>    
+>>    	orig_start = start;
+>>    	zone = find_zone(conf, &start);
+>> +	if (!zone) {
+>> +		raid0_out_of_bounds(mddev, bio);
+>> +		return;
+>> +	}
+>>    
+>>    	if (bio_end_sector(bio) > zone->zone_end) {
+>>    		bio = bio_submit_split_bioset(bio,
+>> @@ -566,6 +580,11 @@ static void raid0_map_submit_bio(struct mddev *mddev, struct bio *bio)
+>>    	md_account_bio(mddev, &bio);
+>>    
+>>    	zone = find_zone(mddev->private, &sector);
+>> +	if (!zone) {
+>> +		raid0_out_of_bounds(mddev, bio);
+>> +		return;
+>> +	}
+>> +
+>>    	switch (conf->layout) {
+>>    	case RAID0_ORIG_LAYOUT:
+>>    		tmp_dev = map_sector(mddev, zone, bio_sector, &sector);
 > 
-> v2:
-> - Also fix nft_synproxy_do_eval() and add its Fixes: tag, as Fernando
->   suggested
-> - Drop the comment in synproxy_tg6()
-> - Add Fernando's Reviewed-by
-> - Rebase on v7.3-rc7
-> 
-> Testing: I ran syzbot's reproducer on v7.3-rc7 with this patch applied
-> and ee319bd3a0e9 ("ipv6: do not let ipv6_find_hdr() return an offset
-> past the packet end") reverted, since that commit already stops the bad
-> offset from reaching the target on current trees. The BUG doesn't fire
-> any more. The nft_synproxy change is only build-tested so far; I haven't
-> managed to get a packet through an nft synproxy rule with the bad offset
-> yet.
-> 
-> v1: https://lore.kernel.org/all/20260926204519.43402-1-raghunathpalla.0209@gmail.com/
-> 
->  net/ipv6/netfilter/ip6t_SYNPROXY.c |  6 +++---
->  net/netfilter/nft_synproxy.c       | 12 ++++++------
->  2 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/net/ipv6/netfilter/ip6t_SYNPROXY.c b/net/ipv6/netfilter/ip6t_SYNPROXY.c
-> index d51d0c3e5fe9..b3aa4fe67589 100644
-> --- a/net/ipv6/netfilter/ip6t_SYNPROXY.c
-> +++ b/net/ipv6/netfilter/ip6t_SYNPROXY.c
-> @@ -18,13 +18,13 @@ synproxy_tg6(struct sk_buff *skb, const struct xt_action_param *par)
->  	struct synproxy_options opts = {};
->  	struct tcphdr *th, _th;
->  
-> -	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
-> -		return NF_DROP;
-> -
->  	th = skb_header_pointer(skb, par->thoff, sizeof(_th), &_th);
->  	if (th == NULL)
->  		return NF_DROP;
->  
-> +	if (nf_ip6_checksum(skb, xt_hooknum(par), par->thoff, IPPROTO_TCP))
-> +		return NF_DROP;
-> +
->  	if (!synproxy_parse_options(skb, par->thoff, th, &opts))
->  		return NF_DROP;
->  
-> diff --git a/net/netfilter/nft_synproxy.c b/net/netfilter/nft_synproxy.c
-> index 554a96a000f4..6b290a89886d 100644
-> --- a/net/netfilter/nft_synproxy.c
-> +++ b/net/netfilter/nft_synproxy.c
-> @@ -118,12 +118,6 @@ static void nft_synproxy_do_eval(const struct nft_synproxy *priv,
->  		return;
->  	}
->  
-> -	if (nf_checksum(skb, nft_hook(pkt), thoff, IPPROTO_TCP,
-> -			nft_pf(pkt))) {
-> -		regs->verdict.code = NF_DROP;
-> -		return;
-> -	}
-> -
->  	tcp = skb_header_pointer(skb, thoff,
->  				 sizeof(struct tcphdr),
->  				 &_tcph);
-> @@ -132,6 +126,12 @@ static void nft_synproxy_do_eval(const struct nft_synproxy *priv,
->  		return;
->  	}
->  
-> +	if (nf_checksum(skb, nft_hook(pkt), thoff, IPPROTO_TCP,
-> +			nft_pf(pkt))) {
-> +		regs->verdict.code = NF_DROP;
-> +		return;
-> +	}
-> +
->  	if (!synproxy_parse_options(skb, thoff, tcp, &opts)) {
->  		regs->verdict.code = NF_DROP;
->  		return;
-> -- 
-> 2.34.1
-> 
+
