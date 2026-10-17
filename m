@@ -1,64 +1,64 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA3F411F99
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 11:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B324D40F732
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 11:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792234975; cv=none; b=DP+QaBGmzdxUeJJvXIYprKv+x0JMqRJaN3/JgZdKTiGvZsp2B+fR4Ye0n1ZQkWQUnJ5cXLzeiUOQ5B2Iz13CgiNY4ca1Ht0RDR9NTkhIFYpiErpordKYVSIc27WPN4dMrSTUXVLSl1+cx9X2e6jhgK9IrpkoMzcqye6K023oVE0=
+	t=1792234989; cv=none; b=VpuxQe/pFcwpFJyY8XUgz24ekqQZ6lsVP8pdoush0khmgCOECUTSSzVBGXSz3RO4MWs4H2jVIPnzCNGAmbY1joGV65zcN7AuTwxa/NICmtvuXLniVDyHCGSPvqCirg3Gm4/PDUlunPNn6rmaZQzWY6sbQcNuNTNpr7rTeCppZjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792234975; c=relaxed/simple;
-	bh=ptnh4246tl3PZEsc/STWjRYQ+/lRyGGUeix3Acx+XHM=;
+	s=arc-20240116; t=1792234989; c=relaxed/simple;
+	bh=TLOEjtKkkyoqOjy0bb8E298VSARXyB4QATRkuXYijPk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S+U2o3flY2qANHj7KXY8BuEeLYPYxEW8sA9yiCHvGMX+VF3LRtVVjUNmNKD1maOuaOPxuSdMi/NRbh5n+wIQJMVtLF+zZuqsmN1WJREDD56NU5jqiRUrEO2lFAHFCYzr7V7Did7vJw9tFuVxza+vmAs+6GAiGYdL6+DBZ6Z+TK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsdRXsW4; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=a6VwlbgiKJzTvu96EJwGatk04i/fUhdkp1+BrFnfGztHRHxX9MwwKM5d43e5F7b36XAqkZIalG54EvQWRzG3I+30RS/tvDIGmmgvOyOguJC4RevBCYJzD0uegmLqLTaxp8YZlaXBDlNU75XHZUktDH8UbZn2V3MuASb6Mmqrtuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YV6yMWd9; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsdRXsW4"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e946155442so5056435ad.3
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 04:02:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YV6yMWd9"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e915887d9dso3096545ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 04:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792234974; x=1792839774; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792234988; x=1792839788; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KIEnM8kSnE++SjvuuMHdYxk0kLmjaVprnb+UtVbFbO0=;
-        b=AsdRXsW4WY7lNc8FErsUeghZIYyEE7iq8mv6fDk5Z//oWYt2jCXXRULo642COn3f84
-         XTkmzFMAMmBJNfIIEpFdRdkufuV4nBV1+cJo58kHzfFz4CdJZrPEqA/MqsguIV4T0UFs
-         3Rh/lqxcC2Fy2owx5bx2jqC+vC6FxiPZ/omr/f/I+dF10/iNcmlermCTJzjA4ZCD87Tn
-         ynaD/fXvLd8aADxOhA8FptjoWnUC/QxjOwwhseRtPh74GAMA1V8s7U4tjAFRgJxpvAH2
-         zL71dYp7hWMdU195yFiiBG4y2eg7x+QopqLRPOtCaShrZvOPvWDVLcwBvsGaReWaGcPA
-         AUzg==
+        bh=2VJKUNI2Amz8x09Pyp10zZpRdq+9eAmweb0GWmitbzg=;
+        b=YV6yMWd9gBblAQ7HDJQGQUV9cnAYGUzLXHrZU9kCO6dZPmnxhqYxbECH5dCt+J0HHZ
+         QDTG7OkE0EDUWeHVQ2FVLPfoMTCrdiMNA1bRs+QSv+THsGfxoBHwHEKX1gAKVmq1d8xc
+         reYqzy4tbrGqyVYu5GTr+jwxzDfHX8SQtSi7p3YmwXJk6TN+QftXalxbYODEk8XmSlU7
+         GFKUKX0KxbWMW8ds7NZ5FFJ7uszA+GKD6RnsiviWqP5mX95AMmbOuj276Tf5ewI7nsuQ
+         GSClnyuMOA63gp3059/UX7J1gSr3xt4uA07ejplZyrQTWac4FdaS/3NPI+LzXdiRu+Nm
+         RW3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792234974; x=1792839774;
+        d=1e100.net; s=20260707; t=1792234988; x=1792839788;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KIEnM8kSnE++SjvuuMHdYxk0kLmjaVprnb+UtVbFbO0=;
-        b=NawplcO1ek76Md0S+/zCy0g41vvW6/nab3pE1E02H6FgJEsqA6eNk/fBfZILo0OocX
-         eCp7yXDCRu9uOeU1W9mHvwz5nxk70M9ufUPrCm20hYpWrmOJz4aa5CNmH9DTBl7A/CYq
-         xnTtpzzgg8HpLHKSIgopAKhEjKBzIsLoRDbhJiBT0UVLXCaRVMFIhdxXnTO/rKirLI84
-         wDLbo+RClBuEJo6vq9L4glM6V5GnL+Du/w2nObvYzh0+JYt7XNEe3QLI5eGBi4/rlb7B
-         7WwV4Yd5MMYwuHQyEef/tGV/1f+HstiDH30HE0h3nqcSziVwiOcKBnJcf/mlbM7aReiZ
-         dl7w==
-X-Forwarded-Encrypted: i=1; AKwUvBz7RC18baunQOFkLwEPFw1oSQ2NOJhg7UhqVZO9wBboFuaRiDl8aP36eNRI1/IMkakaMJ/YrwPYc0D9ZTO3jDZkMiAVPQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI2O9D3iazJEFk6tNWKtfJOg1CZBo++eXUnW3SSode1OMaMhvXX
-	ZHiicoTdYdNadkjN4PiEmA95hybFT2ki4Rs8OdPg8IPTRHIHT9DZNrAI
-X-Gm-Gg: AYBFou2Ba8Hic3e9yeA9PEx/VDvjSgFCLGgmw1mH2K2wrQTyfdUpp9lIvUQkH1uFBNC
-	3B0vazPRFK8YaRRuCSCEcMKY1iEVRB9nRcXiyvmn3KcLuMvbS9Wqr953FwvEhfmduMznJ1YQpRg
-	kpfYCQizOCPTa6A7bX8TnpjYN5OFVI6A2C7xZjSl4VCo1ZcO1cRQO1WUsLJvqobvHwvuR+4fnbc
-	TeyHkl+jK16KLN7hlJW0chgY8g7BCzClxH+RPLHyk/Ea0jz4tZ8nfVU4usgHweUH+Zpc0fvV9LF
-	kxdNx2yfrU4JEhlI33UdHBpLNXjjdv9bSsPtdEyUBZcnMg7hqIScTO1e+dtGRUN8cuFIMCGBItk
-	1LU03B3mWH020B0QiYAGlL4DH6hUOOQIfE5EyNZKbQHeH1nIq9M9T6tTz9Ko/7sa0pV4YbOPbDd
-	3OUPc+iOQhjuhP1VgKIjHxS/JOi0MX4uxqj61oJXEJ89SbhSNYsZbvCjknF7UfZgWZO4t5mNJzn
-	67s0vcaPqtCt6PgAAOGwUE=
-X-Received: by 2002:a17:903:f84:b0:2e8:1f8a:9113 with SMTP id d9443c01a7336-2e9a6f58265mr21900555ad.40.1792234973971;
-        Sat, 17 Oct 2026 04:02:53 -0700 (PDT)
+        bh=2VJKUNI2Amz8x09Pyp10zZpRdq+9eAmweb0GWmitbzg=;
+        b=VQW0Iq+NPVatbNch6/Z9QpL2hs4NdhJ68ffCtZfLuAvZDv7d8QUleznMZ60Xt05LF2
+         ajQxQjjdJ0w/qe0kqfX1P+JcTBJIPfct7Gc48gGLC/qg6c3nJ/cq7Jfxmjpo/JyHwHR7
+         523KNc9NnXvjIKi5GnnkiZ8dymIc4Ipvjde19KnbeHbFgHVPfVGaBSKdvVQjCDzKdvtX
+         ZYHpOS3AlO26v0jGo4KelO9nqoc3x5ZQb5LqqsO9hye3rbqbTPTfd7nxIpZ8IV5Hu0GK
+         2LGpPRQ2YlqtdMOhVJF45egAL7+iMxZYCxS97hVJx+FgGBllBx1sdeeg2+BPRrZs7a9J
+         d0yQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz2cQfisTlhdoo7gPt9gwwHH4vEeE0SCCrWOt5oOfDqjS33fH/WmmcjtVcbYpxFa8sz9IbnRBDfwqu1PworJxq0uRGDuw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKmz0lbpYU8U12H6Dq07lOw2L8W7bY4y3UIGXJchxXDDv6M2xup
+	Pv0lJxM6WyM7y3R2+zjFYehc3HyFeLAggY7WIo+vODYpleF3MVjK7Ap/
+X-Gm-Gg: AYBFou0fKf6G2ziP1VDlz9ccZyauq/5GlluGnTkx0wOYBAE9Dz0FUfF4BPvmaF5jMtd
+	ceUaaKy/gSlwcgcJ4ASeQ6ek9gQ2wk/SJPWp3cUF6LQB6w1ySIUAxUUgG76YLSvKhoyLeI/vwgv
+	TRaHHgyO0wTOGdYXWSB0lZ2ttVu+Z9ttV96HeaPZiIYO9NSWRtDf+dmz4f/GI0u4D+5bobVhVDj
+	R55gK6nAU2cUvhdi8foaLjjR27juz/RK08aY3n6qnzCuOW6+jn/NOoiJTq/cxSODcY1p4qUwx7E
+	pDyT4WHbWmxrm1hrG5HXqzYvDST85uczzX2kxdDPjafVW8q7guOd+V8S2dL3ucAh6G1s+W6V/5b
+	HnHCNtFN/zr9TbfTC554xYkLt0L2WjuPDRWtuYH6GMQT/pI+TVTf/GkvbSleM0awcM531Xipe7L
+	etv1+RLbj8vXlij7K5MypyRy0dFVhivApJEiheU4q/3jyLD35lFl7yqqoYSUM37dn8g3OfI/ZQ7
+	p1iqKjTquRmSjL7MU2RKA==
+X-Received: by 2002:a17:902:e949:b0:2e9:7dda:bfce with SMTP id d9443c01a7336-2e9a6d3c1admr19606475ad.74.1792234988014;
+        Sat, 17 Oct 2026 04:03:08 -0700 (PDT)
 Received: from x1c ([2405:9800:b670:b64b:7c65:ff3e:80ba:b06])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804dd9sm20559955ad.16.2026.10.17.04.02.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804dd9sm20559955ad.16.2026.10.17.04.02.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 04:02:53 -0700 (PDT)
+        Sat, 17 Oct 2026 04:03:07 -0700 (PDT)
 From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	Sean Christopherson <seanjc@google.com>
@@ -88,9 +88,9 @@ Cc: Shuah Khan <shuah@kernel.org>,
 	me@brighamcampbell.com,
 	jkoolstra@xs4all.nl,
 	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH 2/5] KVM: selftests: Use the shared memslot base in memslot_perf_test
-Date: Sat, 17 Oct 2026 18:02:10 +0700
-Message-ID: <20261017110213.46199-3-tharitt97@gmail.com>
+Subject: [PATCH 3/5] KVM: selftests: Use the shared memslot base in memstress
+Date: Sat, 17 Oct 2026 18:02:11 +0700
+Message-ID: <20261017110213.46199-4-tharitt97@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261017110213.46199-1-tharitt97@gmail.com>
 References: <20261017110213.46199-1-tharitt97@gmail.com>
@@ -102,159 +102,35 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use TEST_MEM_SLOT_BASE for test memslot IDs and account for the
-reserved slots when calculating the available slot count. This
-prepares memslot_perf_test for reserving slot 1 for library use.
+Define MEMSTRESS_MEM_SLOT_INDEX using TEST_MEM_SLOT_BASE so
+memstress and its users follow the library's reserved-slot
+convention.
+
+The tests affected but require no change are:
+	dirty_log_perf_test.c
+	demand_paging_test.c
+	access_tracking_perf_test.c
+	memslot_modification_stress_test.c
+	x86/dirty_log_page_splitting_test.c
 
 Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
 ---
- .../testing/selftests/kvm/memslot_perf_test.c | 62 +++++++++++--------
- 1 file changed, 35 insertions(+), 27 deletions(-)
+ tools/testing/selftests/kvm/include/memstress.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/memslot_perf_test.c b/tools/testing/selftests/kvm/memslot_perf_test.c
-index e1299611be32..cbb900ab58af 100644
---- a/tools/testing/selftests/kvm/memslot_perf_test.c
-+++ b/tools/testing/selftests/kvm/memslot_perf_test.c
-@@ -60,7 +60,7 @@
-  * other memslot(s).
-  *
-  * We have different number of memory slots, excluding the reserved
-- * memory slot 0, on various architectures and configurations. The
-+ * memory slots 0 and 1, on various architectures and configurations. The
-  * memory size in this test is calculated by picking the maximal
-  * last memory slot's memory size, with alignment to the largest
-  * supported page size (64KB). In this way, the selected memory
-@@ -68,9 +68,9 @@
-  *
-  * architecture   slots    memory-per-slot    memory-on-last-slot
-  * --------------------------------------------------------------
-- * x86-4KB        32763    16KB               160KB
-- * arm64-4KB      32766    16KB               112KB
-- * arm64-16KB     32766    16KB               112KB
-+ * x86-4KB        32762    16KB               176KB
-+ * arm64-4KB      32765    16KB               128KB
-+ * arm64-16KB     32765    16KB               128KB
-  * arm64-64KB     8192     64KB               128KB
-  */
- #define MEM_TEST_MOVE_SIZE		(3 * SZ_64K)
-@@ -276,7 +276,7 @@ static u64 get_max_slots(struct vm_data *data, u32 host_page_size)
- 		rempages = mempages % pages_per_slot;
- 		if (check_slot_pages(host_page_size, guest_page_size,
- 				     pages_per_slot, rempages))
--			return slots + 1;	/* slot 0 is reserved */
-+			return slots + TEST_MEM_SLOT_BASE;
- 	}
+diff --git a/tools/testing/selftests/kvm/include/memstress.h b/tools/testing/selftests/kvm/include/memstress.h
+index 0d1d6230cc05..4da03541e805 100644
+--- a/tools/testing/selftests/kvm/include/memstress.h
++++ b/tools/testing/selftests/kvm/include/memstress.h
+@@ -17,7 +17,7 @@
  
- 	return 0;
-@@ -313,38 +313,42 @@ static bool prepare_vm(struct vm_data *data, int nslots, u64 *maxslots,
- 	data->hva_slots = malloc(sizeof(*data->hva_slots) * data->nslots);
- 	TEST_ASSERT(data->hva_slots, "malloc() fail");
+ #define DEFAULT_PER_VCPU_MEM_SIZE	(1 << 30) /* 1G */
  
--	pr_info_v("Adding slots 1..%i, each slot with %"PRIu64" pages + %"PRIu64" extra pages last\n",
--		data->nslots, data->pages_per_slot, rempages);
-+	pr_info_v("Adding slots %u..%u, each slot with %" PRIu64
-+		  " pages + %" PRIu64 " extra pages last\n",
-+		  (u32)TEST_MEM_SLOT_BASE,
-+		  TEST_MEM_SLOT_BASE + data->nslots - 1,
-+		  data->pages_per_slot, rempages);
+-#define MEMSTRESS_MEM_SLOT_INDEX	1
++#define MEMSTRESS_MEM_SLOT_INDEX	TEST_MEM_SLOT_BASE
  
- 	clock_gettime(CLOCK_MONOTONIC, &tstart);
--	for (slot = 1, guest_addr = MEM_GPA; slot <= data->nslots; slot++) {
-+	for (slot = 0, guest_addr = MEM_GPA; slot < data->nslots; slot++) {
- 		u64 npages;
- 
- 		npages = data->pages_per_slot;
--		if (slot == data->nslots)
-+		if (slot == data->nslots - 1)
- 			npages += rempages;
- 
- 		vm_userspace_mem_region_add(data->vm, VM_MEM_SRC_ANONYMOUS,
--					    guest_addr, slot, npages,
--					    0);
-+					    guest_addr, TEST_MEM_SLOT_BASE + slot,
-+					    npages, 0);
- 		guest_addr += npages * guest_page_size;
- 	}
- 	*slot_runtime = timespec_elapsed(tstart);
- 
--	for (slot = 1, guest_addr = MEM_GPA; slot <= data->nslots; slot++) {
-+	for (slot = 0, guest_addr = MEM_GPA; slot < data->nslots; slot++) {
- 		u64 npages;
- 		gpa_t gpa;
- 
- 		npages = data->pages_per_slot;
--		if (slot == data->nslots)
-+		if (slot == data->nslots - 1)
- 			npages += rempages;
- 
--		gpa = vm_phy_pages_alloc(data->vm, npages, guest_addr, slot);
-+		gpa = vm_phy_pages_alloc(data->vm, npages, guest_addr,
-+					 TEST_MEM_SLOT_BASE + slot);
- 		TEST_ASSERT(gpa == guest_addr,
- 			    "vm_phy_pages_alloc() failed");
- 
--		data->hva_slots[slot - 1] = addr_gpa2hva(data->vm, guest_addr);
--		memset(data->hva_slots[slot - 1], 0, npages * guest_page_size);
-+		data->hva_slots[slot] = addr_gpa2hva(data->vm, guest_addr);
-+		memset(data->hva_slots[slot], 0, npages * guest_page_size);
- 
- 		guest_addr += npages * guest_page_size;
- 	}
-@@ -631,9 +635,10 @@ static void test_memslot_move_loop(struct vm_data *data, struct sync_area *sync)
- 	u64 movesrcgpa;
- 
- 	movesrcgpa = vm_slot2gpa(data, data->nslots - 1);
--	vm_mem_region_move(data->vm, data->nslots - 1 + 1,
-+	vm_mem_region_move(data->vm, TEST_MEM_SLOT_BASE + data->nslots - 1,
- 			   MEM_TEST_MOVE_GPA_DEST);
--	vm_mem_region_move(data->vm, data->nslots - 1 + 1, movesrcgpa);
-+	vm_mem_region_move(data->vm, TEST_MEM_SLOT_BASE + data->nslots - 1,
-+			   movesrcgpa);
- }
- 
- static void test_memslot_do_unmap(struct vm_data *data,
-@@ -988,8 +993,10 @@ static bool parse_args(int argc, char *argv[],
- #endif
- 		case 's':
- 			targs->nslots = atoi_paranoid(optarg);
--			if (targs->nslots <= 1 && targs->nslots != -1) {
--				pr_info("Slot count cap must be larger than 1 or -1 for no cap\n");
-+			if (targs->nslots <= TEST_MEM_SLOT_BASE &&
-+			    targs->nslots != -1) {
-+				pr_info("Slot count cap must be larger than %d or -1 for no cap\n",
-+					TEST_MEM_SLOT_BASE);
- 				return false;
- 			}
- 			break;
-@@ -1027,20 +1034,21 @@ static bool parse_args(int argc, char *argv[],
- 	}
- 
- 	max_mem_slots = kvm_check_cap(KVM_CAP_NR_MEMSLOTS);
--	if (max_mem_slots <= 1) {
--		pr_info("KVM_CAP_NR_MEMSLOTS should be greater than 1\n");
-+	if (max_mem_slots <= TEST_MEM_SLOT_BASE) {
-+		pr_info("KVM_CAP_NR_MEMSLOTS should be greater than %d\n",
-+			TEST_MEM_SLOT_BASE);
- 		return false;
- 	}
- 
--	/* Memory slot 0 is reserved */
-+	/* Memory slots below TEST_MEM_SLOT_BASE are reserved. */
- 	if (targs->nslots == -1)
--		targs->nslots = max_mem_slots - 1;
-+		targs->nslots = max_mem_slots - TEST_MEM_SLOT_BASE;
- 	else
--		targs->nslots = min_t(int, targs->nslots, max_mem_slots) - 1;
-+		targs->nslots = min_t(int, targs->nslots, max_mem_slots)
-+				- TEST_MEM_SLOT_BASE;
- 
- 	pr_info_v("Allowed Number of memory slots: %"PRIu32"\n",
--		  targs->nslots + 1);
--
-+		 (u32)(targs->nslots + TEST_MEM_SLOT_BASE));
- 	return true;
- }
- 
+ struct memstress_vcpu_args {
+ 	gpa_t gpa;
 -- 
 2.53.0
 
