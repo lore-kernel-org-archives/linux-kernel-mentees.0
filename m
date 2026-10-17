@@ -1,80 +1,95 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740F551616C
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Oct 2026 13:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B58B1C1F22
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 11:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792072312; cv=none; b=EzHczP7uJQsqyTxwae0iS/NWaJYW3WAJAZVPfRve3lSnw7MWN6QuGiv98BjHIYAT3e7TOx2dRVTMd05oyl8bsKKENAxrbB2qelI1ATvpmfvwEp1gOqUHWNXYgfPT5NwNOwkzXVy+XiKCYEX743/NZa9+1AVbwiMPTIl6vDDUSJA=
+	t=1792234951; cv=none; b=hxTK4qBmKEFLCQT1aRUTQ+af6ou2dQwu/hRedev4KYPsfMxUbomTIBO3ueZCOsfylT3YnEZ7aX5Q5GCHLNJkeHCRgAR6+qCJG4wzGtM/Cg1DOmVu+AX1z5h1aEkWLwGNPT5cCBMX6BS8WTOBWU9GCKArCcn6+t6L4Vi0uaazY8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792072312; c=relaxed/simple;
-	bh=Z+OJuFFHDzvfnaKn9iMIyx6qF6UFBBKir1ZIYGD1ltA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j0Zaonx5lRWVp7qnpLQ5+lZiNOGvlC2bKUhzAFSV+6MqQ5CMTpLa/51NUJkEnA0T/lmYmCrzLzc69HZuF5ETvbKrU/z1WmTOXQgBTxc4sq7fQDg7Pvd1+1wy9BwITNWcfxOYkJ0dVDe1pB+ZhyP1W0dBgIB38R8jDhUwojp0TUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KdRIqbNa; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1792234951; c=relaxed/simple;
+	bh=FjGEp2k4FfSPM+tdsngqSEiml++4V5/mJNGAoCdd2oA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OqgEZb67hy1BI1K1g/Wnob8f59vPS6kX4TkgRahScwxEm5mNEUDJoOZE+L9+TUy1ZKBup4fnpr55V6futx4gr+e/dhEXPJXS4atfZpDNzDvjCPCpZtQHqQDkgrzjHvA7LBp1N0mfcpXKIs1UUDSqHjoytr7akY5xrTVlKXbD0Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bFCOO+ss; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KdRIqbNa"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a0e1b0681bso38662435e9.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 15 Oct 2026 06:51:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bFCOO+ss"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e9ae391a05so3781865ad.1
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Oct 2026 04:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792072310; x=1792677110; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792234949; x=1792839749; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pb2lT+n+6HQvd1ljvbTw9518TzY0iE2FdURBlgBDLT4=;
-        b=KdRIqbNaT1S5OM9JhVxhHEEXAAgTqRvfiF2ixSF8Mn7b6flFSIurMmRz3YSmz5CARR
-         BjJPM76EvBRALkVX2GjKVfLpTo3UqyZyKQbgOsPyZTqipskhqBsL5UOSy2iE4G4s6ND0
-         J+5U6zP96emuXkVzOC+An0CU8CQrCbHlrFyYzZWdRJ4/t3dN4e/iVhAxLDxRy5vpupNy
-         tGOcX4nhhOEq3H1D29NC1u8KCCoNTYdNiQo/Vr3sQh/qgZa/Y+lyVs6yWQKjkMhNr/1s
-         02RcNN6tKYA5/8Xd5aDz1rmez0FEAs9fvGb4GLFv3nK4IpDvlVh5aIpx68O4BTIAlXTo
-         QTSw==
+        bh=EooerGosbt9uNoLNk2R3r8CmWtmPXhr2JTyWgkAeP44=;
+        b=bFCOO+ssL8oDe6DYi0XEhQId3s5Wh6VgfuOOVCCi4s9+spfqtGUUm2pLyaJUQZEWny
+         ji6LoDIVkXtfUKKo6C6P8/0alKjwKEFFFfS68aZiTgL+2aiVrLWkX8JjECxcc/y2pced
+         /5N92eDyNRq9wPE2jMlhmxvF5/LO+v2vjqzn+umFSTJYGRBbXHbiaxMGYm60PWqoy7cY
+         GzXyObCFFCyqozq1PLAcN7oHy/w3y2UsYGeAKl2U5PuUin7bqivae8pzOnUZa1pkrrbB
+         hrv+lfbYUcvSCzNWwtR+OP2B0BkhSGwjf90k18mf5y61geqWoChLLvsjdJ0OhZB7C9rC
+         d1oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792072310; x=1792677110;
+        d=1e100.net; s=20260707; t=1792234949; x=1792839749;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Pb2lT+n+6HQvd1ljvbTw9518TzY0iE2FdURBlgBDLT4=;
-        b=VYcbNBIRIhUTHJnWQrGV1OZHSaqJyBMKtPhkWHmj8qPbD0DkF9HwkqdXgnkrCk+nWd
-         DeDfcZe2htcUdQN5ipq8vQdEwaPXTELwJw6F5dqvjzy+bOXTZm93ovnGTtFJ27b4zz2c
-         Zug/onFURiiyr223bm02QfwomhtsnmLDXsvtgUzbGm1ihTyXjqQbdiOLGCgQiUj7gUWP
-         KOBe0C7/37wW/1694z/QJyWcPRld6ssWpHxHlZFOQ3XS8eQ6NXFw9VMlyBodsUTUENT7
-         kYRBlLLyTbxxFXchvuoZAjB7SYXa+AmEdX9/aB8bGGmQT64wjs1a4qRwgLvkbColeGwe
-         Mksg==
-X-Gm-Message-State: AFq9FYIw516xBPd16bvGxezx+wvxY60J5N7T6OC5Am6ZRZgahZcZZLuj
-	Z7iqpPx+sQT7VWg1rZj9R2rXuIbN8fdK5WkirDqx61qGIi1gbVbyzr4=
-X-Gm-Gg: AYBFou0PTFarUl7/Z1X/Z3536lqoVxTsbNFY5GmawTPYKxOnUhT/M+mK1tBrN0+/j8s
-	benLjpB/bpsJN6qzRs8YkY9e5LpvO4Nw8cXTrp+edP4RNjOUGGBN72EhLLKQD4+dkvCRBQkigx+
-	BkItjRy2RZSZojzuswWCY3ekW3SDkL6xN8iXctof32FOla48QW8ykdYTteiva/J8JuKA9JcaLVb
-	HpT7aH6wEIb2KqhQql/bkcujW4STPrU4kfsJl4Jp5jCtIl9IGb+iUQ7VEayAzAqH3oQOGx1RC6g
-	lJfqtwCskbboKEbHmNkhb4vKMLN7mC0m2DxstXxQimiW62pcd8XiXw7CEBuIFPdTV/c+2edaPpb
-	AghcF2PlQ8psgyvAV4NBsXD2cMnrCkdw5kn4LckrlW1I+lb2JAkJ+oYvFySg34O6qgQ9ZjxRTll
-	PrZXkKa9E3801LMxAcDaBXNXw3Y86VmbXVVGL3djTnvywm9AYGlVzX7LpfhxqsgI6/v8cno6Bgt
-	SzbCXWVpUfyB3zOgB1m4iDPUdcpG7EDU6KY9dX7Jlv388UtMCt4Jr9hBbNOitBwEPyTUIUhQI9D
-	DqcAfGjrXHpeW2RSrFW82ZL8zlQojNbB4y5GPE7Kcs6Mrl2j0lw8CLOD2B8OCIsZWTS8B2jSW2u
-	r4AsTsGIuwSFoa1ljEA==
-X-Received: by 2002:a05:600d:644f:10b0:4a1:9661:14b5 with SMTP id 5b1f17b1804b1-4a196611aa3mr240527545e9.29.1792072309564;
-        Thu, 15 Oct 2026 06:51:49 -0700 (PDT)
-Received: from archtop.localdomain (92-242-248-5.broadband.mtnet.hr. [92.242.248.5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9b303csm69642565e9.8.2026.10.15.06.51.48
+        bh=EooerGosbt9uNoLNk2R3r8CmWtmPXhr2JTyWgkAeP44=;
+        b=GHqmUHYURBD4o7DMyIKiHrdOMce/77SJqR1plkTUuMt6WAIpg6wyfBDZY9erWCdDkI
+         2MCLRnOLaNpNxzz5u8pRcvQvo7Owjpu0Tn2saNhRSBDyTy21EBO92w/727gwsmMVpzcE
+         1AQVWcPA1IDgC8oeChuC6GUhw0+jtyxf+CzqW7rLJJLYX3Lr3UQP2gv/4vYip+DUFqF4
+         c0vodgMaoiHaXfsp63LnhP0BGSZnMsk/o7RZZKK0b0AIOFaw6zV5MsBJ3Ct/s2nbFo1t
+         qbOydCgpGUynRorqSwYhSbf1S71VARkrc+MFTMHoZ8B2bkDmOc2XqjybYGbVx2edXX8W
+         N1oA==
+X-Forwarded-Encrypted: i=1; AKwUvBwT7XSsjj0ERmIz97sinyrrADQG8jx9QLfPL/lOHxYHvvk/GUQdyVcU6He3YWkK3ySpE9t8iTBvyonKeY2S7v8Jz8Nyxg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIrBkv4eRzKEemcpNCX5QEogReLJHRdqxzcV6WyqrcWzdKN3qUd
+	EsYEtYvN/cfqrVCMKG86IBiNkxO2D9ZB2DHizO7klD4KgmFRgktFtvxD
+X-Gm-Gg: AYBFou19+O8KZ51mIkkwXzicT2IWWluXxfcdv2osMBto9U/6nxlRCbL+IE/W7Je45dF
+	cN2tOekMWKa+mSyk3Oksl8nIS14pTbzDnR91Jaethj0Iq6+WMv6eNU2hSpjqty/ZXGoBLGLldv4
+	a5OWpVXOtMizIulSGreAcEzyLw6UNF+FMJUHwONsDwJ0YckwIzzbWjetmBLHI9pz8wzIiUcTuYQ
+	mnTKFfsf3Gw/+7gn+0Splk2kMuqVEYhMGvhb4SuPWz8Wx23ShZaKhFkCL8TBczYXTnccCTdxXlL
+	41BQYNBFik61ZSakCiDzJyfiAOo+jjN79LeJJTYipieC+5yhf3d95UNGWAtInt7QrU3JTeISKjO
+	ifPkxyWhljH3nZyyQfa77giAWPI+X7HSOAwLUXA6DhVkTUftAx2bhgohxrDwIVskTU8vpj+MnbN
+	zP0/Kkbp6PbgjW4uaYqcEV7XdMjddq3M3ixrgZjhMhHefWKiCFIjPhMRhqYbWDb7fS2QOUUv/qe
+	XCBDVKJiDFHgCFcu/ZoSQ==
+X-Received: by 2002:a17:903:1a10:b0:2df:a0d4:71de with SMTP id d9443c01a7336-2e9a66ebc71mr15900275ad.0.1792234948529;
+        Sat, 17 Oct 2026 04:02:28 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:7c65:ff3e:80ba:b06])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804dd9sm20559955ad.16.2026.10.17.04.02.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 06:51:49 -0700 (PDT)
-From: Jakov Novak <jakovnovak30@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jakov Novak <jakovnovak30@gmail.com>
-Subject: [PATCH] drm/drm_exec: fix kernel-doc string in drm_exec_retry
-Date: Thu, 15 Oct 2026 15:50:29 +0200
-Message-ID: <20261015135029.22698-1-jakovnovak30@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        Sat, 17 Oct 2026 04:02:28 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: Shuah Khan <shuah@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Anup Patel <anup@brainfault.org>,
+	Atish Patra <atish.patra@linux.dev>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	jkoolstra@xs4all.nl,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>
+Subject: [PATCH 0/5] KVM: selftests: Reserve memslot 1 for ucall MMIO
+Date: Sat, 17 Oct 2026 18:02:08 +0700
+Message-ID: <20261017110213.46199-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -83,37 +98,59 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Building the documentation currently with make htmldocs gives the
-following errors:
+This series addresses the TODO in __vm_create() to reserve memslot 1
+for the ucall MMIO region. It introduces a shared base for test
+memslots, migrates existing test users, and adds a read-only region to
+prevent overlapping allocations.
 
-  WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-  WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry' (did you mean one of: '_exec')
-  WARNING: ./include/drm/drm_exec.h:159 function parameter '_exec' not described in 'drm_exec_retry'
-  WARNING: ./include/drm/drm_exec.h:159 Excess function parameter 'exec' description in 'drm_exec_retry' (did you mean one of: '_exec')
+A regression test verifies overlap rejection and continued ucall
+operation.
 
-This is because the parameter is defined without the underscore in the
-kernel-doc string. Change the parameter name to add the missing
-underscore.
+Testing:
+- Intel Core i5-10210U and Rockchip RK3588 (arm64).
 
-Fixes: bba175a2d4be ("drm/exec, drm/xe: Avoid abusing the drm_exec retry pointer")
-Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
----
- include/drm/drm_exec.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These tests are changed but not tested: 
+- arm64/sea_to_user.c: not enough memory allocation.
+- x86/nested_vmsave_vmload_test.c: requires X86_FEATURE_SVM.
+- riscv/sbi_pmu_test.c: riscv hardware unavailability.
 
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-index cc2937185a9f..ae1d074ade5a 100644
---- a/include/drm/drm_exec.h
-+++ b/include/drm/drm_exec.h
-@@ -150,7 +150,7 @@ static inline bool drm_exec_is_contended(struct drm_exec *exec)
- 
- /**
-  * drm_exec_retry() - Unconditionally restart the loop to grab all locks.
-- * @exec: drm_exec object
-+ * @_exec: drm_exec object
-  *
-  * Unconditionally retry the loop to lock all objects. For consistency,
-  * the exec object needs to be newly initialized.
+The following test failures reproduce on both the unmodified base
+<8edffbc1f6272db167037e1a8c49b99e9cd04803> with host kernel 
+7.3.0-rc1-gd4b7fb647204 on RK3588 and with this series applied:
+- arm64/vgic_its_save.c
+- arm64/hypercalls.c
+
+These failures are unchanged by this series.
+
+Tharit Tangkijwanichakul (5):
+  KVM: selftests: Introduce a shared base for test memslots
+  KVM: selftests: Use the shared memslot base in memslot_perf_test
+  KVM: selftests: Use the shared memslot base in memstress
+  KVM: selftests: Reserve memslot 1 for the ucall MMIO address
+  KVM: selftests: Test protection of the ucall MMIO region
+
+ tools/testing/selftests/kvm/Makefile.kvm      |  1 +
+ .../testing/selftests/kvm/arm64/hypercalls.c  |  3 +-
+ .../testing/selftests/kvm/arm64/sea_to_user.c |  2 +-
+ .../kvm/arm64/stage2_block_transitions.c      |  2 +-
+ .../selftests/kvm/arm64/vgic_its_save.c       |  2 +-
+ .../selftests/kvm/arm64/vgic_lpi_stress.c     |  2 +-
+ tools/testing/selftests/kvm/dirty_log_test.c  |  2 +-
+ .../testing/selftests/kvm/guest_memfd_test.c  |  2 +-
+ .../testing/selftests/kvm/include/kvm_util.h  |  1 +
+ .../testing/selftests/kvm/include/memstress.h |  2 +-
+ .../selftests/kvm/kvm_page_table_test.c       |  2 +-
+ tools/testing/selftests/kvm/lib/kvm_util.c    | 19 ++++--
+ .../testing/selftests/kvm/memslot_perf_test.c | 62 +++++++++++--------
+ tools/testing/selftests/kvm/mmu_stress_test.c |  2 +-
+ .../selftests/kvm/reserved_slot_test.c        | 61 ++++++++++++++++++
+ .../selftests/kvm/riscv/sbi_pmu_test.c        |  3 +-
+ tools/testing/selftests/kvm/steal_time.c      |  3 +-
+ .../selftests/kvm/x86/nested_dirty_log_test.c |  2 +-
+ .../kvm/x86/nested_vmsave_vmload_test.c       |  2 +-
+ 19 files changed, 128 insertions(+), 47 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/reserved_slot_test.c
+
 -- 
-2.56.0
+2.53.0
 
