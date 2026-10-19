@@ -1,82 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792426441;
-	b=B5/JJy0RK6MOFS77km6Jg05ETrcnivzhAL45SiHF7DnpLBezf2IbPrPlBGPfVPFyxUkr
-	 qDOTZijYhiI+miDuLlxZFVRvptsCDXygTl4XQtiN+cWqsMVU+1wpHXoyrrwIUtuz3H7eP
-	 18IKHuDherACZw3g1YBXxNSyZAIFya5od1i71WUooEWUmYGkP9zmmIoHh1EGP9xgnflig
-	 pxMVaSytG032NFgACJjoSuAcNQOKqtXNSrS72HHJByj0QYDq6kJ6I+hUHCiA2G1BJYsr5
-	 Y+AS5+qi61gR49Nqe8/imHwbnUzrm2NDHpiPkp3RGZjlAmXLwPrva+mx/ECvTyLf8lg==
+	t=1792426448;
+	b=hdHiSA19Jg5TJySlMmqYm9rhhWEI/lazW+BjkRqOxWfGepr8RNmCI4CGZCGkEFR8uE+G
+	 UeJJX0I6Jg6QwiN3vnsQihBlJj4niuLaVz2AS1mg+Yn/1arHwXcTLugs2OPjyxPSpnQfp
+	 WkXN1tXfy/AEIcqihwxBERdRwUdC1UwrZ2nwruOIuOuTvWp+BLvxCiz4DLs1+wAITgnI3
+	 OHIM9yZchKI2JDX2TS5QjF/KBFvW/wTYLWHu+l9COzbDuueYfSUtxhzxnH0xXsJuCI5fn
+	 k4I1DYKrv84ZxBLPdg7tA1zc3QLWIPmpRfxqVVPzOfRD2NI0kI8ZT4EbR/iTf+DByyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792426441;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792426448;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=wE8DD8N71MQfznU3Ft9s/Hf8dnnaSHV9fDu9XrNDJAk=;
-	b=tr8zbR9eML6aoZoLDHAh7nvvo7JYVZfxzA5joxI+fpC9HLl+mGOkGAw/EnhcgRttjeJW
-	 dSPKpIyFRVB3RERqSz5kHegTOyfApWKzjNX6OvC7B3n0BdbC92iDLIOAMZ30VQdjKBRQn
-	 xqlciMmO18mrZRt4PkgY5OkeGOuUAgECgo8sFLu7NJGWmXgRiPw4cq/9CZkTu3CeR9wq9
-	 7CbgcGCQqHeBN1WucBNKyfN6RaDFzdmvOqjmNx087NUFnwm+SFbTkWm4DsRY4DJTZBrIA
-	 Prd72KrKIYpXEUhmW8IxZrXQXmNrOSE+KnqszBVj1AE8Z98NBcnTlZAz93cucv1Ht6Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=HB+s47HQvDT0+pJXulendy8jU5r7FFBd1iGvR2TZayM=;
+	b=qRA05457RKNeaocpCpx1zMLgDMG1VCBdTC5vGvCc3ouTX2Uq8yrwrJSg6iMcaMGimB7H
+	 f8AI/XvHxGgxqynhf+yTZkTt7kHDa/kR0OGVqK5Y9E0j5Y5oDYnhpXiGrOsET8K8qjIeH
+	 RgOZoD3kyKdZlAT5uQ2Lscg/++m9cZMHGQpSHhrcFUGQfdX8RHyy+8fc9lmk8rQCHiv67
+	 LkGqo9hQgxk/8jUzsBTZFu47z0+Aw7QyRzqZF9PDGZdJkDONIOk76YerP9YPURcLKZKLW
+	 2Y2bGRcar0v8WeZpkTlrycckxT3wIIlsZbp4JTp1Ni2I50Tq9KqQ1ohYW+KygqA0PGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KiGBCEIC;
-	arc=none smtp.remote-ip=209.85.217.46
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HrVcAwKJ;
+	arc=none smtp.remote-ip=209.85.222.43
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E0F606A33D
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 Oct 2026 16:13:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1E0F606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA83E606AAD6
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 Oct 2026 16:14:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA83E606AAD6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KiGBCEIC
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7cc013095d4so686183137.2
-        for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 Oct 2026 09:13:59 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HrVcAwKJ
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-98ff53fb739so1165245241.3
+        for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 Oct 2026 09:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792426439; x=1793031239; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wE8DD8N71MQfznU3Ft9s/Hf8dnnaSHV9fDu9XrNDJAk=;
-        b=KiGBCEICckHzNoWr3tD9YtBbCP/2Pfg9liboB+MMwTH0lu0l67gKUi2Z/KcNvARHgO
-         otGUzaHcRpHw/LdBfyabn9KliBgdh/uOxcSat9bINC6ooUAqscGNsgM+QovHfv1RRP6d
-         OPjJ6VigH112daeGyqoCH4loA/L0zt4HELTzWusETdI8EnkDWDki4q2Osqy5IJyMeycd
-         9VkFNAgpSRZzO5Uonw9PyE8em+kPy9uUkNEYeot9RuLJth6bhNK/Hj0NytSyBb2STtxr
-         fYBRtsgFE5oipaK9sLmgyJIc59Cx++2ipXG6QQpL0mLgKdSL30GKo68w7rP8CRrYq0XR
-         3qGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792426439; x=1793031239;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792426447; x=1793031247; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wE8DD8N71MQfznU3Ft9s/Hf8dnnaSHV9fDu9XrNDJAk=;
-        b=rPJxzmtYwmuAjcw2OLDDRmk5FJbq3nN/F32w1Wz8SgEeFiMCeg9yqRIVWFAiGbvcjx
-         jYRS8QhHQszXF1HCLHOx26zbWlnNpOj974uGkhrhPvyZ6pS6pe57wP1IoCG5xF4Ff4L4
-         /60XB/zlHW+4pGrjdoadGp5O9iXZh5AjGBF4aRJbGDpNY3QqfZBD8mZ+i11WKRcMXjhh
-         8HJa+AWaEcXr++W+aQriRICtq7iSVlL50gTM6I7oCNFgQrBjWg8asjVizruvYssi/y4+
-         opSl6EwAOSjh68AEvFVrBrLiqnCJfwk/nwmubrdq7r19olmTzNKSqwYJE9rNlfkKigPF
-         jXKg==
-X-Forwarded-Encrypted: i=1; AKwUvBwP2p3Zf2Ed0SDTv4z+QqQo2stoSf7pwW28K7iGaZd+oPnoEiVsFnMJoYX8x1s/3cIfqP+3Gib4rw+BzKNn5+4Uu+7IvA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKwuF1KNzP9K/ulCjMH8jbfzDJvP8GQkhYFR5l9hsHoytqLhMU+
-	ab9WBLJTmgmWDEqbOCzMPDtXiw7x+Rr7pHNzs1mtZcYh9Dd4HmsUMVQ=
-X-Gm-Gg: AYBFou2pNVvLymALIOCn1FICv5h1M6+rBZfTuI4gUTIqdb/uZN8MFtkmL96N7msYrGK
-	diwGYnUDD8kvQFy0z7HAzFrL+gw66D+3WW+/CFY2JT0bnO5/0DmM7/xsyqtWTiPUiapPIAUGuwT
-	K4lP/zoKtJG33KAfOMdf0AUlodMgU4XDlXv9q8LXII4sToLRHzvM4ffYI9GCKRNkuk2N5hKTPJz
-	aS5oX0/s8enjDLzFDw3dRkBvJjyHm5a1jPoNdL4usG3llLIZnlaf4TVk7fzKvlnULstdBwLxoim
-	3ibcg6SpdMJ/m+Wxm22/n/kyV+InPRriXeqYr0dKFu7xgki0Z+Szc2YdRgUEzFAHQvb966yx0WH
-	WDym/+0dDObusUGIEs5IcRPLbwAH9qKV0FBrLGTjsninddEQTkjq683IZcA/8H1wvnA3eRZuH0f
-	oFdBAD82kMMc+qwe7zL1EyvjKd+JMvHv0zCklk6wKO1fdyMHyTrSeM5E8i49X5sNKpXv6D43iQc
-	bXVqD1NROTPZnwRXxqC7465SYlqzDPi2UHrdjuFIxPsV55G/g==
-X-Received: by 2002:a05:6102:5113:b0:7cb:bc5e:7dad with SMTP id ada2fe7eead31-7cc368f6cdemr2108176137.10.1792426438620;
-        Mon, 19 Oct 2026 09:13:58 -0700 (PDT)
+        bh=HB+s47HQvDT0+pJXulendy8jU5r7FFBd1iGvR2TZayM=;
+        b=HrVcAwKJlTJD8dHoOMH820KRoZfwJLpHwIJCp1100T0C5qzk1TieRimcnZ4+TMFwse
+         iIHJwtVTOf3tR/G2hySIq9GeB+ytxj1r/BQayzIADHDdePxIDDnPepfCjubGUvDLo6LN
+         1Qv+JdajewKfHNFD7PhGO4hq46ngxHP1ZLVwjUi0KFPJPlCr1oVCRZ7vDkOC4rXI4pWr
+         g8w8qmUqLjuGFQMV9NrQy3JZ62t3Xr4Squ12vohkENWt1Nh2dZaCTxDO8zqGlwYcTDLq
+         14T116bKfs2PdITY6kwMNSfM8g+Ui5aounEFTMIy7VW+0Asuvx3MH+b+xxrUJDo+Yn4b
+         RF3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792426447; x=1793031247;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HB+s47HQvDT0+pJXulendy8jU5r7FFBd1iGvR2TZayM=;
+        b=UsUXPEOev2tevIlJbNo/9aaqbrE5T5YW2TQaSu3U9dpkzRFGXjxvFD7T5OS4aPM4ro
+         j50gclaUilhPwhW8zalyLiZvHgUlxzLTCbKP0n4DgsqmRrm5l+qQbx5EbfI58OTjvNKl
+         leUrS6bDGrS1qLJCS4LA4qdGi2gOi6KcP/yMUkQvbejSXHIW3RFLMSrQATAvDlmBaMAj
+         IaIqjlObBOdQvzL0jQEjP4PVrUR2C9Sp1dSiX8XmGPYgn9pvp/q3R/H3+LLjJldpuU3o
+         d7KPIxarHyZzVFXJ4kebgzNEvK5lvfsG6oh1b+Qzuz5xOOkH90T7Qe6AYmpZop6tRNUy
+         ii5A==
+X-Forwarded-Encrypted: i=1; AKwUvByUcS/T8R6Gx47qH3ZDnhVlW6XiOA+nS4FlqXNOa/vQbyT+2igh5EuDWxg5eKNqmwyceReXFC5hYOZPNSx4yXM4X4BvTw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLIG4Siz6ddjkdW8rThsUZ6jvNjkEcjdu9LyADcT/1zvyNJc/pP
+	oa+FQEsd73/6zBiM2W/SZmzLraTGPYvjafGyoVLWB0F0YxcRxYpgFEw=
+X-Gm-Gg: AYBFou3Ev8kPCCd24ciS0I/l3eHYyDolTwOTqWpHigTi0tgLC60lZOzeOcNLhBTW2+f
+	WH94+Hv4XI4tb1nFSJDdGO7XK0W2tJfvHTJFdgbNrb69f/9QYZ2Vh3/+BgfGr1Fawdc0yjjj51i
+	1UcwFUACqT151HvJbvdllGiyGs/9z+AGdloLSXJesbYK55IbgWiDIvHlJk73kH0bFUgpOLeGXjw
+	vX8cx6bI9X5Lhx//dueIK0E05tXbwyZKJBnQRargSYuCFBlGGkHWJnnECdrbW2IDZBGVpPup1i0
+	IaRYHc/fmmyIR2NHz5rI9RmUjluLNloH1uFDSMY+3Bnj0SnVINaLlmtJPSld0Io2Wfgh+98B1gu
+	EEtasUjcdibDB4bQPJF12PoDXC6JgqWIIwbeSs3GstlcUyG5sLNJYSCTc3rgcl3GjYyUQzNvDQH
+	uP63jfPhSpjaNHFPoXOe7oWYi2um2YVTU+TMzeEWRpQoP11RLCG7k9dtBGGn0hZgXV6YbcL9lDl
+	txV0k+tU3W17I/f98i+985jRT45rRXTbaYJaC7HO00tJi2qjg==
+X-Received: by 2002:a05:6102:849b:20b0:7cc:3eb0:6ef5 with SMTP id ada2fe7eead31-7cc3eb09b24mr1467266137.11.1792426446639;
+        Mon, 19 Oct 2026 09:14:06 -0700 (PDT)
 Received: from localhost.localdomain ([186.158.238.108])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb38f7f1sm525062241.10.2026.10.19.09.13.53
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb38f7f1sm525062241.10.2026.10.19.09.14.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 09:13:57 -0700 (PDT)
+        Mon, 19 Oct 2026 09:14:06 -0700 (PDT)
 From: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>
 To: Danilo Krummrich <dakr@kernel.org>,
 	Georgios Androutsopoulos <georgeandrout13@gmail.com>
@@ -99,10 +100,12 @@ Cc: =?UTF-8?q?Nicol=C3=A1s=20Antinori?= <nico.antinori.7@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH 0/2] remove TryFrom<&Device> implementation for pci and platform
-Date: Mon, 19 Oct 2026 13:13:36 -0300
-Message-ID: <cover.1792417858.git.nico.antinori.7@gmail.com>
+Subject: [PATCH 1/2] rust: pci: remove TryFrom<&Device> implementation for &pci::Device
+Date: Mon, 19 Oct 2026 13:13:37 -0300
+Message-ID: <d128d86b751a51fff46a1702b636de74a4807097.1792417858.git.nico.antinori.7@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1792417858.git.nico.antinori.7@gmail.com>
+References: <cover.1792417858.git.nico.antinori.7@gmail.com>
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -115,49 +118,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Remove the `TryFrom<&device::Device<Ctx>>` implementation for
+`&Device<Ctx>` since it has no remaining users.
 
-This patch series removes `TryFrom<&Device<Ctx>>` implementations for
-pci and platform's `Device` struct.
+Fixes: 7edc491f6fca ("drm: nova: Use nova-core to read VRAM_BAR_SIZE parameter")
+Reported-by: Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Closes: https://github.com/Rust-for-Linux/linux/issues/1264
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+ rust/kernel/pci.rs | 21 ---------------------
+ 1 file changed, 21 deletions(-)
 
-To make sure that there were no remaining users, I checked for usages of
-the `try_from` method and the structs implementing `TryFrom` using rust
-analyzer, activated the modules that were using the structs, removed the
-implementation and compiled the kernel (did not trust entirely in rust
-analyzer because it does not find usages that depend on this
-implementation like the `try_into()` in fact, the last usage of the
-trait was a `try_into()` in pci).
+diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
+index 769d01d23429..0e9455fd544d 100644
+--- a/rust/kernel/pci.rs
++++ b/rust/kernel/pci.rs
+@@ -6,7 +6,6 @@
 
-I did what I described above from the most recent changes (rust-next,
-linux-next, drm-rust-next) down to the introduction of the
-implementation, stopping in all major versions (7.3-rc7 to 6.19) to find
-the last usage and mark the commit in the `Fixes:` tag. I found no
-usages for the platform implementation.
+ use crate::{
+     bindings,
+-    container_of,
+     device,
+     device_id::{
+         RawDeviceId,
+@@ -535,26 +534,6 @@ fn as_ref(&self) -> &device::Device<Ctx> {
+     }
+ }
 
-If applied to current rust-next, commit 7c306f00835a ("rust: zerocopy:
-update to v0.8.62"), nova driver will fail to build, drm-rust-next and
-linux-next are ok.
-
-This series, along with the i2c patch [1], closes:
-https://github.com/Rust-for-Linux/linux/issues/1264
-
-I made this a series because both TryFrom implementations were
-introduced in a series:
-https://lore.kernel.org/all/20250321214826.140946-1-dakr@kernel.org/
-
-[1] https://lore.kernel.org/rust-for-linux/20261019152329.620610-1-nico.antinori.7@gmail.com/T/#u
-
-Best regards,
-Nicolás
-
-Nicolás Antinori (2):
-  rust: pci: remove TryFrom<&Device> implementation for &pci::Device
-  rust: platform: remove TryFrom<&Device> implementation for
-    &platform::Device
-
- rust/kernel/pci.rs      | 21 ---------------------
- rust/kernel/platform.rs | 21 ---------------------
- 2 files changed, 42 deletions(-)
+-impl<Ctx: device::DeviceContext> TryFrom<&device::Device<Ctx>> for &Device<Ctx> {
+-    type Error = kernel::error::Error;
+-
+-    fn try_from(dev: &device::Device<Ctx>) -> Result<Self, Self::Error> {
+-        // SAFETY: By the type invariant of `Device`, `dev.as_raw()` is a valid pointer to a
+-        // `struct device`.
+-        if !unsafe { bindings::dev_is_pci(dev.as_raw()) } {
+-            return Err(EINVAL);
+-        }
+-
+-        // SAFETY: We've just verified that the bus type of `dev` equals `bindings::pci_bus_type`,
+-        // hence `dev` must be embedded in a valid `struct pci_dev` as guaranteed by the
+-        // corresponding C code.
+-        let pdev = unsafe { container_of!(dev.as_raw(), bindings::pci_dev, dev) };
+-
+-        // SAFETY: `pdev` is a valid pointer to a `struct pci_dev`.
+-        Ok(unsafe { &*pdev.cast() })
+-    }
+-}
+-
+ // SAFETY: A `Device` is always reference-counted and can be released from any thread.
+ unsafe impl Send for Device {}
 
 --
 2.47.3
