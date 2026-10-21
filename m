@@ -1,74 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.36
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792438091;
-	b=0OLHHtLI1sg8469sFOfT9vNp2ft3sxJyxNz36ob6xuGfm8qAGQKOzupizoUFMdDxcfWP
-	 Zr6IMgBOez0ljZiyIkbG1CkpzPJL03YUeFzxjCpZwFQMEbmCTstO0/CRCq2NyoA80+3b0
-	 k4qTk3UvLVx80SokQ4z3p8gnaApWvpneGjIhcz9VT2TlrMLPI4X4SvxhM1GiJX9WFysEN
-	 LWzEC5GzqKNgxw77sRmc33V2mGJCOb0kvy1vjigQC7yWTO/3lCaee6I4alz8/0oQeMsgr
-	 Agcbfu58/FbwMVcvam3gybR9xMZPVvFu7XuHHI6ueUN+KJAzUsxkzPa51Kj8NtspQIA==
+	t=1792579093;
+	b=DO10Ro2XThrYBRtWaIPr8+mS0MEkZjgXGog7bXnXoZzFJCaOiRhalVFCbqbk4ni83iDK
+	 i65+97WarSuTzUT9Lepnga82a6tD6vQl/GTlyT3UUFlzE3Am3/bZlWobo7qqX2cvqwjzt
+	 xORP25PGGTTeCwA5Aw/ZqCDTWkNB6HXoGQ8vHEV8SPSTVqqD+bwhqAWQsWqHPATg/TPZ2
+	 hszVytLVor8Lc5YarXErOELeYUB242vi/cSt5/vX+hde68m+ElhTLhNffApXPjs5hSrL9
+	 IENiMSs6jr079I+kkPItolReozEMla2qUekpNnP1Yi85AJ5dNFsm7VqssXX8so1DTbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792438091;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792579093;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
 	 MIME-Version;
-	bh=STt62GhrjtlAglE8Fpdd7yc+6Z9UwSuWNn6eYMG1ouk=;
-	b=UfgahgTbw6IPptbUXeE1S4ZAQaGefaZx2vPqSpa7BYhH5TrRPBvxloApwlTBa2Al5eyP
-	 tq5Bl+08B6zyc8SOw+yA6h6mh8wDhTPsEInDElDig1xsVelDFNRg6GHWNYCp2Sc5PuTkd
-	 NfwreAydgkDqQSg0MAqAUbAQkAAHWdffreIXEhVh6jJyRb3j4Q2HEe407P9iJ3tZyY2J9
-	 k1JXjAL98pmDK1Vc7/sA1+uPK2NUBONbfo6pM9asATM58Ng34jwdfGdC5qMw29e8/DmKR
-	 wEFful7uURUacO6sol9UYh66dGagGkPJa+wwqNzSM6rt5QbOYt05jvQIzbpm5rkx8+Q==
+	bh=YwmUvHkGTa//vS4IwVUPfkvfm6qtdCHeRkio5ziEENg=;
+	b=zfAtJT+T2NgfhfH3cMb9yBKmI60nZb2oOR17/9wbCG9NEo54KgDArwH83ZRVNzRcql5q
+	 lIXYkp1gsV8WYRc1eg6SNAWtOGFZE6cuqxQcHPVIujIjrP9tJRekAz8F8TmvBNubM3j8t
+	 kuOqZAOT7DiIxgL5DHG5H+vJECYkxKxIBl9h5vPbpO3ogkE0ThJVgeP5tx1PvCmVQwGHo
+	 xQ3kuXomxDN1kSOy9TLDnLl1mnBO8vZtb3Irxw+iy1PRnicQDhzZV0PX/i9g40Q+VSdOl
+	 ishTm2hHkaxRjlBZCknqbA9v37UXAOxJml7rnRHid6ePoDT+AkG/hhUkG3Yh2HoFFLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DY6uQ414;
-	arc=none smtp.remote-ip=95.215.58.130
-Received: from mta1.migadu.com (out-130.mta1.migadu.com [95.215.58.130])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qxKhbAYE;
+	arc=none smtp.remote-ip=95.215.58.36
+Received: from mta1.migadu.com (out-36.mta1.migadu.com [95.215.58.36])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EC4606A32D
-	for <linux-kernel-mentees@lists.linux.dev>; Mon, 19 Oct 2026 19:28:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41EC4606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54C7606A31D
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 Oct 2026 10:38:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E54C7606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DY6uQ414
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qxKhbAYE
 X-Envelope-To: linux-kernel-mentees@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=STt62GhrjtlAglE8Fpdd7yc+6Z9UwSuWNn6eYMG1ouk=;
+DKIM-Signature: a=rsa-sha256; bh=YwmUvHkGTa//vS4IwVUPfkvfm6qtdCHeRkio5ziEENg=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792438088; v=1; x=1793042888;
- b=DY6uQ4149wsRfN40RY/7MsLXHlyisdPMDY4QXEU95aA6wQGE+Z386EdAJXqP566PAeShjigL
- KARPFKUnIGx4XE7bGBUeKtSiX3Hsu6J7MNftR8WoKkEREWhN0wxwp0H2GrlJ6c/y/ycSB5L4ygM
- Z4ADP3BCS70Q5UrZUAvqgZ4s=
+ t=1792579090; v=1; x=1793183890;
+ b=qxKhbAYExvvO/VDn0+h10+AgjZklvfrMFIrLy2113+ersaIn6pOVqXbG/o8ntBEKfnKy/4Il
+ w6ghk+UBWzPwGSG6rMKxW1qgR0+HPpNOmb1VHmOVtESus4Cown6RetuxACVT6n3BPGdpv9UfN+3
+ lBuzoPv8SdSTTdqqeRwfI/PY=
 X-Envelope-To: linux-kernel-mentees@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 5e3ea1f02a9fd8ff;
-	Mon, 19 Oct 2026 19:28:06 +0000
-X-Mizu-Trace-ID: 5e3ea1f02a9fd8ff
+Received: by smtp.migadu.com with ESMTPS id c9ca0b03b8d94fa6;
+	Wed, 21 Oct 2026 10:38:09 +0000
+X-Mizu-Trace-ID: c9ca0b03b8d94fa6
 X-Migadu-Flow: FLOW_OUT
 From: Igor Korotin <igor.korotin@linux.dev>
 To: =?utf-8?q?Nicol=C3=A1s?= Antinori <nico.antinori.7@gmail.com>,
- Andi Shyti <andi.shyti@kernel.org>
+ Danilo Krummrich <dakr@kernel.org>,
+ Georgios Androutsopoulos <georgeandrout13@gmail.com>
 Cc: Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl <aliceryhl@google.com>,
  Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>,
  =?utf-8?q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
  Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Gary Guo <gary@garyguo.net>,
  Jori Koolstra <jkoolstra@xs4all.nl>, Miguel Ojeda <ojeda@kernel.org>,
  Onur =?utf-8?q?=C3=96zkan?= <work@onurozkan.dev>,
  Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
+ Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
 Subject:
- Re: [PATCH v2] i2c: rust: avoid locking when performing I2cAdapter::inc_ref
-Date: Mon, 19 Oct 2026 20:28:02 +0100
-Message-ID: <179243808241.1915.11587324230389063446@linux.dev>
-In-Reply-To: <DM3QKTJYPA8I.13TW7H9HIV3YB@gmail.com>
-References: <20260904134600.340991-1-nico.antinori.7@gmail.com>
- <DM3QKTJYPA8I.13TW7H9HIV3YB@gmail.com>
+ Re: [PATCH] rust: i2c: remove TryFrom<&Device> implementation for &I2cClient
+Date: Wed, 21 Oct 2026 11:38:07 +0100
+Message-ID: <179257908750.11105.893364071829221111@linux.dev>
+In-Reply-To: <20261019152329.620610-1-nico.antinori.7@gmail.com>
+References: <20261019152329.620610-1-nico.antinori.7@gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -83,15 +81,13 @@ MIME-Version: 1.0
 
 Hi Nicolás,
 
-Sorry for the silence, this fell through the cracks on my end.
+Checked -- confirmed no other users in the tree, and the Fixes tag is
+correct. Agreed removal is the right call here over a lifetime fix,
+given the new driver model has no use for this upcast anyway.
 
-rust/kernel/i2c.rs side looks correct -- this is exactly what I had in
-mind in the v1 thread. No change needed there.
+Acked-by: Igor Korotin <igor.korotin@linux.dev>
 
-Reviewed-by: Igor Korotin <igor.korotin@linux.dev>
-
-Andi -- the i2c-core-base.c/i2c.h hunks are yours, not mine. Could you
-take a look and Ack if they're fine? I'd like to merge this once you have.
+I'll take this through rust-i2c-next.
 
 Cheers
 Igor
