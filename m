@@ -1,107 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.85
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792586653;
-	b=PV0XZhqUSJqK0si23WPWiJZj42fK2jD7KAJbAjpU6B6xPeCfTveMiXz/C5HbzSb3z21/
-	 HpkRTv/w9klQw+KeqUxXHCAMhHeC2xP8xKinkujKgBoezgW63e368WeiAwGnID0NzlInE
-	 O7qXVhGZOYbv3NpgNOSqPSpMGetCSD8Uvhrx/vAVlu1ngHUEnAinLhE+fSpd6Lhfg1bwt
-	 xbroTZZd//G+ej0NwfsBwVIgAUyHKRQKa9tgqyRSiVVCL6C6jeMyuIeKbEyqr+bGZRgUi
-	 5GqSeVUbZfgogzN5sVo3Pc7fMWvXVZ+qzjyM7b17wA/OzsWCcI5/XZUB4X0IbiTdUKQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792586653;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=qiXXR2zEDH8oXnzI633cw8IvrCE4Dfx6RHYptkinm/o=;
-	b=5OJeFyeIsEt/ZUjD81YDIEF/5mJlXBouJxjpfXg2EK8QHmQuzS4JlAtXNCgD8WSUX/7M
-	 1egI8QqCbfi9SrxvISyxmlRl/JyALN4IZJuMFFe86dtPOR2qU3iPTr04Wkp83DOdgY59M
-	 ykz82k0YTGV8WIfSAlMLZHc3UX9eK/PbSp7mNhmvUgCzQjdKBUY2UTgVu/zhWE7uGULmC
-	 OHva3RS6q+XOyXQefNIEGjSkm0rjXEsQQcUnLHLtHubSoHLCBrBH4jmAbfpCW/XrYnH+f
-	 XwbmxANbnDjeAqMJtmpM39irVLCesZyKyiXFu8nKFgOENUfbaB23pjOqlow6yWY+t7Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=garyguo.net;
-	spf=pass smtp.mailfrom=garyguo.net;
-	dkim=pass header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=iU2O1Hvl;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.100.85
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021085.outbound.protection.outlook.com [52.101.100.85])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.122
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792601209;
+	b=ZX++spQ9cLfK0K7K0LGeFenoLvUulyvPNKhtoH/HdIgE8yxOyxZ19oK0iMynJnpClsNA
+	 AWqLqD5ZdoAFTJZQ/Jl7+FnIoqla/SboyhuiE2YbfeW0Th6T0f3H8TfBVPxgozLjcZ0MG
+	 6FGvsClCtCjNUF4kK3dbmomUt7OLlAQUATNX1t6iLRuMHbeEnuRkaLrEyTc+EVUwTLh5x
+	 xJrhrvgqD4vF+Ul8tjnghmL+/QgcoJleqHQEiNFgNMV42Oe0snVxs6wn0IDyoAuouQqPG
+	 oPZpwtavU8dd9g1JuUK0EY9IvDn67mnYnASapsQ6FwzsMWeOph3idRo5QN8IG+g+WJg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792601209;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 MIME-Version;
+	bh=hGsPFTGhuD+EFAfimhKxcuiQsF37YjuNCeWNcqrULNM=;
+	b=42rxpZ6KIbvm9hohYxvXBDCe0jnJxKbReP/oiXgF9omtiFuy1T3ZqgWl/8s0fpoks/3l
+	 cig6ropls2SmSVxopgSmTwCaP5ngR51XMwTj8yr8E/ReH4hA+aaYW07bvq0hILDAzYGtP
+	 lO+T7GBD/HL7HHpblNf2yP3O7j7KDM8LooVn78MIwWrlNgYFsxmZulSxTD619/5fqtlWy
+	 IUgqcyRSKceMHoLcMLYPmhV/Riufenzs/1u+xJSblxXCNYn7+CDFC7ZQxh4Emz8jU1l+N
+	 c9Ml3IZZ7uUkcHHD8t+zZZMWuWap2QuA4ypNDfWeN5pYST2UEzmuvoXSBRCUtKmtf2w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	arc=none smtp.remote-ip=91.218.175.122
+Received: from mta0.migadu.com (out-122.mta0.migadu.com [91.218.175.122])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAC2606A31B
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 Oct 2026 12:44:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BAC2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=garyguo.net header.i=@garyguo.net header.a=rsa-sha256 header.s=selector1 header.b=iU2O1Hvl
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DYsODCBxNwY1SNirHGhr3ezv8ZZjZMwyOEOzQ81spGrrT3T40rklSaBb6sb65vJwyzwEulY+PSnx99vigVqF0i4RuvZuaF18PS5FImIMLHBJvssjHDQImfHMRSqLQvardA4BFIY/HvCyDyv7ZDaolbpf3sali9e3WKh9JOsYV02b0IFrna9b+78JUG1LxHoYwPdQVWp/5Wujjy1mg51wx4eD64jsGyXPT0E+E3PQdi/Iny7+jlLzWc2aCNfR6Zi4ooDo1ROQ91HNDCALqq32D3FObBNI6i5Xeeeb1zOP37kHtTT5gpEdOwF12fdDQylTBeYPMh6XDq5J3RMKtwHu+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qiXXR2zEDH8oXnzI633cw8IvrCE4Dfx6RHYptkinm/o=;
- b=XZcekQiEiz2XUBPDP/osz0b3YglHCz6tpK+RQsuoASE2iSAGEvr7cTHTjNkjRT6eFwkse+DJQfxcrhaJlrfyJTeoSXjWZ5l5neHHH9D9VJYK0743Rlzge+2fD/EhpWzA8vC2mvEk8dOMso32HIp9pV9iszlTnuUf76xmDG5FM6bEn4D0Rt9RbCOdZfL9j1dFDgHHNj/slVqXs+M1cacqvSTBBRie+Y89H9FUqQA6xtO4aNIH24SxwvAGYCD6aqf8hNP/yeWyQcQzfBB435WVJd/WSIcYSIUZ4NdtsA2+xuAW275HUNjomyZC1G0wupxjR7A4xBIpkcRHoe02JHHQdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qiXXR2zEDH8oXnzI633cw8IvrCE4Dfx6RHYptkinm/o=;
- b=iU2O1HvlHQc8ZNDMTDVXnoWR++VSiNPQdYUHgB4cU6z6mvGtr/j2SNesHgBzlK0GL9ZbfcoBhF+9a4SHd/uAkbgIO+GM6wvHyhfkJ73vJhx13zrsGTceXKQA/0ZqITrYcD8oFg3yuOEGXi5RzOl3qmoedzeWCP3/Megvtfacvko=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CWXP265MB3656.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:fe::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
- 2026 12:44:04 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
- 12:44:04 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 21 Oct 2026 13:44:03 +0100
-Message-Id: <DMAIXJB74Q1O.9A03KK0SSDLH@garyguo.net>
-Cc: "Muchamad Coirul Anwar" <muchamadcoirulanwar@gmail.com>, "Jonathan
- Cameron" <jic23@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Alice Ryhl" <aliceryhl@google.com>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Boqun Feng"
- <boqun@kernel.org>, "Brigham Campbell" <me@brighamcampbell.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Gary Guo" <gary@garyguo.net>,
- "Jori Koolstra" <jkoolstra@xs4all.nl>, "Miguel Ojeda" <ojeda@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Tamir Duberstein" <tamird@kernel.org>,
- "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>
-Subject: Re: [PATCH] rust: i2c: remove TryFrom<&Device> implementation for
- &I2cClient
-From: "Gary Guo" <gary@garyguo.net>
-To: "Igor Korotin" <igor.korotin@linux.dev>, "Danilo Krummrich"
- <dakr@kernel.org>, =?utf-8?q?Nicol=C3=A1s_Antinori?=
- <nico.antinori.7@gmail.com>, "Georgios Androutsopoulos"
- <georgeandrout13@gmail.com>
-X-Mailer: aerc 0.22.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BBA606A31B
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 21 Oct 2026 16:46:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70BBA606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Envelope-To: linux-kernel-mentees@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=hGsPFTGhuD+EFAfimhKxcuiQsF37YjuNCeWNcqrULNM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792601205; v=1; x=1793206005;
+ b=ohly365rP5YicHkWTVDpFseAOTBH+m/HVliNR75JliuqpE3dQhk4ytqKdHmYjY7mM3B5ZRR+
+ KQkkgOCIIri/BLYC2o8WfWMLBiQ2foG+c8MlscfFlYXeibcpiTJ7Esqi/0YWWdZMXsGbRZC5g53
+ 0CO5ArzG5yERDhVzE0U0/ns0=
+X-Envelope-To: linux-kernel-mentees@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 79a4c6e5edfa86ba;
+	Wed, 21 Oct 2026 16:46:44 +0000
+X-Mizu-Trace-ID: 79a4c6e5edfa86ba
+X-Migadu-Flow: FLOW_OUT
+From: Igor Korotin <igor.korotin@linux.dev>
+To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>,
+ =?utf-8?q?Nicol=C3=A1s?= Antinori <nico.antinori.7@gmail.com>,
+ Georgios Androutsopoulos <georgeandrout13@gmail.com>
+Cc: Muchamad Coirul Anwar <muchamadcoirulanwar@gmail.com>,
+ Jonathan Cameron <jic23@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Benno Lossin <lossin@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Boqun Feng <boqun@kernel.org>, Brigham Campbell <me@brighamcampbell.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Jori Koolstra <jkoolstra@xs4all.nl>, Miguel Ojeda <ojeda@kernel.org>,
+ Onur =?utf-8?q?=C3=96zkan?= <work@onurozkan.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject:
+ Re: [PATCH] rust: i2c: remove TryFrom<&Device> implementation for &I2cClient
+Date: Wed, 21 Oct 2026 17:46:43 +0100
+Message-ID: <179260120355.752.17615461362324987926@linux.dev>
+In-Reply-To: <DMAIXJB74Q1O.9A03KK0SSDLH@garyguo.net>
 References: <20261019152329.620610-1-nico.antinori.7@gmail.com>
  <179258597583.20422.10358976352101642829@linux.dev>
-In-Reply-To: <179258597583.20422.10358976352101642829@linux.dev>
-X-ClientProxiedBy: LO6P123CA0044.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2fe::20) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+ <DMAIXJB74Q1O.9A03KK0SSDLH@garyguo.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -111,132 +79,15 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-kernel-mentees+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CWXP265MB3656:EE_
-X-MS-Office365-Filtering-Correlation-Id: aed6d023-7557-4d2f-04c5-08df2f70fcfd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|23010399003|7416014|376014|366016|56012099006|4143699003|5023799004|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	rB7HpX8hFpojNCjH1fReTIC5eseX14iwKHDHk5ZWF+IprUHbve30P1IQflMJJi1d/xIpCOPdg//sBzCURNchZVjsOYXCXu+2PSoTTe2J7KjUmAZmiMkSuYAnVJSRO658+kmsdtHdfLLAZ8mPN8OsrBTUtJSYfI0efCym+pbP+Qy2nsMemUIrbW85zt9G88mM+jW9MoCeynfTmHYbXVywCj4qKYvSCNtfG7chOiXDyhq3QLNR3OrtR6zSSYQa81loLOKdF/e80+icDh/pK4Mp3/njoNbVnsLUTDqadPAfwe7SjnWgqz3q38IF4ky4eZFVfAqStZH0G5zvKKKpway0xrz/apbQYiN3pdoi2I3zbnwgOjyscesiiGknaImyGlxe4Imae3apeJ5ofZmmT27Uw5wQvpp7PWYamOGiB9HhNyZndnsZlM3nrUUzPCFfQcf2unN3zSB7uZJyDf2khtlXY8L3Um3GzQMwZ0InnxayMotgZa6y8rlH/4xE/AeoVAsb3M/xcUO0yTt81m7R0CG+PvjAfvwrufUrRhiYLH1pOpqQ0xDFzN2h4lcGqzCjIZcVnti8eJWKpxwc39Mq1KVIrmYNvLyGDlxYqb5s/XLMj1XYBkPgqp5qSqa5p/1pBmPs+06scVrzsAR7mmtehDmOXnN3GLFfH6Cr4/rZJ++miqc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(23010399003)(7416014)(376014)(366016)(56012099006)(4143699003)(5023799004)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d29STDBSMHBHMjlEeHhEbWdjTEZRVGlNaHJycDhrVFBqL0l2YzV6eE9Nc1Ev?=
- =?utf-8?B?eDFOS3lDeEREejlic3k0cUZkSzR3Wlp3cFZqd3k1Q0czYmZOYUo0ZHVZMVpC?=
- =?utf-8?B?K0hING85ZmJtOVpCKzNMZXBHMTlNOEl2TEtXUjR6MVMzL2RlMlNJWm1nYnpn?=
- =?utf-8?B?dzZHUTFySVIvY0RjQlRYZTRJa0hOOGRMelRCbHlUQW5qb2VzMTI5M21pblNT?=
- =?utf-8?B?alhZaFlhV04yK2JzMTBEWHkrT1ZNY0dWMUFZUlYrM0w2LzNnTTZvWlFtamM0?=
- =?utf-8?B?TTRNblhIYnJRaUlaR0sxM3VHNDAxcXZwdnVRbndFVGY0bkIyRTlvSWJkbUFa?=
- =?utf-8?B?T2VteEQzMm42ekJQSFBQWmJQUmtLSU9BeCtSanc5cGRsK2lVUjhYSDFYS1p2?=
- =?utf-8?B?YmpNUG10K3JBSlRKQmtZMklmWDhPQW1KTm5JZmxaZU1JTzNrTGtDTys4NExQ?=
- =?utf-8?B?ZnFhaGV5UFZPaHlnby9KTlFWZ1lVWnZiZ3pGSkl4OXkzRGgwaG9CeXRLcDJ4?=
- =?utf-8?B?Y1VIM0pnNkFualQ3bTBjM2swd2x5a05HOXAzL3JKb2NwWTdDMW1UYWFtdVJt?=
- =?utf-8?B?MFhYTWJUcVdDMzRLYk10Q1A1VUlMMk9rRTV2WkNxcysyTWNpYjE1eEF1anYv?=
- =?utf-8?B?MXlCT0hEZEVVdWZVVEhqWHhMOGJMQlJSUm92aG5pS0Z3aFIzZjhFdFdlbjJD?=
- =?utf-8?B?aHhPZThvTGNEbDZWRmg3RXRrQ3Y0WFFkbldlNmNiMFEyWitaQXFvVXc0WklG?=
- =?utf-8?B?VWQvejVXWkxhYmdDRnk4MHVydGhPNU9TYVl4TjFWQ3RnMFkrakE5QitZblBC?=
- =?utf-8?B?d3grbmtNcWo1UDNxUENEZlNiM1ExaC9VV3NhakxGM3FSeXBJTEFOTlpaWmp2?=
- =?utf-8?B?cndrUWZqQ0I2VVdZNTc0cmRsYis1SjNSdDV6cTk5OTFOWSt6bnVzczVVdkVV?=
- =?utf-8?B?KzNRNGdQOGhPNVc3TzFFQXlIUGc2OHI1MEhUKzhPT0JiRmY4TnI0bG93Z0hu?=
- =?utf-8?B?VGhmaktabGZnNDhVdk5sYkg4SGRBNWlCeERtaDlVMWdmd29sRnhwVzd3bk1w?=
- =?utf-8?B?WXcyNXNmeExJVm5sTUFOMTI4ZXNDbnU5Q2lDZHJIVkFvZkNkNXQxd3RwUnZ5?=
- =?utf-8?B?NTVER0g4cU5YTllwbSt4SCttOFRRaG9NRGxZbmVnb0lpbDVVSFIydy9scXdK?=
- =?utf-8?B?bmx6L0g4MGtTUlBhN08yS3Z1a01YWVYyd2ZQMVJkRTN6SzhNR1J2bkphUmpU?=
- =?utf-8?B?Tmhkc2gzc2RLVzkxanVneFUyaFRZeGVOQUg2bVhUMnVEelo2dWdLK0ZDNHR0?=
- =?utf-8?B?NTNsd2VKanlmeE94SHBQODNKbWlzbjVjUVZtNDNvSURHcGRFanRpZk1OSlh1?=
- =?utf-8?B?VGFOM21oN3R0YWJwT2E4a1NKeUpUenNLemxJMUhHNCtCYnFtZi9YVGN1T3FZ?=
- =?utf-8?B?UnVOSkZYK1NOdG4vTmRrOXhoRS9ZakplcXd2Tzl1cjBQa0UwVk9NSENhN1Zi?=
- =?utf-8?B?NUNma2VxT3FrYVpKalZEOUhWZFRaSnNzeXNGc0Y4OUlJVWNhQ1dpNWZCcW51?=
- =?utf-8?B?QXl1Qzl0a1pwRGdVb3RBRUJLNFBVN2V1cUMyUm93SDFLeHVvU2NxOEFhYXpy?=
- =?utf-8?B?b0dIczQrVGs4RnRwRGRiTXVnUUZia2hPSmhjNTIxNjRvU3NtcmRLUmZEdW9o?=
- =?utf-8?B?eWpKMXU1U0tZcCs1M0xaaTJuU0p1bk5ua1NHbFZIZXg5UHpXMkVoTTYyOE5w?=
- =?utf-8?B?b0ZnbzdoalJlN2Racyt0QjQ2dzFtTHdHZ0VvT1h1QS9KdFdBT2daenVuYlV5?=
- =?utf-8?B?a25VSHBJTnBoVmM1cWdqT2t4dS9XQkxBd2EyUm1hZ1dUc2tyTlFNMzBmaTRY?=
- =?utf-8?B?ek8xZEpGMy9vcXl6WEdnNnhFRlJsYloyT3grcUdobE9CK2F2clBNUlZ3czdU?=
- =?utf-8?B?cit5c3pCd3NHQWlRR0VFS0JBaFI5ekwzV1BjTVlhcWJhL2RNZVNOWnB1WnlL?=
- =?utf-8?B?WWIvb0JZaDdUd05OR1dwL0pjNmVKdElodnAwR3QyditjdnAycVZnVmNZR3J1?=
- =?utf-8?B?VmlrQWUxTDJobWtwSWp0MVV2RTdaVDhtWXZzMEVXREpKZWVBbGR5UXNkc0dM?=
- =?utf-8?B?U05hSzBGcWNFNW9PV1RQa1p0N25HVnJMUzRmTXEyZlRkUE00WXA3a0NqTnJE?=
- =?utf-8?B?L0NuTkg5VFRKdHZ3SmdpeklwQlVlOExST2orRTFLYVdSRGdCaTM2WDRKMGdN?=
- =?utf-8?B?VnhwVGgxVFc0aWlTZURwdGtzQllvNXFvL01zaCt5eXlIL3N2b3V0YkNNbHVh?=
- =?utf-8?B?SUxaRFAwaTd1NXVQaTVOWTRTY243K2JpQmVXVG1NcVhXbjRzbGMzdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: aed6d023-7557-4d2f-04c5-08df2f70fcfd
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 12:44:04.1423
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BElEnEnph2vLz5L22aDyHe0wDKO0/Yt0Q0FmzPJ7f54cIUJsH7pdSL9BcxoVpRohMrC1aaXgRdLxE603cp6aVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB3656
 
-On Wed Oct 21, 2026 at 1:32 PM BST, Igor Korotin wrote:
-> Hi all,
->
-> Want to flag something before this lands -- I gave this an Acked-by
-> already, but while reviewing Muchamad's concurrent AS5600/IIO series
-> (Cc'd) I hit a real conflict with it.
->
-> His IioDriver::read_raw is called by the generic IIO core, which only
-> ever hands the driver a generic &Device<Bound>
+Hi Gary,
 
-That'd be a subsystem design issue.
+Understood. Point accepted.
 
-In the latest device driver lifecycle model design, class device must not m=
-ess
-around with parent bus device. It should use its own mechanism to carry aro=
-und
-private data, which is initialized when creating the class device registrat=
-ion.
+The case I was worried about has an alternative resolution that doesn't
+need anything from kernel::i2c. Proceeding with this patch as-is.
 
-The callback bridges should simply retrieve that registered data and hand i=
-t to
-the driver callback. The driver can decide to put whatever it needs there, =
-and
-this include a `&Device<Bound>` of the bus device (hint -- you probably don=
-'t
-need it, it should just be a reference to whatever bus device resoruce the
-callback needs).
+Acked-by: Igor Korotin <igor.korotin@linux.dev>
 
-The need for conversion is a strong indication that it's not aligned with t=
-he
-device driver lifetime design.
-
-Best,
-Gary
-
-> -- it has no way to know
-> the device is I2C specifically. To do SMBus I/O there, the driver needs
-> to recover &I2cClient<Bound> from that generic reference, which is
-> exactly what this TryFrom did.
->
-> I checked whether storing a handle from probe() instead avoids the need
-> -- it doesn't. AlwaysRefCounted is only implemented for I2cClient
-> (Normal context), not I2cClient<Bound>, so there's nothing you can hold
-> onto from probe() that still proves "currently bound" later. And there's
-> no way to get back from Normal to Bound (Deref only goes the other
-> way). As_raw() on both Device and I2cClient is private to kernel::i2c,
-> so a driver can't reimplement the conversion itself either.
->
-> So removing this outright leaves no path for any bus-agnostic subsystem
-> callback (IIO being the concrete case, but this'll recur for SPI, HID,
-> etc.) to ever recover a bus-specific handle after probe. Danilo, you
-> mentioned a fix tying the lifetimes together properly
-> (impl<'a, Ctx> TryFrom<&'a Device<Ctx>> for &'a I2cClient<Ctx>) as an
-> alternative to removal -- given this, I think that's the right call
-> instead of deleting it. It closes the actual soundness hole (output
-> lifetime no longer independent of input) without removing the only way
-> generic callbacks can get back to a specific bus type.
->
-> I haven't pushed Nicol=C3=A1s's patch to rust-i2c-next yet -- holding off
-> until this is settled.
->
-> Cheers
-> Igor
-
-
+Cheers
+Igor
