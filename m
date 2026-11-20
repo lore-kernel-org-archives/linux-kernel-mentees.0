@@ -1,68 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794922636;
-	b=tq/a7gqUh2tebDaUkwSgEN3Dk0x9jaXXhdPqMwopNwwydZd25pHUwpkjEatr6NEZib/5
-	 oYkw+p6+WF/jUXbHFEhciHXXElseCFmfI0mfIrT8oJYgp8gMAOYMoIqEbVI+S2CiN2wXY
-	 +mhdpk8x4ugYBY3fqPY+Q92A2e+YinkfGWwLnQt9+kmRyPzAK6tf1fHVnWEyftHDTXTcd
-	 59dDbuSQBWkROJyLorgu/ljysHwO7ntlT+adEflAPAhnv03bxwc1CLepr8oPRBerlterr
-	 Z/y8bctb6ls5415wQT2hlut9+wv1J21LXqAlI6ZeVvK9x18M98VZpOPV4K9/ViKaLOQ==
+	t=1795169891;
+	b=lqE/LfB42mu/JLM6YPny86YBEAxmqDR1aXabiCGTwCWHigx9VhaJslGhF62/n3Fn4bDv
+	 KirdrMAQVdc4jdF0/MxLSs7PrssFHDg0AgPUSHbhKpNvt5A9KTNGn7V+uEif+Ebg2DmW/
+	 +vTD6rwi8y9P21l4knLQ2tFApJ40Vm3HxTnuXX2vlk2sw9sN1C94K+4h4fsMw7Fvxj02V
+	 vNjh4KtOnZJj1qK4Vi68fKXndABK+/AeoFGm8IN3ArdqPSMdMOvz/Z5Nfrjki7Z6lwZ51
+	 yNsH3ecoeLQpnuAJzz7G2UMQLMjffoUf9T83phfpUvVOv4kK4V/J+TueazAodHzWvdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794922636;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 In-Reply-To:References:Subject:Message-Id:Date:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-Mailer:
-	 X-Last-TLS-Session-Version;
-	bh=xEFuU2qKV+v5WtO97lVqT1rvBSUmDGK6lfnCTwEgqX8=;
-	b=BTcpBGm4+BGnkvGILZ495dEcv3EvsDf9pFtl6f9AXyQmIHlhtFhV08kGUOipW+Jg2DnT
-	 yLP1ptUJB12Md4pYMbYB18u46myeRynnJ1IHu5W5VZMO5A6uXwUPSf6Tsy7JZbt4LzBIb
-	 cDCuJ5IcHDvpIChVGX5oKpbFF0B7MBQB3aLjRIsKErCBwTloj7gzS7zHC2uanEnwvGx2B
-	 p/CErxr8Tz9DhKnOqNj8s76k6gAt2diva7HjL6+4gUne4ElI3HJ7pf59SSjbwujHqu4bP
-	 ja7EHVRQPQKP9/G9qMM85gQrW57QbSQzXI+8ght90IKJ7dADGuPTHoWswPHEIrdQR3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795169891;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=91aSG4C3xDj7rNipux5lI7AnWD+3hz8cV70eKCK0A3Y=;
+	b=stNJLw11W5IMhYUEFho/W6Z1jNySzvnS+Gw9lyYsfNZ+Z5WkQRTQnj/ZdIDQ7bN7ln0+
+	 2f2iMXFzn/v5lNLt2QfdY8EgxGFCOGds52mgENDXTr/I2WVI2uVZDGfZtBIcxhuNDoABo
+	 x9VXKOjD+nKNNaLyxltUq5A8fF+Oi+v/mhB44uCcDupnhkDjpVQuy14uHkT7ZDfrZQofX
+	 6xnmUnSa2FqBJR6QBGTgQuQfRR5T2puhe3DNQ0ZnubUap8iryjB34nsRz8nhsvTPI75B6
+	 oI3HHZF9g22DBosQzi8t6UsR8WPKqmmhmJJ4JLW0u3KD4sS6hBm7DbaE+O18ldYWu6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=WDICBJN3;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=LMDZJNKP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54885606A323
-	for <linux-kernel-mentees@lists.linux.dev>; Tue, 17 Nov 2026 13:37:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54885606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A91E606A320;
+	Fri, 20 Nov 2026 10:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=WDICBJN3
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 46BBAC79A97;
-	Tue, 17 Nov 2026 13:37:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D97505FC81;
-	Tue, 17 Nov 2026 13:37:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 65FF911BC0024;
-	Tue, 17 Nov 2026 14:37:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794922629; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=xEFuU2qKV+v5WtO97lVqT1rvBSUmDGK6lfnCTwEgqX8=;
-	b=WDICBJN3kRw4+uumCgAT0kHX5Ps8gFDMmX4/WlFuqgKgNrKYw7plz2du8wU1V02YlcUtKX
-	z5efsHsoPvaevgEJmw9ICVgyguG2AM6BHF88/nbuCIQl8r92d8UtM5QBxeeyWbC+sNMfqV
-	t/M7QmsnT9/I1c5GNkeGD/3teAzJyxDKBcAhgoGuPNCGdUoKE7tO3Incj+zrgn4vVFBteP
-	pHXNfQUOXh8HAHZ7n/Av2eNJrQKDIU30wXsoIMije55ovhn8TpQkI2L0obohKYKuA3PK0o
-	TNxGJ8nfsXZQr/2zswVUsbl81LvX26k7sTVKFCteVuZuKzJZ+Y8Ra3wHw9YAWw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: joern@lazybastard.org, richard@nod.at, vigneshr@ti.com, 
- Palla Raghunath <raghunathpalla.0209@gmail.com>
-Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
- shuah@kernel.org, me@brighamcampbell.com, 
- linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org, 
- syzbot+c9d8bc9f8ccc03799e1f@syzkaller.appspotmail.com
-In-Reply-To: <20261017235733.14667-1-raghunathpalla.0209@gmail.com>
-References: <20261017235733.14667-1-raghunathpalla.0209@gmail.com>
-Subject: Re: [PATCH] mtd: phram: fix name leak when phram_setup() fails
-Message-Id: <179492262721.2237190.13662832198672004023.b4-ty@bootlin.com>
-Date: Tue, 17 Nov 2026 14:37:07 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=LMDZJNKP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E4421F000CF;
+	Fri, 20 Nov 2026 10:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1795169890;
+	bh=91aSG4C3xDj7rNipux5lI7AnWD+3hz8cV70eKCK0A3Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LMDZJNKP3WhrzcLhiGmKo6B2KkXY5JuEVE3bD/AeAxLSQahDxrOspDslHBGaeyaug
+	 cXKghlblt4VBw/sWnXKfJk/fU9Oi5louyLXTvJ5pmCEMmHrMZA3Bet7MIWSZnRy6VR
+	 zvMvVn5qldvnD6hPq8izYmGEpYAvVGzvQ8yEkdGM=
+Date: Fri, 20 Nov 2026 11:18:08 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: linux-usb@vger.kernel.org, Neill Kapron <nkapron@google.com>,
+	=?utf-8?Q?Micha=C5=82?= Nazarewicz <mina86@mina86.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: gadget: f_fs: fix use-after-free of ffs_dev in
+ ffs_free_inst()
+Message-ID: <2026112029-depletion-small-f290@gregkh>
+References: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -72,32 +59,83 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-kernel-mentees+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
 
-On Sun, 18 Oct 2026 00:57:33 +0100, Palla Raghunath wrote:
-> parse_err() is a macro that prints the message and then does "return 1".
-> phram_setup() still uses it after parse_name() has allocated the device
-> name, with a "goto error" right after each call. That goto is never
-> reached, so the kfree(name) under the error label never runs and the
-> name leaks every time one of these checks fails.
+On Tue, Oct 06, 2026 at 09:42:02PM +0100, Palla Raghunath wrote:
+> When a function instance is removed through configfs, ffs_free_inst()
+> first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
+> dev from its mount and drops the lock again. Only then does it retake
+> the lock and free the dev with _ffs_free_dev().
 > 
-> syzbot hit this by writing "p0,0x8000000000000000,0" to
-> /sys/module/phram/parameters/phram. The zero length fails the
-> erasesize/len check and the "p0" string is leaked.
+> Between those two steps the dev is still on the ffs_devices list. If
+> someone mounts functionfs with the same instance name right then,
+> ffs_acquire_dev() finds the dev, marks it mounted and points the new
+> ffs_data at it. The dev is freed a moment later, and when that mount
+> is torn down, ffs_closed() writes to freed memory. syzbot hit this:
 > 
-> [...]
+>   BUG: KASAN: slab-use-after-free in ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
+>   BUG: KASAN: slab-use-after-free in ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
+>   Write of size 1 at addr ffff8880237b1e4a by task syz-executor/11910
+>   Call Trace:
+>    ffs_closed drivers/usb/gadget/function/f_fs.c:4427 [inline]
+>    ffs_data_clear+0x543/0x5b0 drivers/usb/gadget/function/f_fs.c:2305
+>    ffs_data_reset drivers/usb/gadget/function/f_fs.c:2336 [inline]
+>    ffs_fs_kill_sb+0x84/0x370 drivers/usb/gadget/function/f_fs.c:2180
+>    deactivate_locked_super+0xbe/0x110 fs/super.c:586
+>    cleanup_mnt+0x3d3/0x460 fs/namespace.c:1329
+>   ...
+>   Freed by task 17408:
+>    kfree+0x1c5/0x650 mm/slub.c:6923
+>    _ffs_free_dev drivers/usb/gadget/function/f_fs.c:4336 [inline]
+>    ffs_free_inst+0x233/0x2c0 drivers/usb/gadget/function/f_fs.c:4152
+>    usb_put_function_instance+0x95/0xc0 drivers/usb/gadget/functions.c:77
+>    config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
+>    configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+> 
+> Fix it by doing the release and the free while holding the lock once.
+> To allow that, move the body of ffs_release_dev() into a new
+> _ffs_release_dev() that expects the lock to be held already, and keep
+> ffs_release_dev() as a wrapper for ffs_data_put(). A racing mount now
+> either gets the dev before ffs_free_inst() runs, in which case the
+> release clears its pointer, or doesn't find the dev at all.
+> 
+> I was able to reproduce this in QEMU with a small program that keeps
+> creating and removing an ffs function directory in configfs while a
+> second thread mounts and unmounts functionfs with the same name. On an
+> unpatched kernel it hit the same KASAN report within about ten
+> minutes. With this patch applied, the same program ran for 30 minutes
+> without any problem.
+> 
+> Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver data cross-references")
+> Cc: stable@vger.kernel.org
+> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=6227549bd2c8a1ec8ba0
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index c64a268e98a4..f8ea9a980605 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -288,6 +288,7 @@ static struct ffs_dev *_ffs_find_dev(const char *name);
+>  static struct ffs_dev *_ffs_alloc_dev(void);
+>  static void _ffs_free_dev(struct ffs_dev *dev);
+>  static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data);
+> +static void _ffs_release_dev(struct ffs_dev *ffs_dev);
 
-Applied to mtd/next, thanks!
+> -static void ffs_release_dev(struct ffs_dev *ffs_dev)
+> +/*
+> + * Same as ffs_release_dev(), for callers that already hold ffs_dev_lock.
+> + */
+> +static void _ffs_release_dev(struct ffs_dev *ffs_dev)
 
-[1/1] mtd: phram: fix name leak when phram_setup() fails
-      commit: 705a7ed4cc921060854da406a803d688c8aaa52c
+Then enforce the lock being held here by telling the compiler that it
+must be held.
 
-Patche(s) should be available on mtd/linux.git and will be
-part of the next PR (provided that no robot complains by then).
+thanks,
 
-Kind regards,
-Miquèl
-
+greg k-h
