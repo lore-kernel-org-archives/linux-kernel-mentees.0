@@ -1,69 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186767;
-	b=vNxKxssNl5MYlxGpkGMofcvG9NP6qH7BRqU3kNFMk0zVTwpYJxzRq8OvwT3KblC7QVy5
-	 vD0elUmZfZw78WCAbMlZEybBEs9boQEIkd0nzSwN2Wth6tpD/TN/fszNAxVGw1BhA4bL7
-	 nu3Zrv9uqgCWCQspYHz9QzQ/Po44LfNBz0dQbDIe99xcX9Pz8bOKM+S2sWbuKWDf9BU5u
-	 xkNvOfnSblVk0PUSzjd/wTHLOLBYXO2apvH5M6zgYNDRjWBUpO0c4TzlCADm8cogR8vD/
-	 AnxJEYW6kgFPlRt3nXSh9IZPIqYRkj4f5snPhgIHCkdantEOHOL34yx0qKenWTi3GqQ==
+	t=1795203624;
+	b=Uf2xCcrajx749VK6cJqru1vL9WvIswhAEtrqp59ozG35BZaMBdyOd6P2AfDIevkrhwGr
+	 OKIuWKjB55kHKrjHN2PaXyR2S7UvOy5KqotBpLwy0ClxzkAdI4gGuGKq6w7p3TcLhjmfe
+	 rM+FcHyC+8X3vnHrtFcBMo4UEhbmaVKb+rah6btUwhdaOZj71UCHXmNwf6SbgcXrZuiZZ
+	 JGeJ6rb0/svX6eOKgvY+0v0dgqRVoYQ/kYtoybaJXafZ9p2mvIUIsL4OF1afppu7HCFrD
+	 byKt78nX3cMjAgrDMBJM7oyXQmUsotSSg5VAYka72hVsxU69duVFDrpByI5jZCZmBqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186767;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=c5UK/oHXg8bKRXO+6H0HvxOr7LpOsnkTh1BTTna5mYk=;
-	b=JZcuCXbofl+/f5cAHZfVoEPPnr7Yu57Dkb06nnoeucxDK8nZ3lSXaC7NmHi3osjfjBxc
-	 5Gsqac7ljclTLpdpDiuxBEe1UdCsttjqnfw4G+gyp5c4SJ7WNmgCs2gcJ1U77Gm244TX6
-	 9PF7b2JWXgm09QK277FmirL9okrDn6T2WXAX7y6JssoCk4RXButJ75mc4ldMzPTekqW/8
-	 6va4xWCp6R14F+XkBUAj4uaby/aiKxqzc36W/tkXDLIYe74L2y4jwB0uIN+pxXk0Llt0y
-	 n3eh8JLVNlhAmVwRs8Q2Z1dylYLqJ4FjAh6jmNpSdp8yyP9+vsTzEJYfFSjVKDe41+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795203624;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=IkpnTCmX2Yw3LdVkQLinJLsP93e36ieyPl+JuSAdltM=;
+	b=BawHhQmJMEEGWeaJfUHz7wjb++deaApNGlpP2wrhiBopjG3Kg+7kEpMgSbmsOng5+EpA
+	 8sd6tDUE5oXCjMBi5Gg9Cv2d5CNNq2USwcqfiwuMvfnCwaTkoiAmmx3Hr+1Q2LBrpjcDw
+	 wbb4DbHn1VGy9tAVSry82T65AWAkhsdrAyL6cHw7tTZlx3XGZMfgmskS1DM16lKW6Qmgu
+	 4Dqz17YHsaL+9ga3yUpza7CroNl3Fcx866bbRIvs1VMiZ1gBLnTr4J5cmWpHZqWEkfCcH
+	 HS1/uYQEqrZyND9knSPiB8s0n9HyZ5DcVVEB+0s0b5ciKfKN8f+yTC/oFs7rvtx9dGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vk9ftlwl;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gUP6JrrA;
+	arc=none smtp.remote-ip=209.85.217.45
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADAD60A5BEA
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Nov 2026 14:59:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BADAD60A5BEA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF89606A6FC
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Nov 2026 19:40:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CF89606A6FC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vk9ftlwl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795186767; x=1826722767;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hwifwDtSlaukaSzHL4eKcWSWnLIi5jafcPYLI86bwCI=;
-  b=Vk9ftlwlORgDRCS3GM5U66zBg9COTsf4NzxyochVQn8ykdeogiFqWfiE
-   nzf/jYjYDSZYMuk5fawblNGDvqXDPLut5mTM3JITTwIe9jlnhFuAS4+PN
-   zO7OFirgz6rFa1fIiM9Dj9Mjo5qXSw6ns44mjVGRyO6wd96T2PqQlyaJV
-   05LgOGqTjVJ15uQ3jh6G4t857ROdn08b/Wqsg74ml4/BTdimdRbB4yg8/
-   ysHzCYZzAR7c0UsvI7XhNYfH18Y5Xj3s9laGnQ/eTpBNWLej9kYj5HDSI
-   n6GeRDcSltuAMXp3grgFSC8Pxz1e5S2HUsHZQz68pijzRLQ9N4E8ot0aR
-   w==;
-X-CSE-ConnectionGUID: CRcHM7UBTkSsYu2MYdGUqA==
-X-CSE-MsgGUID: DhmmjZkbRHiExdtkEPzWMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="3948729"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3948729"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:59:26 -0800
-X-CSE-ConnectionGUID: JRVrLzoOQoy1lhLVKje70w==
-X-CSE-MsgGUID: RNJf12G6T1eYFBGhNWuJjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="12553917"
-Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO [10.125.109.123]) ([10.125.109.123])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 06:59:25 -0800
-Message-ID: <ea383e6a-cf77-421c-814a-a1e074d3551f@intel.com>
-Date: Fri, 20 Nov 2026 06:59:21 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gUP6JrrA
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-7d2d18f1bf5so815665137.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 20 Nov 2026 11:40:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795203611; x=1795808411; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IkpnTCmX2Yw3LdVkQLinJLsP93e36ieyPl+JuSAdltM=;
+        b=gUP6JrrAPdQdCx52cjkPgEj+tbStKjI5JEUwr44On9eUDDmsO11MSjVq6djCHMUP7a
+         6t4RSbbMJS7uyo8w2TbYfkf1b/+DrGl+h3N+AzPcQIw8GLPsoVG8l1A79WZiRWFCGCuD
+         x/WruntcyK4Ymlt40hHqbDInToNdQBiyTvfI8ee4p/7RiC+0mklcIo4JHWfaTE0j3JgG
+         Q6TbK4LQTLzgfrlPdiGKhFa5L9UL3mqGL1ZMBWzcQx6hWewUfNZgdAf3+mKOU2g4lEyb
+         QzRGMqcjUduGmYdLsBT0hWYEq98QkQMdOMozZBMQM/aBOhxDnRpWyekC0FKUFpZsyqKR
+         geBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795203611; x=1795808411;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IkpnTCmX2Yw3LdVkQLinJLsP93e36ieyPl+JuSAdltM=;
+        b=m3zHyx2rn8HUx6AHoedEQRWAnQCrf7EpNB492Sg72ZVKbG1WMusYKkefW+HuLGQYOr
+         wJau3RnTKyZrerydBX1ZUYWdquD+UQFznNDaqSzCaZsaq2TTlMl1XWcuBc4pXF20hyB8
+         lJOd2YHvdk6gJ0cUuEXiBmEKYXdESi+ZEqzxMuIPCSMywm/zo4lNuOWkOuA6F8lLd7vI
+         HVv53jNS6zP67Yc+XblCofTDiTJ2l6ZxWDygZiWHMdoiT/KZmkvdTF8OHlVK6KbpXqSX
+         ANeVyxYDTZ3TUmhTSpVoMV8jPsaLZAh2+IEe+JpTGpbdfdfqbQ8bjKcwyk78Rsaf7vC8
+         0ObQ==
+X-Forwarded-Encrypted: i=1; AL+hErH46d8EjnhNnCvM2yJTMTcShPA/lG+O9p/yQ3vdG0MkeMUieVyl52BNt96sESTCs8wQw4P6MoNodWhZYNHl6AlpqPX4+g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z92jZopck1o4+2uNL6mBr2YmlAXNn+5LR+1USRDHTOPf8kbK2Ea
+	VtcTtXylesqwJ4TlTsQqiKJZwkUsNhUJsX/V8XmCqyGNBOn+o0eQR7fI
+X-Gm-Gg: AZFdTZdCAVbjYcRzIL4BMtWCO0nR1lrDSOK3hpU+ogafT8HMs1I02cXbhjEfFILMAAH
+	tPww6B6F0t2UrgH8PdaCYcQF7vJORUwU3CC28djJYuDOoUp6TJwPUvQeN9twgL+80fPPwW3XZph
+	RnLtaiaYygYkLcmTGjcV18cTiJAdy5lyG81UV8AAxcLHRpO2Qk8gt4/bAwY0zn/YmzWuPSBSAhl
+	/EY2n6JBhAX9Sx5CZf4ZWyJNbLeiIa7s+xxPoUweAnBQgoxdnFzLsy1JfhYW997SVhIl23E8UB8
+	EtqmA8DIfAGO+34Eru+STt0Vs0FcsW0h/VUcTVUw38bYNNILKvRJJ+x2UQJJa29RU+AE1ZZvkyI
+	Q0KuwAw1h8FPEx+6RQCpK5OaBikgZ8eSQQR1dWqQ2t26g1clr+CqC+ITbnIQ0o4ISNMiqyS95An
+	yZRijx0iiCKHEfVkD2jQ56/4DRcHVc+X4+74XJyTMKcN/VkgzoYJ9IlAB7t8kwRN3BTkC0vjB9T
+	SYjGYu7hjzAgOu8Di3E3R691HjGUdXnzhgJs4IMvucpBCmB22RtyKprIyU2Vd+h1IDFVLXjaqw0
+	9Zbqtbw+xMygs3mRB9iA0KdVw6d7slY0sccXOGNNBgGJVuyIiI6SAhEVb3KD/RCuCdUro7/ROcA
+	xTa8cCeQoxQOAyRqxFqmVqtSoKZ0pQSDJiWN4
+X-Received: by 2002:a05:6102:5091:b0:7d2:cbb5:71f9 with SMTP id ada2fe7eead31-7d7393ff1eemr1985327137.7.1795203611220;
+        Fri, 20 Nov 2026 11:40:11 -0800 (PST)
+Received: from ?IPV6:2804:14d:4c64:82a2:d4d:f9f9:a4fc:aa28? ([2804:14d:4c64:82a2:d4d:f9f9:a4fc:aa28])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99e6df8a29csm3845871241.5.2026.11.20.11.40.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 11:40:10 -0800 (PST)
+Message-ID: <a848c700-f1b4-4975-8c80-27b8c81160ec@gmail.com>
+Date: Fri, 20 Nov 2026 16:40:04 -0300
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -74,69 +92,66 @@ List-Owner: <mailto:linux-kernel-mentees+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests/x86: sigframe_fpu_portability: fix TAP plan
- mismatches
-To: Jakov Novak <jakovnovak30@gmail.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20261120134006.4819-1-jakovnovak30@gmail.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v4 0/3] staging: media: atomisp: use kvmalloc_objs() and
+ drop redundant OOM messages
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, feng@innora.ai
+Cc: ~lkcamp/patches@lists.sr.ht, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20261120134006.4819-1-jakovnovak30@gmail.com>
+In-Reply-To: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/20/26 05:40, Jakov Novak wrote:
->  The plan set to 2 with ksft_set_plan(), but check_avx_support()
->  may call ksft_exit_skip() which leads to a TAP plan mismatch.
->  Move the ksft_set_plan() call after the check is done.
+On 7/14/26 19:48, Rodrigo Gobbi wrote:
+> Several allocations in the atomisp driver still size their buffers with
+> open-coded multiplication, e.g. width * height * sizeof(*p). When the
+> dimensions are large the product can silently wrap, causing kvmalloc()
+> to allocate an undersized buffer.
+> 
+> Convert the remaining sites to kvmalloc_objs() with array_size(), which
+> saturate to SIZE_MAX on overflow so kvmalloc() returns NULL instead of
+> allocating too few bytes.
+> 
+> This continues the work started in commit [2], and picks up the stalled
+> sites from [1], unifying with [3].
+> 
+> While here, drop the redundant IA_CSS_ERROR("out of memory") messages on
+> the touched allocation paths: the memory management core already emits a
+> far more detailed warning on allocation failure as raised at [1].
+> 
+> [1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
+> [2] d178c7ca8fef ("staging: media: atomisp: use array3_size() for overflow-safe allocation")
+> [3] https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
+> ---
+> Changelog:
+> v4: 0002: use the full commit reference form for d178c7ca8fef (Media CI checkpatch); collect Andy's Reviewed-by;
+> v3: https://lore.kernel.org/all/20260623221028.40238-1-rodrigo.gobbi.7@gmail.com/#t
+> v2: https://lore.kernel.org/all/20260622224402.34001-1-rodrigo.gobbi.7@gmail.com/
+> v1: https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
+> 
+> 
+> Feng Ning (1):
+>   staging: media: atomisp: use kvmalloc_objs() for overflow-safe
+>     allocation
+> 
+> Rodrigo Gobbi (2):
+>   staging: media: atomisp: use kvmalloc_objs() in make_histogram()
+>   staging: media: atomisp: drop redundant out-of-memory messages
+> 
+>  .../media/atomisp/pci/sh_css_metrics.c        |  11 +-
+>  .../media/atomisp/pci/sh_css_param_dvs.c      |   5 -
+>  .../staging/media/atomisp/pci/sh_css_params.c | 101 +++++++-----------
+>  3 files changed, 41 insertions(+), 76 deletions(-)
+> 
 
-I'd really like to know more about what this is fixing. It's not super
-clear from this changelog.
+Hi all,
+
+Gentle ping on this series. If there is anything else needed from my side,
+please let me know.
+
+Thanks,
+Rodrigo.
