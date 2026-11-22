@@ -1,60 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223864;
-	b=gGW9vZZLbI8EZPFCrDVuUNNIRaIyUsQa3HjJLwJr8kPeW+zFtBVs9I32E8vyE7AR7Elw
-	 4jDuCFInhO4VV/IQaZ+gyXg+uUjLPvQBcLpwvchDvnSFBhlwk/iYncclFtGh23a5zDuIL
-	 DYxR/xOPAUG4RPnxENaVdyXxnMzQx22Oqkb/HsyyoX8kMI5GtZ+eGRJmCNlpPcoD/V40Z
-	 W2JZ3hBimcYjwwScBbbHI7S2+0OM7gLtDZ9/Pqkz6nmTbtChRVni5kFb2D0VxDaQiK4ts
-	 VlqwruKEnk5FTe/b+GWQgKNJQyjoh/eqCNfG9mVfVYstP9qWyAyyUA2OVzWyi4fGo7g==
+	t=1795360638;
+	b=j8AboV0vXe9oGxJDPcpPcasIHCqj5WhTBymOl3KP8d6O2e+17h+8nAbF8PJ1NzlKrqM+
+	 Qf7YIvDEcKNyiXqswrRbmsw7JGqdGBWiNVjcTcKhRmwBMVACL689SL6aIxn2dni8CoQf5
+	 VnkIxnHghz5JYVfy/3FKGcLnqEwDNYh4ZmyzRqYTEPqaCf4Mmu9QXt+CKyjdZzEbSMYKj
+	 sjACkSEhE83kku3s0lx7J1pIXIBb+JhSJh4rdtXSAOdFzRVUCSaMfle9exaSVwYtyGPSt
+	 ghAD4CJRzq+V1dv7GBgO7rCPvQXZlj7tK+jFVibRj/idPPccbAok5YkEpMnAO8Pdfpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223864;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=B86lTJg6fVd92y4pCKi8wB4ITu4XfOT9mAL1WQiizMQ=;
-	b=QOm1PieB/20SLBjl0lTyTL5QafVN8aRpOyhyovv+9kCdnLKtGrO51JWhvKhbSN6zMlJT
-	 eas86h16CH4l8dU/Vyh19ERAaP3DmC5TUueRx1LA0Jmb20Rt6DgaDxaw9TzO47mtEjTTz
-	 ZGUq700HwvpP6wzfqr4DVnPphS3K2M9/FQCHCgaAglM/AbF58ZqaLz+xHZUzQtFHX8UBr
-	 VwfvocEBpRhgEgKY4Fl2+m1uFHnuQyh5K/7qhBNWRgiOxq97SrjEFB1Y4GbJVjYo2BQpb
-	 aXn8nzHaOAFWPKjCpePkmxQDBs3nQwR+QRHgktidphhvXNGgXRrKYOKVukRc7980jxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795360638;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=9Ug5mbNx//jfk7IJQqQS2kOB5UthZWxihtQTk0CboWU=;
+	b=PQ60S9J86tQ7HI25ypNp9KJ+jw1OnMhyzLoFkpOA0sayLFH37OWvfoKFp/L7HrTxpv6C
+	 8bXhbJ9QmqDoaZoTvvt+kqIMQP/9DV/7z8dch9vvfCJnKxwssKBf+4fKqO6MA1cYpmMFP
+	 PHMlwX2l0P06SotzhHCDwU2zTF+9MBDSHRarOO3GCempum8rPp9VaT4/6LtxVlKF+rFc/
+	 sOtXW/hpZiCmkQcFfj3yG4nzgQM4kdodpFf4NWu4VbHEB91JquZxiDTcQRYelXJvynlBC
+	 vrDhKMOrTujZg4JzEGI7wz812xIWcIwikZjgpumUJdzPlX+kr2rv3nIBLob/v3GT90Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=innora.ai;
-	spf=pass smtp.mailfrom=innora.ai;
-	dkim=pass header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=h+kM8mcH;
-	arc=none smtp.remote-ip=185.70.43.20
-Received: from mail-4320.protonmail.ch (mail-4320.protonmail.ch [185.70.43.20])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dkAB2HVP;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A2A606A6BA
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 21 Nov 2026 01:17:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12A2A606A6BA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26376606A320
+	for <linux-kernel-mentees@lists.linux.dev>; Sun, 22 Nov 2026 15:17:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26376606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=innora.ai header.i=@innora.ai header.a=rsa-sha256 header.s=protonmail3 header.b=h+kM8mcH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
-	s=protonmail3; t=1795223859; x=1795483059;
-	bh=B86lTJg6fVd92y4pCKi8wB4ITu4XfOT9mAL1WQiizMQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=h+kM8mcHIgzX0lzJc9I1gfApeVJxk96qYuvNq+lOX6VYlwvZTmqcSsSAVQALI9Rsq
-	 HNphwwSMOAYCNTbkbz4VmYny1iqHtLi3mYCBcoJznT1hyUOQkdz7vMk2tWuC50GGPB
-	 WbG6Th8dpkxs1+ILao2fwmF4RJWToAlewPVRmqfvJN9A1I1OIhCgUo4uJ22KE0lFZf
-	 jXMU/btB8JdpSHH3rl2U4FpTr9w4AXhWMw7IkKU4UOyISD9K1t+axEHG9wpyMX7sB9
-	 46M2lqBLTLFLJ0V6m3HFSrSNH4CanIa9HtB+ZnvsgNZSR9qQrZaoi+Vx2IIaIBI63V
-	 z9NrQ3m6KH4BQ==
-Date: Sat, 21 Nov 2026 01:17:31 +0000
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>, andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
-From: Feng Ning <feng@innora.ai>
-Cc: ~lkcamp/patches@lists.sr.ht, linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 0/3] staging: media: atomisp: use kvmalloc_objs() and drop redundant OOM messages
-Message-ID: <fFOS6YphXT9R2XDv53HTfEYV5vtnDpJcxclUqfj6zTAiE3lzliiJwFvLcdzqa8Fa0hkkyo_lQPZ3Rig_d1bBLIaIXoDYI5glhBs15cjjZ_E=@innora.ai>
-In-Reply-To: <a848c700-f1b4-4975-8c80-27b8c81160ec@gmail.com>
-References: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com> <a848c700-f1b4-4975-8c80-27b8c81160ec@gmail.com>
-Feedback-ID: 140578448:user:proton
-X-Pm-Message-ID: ad9a0e95a03b7ecd04a5a18409552a3ccf551525
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dkAB2HVP
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb55cda775so14893355e9.0
+        for <linux-kernel-mentees@lists.linux.dev>; Sun, 22 Nov 2026 07:17:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795360636; x=1795965436; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9Ug5mbNx//jfk7IJQqQS2kOB5UthZWxihtQTk0CboWU=;
+        b=dkAB2HVPFs9xuDeAtYcKz4kF14MFdU4fLwBqVYxpVTUja8Xj86uVREda1L2UQuj8U+
+         5iXzEcxa3xC2+EqTaMvEZB30P42qBGYzJ7oMkzXhStXALPWwrlK7DK8G8xwz7SpWozfZ
+         lfFYNq+ZGB5aR/AKEgc3BuTbcItKHc6R7UFDaKZG+ntNGqp7ciP6NaElnlrqxBDhsr+A
+         e2vOod1puZPsLIp4qOAjGekDgb44wUca6/hKSg8av8QQolqEuG4y2ernSHkxoqN9P00m
+         n0Agqd9rtVDD8MsHljjTQaKp8O0Xr1Y3TYojU23zs+kGoINuv7R9IXTrFpeEYHvHh2DH
+         c2QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795360636; x=1795965436;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9Ug5mbNx//jfk7IJQqQS2kOB5UthZWxihtQTk0CboWU=;
+        b=q3B++6UDNMTSaQ2jCDrU4vc/OZrSacfZsPz0JHd/NVVC5dlU6PGqx9bdF415kDvMc4
+         x5ALtUy9T0xpw8jByalE7oHWbaXH7dHofUCcwSWrSsdL47Jq0Sno3Q+1hCTtae6QKxWt
+         6Mvd5PEJJ8/uqsK2FJWzZIXmpFdOr3ENKSclGOf0XF0EZjV7XhjnEQLNH6ib79t9JkYA
+         TsPUxXW8VeSHXL8f7Amvt7uzSpOFS+afY0gqt+XqF8QaatWLfng6UbHwn5YxQLz/mOGD
+         6wZ6LVPBMlmYqkIFj3Q6rqYc44WTHih0Zkg1bmYm5T1vysdJyFEHq0Y5yrkYfOeaMMSD
+         Lhmw==
+X-Forwarded-Encrypted: i=1; AL+hErHuI6wgNLxsDlRz7xs0H0+sawmhGbDRf1Y2QAD94X+X82j/T2gsaBuP3U9P3E/xsKMU4mMEH/KTicduq4ZNVt7yeepTzg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+BbtG+UlTiSO9l8teOvYJlXuBiMpDtQkO+As68sXzY7LNz5iii
+	6/WApJFhNVvi50efhE424mnHgl/k3ZHlkYggWRqcMSPWS4Ng9Y+d3nj6
+X-Gm-Gg: AZFdTZc5SsurPXm2bxHNiw/S41vitkpbXeblDPAsleuIrWa+7w/ka0yUF/ItJEXfpk/
+	VhEVSu0XpWsJLrV2G8MGLHA/PmvPG9n2amydySL4w9n2VWReZbQi4rZXUbXxizOgutVOrmmQmBb
+	a9mW0kk+m9dSvPNNpuGxQpHVpyPWEpNQ/JPo3kVDxh6hFoFFRZwhRB88HDJrpz0NmkADzzcUVbq
+	EuEMvd0PBz3F3RM4079NXW7uegLorMjj6sa1mBmsq+qgwU1D6kkWNB4RzWPgW5lN3dTgjmdJRnX
+	tPxX+SjRLr279+vxeTk0k+9hGaLcdKON4W3ymXvYPUc+1eCyrRIOuaLF4ymT0E4QtsoHq8Ytp7o
+	klPtOvHNDhdBTjeQa9bU5twkg8Ty+BMAWTf30RxA9MlfXG2rXHAGC4q5vAEfzjmx7I5FrBw3WP6
+	3j79sd5OGLKdTorjePqH+n/1p1ygIS+aqG7fgveRFoxz3IlDqjy62e1QMI6kp0SgiaQQdmP3/A3
+	NX3EVUDLPx0BWcKstJaTo/n3FvpI3+PKCJ4wsbJxwDOzCjRtiQ/7wJRyrMjU0zjWh1/jnlbZ7RX
+	DMCbZt2OVURsd4iFfakwc0cLlaiLvquaxWph47fBMRQ9BISXHnEiUo0VrdqNunJC1JaoyeTGjQb
+	rUOHgtTHF2y7oFTpW
+X-Received: by 2002:a05:600c:12cb:b0:4a2:1104:7ca7 with SMTP id 5b1f17b1804b1-4bb861576bemr155677955e9.11.1795360636349;
+        Sun, 22 Nov 2026 07:17:16 -0800 (PST)
+Received: from torre-GIGABYTE-B550-AORUS-ELITE-V2 (212.pool95-21-2.static.orange.es. [95.21.2.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b110d56sm16470775f8f.40.2026.11.22.07.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 07:17:15 -0800 (PST)
+From: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>
+To: Dave Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?=C3=93scar=20Meg=C3=ADa=20L=C3=B3pez?= <megia.oscar@gmail.com>,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/qxl: zero-initialize struct qxl_release
+Date: Sun, 22 Nov 2026 16:16:10 +0100
+Message-ID: <20261122151629.223013-1-megia.oscar@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -64,23 +101,88 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-kernel-mentees+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Rodrigo,
+qxl_release_free() used to check release->base.ops to find out whether
+the embedded dma_fence had been initialized. Since commit 2bcbc706dfa0
+("dma-buf: add dma_fence_was_initialized function v2") it uses a flag
+in fence->flags instead, but qxl_release_alloc() allocates the release
+with kmalloc(), so the flags contain stale data.
 
-As co-author of 2 of the 3 patches in this v4 series, I'd like to add my
-support to your ping.
+Cursor releases never go through dma_fence_init(), so with a stale flag
+qxl_release_free() takes the initialized-fence path and calls
+dma_fence_signal() on a garbage fence->lock, triggering:
 
-The series is still marked "New" on patchwork and does not appear to have
-been picked up or delegated yet.  Since d178c7ca8fef has already been
-merged, the remaining changes are small cleanups on top of it.
+  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x7b/0xe0
+  Write of size 4 at addr ffff888010462700 by task kworker/3:1/91
 
-If it helps, I'm happy to help rebase onto the current media tree or
-prepare a v5, subject to your preference as the series owner.
+  CPU: 3 UID: 0 PID: 91 Comm: kworker/3:1
+    Not tainted 7.3.0-00341-gf47d223627f8-dirty #556 PREEMPT(lazy)
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
+    BIOS Arch Linux 1.17.0-2-2 04/01/2014
+  Workqueue: events qxl_gc_work
+  Call Trace:
+  <TASK>
+  dump_stack_lvl+0x4d/0x70
+  print_report+0x14b/0x4b0
+  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+  kasan_report+0xfa/0x120
+  ? _raw_spin_lock_irqsave+0x7b/0xe0
+  ? _raw_spin_lock_irqsave+0x7b/0xe0
+  kasan_check_range+0x134/0x220
+  _raw_spin_lock_irqsave+0x7b/0xe0
+  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+  ? __kasan_slab_free+0x47/0x70
+  ? kfree+0x21b/0x450
+  dma_fence_signal+0x72/0x130
+  qxl_release_free+0x2cf/0x600
+  qxl_garbage_collect+0x25c/0x500
+  ? __pfx_qxl_garbage_collect+0x10/0x10
+  ? __pfx__raw_spin_lock+0x10/0x10
+  process_one_work+0x696/0xf90
+  ? __pfx___schedule+0x10/0x10
+  ? __pfx_process_one_work+0x10/0x10
+  ? _raw_spin_lock_irq+0x85/0xe0
+  ? __pfx__raw_spin_lock_irq+0x10/0x10
+  worker_thread+0x4bd/0xd00
+  ? __kthread_parkme+0x8d/0x170
+  ? __pfx_worker_thread+0x10/0x10
+  ? __pfx_worker_thread+0x10/0x10
+  kthread+0x32e/0x420
+  ? recalc_sigpending+0x162/0x210
+  ? __pfx_kthread+0x10/0x10
+  ret_from_fork+0x362/0x5a0
+  ? __pfx_ret_from_fork+0x10/0x10
+  ? __switch_to+0xaf9/0xf30
+  ? __switch_to_asm+0x33/0x70
+  ? __pfx_kthread+0x10/0x10
+  ret_from_fork_asm+0x1a/0x30
+  </TASK>
 
-Thanks for taking a look when time permits.
+Allocate with kzalloc() so an uninitialized fence is always seen as such.
 
-Best regards,
-Feng Ning
+Fixes: 2bcbc706dfa0 ("dma-buf: add dma_fence_was_initialized function v2")
+Assisted-by: claude-Sonnet 5.5
+Cc: Christian König <christian.koenig@amd.com>
+Signed-off-by: Óscar Megía López <megia.oscar@gmail.com>
+---
+ drivers/gpu/drm/qxl/qxl_release.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+index 06979d0e8a9f..ffc9e8f0a4c2 100644
+--- a/drivers/gpu/drm/qxl/qxl_release.c
++++ b/drivers/gpu/drm/qxl/qxl_release.c
+@@ -91,7 +91,7 @@ qxl_release_alloc(struct qxl_device *qdev, int type,
+ 	int handle;
+ 	size_t size = sizeof(*release);
+ 
+-	release = kmalloc(size, GFP_KERNEL);
++	release = kzalloc(size, GFP_KERNEL);
+ 	if (!release) {
+ 		DRM_ERROR("Out of memory\n");
+ 		return -ENOMEM;
+-- 
+2.56.1
 
