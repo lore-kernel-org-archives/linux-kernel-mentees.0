@@ -1,104 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795779415;
-	b=MJ7MBKzVi7xPMvcy1ftj+OIWpZcI7hbFvGDypWFmyWFlqP5UNrgX8PP9pqz4VG2ooMwp
-	 kslsvMxSoYPpc9g3XAqVwjL91OTkAzb22vW+HoQYVsOG+WOxvlvRm29k7sRcR6Nu/dfgM
-	 KwjL4DggHFRnRmMfyYYBaHa4tiwZ75LhmK6NFvHwpYHXXCOM/iFIaCwW+ooh88vHPQ/QK
-	 CnwBcnVAZxw44lqayaa2HJ4Xpy56K/ntkx3Tl7G627iIy2FMnKN5/kIUcGqd7INCNaUtT
-	 a/Z7Be/NAhDDERFsu3l0db/aezQ/WFJg8zre5ZmVRkAHn34pc0x2ZXmFfIGDQp5jfkw==
+	t=1795804002;
+	b=moQ1lfmm9jv7sSZxbMb+R1wyV0q5QMuWcfFebbz1GVOhogEWMFPF3VesY59wY82iEBwh
+	 8gWm8DHI/9ErRY6J3b/+zvWh+iognq6Hx0BwOdQOoofqCZen8o2nY/ii+8+JAYSpZyeEU
+	 lyyx6B28/6IpPTofY/hYErQd4+g9Xlt2mxHloyzJCuf+i27J8QusNR2vvdr00Mmk8LoyR
+	 4LpO/sy+OJWg7QoTQ8W2+19zUg5r6AQ+PtGDmfvpaSdHyJ4CWvmTl0iJ5xkZMMHUbApj5
+	 Dwr0YBfLonxhS9LHNwwOpPN2x5bMAMehOLoMni+37wxzqAevCahpViaiP8UDkHgOOqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795779415;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795804002;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=DKhKnChRRvEIqs8abBQ2ImMZ5jJiR20dxd3W+JwXAzQ=;
-	b=5s6MSK79tIJ41Xy/j1xx3WNHKXw58++cZa+ubRo26OmlmZaeAFae3nZOhQ7GeWRz7Vi6
-	 gh64ViKkkazxmow7g1dtxvuLvDMm+1BkhajjD8jPK1iTWQODP4LX66S2pT4ridCy8yZnH
-	 ro2YhosQ1kwpcI5K4CSAU5dWIHnbn3yYYi1Axn2vRBHle2bJ7GI/EAXj0zBJD5JkadQAo
-	 kJ2/9Bq4HZwVFizidszJkrTWlj8sb2MlfQGL3fwyBt7ekj5FT3GP9ARGFNxY07ZhYwpuP
-	 BbV0xUl32bwwq3bjY636r7ClvD/9sdU9/PEt6ix7q+PdsTRC4oDMu4kUijiveUj98aQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=JUIkJDYEkx7nTz2oOBs8uKitK8ANRmBUsBm3gZYTVu0=;
+	b=W2+86zEhDPC2dE8Kod/g6b6YFcd/luzr2RFsUvzdNiO7V0fLx6ZAjXTMq3M5FANWcfLc
+	 5/AQHVG9MK/cq5vG3YKKPaeQTbpCfvRCsXw+ck5H/yk9mA8T9H/JzcVJDL+P3j73OdLaB
+	 yDh1Hh9c3tXqFlelgu3W8UiihEzCZq72RB+9lvuizxgaG5A1m72zLY/njZRq+o3N6vLlm
+	 QHgyU8XHTJSwtK2RSYHqBusHwghJFBC06bmo3a64z7uVbphQHdmB2Tj+cGGcZulHK3CB8
+	 z+/bBf8R7t9ArRysu2R973lP1iG/3kFgXxy0kNPJFIw/1p7plm8uMQxkZ3DvJ04o4wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=twws2QhH;
-	arc=none smtp.remote-ip=209.85.210.172
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ivvmh+AU;
+	arc=none smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E0E606A31F
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 11:36:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03E0E606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C88606A32E
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 18:26:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68C88606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=twws2QhH
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8c5ebbc5150so5469283b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 03:36:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ivvmh+AU
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93f3c616c84so645189785a.1
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 10:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795779414; x=1796384214; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DKhKnChRRvEIqs8abBQ2ImMZ5jJiR20dxd3W+JwXAzQ=;
-        b=twws2QhHWQK9hujShjmXQBf5x34UxaOlnecLt5jB/NZEzetjcB+0E+n2Kw5i+kItgU
-         9KcWHByFh4YFCZvChCiUDvScTxeVVe8v5dvGI6RdNskhNMMTjlodkjEJBR/C+igfWPVf
-         ZuZCI6IrufyXMHeLmIBtF5bH0qdkimX/GYJKSVoL+M3NxauBV7WWZNZ1bCrEjEUK48jh
-         0+BYMel+XKCssmr9zHxyMRXBQJZyTLT8CYXXSehPUzwQt2tzdWvTyxAyevvY53W5kVLC
-         AE/oVJ5LP6Vk5z4HSVOHEA0FehUTB3zzFXzPQDu7OoMouUrdqEGpz+xA5+Rc8QH/shqa
-         AjXQ==
+        d=gmail.com; s=20260707; t=1795804001; x=1796408801; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JUIkJDYEkx7nTz2oOBs8uKitK8ANRmBUsBm3gZYTVu0=;
+        b=ivvmh+AU8suSH7neH5QrYATqiK0jxltdSyNtDJ9iANGEA66y2yekDXICeMKtUTSAy1
+         GyhjQcQlQ/5u5ECQv8M7gfCMbuRMTcDthXaCNVPrIwhO/EJK2E3NZ1WNJgyOpbJbHOhb
+         tLuQ8Gqa5BBXHtIisXJL2Jr2rdxo3OrBY3JwviE/9smuYdi2Fp/j6NZwMJ9mfqn8/tUP
+         K6dxES1zq2mJ2jl33JEpi4/lOGLekKnOQg11JdjPuhSWJTpQ+SMZnwb/qSnNQ/fcWvvA
+         mvDwkl2dENhana2WSN4cHSELkvXPRlCKgDj15XWgMfkudO+EE7ZLO7h9pUWTRQ0Q9Osy
+         chrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795779414; x=1796384214;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DKhKnChRRvEIqs8abBQ2ImMZ5jJiR20dxd3W+JwXAzQ=;
-        b=f+eJpNIGVmJC2xTF/Bkr8K3e1pb58DC4y+rRLbYRybLKcG5AlrfgRHtxqOFx9SsE0g
-         3/LMAnEC8rJLGUC/NbKoKrf1Sf88gxltTyu5vyz45YvEZT3jCCpm+diKvyXr9SGw35cl
-         F3dhDiCw6jtgH4diV4J6ZFLe3GZyhHMlkH3Xt5QAnVwnkaplG6r5ZnTXs5TPArNo8Twk
-         eb1vqCRx7UQdhfX8Z8H3KkKRRLbA535EMNQ5+J2gSJ4NR67AW7k0Vx21i7cZ/o0gQJsV
-         UNHEYfmpP7ZL17u2KiA6xo9TU1/uAZP7VirP+bqqhIRKRt9udznRNEaBCTQf1sN95uBY
-         EbDg==
-X-Forwarded-Encrypted: i=1; AL+hErHcjei4xfsRy2vFhe8Z0owzbAadksBilLsNW9q5a1rcJJLbaMan8Qxb/4IT3doqAohvqYu7VRjBzJwud9rBg79gMdODKA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+s4K0+Hj9jmZyMmgJZ/uSEVmvAlos8rZvU3WjAoQAUiOf/ZG9U
-	kmb5+cu9cVJA9jANo3qveGFutv4ryxxfh4WBhM+6KbV89ulFj2eeTc3u
-X-Gm-Gg: AZFdTZcVRwbEY/cyCtVsgO2UdXm7DGszNoR2J7V9eUDwE89WRPW8xwYP9U/a31hLgAA
-	K2FvbiiuigJ0NolTOSlUrDtdeAWRP8J/HDdVvqfVYixTtu5bsOeCOKLuVmx27EjVBRoCQlw7mLO
-	qecyxk2jMVoE0s1GUpJFh4DYmbT0C+CfiBXXQI0bAzm4k2ZZ8nO09sGcMNw34MS44V6lm3bZkjd
-	nQEnmXcDvyOM5Tn953EGStEpgLr1Zs278tOaRTeamm5EQWJHzOavYbwpKFjRcU6U5NvERdkwcIB
-	PmjCMTare10xOwf+BkD2bay3BVHd+mHfmzzJJETS4gg6DMvrmiugatYWUUOES+jIjEJea5mNAZI
-	LolDH5f9sp8NREbzICzeldVXkmhlxkXqj8lRqVIOlvx+x+YcpmoIuEwRRgCUqm5kb2A3nHAqAhT
-	dy5NW5TmI9yGmoqhww0rq+wLl4X6/hTh6x6cYU08UJvu2mXoaXZvDl8FQm2QarHaBXoTXXIlrXw
-	Dej/vkCwK6iOKr2ATTCpxPmIyfFzcDU1I0PxbAJA0s6XGYj4cvvscFrvFROwYVWkqHf4Px7X2Tl
-	UDCc+BwbRuyqzJfdfo5jgeYWGFCoQzoNftcnX5EXOAfAwHQoxlMANGLDcKAWIH75EN+SQvYFQP2
-	BXQ4ht+YZgJGR2oMQrTQ6ZKGzjWNoG6WNA9Pyxvj4pHRj3+R/8pBh8YM94J8dDYYtfUYUMPZb6V
-	4DZXapvfgWNrsxLvu/1bUcF1Y=
-X-Received: by 2002:a05:6a00:2d06:b0:882:e3a6:27c9 with SMTP id d2e1a72fcca58-8c87c28e012mr23070308b3a.30.1795779414330;
-        Fri, 27 Nov 2026 03:36:54 -0800 (PST)
-Received: from kapoor ([149.40.62.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c873f16b41sm12398520b3a.56.2026.11.27.03.36.46
+        d=1e100.net; s=20260707; t=1795804001; x=1796408801;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JUIkJDYEkx7nTz2oOBs8uKitK8ANRmBUsBm3gZYTVu0=;
+        b=VaqSxOBX7GRDBE9XX9esgYR2b1sOj+syJvetLpCuRZ5DC9EB0LrQ2EP4UoQtPszIUy
+         V9K8lAXnh9lxBEkG8ba8SQRMi38Lp9Ly+guxX7vWOc4rrUJk8qlv1xST2FI+8w24ewU5
+         CEK1l1N4JYXYGIIbshoWRsF88ygVPk9XI00IA6GM53iOeRY+ThiPpCHJa9CqKvH89CuE
+         5zM/os7KPM05RapVmKiKbf7dI6+PqGkWS+AdhqUKocAg7LnNIFW/BCHMiPrT4C58l7DE
+         KySdXN8HEBlENjIW/db8PmuFOH5JUmM+juRe1WPRnmbL0b0Yh5RwOr9wVlbZSxDaQI4l
+         jlUQ==
+X-Forwarded-Encrypted: i=1; AL+hErF8QAVgdAqsf2R6tdQmmsNVd3+/JE0NEpI1c6zJqV7oK5unaSMdk7kT4LkFhcp5ChJQ/GPti31UJFoY3zMCEe2BLTBv6w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/c2H9tRA8OQYFLWXdJy6aXBaX4WVU1BhFCMfnt+cSKgIj/YbTT
+	B0vwXL8pfTwOa2N54gznq87rHiceTkd3+W9/+XA0MsGn+hhJP+sywUkn
+X-Gm-Gg: AZFdTZecsIgcwjEuezlOdrutdotqvd5cvRcl71lhHz4CBLX6ot854gBeEb2ocPIToiL
+	IDzIwIHxG47ttFe0cDebxvlVjzZkjEHLaDP8PUCU0Ra/SGELj+olNhylTYRZNdR4goQoWlRNrKR
+	9aMgJRCLk2ZKADX9kxLgti5ZNKglJgr3PeIOfhFBPa53jgpVY/gXTCuiRcGCadNnkk7UQlVSi/V
+	R6Wy+EtjhzXZwVqFoNN1QLBb32Qf3idcO48JE0EdoATUwGqDjWKZL6PYOIEWpxB8Rp48MTPoGQV
+	wDuTTmekux+4MFeYy2gwBD1wRDAyD1/QaIpZX8iNAHUFWil7/FEVaZ2g+fBYup9KpPO5x6XBEzj
+	ww24tshZbilMzh/LYp/m289zTyCjTF+sZzTSehTFlrfOJr8FIv+VlaoSkZXVnPxp8L+O0mdPVPO
+	mnKXznio0OKWjgSbPYO8wdnZaeBfPA0kngCzELFphaiLA000RlKiJyhflTXgOyy9M0L4NtbArOs
+	vOOucUJVTSo/rHHOFnuCRM6BxzCyRqKjsZ/ZL9p1i29A506io/QZGneCKTU+JtVXifKFX/YnkdR
+	D0qyXIV7J2svCesEoZB23mbFwYWMLCnl2zo=
+X-Received: by 2002:a05:620a:1332:b0:949:6193:acd0 with SMTP id af79cd13be357-949bab4d91bmr4566002785a.81.1795804001385;
+        Fri, 27 Nov 2026 10:26:41 -0800 (PST)
+Received: from localhost ([2600:4808:5693:8201:394e:8b9f:994c:b59f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb34ad6dsm1889062885a.12.2026.11.27.10.26.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 03:36:53 -0800 (PST)
-From: Arnav Kapoor <kapoorarnav43@gmail.com>
-To: Marco Chen <marcochen.dev@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
+        Fri, 27 Nov 2026 10:26:40 -0800 (PST)
+From: Marco Chen <marcochen.dev@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
 	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
-	Hartmut Knaack <knaack.h@gmx.de>,
-	Daniel Baluta <daniel.baluta@intel.com>,
-	Linus Walleij <linusw@kernel.org>,
+	pmeerw@pmeerw.net,
+	matt@ranostay.sg,
 	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH 0/2] tools: iio: iio_generic_buffer: fix exit status
-Date: Fri, 27 Nov 2026 17:06:39 +0530
-Message-ID: <20261127113640.215803-1-kapoorarnav43@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261127085722.126797-1-marcochen.dev@gmail.com>
-References: <20261127085722.126797-1-marcochen.dev@gmail.com>
+Subject: [PATCH 0/2] iio: health: max30102: fifo_ready() rename and I2C error propagation
+Date: Fri, 27 Nov 2026 13:26:34 -0500
+Message-ID: <20261127182636.83803-1-marcochen.dev@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Post: <mailto:linux-kernel-mentees@lists.linux.dev>
@@ -108,33 +101,24 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-kernel-mentees+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 27, 2026 at 03:57:20AM -0500, Marco Chen wrote:
-> This series fixes a wrong exit status in two cases for
-> iio_generic_buffer.
+Patch 1 follows up on Jonathan's comment on the NULL-dereference fix
+and patch 2 returns the actual I2C error from max30102_read_measurement().
 
-Both look right to me. For 1/2, the exit status of 1 with -e comes from
-write_sysfs_int("enable", ..., 1): without verify it returns the
-fprintf() count, which is 1 for "1". Without -e it is poll()'s return
-value, so resetting ret before the error label covers both, and the
-read() error path now matches the poll() one.
+All patches were tested on a Raspberry Pi 4 running the IIO subsystem tree
+testing branch with the max30102. The module was reloaded and buffered data
+was correctly read, with no errors.
 
-For 2/2, -ENOENT is fine, it matches the "No channels are enabled" path
-right below.
+Marco Chen (2):
+  iio: health: max30102: rename fifo_count() to fifo_ready()
+  iio: health: max30102: propagate I2C read errors
 
-The reason you get that far as non-root, though, is that
-enable_disable_all_channels() ignores failed writes: it stores the
-write_sysfs_int() result in ret, only prints a message, and always
-returns 0 (the ret = -ENOENT at the top is never used either). So the
-"Failed to enable all channels" check in main() can't fire for a write
-failure. Returning the error from there, as a separate patch, would
-make the non-root case fail earlier with -EACCES. Your 2/2 is still
-useful as a safety net.
+ drivers/iio/health/max30102.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-Both apply to iio testing, build cleanly and are checkpatch --strict
-clean.
 
-For the series:
-Reviewed-by: Arnav Kapoor <kapoorarnav43@gmail.com>
+base-commit: 39508411b82d4dc29dd245bb471ec9ecc1111c9d
+-- 
+2.56.1
+
