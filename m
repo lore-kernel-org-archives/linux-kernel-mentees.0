@@ -1,99 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795696641;
-	b=aO4UltOxIJKStFaVQqCfvOOROA5bP2tOe6obGwiboLeDwRMo+TXm48Xw9A3FnGz/YJzc
-	 UaNgYlZt2H9CAS06dSaEMECic0DkmSKZxS1o6tciMNAwf5ONcKfV0ce2e+JGgSEITXhip
-	 EggbuF/KW/xSWK0TTg9uZm1ZDEuH/YJnwVQHiaXaJeeL5a5Ff0v/w9ajAl/f9WKRQPeuN
-	 ze5hL+KKe7Q2eSi8RQUGZxK75YxfkFT5K0trGzK5LmF1uSJrrRwxnHef2k8VTSSOSrvEP
-	 +O2Qnjakx84L0NgHIXjp4j/wSpGeZvjLYHR0bNpy5n05CD0Md4gLt58ZV3RZe+D4vpw==
+	t=1795769848;
+	b=mUfZa2Nd5lCubW9ffNGS8JGnTe1u8ZWEDFqlvK5xpyNbpcBgSHXMnPsMVHus7Y84xO2u
+	 J1hWelknHTXIiIVlxRgdhZUI3RUPlZhuZOgHbdtYhukLEGvbX6cT4ktrQyACIBsY6QDDx
+	 ZnsJJrm7AzCvf4SIG8qMf1WSFDUnZnl7zNp7ES4Iqb2IFpeTkzDI3bKaMdWy1xnEWjZV3
+	 jAh8+L82n8TWDLDGlAV63rxWKPCBQ/butikp1DQMRbwzP/Z1TOugMrm0PowFnmsxVjev5
+	 RI6/GG5GMpBfAYMzUUR1+QzPXBGALL6V4oKaJZsLxvlkK9Ugg+mltqpLv6xh8zGW48Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795696641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795769848;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=+fzTSQ4IC4vfCdf4lnBWrMCmW+A1sJUKi7Yho2wo30c=;
-	b=iC67BJCWGY37UyTzMgdt8K8c2tnsl0sA1t9CCdlyRU3evXDvSXhluBejAuD1oHlVsOT4
-	 nW+x8X85QTeIQpUULs+HR7lS0QnnxQzp9PyYK6J0Oxmv7NL5kwrXYssmwaKn8VdSzvMLM
-	 YjLEackLQ6R2FPbkFXLd/lHy5Dy/KC7Ty/K1XpqK9U6rCGuHjT9rqMd9TREHKLjo7++gF
-	 CPmtXqjkMaFqcmYwfT1JUi5oP3Bx/B4mfVsBiwKe9rBveb9UkDJRvBzZ7aqJtOoKcJv9g
-	 kJn2aI47K0Fdt2L5tJl5CAISkF+V6ttoEvNbyQhH1wLa6XWAE1fckEmgZyAVChIah8w==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=OnY6t7V3w0nQuA9lKuKMyTP41xIzftjI8cijsOZx7nw=;
+	b=XyB0kQKeJViI3XbzkGQnqF8iGxBOa00JwIyQ4D2H9kGxd44RsmIaIVCAzgUf8azUFTQC
+	 eICkvILHCZCYb+Q4CqX+xq0NWpF9SfvOMUEZoWO2mzTcCt0UNAervuPAp5MfJ5dF5vwXx
+	 uNYZ9K+X6SS4Xt4vBucid+Ak1qac7vFv4RT8MVc/f3CPCc2rUi/Zlni1ZRjezkhBx6BBU
+	 oVfT8xqzEt8FMFbV3qgh2BLFtN1fwzEq39Or62TpJUPGv3Q2/hKUhCWcvUrT8BAhMDIfN
+	 acNU+DXUEla54EzNZXz7cHCo0dZ2b5GBD2zz7JEWOl6Qg0IAQOleGqCMqRDD70yAikw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=idl7evIw;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o5l7UTLp;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A54606A31C
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Nov 2026 12:37:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46A54606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C09606A326
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 08:57:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C09606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=idl7evIw
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so69267405e9.1
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Nov 2026 04:37:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o5l7UTLp
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-9495d543b91so470982785a.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 00:57:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795696640; x=1796301440; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795769847; x=1796374647; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+fzTSQ4IC4vfCdf4lnBWrMCmW+A1sJUKi7Yho2wo30c=;
-        b=idl7evIwkaWPPxclTboptc6nxCjlcZNnRqmsVlgBbk5G3mYCmolWTPEl9LegECZtEP
-         p+X9gZIW4hXw+fAVhsaliS7SddOfHVCQqvdtID5MQvY58YoaoOtrjp4ldwBZ+BzCKtMi
-         TqiFiqjnNsXNnzICgQ3CWjJ/kvaxwsXJ8prSLEn7Hnb0rqjrvdtXReIfuQkmabIwzs6l
-         MyDCIpCYhqu+GYARhzad9sDaZraIcskyg+Fakd4W9TDf8+m6QJNnGMr5+HuSRJjc374b
-         eRjW5XqehrN+5JLDs8xuF3ZGr+3ccLA6E1FMZIlXFWCcMQuxUnvxwUSfkOekIcjS54+q
-         hNVQ==
+        bh=OnY6t7V3w0nQuA9lKuKMyTP41xIzftjI8cijsOZx7nw=;
+        b=o5l7UTLp/yxmdne9CCeUGQ2sCEgdwwJYBmpzT0z/8Zdp80F0WlapwfKD0Q0GVv76+e
+         1sxJ16ZQSxbnE9/43DEyNsmAZIjg1esnaU9vJ0RQRgWX90P24MJ/T6hWX6nsMa28DftQ
+         ek1hKyWPEkiYML8A2f29xAXrE7hpSYzOggcl+V76JqUKYylAb7y/HO+sxTu4GoXlO97S
+         tFS0t9nrTiDemGHtX9OXjXAIOzjCApI71smXHVbu3+E4jH0P7jVKaggul5ynDZI7ERzV
+         Dqpt/TFxJubx6wb04akXlR7/PQ+VJG5sFhuMer21gvsOMTZE5s4EpxZKzdr6fCgOkLTo
+         ZQGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795696640; x=1796301440;
+        d=1e100.net; s=20260707; t=1795769847; x=1796374647;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+fzTSQ4IC4vfCdf4lnBWrMCmW+A1sJUKi7Yho2wo30c=;
-        b=ATar/S1OR6rLZHifeXCpxPPwroeoK3SrbOzUr/sq9tCqfFSOH/9oR+z/k5mvx/4vN7
-         yyE34s6NqaN5c3vJVu+iJb5t+CWSmQKYgRf3sW62Q2ckm6e2inKFm2Va0woBxUStxjdT
-         4p0bjZbuF1JkPBK5nyLao+tob7tjRUWeQLCi5JcKrISn61bYHCur2pdvsotXdCSdDB34
-         Ic0zbEpfDdE57I36gglXctsjHNtE2Omx1lixgoVttPf5CGw0IghJ+Vtz+IltPXDjdmdi
-         v1zH3sgudl4HvpjaDeIIGhBeAa8zhBOnkmKjXx3aGlrxusFQYKGdZGt8VjC3Nd77tM7I
-         atzQ==
-X-Gm-Message-State: APuU4Z/pYVdB2GOfqKtq9CFgJYynJ7Kj1cNXBns5JguNYFnbHPRVw0FJ
-	U2cbxbX7FEJOmJe4j+nL/oZkJGjpN9DbSG9zabTrT4tb4lXBKqUEr/0=
-X-Gm-Gg: AZFdTZcanmXClXEoOXQREt6pZkBHEKlTiAmDHgLMSBHcMhQ3xf/72GzmENAnexgGMKe
-	jc09gM/zvMG21AB4gizGCd4YPF1xUZ6yi4ppChgklcll12Bp00ImZmxqlKIKgwt4zxvABsycusv
-	hoE/zxd3LrXz2b2InPIR5rk/5Vn7REKDYvzKfngGBZLLL54FHq0AAGHoIp8m6Km1o3BT4vlSy8r
-	pQW6EG1ZCwDEwB8pa1X6BLmxh+tmj4qNsUgW/nGFp4CVmy0aGQd5yFMJIw0RSXt+k8TbQjIvhV0
-	f4n5GssLoTr92E1QLOfwXs8ZHcth1fmHIleR5DoVhIDFjTn2ULJe7F+IR2Fh45bVMxHA/2YYOsp
-	HSvvMYgTnb0SvafJcEoTipTrs3xtwWU6bkQPOdrYiMHGyIR5yTYRCRRelxQGu9BtexcjJ6r8PpC
-	8UzQyKv4rp2oaN1IkdmYNVQemI5kUhhhyyg6ImGGIz+fzrBdO3/BlH7dJwBG/kWSUrrDU+ErfAN
-	q87NV3FbqTlZKiI5ClTca/kNpfIWqC280z8rOQTFPWdioxwtWTux8h6pAem3NuIr/gZPJWzOtqn
-	YvKQGEh+MQ83zk1OO9GiiXZ490VbAtPDDZR46dKszzEewoMHtz9dvifjl4LsOZ802kDApDvDQg9
-	DHjnqTwoiLh29qi7mGlUPqaGzYshVDBdaidul8+u0La4bvfOX7yaLgkYLHRC4F9wGf31l5lDjV5
-	XgsA8lxWXLh+pMc339WUNVkeZVguz6uaP+PSRIJZyAhBaVUN+FTWc8v9uFI5br1z8GiMuxAyKsa
-	/ae
-X-Received: by 2002:a05:600c:c168:b0:4bb:81b2:c801 with SMTP id 5b1f17b1804b1-4bb889238f1mr412564745e9.20.1795696639507;
-        Thu, 26 Nov 2026 04:37:19 -0800 (PST)
-Received: from archtop.localdomain (92-242-248-48.broadband.mtnet.hr. [92.242.248.48])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a3a3dsm586455245e9.10.2026.11.26.04.37.18
+        bh=OnY6t7V3w0nQuA9lKuKMyTP41xIzftjI8cijsOZx7nw=;
+        b=ozTTUwT+YYYvG7386H4emhyR5itC+6PjNenLIcbUcgepII3KHWOWqmp4P/T1PPXfKY
+         GvyPc8BUD+Gxl4pkHcEljO0lqDnMDy9gF5IrmP6SG+j+7Et6hSLw5xxi3Nb6UOzk43nE
+         fFPmgMRug7AeWcIP0EdBqb19tPrEcYEB7yZmJSo9iHkJQ/dF6IKBhkAlJbRTSWoQXVgU
+         JEHA6YrA4YkwPNmjkp4LLBWXd9rqql2G3iHrbazAZ2BDVR3Z+mO8dr4pqN4EuXLa+LGi
+         KEFcUmCd90rPEX5TrXrunXU0GhvxZxCIWazYLuStpeEakrnQMN0EIt9X4xW5geMMFrij
+         rg9A==
+X-Forwarded-Encrypted: i=1; AL+hErFykvEBW1fjBQs8cxXt1FbirhzIYkZ0ZTiIMQr2usoJB0pilTcvHvJtnGDFvHI1QA7v/jFtXEVsmVjpBLl+DRzT6YDyEA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9I/TeJf9FVbzHr/Cg3u9h0iKbnqsfqNBIJF5AbcRAHssnM91zm
+	K1RmrRWwae7PqZQpAU/nJ7iUlJzGbbw1y5d8z/zBzaqeS2z5Gm1U5sQn
+X-Gm-Gg: AZFdTZca9P6rgfiqsrKNHHNGRINdt4CKeKLJxcmKwpIWnmbv3I7NlnGz+XQgrcKruIE
+	sXIYr9C/FlT24W0kkVRMNn5p1Qyp+Wm/PYx4Zbpmc8jLPpi8yNtse14AwgFWslN5kzuq69iz1Hj
+	aUmjllc4fek4CS0P+yXe4cQW/sedP3ZRFCZBtqVIoa4rlLn/rmknw+LrnAqKq53MD/fW3+VPXo9
+	Fjic1QsLq3d1y3BjxlhRNAJ4jW/bGv6/F9+jmWHemxRIGCvKYl15VUfmFCIaDl4PA27evXc7YmT
+	0+u6FZTvwfkTV13cCiXpAoymcSmkntKKtuZ4h9HooIpVB5UsyPOFg5AvodRvCguE+BQ5DwasUta
+	Zsq6XtG0Gv7w6bN3F6XI6hTIm2i+LcVPe/mAg0v0VY4AkZmptdOw37yDDIfvGeqqwGt7Y0tyXwx
+	WHA3x5X9YMCvgCbnZNrnT5LDgM0FRjrO1LeVah+IEYzZXM+xNvoKrTjvNroiKhfyBoyXrvAamQW
+	5t2afoO3mNtlI5DirP9IolhAeAL4L6bNy66i7PncE/WGqp4/pYzPnWuh+3XujmQ4vEkjGJFDGLe
+	Uw41kNMQk1DdpxFy9/Vg3AuQAhBHYIkN2Qani8drFwr1OOCCE7vtxffi
+X-Received: by 2002:a05:620a:6f06:b0:939:2d77:d6a8 with SMTP id af79cd13be357-949ba9f5f36mr4256539085a.34.1795769847199;
+        Fri, 27 Nov 2026 00:57:27 -0800 (PST)
+Received: from localhost ([2600:4808:5693:8201:394e:8b9f:994c:b59f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb0315f4sm1759249585a.3.2026.11.27.00.57.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 04:37:19 -0800 (PST)
-From: Jakov Novak <jakovnovak30@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Fangzhi Zuo <Jerry.Zuo@amd.com>,
-	=?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Cc: linux-kernel-mentees@lists.linux.dev,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jakov Novak <jakovnovak30@gmail.com>
-Subject: [PATCH] drm/connector: fix kernel-doc string in drm_hdmi_vrr_cap
-Date: Thu, 26 Nov 2026 13:35:44 +0100
-Message-ID: <20261126123544.16968-1-jakovnovak30@gmail.com>
+        Fri, 27 Nov 2026 00:57:26 -0800 (PST)
+From: Marco Chen <marcochen.dev@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Hartmut Knaack <knaack.h@gmx.de>,
+	Daniel Baluta <daniel.baluta@intel.com>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-iio@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH 0/2] tools: iio: iio_generic_buffer: fix exit status
+Date: Fri, 27 Nov 2026 03:57:20 -0500
+Message-ID: <20261127085722.126797-1-marcochen.dev@gmail.com>
 X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -106,44 +103,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Building the documentation currently with make htmldocs gives the
-following errors:
+This series fixes a wrong exit status in two cases for 
+iio_generic_buffer. These issues were found during the process of 
+using iio_generic_buffer in a bash shell script while testing
+buffered reads with the max30102 pulse oximeter.
 
-WARNING: ./include/drm/drm_connector.h:293 struct member 'cnmvrr' not described in 'drm_hdmi_vrr_cap'
-WARNING: ./include/drm/drm_connector.h:293 struct member 'cinema_vrr' not described in 'drm_hdmi_vrr_cap'
-WARNING: ./include/drm/drm_connector.h:293 Excess struct member 'mcnmvrr' description in 'drm_hdmi_vrr_cap' (did you mean one of: 'cnmvrr', 'cinema_vrr')
-WARNING: ./include/drm/drm_connector.h:293 Excess struct member 'mcinema_vrr' description in 'drm_hdmi_vrr_cap' (did you mean one of: 'cinema_vrr', 'cnmvrr')
-WARNING: ./include/drm/drm_connector.h:293 struct member 'cnmvrr' not described in 'drm_hdmi_vrr_cap'
-WARNING: ./include/drm/drm_connector.h:293 struct member 'cinema_vrr' not described in 'drm_hdmi_vrr_cap'
-WARNING: ./include/drm/drm_connector.h:293 Excess struct member 'mcnmvrr' description in 'drm_hdmi_vrr_cap' (did you mean one of: 'cnmvrr', 'cinema_vrr')
-WARNING: ./include/drm/drm_connector.h:293 Excess struct member 'mcinema_vrr' description in 'drm_hdmi_vrr_cap' (did you mean one of: 'cinema_vrr', 'cnmvrr')
+All patches were tested on a Raspberry Pi 4 running the IIO
+subsystem tree testing branch with the max30102. 
 
-This is because the two member variables names have changed to cinema_vrr
-and cnmvrr. Change the kernel-doc strings to the new names.
+For patch 1, a normal buffered capture exited with 1 before and
+0 after, with and without the -e flag.
 
-Fixes: 014da1db5e64 ("drm/edid: parse HDMI 2.1 gaming (ALLM/VRR) capabilities from HF-VSDB")
-Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
----
- include/drm/drm_connector.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+For patch 2, running iio_generic_buffer as a non-root user exited
+with 0 before and 254 (-ENOENT) after.
 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 2ee7c59329aa..bcdb402a7ede 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -265,10 +265,10 @@ struct drm_hdmi_vrr_cap {
- 	/** @fva: flag for Fast VActive (Quick Frame Transport) support */
- 	bool fva;
- 
--	/** @mcnmvrr: flag for Negative M VRR support */
-+	/** @cnmvrr: flag for Negative M VRR support */
- 	bool cnmvrr;
- 
--	/** @mcinema_vrr: flag for Cinema VRR support */
-+	/** @cinema_vrr: flag for Cinema VRR support */
- 	bool cinema_vrr;
- 
- 	/** @mdelta: flag for limited frame-to-frame compensation support */
+Marco Chen (2):
+  tools: iio: iio_generic_buffer: return 0 on success
+  tools: iio: iio_generic_buffer: return error if no channels can be
+    enabled
+
+ tools/iio/iio_generic_buffer.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+
+base-commit: 39508411b82d4dc29dd245bb471ec9ecc1111c9d
 -- 
 2.56.1
 
