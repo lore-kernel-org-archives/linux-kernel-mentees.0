@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795804003;
-	b=4uodJKpQ0JxeD1YpC/c+0J/lsl3YCfyPZQwaBmPoMwLQ2mQOJzoKpp5K1uOG8Yozo+Fr
-	 Ia3E3Kl1it4aig2al1NGiL1bse331ixfWIPg6UDvE2MtUYCqKmNcSC1oLzTxNFVgwzc1P
-	 m+cFRoxOIPxNXoluDPox1zncM10PvBFywjuwgmZ1TA9YZYRF7v1GOov1MEtbCqm8XLljQ
-	 xLBvjTR79cxpW/Q0uE8kIpFhXwddSBcOxVWRECf3HJuE9uOnOcbNFaiCKbqDIR+ISQPqt
-	 pmsj1IQo2RWzD0GlIJ9qOInwGDtXFg/9e01Qt0/j+nTgMnIdxasH3J8vdQdOfh38gIw==
+	t=1795804005;
+	b=EzcnMHJBAyAH4lyXvtE13A72wgtZH+hvLUyNBEBmISiGJ/nQIAr2TAPBDiXQdnClUnMe
+	 TJrp5F9hjTNHcsMYAT4JudF3lCY0qwV/c8zAof3WrMy6im1g68JN+671yAgcGF08AP2Je
+	 Bpw23kuQKGb5SY77pR44IiSoDvJcptgwQZP2Hoe2ZNcBEiA2owcsLo1ghPpyHI9Ox1HUd
+	 QgnO8GeDA2uBiS3QSSS/YSX/s/b9LoswmP9SxMmo7zOrffUb1rMkLkkLFwdnExP1WeqzI
+	 mGolJERPJrBFwuG1rPw3Cj6uoShxRIxJo0ZuyaXVi8ScdFMgZzCUEwhHR68QuTYwTHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795804003;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795804005;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=oC6y9f/aOyEQ84R7NW1NilnGjZfRr+uYTRuXBDVTwZQ=;
-	b=GgEhOZ4NJ1a2KKyiLecjAPsRnyJoPfP94WcADwmv9C3wuEyzfHV2enR1eiXIxrczOgSc
-	 4Fi+nJ6czykW7/9ETP3Ry7YJFBTb7vUlI/imP0nFQClU6NZSqybBex6CJAx9ygsXhjLcI
-	 OIlSlzjLmDkXvmrmeT0W2sfJkeuJg095/gnWzMbRCBQipVtGjN6pzC4eEyQo7KR6JO8So
-	 6KAGUPfNMgwB/7p94IETTwPks9LIZC4+uD67bDU644F2g1C5wjl6leNKHdNscXih7T9rn
-	 ZCZUp056ySXQlTr0I7OC43yZ/LDz8d4MRN4BxWEaguuxclyqh/p3g2pcyFjdsKvXtzw==
+	bh=eOXYjnqWWVMXkspdzQNEoKVv+Aym7CHLpb3HIl0SgT4=;
+	b=xM5Iec4rqTlC1pX7Ju6TSxsueIhJcwizvkxgR01O6Rp1eqa1NrLnbZJp9HWRiloCbapp
+	 3/Nei2DsfyZisOWMukSvFLttYo5cz5ciYy0wDmK8ld3L2lR21cGQMbVuLgCTYv1YUTdqT
+	 1mcwuj47ePFRCupU7MHdkC48ZzaHR39NyTBZSIhpZ3PS+jGocFK0qgUVr3dh1POpW4D1n
+	 C0WOuFYx7f9yjC13c+8ltHNzP2y4XjEF4++P/dX9J4VH2b0HebP7jBIeF3ctrRJePNQkt
+	 T4GD6SDt//BTi8X5LmeKqjkjA8AIFuvWlKc8hyrXJWSFwYR97pgEczp1FTBvRv1DTSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Rg1b+mpB;
-	arc=none smtp.remote-ip=209.85.217.53
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KHmz+NFC;
+	arc=none smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E25606A330
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 18:26:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97E25606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3015606A33A
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 18:26:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3015606A33A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Rg1b+mpB
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7d6554d96d3so4698282137.0
-        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 10:26:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KHmz+NFC
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91f0274f88cso109088966d6.0
+        for <linux-kernel-mentees@lists.linux.dev>; Fri, 27 Nov 2026 10:26:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795804002; x=1796408802; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795804003; x=1796408803; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oC6y9f/aOyEQ84R7NW1NilnGjZfRr+uYTRuXBDVTwZQ=;
-        b=Rg1b+mpB/+a6rNttqJ0rHpmKvqp9hxnTAs2EeY2v3/5aPfD0IzA8hCfDy73Q9HYKJq
-         kFFkWVvG84R8mutpm8tLtMdbhqz2QjWYJhmByH37MBhfyTvcKzhUJqia//DjmfL4qLpb
-         ExgKtoexAhtqvCg/Cr0YC03uUoZOI3mwPgwXPAXkJ7F5k5c+yAW5tPhs//esQ9SwAbme
-         +8CKgDMsTHNYDBMa7KdaWcml7G2FK3GdhCsvttI4LBr8AH8qN+ff5Q0vhUnxnSKol1Em
-         GgU1vDiJzfJrmeWiSWJkPAq9DSaLOR2yfh9a5LlFKYorFEnHRurIJbE9GkfAkL8FDBx5
-         JoDg==
+        bh=eOXYjnqWWVMXkspdzQNEoKVv+Aym7CHLpb3HIl0SgT4=;
+        b=KHmz+NFCYO84BtfR0dxgVqcb6NzDmu5qTtFcfJvXG+gSzFQCQW/4BGr5oBUEbRf3Qg
+         xJCf9Ct4Ooh8iq3waO688bi6mqpDvr6IUQ4fQ2GQDUs6L8VMBPH9+A0UlLsmmj+V37Am
+         /fA/AifPBdJjgxPzOuRsBd7BM7gBoe/v24RbY5rX76Rg6+K/wmqPnWaM79BbKuUP1SZm
+         x6r1sdW9q+A7w+gHCUVdVSKgEc7Be+gjii1dyBcjhwRREdBzWUeDBKW+Z1C5Z4VXpuIH
+         BlSwE/swrKxnR5RZ0BPpweZ0pLLm7gOQLsjw3TsKcuP/E89Ukpw7stMePVuZqWveNMTG
+         bi6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795804002; x=1796408802;
+        d=1e100.net; s=20260707; t=1795804003; x=1796408803;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oC6y9f/aOyEQ84R7NW1NilnGjZfRr+uYTRuXBDVTwZQ=;
-        b=1n8K9m9TOF7hqqzNA1cwCn9S3bu5MxJM9wXlzpPim9CSWhTorP+Y2AtEEc+VXRUUNv
-         ujcYxQ1/QZ58dgpXWIX+PQJriG47cj5lCUX7nKmjRPn8JY+sVzGpjO8lIyPL8vRewmp/
-         AOAfp31L+5bdTarquvcq45CZ/LvHeGpeVFIm+FQ5+18hKuPDhRO1efb4V7nKoIpX72Dj
-         DNWeLU7K74DxiLA8kyraeoYZJ5dzW9CA3E+FIEawmGxYYzuzkBEpuNsT5vfKwUFQuD9A
-         4GvaGi86NSIwiGFAap5/QVeSJBD0Pco2QkFDfxb9LDwo31gdNSb8P5/xziomMSu4XaIh
-         TPhg==
-X-Forwarded-Encrypted: i=1; AL+hErHdDREw5wZe9JsDh1LRfhlbI+kwVOz+Rsf9S/hCIXfVTpx0o79GmyOhFNsmX4zFlcuwfhGc7xR9OvFz1SE8g2tQN28vDw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9A2AovC5r2mnZ7LtjWx9lQO7CWYAp6yNvl5dDkDF3G8a5kYqrO
-	JdxcPiqsa7HbSu3wx+RxrgGLSHOgqJDNO7QELLckRh0aXcQEE6QVFOzsc/THUUkS++c=
-X-Gm-Gg: AZFdTZerPz6ALpG74Fszl7RlyAqf+7Gd3zFhC6Xh7fHZDuAmX7PgryRmMH0qGSZfWzn
-	daKJxZ30hRtQjzBE/XCxLfdx6zGOKYdwgGLRNmlpsYkkW877hzEPXJg+2h5c64tX4uK+jsI20WW
-	2wK/B7g641piSWpf4wQXXeqUV8EtowOyL/D6o2kBagAhtZS7+87ul38BurdfnGJ+FYupmAYg3j1
-	foWy6b2sC3PkLEsPMS4rBFuprjNaqxr4Zk6kZ26e4C0apw3Ga0728CNkRGzpPoLfZZnf34VGJBu
-	chNVBFe+ouHu1nPW9g7JwPQDDKGNy0tTP63qTwqeFuGIWzu3fnLa4WWNY9SPLrIVt2HF827y4A+
-	tsvYum8dtg4dXULCT585EW2IwcV5qQB54B+q1Qg2OQ0R5K261qzKhdUqdHx5MGxpEesWZjamors
-	czV+j08uFuJmAO0WQyiRQNrdrDLgbDlWiY3mVMzUy/RR3yaGQDAiv1majLo87QdvkFr+xJF+t8j
-	itkIK5OFhqkxYMCTYLzcU9Hf9Y8XU3TqhRezhEvs2Yx2Yd++mL0/YRGSoTGk30MEInir/sgdx3K
-	VZtfZ6XPyfGAW5hats+Ees0JR3apfw5a16CxG8xzSvL8TdSHN6iwUddP
-X-Received: by 2002:a05:6102:a54:b0:7bc:1de3:39b0 with SMTP id ada2fe7eead31-7d7396670b7mr15146004137.32.1795804002520;
-        Fri, 27 Nov 2026 10:26:42 -0800 (PST)
+        bh=eOXYjnqWWVMXkspdzQNEoKVv+Aym7CHLpb3HIl0SgT4=;
+        b=G8kjHo2tm3ELpkW+35NE0hAhxtngLWrARp+2NSjV1SXSG9AlvXnL4ktzIObM1c8voW
+         OC6NKyODsc0644wMN5u+FoOV+tCe5dOg3WlA5vvjyW4KhVlmVoGUWBbJfKs6g5E0qsu3
+         DWSM4iSf6jRtaRL1K/gUAVWXZ0Uu2I7VvqfXUl1Xn5rEDWUjjzFgUqEEwTnZY9mfPFj+
+         N9fEdEnNnC7chlYzdJqElF/k2mimxhphMost24n8fZ5zPbd47o43NuvFdzGRjC7y12vL
+         l62ka73+pMwAxaqsH4NTrsYyurVvN9c6jw0Oc5wtK1fnL9bT88drY0Isk1y6fUTHyR27
+         heig==
+X-Forwarded-Encrypted: i=1; AL+hErFB3/dnvtUef+gF+ZhxHqTAWue4eDUkD6+xZI77dR3bk+kVlXo1bwiEYi1US7NW37pr0cRxuNJwyaKLG9h3gqnYaJN5Dw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8C1DcsKOcEICRJx+UEY4nXUuUhK14VNyxEqTo1IZLV9E8mvqoj
+	vIiN99sRfVYhOPw/0/JdJfMZ5zQaPEsLkFRhM8lmIl3JSR2uO2IZ831R
+X-Gm-Gg: AZFdTZcnP+IlkQhnd4svLSQxbgm5015VaMisZEYFq28zcuaFFLQxjOHPC6zWnGd2vWr
+	QIDuRKk8SR76AeIK2/p/mW+mC/pURW8kCq0UwrHShih7pp//6Eem9f0AybYOthdewTAd3lR4pxg
+	gsCJw4WUCvtX5y9JefFOy1lOfNKpPTAIWlT/NLH0hkaQ6piw1/2CHBhSR4Ti8wQu4knHmHBfWVx
+	tZPiwJOai1K57D4IFyv7ERSnE2+GyYs8dZTsHuUfwocKE/7E2YOzI6YMk5bfTr0jq4wEpG8R66M
+	P94Mx4ItAB2TIVkJGpX55HzRmm91Uu+42pH2cBh9TCsBv5kkJ7fhzEE2cvqYYHWsN+EEt9buuSP
+	cJsXLn9T7iVEjL4QU/DpELJqJ5Si2eLCsZIrHI0fl5WoEHjiDh34uie55NLICX+ARNBX664+R1g
+	HDgNkP+jZY3es4ERcP29ebW5/K+g36KOrj5B6sHEM5Il7W4d5i1IFr4oYGX+V1PHFMVTBsm/1wo
+	80EsbVaNTDZ4OKvXBH7gRjaSPGAf9Dkuw88gNymn2iwJkNd3PQkghnxoSjyUNA3Cmv/y1S9X2EQ
+	DjmtZAVdR4ikGow48i9tCdKePRYTWWANeJ4=
+X-Received: by 2002:a05:6214:4686:b0:921:1ac1:34e2 with SMTP id 6a1803df08f44-921653a9042mr253658056d6.24.1795804003603;
+        Fri, 27 Nov 2026 10:26:43 -0800 (PST)
 Received: from localhost ([2600:4808:5693:8201:394e:8b9f:994c:b59f])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921787fd72asm83361756d6.12.2026.11.27.10.26.42
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9213514d20esm222777366d6.23.2026.11.27.10.26.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 10:26:42 -0800 (PST)
+        Fri, 27 Nov 2026 10:26:43 -0800 (PST)
 From: Marco Chen <marcochen.dev@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: David Lechner <dlechner@baylibre.com>,
@@ -89,9 +89,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH 1/2] iio: health: max30102: rename fifo_count() to fifo_ready()
-Date: Fri, 27 Nov 2026 13:26:35 -0500
-Message-ID: <20261127182636.83803-2-marcochen.dev@gmail.com>
+Subject: [PATCH 2/2] iio: health: max30102: propagate I2C read errors
+Date: Fri, 27 Nov 2026 13:26:36 -0500
+Message-ID: <20261127182636.83803-3-marcochen.dev@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261127182636.83803-1-marcochen.dev@gmail.com>
 References: <20261127182636.83803-1-marcochen.dev@gmail.com>
@@ -106,86 +106,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The max30102_fifo_count() function does not count anything. It only
-reports whether the FIFO_RDY bit is set, or a negative error value.
+max30102_read_measurement() returns -EINVAL for every failed I2C read,
+discarding the error code returned by i2c_smbus_read_i2c_block_data().
 
-Rename max30102_fifo_count() to max30102_fifo_ready() and make it return
-a bool. A failed status read returns false, which the handler already
-treats as no data being available.
+Return that error code instead. While at it, move the existing length
+check above the copy as well, so both checks happen before the data is
+used. The only caller, max30102_interrupt_handler(), stops reading on
+any error, so behavior seen by userspace is unchanged.
 
-With a bool, the use of cnt in max30102_interrupt_handler() is no longer
-needed, and a do/while loop can re-check the status after each sample.
-The sequence of status and FIFO reads is the same as before.
-
-Suggested-by: Jonathan Cameron <jic23@kernel.org>
 Signed-off-by: Marco Chen <marcochen.dev@gmail.com>
 ---
-Follow-up to Jonathan's comment on v2 of the NULL-dereference fix from
-a few months ago
-https://lore.kernel.org/linux-iio/20260805015826.2b558119@jic23-huawei/#R
+The I2C error path was found by inspection, but was not actually tested
+on hardware.
+
+Additionally, checkpatch.pl --strict reports "foo * bar" for the 
+multiplication in the length check, but I think this is a false positive.
+Not sure how to handle it though.
 Thank you.
 
- drivers/iio/health/max30102.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/iio/health/max30102.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iio/health/max30102.c b/drivers/iio/health/max30102.c
-index aee96167f01e..a553c0e011e0 100644
+index a553c0e011e0..829e8b18512d 100644
 --- a/drivers/iio/health/max30102.c
 +++ b/drivers/iio/health/max30102.c
-@@ -235,20 +235,17 @@ static const struct iio_buffer_setup_ops max30102_buffer_setup_ops = {
- 	.predisable = max30102_buffer_predisable,
- };
+@@ -264,6 +264,11 @@ static int max30102_read_measurement(struct max30102_data *data,
+ 					    measurements *
+ 					    MAX30102_REG_FIFO_DATA_BYTES,
+ 					    buffer);
++	if (ret < 0)
++		return ret;
++
++	if (ret != measurements * MAX30102_REG_FIFO_DATA_BYTES)
++		return -EINVAL;
  
--static inline int max30102_fifo_count(struct max30102_data *data)
-+static inline bool max30102_fifo_ready(struct max30102_data *data)
- {
- 	unsigned int val;
- 	int ret;
+ 	switch (measurements) {
+ 	case 3:
+@@ -279,8 +284,7 @@ static int max30102_read_measurement(struct max30102_data *data,
+ 		return -EINVAL;
+ 	}
  
- 	ret = regmap_read(data->regmap, MAX30102_REG_INT_STATUS, &val);
- 	if (ret)
--		return ret;
-+		return false;
- 
- 	/* FIFO has one sample slot left */
--	if (val & MAX30102_REG_INT_STATUS_FIFO_RDY)
--		return 1;
--
--	return 0;
-+	return val & MAX30102_REG_INT_STATUS_FIFO_RDY;
+-	return (ret == measurements * MAX30102_REG_FIFO_DATA_BYTES) ?
+-	       0 : -EINVAL;
++	return 0;
  }
  
- #define MAX30102_COPY_DATA(i) \
-@@ -291,10 +288,9 @@ static irqreturn_t max30102_interrupt_handler(int irq, void *private)
- 	struct iio_dev *indio_dev = private;
- 	struct max30102_data *data = iio_priv(indio_dev);
- 	unsigned int measurements;
--	int ret, cnt;
-+	int ret;
- 
--	cnt = max30102_fifo_count(data);
--	if (cnt <= 0)
-+	if (!max30102_fifo_ready(data))
- 		return IRQ_HANDLED;
- 
- 	measurements = bitmap_weight(indio_dev->active_scan_mask,
-@@ -302,14 +298,13 @@ static irqreturn_t max30102_interrupt_handler(int irq, void *private)
- 
- 	mutex_lock(&data->lock);
- 
--	while (cnt || (cnt = max30102_fifo_count(data)) > 0) {
-+	do {
- 		ret = max30102_read_measurement(data, measurements);
- 		if (ret)
- 			break;
- 
- 		iio_push_to_buffers(data->indio_dev, data->processed_buffer);
--		cnt--;
--	}
-+	} while (max30102_fifo_ready(data));
- 
- 	mutex_unlock(&data->lock);
- 
+ static irqreturn_t max30102_interrupt_handler(int irq, void *private)
 -- 
 2.56.1
 
